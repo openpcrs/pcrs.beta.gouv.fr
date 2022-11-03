@@ -69,6 +69,24 @@ const Home = () => (
         }
       `}</style>
     </Section>
+
+    <Section title='Fiche de route' subtitle='Les étapes suivantes marqueront le développement de ce portail' image='/images/illustrations/progress_illustration.png' id='feuille-de-route'>
+      <ul className='dev-list'>
+        <li><span className='fr-icon-git-branch-fill' /> Mise en ligne d’une cartographie des projets et d’un annuaire des APLC complétés de manière collaborative.</li>
+        <li><span className='fr-icon-git-branch-fill' /> Consolidation de la documentation en continu</li>
+        <li><span className='fr-icon-git-branch-fill' /> Construction d’un cadre de financement commun</li>
+        <li><span className='fr-icon-git-branch-fill' /> Mise en valeur des PCRS d’ores et déjà disponibles sous licence ouverte.</li>
+      </ul>
+
+      <style jsx>{`
+        .dev-list {
+          text-align: left;
+          display: grid;
+          justify-content: center;
+          gap: 10px;
+        }
+      `}</style>
+    </Section>
   </Page>
 )
 
