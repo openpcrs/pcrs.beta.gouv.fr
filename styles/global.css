@@ -1,0 +1,26 @@
+body,
+html,
+#__next {
+  display: flex;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Marianne', Arial, Helvetica, sans-serif;
+  font-weight: normal;
+  font-size: 1em;
+}
+
+button {
+  background-color: none;
+  border: none;
+}
+
+li {
+  list-style-type: none;
+}

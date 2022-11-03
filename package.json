@@ -1,0 +1,60 @@
+{
+  "name": "pcrs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "xo"
+  },
+  "dependencies": {
+    "@gouvfr/dsfr": "^1.8.1",
+    "next": "^13.0.0",
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "eslint-config-xo": "^0.42.0",
+    "eslint-config-xo-nextjs": "^4.2.2",
+    "xo": "^0.52.4"
+  },
+  "xo": {
+    "extends": "xo-nextjs",
+    "semicolon": false,
+    "space": 2,
+    "envs": [
+      "browser",
+      "es2021"
+    ],
+    "rules": {
+      "camelcase": "warn",
+      "unicorn/catch-error-name": "off",
+      "react/jsx-sort-props": "off",
+      "import/no-anonymous-default-export": "off",
+      "unicorn/prevent-abbreviations": "off",
+      "comma-dangle": [
+        "error",
+        "never"
+      ],
+      "import/extensions": "off",
+      "n/prefer-global/process": "off",
+      "unicorn/no-array-for-each": "off",
+      "unicorn/prefer-switch": "off",
+      "unicorn/prefer-node-protocol": "off",
+      "react/no-unknown-property": [
+        "error",
+        {
+          "ignore": [
+            "jsx"
+          ]
+        }
+      ]
+    }
+  },
+  "engines": {
+    "node": ">= 18"
+  }
+}
