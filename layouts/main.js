@@ -13,21 +13,26 @@ const Page = ({title, description, children}) => (
       <meta name='viewport' content='width=device-width, initial-scale=1' />
       <link rel='shortcut icon' href='/images/favicon.ico' />
     </Head>
+    <div className='page-wrapper'>
+      <Header />
 
-    <Header />
+      <main>
+        {children}
+      </main>
 
-    <main>
-      {children}
-    </main>
-
-    <Footer />
+      <Footer />
+    </div>
 
     <style jsx>{`
+      .page-wrapper {
+        scroll-behavior: smooth;
+        overflow: scroll;
+        position: relative;
+      }
+
       main {
         flex: 1;
         box-sizing: border-box;
-        scroll-behavior: smooth;
-        overflow: scroll;
       }
     `}
     </style>

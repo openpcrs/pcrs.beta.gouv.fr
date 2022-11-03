@@ -1,7 +1,11 @@
 import Page from '@/layouts/main'
 
+import Hero from '@/components/hero'
+
 const Home = () => (
-  <Page />
+  <Page>
+    <Hero />
+  </Page>
 )
 
 export default Home
