@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types'
 import Link from 'next/link'
 
-const Button = ({label, size, buttonStyle, href, isExternal, children}) => {
+const Button = ({label, size, buttonStyle, href, isExternal, children, ...props}) => {
   if (href) {
     return (
       <Link href={href} passHref={isExternal}>
-        <button type='button' aria-label={label} className={`fr-btn fr-btn--${buttonStyle} fr-btn--${size}`}>
+        <button type='button' aria-label={label} className={`fr-btn fr-btn--${buttonStyle} fr-btn--${size}`} {...props}>
           {children}
         </button>
       </Link>
@@ -13,7 +13,7 @@ const Button = ({label, size, buttonStyle, href, isExternal, children}) => {
   }
 
   return (
-    <button type='submit' aria-label={label} className={`fr-btn fr-btn--${buttonStyle} fr-btn--${size}`}>
+    <button type='submit' aria-label={label} className={`fr-btn fr-btn--${buttonStyle} fr-btn--${size}`} {...props}>
       {children}
     </button>
   )

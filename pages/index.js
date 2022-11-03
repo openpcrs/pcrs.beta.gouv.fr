@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Page from '@/layouts/main'
 
 import Hero from '@/components/hero'
@@ -71,7 +72,7 @@ const Home = () => (
     </Section>
 
     <Section title='Fiche de route' subtitle='Les étapes suivantes marqueront le développement de ce portail' image='/images/illustrations/progress_illustration.png' id='feuille-de-route'>
-      <ul className='dev-list'>
+      <ul className='fr-text--sm dev-list'>
         <li><span className='fr-icon-git-branch-fill' /> Mise en ligne d’une cartographie des projets et d’un annuaire des APLC complétés de manière collaborative.</li>
         <li><span className='fr-icon-git-branch-fill' /> Consolidation de la documentation en continu</li>
         <li><span className='fr-icon-git-branch-fill' /> Construction d’un cadre de financement commun</li>
@@ -84,6 +85,25 @@ const Home = () => (
           display: grid;
           justify-content: center;
           gap: 10px;
+        }
+      `}</style>
+    </Section>
+
+    <Section title='Événements autour du PCRS' background='color' id='evenements'>
+      <Image src='/images/illustrations/calendar_illustration.png' height={200} width={200} />
+      <div className='event-infos'>
+        <p>Tenez-vous informé des prochains événements organisés par l’ANCT à propos du PCRS. Ateliers, conférences, annonces pour être toujours à jour.</p>
+        <Button buttonStyle='tertiary' disabled>Évènements à venir</Button>
+      </div>
+
+      <style jsx>{`
+        .event-infos {
+          margin-top: 2em;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 1em;
         }
       `}</style>
     </Section>
