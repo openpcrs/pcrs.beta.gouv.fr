@@ -49,6 +49,26 @@ const Home = () => (
         }
       `}</style>
     </Section>
+
+    <Section title='Suivi géographique' subtitle='' background='secondary' image='/images/illustrations/geo_illustration.png' imageSide='right' id='suivi-geo'>
+      <>
+        <p>
+          De nombreux territoires ont déjà mené à terme des projets PCRS ou entrepris les démarches pour être prêts pour l’échéance de complétude de 2026.<br /><br />
+          Une cartographie vous montre quelles zones sont déjà pourvues de données raster ou vecteur, programmées ou en cours de réflexion. C’est un outil précieux pour identifier si votre territoire est déjà concerné ou doit faire l’objet d’une réflexion pour construire un PCRS.<br /><br />
+          Ces cartes sont régulièrement mises à jour dans le cadre d’une veille de l’équipe ou au gré des déclarations spontanées des autorités publiques.
+        </p>
+
+        <Button href='http://cnig.gouv.fr/?page_id=25213' isExternal label='Consulter la carte d’état d’avancement du PCRS'>
+          Consulter la carte d’état d’avancement du PCRS
+        </Button>
+      </>
+
+      <style jsx>{`
+        p {
+          text-align : left
+        }
+      `}</style>
+    </Section>
   </Page>
 )
 
