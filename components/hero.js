@@ -7,7 +7,7 @@ const Hero = () => (
   <div className='hero-component'>
     <div className='hero-title'>
       <h2>Le suivi national du PCRS</h2>
-      <div className='fr-text'>Accompagner et diffuser les projets locaux de PCRS en cours et à venir.</div>
+      <div className='subtitle fr-text fr-text--lg'>Accompagner et diffuser les projets locaux de PCRS en cours et à venir.</div>
     </div>
 
     <div className='nav-wrapper'>
@@ -48,6 +48,11 @@ const Hero = () => (
 
       .hero-title {
         padding: 2em 5em;
+      }
+
+      .subtitle {
+         color: ${colors.grey200};
+         font-weight: bold;
       }
 
       .nav-wrapper {
