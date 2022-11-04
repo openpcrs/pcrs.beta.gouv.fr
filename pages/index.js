@@ -1,4 +1,5 @@
 import Image from 'next/image'
+
 import Page from '@/layouts/main'
 
 import Hero from '@/components/hero'
@@ -106,6 +107,13 @@ const Home = () => (
           gap: 1em;
         }
       `}</style>
+    </Section>
+
+    <Section title='Contactez-nous' subtitle='Vous ne trouvez pas les réponses à vos questions sur ce site ou dans la documentation ?' background='' id='contact'>
+      <p>
+        Vous pouvez nous contacter ! <br /> Notre équipe fera le nécessaire pour vous répondre dans les plus brefs délais, dans la limite de sa disponibilité.
+      </p>
+      <Button href='mailto:pcrs@data.gouv.fr' isExternal label='Contacter l’équipe'>Contactez-nous</Button>
     </Section>
   </Page>
 )
