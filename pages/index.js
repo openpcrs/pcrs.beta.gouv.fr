@@ -125,7 +125,7 @@ const Home = () => (
       <p>
         Vous pouvez nous contacter ! <br /> Notre équipe fera le nécessaire pour vous répondre dans les plus brefs délais, dans la limite de sa disponibilité.
       </p>
-      <Button href='mailto:pcrs@data.gouv.fr' isExternal label='Contacter l’équipe'>Contactez-nous</Button>
+      <Button href='mailto:' isExternal label='Contacter l’équipe'><span className='fr-icon-mail-line' aria-hidden='true' />&nbsp;Contactez-nous</Button>
     </Section>
 
     <Section title='Suivez l’actualité' subtitle='En vous inscrivant à la newsletter ou en nous suivant sur Twitter' background='secondary'>
