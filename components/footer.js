@@ -7,8 +7,8 @@ const Footer = () => (
         <div className='fr-footer__brand fr-enlarge-link'>
           <Link href='/' title='Retour à l’accueil du site - PCRS'>
             <p className='fr-logo'>
-              Intitulé
-              <br />officiel
+              République
+              <br />Française
             </p>
           </Link>
         </div>
@@ -30,23 +30,6 @@ const Footer = () => (
         </div>
       </div>
       <div className='fr-footer__bottom'>
-        <ul className='fr-footer__bottom-list'>
-          <li className='fr-footer__bottom-item'>
-            <a className='fr-footer__bottom-link' href='#'>Plan du site</a>
-          </li>
-          <li className='fr-footer__bottom-item'>
-            <a className='fr-footer__bottom-link' href='#'>Accessibilité : non/partiellement/totalement conforme</a>
-          </li>
-          <li className='fr-footer__bottom-item'>
-            <a className='fr-footer__bottom-link' href='#'>Mentions légales</a>
-          </li>
-          <li className='fr-footer__bottom-item'>
-            <a className='fr-footer__bottom-link' href='#'>Données personnelles</a>
-          </li>
-          <li className='fr-footer__bottom-item'>
-            <a className='fr-footer__bottom-link' href='#'>Gestion des cookies</a>
-          </li>
-        </ul>
         <div className='fr-footer__bottom-copy'>
           <p>Sauf mention contraire, tous les contenus de ce site sont sous <a href='https://github.com/etalab/licence-ouverte/blob/master/LO.md' target='_blank' rel='noreferrer'>licence etalab-2.0</a>
           </p>
