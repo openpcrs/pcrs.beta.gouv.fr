@@ -2,6 +2,8 @@ import Image from 'next/image'
 
 import Page from '@/layouts/main'
 
+import colors from '@/styles/colors'
+
 import Hero from '@/components/hero'
 import Section from '@/components/section'
 import Button from '@/components/button'
@@ -10,9 +12,18 @@ import Follow from '@/components/follow'
 const Home = () => (
   <Page>
     <Hero />
-    <Section background='dark'>
-      <p className='fr-text--lg'>Vous êtes sur le site construit par et pour les territoires. Il expose les différents projets PCRS en cours, leurs acteurs et résultats produits. C’est le support de l’animation nationale associé à la documentation à produire.</p>
-    </Section>
+    <>
+      <p className='intro fr-text--xl'>Vous êtes sur le site construit par et pour les territoires. Il expose les différents projets PCRS en cours, leurs acteurs et résultats produits. C’est le support de l’animation nationale associé à la documentation à produire.</p>
+
+      <style jsx>{`
+        .intro {
+          background: ${colors.darkgrey};
+          color: white;
+          text-align: center;
+          padding: 2em 5em;
+        }
+      `}</style>
+    </>
 
     <Section title='Documentation' image='/images/illustrations/doc_illustration.png' id='documentation'>
       <p>
