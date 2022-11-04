@@ -31,7 +31,8 @@ const Follow = () => {
               <p className='fr-h5 fr-mb-3v fr-mb-3v'>Suivez-nous
                 <br /> sur les réseaux sociaux</p>
               <div className='social-media'>
-                <a className='fr-link--twitter fr-link' title='Nous suivre sur Twitter' href='' target='_blank'>Twitter</a>
+                <a className='fr-link--twitter fr-link' title='Nous suivre sur Twitter' href='https://twitter.com/pcrsbeta' target='_blank' rel='noreferrer'>Twitter</a>
+                <a className='fr-link--linkedin fr-link' title='Nous suivre sur Linkedin' href='https://www.linkedin.com/company/pcrs-beta-gouv-fr/about/' target='_blank' rel='noreferrer'>Linkedin</a>
               </div>
             </div>
           </div>
@@ -49,11 +50,6 @@ const Follow = () => {
 
         .fr-follow__title {
           width: 100%;
-        }
-
-        .social-media {
-          width: 100%;
-          text-align: center;
         }
       `}</style>
     </div>

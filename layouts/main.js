@@ -4,7 +4,7 @@ import Head from 'next/head'
 import Header from '@/components/header'
 import Footer from '@/components/footer'
 
-const SITE_NAME = 'pcrs.gouv.fr'
+const SITE_NAME = 'pcrs.beta.gouv.fr'
 const Page = ({title, description, children}) => (
   <>
     <Head>
