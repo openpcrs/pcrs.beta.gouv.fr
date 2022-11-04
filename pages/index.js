@@ -5,6 +5,7 @@ import Page from '@/layouts/main'
 import Hero from '@/components/hero'
 import Section from '@/components/section'
 import Button from '@/components/button'
+import Follow from '@/components/follow'
 
 const Home = () => (
   <Page>
@@ -114,6 +115,10 @@ const Home = () => (
         Vous pouvez nous contacter ! <br /> Notre équipe fera le nécessaire pour vous répondre dans les plus brefs délais, dans la limite de sa disponibilité.
       </p>
       <Button href='mailto:pcrs@data.gouv.fr' isExternal label='Contacter l’équipe'>Contactez-nous</Button>
+    </Section>
+
+    <Section title='Suivez l’actualité' subtitle='En vous inscrivant à la newsletter ou en nous suivant sur Twitter' background='secondary'>
+      <Follow />
     </Section>
   </Page>
 )
