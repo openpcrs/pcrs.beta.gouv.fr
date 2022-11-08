@@ -6,11 +6,23 @@ import colors from '@/styles/colors'
 const Section = ({title, subtitle, background, image, imageSide, children, ...props}) => (
   <section className={background} {...props}>
     <div className={`content-wrapper ${image ? 'illustrated' : ''}`}>
-      {image && (<div className='illustration'><Image src={image} height={300} width={300} alt='' /></div>)}
+      {image && (
+        <div className='illustration'>
+          <Image
+            src={image}
+            height={300}
+            width={300}
+            alt=''
+          />
+        </div>
+      )}
+
       <div className='rows-section'>
         <div className='titles'>
           <h3>{title}</h3>
-          <div className='subtitle fr-text fr-text--lg'>{subtitle}</div>
+          <div className='subtitle fr-text fr-text--lg'>
+            {subtitle}
+          </div>
         </div>
         {children}
       </div>

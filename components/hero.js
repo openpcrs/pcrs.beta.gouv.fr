@@ -11,35 +11,84 @@ const Hero = () => (
     </div>
 
     <div className='nav-wrapper'>
-      <Link href='/#documentation' passHref legacyBehavior>
+      <Link
+        href='/#documentation'
+        passHref
+        legacyBehavior
+      >
         <a aria-label='Accéder à la section documentation' className='fr-link illustrated-link'>
-          <Image src='/images/icons/book.png' height={100} width={100} alt='' />Documentation
+          <Image
+            src='/images/icons/book.png'
+            height={100}
+            width={100}
+            alt=''
+          />
+          Documentation
         </a>
       </Link>
-      <Link href='/#suivi-geo' passHref legacyBehavior>
+      <Link
+        href='/#suivi-geo'
+        passHref
+        legacyBehavior
+      >
         <a aria-label='Accéder à la section suivi géo' className='fr-link illustrated-link'>
-          <Image src='/images/icons/map.png' height={100} width={100} alt='' />Suivi géographique
+          <Image
+            src='/images/icons/map.png'
+            height={100}
+            width={100}
+            alt=''
+          />
+          Suivi géographique
         </a>
       </Link>
-      <Link href='/#feuille-de-route' passHref legacyBehavior>
+      <Link
+        href='/#feuille-de-route'
+        passHref
+        legacyBehavior
+      >
         <a href='' aria-label='Accéder à la section feuille de route' className='fr-link illustrated-link'>
-          <Image src='/images/icons/document.png' height={100} width={100} alt='' />
+          <Image
+            src='/images/icons/document.png'
+            height={100}
+            width={100}
+            alt=''
+          />
           Feuille de route
         </a>
       </Link>
-      <Link href='/#evenements' passHref legacyBehavior>
+      <Link
+        href='/#evenements'
+        passHref
+        legacyBehavior
+      >
         <a href='' aria-label='Accéder à la section évenements' className='fr-link illustrated-link'>
-          <Image src='/images/icons/calendar.png' height={100} width={100} alt='' />Événements
+          <Image
+            src='/images/icons/calendar.png'
+            height={100}
+            width={100}
+            alt=''
+          />
+          Événements
         </a>
       </Link>
-      <Link href='/#contact' passHref legacyBehavior>
+      <Link
+        href='/#contact'
+        passHref
+        legacyBehavior
+      >
         <a href='' aria-label='Accéder à la section prendre contact' className='fr-link illustrated-link'>
-          <Image src='/images/icons/community.png' height={100} width={100} alt='' />Prendre contact
+          <Image
+            src='/images/icons/community.png'
+            height={100}
+            width={100}
+            alt=''
+          />
+          Prendre contact
         </a>
       </Link>
     </div>
 
-    <div className='banner'> </div>
+    <div className='banner' />
 
     <style jsx>{`
       .hero-component {
@@ -98,5 +147,4 @@ const Hero = () => (
   </div>
 )
 
-Hero.propTypes = {}
 export default Hero
