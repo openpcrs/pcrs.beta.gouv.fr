@@ -11,8 +11,7 @@ const Header = () => (
                 <div className='fr-header__brand-top'>
                   <div className='fr-header__logo'>
                     <p className='fr-logo'>
-                      RÉPUBLIQUE
-                      <br />FRANÇAISE
+                      RÉPUBLIQUE<br />FRANÇAISE
                     </p>
                   </div>
                 </div>
