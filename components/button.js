@@ -5,7 +5,12 @@ const Button = ({label, size, buttonStyle, href, isExternal, children, ...props}
   if (href) {
     return (
       <Link href={href} passHref={isExternal}>
-        <button type='button' aria-label={label} className={`fr-btn fr-btn--${buttonStyle} fr-btn--${size}`} {...props}>
+        <button
+          type='button'
+          aria-label={label}
+          className={`fr-btn fr-btn--${buttonStyle} fr-btn--${size}`}
+          {...props}
+        >
           {children}
         </button>
       </Link>
@@ -13,7 +18,12 @@ const Button = ({label, size, buttonStyle, href, isExternal, children, ...props}
   }
 
   return (
-    <button type='submit' aria-label={label} className={`fr-btn fr-btn--${buttonStyle} fr-btn--${size}`} {...props}>
+    <button
+      type='submit'
+      aria-label={label}
+      className={`fr-btn fr-btn--${buttonStyle} fr-btn--${size}`}
+      {...props}
+    >
       {children}
     </button>
   )
