@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 import colors from '@/styles/colors'
 
-const Section = ({title, subtitle, background, image, imageSide, children, ...props}) => (
+const Section = ({title, subtitle, background, image, imageSide, panelBottom, children, ...props}) => (
   <section className={background} {...props}>
     <div className={`content-wrapper ${image ? 'illustrated' : ''}`}>
       {image && (
@@ -28,11 +28,24 @@ const Section = ({title, subtitle, background, image, imageSide, children, ...pr
       </div>
     </div>
 
+    {panelBottom && (
+      <div className='panel'>
+        {panelBottom}
+      </div>
+    )}
+
     <style jsx>{`
+      .panel {
+        margin-top: -3em;
+        width: 100%;
+      }
+
       section {
         padding: 2em 0;
         display: flex;
+        flex-direction: column;
         justify-content: center;
+        align-items: center;
       }
 
       .primary {
@@ -118,7 +131,8 @@ Section.propTypes = {
     'left',
     'right'
   ]),
-  children: PropTypes.node
+  children: PropTypes.node,
+  panelBottom: PropTypes.node
 }
 
 Section.defaultProps = {
@@ -126,6 +140,7 @@ Section.defaultProps = {
   subtitle: null,
   image: null,
   children: null,
+  panelBottom: null,
   background: 'primary',
   imageSide: 'left'
 }
