@@ -1,19 +1,10 @@
 import {useState} from 'react'
 
-import Section from '@/components/section'
-
 const PcrsIframeMap = () => {
   const [selectedTab, setSelectedTab] = useState('avancement')
 
   return (
-    <Section
-      title={selectedTab === 'avancement' ? (
-        'Carte d’avancement des PCRS'
-      ) : (
-        'Carte des types de PCRS'
-      )}
-      background='dark'
-    >
+    <div className='map-container fr-p-5w fr-mt-n15w'>
       <div className='fr-tabs'>
         <ul
           className='fr-tabs__list'
@@ -80,27 +71,33 @@ const PcrsIframeMap = () => {
             className='iframe'
           />
         </div>
-        <style jsx>{`
-          .iframe-container {
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-            padding-top: 55%;
-          }
-
-          .iframe {
-            position: absolute;
-            z-index: 1;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-            width: 100%;
-            height: 100%;
-          }
-        `}</style>
       </div>
-    </Section>
+      <style jsx>{`
+        .map-container {
+          max-width: 1000px;
+          margin: auto;
+        }
+
+        .iframe-container {
+          position: relative;
+          overflow: hidden;
+          width: 100%;
+          padding-top: 65%;
+        }
+
+        .iframe {
+          position: absolute;
+          z-index: 1;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          width: 100%;
+          height: 100%;
+          margin: auto;
+        }
+      `}</style>
+    </div>
   )
 }
 
