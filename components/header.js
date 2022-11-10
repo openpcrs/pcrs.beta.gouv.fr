@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 
 const Header = () => (
@@ -16,9 +17,12 @@ const Header = () => (
                   </div>
                 </div>
                 <div className='fr-header__service'>
-                  <h1 className='fr-header__service-title'>
-                    Plan Corps de Rue Simplifié
-                  </h1>
+                  <Image
+                    src='/images/logos/logo-pcrsgouvfr.svg'
+                    height='50'
+                    width='220'
+                    alt='pcrs.beta.gouv.fr'
+                  />
                 </div>
               </div>
             </a>
