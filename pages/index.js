@@ -211,7 +211,7 @@ const Home = () => {
           Notre équipe fera le nécessaire pour vous répondre dans les plus brefs délais, dans la limite de sa disponibilité.
         </p>
         <Button
-          href='mailto:'
+          href='mailto:contact@pcrs.beta.gouv.fr'
           isExternal
           label='Contacter l’équipe'
         >
