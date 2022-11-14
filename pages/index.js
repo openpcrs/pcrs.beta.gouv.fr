@@ -201,7 +201,6 @@ const Home = () => {
       <Section
         title='Contactez-nous'
         subtitle='Vous ne trouvez pas les réponses à vos questions sur ce site ou dans la documentation ?'
-        background=''
         id='contact'
       >
         <p>
