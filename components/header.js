@@ -18,9 +18,9 @@ const Header = () => (
                 </div>
                 <div className='fr-header__service'>
                   <Image
-                    src='/images/logos/logo-pcrsgouvfr.svg'
-                    height='50'
-                    width='220'
+                    src='/images/logos/logo-pcrsgouvfr.png'
+                    height='25'
+                    width='205'
                     alt='pcrs.beta.gouv.fr'
                   />
                 </div>
