@@ -37,40 +37,43 @@ const PcrsIframeMap = () => {
           </li>
         </ul>
 
-        <div
-          className={`
-            iframe-container
-            fr-tabs__panel
-            ${selectedTab === 'avancement' ? 'fr-tabs__panel--selected' : ''}
-          `}
-          role='tabpanel'
-          aria-labelledby='tabpanel-404'
-          tabIndex='0'
-        >
-          <iframe
-            sandbox
-            src='https://macarte.ign.fr/carte-narrative/voir/onglet/30a17e7e0f03f8db2189793b390e870a/Carte%20d'
-            title='Carte d’avancement des PCRS'
-            className='iframe'
-          />
-        </div>
-        <div
-          className={`
-            iframe-container
-            fr-tabs__panel
-            ${selectedTab === 'types' ? 'fr-tabs__panel--selected' : ''}
-          `}
-          role='tabpanel'
-          aria-labelledby='tabpanel-405'
-          tabIndex='0'
-        >
-          <iframe
-            sandbox
-            src='https://macarte.ign.fr/carte-narrative/voir/onglet/ee60257d0ea224572eba04b4a8b2b4ae/Carte%20des%20types%20de%20PCRS'
-            title='Carte d’avancement des PCRS'
-            className='iframe'
-          />
-        </div>
+        {selectedTab === 'avancement' ? (
+          <div
+            className={`
+              iframe-container
+              fr-tabs__panel
+              ${selectedTab === 'avancement' ? 'fr-tabs__panel--selected' : ''}
+            `}
+            role='tabpanel'
+            aria-labelledby='Carte d’avancement des PCRS'
+            tabIndex='0'
+          >
+            <iframe
+              sandbox
+              src='https://macarte.ign.fr/carte-narrative/voir/onglet/30a17e7e0f03f8db2189793b390e870a/Carte%20d'
+              title='Carte d’avancement des PCRS'
+              className='iframe'
+            />
+          </div>
+        ) : (
+          <div
+            className={`
+              iframe-container
+              fr-tabs__panel
+              ${selectedTab === 'types' ? 'fr-tabs__panel--selected' : ''}
+            `}
+            role='tabpanel'
+            aria-labelledby='Carte des types de PCRS'
+            tabIndex='1'
+          >
+            <iframe
+              sandbox
+              src='https://macarte.ign.fr/carte-narrative/voir/onglet/ee60257d0ea224572eba04b4a8b2b4ae/Carte%20des%20types%20de%20PCRS'
+              title='arte des types de PCRS'
+              className='iframe'
+            />
+          </div>
+        )}
       </div>
       <style jsx>{`
         .map-container {
