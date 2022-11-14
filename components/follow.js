@@ -27,7 +27,9 @@ const Follow = () => {
                 </button>
               </div>
               {isShown && (
-                <p>Prochainement...</p>
+                <p className='fr-p-2w'>
+                  <i>Prochainement...</i>
+                </p>
               )}
             </div>
           </div>
