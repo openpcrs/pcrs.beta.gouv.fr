@@ -10,9 +10,17 @@ const Page = ({title, description, children}) => (
     <Head>
       <title>{title} | {SITE_NAME}</title>
       <meta name='description' content={description} />
+      <meta name='twitter:site' content={SITE_NAME} />
+      <meta name='twitter:title' content={title} />
+      <meta name='twitter:description' content={description} />
+      <meta name='og:title' content={title} />
+      <meta name='og:description' content={description} />
+      <meta name='og:url' content={SITE_NAME} />
+      <meta name='og:site_name' content={SITE_NAME} />
       <meta name='viewport' content='width=device-width, initial-scale=1' />
       <link rel='shortcut icon' href='/images/favicon.ico' />
     </Head>
+
     <div className='page-wrapper'>
       <Header />
 
