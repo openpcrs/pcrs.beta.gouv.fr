@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Link from 'next/link'
 
 import colors from '@/styles/colors'
@@ -17,13 +16,12 @@ const Hero = () => (
         legacyBehavior
       >
         <a aria-label='Accéder à la section documentation' className='fr-link illustrated-link'>
-          <Image
-            src='/images/icons/book.png'
+          <img
+            src='/images/icons/book.svg'
             height={100}
             width={100}
             alt=''
-          />
-          Documentation
+          />Documentation
         </a>
       </Link>
       <Link
@@ -32,13 +30,12 @@ const Hero = () => (
         legacyBehavior
       >
         <a aria-label='Accéder à la section suivi géo' className='fr-link illustrated-link'>
-          <Image
-            src='/images/icons/map.png'
+          <img
+            src='/images/icons/map.svg'
             height={100}
             width={100}
             alt=''
-          />
-          Suivi géographique
+          />Suivi géographique
         </a>
       </Link>
       <Link
@@ -47,13 +44,12 @@ const Hero = () => (
         legacyBehavior
       >
         <a href='' aria-label='Accéder à la section feuille de route' className='fr-link illustrated-link'>
-          <Image
-            src='/images/icons/document.png'
+          <img
+            src='/images/icons/document.svg'
             height={100}
             width={100}
             alt=''
-          />
-          Feuille de route
+          />Feuille de route
         </a>
       </Link>
       <Link
@@ -62,13 +58,12 @@ const Hero = () => (
         legacyBehavior
       >
         <a href='' aria-label='Accéder à la section évenements' className='fr-link illustrated-link'>
-          <Image
-            src='/images/icons/calendar.png'
+          <img
+            src='/images/icons/calendar.svg'
             height={100}
             width={100}
             alt=''
-          />
-          Événements
+          />Événements
         </a>
       </Link>
       <Link
@@ -77,13 +72,12 @@ const Hero = () => (
         legacyBehavior
       >
         <a href='' aria-label='Accéder à la section prendre contact' className='fr-link illustrated-link'>
-          <Image
-            src='/images/icons/community.png'
+          <img
+            src='/images/icons/community.svg'
             height={100}
             width={100}
             alt=''
-          />
-          Prendre contact
+          />Prendre contact
         </a>
       </Link>
     </div>
