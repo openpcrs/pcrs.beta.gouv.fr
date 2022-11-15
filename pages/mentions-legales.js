@@ -18,7 +18,7 @@ const MentionsLegales = () => (
     <section className='fr-p-3w'>
       <h2>Nous contacter</h2>
       <p>
-        contact@pcrs.beta.gouv.fr
+        contact [à] pcrs.beta.gouv.fr
       </p>
       <h3>Éditeur</h3>
       <p>
