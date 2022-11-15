@@ -20,10 +20,6 @@ const Lancement = () => (
       <p>
         Consciente de l’ampleur des défis que cela représente pour les territoires, l’ANCT met en place dès à présent un dispositif national d’accompagnement à destination des collectivités. Il sera porté par une Startup d’État du programme beta.gouv, la Startup d’État pcrs.beta.gouv, dont l’équipe est déjà constituée de quatre personnes et en lien privilégié avec les équipes de l’IGN.
       </p>
-
-      <div className='fr-pt-3w'>
-        <MapIcon size={120} />
-      </div>
     </Section>
 
     <Section>
