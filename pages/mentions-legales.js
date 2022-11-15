@@ -3,6 +3,7 @@ import Page from '@/layouts/main'
 const MentionsLegales = () => (
   <Page>
     <section className='fr-p-3w'>
+      <h1>Mentions légales</h1>
       <h2>Données personnelles</h2>
       <p>
         Les données recueillies ou traitées sont hébergées en France ou en Union Européenne.
@@ -19,7 +20,6 @@ const MentionsLegales = () => (
       <p>
         contact@pcrs.beta.gouv.fr
       </p>
-      <h2>Mentions légales</h2>
       <h3>Éditeur</h3>
       <p>
         Agence Nationale de la Cohésion des Territoires <br /> 20, avenue de Ségur 75007 Paris
@@ -38,6 +38,12 @@ const MentionsLegales = () => (
         Siège social : <br /> 3, place de Haguenau <br /> 67000 Strasbourg - France
       </p>
     </section>
+    <style jsx>{`
+      section {
+        max-width: 1200px;
+        margin: auto;
+      }
+    `}</style>
   </Page>
 )
 
