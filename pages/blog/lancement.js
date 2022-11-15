@@ -45,7 +45,7 @@ const Lancement = () => (
       </p>
 
       <p>
-        Dans l’attente de prochains rendez-vous marquant la montée en puissance de notre initiative, nous nous tenons à votre disposition sur notre @ de contact.
+        Dans l’attente de prochains rendez-vous marquant la montée en puissance de notre initiative, nous nous tenons à votre disposition sur notre adresse de contact.
       </p>
     </Section>
     <section className='fr-container fr-p-8w section'>
