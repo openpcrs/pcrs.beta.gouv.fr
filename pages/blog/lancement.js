@@ -31,7 +31,7 @@ const Lancement = () => (
         <BookIcon size={120} />
       </div>
       <h4>Les ambitions que nous portons sont multiples :</h4>
-      <ul className='fr-p-3w'>
+      <ul className='fr-p-3w text-left'>
         <li className='fr-p-1w'><span className='fr-icon-arrow-right-s-line' aria-hidden='true' />Consolidation de la documentation à propos et autour du PCRS à destination des collectivités</li>
         <li className='fr-p-1w'><span className='fr-icon-arrow-right-s-line' aria-hidden='true' />Suivi des déclarations des APLC et des projets de production ou mise à jour de PCRS</li>
         <li className='fr-p-1w'><span className='fr-icon-arrow-right-s-line' aria-hidden='true' />Proposition d’un cadre de financement national</li>
@@ -77,6 +77,10 @@ const Lancement = () => (
       .section {
         max-width: 1000px;
         text-align: center;
+      }
+
+      .text-left {
+        text-align: left;
       }
     `}</style>
   </Page>
