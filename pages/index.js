@@ -18,7 +18,7 @@ const Home = () => {
     <Page>
       <Hero />
       <>
-        <p className='intro fr-text--xl'>
+        <p className='intro fr-p-4w fr-p-md-9w fr-text--xl'>
           Vous êtes sur le site construit par et pour les territoires. Il expose les différents projets PCRS en cours, leurs acteurs et résultats produits. C’est le support de l’animation nationale associé à la documentation à produire.
         </p>
 
@@ -27,7 +27,6 @@ const Home = () => {
             background: ${colors.darkgrey};
             color: white;
             text-align: center;
-            padding: 2em 5em;
           }
         `}</style>
       </>
