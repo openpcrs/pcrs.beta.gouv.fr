@@ -11,7 +11,7 @@ import colors from '@/styles/colors'
 const Hero = () => (
   <div className='hero-component'>
     <div className='hero-title'>
-      <h2>Le suivi national du PCRS</h2>
+      <h2>Accompagnement national des projets PCRS</h2>
       <div className='subtitle fr-text fr-text--lg'>Accompagner et diffuser les projets locaux de PCRS en cours et à venir.</div>
     </div>
 
