@@ -132,7 +132,7 @@ const Home = () => {
       </Section>
 
       <Section
-        title='Fiche de route'
+        title='Feuille de route'
         subtitle='Les étapes suivantes marqueront le développement de ce portail'
         image='/images/illustrations/progress_illustration.png'
         id='feuille-de-route'
