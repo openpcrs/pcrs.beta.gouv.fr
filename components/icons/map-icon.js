@@ -1,5 +1,7 @@
-const MapIcon = () => (
-  <svg width='80px' height='80px' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'>
+import PropTypes from 'prop-types'
+
+const MapIcon = ({size}) => (
+  <svg width={size + 'px' || '100px'} height={size + 'px' || '100px'} viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'>
     <g className='fr-artwork-decorative' id='artwork-decorative'>
       <path d='M17,8c-0.5514,0-1-0.4486-1-1c0-0.55145,0.4486-1,1-1s1,0.44855,1,1C18,7.5514,17.5514,8,17,8z M21,76
   c-0.5514,0-1-0.4486-1-1s0.4486-1,1-1s1,0.4486,1,1S21.5514,76,21,76z M63,74c-0.5514,0-1-0.4486-1-1s0.4486-1,1-1s1,0.4486,1,1
@@ -68,7 +70,14 @@ const MapIcon = () => (
   c0.55231,0,1-0.44769,1-1s-0.44769-1-1-1h-1c0-0.55231-0.44769-1-1-1s-1,0.44769-1,1V34z' />
     </g>
   </svg>
-
 )
+
+MapIcon.defaultProps = {
+  size: 100
+}
+
+MapIcon.propTypes = {
+  size: PropTypes.number
+}
 
 export default MapIcon

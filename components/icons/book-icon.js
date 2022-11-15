@@ -1,5 +1,7 @@
-const BookIcon = () => (
-  <svg width='100px' height='100px' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'>
+import PropTypes from 'prop-types'
+
+const BookIcon = ({size}) => (
+  <svg width={size + 'px' || '100px'} height={size + 'px' || '100px'} viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'>
     <g className='fr-artwork-decorative' id='artwork-decorative'>
       <path d='M59,76c-0.5514,0-1-0.4486-1-1s0.4486-1,1-1s1,0.4486,1,1S59.5514,76,59,76z M67,8c-0.5514,0-1-0.4486-1-1
       c0-0.55145,0.4486-1,1-1s1,0.44855,1,1C68,7.5514,67.5514,8,67,8z M8,14c-0.5514,0-1-0.4486-1-1s0.4486-1,1-1s1,0.4486,1,1
@@ -75,5 +77,13 @@ const BookIcon = () => (
     </g>
   </svg>
 )
+
+BookIcon.defaultProps = {
+  size: 100
+}
+
+BookIcon.propTypes = {
+  size: PropTypes.number
+}
 
 export default BookIcon

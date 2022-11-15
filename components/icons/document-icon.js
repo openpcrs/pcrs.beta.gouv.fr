@@ -1,5 +1,7 @@
-const DocumentIcon = () => (
-  <svg width='100px' height='100px' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'>
+import PropTypes from 'prop-types'
+
+const DocumentIcon = ({size}) => (
+  <svg width={size + 'px' || '100px'} height={size + 'px' || '100px'} viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'>
     <g className='fr-artwork-decorative' id='artwork-decorative'>
       <path d='M75,62c-0.5514,0-1-0.4486-1-1s0.4486-1,1-1s1,0.4486,1,1S75.5514,62,75,62z M55,4c-0.5514,0-1-0.4486-1-1
       c0-0.55145,0.4486-1,1-1s1,0.44855,1,1C56,3.5514,55.5514,4,55,4z M3,54c-0.5514,0-1-0.4486-1-1s0.4486-1,1-1s1,0.4486,1,1
@@ -27,5 +29,13 @@ const DocumentIcon = () => (
     </g>
   </svg>
 )
+
+DocumentIcon.defaultProps = {
+  size: 100
+}
+
+DocumentIcon.propTypes = {
+  size: PropTypes.number
+}
 
 export default DocumentIcon

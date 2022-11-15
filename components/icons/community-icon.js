@@ -1,5 +1,7 @@
-const CommunityIcon = () => (
-  <svg width='80px' height='80px' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'>
+import PropTypes from 'prop-types'
+
+const CommunityIcon = ({size}) => (
+  <svg width={size + 'px' || '100px'} height={size + 'px' || '100px'} viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'>
     <g className='fr-artwork-decorative' id='artwork-decorative'>
       <path d='M59,76c-0.5514,0-1-0.4486-1-1s0.4486-1,1-1s1,0.4486,1,1S59.5514,76,59,76z M67,12c-0.5514,0-1-0.4486-1-1
     s0.4486-1,1-1s1,0.4486,1,1S67.5514,12,67,12z M9,16c-0.5514,0-1-0.4486-1-1s0.4486-1,1-1s1,0.4486,1,1S9.5514,16,9,16z' />
@@ -40,7 +42,14 @@ const CommunityIcon = () => (
     c-0.55139,0-1,0.44861-1,1s0.44861,1,1,1s1-0.44861,1-1S24.55139,58,24,58z' />
     </g>
   </svg>
-
 )
+
+CommunityIcon.defaultProps = {
+  size: 100
+}
+
+CommunityIcon.propTypes = {
+  size: PropTypes.number
+}
 
 export default CommunityIcon

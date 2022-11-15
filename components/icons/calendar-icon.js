@@ -1,5 +1,7 @@
-const CalendarIcon = () => (
-  <svg width='100px' height='100px' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'>
+import PropTypes from 'prop-types'
+
+const CalendarIcon = ({size}) => (
+  <svg width={size + 'px' || '100px'} height={size + 'px' || '100px'} viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'>
     <g className='fr-artwork-decorative' id='artwork-decorative'>
       <path d='M77,24c-0.5514,0-1-0.4486-1-1s0.4486-1,1-1s1,0.4486,1,1S77.5514,24,77,24z M29,80c-0.5514,0-1-0.4486-1-1
       s0.4486-1,1-1s1,0.4486,1,1S29.5514,80,29,80z M15,10c-0.5514,0-1-0.4486-1-1c0-0.55145,0.4486-1,1-1s1,0.44855,1,1
@@ -41,7 +43,14 @@ const CalendarIcon = () => (
       c0.55231,0,1-0.44769,1-1v-4c0-0.55231-0.44769-1-1-1h-6c-0.55231,0-1,0.44769-1,1V55z' />
     </g>
   </svg>
-
 )
+
+CalendarIcon.defaultProps = {
+  size: 100
+}
+
+CalendarIcon.propTypes = {
+  size: PropTypes.number
+}
 
 export default CalendarIcon
