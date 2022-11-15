@@ -40,7 +40,7 @@ const MentionsLegales = () => (
     </section>
     <style jsx>{`
       section {
-        max-width: 1200px;
+        max-width: 1000px;
         margin: auto;
       }
     `}</style>
