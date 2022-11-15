@@ -44,7 +44,7 @@ const Lancement = () => (
         Lien vers la documentation : <a href='doc.pcrs.gouv.fr'>doc.pcrs.beta.gouv.fr</a>
       </p>
       <p>
-        Adresse de contact : <a href='mailto:contact@pcrs.beta.gouv.fr'>contact@pcrs.beta.gouv.fr</a>
+        Adresse de contact : <a href='mailto:contactinfo&#64;pcrs.beta.gouv.fr'>contactinfo&#64;pcrs.beta.gouv.fr</a>
       </p>
     </section>
     <Section

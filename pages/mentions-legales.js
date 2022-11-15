@@ -18,14 +18,14 @@ const MentionsLegales = () => (
     <section className='fr-p-3w'>
       <h2>Nous contacter</h2>
       <p>
-        contact [à] pcrs.beta.gouv.fr
+        <a href='contact&#64;pcrs.beta.gouv.fr'>contact&#64;pcrs.beta.gouv.fr</a>
       </p>
       <h3>Éditeur</h3>
       <p>
         Agence Nationale de la Cohésion des Territoires <br /> 20, avenue de Ségur 75007 Paris
       </p>
       <p>
-        info [à] anct.gouv.fr
+        <a href='info&#64;anct.gouv.fr'>info&#64;anct.gouv.fr</a>
       </p>
       <p>
         Directeur de publication : Yves Le Breton, ANCT
