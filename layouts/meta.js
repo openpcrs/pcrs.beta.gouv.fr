@@ -10,6 +10,7 @@ const Meta = ({title, description, type, image}) => {
   return (
     <Head>
       {title ? <title>{title} | {SITE_NAME}</title> : <title>{SITE_NAME}</title>}
+      <link rel='icon' type='image/x-icon' href='/images/favicon.ico' />
 
       {/* Search Engine */}
       <meta name='description' content={description} />
