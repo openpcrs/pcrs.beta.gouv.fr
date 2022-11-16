@@ -43,7 +43,7 @@ Page.propTypes = {
 
 Page.defaultProps = {
   title: 'Accompagnement national du PCRS',
-  description: 'Concentrer la connaissance et restituer la consistance des projets PCRS en cours et des territoires à prospecter.',
+  description: 'Accompagner et diffuser les projets locaux de PCRS en cours et à venir',
   image: null
 }
 
