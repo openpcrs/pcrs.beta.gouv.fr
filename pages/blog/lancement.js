@@ -31,7 +31,7 @@ const Lancement = () => (
       </p>
 
       <p>
-        Consciente de l’ampleur des défis que cela représente pour les territoires, l’ANCT met en place dès à présent <b>un dispositif national d’accompagnement</b> à destination des collectivités. Il sera porté par une Startup d’État du programme <a href='https://beta.gouv.fr'>beta.gouv.fr</a>, la Startup d’État pcrs.beta.gouv, dont l’équipe est déjà constituée de six personnes et en lien privilégié avec les équipes de l’IGN.
+        Consciente de l’ampleur des défis que cela représente pour les territoires, l’ANCT met en place dès à présent <b>un dispositif national d’accompagnement</b> à destination des collectivités. Il sera porté par une Startup d’État du programme <a href='https://beta.gouv.fr' className='fr-link'>beta.gouv.fr</a>, la Startup d’État pcrs.beta.gouv, dont l’équipe est déjà constituée de six personnes et en lien privilégié avec les équipes de l’IGN.
       </p>
 
       <p>
@@ -54,13 +54,13 @@ const Lancement = () => (
     </section>
     <section className='fr-px-3w fr-my-8w'>
       <p>
-        Lien du site : <a href='pcrs.beta.gouv.fr'>pcrs.beta.gouv.fr</a>
+        Lien du site : <a href='pcrs.beta.gouv.fr' className='fr-link fr-icon-links-line fr-link--icon-right'>pcrs.beta.gouv.fr</a>
       </p>
       <p>
-        Lien vers la documentation : <a href='doc.pcrs.gouv.fr'>doc.pcrs.beta.gouv.fr</a>
+        Lien vers la documentation : <a href='doc.pcrs.gouv.fr' className='fr-link fr-icon-links-line fr-link--icon-right'>doc.pcrs.beta.gouv.fr</a>
       </p>
       <p>
-        Adresse de contact : <a href='mailto:contact&#64;pcrs.beta.gouv.fr'>contact&#64;pcrs.beta.gouv.fr</a>
+        Adresse de contact : <a href='mailto:contact&#64;pcrs.beta.gouv.fr' className='fr-link fr-icon-links-line fr-link--icon-right'>contact&#64;pcrs.beta.gouv.fr</a>
       </p>
     </section>
     <Section
