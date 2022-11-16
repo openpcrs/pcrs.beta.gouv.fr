@@ -17,7 +17,7 @@ const Meta = ({title, description, type, image}) => {
       <meta name='image' content={image || '/images/logos/card-meta.png'} />
 
       {/* Twitter */}
-      <meta name='twitter:card' content='summary' />
+      <meta name='twitter:card' content='summary_large_image' />
       <meta name='twitter:site' content='@pcrsbeta' />
       <meta name='twitter:creator' content='@pcrsbeta' />
       <meta name='twitter:title' content={title} />
