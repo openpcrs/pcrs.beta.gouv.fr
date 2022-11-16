@@ -14,22 +14,22 @@ const Meta = ({title, description, type, image}) => {
 
       {/* Search Engine */}
       <meta name='description' content={description} />
-      <meta name='image' content={image || '/images/logos/card-meta.png'} />
-
-      {/* Twitter */}
-      <meta name='twitter:card' content='summary_large_image' />
-      <meta name='twitter:site' content='@pcrsbeta' />
-      <meta name='twitter:creator' content='@pcrsbeta' />
-      <meta name='twitter:title' content={title} />
-      <meta name='twitter:description' content={description} />
-      <meta name='twitter:image' content='/images/logos/card-meta.png' />
+      <meta name='image' content={image || 'https://pcrs.beta.gouv.fr/images/logos/card-meta.png'} />
 
       {/* Open Graph meta (Facebook, Pinterest) */}
       <meta property='og:title' content={title} />
       <meta property='og:type' content={type} />
       <meta property='og:description' content={description} />
       <meta property='author' content='pcrs.beta.gouv.fr' />
-      <meta property='og:image' content='/images/logos/opengraph-meta.png' />
+      <meta property='og:image' content='https://pcrs.beta.gouv.fr/images/logos/opengraph-meta.png' />
+
+      {/* Twitter */}
+      <meta name='twitter:card' content='summary' />
+      <meta name='twitter:site' content='@pcrsbeta' />
+      <meta name='twitter:creator' content='@pcrsbeta' />
+      <meta name='twitter:title' content={title} />
+      <meta name='twitter:description' content={description} />
+      <meta name='twitter:image' content='https://pcrs.beta.gouv.fr/images/logos/card-meta.png' />
     </Head>
   )
 }
