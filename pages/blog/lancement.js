@@ -14,7 +14,7 @@ const Lancement = () => (
             src='/images/illustrations/illust_pcrs.png'
             height={450}
             width={1100}
-            alt='Extrait de plan PCRS Savoie'
+            alt=''
             layout='responsive'
           />
         </div>
