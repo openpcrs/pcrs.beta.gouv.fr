@@ -1,7 +1,7 @@
 import Page from '@/layouts/main'
 
 const MentionsLegales = () => (
-  <Page>
+  <Page title='Mentions légales' description='Mentions légales relatives au site pcrs.beta.gouv.fr'>
     <section className='fr-p-3w'>
       <h1>Mentions légales</h1>
       <h2>Données personnelles</h2>

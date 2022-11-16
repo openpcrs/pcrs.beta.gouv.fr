@@ -5,7 +5,11 @@ import Follow from '@/components/follow'
 import Section from '@/components/section'
 
 const Lancement = () => (
-  <Page>
+  <Page
+    title='Lancement'
+    description='Création d’une Startup d’Etat afin de produire la documentation et le suivi nécessaire aux territoires concernés par des projets PCRS, par l’ANCT'
+    type='article'
+  >
     <section className='fr-px-3w fr-my-8w'>
       <h1 className='fr-py-4w'>Lancement</h1>
       <div className='fr-container fr-pb-3w' style={{textAlign: 'center'}}>
