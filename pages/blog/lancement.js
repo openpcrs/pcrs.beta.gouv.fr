@@ -58,10 +58,10 @@ const Lancement = () => (
     </section>
     <section className='fr-px-3w fr-my-8w'>
       <p>
-        Lien du site : <a href='pcrs.beta.gouv.fr' className='fr-link fr-icon-links-line fr-link--icon-right'>pcrs.beta.gouv.fr</a>
+        Lien du site : <a href='https://pcrs.beta.gouv.fr' className='fr-link fr-icon-links-line fr-link--icon-right'>pcrs.beta.gouv.fr</a>
       </p>
       <p>
-        Lien vers la documentation : <a href='doc.pcrs.gouv.fr' className='fr-link fr-icon-links-line fr-link--icon-right'>doc.pcrs.beta.gouv.fr</a>
+        Lien vers la documentation : <a href='https://docs.pcrs.beta.gouv.fr' className='fr-link fr-icon-links-line fr-link--icon-right'>docs.pcrs.beta.gouv.fr</a>
       </p>
       <p>
         Adresse de contact : <a href='mailto:contact&#64;pcrs.beta.gouv.fr' className='fr-link fr-icon-links-line fr-link--icon-right'>contact&#64;pcrs.beta.gouv.fr</a>
