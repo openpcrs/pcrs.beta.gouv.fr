@@ -7,7 +7,7 @@ const Hero = () => (
   <div className='hero-component'>
     <div className='hero-title'>
       <h2>Accompagnement national des projets PCRS</h2>
-      <div className='subtitle fr-text fr-text--lg'>Accompagner et diffuser les projets locaux de PCRS en cours et à venir.</div>
+      <div className='subtitle fr-text fr-text--lg'>Animer et outiller les projets locaux du Plan Corps de Rue Simplifié en cours et à venir</div>
     </div>
 
     <div className='nav-wrapper'>
