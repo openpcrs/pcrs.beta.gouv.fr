@@ -6,7 +6,7 @@ import Page from '@/layouts/main'
 import colors from '@/styles/colors'
 
 import Hero from '@/components/hero'
-import Section from '@/components/section'
+import SectionImage from '@/components/section-image'
 import Button from '@/components/button'
 import Follow from '@/components/follow'
 import PcrsIframeMap from '@/components/pcrs-iframe-map'
@@ -31,7 +31,7 @@ const Home = () => {
         `}</style>
       </>
 
-      <Section
+      <SectionImage
         title='Documentation'
         image='/images/illustrations/doc_illustration.png'
         id='documentation'
@@ -91,9 +91,9 @@ const Home = () => {
             gap: 10px;
           }
         `}</style>
-      </Section>
+      </SectionImage>
 
-      <Section
+      <SectionImage
         title='Suivi géographique'
         subtitle=''
         background='secondary'
@@ -128,9 +128,9 @@ const Home = () => {
             width: 100%;
           }
         `}</style>
-      </Section>
+      </SectionImage>
 
-      <Section
+      <SectionImage
         title='Feuille de route'
         subtitle='Les étapes suivantes marqueront le développement de ce portail'
         image='/images/illustrations/progress_illustration.png'
@@ -159,9 +159,9 @@ const Home = () => {
             gap: 10px;
           }
         `}</style>
-      </Section>
+      </SectionImage>
 
-      <Section
+      <SectionImage
         title='Événements autour du PCRS'
         background='color'
         id='evenements'
@@ -195,9 +195,9 @@ const Home = () => {
             gap: 1em;
           }
         `}</style>
-      </Section>
+      </SectionImage>
 
-      <Section
+      <SectionImage
         title='Contactez-nous'
         subtitle='Vous ne trouvez pas les réponses à vos questions sur ce site ou dans la documentation ?'
         id='contact'
@@ -215,15 +215,15 @@ const Home = () => {
         >
           <span className='fr-icon-mail-line' aria-hidden='true' />&nbsp;Contactez-nous
         </Button>
-      </Section>
+      </SectionImage>
 
-      <Section
+      <SectionImage
         title='Suivez l’actualité'
         subtitle='En vous inscrivant à la newsletter ou en nous suivant sur Twitter'
         background='secondary'
       >
         <Follow />
-      </Section>
+      </SectionImage>
     </Page>
   )
 }
