@@ -15,11 +15,15 @@ const Accessibilite = () => (
           <div className='fr-col-12 fr-col-md-8'>
             <Image
               src='/images/illustrations/accessibilite.png'
-              layout='responsive'
               height={100}
-              width={500}
+              width={700}
               alt=''
               aria-hidden='true'
+              style={{
+                width: '100%',
+                maxWidth: '700px',
+                height: 'auto'
+              }}
             />
           </div>
         </div>
@@ -88,12 +92,6 @@ const Accessibilite = () => (
     </section>
 
     <style jsx>{`
-
-      .accessibility-illustration {
-        width: 100%;
-        max-width: 500px;
-      }
-
       .fr-alert--error {
         background: white;
       }
