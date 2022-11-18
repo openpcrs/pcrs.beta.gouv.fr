@@ -1,148 +1,69 @@
 import PropTypes from 'prop-types'
-import Image from 'next/image'
 
 import colors from '@/styles/colors'
 
-const Section = ({title, subtitle, background, image, imageSide, panelBottom, children, ...props}) => (
-  <section className={background} {...props}>
-    <div className={`content-wrapper ${image ? 'illustrated' : ''}`}>
-      {image && (
-        <div className='illustration'>
-          <Image
-            src={image}
-            height={300}
-            width={300}
-            alt=''
-          />
-        </div>
+const Section = ({title, subtitle, background, children, ...props}) => (
+  <section className={`fr-p-3w ${background}`} {...props}>
+    <div className='fr-container'>
+      {title && (
+        <h1 className='fr-pt-4w'>{title}</h1>
       )}
 
-      <div className='rows-section'>
-        <div className='titles'>
-          <h3>{title}</h3>
-          <div className='subtitle fr-text fr-text--lg'>
-            {subtitle}
-          </div>
-        </div>
+      {subtitle && (
+        <h3 className='fr-p-2w subtitle'>{subtitle}</h3>
+      )}
+
+      <div className='fr-grid fr-grid--gutter'>
         {children}
       </div>
     </div>
-
-    {panelBottom && (
-      <div className='panel'>
-        {panelBottom}
-      </div>
-    )}
-
     <style jsx>{`
-      .panel {
-        margin-top: -3em;
-        width: 100%;
-      }
-
-      section {
-        padding: 2em 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .primary {
-        background: white;
-      }
-
-      .secondary {
-        background: ${colors.grey975};
-      }
-
-      .color {
-        background: ${colors.info200};
-        color: white;
-      }
-
-      .dark {
-        background: ${colors.darkgrey};
-        color: white;
-      }
-
-      h3 {
-        color: ${background === 'color' || background === 'dark' ? 'white' : ''}
+      h1 {
+        color: ${(background === 'dark' || background === 'blue') ? 'white' : 'inherit'}
       }
 
       .subtitle {
-         color: ${colors.grey200};
-         font-weight: bold;
+        color: ${(background === 'dark' || background === 'blue') ? 'white' : colors.grey200}
+      }
+ 
+      .primary {
+        background-color: white;
       }
 
-      .content-wrapper {
-        display: flex;
-        justify-content: center;
-        gap: 1em;
-        width: 80%;
-        padding: 5em 0;
+      .secondary {
+        background-color: ${colors.grey975};
       }
 
-      .illustrated {
-        display: flex;
-        flex-direction: ${imageSide === 'right' ? 'row-reverse' : 'row'};
-        justify-content: center;
-        flex-wrap: wrap;
+      .dark {
+        background-color: ${colors.darkgrey};
+        color: white;
       }
 
-      .titles {
-        margin-bottom: 3em;
-      }
-
-      .illustration {
-       flex: 1;
-       display: flex;
-       justify-content: center;
-       align-items: center;
-      }
-
-      .rows-section {
-        text-align: center;
-        flex: 2;
-      }
-
-      p {
-        text-align: ${image ? 'left' : 'center'}
-      }
-
-      h3 {
-        margin-bottom: 0.5em;
+      .blue {
+        background-color: ${colors.info200};
+        color: white;
       }
     `}</style>
   </section>
 )
 
-Section.propTypes = {
-  title: PropTypes.string,
-  subtitle: PropTypes.string,
-  image: PropTypes.string,
-  background: PropTypes.oneOf([
-    'primary',
-    'secondary',
-    'color',
-    'dark'
-  ]),
-  imageSide: PropTypes.oneOf([
-    'left',
-    'right'
-  ]),
-  children: PropTypes.node,
-  panelBottom: PropTypes.node
-}
-
 Section.defaultProps = {
   title: null,
   subtitle: null,
-  image: null,
-  children: null,
-  panelBottom: null,
-  background: 'primary',
-  imageSide: 'left'
+  background: 'primary'
+}
+
+Section.propTypes = {
+  title: PropTypes.string,
+  subtitle: PropTypes.string,
+  background: PropTypes.oneOf([
+    'primary',
+    'secondary',
+    'dark',
+    'blue'
+  ]),
+  children: PropTypes.node.isRequired
 }
 
 export default Section
+
