@@ -2,6 +2,7 @@ import Image from 'next/image'
 
 import Page from '@/layouts/main'
 import Follow from '@/components/follow'
+import SectionImage from '@/components/section-image'
 import Section from '@/components/section'
 
 const Lancement = () => (
@@ -10,8 +11,9 @@ const Lancement = () => (
     description='Création d’une Startup d’Etat afin de produire la documentation et le suivi nécessaire aux territoires concernés par des projets PCRS, par l’ANCT'
     type='article'
   >
-    <section className='fr-px-3w fr-my-8w'>
-      <h1 className='fr-py-4w'>Lancement</h1>
+    <Section
+      title='Lancement'
+    >
       <div className='fr-container fr-pb-3w' style={{textAlign: 'center'}}>
         <div className='fr-col-12'>
           <Image
@@ -55,8 +57,8 @@ const Lancement = () => (
       <p>
         Dans l’attente de prochains rendez-vous marquant la montée en puissance de notre initiative, nous nous tenons à votre disposition sur notre adresse de contact.
       </p>
-    </section>
-    <section className='fr-px-3w fr-my-8w'>
+    </Section>
+    <Section>
       <p>
         Lien du site : <a href='https://pcrs.beta.gouv.fr' className='fr-link fr-icon-links-line fr-link--icon-right'>pcrs.beta.gouv.fr</a>
       </p>
@@ -66,14 +68,14 @@ const Lancement = () => (
       <p>
         Adresse de contact : <a href='mailto:contact&#64;pcrs.beta.gouv.fr' className='fr-link fr-icon-links-line fr-link--icon-right'>contact&#64;pcrs.beta.gouv.fr</a>
       </p>
-    </section>
-    <Section
+    </Section>
+    <SectionImage
       title='Suivez l’actualité'
       subtitle='En vous inscrivant à la newsletter ou en nous suivant sur Twitter'
       background='secondary'
     >
       <Follow />
-    </Section>
+    </SectionImage>
     <style jsx>{`
       section {
         max-width: 1000px;
