@@ -60,6 +60,15 @@ const Footer = () => (
         <ul className='fr-footer__bottom-list'>
           <li className='fr-footer__bottom-item'>
             <Link
+              href='/declaration-accessibilite'
+              title='Déclaration d’accessibilité'
+              className='fr-footer__bottom-link'
+            >
+              Déclaration d’accessibilité : non-conforme
+            </Link>
+          </li>
+          <li className='fr-footer__bottom-item'>
+            <Link
               href='/mentions-legales'
               title='Mentions légales'
               className='fr-footer__bottom-link'

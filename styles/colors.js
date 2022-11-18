@@ -5,5 +5,8 @@ export default ({
   darkgrey: '#374A58',
 
   // Blue
-  info200: '#273961'
+  info200: '#273961',
+
+  // Red
+  error425: '#CE0500'
 })
