@@ -10,14 +10,22 @@ import Button from '@/components/button'
 const Accessibilite = () => (
   <Page title='Déclaration d’accessibilité' description='Consultez la déclaration d’accessibilité de pcrs.beta.gouv'>
     <section className='fr-px-3w fr-py-3w fr-px-md-15w fr-py-md-10w'>
-      <h1>Déclaration d’accessibilité</h1>
       <div className='fr-container fr-pb-10w fr-pt-5w'>
         <div className='fr-grid-row fr-grid-row--center'>
           <div className='fr-col-12 fr-col-md-8'>
-            <Image src='/images/illustrations/accessibilite.png' layout='responsive' height={100} width={500} alt aria-hidden='true' />
+            <Image
+              src='/images/illustrations/accessibilite.png'
+              layout='responsive'
+              height={100}
+              width={500}
+              alt=''
+              aria-hidden='true'
+            />
           </div>
         </div>
       </div>
+
+      <h1>Déclaration d’accessibilité</h1>
       <p>
         <b>pcrs.beta.gouv</b> s’engage à rendre ses sites internet, intranet, extranet et ses progiciels <b>accessibles</b> (et ses applications mobiles et mobilier urbain numérique) conformément à <b>l’article 47 de la loi n°2005-102 du 11 février 2005</b>. À cette fin, elle met en œuvre la stratégie et les actions suivantes :
       </p>
