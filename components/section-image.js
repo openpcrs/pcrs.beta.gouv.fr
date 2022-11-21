@@ -4,10 +4,10 @@ import Image from 'next/image'
 import colors from '@/styles/colors'
 
 const SectionImage = ({title, subtitle, background, image, imageSide, panelBottom, children, ...props}) => (
-  <section className={background} {...props}>
+  <section className={`fr-py-4w ${background}`} {...props}>
     <div className={`content-wrapper ${image ? 'illustrated' : ''}`}>
       {image && (
-        <div className='illustration'>
+        <div className='illustration fr-m-auto'>
           <Image
             src={image}
             height={300}
@@ -18,10 +18,10 @@ const SectionImage = ({title, subtitle, background, image, imageSide, panelBotto
       )}
 
       <div className='rows-section'>
-        <div className='titles'>
-          <h3>{title}</h3>
+        <div className='fr-mb-4w'>
+          <h2>{title}</h2>
           <div className='subtitle fr-text fr-text--lg'>
-            {subtitle}
+            <b>{subtitle}</b>
           </div>
         </div>
         {children}
@@ -29,19 +29,13 @@ const SectionImage = ({title, subtitle, background, image, imageSide, panelBotto
     </div>
 
     {panelBottom && (
-      <div className='panel'>
+      <div className='fr-col-12 fr-mt-n4w'>
         {panelBottom}
       </div>
     )}
 
     <style jsx>{`
-      .panel {
-        margin-top: -3em;
-        width: 100%;
-      }
-
       section {
-        padding: 2em 0;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -56,7 +50,7 @@ const SectionImage = ({title, subtitle, background, image, imageSide, panelBotto
         background: ${colors.grey975};
       }
 
-      .color {
+      .blue {
         background: ${colors.info200};
         color: white;
       }
@@ -66,13 +60,14 @@ const SectionImage = ({title, subtitle, background, image, imageSide, panelBotto
         color: white;
       }
 
-      h3 {
-        color: ${background === 'color' || background === 'dark' ? 'white' : ''}
+      h2 {
+        text-align: center;
+        color: ${background === 'color' || background === 'dark' ? 'white' : ''};
       }
 
       .subtitle {
          color: ${colors.grey200};
-         font-weight: bold;
+         text-align: center;
       }
 
       .content-wrapper {
@@ -90,28 +85,16 @@ const SectionImage = ({title, subtitle, background, image, imageSide, panelBotto
         flex-wrap: wrap;
       }
 
-      .titles {
-        margin-bottom: 3em;
-      }
-
       .illustration {
-       flex: 1;
-       display: flex;
-       justify-content: center;
-       align-items: center;
+        flex: 1;
       }
 
       .rows-section {
-        text-align: center;
         flex: 2;
       }
 
       p {
         text-align: ${image ? 'left' : 'center'}
-      }
-
-      h3 {
-        margin-bottom: 0.5em;
       }
     `}</style>
   </section>
@@ -124,7 +107,7 @@ SectionImage.propTypes = {
   background: PropTypes.oneOf([
     'primary',
     'secondary',
-    'color',
+    'blue',
     'dark'
   ]),
   imageSide: PropTypes.oneOf([

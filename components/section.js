@@ -3,14 +3,14 @@ import PropTypes from 'prop-types'
 import colors from '@/styles/colors'
 
 const Section = ({title, subtitle, background, children, ...props}) => (
-  <section className={`fr-p-3w ${background}`} {...props}>
+  <section className={`fr-p-3w fr-py-12w ${background}`} {...props}>
     <div className='fr-container'>
       {title && (
-        <h1 className='fr-pt-4w'>{title}</h1>
+        <h2 className='fr-pt-4w'>{title}</h2>
       )}
 
       {subtitle && (
-        <h3 className='fr-p-2w subtitle'>{subtitle}</h3>
+        <div className='fr-p-2w subtitle fr-text fr-text--lg'><b>{subtitle}</b></div>
       )}
 
       <div className='fr-grid fr-grid--gutter'>
@@ -18,7 +18,7 @@ const Section = ({title, subtitle, background, children, ...props}) => (
       </div>
     </div>
     <style jsx>{`
-      h1 {
+      h2 {
         color: ${(background === 'dark' || background === 'blue') ? 'white' : 'inherit'}
       }
 
