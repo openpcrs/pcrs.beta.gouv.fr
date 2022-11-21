@@ -4,7 +4,7 @@ const Follow = () => {
   const [isShown, setIsShown] = useState(false)
 
   return (
-    <div className='fr-follow'>
+    <div className='fr-follow fr-px-5w'>
       <div className='fr-container'>
         <div className='fr-grid-row'>
           <div className='fr-col-12 fr-col-md-8'>

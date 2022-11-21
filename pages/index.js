@@ -7,6 +7,7 @@ import colors from '@/styles/colors'
 
 import Hero from '@/components/hero'
 import SectionImage from '@/components/section-image'
+import Section from '@/components/section'
 import Button from '@/components/button'
 import Follow from '@/components/follow'
 import PcrsIframeMap from '@/components/pcrs-iframe-map'
@@ -161,19 +162,23 @@ const Home = () => {
         `}</style>
       </SectionImage>
 
-      <SectionImage
+      <Section
         title='Événements autour du PCRS'
-        background='color'
+        background='blue'
         id='evenements'
+        style={{
+          textAlign: 'center'
+        }}
       >
         <Image
           src='/images/illustrations/calendar_illustration.png'
           height={200}
           width={200}
           alt=''
+          className='fr-m-1v'
         />
-        <div className='event-infos'>
-          <p>
+        <div className='fr-p-4w'>
+          <p className='fr-py-1w'>
             Tenez-vous informé des prochains événements organisés par l’ANCT à propos du PCRS. Ateliers, conférences, annonces pour être toujours à jour.
           </p>
           <Button
@@ -184,46 +189,43 @@ const Home = () => {
             Évènements à venir
           </Button>
         </div>
+      </Section>
 
-        <style jsx>{`
-          .event-infos {
-            margin-top: 2em;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 1em;
-          }
-        `}</style>
-      </SectionImage>
-
-      <SectionImage
+      <Section
         title='Contactez-nous'
         subtitle='Vous ne trouvez pas les réponses à vos questions sur ce site ou dans la documentation ?'
         id='contact'
+        style={{
+          textAlign: 'center'
+        }}
       >
-        <p>
-          Vous pouvez nous contacter !
-        </p>
-        <p>
-          Notre équipe fera le nécessaire pour vous répondre dans les plus brefs délais, dans la limite de sa disponibilité.
-        </p>
-        <Button
-          href='mailto:contact@pcrs.beta.gouv.fr'
-          isExternal
-          label='Contacter l’équipe'
-        >
-          <span className='fr-icon-mail-line' aria-hidden='true' />&nbsp;Contactez-nous
-        </Button>
-      </SectionImage>
+        <div className='fr-px-5w'>
+          <p>
+            Vous pouvez nous contacter !
+          </p>
+          <p>
+            Notre équipe fera le nécessaire pour vous répondre dans les plus brefs délais, dans la limite de sa disponibilité.
+          </p>
+          <Button
+            href='mailto:contact@pcrs.beta.gouv.fr'
+            isExternal
+            label='Contacter l’équipe'
+          >
+            <span className='fr-icon-mail-line' aria-hidden='true' />&nbsp;Contactez-nous
+          </Button>
+        </div>
+      </Section>
 
-      <SectionImage
+      <Section
         title='Suivez l’actualité'
         subtitle='En vous inscrivant à la newsletter ou en nous suivant sur Twitter'
         background='secondary'
+        style={{
+          textAlign: 'center'
+        }}
       >
         <Follow />
-      </SectionImage>
+      </Section>
     </Page>
   )
 }
