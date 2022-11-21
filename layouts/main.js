@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-import Meta from './meta.js'
+import Meta from '@/components/meta.js'
 import Header from '@/components/header'
 import Footer from '@/components/footer'
 
