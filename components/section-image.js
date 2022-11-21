@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 import colors from '@/styles/colors'
 
-const Section = ({title, subtitle, background, image, imageSide, panelBottom, children, ...props}) => (
+const SectionImage = ({title, subtitle, background, image, imageSide, panelBottom, children, ...props}) => (
   <section className={background} {...props}>
     <div className={`content-wrapper ${image ? 'illustrated' : ''}`}>
       {image && (
@@ -117,7 +117,7 @@ const Section = ({title, subtitle, background, image, imageSide, panelBottom, ch
   </section>
 )
 
-Section.propTypes = {
+SectionImage.propTypes = {
   title: PropTypes.string,
   subtitle: PropTypes.string,
   image: PropTypes.string,
@@ -135,7 +135,7 @@ Section.propTypes = {
   panelBottom: PropTypes.node
 }
 
-Section.defaultProps = {
+SectionImage.defaultProps = {
   title: null,
   subtitle: null,
   image: null,
@@ -145,4 +145,5 @@ Section.defaultProps = {
   imageSide: 'left'
 }
 
-export default Section
+export default SectionImage
+
