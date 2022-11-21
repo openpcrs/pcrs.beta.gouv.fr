@@ -199,8 +199,15 @@ const Home = () => {
           textAlign: 'center'
         }}
       >
+        <Image
+          src='/images/illustrations/contact_illustration.png'
+          height={250}
+          width={250}
+          alt=''
+          className='fr-my-5w'
+        />
         <div className='fr-px-2w fr-px-lg-5w'>
-          <p>
+          <p className='fr-mb-1w' style={{fontWeight: 'bold'}}>
             Vous pouvez nous contacter !
           </p>
           <p>
