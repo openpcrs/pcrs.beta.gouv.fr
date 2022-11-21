@@ -177,7 +177,7 @@ const Home = () => {
           alt=''
           className='fr-m-1v'
         />
-        <div className='fr-p-4w'>
+        <div className='fr-p-2w fr-p-lg-4w'>
           <p className='fr-py-1w'>
             Tenez-vous informé des prochains événements organisés par l’ANCT à propos du PCRS. Ateliers, conférences, annonces pour être toujours à jour.
           </p>
@@ -199,7 +199,7 @@ const Home = () => {
           textAlign: 'center'
         }}
       >
-        <div className='fr-px-5w'>
+        <div className='fr-px-2w fr-px-lg-5w'>
           <p>
             Vous pouvez nous contacter !
           </p>
