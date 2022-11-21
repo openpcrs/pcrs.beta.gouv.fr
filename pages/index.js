@@ -172,10 +172,10 @@ const Home = () => {
       >
         <Image
           src='/images/illustrations/calendar_illustration.png'
-          height={200}
-          width={200}
+          height={250}
+          width={250}
           alt=''
-          className='fr-m-1v'
+          className='fr-my-5w'
         />
         <div className='fr-p-2w fr-p-lg-4w'>
           <p className='fr-py-1w'>
