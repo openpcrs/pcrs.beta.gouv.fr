@@ -5,11 +5,12 @@ import colors from '@/styles/colors'
 
 import Page from '@/layouts/main'
 
+import Section from '@/components/section'
 import Button from '@/components/button'
 
 const Accessibilite = () => (
   <Page title='Déclaration d’accessibilité' description='Consultez la déclaration d’accessibilité de pcrs.beta.gouv'>
-    <section className='fr-px-3w fr-py-3w fr-px-md-15w fr-py-md-10w'>
+    <Section>
       <div className='fr-container fr-pb-10w fr-pt-5w'>
         <div className='fr-grid-row fr-grid-row--center'>
           <div className='fr-col-12 fr-col-md-8'>
@@ -29,7 +30,7 @@ const Accessibilite = () => (
         </div>
       </div>
 
-      <h1>Déclaration d’accessibilité</h1>
+      <h2>Déclaration d’accessibilité</h2>
       <p>
         <b>pcrs.beta.gouv</b> s’engage à rendre ses sites internet, intranet, extranet et ses progiciels <b>accessibles</b> (et ses applications mobiles et mobilier urbain numérique) conformément à <b>l’article 47 de la loi n°2005-102 du 11 février 2005</b>. À cette fin, elle met en œuvre la stratégie et les actions suivantes :
       </p>
@@ -47,19 +48,23 @@ const Accessibilite = () => (
           </div>
         </div>
       </div>
-    </section>
+    </Section>
 
-    <section className='fr-px-3w fr-py-3w fr-px-md-15w fr-py-md-10w section-color'>
-      <h2 className='fr-mb-7w'>État de conformité</h2>
+    <Section
+      title='État de conformité'
+      background='blue'
+    >
       <div className='fr-alert fr-alert--error'>
         <h3 className='fr-alert__title'>Non-conforme</h3>
       </div>
 
       <p className='fr-pt-5w'><b>pcrs.beta.gouv.fr</b> est <b>non-conforme</b> avec le <b>référentiel général d’amélioration de l’accessibilité (RGAA)</b>, un audit d’accessibilité n’ayant pas encore été réalisé. L’absence d’audit d’accessibilité ne remet pas en cause le <b>caractère accessible</b> du site web actuel.</p>
-    </section>
+    </Section>
 
-    <section className='fr-px-3w fr-py-3w fr-px-md-15w fr-py-md-10w section-secondary'>
-      <h2>Information et contact</h2>
+    <Section
+      title='Informations et contact'
+      background='secondary'
+    >
       <p>Si vous n’arrivez pas à accéder à un contenu ou à un service, vous pouvez <b>contacter notre équipe</b> pour être orienté vers une alternative accessible ou obtenir le contenu sous une autre forme.</p>
 
       <Button
@@ -69,10 +74,11 @@ const Accessibilite = () => (
       >
         <span className='fr-icon-mail-line' aria-hidden='true' />&nbsp;Nous contacter
       </Button>
-    </section>
+    </Section>
 
-    <section className='fr-px-3w fr-py-3w fr-px-md-15w fr-py-md-10w'>
-      <h2>Voie de recours</h2>
+    <Section
+      title='Voie de recours'
+    >
       <p>
         Si vous constatez un défaut d’accessibilité vous empêchant d’accéder à un contenu ou une fonctionnalité du site, que vous nous le signalez et que vous ne parvenez pas à obtenir une réponse de notre part, vous êtes en droit de faire parvenir vos doléances ou une demande de saisine au Défenseur des droits.
         Plusieurs moyens sont à votre disposition :
@@ -89,7 +95,7 @@ const Accessibilite = () => (
         </li>
       </ul>
       <div />
-    </section>
+    </Section>
 
     <style jsx>{`
       .fr-alert--error {
