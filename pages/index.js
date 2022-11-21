@@ -34,7 +34,7 @@ const Home = () => {
 
       <SectionImage
         title='Documentation'
-        image='/images/illustrations/doc_illustration.png'
+        imageLink='/images/illustrations/doc_illustration.png'
         id='documentation'
       >
         <p>
@@ -98,7 +98,7 @@ const Home = () => {
         title='Suivi géographique'
         subtitle=''
         background='secondary'
-        image='/images/illustrations/geo_illustration.png'
+        imageLink='/images/illustrations/geo_illustration.png'
         imageSide='right'
         id='suivi-geo'
         panelBottom={isMapShown ? <PcrsIframeMap /> : null}
@@ -134,7 +134,7 @@ const Home = () => {
       <SectionImage
         title='Feuille de route'
         subtitle='Les étapes suivantes marqueront le développement de ce portail'
-        image='/images/illustrations/progress_illustration.png'
+        imageLink='/images/illustrations/progress_illustration.png'
         id='feuille-de-route'
       >
         <ul className='fr-text--sm dev-list'>

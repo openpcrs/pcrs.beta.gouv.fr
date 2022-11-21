@@ -69,13 +69,16 @@ const Lancement = () => (
         Adresse de contact : <a href='mailto:contact&#64;pcrs.beta.gouv.fr' className='fr-link fr-icon-links-line fr-link--icon-right'>contact&#64;pcrs.beta.gouv.fr</a>
       </p>
     </Section>
-    <SectionImage
+    <Section
       title='Suivez l’actualité'
       subtitle='En vous inscrivant à la newsletter ou en nous suivant sur Twitter'
       background='secondary'
+      style={{
+        textAlign: 'center'
+      }}
     >
       <Follow />
-    </SectionImage>
+    </Section>
     <style jsx>{`
       section {
         max-width: 1000px;

@@ -3,19 +3,17 @@ import Image from 'next/image'
 
 import colors from '@/styles/colors'
 
-const SectionImage = ({title, subtitle, background, image, imageSide, panelBottom, children, ...props}) => (
+const SectionImage = ({title, subtitle, background, imageLink, imageSide, panelBottom, children, ...props}) => (
   <section className={`fr-py-4w ${background}`} {...props}>
-    <div className={`content-wrapper ${image ? 'illustrated' : ''}`}>
-      {image && (
-        <div className='illustration fr-m-auto'>
-          <Image
-            src={image}
-            height={300}
-            width={300}
-            alt=''
-          />
-        </div>
-      )}
+    <div className={`content-wrapper ${imageLink ? 'illustrated' : ''}`}>
+      <div className='illustration fr-m-auto'>
+        <Image
+          src={imageLink}
+          height={300}
+          width={300}
+          alt=''
+        />
+      </div>
 
       <div className='rows-section'>
         <div className='fr-mb-4w'>
@@ -92,10 +90,6 @@ const SectionImage = ({title, subtitle, background, image, imageSide, panelBotto
       .rows-section {
         flex: 2;
       }
-
-      p {
-        text-align: ${image ? 'left' : 'center'}
-      }
     `}</style>
   </section>
 )
@@ -103,7 +97,7 @@ const SectionImage = ({title, subtitle, background, image, imageSide, panelBotto
 SectionImage.propTypes = {
   title: PropTypes.string,
   subtitle: PropTypes.string,
-  image: PropTypes.string,
+  imageLink: PropTypes.string.isRequired,
   background: PropTypes.oneOf([
     'primary',
     'secondary',
@@ -121,7 +115,6 @@ SectionImage.propTypes = {
 SectionImage.defaultProps = {
   title: null,
   subtitle: null,
-  image: null,
   children: null,
   panelBottom: null,
   background: 'primary',
