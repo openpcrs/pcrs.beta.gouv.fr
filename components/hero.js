@@ -88,11 +88,23 @@ const Hero = () => (
       </Link>
     </div>
 
-    <div className='banner' />
+    <Image
+      src='/images/illustrations/banner.webp'
+      alt=''
+      height={700}
+      width={4000}
+      aria-hidden='true'
+      style={{
+        width: '100%',
+        height: 'auto',
+        marginBottom: '-1em'
+      }}
+    />
 
     <style jsx>{`
       .hero-component {
         text-align: center;
+        position: relative;
       }
 
       .hero-title {
@@ -120,12 +132,12 @@ const Hero = () => (
       }
 
       .banner {
-        position: absolute;
-        left: 0;
-        right: 0;
-        height: 250px;
-        background: bottom / cover no-repeat url("/images/illustrations/banner.png");
-        position: relative;
+        width: 100%;
+        margin-bottom: -1em;
+      }
+
+      .banner img {
+        width: 100%;
       }
 
       h3 {
