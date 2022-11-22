@@ -9,8 +9,8 @@ const SectionImage = ({title, subtitle, background, imageLink, imageSide, panelB
       <div className='illustration fr-m-auto'>
         <Image
           src={imageLink}
-          height={300}
-          width={300}
+          height={250}
+          width={250}
           alt=''
         />
       </div>
@@ -38,6 +38,7 @@ const SectionImage = ({title, subtitle, background, imageLink, imageSide, panelB
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        gap: 5em;
       }
 
       .primary {
@@ -85,9 +86,11 @@ const SectionImage = ({title, subtitle, background, imageLink, imageSide, panelB
 
       .illustration {
         flex: 1;
+        text-align: center;
       }
 
       .rows-section {
+        min-width: 250px;
         flex: 2;
       }
     `}</style>
