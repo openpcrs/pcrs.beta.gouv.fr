@@ -2,7 +2,6 @@ import Image from 'next/image'
 
 import Page from '@/layouts/main'
 import Follow from '@/components/follow'
-import SectionImage from '@/components/section-image'
 import Section from '@/components/section'
 
 const Lancement = () => (
