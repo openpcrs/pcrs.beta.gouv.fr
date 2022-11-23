@@ -22,25 +22,15 @@ const Custom404 = () => (
       />
 
       <div className='not-found-explain fr-pt-8w'>
-        <h1 className='fr-m-0'>404</h1>
-        <p className='info'>La page demandée n’a pas pu être trouvée</p>
+        <h1 className='fr-my-1w'>404</h1>
+        <p><b className='fr-mt-3w'>La page demandée n’a pas pu être trouvée</b></p>
         <Button label='Retour à la page d’accueil' href='/'><span className='fr-icon-home-4-line' aria-hidden='true' />&nbsp;Retour au début de la rue</Button>
       </div>
 
       <style jsx>{`
-        .not-found-wrapper {
-          height: 100%;
+        .not-found-wrapper, h1 {
           text-align: center;
           color: ${colors.darkgrey};
-        }
-
-        .not-found-explain h1 {
-          text-align: center;
-          color: ${colors.darkgrey};
-        }
-
-        .info {
-          font-weight: bold;
         }
       `}</style>
     </div>
