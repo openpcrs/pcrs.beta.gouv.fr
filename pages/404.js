@@ -17,7 +17,8 @@ const Custom404 = () => (
           width: '100%',
           maxWidth: '500px',
           height: 'auto'
-        }} />
+        }}
+      />
 
       <div className='not-found-explain fr-pt-8w'>
         <h1 className='fr-m-0'>404</h1>
