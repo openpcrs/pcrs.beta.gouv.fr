@@ -13,6 +13,7 @@ const Custom404 = () => (
         src='/images/illustrations/404.png'
         height={456}
         width={986}
+        alt=''
         style={{
           width: '100%',
           maxWidth: '500px',
