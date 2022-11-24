@@ -68,7 +68,7 @@ const Hero = () => (
             src='/images/icons/calendar.png'
             alt=''
           />
-          Évenements
+          Événements
         </a>
       </Link>
       <Link
