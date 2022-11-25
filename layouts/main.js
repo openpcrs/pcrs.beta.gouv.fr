@@ -7,24 +7,15 @@ import Footer from '@/components/footer'
 const Page = ({title, description, image, children}) => (
   <>
     <Meta title={title} description={description} image={image} />
+    <Header />
 
-    <div className='page-wrapper'>
-      <Header />
+    <main>
+      {children}
+    </main>
 
-      <main>
-        {children}
-      </main>
-
-      <Footer />
-    </div>
+    <Footer />
 
     <style jsx>{`
-      .page-wrapper {
-        scroll-behavior: smooth;
-        overflow: scroll;
-        position: relative;
-      }
-
       main {
         flex: 1;
         box-sizing: border-box;
