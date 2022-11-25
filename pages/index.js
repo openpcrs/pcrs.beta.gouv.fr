@@ -110,7 +110,7 @@ const Home = () => {
           Une cartographie vous montre quelles zones sont déjà pourvues de données raster ou vecteur, programmées ou en cours de réflexion. C’est un outil précieux pour identifier si votre territoire est déjà concerné ou doit faire l’objet d’une réflexion pour construire un PCRS.
         </p>
         <p>
-          Ces cartes que nous reprenons ci-dessous sont régulièrement mises à jour par l'IGN ou au gré des déclarations spontanées des autorités publiques auprès de leur service.
+          Ces cartes que nous reprenons ci-dessous sont régulièrement mises à jour par l’IGN ou au gré des déclarations spontanées des autorités publiques auprès de leur service.
         </p>
 
         <Button
