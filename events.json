@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Rencontre avec les porteurs de projets",
+    "date": "2023-01-19",
+    "start": "09:00",
+    "end": "12:00",
+    "isOnSite": false,
+    "isOnline": true,
+    "address": "",
+    "eventHref": "",
+    "description": "La startup d’État souhaite rencontrer les porteurs de projets et présenter notre initiative. Ce sera l’occasion de faire le point sur les douleurs et besoins et d’adapter notre feuille de route en conséquence.",
+    "type": "Atelier"
+  },
+  {
+    "title": "Rencontre avec les animateurs régionaux",
+    "date": "2023-02-02",
+    "start": "10:00",
+    "end": "12:00",
+    "isOnSite": false,
+    "isOnline": true,
+    "address": "",
+    "eventHref": "",
+    "description": "Nous souhaitons finaliser notre cycle de rencontre avec les animateurs régionaux et le réseau des CRIGE par cet atelier afin de présenter notre initiative. Ce sera l’occasion de faire le point sur nos feuilles de route respectives et de croiser nos besoins.",
+    "type": "Atelier"
+  }
+]

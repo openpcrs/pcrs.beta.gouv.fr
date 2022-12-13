@@ -182,11 +182,11 @@ const Home = () => {
             Tenez-vous informé des prochains événements organisés par l’ANCT à propos du PCRS. Ateliers, conférences, annonces pour être toujours à jour.
           </p>
           <Button
+            href='/evenements'
             buttonStyle='tertiary'
-            disabled
             label='Évenement à venir'
           >
-            Évènements à venir
+            Événements à venir
           </Button>
         </div>
       </Section>

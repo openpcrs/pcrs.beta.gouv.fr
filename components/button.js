@@ -1,19 +1,41 @@
 import PropTypes from 'prop-types'
-import Link from 'next/link'
+import {useRouter} from 'next/router'
+import colors from '@/styles/colors'
 
 const Button = ({label, size, buttonStyle, href, isExternal, children, ...props}) => {
+  const router = useRouter()
+
+  const redirect = e => {
+    if (isExternal) {
+      window.location.href = href
+    } else {
+      e.preventDefault()
+      router.push(href)
+    }
+  }
+
   if (href) {
     return (
-      <Link href={href} passHref={isExternal}>
-        <button
-          type='button'
-          aria-label={label}
-          className={`fr-btn fr-btn--${buttonStyle} fr-btn--${size}`}
-          {...props}
-        >
-          {children}
-        </button>
-      </Link>
+      <button
+        onClick={e => redirect(e)}
+        type='button'
+        aria-label={label}
+        className={`fr-btn fr-btn--${buttonStyle} fr-btn--${size}`}
+        {...props}
+      >
+        {children}
+
+        <style jsx>{`
+          .fr-btn--tertiary {
+            color: white;
+            text-decoration: none;
+          }
+
+          .fr-btn--tertiary:hover {
+            color: ${colors.darkgrey};
+          }
+        `}</style>
+      </button>
     )
   }
 
@@ -54,4 +76,5 @@ Button.defaultProps = {
   isExternal: false,
   children: null
 }
+
 export default Button

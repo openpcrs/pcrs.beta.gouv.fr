@@ -8,5 +8,6 @@ export default ({
   info200: '#273961',
 
   // Red
-  error425: '#CE0500'
+  error425: '#CE0500',
+  redMarianne425: '#c9191e'
 })
