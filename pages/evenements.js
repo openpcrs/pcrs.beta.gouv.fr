@@ -1,20 +1,13 @@
 import {useState, useEffect} from 'react'
 import Image from 'next/image'
-import {orderBy} from 'lodash'
 
 import events from '../events.json'
+
+import {sortEventsByDate} from '@/lib/date-utils.js'
 
 import Page from '@/layouts/main'
 
 import EventCard from '@/components/event-card'
-
-function sortEventsByDate(events) {
-  return orderBy(events, [
-    function (event) {
-      return Date.parse(`${event.date}T${event.startHour}`)
-    }
-  ], ['asc'])
-}
 
 const Evenements = () => {
   const [currentMonthEvents, setCurrentMonthEvents] = useState([])

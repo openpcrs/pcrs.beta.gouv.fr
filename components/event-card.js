@@ -1,11 +1,7 @@
 import PropTypes from 'prop-types'
 import colors from '@/styles/colors'
 
-function dateWithDay(date) {
-  const options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}
-
-  return new Date(date).toLocaleDateString('fr-FR', options)
-}
+import {dateWithDay} from '@/lib/date-utils'
 
 const EventCard = ({title, date, start, end, isOnSite, isOnline, address, eventHref, description, type}) => (
   <div className='eventcard-container fr-pb-1w'>

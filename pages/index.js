@@ -11,12 +11,14 @@ import Section from '@/components/section'
 import Button from '@/components/button'
 import Follow from '@/components/follow'
 import PcrsIframeMap from '@/components/pcrs-iframe-map'
+import EventCarousel from '@/components/event-carousel'
 
 const Home = () => {
   const [isMapShown, setIsMapShown] = useState(false)
 
   return (
     <Page>
+      <EventCarousel />
       <Hero />
       <>
         <p className='intro fr-p-4w fr-p-md-9w fr-text--xl'>
