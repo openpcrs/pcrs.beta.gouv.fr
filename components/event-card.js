@@ -65,7 +65,7 @@ const EventCard = ({title, date, start, end, isOnSite, isOnline, address, eventH
         box-shadow: 2px 2px 17px -5px rgba(0, 0, 0, 0.25);
       }
 
-      .fr-text--lg, .event-header {
+      h3, .event-header {
         color: white;
       }
 

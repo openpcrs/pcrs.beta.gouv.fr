@@ -185,7 +185,7 @@ const Home = () => {
           </p>
           <Button
             href='/evenements'
-            buttonStyle='tertiary'
+            buttonStyle='secondary-outline'
             label='Évenement à venir'
           >
             Événements à venir

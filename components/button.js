@@ -26,13 +26,18 @@ const Button = ({label, size, buttonStyle, href, isExternal, children, ...props}
         {children}
 
         <style jsx>{`
-          .fr-btn--tertiary {
+          .fr-btn--secondary-outline {
+            background: none;
+            border: 1px solid white;
             color: white;
             text-decoration: none;
           }
 
-          .fr-btn--tertiary:hover {
+          .fr-btn--secondary-outline:hover {
             color: ${colors.darkgrey};
+            background: white;
+            border: 1px solid white;
+            text-decoration: none;
           }
         `}</style>
       </button>
@@ -47,6 +52,19 @@ const Button = ({label, size, buttonStyle, href, isExternal, children, ...props}
       {...props}
     >
       {children}
+
+      <style jsx>{`
+        .fr-btn--secondary-outline {
+          background: none;
+          border: 1px solid white;
+          color: white;
+          text-decoration: none;
+        }
+
+        .fr-btn--secondary-outline:hover {
+          color: ${colors.darkgrey};
+        }
+      `}</style>
     </button>
   )
 }
@@ -56,6 +74,7 @@ Button.propTypes = {
   buttonStyle: PropTypes.oneOf([
     null,
     'secondary',
+    'secondary-outline',
     'tertiary',
     'tertiary-no-outline'
   ]),
