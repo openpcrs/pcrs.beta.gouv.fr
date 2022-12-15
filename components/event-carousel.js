@@ -38,7 +38,7 @@ const EventCarousel = () => {
               label={`${index === idx ? 'Vous consultez' : 'Aller à '} l’évènement ${event.title} du ${dateWithDay(event.date)}`}
               key={`${event.title}-${event.date}`}
               disabled={index === idx}
-              className='fr-m-0 fr-p-0'
+              className='dot-button fr-m-0 fr-p-0'
             >
               <div className={`slideshow-dot ${index === idx ? '' : 'disable'}`} />
             </button>
@@ -93,6 +93,10 @@ const EventCarousel = () => {
         }
 
           /* Buttons */
+        .dot-button:hover {
+          background: none;
+        }
+
         .slideshow-dots {
           display: grid;
           grid-template-columns: 18px 18px 18px;

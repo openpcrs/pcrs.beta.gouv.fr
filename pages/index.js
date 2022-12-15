@@ -185,7 +185,7 @@ const Home = () => {
           </p>
           <Button
             href='/evenements'
-            buttonStyle='secondary-outline'
+            buttonStyle='secondary'
             label='Évenement à venir'
             isWhite
           >
