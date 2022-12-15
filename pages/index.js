@@ -187,6 +187,7 @@ const Home = () => {
             href='/evenements'
             buttonStyle='secondary-outline'
             label='Évenement à venir'
+            isWhite
           >
             Événements à venir
           </Button>

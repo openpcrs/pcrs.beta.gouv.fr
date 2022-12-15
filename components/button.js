@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import {useRouter} from 'next/router'
 import colors from '@/styles/colors'
 
-const Button = ({label, size, buttonStyle, href, isExternal, children, ...props}) => {
+const Button = ({label, size, buttonStyle, href, isExternal, isWhite, children, ...props}) => {
   const router = useRouter()
 
   const redirect = e => {
@@ -20,20 +20,24 @@ const Button = ({label, size, buttonStyle, href, isExternal, children, ...props}
         onClick={e => redirect(e)}
         type='button'
         aria-label={label}
-        className={`fr-btn fr-btn--${buttonStyle} fr-btn--${size}`}
+        className={`
+          fr-btn fr-btn--${buttonStyle}
+          fr-btn--${size}
+          ${isWhite ? 'white-button' : ''}
+        `}
         {...props}
       >
         {children}
 
         <style jsx>{`
-          .fr-btn--secondary-outline {
+          .white-button {
             background: none;
             border: 1px solid white;
             color: white;
             text-decoration: none;
           }
 
-          .fr-btn--secondary-outline:hover {
+          .white-button:hover {
             color: ${colors.darkgrey};
             background: white;
             border: 1px solid white;
@@ -48,21 +52,28 @@ const Button = ({label, size, buttonStyle, href, isExternal, children, ...props}
     <button
       type='submit'
       aria-label={label}
-      className={`fr-btn fr-btn--${buttonStyle} fr-btn--${size}`}
+      className={`
+        fr-btn fr-btn--${buttonStyle}
+        fr-btn--${size}
+        ${isWhite ? 'white-button' : ''}
+      `}
       {...props}
     >
       {children}
 
       <style jsx>{`
-        .fr-btn--secondary-outline {
+        .white-button {
           background: none;
           border: 1px solid white;
           color: white;
           text-decoration: none;
         }
 
-        .fr-btn--secondary-outline:hover {
+        .white-button:hover {
           color: ${colors.darkgrey};
+          background: white;
+          border: 1px solid white;
+          text-decoration: none;
         }
       `}</style>
     </button>
@@ -74,7 +85,6 @@ Button.propTypes = {
   buttonStyle: PropTypes.oneOf([
     null,
     'secondary',
-    'secondary-outline',
     'tertiary',
     'tertiary-no-outline'
   ]),
@@ -85,6 +95,7 @@ Button.propTypes = {
   ]),
   href: PropTypes.string,
   isExternal: PropTypes.bool,
+  isWhite: PropTypes.bool,
   children: PropTypes.node
 }
 
@@ -92,6 +103,7 @@ Button.defaultProps = {
   buttonStyle: null,
   size: 'md',
   href: null,
+  isWhite: false,
   isExternal: false,
   children: null
 }
