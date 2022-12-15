@@ -57,7 +57,7 @@ const Evenements = () => {
               {currentMonthEvents.map(event => <EventCard key={`${event.date}-${event.start}-${event.end}`} {...event} />)}
             </div>
           ) : (
-            <div className='empty'>Aucun événement prévu ce mois-çi</div>
+            <div className='empty'>Aucun événement prévu ce mois-ci</div>
           )}
         </div>
 
