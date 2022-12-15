@@ -11,12 +11,14 @@ import Section from '@/components/section'
 import Button from '@/components/button'
 import Follow from '@/components/follow'
 import PcrsIframeMap from '@/components/pcrs-iframe-map'
+import EventCarousel from '@/components/event-carousel'
 
 const Home = () => {
   const [isMapShown, setIsMapShown] = useState(false)
 
   return (
     <Page>
+      <EventCarousel />
       <Hero />
       <>
         <p className='intro fr-p-4w fr-p-md-9w fr-text--xl'>
@@ -182,11 +184,12 @@ const Home = () => {
             Tenez-vous informé des prochains événements organisés par l’ANCT à propos du PCRS. Ateliers, conférences, annonces pour être toujours à jour.
           </p>
           <Button
-            buttonStyle='tertiary'
-            disabled
+            href='/evenements'
+            buttonStyle='secondary-outline'
             label='Évenement à venir'
+            isWhite
           >
-            Évènements à venir
+            Événements à venir
           </Button>
         </div>
       </Section>
