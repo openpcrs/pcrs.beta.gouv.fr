@@ -24,9 +24,23 @@ const EventCard = ({title, date, start, end, isOnSite, isOnline, address, eventH
       <div className='fr-text--sm fr-m-0'>
         {isOnSite && (
           <>
-            {(!eventHref && address) && <div className='address'><span className='fr-icon-map-pin-2-fill fr-mr-5px' aria-hidden='true' />{address}</div>}
-            {(!eventHref && !address) && <div className='address'><span className='fr-icon-map-pin-2-fill fr-mr-5px' aria-hidden='true' />En présentiel</div>}
-            {eventHref && <div className='address'><span className='fr-icon-map-pin-2-fill fr-mr-5px' aria-hidden='true' /><a href={eventHref}>En présentiel</a></div>}
+            {(!eventHref && address) && (
+              <div className='address'>
+                <span className='fr-icon-map-pin-2-fill fr-mr-5px' aria-hidden='true' />{address}
+              </div>
+            )}
+
+            {(!eventHref && !address) && (
+              <div className='address'>
+                <span className='fr-icon-map-pin-2-fill fr-mr-5px' aria-hidden='true' />En présentiel
+              </div>
+            )}
+
+            {eventHref && (
+              <div className='address'>
+                <span className='fr-icon-map-pin-2-fill fr-mr-5px' aria-hidden='true' /><a href={eventHref}>En présentiel</a>
+              </div>
+            )}
           </>
         )}
 
