@@ -1,0 +1,72 @@
+import PropTypes from 'prop-types'
+import Link from 'next/link'
+import Image from 'next/image'
+
+const BlogCard = ({post}) => {
+  const sanitizedDescription = post.excerpt.split(' ').slice(0, 25).join(' ') + '...'
+
+  return (
+    <div className='fr-card fr-enlarge-link'>
+      <div className='fr-card__body'>
+        <div className='fr-card__content'>
+
+          <h3 className='fr-card__title'>
+            <Link href={`/blog/${post.slug}`} passHref legacyBehavior>
+              <a href=''>{post.title}</a>
+            </Link>
+          </h3>
+
+          <p className='fr-card__desc'>{sanitizedDescription} <i>lire la suite</i></p>
+          <div className='fr-card__start'>
+            <ul className='fr-tags-group'>
+              <li>
+                <p className='fr-tag'>label tag</p>
+              </li>
+              <li>
+                <p className='fr-tag'>label tag</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div className='fr-card__header'>
+        <div className='fr-card__img'>
+          <Image
+            src={post.feature_image}
+            height={1000}
+            width={1000}
+            style={{
+              width: '100%',
+              height: '200px',
+              objectFit: 'cover'
+            }}
+            alt={post.feature_image_alt || ''}
+            aria-hidden='true'
+          />
+        </div>
+      </div>
+
+      <style jsx>{`
+        .blog-card {
+          max-width: 400px;
+        }
+
+        .posting-date {
+          text-align: right;
+          font-style: italic;
+          margin-right: -1rem
+        }
+
+        .blog-card i {
+          text-decoration: underline;
+        }
+      `}</style>
+    </div>
+  )
+}
+
+BlogCard.propTypes = {
+  post: PropTypes.object.isRequired
+}
+
+export default BlogCard
