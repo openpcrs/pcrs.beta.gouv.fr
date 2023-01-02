@@ -2,6 +2,8 @@ import PropTypes from 'prop-types'
 import Link from 'next/link'
 import Image from 'next/image'
 
+import {shortDate} from '@/lib/date-utils'
+
 const BlogCard = ({post}) => {
   const sanitizedDescription = post.excerpt.split(' ').slice(0, 25).join(' ') + '...'
 
@@ -9,7 +11,6 @@ const BlogCard = ({post}) => {
     <div className='fr-card fr-enlarge-link'>
       <div className='fr-card__body'>
         <div className='fr-card__content'>
-
           <h3 className='fr-card__title'>
             <Link href={`/blog/${post.slug}`} passHref legacyBehavior>
               <a href=''>{post.title}</a>
@@ -19,20 +20,19 @@ const BlogCard = ({post}) => {
           <p className='fr-card__desc'>{sanitizedDescription} <i>lire la suite</i></p>
           <div className='fr-card__start'>
             <ul className='fr-tags-group'>
-              <li>
-                <p className='fr-tag'>label tag</p>
-              </li>
-              <li>
-                <p className='fr-tag'>label tag</p>
-              </li>
+              {post.tags.map(tag => <li key={tag.id}><p className='fr-tag'>{tag.name}</p></li>)}
             </ul>
           </div>
         </div>
+        <div className='posting-date fr-text--sm'>
+          Publié le {shortDate(post.published_at)} - {post.reading_time} min de lecture
+        </div>
       </div>
+
       <div className='fr-card__header'>
         <div className='fr-card__img'>
           <Image
-            src={post.feature_image}
+            src={post.feature_image || '/images/illustrations/banner.webp'}
             height={1000}
             width={1000}
             style={{

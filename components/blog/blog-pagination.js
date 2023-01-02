@@ -9,7 +9,11 @@ const BlogPagination = ({page, pages, prev, next}) => {
   const href = `${router.route}?page=`
 
   return (
-    <nav role='navigation' className='fr-pagination' aria-label='Pagination'>
+    <nav
+      role='navigation'
+      className='blog-navigation fr-pagination'
+      aria-label='Pagination'
+    >
       <ul className='fr-pagination__list'>
         {/* Prev pages buttons */}
         {prev ? (
@@ -58,7 +62,11 @@ const BlogPagination = ({page, pages, prev, next}) => {
           <li key={pageNumber}>
             <Link href={`${href}${pageNumber}`} legacyBehavior>
               {pageNumber === page ? (
-                <a className='fr-pagination__link' aria-current='page' title={`Page ${pageNumber}`}>
+                <a
+                  className='fr-pagination__link'
+                  aria-current='page'
+                  title={`Page ${pageNumber}`}
+                >
                   {pageNumber}
                 </a>
               ) : (
@@ -104,6 +112,13 @@ const BlogPagination = ({page, pages, prev, next}) => {
             </li></>
         )}
       </ul>
+
+      <style jsx>{`
+        .blog-navigation {
+          display: flex;
+          justify-content: center;
+        }
+      `}</style>
     </nav>
   )
 }
