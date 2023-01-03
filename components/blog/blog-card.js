@@ -32,7 +32,7 @@ const BlogCard = ({post}) => {
       <div className='fr-card__header'>
         <div className='fr-card__img'>
           <Image
-            src={post.feature_image || '/images/illustrations/banner.webp'}
+            src={post.feature_image || '/images/illustrations/blog_fallback.svg'}
             height={1000}
             width={1000}
             style={{

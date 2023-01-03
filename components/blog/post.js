@@ -41,14 +41,15 @@ const Post = ({authors, published_at, reading_time, title, html}) => {
         <div className='authors-container'>
           {authors.length === 1 && (
             <Image
-              src={authors[0].profile_image}
+              src={authors[0].profile_image || '/images/illustrations/user-fallback.png'}
               height={50}
               width={50}
               style={{
                 width: '50px',
                 height: '50px',
                 objectFit: 'cover',
-                borderRadius: '50%'
+                borderRadius: '50%',
+                border: 'solid .5px grey'
               }}
               alt=''
               aria-hidden='true'
