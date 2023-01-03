@@ -8,7 +8,7 @@ const BlogCard = ({post}) => {
   const sanitizedDescription = post.excerpt.split(' ').slice(0, 25).join(' ') + '...'
 
   return (
-    <div className='fr-card fr-enlarge-link'>
+    <div className='blog-card fr-card fr-enlarge-link'>
       <div className='fr-card__body'>
         <div className='fr-card__content'>
           <h3 className='fr-card__title'>

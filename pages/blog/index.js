@@ -43,6 +43,7 @@ const Blog = ({posts, tags, tagsList, pagination}) => (
         display: flex;
         flex-direction: column;
         gap: 5em;
+        margin: 1em 20%;
       }
 
       .posts-list {
