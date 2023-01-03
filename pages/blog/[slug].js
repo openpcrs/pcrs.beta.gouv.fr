@@ -8,7 +8,7 @@ import {dateWithDay} from '@/lib/date-utils'
 
 import Page from '@/layouts/main'
 
-const Post = dynamic(() => import('@/components/post'), {
+const Post = dynamic(() => import('@/components/blog/post'), {
   ssr: false
 })
 
