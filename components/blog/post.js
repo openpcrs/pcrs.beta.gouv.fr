@@ -68,7 +68,7 @@ const Post = ({authors, published_at, reading_time, title, html}) => {
 
       <Link href='/blog' legacyBehavior>
         <a className='fr-link fr-fi-arrow-left-line fr-link--icon-left'>
-          Retournez à la liste des articles
+          Retourner à la liste des articles
         </a>
       </Link>
 

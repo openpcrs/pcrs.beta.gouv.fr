@@ -10,7 +10,7 @@ import BlogCard from '@/components/blog/blog-card'
 import BlogTags from '@/components/blog/blog-tags'
 
 const Blog = ({posts, tags, tagsList, pagination}) => (
-  <Page title='Blog du PCRS' description='La liste complète des billets du blog autour de PCRS'>
+  <Page title='Blog du PCRS' description='La liste complète des billets du blog autour du PCRS'>
     <div className='blog-header fr-my-5w'>
       <Image
         src='/images/illustrations/blog_illustration.png'

@@ -72,7 +72,7 @@ const Hero = () => (
         </a>
       </Link>
       <Link href='/blog' legacyBehavior>
-        <a aria-label='Accéder à la section prendre contact' className='fr-link illustrated-link'>
+        <a aria-label='Accéder au blog du PCRS' className='fr-link illustrated-link'>
           <Image
             height={100}
             width={100}
