@@ -34,9 +34,7 @@ const BlogPost = ({post}) => {
         <div className='caption fr-pr-1w fr-text--sm'>{feature_image_caption || ''}</div>
       </div>
 
-      <div className='fr-px-15w fr-pb-5w'>
-        <Post {...post} />
-      </div>
+      <Post {...post} />
 
       <style jsx>{`
         .blog-feature-image-container {

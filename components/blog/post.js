@@ -29,7 +29,7 @@ const Post = ({authors, published_at, reading_time, title, html}) => {
   }, [])
 
   return (
-    <div className='blog fr-pt-4w'>
+    <div className='blog fr-px-8w fr-py-5w'>
       <div className='fr-pb-5w'>
         <Link href='/blog' legacyBehavior>
           <a className='fr-link fr-fi-arrow-left-line fr-link--icon-left'>
@@ -73,11 +73,6 @@ const Post = ({authors, published_at, reading_time, title, html}) => {
       </Link>
 
       <style jsx global>{`
-        .blog {
-          max-width: 1000px;
-          margin: 1em auto;
-        }
-
         .blog-feature-image-container {
           position: relative;
           height: 250px;
@@ -96,6 +91,7 @@ const Post = ({authors, published_at, reading_time, title, html}) => {
           display: flex;
           align-items: center;
           justify-content: flex-start;
+          flex-wrap: wrap;
           gap: 1em;
         }
 
