@@ -10,7 +10,7 @@ const Custom500 = () => (
   <Page>
     <div className='not-found-wrapper fr-p-5w'>
       <Image
-        src='/images/illustrations/404.png'
+        src='/images/illustrations/pcrs-beta_illustration.png'
         height={456}
         width={986}
         alt=''
