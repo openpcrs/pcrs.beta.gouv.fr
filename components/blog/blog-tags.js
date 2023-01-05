@@ -46,7 +46,7 @@ const BlogTags = ({selectedTags, tagsList}) => {
           <button
             type='button'
             onClick={() => removeTag(tag)}
-            key={tag.slug}
+            key={tag}
             className='fr-tag fr-icon-close-line fr-tag--icon-left'
           >
             {capitalizeFirstLetter(tag)}
