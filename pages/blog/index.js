@@ -21,40 +21,55 @@ const Blog = ({posts, tags, tagsList, pagination}) => (
       />
       <h2 className='fr-mt-5w fr-mb-0'>Blog du PCRS</h2>
     </div>
-
     <div className='blog-posts-wrapper'>
-      {tagsList.length > 0 && <BlogTags selectedTags={tags} tagsList={tagsList} />}
+      <div className='blog-posts-container'>
+        {tagsList.length > 0 && <BlogTags selectedTags={tags} tagsList={tagsList} />}
 
-      <div className='posts-list'>
-        {posts.length > 0 && posts.map(post => <BlogCard key={post.id} post={post} />)}
-        {(posts.length === 0 && tags.length === 0) && <div className='no-article'>Aucun article de blog n’est disponible</div>}
-        {(posts.length === 0 && tags.length > 0) && <div className='no-article'>Aucun article ne contient ces tags</div>}
+        <div className='blog-cards-list'>
+          {posts.length > 0 && posts.map(post => <BlogCard key={post.id} post={post} />)}
+          {(posts.length === 0 && tags.length === 0) && <div className='no-article'>Aucun article de blog n’est disponible</div>}
+          {(posts.length === 0 && tags.length > 0) && <div className='no-article'>Aucun article ne contient ces tags</div>}
+        </div>
+
+        <BlogPagination {...pagination} />
       </div>
-
-      <BlogPagination {...pagination} />
     </div>
 
     <style jsx>{`
+      .blog-posts-wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
       .blog-header {
         text-align: center;
       }
 
-      .blog-posts-wrapper {
+      .blog-posts-container {
         display: flex;
         flex-direction: column;
         gap: 5em;
-        margin: 1em 20%;
+        width: 80%;
       }
 
-      .posts-list {
+      .blog-cards-list {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-        gap: 4em;
+        gap: 3em 5em;
+        justify-items: center;
       }
 
       .no-article {
         font-style: italic;
       }
+
+      @media (max-width: 365px) {
+        .blog-posts-container {
+          width: 95%;
+        }
+       }
     `}</style>
   </Page>
 )
