@@ -23,7 +23,7 @@ const Custom500 = () => (
 
       <div className='not-found-explain fr-pt-8w'>
         <h1 className='fr-my-1w'>500</h1>
-        <p><b className='fr-mt-3w'>Cette page est temporairement indisponible</b></p>
+        <p><b className='fr-mt-3w'>Impossible de se connecter au serveur</b></p>
         <Button label='Retour à la page d’accueil' href='/'>
           <span className='fr-icon-home-4-line' aria-hidden='true' />&nbsp;Retour au début de la rue
         </Button>
