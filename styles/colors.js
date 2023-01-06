@@ -6,6 +6,7 @@ export default ({
 
   // Blue
   info200: '#273961',
+  blueFrance925: '#e3e3fd',
 
   // Red
   error425: '#CE0500',
