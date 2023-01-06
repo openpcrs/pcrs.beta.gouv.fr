@@ -85,7 +85,7 @@ const Blog = ({posts, tags, tagsList, pagination}) => (
       .blog-cards-list {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-        gap: 3em 5em;
+        gap: 3em;
         justify-items: center;
       }
 
@@ -98,7 +98,7 @@ const Blog = ({posts, tags, tagsList, pagination}) => (
         color: ${colors.darkgrey};
       }
 
-      @media (max-width: 365px) {
+      @media (max-width: 400px) {
         .blog-posts-container {
           width: 95%;
         }

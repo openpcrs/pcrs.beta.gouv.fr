@@ -47,6 +47,10 @@ const BlogCard = ({post}) => {
       </div>
 
       <style jsx>{`
+        .blog-card {
+          width: 320px;
+        }
+
         .posting-date {
           text-align: right;
           font-style: italic;
