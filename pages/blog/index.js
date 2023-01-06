@@ -123,13 +123,15 @@ export async function getServerSideProps({query}) {
 }
 
 Blog.propTypes = {
-  posts: PropTypes.array.isRequired,
-  pagination: PropTypes.object.isRequired,
-  tagsList: PropTypes.array.isRequired,
-  tags: PropTypes.array
+  posts: PropTypes.array,
+  pagination: PropTypes.object,
+  tags: PropTypes.array,
+  tagsList: PropTypes.array.isRequired
 }
 
 Blog.defaultProps = {
+  posts: null,
+  pagination: null,
   tags: null
 }
 
