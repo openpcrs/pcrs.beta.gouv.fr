@@ -6,7 +6,7 @@ import Page from '@/layouts/main'
 
 import Button from '@/components/button'
 
-const Custom404 = () => (
+const Custom500 = () => (
   <Page>
     <div className='not-found-wrapper fr-p-5w'>
       <Image
@@ -22,9 +22,11 @@ const Custom404 = () => (
       />
 
       <div className='not-found-explain fr-pt-8w'>
-        <h1 className='fr-my-1w'>404</h1>
-        <p><b className='fr-mt-3w'>La page demandée n’a pas pu être trouvée</b></p>
-        <Button label='Retour à la page d’accueil' href='/'><span className='fr-icon-home-4-line' aria-hidden='true' />&nbsp;Retour au début de la rue</Button>
+        <h1 className='fr-my-1w'>500</h1>
+        <p><b className='fr-mt-3w'>Impossible de se connecter au serveur</b></p>
+        <Button label='Retour à la page d’accueil' href='/'>
+          <span className='fr-icon-home-4-line' aria-hidden='true' />&nbsp;Retour au début de la rue
+        </Button>
       </div>
 
       <style jsx>{`
@@ -37,4 +39,4 @@ const Custom404 = () => (
   </Page>
 )
 
-export default Custom404
+export default Custom500
