@@ -26,10 +26,10 @@ const Blog = ({posts, tags, tagsList, pagination}) => (
           <h2 className='fr-mt-5w fr-mb-0'>Blog du PCRS</h2>
         </div>
 
-        <div className='blog-posts-container fr-mx-3w fr-mx-md-15w'>
+        <div className='blog-posts-container'>
           {tagsList.length > 0 && <BlogTags selectedTags={tags} tagsList={tagsList} />}
 
-          <div className='blog-cards-list fr-mt-6w'>
+          <div className='blog-cards-list fr-mt-6w fr-px-md-10w'>
             {posts.length > 0 && posts.map(post => <BlogCard key={post.id} post={post} />)}
             {(posts.length === 0 && tags.length === 0) && <div className='no-article'>Aucun article de blog n’est disponible</div>}
             {(posts.length === 0 && tags.length > 0) && <div className='no-article'>Aucun article ne contient ces tags</div>}
@@ -68,7 +68,7 @@ const Blog = ({posts, tags, tagsList, pagination}) => (
 
       .blog-cards-list {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
         gap: 3em 6em;
         justify-items: center;
       }
