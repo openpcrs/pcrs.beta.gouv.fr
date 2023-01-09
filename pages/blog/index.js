@@ -14,7 +14,7 @@ import BlogTags from '@/components/blog/blog-tags'
 const Blog = ({posts, tags, tagsList, pagination}) => (
   <Page title='Blog du PCRS' description='La liste complète des billets du blog autour du PCRS'>
     {posts ? (
-      <>
+      <div>
         <div className='blog-header fr-my-5w'>
           <Image
             src='/images/illustrations/blog_illustration.png'
@@ -26,20 +26,18 @@ const Blog = ({posts, tags, tagsList, pagination}) => (
           <h2 className='fr-mt-5w fr-mb-0'>Blog du PCRS</h2>
         </div>
 
-        <div className='blog-posts-wrapper'>
-          <div className='blog-posts-container'>
-            {tagsList.length > 0 && <BlogTags selectedTags={tags} tagsList={tagsList} />}
+        <div className='blog-posts-container fr-mx-3w fr-mx-md-15w'>
+          {tagsList.length > 0 && <BlogTags selectedTags={tags} tagsList={tagsList} />}
 
-            <div className='blog-cards-list'>
-              {posts.length > 0 && posts.map(post => <BlogCard key={post.id} post={post} />)}
-              {(posts.length === 0 && tags.length === 0) && <div className='no-article'>Aucun article de blog n’est disponible</div>}
-              {(posts.length === 0 && tags.length > 0) && <div className='no-article'>Aucun article ne contient ces tags</div>}
-            </div>
-
-            <BlogPagination {...pagination} />
+          <div className='blog-cards-list fr-mt-6w'>
+            {posts.length > 0 && posts.map(post => <BlogCard key={post.id} post={post} />)}
+            {(posts.length === 0 && tags.length === 0) && <div className='no-article'>Aucun article de blog n’est disponible</div>}
+            {(posts.length === 0 && tags.length > 0) && <div className='no-article'>Aucun article ne contient ces tags</div>}
           </div>
+
+          <BlogPagination {...pagination} />
         </div>
-      </>
+      </div>
     ) : (
       <div className='unavailable fr-p-5w'>
         <Image
@@ -64,28 +62,14 @@ const Blog = ({posts, tags, tagsList, pagination}) => (
     )}
 
     <style jsx>{`
-      .blog-posts-wrapper {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-
       .blog-header {
         text-align: center;
-      }
-
-      .blog-posts-container {
-        display: flex;
-        flex-direction: column;
-        gap: 5em;
-        width: 80%;
       }
 
       .blog-cards-list {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-        gap: 3em;
+        gap: 3em 6em;
         justify-items: center;
       }
 
@@ -97,12 +81,6 @@ const Blog = ({posts, tags, tagsList, pagination}) => (
         text-align: center;
         color: ${colors.darkgrey};
       }
-
-      @media (max-width: 400px) {
-        .blog-posts-container {
-          width: 95%;
-        }
-       }
     `}</style>
   </Page>
 )
