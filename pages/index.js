@@ -218,9 +218,9 @@ const Home = () => {
         </>
         <div className='separator fr-mt-3w fr-mb-5w' />
 
-        <div className='communication-systems fr-container'>
-          <div className=' fr-grid-row fr-grid-row--gutters fr-grid-row--center'>
-            <div className='communication-system fr-col-6 fr-mt-3w fr-pr-md-12w'>
+        <div className='fr-container--fluid'>
+          <div className=' fr-grid-row'>
+            <div className='communication-system fr-col-12 fr-col-md-6 fr-col-lg-5 fr-p-2w'>
               <h3 className='fr-h6'>En rejoignant notre forum</h3>
               <p>Un lieu d’échange entre <b>porteurs de projets</b>, <b>animateurs</b> et <b>utilisateurs des livrables</b> du PCRS. Venez nous rencontrer pour présenter <b>vos problématiques</b> et vous inspirer d’autres solutions dans les échanges existants</p>
               <Button
@@ -232,7 +232,9 @@ const Home = () => {
               </Button>
             </div>
 
-            <div className='communication-system fr-col-6 fr-mt-3w fr-pl-md-12w'>
+            <div className='fr-col-lg-1 fr-col-xl-2' />
+
+            <div className='communication-system fr-col-12 fr-col-md-6 fr-col-lg-5 fr-mx-auto fr-p-2w'>
               <h3 className='fr-h6'>En nous envoyant un email</h3>
               <p>Notre équipe fera le nécessaire pour vous répondre dans les plus brefs délais, dans la limite de sa disponibilité.</p>
               <Button
