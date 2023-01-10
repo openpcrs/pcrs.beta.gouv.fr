@@ -1,33 +1,39 @@
 import PropTypes from 'prop-types'
-import {useRouter} from 'next/router'
+import Link from 'next/link'
 import colors from '@/styles/colors'
 
 const Button = ({label, size, buttonStyle, href, isExternal, isWhite, children, ...props}) => {
-  const router = useRouter()
-
-  const redirect = e => {
-    if (isExternal) {
-      window.location.href = href
-    } else {
-      e.preventDefault()
-      router.push(href)
-    }
-  }
-
   if (href) {
     return (
-      <button
-        onClick={e => redirect(e)}
-        type='button'
-        aria-label={label}
-        className={`
-          fr-btn fr-btn--${buttonStyle}
-          fr-btn--${size}
-          ${isWhite ? 'white-button' : ''}
-        `}
-        {...props}
-      >
-        {children}
+      <>
+        {isExternal ? (
+          <a
+            href={href}
+            aria-label={label}
+            className={`
+            fr-btn fr-btn--${buttonStyle}
+            fr-btn--${size}
+            ${isWhite ? 'white-button' : ''}
+          `}
+            {...props}
+            target='_blank'
+            rel='noreferrer'
+          >
+            {children}
+          </a>
+        ) : (
+          <Link href={href} legacyBehavior>
+            <a
+              className={`
+            fr-btn fr-btn--${buttonStyle}
+            fr-btn--${size}
+            ${isWhite ? 'white-button' : ''}
+          `}
+            >
+              {children}
+            </a>
+          </Link>
+        )}
 
         <style jsx>{`
           .white-button {
@@ -44,7 +50,7 @@ const Button = ({label, size, buttonStyle, href, isExternal, isWhite, children, 
             text-decoration: none;
           }
         `}</style>
-      </button>
+      </>
     )
   }
 
