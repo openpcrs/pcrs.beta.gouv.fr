@@ -25,7 +25,7 @@ const BlogTags = ({selectedTags, tagsList}) => {
   }
 
   return (
-    <div className='tags-container fr-px-3w fr-px-md-10w'>
+    <div className='tags-container fr-px-3w fr-px-md-6w'>
       <h2 className='fr-h6 fr-m-0'>Filtrer par tags</h2>
 
       <div className='tags-list'>

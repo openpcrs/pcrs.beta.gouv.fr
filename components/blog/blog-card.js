@@ -48,7 +48,7 @@ const BlogCard = ({post}) => {
 
       <style jsx>{`
         .blog-card {
-          width: 310px;
+          width: 300px;
         }
 
         .posting-date {
