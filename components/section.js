@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import colors from '@/styles/colors'
 
 const Section = ({title, subtitle, background, children, ...props}) => (
-  <section className={`fr-p-3w fr-py-12w ${background}`} {...props}>
+  <section className={`fr-py-12w ${background}`} {...props}>
     <div className='fr-container'>
       {title && (
         <h2 className='fr-pt-4w'>{title}</h2>
