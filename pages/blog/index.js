@@ -29,7 +29,7 @@ const Blog = ({posts, tags, tagsList, pagination}) => (
         <div className='blog-posts-container'>
           {tagsList.length > 0 && <BlogTags selectedTags={tags} tagsList={tagsList} />}
 
-          <div className='blog-cards-list fr-mt-6w fr-px-md-10w'>
+          <div className='blog-cards-list fr-my-6w fr-px-md-10w'>
             {posts.length > 0 && posts.map(post => <BlogCard key={post.id} post={post} />)}
             {(posts.length === 0 && tags.length === 0) && <div className='no-article'>Aucun article de blog n’est disponible</div>}
             {(posts.length === 0 && tags.length > 0) && <div className='no-article'>Aucun article ne contient ces tags</div>}
