@@ -202,28 +202,69 @@ const Home = () => {
           textAlign: 'center'
         }}
       >
-        <Image
-          src='/images/illustrations/contact_illustration.png'
-          height={250}
-          width={250}
-          alt=''
-          className='fr-my-5w'
-        />
-        <div className='fr-px-2w fr-px-lg-5w'>
-          <p className='fr-mb-1w' style={{fontWeight: 'bold'}}>
-            Vous pouvez nous contacter !
-          </p>
-          <p>
-            Notre équipe fera le nécessaire pour vous répondre dans les plus brefs délais, dans la limite de sa disponibilité.
-          </p>
-          <Button
-            href='mailto:contact@pcrs.beta.gouv.fr'
-            isExternal
-            label='Contacter l’équipe'
-          >
-            <span className='fr-icon-mail-line' aria-hidden='true' />&nbsp;Contactez-nous
-          </Button>
+        <>
+          <Image
+            src='/images/illustrations/contact_illustration.png'
+            height={250}
+            width={250}
+            alt=''
+            className='fr-my-5w'
+          />
+          <div className='fr-px-2w fr-px-lg-5w'>
+            <p className='fr-mb-1w fr-h5' style={{fontWeight: 'bold'}}>
+              Vous pouvez nous contacter !
+            </p>
+          </div>
+        </>
+        <div className='separator fr-mt-3w fr-mb-5w' />
+
+        <div className='fr-container--fluid'>
+          <div className=' fr-grid-row'>
+            <div className='communication-system fr-col-12 fr-col-md-6 fr-col-lg-5 fr-p-2w'>
+              <h3 className='fr-h6'>En rejoignant notre forum</h3>
+              <p>Un lieu d’échange entre <b>porteurs de projets</b>, <b>animateurs</b> et <b>utilisateurs des livrables</b> du PCRS. Venez nous rencontrer pour présenter <b>vos problématiques</b> et vous inspirer d’autres solutions dans les échanges existants</p>
+              <Button
+                href='https://forum.pcrs.beta.gouv.fr/'
+                isExternal
+                label='Rejoindre le forum'
+              >
+                <span className='fr-icon-question-answer-line' aria-hidden='true' />&nbsp;Rejoindre le forum
+              </Button>
+            </div>
+
+            <div className='fr-col-lg-1 fr-col-xl-2' />
+
+            <div className='communication-system fr-col-12 fr-col-md-6 fr-col-lg-5 fr-mx-auto fr-p-2w'>
+              <h3 className='fr-h6'>En nous envoyant un email</h3>
+              <p>Notre équipe fera le nécessaire pour vous répondre dans les plus brefs délais, dans la limite de sa disponibilité.</p>
+              <Button
+                href='mailto:contact@pcrs.beta.gouv.fr'
+                isExternal
+                label='Contacter l’équipe'
+              >
+                <span className='fr-icon-mail-line' aria-hidden='true' />&nbsp;Contactez-nous
+              </Button>
+            </div>
+          </div>
         </div>
+
+        <style jsx>{`
+          .separator {
+            width: 100%;
+            border: solid 1px ${colors.blueFrance925};
+          }
+
+          .communication-systems p {
+            text-align: left;
+          }
+
+          .communication-system {
+            min-width: 300px;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            justify-items: center;
+          }
+        `}</style>
       </Section>
 
       <Section

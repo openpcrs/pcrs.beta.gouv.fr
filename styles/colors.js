@@ -6,6 +6,7 @@ export default ({
   darkgrey: '#304B5B',
 
   // Blue
+  blueFrance925: '#e3e3fd',
   info200: '#273961',
   info425: '#0063cb',
   info950: '#e8edff',
