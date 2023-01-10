@@ -71,6 +71,17 @@ const Hero = () => (
           Événements
         </a>
       </Link>
+      <Link href='/blog' legacyBehavior>
+        <a aria-label='Accéder au blog du PCRS' className='fr-link illustrated-link'>
+          <Image
+            height={100}
+            width={100}
+            src='/images/icons/blog.png'
+            alt=''
+          />
+          Blog du PCRS
+        </a>
+      </Link>
       <Link
         href='/#contact'
         passHref
