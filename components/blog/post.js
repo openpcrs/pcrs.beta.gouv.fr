@@ -29,7 +29,7 @@ const Post = ({authors, published_at, reading_time, title, html}) => {
   }, [])
 
   return (
-    <div className='blog fr-mx-3w fr-mx-md-15w'>
+    <div className='blog fr-my-5w fr-mx-3w fr-mx-md-15w'>
       <div className='fr-pb-5w'>
         <Link href='/blog' legacyBehavior>
           <a className='fr-link fr-fi-arrow-left-line fr-link--icon-left'>
