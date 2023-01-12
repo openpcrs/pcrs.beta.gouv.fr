@@ -1,7 +1,7 @@
-/* eslint-disable unicorn/prefer-module */
 import process from 'node:process'
+import bundleAnalyzer from '@next/bundle-analyzer'
 
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
+const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === 'true'
 })
 
@@ -11,7 +11,7 @@ if (process.env.NEXT_PUBLIC_GHOST_URL_IMAGES_SOURCE) {
   imagesDomains.push(process.env.NEXT_PUBLIC_GHOST_URL_IMAGES_SOURCE)
 }
 
-module.exports = withBundleAnalyzer({
+export default withBundleAnalyzer({
   images: {
     domains: imagesDomains
   }
