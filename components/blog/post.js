@@ -4,9 +4,9 @@ import PropTypes from 'prop-types'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import {shortDate} from '@/lib/date-utils'
+import {shortDate} from '@/lib/date-utils.js'
 
-import colors from '@/styles/colors'
+import colors from '@/styles/colors.js'
 
 const Post = ({authors, published_at, reading_time, title, html}) => {
   useEffect(() => {
@@ -31,7 +31,7 @@ const Post = ({authors, published_at, reading_time, title, html}) => {
   return (
     <div className='blog fr-my-5w fr-mx-3w fr-mx-md-15w'>
       <div className='fr-pb-5w'>
-        <Link href='/blog' legacyBehavior>
+        <Link legacyBehavior href='/blog'>
           <a className='fr-link fr-fi-arrow-left-line fr-link--icon-left'>
             Retournez à la liste des articles
           </a>
@@ -66,7 +66,7 @@ const Post = ({authors, published_at, reading_time, title, html}) => {
 
       <div dangerouslySetInnerHTML={{__html: html}} /* eslint-disable-line react/no-danger */ />
 
-      <Link href='/blog' legacyBehavior>
+      <Link legacyBehavior href='/blog'>
         <a className='fr-link fr-fi-arrow-left-line fr-link--icon-left'>
           Retourner à la liste des articles
         </a>

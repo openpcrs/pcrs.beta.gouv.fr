@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-import colors from '@/styles/colors'
+import colors from '@/styles/colors.js'
 
 const Section = ({title, subtitle, background, children, ...props}) => (
   <section className={`fr-py-12w ${background}`} {...props}>

@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 
-import {getSinglePost} from '@/lib/blog'
-import {dateWithDay} from '@/lib/date-utils'
+import {getSinglePost} from '@/lib/blog.js'
+import {dateWithDay} from '@/lib/date-utils.js'
 
-import Page from '@/layouts/main'
+import Page from '@/layouts/main.js'
 
-const Post = dynamic(() => import('@/components/blog/post'), {
+const Post = dynamic(() => import('@/components/blog/post.js'), {
   ssr: false
 })
 

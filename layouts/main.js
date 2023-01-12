@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 
 import Meta from '@/components/meta.js'
-import Header from '@/components/header'
-import Footer from '@/components/footer'
+import Header from '@/components/header.js'
+import Footer from '@/components/footer.js'
 
 const Page = ({title, description, image, children}) => (
   <>

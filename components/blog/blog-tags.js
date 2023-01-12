@@ -31,10 +31,10 @@ const BlogTags = ({selectedTags, tagsList}) => {
       <div className='tags-list'>
         {tagsList.map(tag => (
           <button
-            onClick={() => addTag(tag)}
-            type='button'
             key={tag.slug}
+            type='button'
             className={`fr-tag ${selectedTags.includes(tag.slug) ? 'selected' : ''}`}
+            onClick={() => addTag(tag)}
           >
             {tag.name}
           </button>
@@ -44,10 +44,10 @@ const BlogTags = ({selectedTags, tagsList}) => {
       <div className='tags-list'>
         {selectedTags.map(tag => (
           <button
-            type='button'
-            onClick={() => removeTag(tag)}
             key={tag}
+            type='button'
             className='fr-tag fr-icon-close-line fr-tag--icon-left'
+            onClick={() => removeTag(tag)}
           >
             {capitalizeFirstLetter(tag)}
           </button>

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import Link from 'next/link'
-import colors from '@/styles/colors'
+import colors from '@/styles/colors.js'
 
 const Button = ({label, size, buttonStyle, href, isExternal, isWhite, children, ...props}) => {
   if (href) {
@@ -22,7 +22,7 @@ const Button = ({label, size, buttonStyle, href, isExternal, isWhite, children, 
             {children}
           </a>
         ) : (
-          <Link href={href} legacyBehavior>
+          <Link legacyBehavior href={href}>
             <a
               className={`
             fr-btn fr-btn--${buttonStyle}

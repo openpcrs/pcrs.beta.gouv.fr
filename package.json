@@ -2,6 +2,7 @@
   "name": "pcrs",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -35,25 +36,19 @@
     ],
     "rules": {
       "camelcase": "warn",
-      "unicorn/catch-error-name": "off",
-      "react/jsx-sort-props": "off",
-      "import/no-anonymous-default-export": "off",
       "unicorn/prevent-abbreviations": "off",
       "comma-dangle": [
         "error",
         "never"
       ],
-      "import/extensions": "off",
-      "n/prefer-global/process": "off",
       "unicorn/no-array-for-each": "off",
       "unicorn/prefer-switch": "off",
-      "unicorn/prefer-node-protocol": "off",
       "react/no-unknown-property": [
         "error",
         {
           "ignore": [
-            "jsx",
-            "global"
+            "global",
+            "jsx"
           ]
         }
       ]

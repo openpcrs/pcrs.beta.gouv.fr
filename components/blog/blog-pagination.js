@@ -19,7 +19,7 @@ const BlogPagination = ({page, pages, prev, next}) => {
         {prev ? (
           <>
             <li>
-              <Link href={prev ? `${href}1` : ''} legacyBehavior>
+              <Link legacyBehavior href={prev ? `${href}1` : ''}>
                 <a
                   className='fr-pagination__link fr-pagination__link--first'
                   aria-disabled='true'
@@ -30,7 +30,7 @@ const BlogPagination = ({page, pages, prev, next}) => {
               </Link>
             </li>
             <li>
-              <Link href={prev ? `${href}${prev}` : ''} legacyBehavior>
+              <Link legacyBehavior href={prev ? `${href}${prev}` : ''}>
                 <a className='fr-pagination__link fr-pagination__link--prev fr-pagination__link--lg-label' aria-disabled='true' role='link'>
                   Page précédente
                 </a>
@@ -60,7 +60,7 @@ const BlogPagination = ({page, pages, prev, next}) => {
         {/* Display all pages */}
         {pageNumbers.map(pageNumber => (
           <li key={pageNumber}>
-            <Link href={`${href}${pageNumber}`} legacyBehavior>
+            <Link legacyBehavior href={`${href}${pageNumber}`}>
               {pageNumber === page ? (
                 <a
                   className='fr-pagination__link'
@@ -83,14 +83,14 @@ const BlogPagination = ({page, pages, prev, next}) => {
         {next ? (
           <>
             <li>
-              <Link href={`${href}${next}`} legacyBehavior>
+              <Link legacyBehavior href={`${href}${next}`}>
                 <a className='fr-pagination__link fr-pagination__link--next fr-pagination__link--lg-label' href='#'>
                   Page suivante
                 </a>
               </Link>
             </li>
             <li>
-              <Link href={`${href}${pages}`} legacyBehavior>
+              <Link legacyBehavior href={`${href}${pages}`}>
                 <a className='fr-pagination__link fr-pagination__link--last' href='#'>
                   Dernière page
                 </a>

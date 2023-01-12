@@ -1,17 +1,17 @@
 import {useState} from 'react'
 import Image from 'next/image'
 
-import Page from '@/layouts/main'
+import Page from '@/layouts/main.js'
 
-import colors from '@/styles/colors'
+import colors from '@/styles/colors.js'
 
-import Hero from '@/components/hero'
-import SectionImage from '@/components/section-image'
-import Section from '@/components/section'
-import Button from '@/components/button'
-import Follow from '@/components/follow'
-import PcrsIframeMap from '@/components/pcrs-iframe-map'
-import EventCarousel from '@/components/event-carousel'
+import Hero from '@/components/hero.js'
+import SectionImage from '@/components/section-image.js'
+import Section from '@/components/section.js'
+import Button from '@/components/button.js'
+import Follow from '@/components/follow.js'
+import PcrsIframeMap from '@/components/pcrs-iframe-map.js'
+import EventCarousel from '@/components/event-carousel.js'
 
 const Home = () => {
   const [isMapShown, setIsMapShown] = useState(false)
@@ -67,8 +67,8 @@ const Home = () => {
           </ul>
 
           <Button
-            href='https://docs.pcrs.beta.gouv.fr/'
             isExternal
+            href='https://docs.pcrs.beta.gouv.fr/'
             label='Accéder à la documentation'
           >
             Voir la documentation
@@ -184,10 +184,10 @@ const Home = () => {
             Tenez-vous informé des prochains événements organisés par l’ANCT à propos du PCRS. Ateliers, conférences, annonces pour être toujours à jour.
           </p>
           <Button
+            isWhite
             href='/evenements'
             buttonStyle='secondary'
             label='Évenement à venir'
-            isWhite
           >
             Événements à venir
           </Button>
@@ -224,8 +224,8 @@ const Home = () => {
               <h3 className='fr-h6'>En rejoignant notre forum</h3>
               <p>Un lieu d’échange entre <b>porteurs de projets</b>, <b>animateurs</b> et <b>utilisateurs des livrables</b> du PCRS. Venez nous rencontrer pour présenter <b>vos problématiques</b> et vous inspirer d’autres solutions dans les échanges existants</p>
               <Button
-                href='https://forum.pcrs.beta.gouv.fr/'
                 isExternal
+                href='https://forum.pcrs.beta.gouv.fr/'
                 label='Rejoindre le forum'
               >
                 <span className='fr-icon-question-answer-line' aria-hidden='true' />&nbsp;Rejoindre le forum
@@ -238,8 +238,8 @@ const Home = () => {
               <h3 className='fr-h6'>En nous envoyant un email</h3>
               <p>Notre équipe fera le nécessaire pour vous répondre dans les plus brefs délais, dans la limite de sa disponibilité.</p>
               <Button
-                href='mailto:contact@pcrs.beta.gouv.fr'
                 isExternal
+                href='mailto:contact@pcrs.beta.gouv.fr'
                 label='Contacter l’équipe'
               >
                 <span className='fr-icon-mail-line' aria-hidden='true' />&nbsp;Contactez-nous
