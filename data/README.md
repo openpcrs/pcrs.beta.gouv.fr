@@ -5,6 +5,7 @@ Leur structure s'approche du modèle de données proposé par la startup d'Etat 
 Il s'agit ici d'une solution temporaire, en tout cas très bas niveau, avant de disposer d'outils plus ergonomiquement avancés.
 
 Plus d'informations sur notre démarche : https://docs.pcrs.beta.gouv.fr/suivi-des-projets/demarche
+Les listes de valeurs sont intégralement décrites dans le modèle de données associé.
 
 Il est obligatoire de créer un fichier par projet afin d'organiser la contribution au mieu dans ce répertoire.  
 Ces projets sont nommés de manière arbitraire et représentative de leur porteur et/ou de leur emprise géographique.  
@@ -17,10 +18,10 @@ Aidez-vous des fichiers déjà présents pour compléter un champ dont vous ne s
 ## Propriétés générales
 
 * nom : Nom arbitraire du projet (idéalement concaténation APLC - Zone projet)
-* regime : Régime du projet
+* regime : Régime du projet (liste l_pcrs_regime)
     * production : C'est un projet de production
     * maj : C'est un projet de mise à jour
-* nature : Nature du projet
+* nature : Nature du projet (liste l_pcrs_nature)
     * vecteur : Le projet concerne un PCRS vecteur
     * raster : Le projet concerne un PCRS raster
     * mixte : Le projet concerne un PCRS mixte raster/vecteur
@@ -33,20 +34,27 @@ Aidez-vous des fichiers déjà présents pour compléter un champ dont vous ne s
 
 * perimetres : Liste des périmètres couverts par la campagne (voir ci-dessous)
 
+Exemple de déclaration principale de projet, ici un projet de production intiiale mixte raster/vecteur
+```yaml
+nom: Projet PCRS
+regime: production
+nature: mixte
+```
+
 ## Livrables
 
 Les livrables représentent les corpus de données produites à l'issue du projet et uniquement celles-ci.  
 Puisque beaucoup de projets peuvent en produire plusieurs, ils sont définis comme une liste d'entités aux propriétés suivantes :
 
 * nom : Nom arbitraire du livrable
-* nature : Nature du livrable
+* nature : Nature du livrable (liste l_pcrs_livrable)
     * geotiff : Livrable GeoTiff (PCRS raster)
     * gml : Livrable GML (PCRS vecteur)
-* licence : Licence de diffusion du livrable
+* licence : Licence de diffusion du livrable (l_pcrs_licence)
     * ouvert_lo : Ouvert sous licence ouverte
     * ouvert_odbl : Ouvert sous licence ODbL
     * ferme : Licence fermée
-* diffusion : Modalité de diffusion du livrable
+* diffusion : Modalité de diffusion du livrable (l_pcrs_diffusion)
     * telechargement : Téléchargement des fichiers en masse
     * flux : Accès via un flux (WMTS, WFS...)
 * avancement : Pourcentage de complétude du livrable
@@ -69,7 +77,7 @@ livrables:
 Les projets passent tous par les mêmes étapes qui sont définies par leur date de début.  
 L'étape N prend fin à la date de début de l'étape N+1.
 
-* statut : Statut concerné, parmi les valeurs suivantes :
+* statut : Statut concerné, parmi les valeurs suivantes de la liste l_pcrs_statut :
   * investigation : 
   * production : Les vols ou roulages sont en cours
   * produit : Les vols ou roulages sont terminés, les livrables sont en cours de recette
@@ -97,7 +105,7 @@ Les acteurs du projet sont définis comme une liste d'entités aux propriétés 
 * interlocuteur : Nom de l'interlocuteur à contacter
 * mail : Adresse mail de l'interlocuteur
 * telecom : Numéro de téléphone de l'interlocuteur
-* role : Rôle de l'acteur, parmi les valeurs suivantes
+* role : Rôle de l'acteur, parmi les valeurs suivantes de la liste l_pcrs_role :
   * aplc : APLC
   * financeur : Un acteur apportant du financement dans le tour de table
   * diffuseur : Un acteur chargé de la diffusion des livrables
@@ -142,7 +150,7 @@ perimetres:
 Les subentions complètent le financement apporté par les acteur du projet.  
 Elles sont déclarées comme une liste d'objets correspondant aux propriétés suivantes :
 * nom : Nom arbitraire de la subvention
-* nature : Nature de la subvention, parmi les valeurs suivantes :
+* nature : Nature de la subvention, parmi les valeurs suivantes de la liste l_pcrs_subvention :
   * feder : Subvention FEDER
   * cepr : Contribution Etat-Région
 * montant : Montant de la subvention en euros
