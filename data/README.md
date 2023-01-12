@@ -69,7 +69,12 @@ livrables:
 Les projets passent tous par les mêmes étapes qui sont définies par leur date de début.  
 L'étape N prend fin à la date de début de l'étape N+1.
 
-* statut : Statut concerné
+* statut : Statut concerné, parmi les valeurs suivantes :
+  * investigation : 
+  * production : Les vols ou roulages sont en cours
+  * produit : Les vols ou roulages sont terminés, les livrables sont en cours de recette
+  * livre : Les livrables sont disponibles dans les canaux de diffusion prévus
+  * obsolete : Les livrables sont remplacés par d'autres plus à jour
 * date_debut : Date de début du statut concerné, au format AAAA-MM-JJ
 
 Exemple de déclaration d'une succession d'étapes :
