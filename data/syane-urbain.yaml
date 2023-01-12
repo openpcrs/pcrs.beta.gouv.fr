@@ -16,6 +16,9 @@ acteurs:
     nom: SYANE
     telephone: +33450335060
     role: aplc
+  - siren: 410201164
+    nom: RGD SMB
+    role: diffuseur
   - siren: 444608442
     nom: Enedis
     role: financeur
