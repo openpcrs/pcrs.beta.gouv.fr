@@ -33,12 +33,12 @@ const EventCarousel = () => {
         <div className='slideshow-dots'>
           {events.map((event, idx) => (
             <button
-              type='button'
-              onClick={() => setIndex(idx)}
-              label={`${index === idx ? 'Vous consultez' : 'Aller à '} l’évènement ${event.title} du ${dateWithDay(event.date)}`}
               key={`${event.title}-${event.date}`}
+              type='button'
+              label={`${index === idx ? 'Vous consultez' : 'Aller à '} l’évènement ${event.title} du ${dateWithDay(event.date)}`}
               disabled={index === idx}
               className='dot-button fr-m-0 fr-p-0'
+              onClick={() => setIndex(idx)}
             >
               <div className={`slideshow-dot ${index === idx ? '' : 'disable'}`} />
             </button>
@@ -47,7 +47,7 @@ const EventCarousel = () => {
 
         <ul className='slider'>
           {events.map((event, idx) => (
-            <li className={idx === index ? 'slide' : 'hidden'} key={`${event.title}-${event.date}`}>
+            <li key={`${event.title}-${event.date}`} className={idx === index ? 'slide' : 'hidden'}>
               <div className='fr-text--lg fr-m-0'>
                 {event.title}
               </div>

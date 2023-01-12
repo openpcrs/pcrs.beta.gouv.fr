@@ -12,9 +12,9 @@ const Hero = () => (
 
     <div className='nav-wrapper'>
       <Link
-        href='/#documentation'
         passHref
         legacyBehavior
+        href='/#documentation'
       >
         <a aria-label='Accéder à la section documentation' className='fr-link illustrated-link'>
           <Image
@@ -27,9 +27,9 @@ const Hero = () => (
         </a>
       </Link>
       <Link
-        href='/#suivi-geo'
         passHref
         legacyBehavior
+        href='/#suivi-geo'
       >
         <a aria-label='Accéder à la section suivi géo' className='fr-link illustrated-link'>
           <Image
@@ -42,9 +42,9 @@ const Hero = () => (
         </a>
       </Link>
       <Link
-        href='/#feuille-de-route'
         passHref
         legacyBehavior
+        href='/#feuille-de-route'
       >
         <a aria-label='Accéder à la section feuille de route' className='fr-link illustrated-link'>
           <Image
@@ -57,9 +57,9 @@ const Hero = () => (
         </a>
       </Link>
       <Link
-        href='/#evenements'
         passHref
         legacyBehavior
+        href='/#evenements'
       >
         <a aria-label='Accéder à la section évenements' className='fr-link illustrated-link'>
           <Image
@@ -71,7 +71,7 @@ const Hero = () => (
           Événements
         </a>
       </Link>
-      <Link href='/blog' legacyBehavior>
+      <Link legacyBehavior href='/blog'>
         <a aria-label='Accéder au blog du PCRS' className='fr-link illustrated-link'>
           <Image
             height={100}
@@ -83,9 +83,9 @@ const Hero = () => (
         </a>
       </Link>
       <Link
-        href='/#contact'
         passHref
         legacyBehavior
+        href='/#contact'
       >
         <a aria-label='Accéder à la section prendre contact' className='fr-link illustrated-link'>
           <Image

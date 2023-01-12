@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 export default ({
   // Grey
   grey200: '#7b7b7b',

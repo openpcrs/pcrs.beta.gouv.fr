@@ -68,8 +68,8 @@ const Accessibilite = () => (
       <p>Si vous n’arrivez pas à accéder à un contenu ou à un service, vous pouvez <b>contacter notre équipe</b> pour être orienté vers une alternative accessible ou obtenir le contenu sous une autre forme.</p>
 
       <Button
-        href='mailto:contact@pcrs.beta.gouv.fr'
         isExternal
+        href='mailto:contact@pcrs.beta.gouv.fr'
         label='Contacter l’équipe'
       >
         <span className='fr-icon-mail-line' aria-hidden='true' />&nbsp;Nous contacter

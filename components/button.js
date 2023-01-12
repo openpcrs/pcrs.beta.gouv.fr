@@ -22,7 +22,7 @@ const Button = ({label, size, buttonStyle, href, isExternal, isWhite, children, 
             {children}
           </a>
         ) : (
-          <Link href={href} legacyBehavior>
+          <Link legacyBehavior href={href}>
             <a
               className={`
             fr-btn fr-btn--${buttonStyle}

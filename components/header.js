@@ -6,7 +6,7 @@ const Header = () => (
     <div className='fr-header__body'>
       <div className='fr-container'>
         <div className='fr-header__body-row'>
-          <Link href='/' legacyBehavior>
+          <Link legacyBehavior href='/'>
             <a>
               <div className='fr-header__brand fr-enlarge-link'>
                 <div className='fr-header__brand-top'>

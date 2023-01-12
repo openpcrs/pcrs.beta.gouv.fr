@@ -29,12 +29,12 @@ const Follow = () => {
               {isShown && (
                 <iframe
                   sandbox
+                  allowfullscreen
                   width='548'
                   height='562'
                   src='https://8d772127.sibforms.com/serve/MUIEAGVrRRdNf8ex7lKBHfryHEbpAvlG43zvsloz_wwk0bLT4HHAhAEm7P0qytxpW5YUqN5-YBdaLWhj3kD_N6NLZbIJtfNpuKdTrHWScyA5vmTpxoWGyokKSkvhHfUeEvhh4qxttYTfmdfx_w2v_mwGh8C7tOBaloCOZMM1F9TqIOtfnIbcrVa7-N9GvSYHhVHqNvXOnJXhfpLs'
                   frameBorder='0'
                   scrolling='auto'
-                  allowfullscreen
                   className='fr-m-1w'
                   style={{
                     display: 'block',

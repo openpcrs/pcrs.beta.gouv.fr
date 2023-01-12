@@ -12,7 +12,7 @@ const BlogCard = ({post}) => {
       <div className='fr-card__body'>
         <div className='fr-card__content'>
           <h3 className='fr-card__title'>
-            <Link href={`/blog/${post.slug}`} passHref legacyBehavior>
+            <Link passHref legacyBehavior href={`/blog/${post.slug}`}>
               <a href=''>{post.title}</a>
             </Link>
           </h3>
