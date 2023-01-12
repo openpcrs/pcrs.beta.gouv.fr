@@ -2,6 +2,7 @@
   "name": "pcrs",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next dev",
