@@ -37,6 +37,6 @@ etapes:
       date_debut: 2019-01-01
 
 subventions: 
-    nom: FEDER
-    nature: feder
+    - nom: FEDER
+      nature: feder
     

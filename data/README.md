@@ -35,7 +35,8 @@ Aidez-vous des fichiers déjà présents pour compléter un champ dont vous ne s
 
 ## Livrables
 
-Les livrables représentent les corpus de données produites à l'issue du projet et uniquement celles-ci.
+Les livrables représentent les corpus de données produites à l'issue du projet et uniquement celles-ci.  
+Puisque beaucoup de projets peuvent en produire plusieurs, ils sont définis comme une liste d'entités aux propriétés suivantes :
 
 * nom : Nom arbitraire du livrable
 * nature : Nature du livrable
@@ -65,6 +66,9 @@ livrables:
 
 ## Etapes
 
+Les projets passent tous par les mêmes étapes qui sont définies par leur date de début.  
+L'étape N prend fin à la date de début de l'étape N+1.
+
 * statut : Statut concerné
 * date_debut : Date de début du statut concerné, au format AAAA-MM-JJ
 
@@ -81,11 +85,22 @@ etapes:
 
 ## Acteurs
 
+Les acteurs du projet sont définis comme une liste d'entités aux propriétés suivantes :
+
 * siren : SIREN de l'entreprise
 * nom : Nom intelligible de l'entreprise
 * interlocuteur : Nom de l'interlocuteur à contacter
 * mail : Adresse mail de l'interlocuteur
 * telecom : Numéro de téléphone de l'interlocuteur
+* role : Rôle de l'acteur, parmi les valeurs suivantes
+  * aplc : APLC
+  * financeur : Un acteur apportant du financement dans le tour de table
+  * diffuseur : Un acteur chargé de la diffusion des livrables
+  * presta_vol : Un prestataire de vol pour le raster
+  * presta_lidar : Un prestataire de relevé lidar pour le vecteur
+  * controleur : Un acteur chargé du contrôle des livrables lors de la recette
+* finance_part_perc : Part de financement apporté par l'acteur en pourcentage du total
+* finance_part_euro : Montant de financement en euros apporté par l'acteur
 
 Exemple de déclaration d'une liste d'acteurs pour un projet :
 ```yaml
@@ -95,13 +110,44 @@ acteurs:
       interlocuteur: Chef de projet
       mail: pcrs@aplc.fr
       telephone: +33102030405
+      role: aplc
+      finance_part_perc: 32
     - siren: 444608442
       nom: Enedis
 ```
 
 ## Périmètres
 
+Les projets couvrent le plus souvent des périmètres administratifs connus.  
+Nous avons fait le choix de définir ces périmètres comme l'agrégations d'une liste de territoires identifiés.
 
+Chaque territoire est identifié par une nature et leurs identifiant, soit insee soit SIREN.  
+Nous considérons actuellement trois natures différentes : commune, epci et departement qui peuvent être combinées à façon
+
+Exemple de déclaration d'une liste de territoires
+```yaml
+perimetres:
+  - commune:7410
+  - epci:257400085
+  - departement:74
+```
 
 ## Subventions
 
+Les subentions complètent le financement apporté par les acteur du projet.  
+Elles sont déclarées comme une liste d'objets correspondant aux propriétés suivantes :
+* nom : Nom arbitraire de la subvention
+* nature : Nature de la subvention, parmi les valeurs suivantes :
+  * feder : Subvention FEDER
+  * cepr : Contribution Etat-Région
+* montant : Montant de la subvention en euros
+* echance : Date limite d'utiliation de la subvention, au format AAAA-MM-JJ
+
+Exemple de déclaration de subventions sur un projet
+```yaml
+subventions: 
+    - nom: FEDER
+      nature: feder
+    - nom: Contrat Etat-Région
+      nature: cepr
+```
