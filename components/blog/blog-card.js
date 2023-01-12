@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import Link from 'next/link'
 import Image from 'next/image'
 
-import {shortDate} from '@/lib/date-utils'
+import {shortDate} from '@/lib/date-utils.js'
 
 const BlogCard = ({post}) => {
   const sanitizedDescription = post.excerpt.split(' ').slice(0, 25).join(' ') + '...'

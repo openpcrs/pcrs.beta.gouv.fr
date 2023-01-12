@@ -1,12 +1,12 @@
 
 import Image from 'next/image'
 
-import colors from '@/styles/colors'
+import colors from '@/styles/colors.js'
 
-import Page from '@/layouts/main'
+import Page from '@/layouts/main.js'
 
-import Section from '@/components/section'
-import Button from '@/components/button'
+import Section from '@/components/section.js'
+import Button from '@/components/button.js'
 
 const Accessibilite = () => (
   <Page title='Déclaration d’accessibilité' description='Consultez la déclaration d’accessibilité de pcrs.beta.gouv'>

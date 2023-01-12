@@ -5,9 +5,9 @@ import events from '../events.json'
 
 import {sortEventsByDate} from '@/lib/date-utils.js'
 
-import Page from '@/layouts/main'
+import Page from '@/layouts/main.js'
 
-import EventCard from '@/components/event-card'
+import EventCard from '@/components/event-card.js'
 
 const Evenements = () => {
   const [currentMonthEvents, setCurrentMonthEvents] = useState([])

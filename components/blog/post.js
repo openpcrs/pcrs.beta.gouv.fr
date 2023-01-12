@@ -4,9 +4,9 @@ import PropTypes from 'prop-types'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import {shortDate} from '@/lib/date-utils'
+import {shortDate} from '@/lib/date-utils.js'
 
-import colors from '@/styles/colors'
+import colors from '@/styles/colors.js'
 
 const Post = ({authors, published_at, reading_time, title, html}) => {
   useEffect(() => {

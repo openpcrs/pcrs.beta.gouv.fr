@@ -2,9 +2,9 @@ import {useState, useEffect} from 'react'
 
 import allEvents from '../events.json'
 
-import {sortEventsByDate, dateWithDay} from '@/lib/date-utils'
+import {sortEventsByDate, dateWithDay} from '@/lib/date-utils.js'
 
-import colors from '@/styles/colors'
+import colors from '@/styles/colors.js'
 
 const today = new Date()
 const events = sortEventsByDate(allEvents.filter(event => new Date(event.date).setHours(0, 0, 0, 0) >= today.setHours(0, 0, 0, 0))).slice(0, 3)

@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types'
 import Image from 'next/image'
 
-import {getPosts, getTags} from '@/lib/blog'
+import {getPosts, getTags} from '@/lib/blog.js'
 
-import colors from '@/styles/colors'
+import colors from '@/styles/colors.js'
 
-import Page from '@/layouts/main'
+import Page from '@/layouts/main.js'
 
-import BlogPagination from '@/components/blog/blog-pagination'
-import BlogCard from '@/components/blog/blog-card'
-import BlogTags from '@/components/blog/blog-tags'
+import BlogPagination from '@/components/blog/blog-pagination.js'
+import BlogCard from '@/components/blog/blog-card.js'
+import BlogTags from '@/components/blog/blog-tags.js'
 
 const Blog = ({posts, tags, tagsList, pagination}) => (
   <Page title='Blog du PCRS' description='La liste complète des billets du blog autour du PCRS'>

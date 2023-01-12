@@ -1,10 +1,10 @@
 import Image from 'next/image'
 
-import colors from '@/styles/colors'
+import colors from '@/styles/colors.js'
 
-import Page from '@/layouts/main'
+import Page from '@/layouts/main.js'
 
-import Button from '@/components/button'
+import Button from '@/components/button.js'
 
 const Custom500 = () => (
   <Page>

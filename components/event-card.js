@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
-import colors from '@/styles/colors'
+import colors from '@/styles/colors.js'
 
-import {dateWithDay} from '@/lib/date-utils'
+import {dateWithDay} from '@/lib/date-utils.js'
 
 const EventCard = ({title, date, start, end, isOnSite, isOnline, address, eventHref, description, type}) => (
   <div className='eventcard-container fr-pb-1w'>

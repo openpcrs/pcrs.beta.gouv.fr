@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import Link from 'next/link'
-import colors from '@/styles/colors'
+import colors from '@/styles/colors.js'
 
 const Button = ({label, size, buttonStyle, href, isExternal, isWhite, children, ...props}) => {
   if (href) {

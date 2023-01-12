@@ -1,5 +1,5 @@
-import Page from '@/layouts/main'
-import Section from '@/components/section'
+import Page from '@/layouts/main.js'
+import Section from '@/components/section.js'
 
 const MentionsLegales = () => (
   <Page title='Mentions légales' description='Mentions légales relatives au site pcrs.beta.gouv.fr'>

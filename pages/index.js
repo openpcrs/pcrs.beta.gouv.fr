@@ -1,17 +1,17 @@
 import {useState} from 'react'
 import Image from 'next/image'
 
-import Page from '@/layouts/main'
+import Page from '@/layouts/main.js'
 
-import colors from '@/styles/colors'
+import colors from '@/styles/colors.js'
 
-import Hero from '@/components/hero'
-import SectionImage from '@/components/section-image'
-import Section from '@/components/section'
-import Button from '@/components/button'
-import Follow from '@/components/follow'
-import PcrsIframeMap from '@/components/pcrs-iframe-map'
-import EventCarousel from '@/components/event-carousel'
+import Hero from '@/components/hero.js'
+import SectionImage from '@/components/section-image.js'
+import Section from '@/components/section.js'
+import Button from '@/components/button.js'
+import Follow from '@/components/follow.js'
+import PcrsIframeMap from '@/components/pcrs-iframe-map.js'
+import EventCarousel from '@/components/event-carousel.js'
 
 const Home = () => {
   const [isMapShown, setIsMapShown] = useState(false)

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import Image from 'next/image'
 
-import colors from '@/styles/colors'
+import colors from '@/styles/colors.js'
 
 const SectionImage = ({title, subtitle, background, imageLink, imageSide, panelBottom, children, ...props}) => (
   <section className={`fr-py-4w ${background}`} {...props}>

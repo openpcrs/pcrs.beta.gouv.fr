@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import colors from '@/styles/colors'
+import colors from '@/styles/colors.js'
 
 const Hero = () => (
   <div className='hero-component'>
