@@ -8,7 +8,7 @@ import {dateWithDay} from '@/lib/date-utils.js'
 
 import Page from '@/layouts/main.js'
 
-const Post = dynamic(() => import('@/components/blog/post.js'), {
+const Post = dynamic(() => import('@/components/post.js'), {
   ssr: false
 })
 
@@ -34,7 +34,7 @@ const BlogPost = ({post}) => {
         <div className='caption fr-pr-1w fr-text--sm'>{feature_image_caption || ''}</div>
       </div>
 
-      <Post {...post} />
+      <Post baseUrl='/blog' {...post} />
 
       <style jsx>{`
         .blog-feature-image-container {

@@ -7,8 +7,8 @@ import colors from '@/styles/colors.js'
 
 import Page from '@/layouts/main.js'
 
-import BlogPagination from '@/components/blog/blog-pagination.js'
-import BlogCard from '@/components/blog/blog-card.js'
+import Pagination from '@/components/pagination.js'
+import BlogCard from '@/components/post-card.js'
 import BlogTags from '@/components/blog/blog-tags.js'
 
 const Blog = ({posts, tags, tagsList, pagination}) => (
@@ -35,7 +35,7 @@ const Blog = ({posts, tags, tagsList, pagination}) => (
             {(posts.length === 0 && tags.length > 0) && <div className='no-article'>Aucun article ne contient ces tags</div>}
           </div>
 
-          <BlogPagination {...pagination} />
+          <Pagination {...pagination} />
         </div>
       </div>
     ) : (

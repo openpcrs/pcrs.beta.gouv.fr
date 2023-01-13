@@ -4,25 +4,28 @@ import Image from 'next/image'
 
 import {shortDate} from '@/lib/date-utils.js'
 
-const BlogCard = ({post}) => {
+const PostCard = ({post, isTestimony}) => {
   const sanitizedDescription = post.excerpt.split(' ').slice(0, 25).join(' ') + '...'
+  const postHref = isTestimony ? `/temoignages/${post.slug}` : `/blog/${post.slug}`
 
   return (
     <div className='blog-card fr-card fr-enlarge-link'>
       <div className='fr-card__body'>
         <div className='fr-card__content'>
           <h3 className='fr-card__title'>
-            <Link passHref legacyBehavior href={`/blog/${post.slug}`}>
+            <Link passHref legacyBehavior href={postHref}>
               <a href=''>{post.title}</a>
             </Link>
           </h3>
 
           <p className='fr-card__desc'>{sanitizedDescription} <i>lire la suite</i></p>
-          <div className='fr-card__start'>
-            <ul className='fr-tags-group'>
-              {post.tags.map(tag => <li key={tag.id}><p className='fr-tag'>{tag.name}</p></li>)}
-            </ul>
-          </div>
+          {!isTestimony && (
+            <div className='fr-card__start'>
+              <ul className='fr-tags-group'>
+                {post.tags.map(tag => <li key={tag.id}><p className='fr-tag'>{tag.name}</p></li>)}
+              </ul>
+            </div>
+          )}
         </div>
         <div className='posting-date fr-text--sm'>
           Publié le {shortDate(post.published_at)} - {post.reading_time} min de lecture
@@ -47,10 +50,6 @@ const BlogCard = ({post}) => {
       </div>
 
       <style jsx>{`
-        .blog-card {
-          width: 300px;
-        }
-
         .posting-date {
           text-align: right;
           font-style: italic;
@@ -65,8 +64,13 @@ const BlogCard = ({post}) => {
   )
 }
 
-BlogCard.propTypes = {
-  post: PropTypes.object.isRequired
+PostCard.propTypes = {
+  post: PropTypes.object.isRequired,
+  isTestimony: PropTypes.bool
 }
 
-export default BlogCard
+PostCard.defaultProps = {
+  isTestimony: false
+}
+
+export default PostCard
