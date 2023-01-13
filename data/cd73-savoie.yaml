@@ -1,0 +1,142 @@
+nom: Savoie principal
+regime: production
+nature: raster
+livrables:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ouverte_lo
+
+acteurs: 
+  - siren: 227300019
+    nom: CD73
+    telephone: +33479967373
+    role: aplc
+    finance_part_perc: 50
+  - siren: 200070340
+    role: financeur
+    finance_part_perc: 2.35
+  - siren: 247300452
+    role: financeur
+    finance_part_perc: 2.35
+  - siren: 200070464
+    role: financeur
+    finance_part_perc: 2.35
+  - siren: 247300361
+    role: financeur
+    finance_part_perc: 2.35
+  - siren: 247300254
+    role: financeur
+    finance_part_perc: 2.35
+  - siren: 247300817
+    role: financeur
+    finance_part_perc: 2.35
+  - siren: 247300015
+    role: financeur
+    finance_part_perc: 2.35
+  - siren: 200023299
+    role: financeur
+    finance_part_perc: 2.35
+  - siren: 200068997
+    role: financeur
+    finance_part_perc: 2.35
+  - siren: 247300676
+    role: financeur
+    finance_part_perc: 2.35
+  - siren: 200069110
+    role: financeur
+    finance_part_perc: 2.35
+  - siren: 200068674
+    role: financeur
+    finance_part_perc: 2.35
+  - siren: 247300262
+    role: financeur
+    finance_part_perc: 2.35
+  - siren: 247300528
+    role: financeur
+    finance_part_perc: 2.35
+  - siren: 247300668
+    role: financeur
+    finance_part_perc: 2.35
+  - siren: 200040798
+    role: financeur
+    finance_part_perc: 2.35
+  - siren: 200041010
+    role: financeur
+    finance_part_perc: 2.35
+  - siren: 410201164
+    nom: RGD SMB
+    role: diffuseur
+    finance_part_perc: 5
+  - siren: 444608442
+    nom: Enedis
+    role: financeur
+    finance_part_perc: 5
+
+perimetres:
+  - epci:200070340
+  - epci:247300452
+  - epci:200070464
+  - epci:247300361
+  - epci:247300254
+  - epci:247300817
+  - epci:247300015
+  - epci:200023299
+  - epci:200068997
+  - epci:247300676
+  - epci:200069110
+  - epci:200068674
+  - epci:247300262
+  - epci:247300528
+  - epci:247300668
+  - epci:200040798
+  - commune:73017
+  - commune:73018
+  - commune:73041
+  - commune:73052
+  - commune:73053
+  - commune:73068
+  - commune:73069
+  - commune:73072
+  - commune:73075
+  - commune:73079
+  - commune:73082
+  - commune:73084
+  - commune:73089
+  - commune:73095
+  - commune:73096
+  - commune:73099
+  - commune:73120
+  - commune:73133
+  - commune:73141
+  - commune:73159
+  - commune:73166
+  - commune:73171
+  - commune:73183
+  - commune:73200
+  - commune:73205
+  - commune:73207
+  - commune:73215
+  - commune:73217
+  - commune:73240
+  - commune:73247
+  - commune:73270
+  - commune:73276
+  - commune:73289
+  - commune:73302
+  - commune:73311
+  - commune:73314
+  - commune:73315
+  - commune:73316
+  - commune:73324
+
+etapes:
+  - statut: investigation
+    date_debut: 2015-01-01
+  - statut: production
+    date_debut: 2018-01-01
+  - statut: produit
+    date_debut: 2021-01-01
+
+subventions: 
+    
