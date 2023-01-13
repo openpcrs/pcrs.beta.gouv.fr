@@ -1,0 +1,75 @@
+nom: Ain - 2023
+regime: production
+nature: raster
+livrables:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ferme
+
+acteurs: 
+  - siren: 250100211
+    nom: SIEA
+    telephone: "+33474450907"
+    role: aplc
+    finance_part_euro: 53813
+  - siren: 130014582
+    nom: CRAIG
+    telephone: "+33972622531"
+    role: diffuseur
+    finance_part_euro: 5061
+  - siren: 444608442
+    nom: Enedis
+    role: financeur
+    finance_part_euro: 39606
+  - siren: 444619258
+    nom: RTE
+    role: financeur
+    finance_part_euro: 1500
+  - siren: 438872871
+    nom: RSE
+    role: financeur
+    finance_part_euro: 2740
+
+
+perimetres:
+  - epci:200029999
+  - commune:01002
+  - commune:01012
+  - commune:01013
+  - commune:01017
+  - commune:01037
+  - commune:01064
+  - commune:01076
+  - commune:01080
+  - commune:01107
+  - commune:01111
+  - commune:01121
+  - commune:01155
+  - commune:01185
+  - commune:01190
+  - commune:01216
+  - commune:01219
+  - commune:01233
+  - commune:01255
+  - commune:01277
+  - commune:01279
+  - commune:01280
+  - commune:01311
+  - commune:01384
+  - commune:01396
+  - commune:01400
+  - commune:01403
+  - commune:01411
+  - commune:01416
+  - commune:01421
+  - commune:01444
+
+etapes:
+  - statut: investigation
+    date_debut: 2017-01-01
+  - statut: production
+    date_debut: 2023-01-01
+
+subventions: 
+    
