@@ -14,7 +14,7 @@ livrables:
 acteurs: 
   - siren: 257400085
     nom: SYANE
-    telephone: +33450335060
+    telephone: "+33450335060"
     role: aplc
   - siren: 410201164
     nom: RGD SMB

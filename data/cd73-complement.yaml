@@ -10,7 +10,7 @@ livrables:
 acteurs: 
   - siren: 227300019
     nom: CD73
-    telephone: +33479967373
+    telephone: "+33479967373"
     role: aplc
     finance_part_perc: 50
   - siren: 200041010
