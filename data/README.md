@@ -1,6 +1,6 @@
 # Décrire son projet PCRS
 
-Décrire les projets PCRS et les périphériques (acteurs, livrables, statuts, subventions) se fait ici au moyens de fichiers Yaml.  
+Décrire les projets PCRS et les périphériques (acteurs, livrables, statuts, subventions) se fait ici au moyen de fichiers Yaml.  
 Leur structure s'approche du modèle de données proposé par la startup d'Etat PCRS en ayant quelques différences importantes.  
 Il s'agit ici d'une solution temporaire, en tout cas très bas niveau, avant de disposer d'outils plus ergonomiquement avancés.
 
@@ -62,14 +62,14 @@ Puisque beaucoup de projets peuvent en produire plusieurs, ils sont définis com
 Exemple de déclaration de deux livrables pour un même projet :
 ```yaml
 livrables:
-    - nom: Images raster
-      nature: geotiff
-      diffusion: flux
-      licence: ferme
-    - nom: Données vecteur
-      nature: gml
-      diffusion: flux
-      licence: ferme
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ferme
+  - nom: Données vecteur
+    nature: gml
+    diffusion: flux
+    licence: ferme
 ```
 
 ## Etapes
@@ -88,12 +88,12 @@ L'étape N prend fin à la date de début de l'étape N+1.
 Exemple de déclaration d'une succession d'étapes :
 ```yaml
 etapes: 
-    - statut: investigation
-      date_debut: 2015-01-01
-    - statut: production
-      date_debut: 2016-01-01
-    - statut: produit
-      date_debut: 2018-01-01
+  - statut: investigation
+    date_debut: 2015-01-01
+  - statut: production
+    date_debut: 2016-01-01
+  - statut: produit
+    date_debut: 2018-01-01
 ```
 
 ## Acteurs
@@ -118,21 +118,21 @@ Les acteurs du projet sont définis comme une liste d'entités aux propriétés 
 Exemple de déclaration d'une liste d'acteurs pour un projet :
 ```yaml
 acteurs: 
-    - siren: 257400085
-      nom: Acteur 1
-      interlocuteur: Chef de projet
-      mail: pcrs@aplc.fr
-      telephone: +33102030405
-      role: aplc
-      finance_part_perc: 32
-    - siren: 444608442
-      nom: Enedis
+  - siren: 257400085
+    nom: Acteur 1
+    interlocuteur: Chef de projet
+    mail: pcrs@aplc.fr
+    telephone: +33102030405
+    role: aplc
+    finance_part_perc: 32
+  - siren: 444608442
+    nom: Enedis
 ```
 
 ## Périmètres
 
 Les projets couvrent le plus souvent des périmètres administratifs connus.  
-Nous avons fait le choix de définir ces périmètres comme l'agrégations d'une liste de territoires identifiés.
+Nous avons fait le choix de définir ces périmètres comme l'agrégation d'une liste de territoires identifiés.
 
 Chaque territoire est identifié par une nature et leurs identifiant, soit insee soit SIREN.  
 Nous considérons actuellement trois natures différentes : commune, epci et departement qui peuvent être combinées à façon
@@ -147,7 +147,7 @@ perimetres:
 
 ## Subventions
 
-Les subentions complètent le financement apporté par les acteur du projet.  
+Les subentions complètent le financement apporté par les acteurs du projet.  
 Elles sont déclarées comme une liste d'objets correspondant aux propriétés suivantes :
 * nom : Nom arbitraire de la subvention
 * nature : Nature de la subvention, parmi les valeurs suivantes de la liste l_pcrs_subvention :
@@ -159,8 +159,8 @@ Elles sont déclarées comme une liste d'objets correspondant aux propriétés s
 Exemple de déclaration de subventions sur un projet
 ```yaml
 subventions: 
-    - nom: FEDER
-      nature: feder
-    - nom: Contrat Etat-Région
-      nature: cepr
+  - nom: FEDER
+    nature: feder
+  - nom: Contrat Etat-Région
+    nature: cepr
 ```
