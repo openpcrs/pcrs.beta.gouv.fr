@@ -1,0 +1,44 @@
+nom: Ardèche - Principal
+regime: production
+nature: raster
+livrables:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ferme
+
+acteurs: 
+  - siren: 250700358
+    nom: SDE07
+    telephone: "+33475663890"
+    role: aplc
+  - siren: 130014582
+    nom: CRAIG
+    telephone: "+33972622531"
+    role: diffuseur
+
+
+perimetres:
+  - epci:240700716
+  - epci:200016905
+  - epci:200071413
+  - epci:240700815
+  - epci:200071405
+  - epci:240700864
+  - epci:200039808
+  - epci:240700302
+  - epci:200039832
+  - epci:240700617
+  - epci:200073245
+  - epci:200039824
+  - epci:200041465
+  - epci:200072015
+
+etapes:
+  - statut: investigation
+    date_debut: 2019-01-01
+  - statut: production
+    date_debut: 2022-01-01
+
+subventions: 
+    
