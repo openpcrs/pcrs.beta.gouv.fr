@@ -1,9 +1,13 @@
 nom: Puy de Dôme
 regime: production
-nature: raster
+nature: mixte
 livrables:
   - nom: Images raster
     nature: geotiff
+    diffusion: flux
+    licence: ferme
+  - nom: Données vecteur
+    nature: gml
     diffusion: flux
     licence: ferme
 
