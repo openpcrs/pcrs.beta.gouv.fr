@@ -330,7 +330,7 @@ export async function getServerSideProps({query}) {
 
   return {
     props: {
-      testimonies: lastThreeTestimonies
+      testimonies: lastThreeTestimonies || []
     }
   }
 }
