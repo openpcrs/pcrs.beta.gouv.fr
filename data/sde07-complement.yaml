@@ -1,0 +1,35 @@
+nom: Ardèche - Complément
+regime: production
+nature: raster
+livrables:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ferme
+
+acteurs: 
+  - siren: 250700358
+    nom: SDE07
+    telephone: "+33475663890"
+    role: aplc
+  - siren: 130014582
+    nom: CRAIG
+    telephone: "+33972622531"
+    role: diffuseur
+
+
+perimetres:
+  - epci:200072007
+
+etapes:
+  - statut: investigation
+    date_debut: 2019-01-01
+  - statut: production
+    date_debut: 2020-01-01
+  - statut: produit
+    date_debut: 2021-09-01
+  - statut: livre
+    date_debut: 2022-01-01
+
+subventions: 
+    

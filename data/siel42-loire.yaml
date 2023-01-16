@@ -1,0 +1,43 @@
+nom: Loire - Principal
+regime: production
+nature: raster
+livrables:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: telechargement
+    licence: ferme
+
+acteurs:
+  - siren: 254200546
+    nom: SIEL-TE
+    telephone: "+33972622531"
+    role: aplc
+  - siren: 130014582
+    nom: CRAIG
+    telephone: "+33972622531"
+    role: diffuseur
+
+perimetres:
+  - epci:200035202
+  - epci:200035731
+  - epci:244200820
+  - epci:244200630
+  - epci:244200614
+  - epci:200065894
+  - epci:200065886
+  - epci:244200622
+  - epci:244200895
+  - commune:42055
+  - commune:42062
+  - commune:42102
+  - commune:42216
+  - commune:42138
+  - commune:42335
+  - commune:42336
+
+etapes:
+  - statut: investigation
+    date_debut: 2022-08-24
+    
+subventions: 
+    

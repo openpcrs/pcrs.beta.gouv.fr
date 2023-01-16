@@ -1,0 +1,35 @@
+nom: Puy de Dôme
+regime: production
+nature: mixte
+livrables:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ferme
+  - nom: Données vecteur
+    nature: gml
+    diffusion: flux
+    licence: ferme
+
+acteurs: 
+  - siren: 130014582
+    nom: CRAIG
+    telephone: "+33972622531"
+    role: aplc
+
+
+perimetres:
+  - departement:63
+
+etapes:
+  - statut: investigation
+    date_debut: 2019-01-01
+  - statut: production
+    date_debut: 2022-01-01
+  - statut: produit
+    date_debut: 2021-09-01
+  - statut: livre
+    date_debut: 2022-01-01
+    
+subventions: 
+    
