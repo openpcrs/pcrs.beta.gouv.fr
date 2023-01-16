@@ -1,0 +1,46 @@
+nom: Isère - 2022
+regime: production
+nature: raster
+livrables:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ferme
+
+acteurs: 
+  - siren: 253804025
+    nom: TE38
+    telephone: "+33476031920"
+    role: aplc
+    finance_part_euro: 201063
+  - siren: 130014582
+    nom: CRAIG
+    telephone: "+33972622531"
+    role: diffuseur
+    finance_part_euro: 51337
+  - siren: 067501494
+    nom: Setis
+    role: controleur
+  - siren: 437909096
+    nom: Aerodata France
+    role: presta_vol
+
+
+perimetres:
+  - epci:200040715
+  - epci:200030658
+  - epci:200040657
+  - epci:243800745
+
+etapes:
+  - statut: investigation
+    date_debut: 2017-01-01
+  - statut: production
+    date_debut: 2022-01-01
+  - statut: produit
+    date_debut: 2022-09-01
+  - statut: livre
+    date_debut: 2023-01-01
+
+subventions: 
+    

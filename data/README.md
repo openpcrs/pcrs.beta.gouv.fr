@@ -15,9 +15,27 @@ Les noms de champs et les valeurs des dictionnaires de valeurs doivent aussi êt
 
 Aidez-vous des fichiers déjà présents pour compléter un champ dont vous ne seriez pas sûr du contenu.
 
+## Méthodologie
+
+Nous définissons un projet PCRS comme étant une campagne de prise de vue ou de vectorisation portée par un ou plusieurs acteurs dispoant de rôles précis.  
+Des subventions peuvent compléter les financements apportés par certains de ces acteurs.
+La campagne produit un certain nombre de livrables au terme d'un calendrier continu et découpé en plusieurs étapes.
+
+Le territoire concerné peut être découpé en plusieurs phases, particulièrement lorsqu'il s'agit d'organiser des vols pour un PCRS raster.  
+Chaque phase présentant des coûts différents et des dates de livraison elles aussi différentes, il faudra créer un projet par phase. Des exemples sont déjà disponibles comme celui de l'Ain.  
+Les coûts de chaque année/phase sont reportés pour chaque acteur et les contours géographiques correspondants sont associés au projet.
+
+Il en va de même pour les mises à jour, qui interviendront après la campagne de production initiale selon un calendrier propre.  
+Il convient donc de créer un projet différent par campagne de mise à jour, avec les périmètres géographiques associés et les acteurs impliqués.
+
+Cela semble beaucoup plus fin que ce qu'on peut s'imaginer des projets PCRS, c'est néanmoins le seul moyen de décrire un calendrier très simple de quelques étapes avec des livrables clairement identifiés à la fin.  
+La plupart de ces différents projets correspondront à la même convention.
+
 ## Propriétés générales
 
-* nom : Nom arbitraire du projet (idéalement concaténation APLC - Zone projet)
+Un projet PCRS est décrit selon les propriétés principales suivantes :
+
+* nom : Nom arbitraire du projet (idéalement concaténation Territoire - Zone projet)
 * regime : Régime du projet (liste l_pcrs_regime)
     * production : C'est un projet de production
     * maj : C'est un projet de mise à jour
