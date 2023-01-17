@@ -26,7 +26,13 @@ const Popup = ({project}) => {
     >
       <h6 className='title fr-text fr-text--md'><u>{nom}</u></h6>
       <div className='fr-text fr-text--sm fr-grid-row fr-pb-3v'>
-        En <p style={{color: currentStep.color, backgroundColor: currentStep.background}} className='fr-badge fr-badge--sm fr-mx-1v'>{statut}</p> depuis <b className='fr-text fr-px-2v'>{formatDate(date)}</b>
+        {(statut === 'production' || statut === 'investigation') && 'En '}
+        <p
+          style={{color: currentStep.color, backgroundColor: currentStep.background}}
+          className='fr-badge fr-badge--sm fr-mx-1v'
+        >
+          {statut}
+        </p> depuis <b className='fr-text fr-px-2v'>{formatDate(date)}</b>
       </div>
       <hr className='fr-p-1v' />
       <div className='container'>
