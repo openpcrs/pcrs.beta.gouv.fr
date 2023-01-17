@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import {DeviceContextProvider} from '@/contexts/device.js'
+
 import '@/styles/global.css'
 import '@gouvfr/dsfr/dist/dsfr/dsfr.min.css'
 import '@gouvfr/dsfr/dist/core/core.min.css'
@@ -16,7 +18,9 @@ import '@gouvfr/dsfr/dist/utility/icons/icons-buildings/icons-buildings.min.css'
 
 const App = ({Component, pageProps}) => (
   <React.StrictMode>
-    <Component {...pageProps} />
+    <DeviceContextProvider>
+      <Component {...pageProps} />
+    </DeviceContextProvider>
   </React.StrictMode>
 )
 
