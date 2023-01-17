@@ -4,6 +4,7 @@ import {getProject} from '@/lib/pcrs.js'
 import DeviceContext from '@/contexts/device.js'
 
 import Map from '@/components/map/map.js'
+import MapSidebar from '@/components/map-sidebar/index.js'
 
 export const Mobile = () => {
   const {viewHeight} = useContext(DeviceContext)
@@ -92,7 +93,7 @@ export const Mobile = () => {
           )}
         </div>
         {isOpen && (
-          <div>test</div>
+          <MapSidebar project={project} />
         )}
       </div>
     </div>
@@ -147,7 +148,7 @@ export const Desktop = () => {
             onClick={() => setIsOpen(!isOpen)}
           />
           {isOpen && (
-            <div>test</div>
+            <MapSidebar project={project} />
           )}
         </div>
       )}
