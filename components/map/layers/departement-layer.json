@@ -1,0 +1,12 @@
+{
+  "id": "departements-line",
+  "type": "line",
+  "source": "departements",
+  "layout": {
+
+  },
+  "paint": {
+    "line-color": "black",
+    "line-width": 0.5
+  }
+}

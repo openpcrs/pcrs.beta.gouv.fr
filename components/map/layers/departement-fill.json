@@ -1,0 +1,24 @@
+{
+  "id": "departements-fills",
+  "type": "fill",
+  "source": "departements",
+  "layout": {},
+  "paint": {
+    "fill-color": [
+      "match",
+      ["get", "pcrsStatus"],
+      "investigation", "#ffe386",
+      "production", "#a7f192",
+      "produit", "#87c1ea",
+      "livré", "#175c8b",
+      "#0063cb"
+    ],
+    "fill-opacity": [
+      "case",
+      ["boolean", ["feature-state", "hover"], false],
+      1,
+      0.6
+    ],
+    "fill-outline-color": "grey"
+  }
+}
