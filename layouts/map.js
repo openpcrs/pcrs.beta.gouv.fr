@@ -3,7 +3,7 @@ import {useState, useContext} from 'react'
 import {getProject} from '@/lib/pcrs.js'
 import DeviceContext from '@/contexts/device.js'
 
-import Map from '@/components/map/map.js'
+import Map from '@/components/map/index.js'
 import MapSidebar from '@/components/map-sidebar/index.js'
 
 export const Mobile = () => {

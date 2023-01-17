@@ -1,3 +1,4 @@
+import {createRoot} from 'react-dom/client' // eslint-disable-line n/file-extension-in-import
 import {useCallback, useEffect, useRef, useState} from 'react'
 import PropTypes from 'prop-types'
 import maplibreGl from 'maplibre-gl'
@@ -8,6 +9,8 @@ import departementFillLayer from './layers/departement-fill.json'
 import departementLayer from './layers/departement-layer.json'
 
 import vector from './styles/vector.json'
+
+import Popup from '@/components/map/popup.js'
 
 const getPCRSFeatures = projects => {
   const featurePcrs = []
@@ -54,6 +57,8 @@ const Map = ({handleClick, isMobile}) => {
     closeButton: false,
     closeOnClick: false
   }))
+  const popupNode = document.createElement('div')
+  const popupRoot = createRoot(popupNode)
 
   const getFeatures = useCallback(() => {
     const features = []
@@ -105,6 +110,7 @@ const Map = ({handleClick, isMobile}) => {
   useEffect(() => {
     let hoveredCode = null
     let selectedCodes = null
+    let projet = null
     const features = getFeatures()
 
     if (map) {
@@ -129,6 +135,37 @@ const Map = ({handleClick, isMobile}) => {
       map.on('click', 'departements-fills', e => {
         handleClick(e)
       })
+
+      if (!isMobile) {
+        map.on('mousemove', 'departements-fills', e => {
+          if (e.features.length > 0) {
+            if (hoveredCode !== null) {
+              map.setFeatureState(
+                {source: 'departements', id: hoveredCode}
+              )
+            }
+
+            projet = projets.find(p => p.id === e.features[0].properties.pcrsId)
+
+            popupRoot.render(
+              <Popup
+                project={projet}
+              />
+            )
+
+            popupRef.current
+              .setLngLat(e.lngLat)
+              .setDOMContent(popupNode)
+              .addTo(map)
+
+            hoveredCode = e.features[0].id
+
+            map.setFeatureState(
+              {source: 'departements', id: hoveredCode}
+            )
+          }
+        })
+      }
 
       map.on('click', 'departements-fills', e => {
         if (e.features.length > 0) {
@@ -160,7 +197,7 @@ const Map = ({handleClick, isMobile}) => {
         hoveredCode = null
       })
     }
-  }, [map, getFeatures, handleClick, isMobile])
+  }, [map, popupNode, popupRoot, getFeatures, handleClick, isMobile])
 
   return (
     <div style={{position: 'relative', height: '100%', width: '100%'}}>
