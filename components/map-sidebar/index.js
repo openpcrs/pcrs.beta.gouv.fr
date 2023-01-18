@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types'
 import {find} from 'lodash'
 
-import {formatDate} from '@/lib/utils'
-import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors'
+import {formatDate} from '@/lib/date-utils.js'
+import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors.js'
 
 import Header from '@/components/map-sidebar/project-header.js'
-import Badge from '@/components/badge'
-import Timeline from '@/components/map-sidebar/timeline'
-import PcrsInfos from '@/components/map-sidebar/pcrs-infos'
-import Documents from '@/components/map-sidebar/documents'
-import Contact from '@/components/map-sidebar/contact'
+import Badge from '@/components/badge.js'
+import Timeline from '@/components/map-sidebar/timeline.js'
+import PcrsInfos from '@/components/map-sidebar/pcrs-infos.js'
+import Documents from '@/components/map-sidebar/documents.js'
+import Contact from '@/components/map-sidebar/contact.js'
 
 const MapSidebar = ({project}) => {
   const {status} = PCRS_DATA_COLORS

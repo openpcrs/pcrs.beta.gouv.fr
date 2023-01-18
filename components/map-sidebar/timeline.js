@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types'
 import {find, indexOf} from 'lodash'
 
-import {formatDate} from '@/lib/utils'
+import {formatDate} from '@/lib/date-utils.js'
 
-import colors from '@/styles/colors'
+import colors from '@/styles/colors.js'
 
-import Tooltip from '@/components/tooltip'
-import Loader from '@/components/loader'
+import Tooltip from '@/components/tooltip.js'
+import Loader from '@/components/loader.js'
 
 const TIMELINE = [
   {step: 1, label: 'investigation', isProgressingStep: true},

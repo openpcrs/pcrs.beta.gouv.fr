@@ -3,10 +3,10 @@ import {useState} from 'react'
 import PropTypes from 'prop-types'
 import {concat} from 'lodash'
 
-import colors from '@/styles/colors'
-import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors'
+import colors from '@/styles/colors.js'
+import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors.js'
 
-import Badge from '@/components/badge'
+import Badge from '@/components/badge.js'
 import HiddenInfos from '@/components/hidden-infos.js'
 import LabeledWrapper from '@/components/labeled-wrapper.js'
 
@@ -103,7 +103,13 @@ const PcrsInfos = ({nature, regime, livrable, diffusion, licence, acteurs}) => {
                 </Badge>
               )
               )}
-              <button onClick={() => setIsActorsShow(true)} type='button' className='fr-btn--tertiary-no-outline'>...afficher la liste des acteurs</button>
+              <button
+                type='button'
+                className='fr-btn--tertiary-no-outline'
+                onClick={() => setIsActorsShow(true)}
+              >
+                ...afficher la liste des acteurs
+              </button>
             </div>
           </LabeledWrapper>
 

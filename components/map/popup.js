@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
-import Badge from '@/components/badge'
+import Badge from '@/components/badge.js'
 
-import colors from '@/styles/colors'
-import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors'
+import colors from '@/styles/colors.js'
+import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors.js'
 
-import {formatDate} from '@/lib/utils'
+import {formatDate} from '@/lib/date-utils.js'
 
 const Popup = ({project}) => {
   const {status, natures} = PCRS_DATA_COLORS
