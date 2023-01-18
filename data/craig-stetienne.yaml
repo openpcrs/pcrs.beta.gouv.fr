@@ -13,7 +13,6 @@ acteurs:
     telephone: "+33972622531"
     role: aplc
 
-
 perimetres:
   - epci:244200770
 
