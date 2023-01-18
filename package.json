@@ -6,8 +6,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "node scripts/build-pcrs && next build",
-    "build-pcrs": "node scripts/build-pcrs",
+    "build": "node scripts/build-data && next build",
+    "build-data": "node scripts/build-data",
     "start": "next start",
     "lint": "xo"
   },
