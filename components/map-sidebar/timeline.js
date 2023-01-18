@@ -1,29 +1,39 @@
 import PropTypes from 'prop-types'
 import {find, indexOf} from 'lodash'
 
-import {formatDate} from '@/lib/date-utils.js'
+import {formatDate} from '@/lib/utils'
 
-import colors from '@/styles/colors.js'
+import colors from '@/styles/colors'
 
-import Tooltip from '@/components/tooltip.js'
-import Loader from '@/components/loader.js'
+import Tooltip from '@/components/tooltip'
+import Loader from '@/components/loader'
 
-const Timeline = ({timeline, currentStep, steps, isObsolete}) => {
-  const timelineLength = timeline.length
-  const currentIndex = indexOf(timeline, currentStep)
+const TIMELINE = [
+  {step: 1, label: 'investigation', isProgressingStep: true},
+  {step: 2, label: 'production', isProgressingStep: true},
+  {step: 3, label: 'produit'},
+  {step: 4, label: 'livré'}
+]
+
+const Timeline = ({currentStatus, stepsColors, steps, isObsolete}) => {
+  const timelineLength = TIMELINE.length
+  const currentStep = find(TIMELINE, step => step.label.toLowerCase() === currentStatus)
+  const currentIndex = indexOf(TIMELINE, currentStep)
 
   return (
     <div className='fr-mb-3w'>
       <div className='timeline fr-mt-3w'>
-        {Object.keys(timeline).map((step, idx) => {
+        {Object.keys(TIMELINE).map((step, idx) => {
+          const {label} = TIMELINE[step]
+          const stepStartingDate = idx + 1 <= currentStep.step && formatDate(find(steps, {statut: TIMELINE[step].label.toLowerCase()}).date_debut)
+
           const isCurrentStep = currentStep.step === idx + 1
-          const isProgressing = isCurrentStep && timeline[step].isProgressingStep
-          const stepStartingDate = idx + 1 <= currentStep.step && formatDate(find(steps, {statut: timeline[step].label.toLowerCase()}).date_debut)
+          const isProgressing = isCurrentStep && TIMELINE[step].isProgressingStep
 
           const tooltipContent = () => (
             <>
               <div className={`tooltip-label ${idx + 1 > currentStep.step ? 'futur-label' : ''}`}>
-                {`${timeline[step].label} ${isProgressing ? 'en cours' : ''}`}
+                {`${TIMELINE[step].label} ${isProgressing ? 'en cours' : ''}`}
               </div>
               {stepStartingDate && <div className='start-date fr-text--sm fr-mb-0'>Depuis le {stepStartingDate}</div>}
             </>
@@ -36,7 +46,7 @@ const Timeline = ({timeline, currentStep, steps, isObsolete}) => {
                 <div
                   className='circle'
                   style={{
-                    backgroundColor: isCurrentStep ? timeline[step].background : colors.grey900,
+                    backgroundColor: isCurrentStep ? stepsColors[label] : colors.grey900,
                     color: isCurrentStep ? 'white' : colors.grey200
                   }}
                 >
@@ -59,7 +69,7 @@ const Timeline = ({timeline, currentStep, steps, isObsolete}) => {
                   <div
                     className='circle'
                     style={{
-                      background: timeline[step].background,
+                      background: stepsColors[label],
                       color: 'black'
                     }}
                   >
@@ -76,7 +86,7 @@ const Timeline = ({timeline, currentStep, steps, isObsolete}) => {
 
       {currentStep.step < timelineLength && (
         <div className='fr-text--sm'>
-          Prochaine étape: <span className='next-step'>{timeline[currentIndex + 1].label}</span>
+          Prochaine étape: <span className='next-step'>{TIMELINE[currentIndex + 1].label}</span>
         </div>
       )}
 
@@ -86,7 +96,6 @@ const Timeline = ({timeline, currentStep, steps, isObsolete}) => {
           align-items: center;
           opacity: ${isObsolete ? '50%' : '100%'}
         }
-
         .circle {
           background: ${colors.grey900};
           height: 35px;
@@ -97,28 +106,23 @@ const Timeline = ({timeline, currentStep, steps, isObsolete}) => {
           justify-content: center;
           align-items: center;
         }
-
         .step {
           flex: 1;
           display: grid;
           grid-template-columns: 35px 1fr;
           align-items: center;
         }
-
         .separator {
           margin: 0 -2px;
           background: ${colors.info425};
           height: 5px;
         }
-
         .tooltip-label, .next-step {
           font-weight: bold;
         }
-
         .start-date {
           font-style: italic;
         }
-
         .futur-label {
           color: ${colors.blueFrance850};
         }
@@ -128,10 +132,16 @@ const Timeline = ({timeline, currentStep, steps, isObsolete}) => {
 }
 
 Timeline.propTypes = {
-  timeline: PropTypes.array.isRequired,
-  currentStep: PropTypes.object.isRequired,
   steps: PropTypes.array.isRequired,
-  isObsolete: PropTypes.bool
+  isObsolete: PropTypes.bool,
+  stepsColors: PropTypes.object,
+  currentStatus: PropTypes.string.isRequired
+}
+
+Timeline.defaultProps = {
+  stepsColors: null,
+  isObsolete: false
 }
 
 export default Timeline
+

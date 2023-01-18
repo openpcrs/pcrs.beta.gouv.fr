@@ -3,10 +3,12 @@ import {useState} from 'react'
 import PropTypes from 'prop-types'
 import {concat} from 'lodash'
 
-import colors from '@/styles/colors.js'
+import colors from '@/styles/colors'
+import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors'
 
-import Badge from '@/components/badge.js'
+import Badge from '@/components/badge'
 import HiddenInfos from '@/components/hidden-infos.js'
+import LabeledWrapper from '@/components/labeled-wrapper.js'
 
 const LICENCESLABELS = {
   ouvert_lo: 'Ouverte',
@@ -22,14 +24,10 @@ const ACTORSLABELS = {
   controleurs: 'Controleurs'
 }
 
-const NATURES = {
-  raster: {background: '#fc916f'},
-  vecteur: {background: '#86b6d8'},
-  mixte: {background: '#cf7bb9'}
-}
-
 const PcrsInfos = ({nature, regime, livrable, diffusion, licence, acteurs}) => {
   const [isActorsShow, setIsActorsShow] = useState(false)
+
+  const {natures, regimes, licences, diffusions, livrables, actors} = PCRS_DATA_COLORS
 
   const actorsTypes = Object.keys(acteurs)
   const allActors = concat(
@@ -42,91 +40,81 @@ const PcrsInfos = ({nature, regime, livrable, diffusion, licence, acteurs}) => {
 
   return (
     <div>
-      <div className='infos-block fr-my-0'>
+      <div className='infos-block fr-my-1w'>
         {nature && (
-          <Badge
-            label='Format'
-            background={NATURES[nature].background}
-            color='white'
-          >
-            {nature}
-          </Badge>
+          <LabeledWrapper label='Format'>
+            <Badge background={natures[nature]}>
+              {nature}
+            </Badge>
+          </LabeledWrapper>
         )}
 
         {regime && (
-          <Badge
-            isColorRandom
-            label='Régime'
-            hue='orange'
-          >
-            {regime}
-          </Badge>
+          <LabeledWrapper label='Régime'>
+            <Badge background={regimes[regime]}>
+              {regime}
+            </Badge>
+          </LabeledWrapper>
         )}
 
         {livrable && (
-          <Badge
-            isColorRandom
-            label='Livrable'
-            hue='purple'
-          >
-            {livrable}
-          </Badge>
+          <LabeledWrapper label='Livrable'>
+            <Badge background={livrables[livrable]}>
+              {livrable}
+            </Badge>
+          </LabeledWrapper>
         )}
 
         {diffusion && (
-          <Badge
-            isColorRandom
-            label='Diffusion'
-            hue='green'
-          >{diffusion}
-          </Badge>
+          <LabeledWrapper label='Diffusion'>
+            <Badge background={diffusions[diffusion]}>
+              {diffusion}
+            </Badge>
+          </LabeledWrapper>
         )}
 
         {licence && (
-          <Badge
-            isColorRandom
-            label='Licence'
-            hue='pink'
-          >
-            {LICENCESLABELS[licence]}
-          </Badge>
+          <LabeledWrapper label='Licence'>
+            <Badge background={licences[licence]} >
+              {LICENCESLABELS[licence]}
+            </Badge>
+          </LabeledWrapper>
+
         )}
 
         {acteurs.aplc.nom && (
-          <Badge
-            isColorRandom
-            label='Porteur de projet'
-            hue='yellow'
-          >
-            {acteurs.aplc.nom}
-          </Badge>
-        )}
-      </div>
-
-      <div className='fr-my-2w'>
-        <div className='label'>Acteurs</div>
-        <div className='actors-badges'>
-          {actorsTypes.slice(1, actorsTypes.length).map(actor => (
-            <Badge key={actor} isColorRandom size='small'>
-              {ACTORSLABELS[actor]}
+          <LabeledWrapper label='Porteur de projet'>
+            <Badge background={actors.aplc}>
+              {acteurs.aplc.nom}
             </Badge>
-          ))}
-          <button
-            type='button'
-            className='fr-btn--tertiary-no-outline'
-            onClick={() => setIsActorsShow(true)}
-          >
-            ...afficher la liste des acteurs
-          </button>
-        </div>
-
-        {isActorsShow && (
-          <HiddenInfos onClose={() => setIsActorsShow(false)}>
-            {allActors.map((actor, idx) => (
-              <span key={actor.nom} className='fr-text--sm'>{actor.nom} {idx === allActors.length - 1 ? '' : ' - '}</span>
-            ))}
-          </HiddenInfos>
+          </LabeledWrapper>
         )}
+
+        <div className='fr-my-2w'>
+          <LabeledWrapper label='Acteurs'>
+            <div className='actors-badges'>
+              {actorsTypes.slice(1, actorsTypes.length).map(actor => (
+                <Badge
+                  key={actor}
+                  background={actors[actor]}
+                  size='small'
+                >
+                  {ACTORSLABELS[actor]}
+                </Badge>
+              )
+              )}
+              <button onClick={() => setIsActorsShow(true)} type='button' className='fr-btn--tertiary-no-outline'>...afficher la liste des acteurs</button>
+            </div>
+          </LabeledWrapper>
+
+          {isActorsShow && (
+            <HiddenInfos onClose={() => setIsActorsShow(false)}>
+              {allActors.map((actor, idx) => (
+                <span key={actor.nom} className='fr-text--sm'>{actor.nom} {idx === allActors.length - 1 ? '' : ' - '}</span>
+              ))}
+            </HiddenInfos>
+          )}
+        </div>
       </div>
 
       <style jsx>{`
@@ -136,17 +124,11 @@ const PcrsInfos = ({nature, regime, livrable, diffusion, licence, acteurs}) => {
           flex-wrap: wrap;
           gap: 2em 2em;
         }
-
-        .label {
-          font-weight: bold;
-        }
-
         .actors-badges {
           display: flex;
           gap: 5px;
           flex-wrap: wrap;
         }
-
         .fr-btn--tertiary-no-outline {
           color: ${colors.grey50};
           font-style: italic;
@@ -167,3 +149,4 @@ PcrsInfos.propTypes = {
 }
 
 export default PcrsInfos
+
