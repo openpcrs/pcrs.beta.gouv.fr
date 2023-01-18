@@ -30,14 +30,18 @@ const Timeline = ({currentStatus, stepsColors, steps, isObsolete}) => {
           const isCurrentStep = currentStep.step === idx + 1
           const isProgressing = isCurrentStep && TIMELINE[step].isProgressingStep
 
-          const tooltipContent = () => (
-            <>
-              <div className={`tooltip-label ${idx + 1 > currentStep.step ? 'futur-label' : ''}`}>
-                {`${TIMELINE[step].label} ${isProgressing ? 'en cours' : ''}`}
-              </div>
-              {stepStartingDate && <div className='start-date fr-text--sm fr-mb-0'>Depuis le {stepStartingDate}</div>}
-            </>
-          )
+          const tooltipContent = () => {
+            const capitilizedLabelFirstLetter = TIMELINE[step].label.charAt(0).toUpperCase() + TIMELINE[step].label.slice(1)
+
+            return (
+              <>
+                <div className={`tooltip-label ${idx + 1 > currentStep.step ? 'futur-label' : ''}`}>
+                  {`${capitilizedLabelFirstLetter} ${isProgressing ? 'en cours' : ''}`}
+                </div>
+                {stepStartingDate && <div className='start-date fr-text--sm fr-mb-0'>Depuis le {stepStartingDate}</div>}
+              </>
+            )
+          }
 
           // Last step
           if (idx === timelineLength - 1) {
