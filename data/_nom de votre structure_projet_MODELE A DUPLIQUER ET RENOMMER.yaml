@@ -32,7 +32,7 @@ acteurs:
     nom: Enedis
     
  perimetres:
-  - commune:7410
+  - commune:74010
   - epci:257400085
   - departement:74
   
