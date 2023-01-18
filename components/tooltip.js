@@ -2,11 +2,11 @@ import PropTypes from 'prop-types'
 
 import colors from '@/styles/colors.js'
 
-const Tooltip = ({tooltipContent, children}) => (
-  <div className='tooltip-container'>
+const Tooltip = ({tooltipContent, position, children}) => (
+  <div className='tooltip-container '>
     {children}
 
-    <div className='tooltip-text'>{tooltipContent()}</div>
+    <div className={`tooltip-text ${position}`}>{tooltipContent()}</div>
 
     <style jsx>{`
       .tooltip-container {
@@ -24,8 +24,16 @@ const Tooltip = ({tooltipContent, children}) => (
         padding: 5px 10px;
         position: absolute;
         z-index: 1;
-        top: 105%;
+        top: 110%;
         width: max-content;
+      }
+
+      .left {
+        right: 0;
+      }
+
+      .right {
+        left: 0;
       }
 
       .tooltip-container:hover .tooltip-text {
@@ -37,11 +45,16 @@ const Tooltip = ({tooltipContent, children}) => (
 
 Tooltip.propTypes = {
   tooltipContent: PropTypes.func.isRequired,
+  position: PropTypes.oneOf([
+    'left',
+    'right'
+  ]),
   children: PropTypes.node
 }
 
 Tooltip.defaultProps = {
-  children: null
+  children: null,
+  position: 'right'
 }
 
 export default Tooltip

@@ -44,7 +44,11 @@ const Timeline = ({currentStatus, stepsColors, steps, isObsolete}) => {
           // Last step
           if (idx === timelineLength - 1) {
             return (
-              <Tooltip key={step} tooltipContent={() => tooltipContent()}>
+              <Tooltip
+                key={step}
+                tooltipContent={() => tooltipContent()}
+                position='left'
+              >
                 <div
                   className='circle'
                   style={{
@@ -62,12 +66,12 @@ const Timeline = ({currentStatus, stepsColors, steps, isObsolete}) => {
             <div key={step} className='step'>
               {isProgressing || idx + 1 > currentStep.step ? (
               // Unvalidated steps
-                <Tooltip tooltipContent={tooltipContent}>
+                <Tooltip tooltipContent={tooltipContent} position={idx === 2 ? 'left' : 'right'}>
                   {isProgressing ? <Loader type='pulse' size='small' /> : <div className='circle' />}
                 </Tooltip>
               ) : (
               // Validated steps
-                <Tooltip tooltipContent={tooltipContent}>
+                <Tooltip tooltipContent={tooltipContent} position={idx === 2 ? 'left' : 'right'}>
                   <div
                     className='circle'
                     style={{
