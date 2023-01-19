@@ -29,8 +29,12 @@ const Blog = ({posts, tags, tagsList, pagination}) => (
         <div className='blog-posts-container'>
           {tagsList.length > 0 && <BlogTags selectedTags={tags} tagsList={tagsList} />}
 
-          <div className='blog-cards-list fr-my-6w fr-px-md-6w'>
-            {posts.length > 0 && posts.map(post => <BlogCard key={post.id} post={post} />)}
+          <div className='fr-mb-6w fr-grid-row fr-grid-row--center fr-px-1w fr-px-md-7w fr-px-lg-3w'>
+            {posts.length > 0 && posts.map(post => (
+              <div key={post.id} className='fr-col-12 fr-col-lg-3 fr-m-3w'>
+                <BlogCard post={post} />
+              </div>
+            ))}
             {(posts.length === 0 && tags.length === 0) && <div className='no-article'>Aucun article de blog n’est disponible</div>}
             {(posts.length === 0 && tags.length > 0) && <div className='no-article'>Aucun article ne contient ces tags</div>}
           </div>

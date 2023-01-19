@@ -26,9 +26,13 @@ const Temoignages = ({testimonies, pagination}) => (
         </div>
 
         <div>
-          <div className='testimonies-cards-list fr-mb-6w fr-px-md-6w fr-px-1w'>
+          <div className='fr-mb-6w fr-grid-row fr-grid-row--center fr-px-1w fr-px-md-7w fr-px-lg-3w'>
             {testimonies.length > 0 ? (
-              testimonies.map(post => <PostCard key={post.id} isTestimony post={post} />)
+              testimonies.map(post => (
+                <div key={post.id} className='fr-col-12 fr-col-lg-3 fr-m-3w'>
+                  <PostCard isTestimony post={post} />
+                </div>
+              ))
             ) : (
               <div className='no-article'>Aucun témoignage n’est pour le moment disponible</div>
             )}
@@ -60,14 +64,6 @@ const Temoignages = ({testimonies, pagination}) => (
     )}
 
     <style jsx>{`
-      .testimonies-cards-list {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 6em;
-        justify-items: center;
-        box-sizing: border-box;
-      }
-
       .blog-header {
         text-align: center;
       }
