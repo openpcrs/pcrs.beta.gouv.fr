@@ -1,0 +1,43 @@
+nom: Projet PCRS
+regime: production
+nature: mixte
+
+livrables:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ferme
+  - nom: Données vecteur
+    nature: gml
+    diffusion: flux
+    licence: ferme
+    
+etapes: 
+  - statut: investigation
+    date_debut: 2015-01-01
+  - statut: production
+    date_debut: 2016-01-01
+  - statut: produit
+    date_debut: 2018-01-01
+    
+acteurs: 
+  - siren: 257400085
+    nom: Acteur 1
+    interlocuteur: Chef de projet
+    mail: pcrs@aplc.fr
+    telephone: +33102030405
+    role: aplc
+    finance_part_perc: 32
+  - siren: 444608442
+    nom: Enedis
+    
+ perimetres:
+  - commune:74010
+  - epci:257400085
+  - departement:74
+  
+subventions: 
+  - nom: FEDER
+    nature: feder
+  - nom: Contrat Etat-Région
+    nature: cepr
