@@ -31,7 +31,6 @@ acteurs:
     role: financeur
     finance_part_euro: 5326
 
-
 perimetres:
   - epci:200071751
 
