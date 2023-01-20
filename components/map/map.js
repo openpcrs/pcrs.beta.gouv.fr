@@ -191,6 +191,7 @@ const Map = ({handleClick, isMobile}) => {
             {source: 'departements', id: hoveredCode}
           )
 
+          popupRoot.render(null)
           popupRef.current.remove()
         }
 
