@@ -30,6 +30,7 @@ acteurs:
     finance_part_perc: 32
   - siren: 444608442
     nom: Enedis
+    role: financeur
     
  perimetres:
   - commune:74010
