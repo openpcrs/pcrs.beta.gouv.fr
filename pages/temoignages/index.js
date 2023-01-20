@@ -34,7 +34,7 @@ const Temoignages = ({testimonies, pagination}) => (
                 </div>
               ))
             ) : (
-              <div className='no-article'>Aucun témoignage n’est pour le moment disponible</div>
+              <div className='no-article'>Aucun témoignage n’est disponible pour le moment</div>
             )}
           </div>
           <Pagination {...pagination} />
@@ -56,7 +56,7 @@ const Temoignages = ({testimonies, pagination}) => (
 
         <div className='fr-pt-8w'>
           <p>
-            <b className='fr-h3'>La liste des témoignages actuellement inaccessible</b><br />
+            <b className='fr-h3'>La liste des témoignages est actuellement indisponible</b><br />
             <i>Merci de réessayer ultérieurement</i>
           </p>
         </div>
