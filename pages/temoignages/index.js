@@ -25,11 +25,11 @@ const Temoignages = ({testimonies, pagination}) => (
           <h2 className='fr-mt-5w fr-mb-15w fr-mb-0'>Témoignages autour du PCRS</h2>
         </div>
 
-        <div>
-          <div className='fr-mb-6w fr-grid-row fr-grid-row--center fr-px-1w fr-px-md-7w fr-px-lg-3w'>
+        <div className='fr-grid-row fr-grid-row--center'>
+          <div className='fr-grid-row fr-mb-6w fr-px-1w fr-px-md-5w'>
             {testimonies.length > 0 ? (
               testimonies.map(post => (
-                <div key={post.id} className='fr-col-12 fr-col-lg-3 fr-m-3w'>
+                <div key={post.id} className='fr-col-12 fr-col-md-6 fr-col-lg-3 fr-col-lg-4 fr-p-md-3w'>
                   <PostCard isTestimony post={post} />
                 </div>
               ))
@@ -66,6 +66,10 @@ const Temoignages = ({testimonies, pagination}) => (
     <style jsx>{`
       .blog-header {
         text-align: center;
+      }
+
+      .toto {
+
       }
 
       .unavailable {
