@@ -5,8 +5,34 @@ import process from 'node:process'
 import path from 'node:path'
 import {readdir, readFile, writeFile} from 'node:fs/promises'
 import yaml from 'js-yaml'
+import {createGeometryBuilder} from '../lib/build-geometry.js'
 
 const pcrsFolder = './data'
+
+const REQUIRED_FIELDS = {
+  keys: [
+    'nom',
+    'regime',
+    'nature',
+    'livrables',
+    'acteurs',
+    'perimetres',
+    'etapes',
+    'subventions'
+  ],
+  etapes: [
+    'statut',
+    'date_debut'
+  ],
+  livrables: [
+    'nom',
+    'nature',
+    'licence'
+  ],
+  acteurs: [
+    'siren'
+  ]
+}
 
 function validateField(entry, requiredFields) {
   if (requiredFields.some(field => !Object.keys(entry).includes(field))) {
@@ -21,31 +47,6 @@ function validateFields(fields, requiredFields) {
 }
 
 function validateProjetPCRS(entry) {
-  const REQUIRED_FIELDS = {
-    keys: [
-      'nom',
-      'regime',
-      'nature',
-      'livrables',
-      'acteurs',
-      'perimetres',
-      'etapes',
-      'subventions'
-    ],
-    etapes: [
-      'statut',
-      'date_debut'
-    ],
-    livrables: [
-      'nom',
-      'nature',
-      'licence'
-    ],
-    acteurs: [
-      'siren'
-    ]
-  }
-
   validateField(entry, REQUIRED_FIELDS.keys)
   validateFields(entry.etapes, REQUIRED_FIELDS.etapes)
   validateFields(entry.livrables, REQUIRED_FIELDS.livrables)
@@ -54,23 +55,42 @@ function validateProjetPCRS(entry) {
 
 async function buildPCRSData() {
   const projets = []
-  const outputPath = new URL('../projets.json', import.meta.url)
+  const jsonOutputPath = new URL('../projets.json', import.meta.url)
 
   const filesList = await readdir(pcrsFolder)
 
   for (const fileName of filesList) {
-    if (fileName.endsWith('.yaml')) {
+    if (fileName.endsWith('.yaml') && fileName !== 'projet-exemple.yaml') {
       console.log(`  → Reading ${fileName}  `)
       const filePath = path.join(pcrsFolder, fileName)
       const projet = yaml.load(await readFile(filePath))
 
       validateProjetPCRS(projet)
 
+      projet.id = fileName.slice(0, -5)
+
       projets.push(projet)
     }
   }
 
-  await writeFile(outputPath, JSON.stringify(projets, null, 2))
+  await writeFile(jsonOutputPath, JSON.stringify(projets))
+
+  const geometryBuilder = await createGeometryBuilder()
+  const geojsonOutputPath = new URL('../projets.geojson', import.meta.url)
+
+  const projetsFeatures = projets.map(projet => ({
+    type: 'Feature',
+    geometry: geometryBuilder.buildFromTerritories(projet.perimetres),
+    properties: {
+      id: projet.id
+    }
+  }
+  ))
+
+  await writeFile(geojsonOutputPath, JSON.stringify({
+    type: 'FeatureCollection',
+    features: projetsFeatures
+  }))
 }
 
 buildPCRSData().catch(error => {
