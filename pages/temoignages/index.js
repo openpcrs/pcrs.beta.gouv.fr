@@ -68,10 +68,6 @@ const Temoignages = ({testimonies, pagination}) => (
         text-align: center;
       }
 
-      .toto {
-
-      }
-
       .unavailable {
         text-align: center;
         color: ${colors.darkgrey};
