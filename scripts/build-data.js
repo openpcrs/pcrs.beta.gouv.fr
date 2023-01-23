@@ -55,7 +55,7 @@ function validateProjetPCRS(entry) {
 
 async function buildPCRSData() {
   const projets = []
-  const jsonOutputPath = new URL('../projets.json', import.meta.url)
+  const jsonOutputPath = new URL('../public/projets.json', import.meta.url)
 
   const filesList = await readdir(pcrsFolder)
 
@@ -76,7 +76,7 @@ async function buildPCRSData() {
   await writeFile(jsonOutputPath, JSON.stringify(projets))
 
   const geometryBuilder = await createGeometryBuilder()
-  const geojsonOutputPath = new URL('../projets.geojson', import.meta.url)
+  const geojsonOutputPath = new URL('../public/projets.geojson', import.meta.url)
 
   const projetsFeatures = projets.map(projet => ({
     type: 'Feature',
