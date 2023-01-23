@@ -1,0 +1,31 @@
+nom: Morbihan - Agglomération de Lorient
+regime: production
+nature: vecteur
+
+livrable:
+  - nom: Données vectorielles
+    nature: gml
+    diffusion: flux
+    licence: ferme
+
+acteur:
+  - siren: 200042174
+    nom: Agglomération de Lorient
+    telephone: "+33290747100"
+    role: aplc
+    finance_part_perc: 100
+
+perimetres:
+  - epci:200042174
+
+etapes:
+  - statut: investigation
+    date_debut:
+  - statut: production
+    date_debut:
+  - statut: produit
+    date_debut:
+  - statut: livré
+    date_debut:
+
+subventions:
