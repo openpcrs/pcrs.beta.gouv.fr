@@ -1,0 +1,30 @@
+nom: Métropole de Rennes
+regime: production
+nature: vectoriel
+
+livrable:
+  - nom: Données vectorielles
+    nature: gml
+    diffusion: flux
+    licence: ferme
+
+acteur:
+  - siren: 243500139
+    nom: Métropole de Rennes
+    telephone: "+33299866060"
+    role: aplc
+
+perimetres:
+  - epci:243500139
+
+etapes:
+  - statut: investigation
+    date_debut:
+  - statut: production
+    date_debut:
+  - statut: produit
+    date_debut:
+  - statut: livré
+    date_debut:
+
+subventions:

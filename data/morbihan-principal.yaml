@@ -1,0 +1,51 @@
+nom: Morbihan - Principal
+regime: production
+nature: raster
+
+livrable:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ferme
+
+acteur:
+  - siren: 200042174
+    nom: Morbihan Energies
+    telephone: "+33297620750"
+    role: aplc
+
+perimetres:
+  - epci:245614417
+  - epci:245614433
+  - epci:200066777
+  - epci:200066785
+  - epci:245614383
+  - epci:200067221
+  - epci:200043123
+  - epci:200067932
+  - epci:200027027
+  - commune:56155
+  - commune:56030
+  - commune:56058
+  - commune:56060
+  - commune:56154
+  - commune:56239
+  - commune:56221
+  - commune:56232
+  - commune:56216
+  - commune:56001
+  - commune:56011
+  - commune:56223
+  - commune:56194
+  
+etapes:
+  - statut: investigation
+    date_debut:
+  - statut: production
+    date_debut:
+  - statut: produit
+    date_debut:
+  - statut: livré
+    date_debut:
+
+subventions:
