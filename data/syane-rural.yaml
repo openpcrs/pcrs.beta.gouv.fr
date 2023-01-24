@@ -40,6 +40,29 @@ perimetres:
   - epci:247400047
   - epci:247400682
   - epci:247400666
+  - commune:74029
+  - commune:74055
+  - commune:74065
+  - commune:74066
+  - commune:74068
+  - commune:74071
+  - commune:74075
+  - commune:74077
+  - commune:74078
+  - commune:74086
+  - commune:74100
+  - commune:74107
+  - commune:74109
+  - commune:74130
+  - commune:74131
+  - commune:74168
+  - commune:74178
+  - commune:74184
+  - commune:74195
+  - commune:74235
+  - commune:74269
+  - commune:74285
+  - commune:74291
 
 etapes:
   - statut: investigation
