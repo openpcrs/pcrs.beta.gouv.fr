@@ -68,6 +68,9 @@ async function buildPCRSData() {
       validateProjetPCRS(projet)
 
       projet.id = fileName.slice(0, -5)
+      projet.statut = projet.etapes[projet.etapes.length - 1].statut
+      projet.dateStatut = projet.etapes[projet.etapes.length - 1].date_debut
+      projet.aplc = projet.acteurs.find(acteur => acteur.role === 'aplc').nom
 
       projets.push(projet)
     }
@@ -82,10 +85,13 @@ async function buildPCRSData() {
     type: 'Feature',
     geometry: geometryBuilder.buildFromTerritories(projet.perimetres),
     properties: {
-      id: projet.id
+      id: projet.id,
+      statut: projet.statut,
+      dateStatut: projet.dateStatut,
+      aplc: projet.aplc,
+      nature: projet.nature
     }
-  }
-  ))
+  }))
 
   await writeFile(geojsonOutputPath, JSON.stringify({
     type: 'FeatureCollection',
