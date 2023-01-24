@@ -8,6 +8,10 @@ livrables:
     licence: ferme
 
 acteurs: 
+  - siren: 200089720
+    nom: SYDER
+    telephone: "+33472187500"
+    role: aplc
 
 perimetres:
   - epci:200067817
