@@ -26,16 +26,16 @@ export const PCRS_DATA_COLORS = {
     investigation: '#ffe386',
     production: '#a7f192',
     produit: '#87c1ea',
-    livré: '#175c8b',
-    obsolète: '#7c7c7c'
+    livre: '#175c8b',
+    obsolete: '#7c7c7c'
   },
   actors: {
     aplc: '#fef7da',
-    financeurs: '#e6feda',
-    diffuseurs: '#dffdf7',
+    financeur: '#e6feda',
+    diffuseur: '#dffdf7',
     presta_vol: '#c7f6fc',
     presta_lidar: '#dee5fd',
-    controleurs: '#b6cffb'
+    controleur: '#b6cffb'
   }
 }
 

@@ -1,12 +1,12 @@
 {
   "id": "departements-fills",
   "type": "fill",
-  "source": "departements",
+  "source": "projetsData",
   "layout": {},
   "paint": {
     "fill-color": [
       "match",
-      ["get", "pcrsStatus"],
+      ["get", "statut"],
       "investigation", "#ffe386",
       "production", "#a7f192",
       "produit", "#87c1ea",
@@ -17,7 +17,7 @@
       "case",
       ["boolean", ["feature-state", "hover"], false],
       1,
-      0.6
+      0.5
     ],
     "fill-outline-color": "grey"
   }

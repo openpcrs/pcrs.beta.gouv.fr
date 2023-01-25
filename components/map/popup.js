@@ -7,9 +7,8 @@ import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors.js'
 import {formatDate} from '@/lib/date-utils.js'
 
 const Popup = ({project}) => {
+  const {aplc, dateStatut, id, nature, statut} = project
   const {status, natures} = PCRS_DATA_COLORS
-  const {nom, statut, nature, acteurs, steps} = project
-  const date = steps.find(s => s.statut === statut).date_debut
 
   return (
     <div
@@ -18,16 +17,16 @@ const Popup = ({project}) => {
         textAlign: 'center'
       }}
     >
-      <h6 className='title fr-text fr-text--md'><u>{nom}</u></h6>
+      <h6 className='title fr-text fr-text--md'><u>{id}</u></h6>
       <div className='fr-text fr-text--sm fr-grid-row fr-pb-3v'>
         En
         <p
-          style={{backgroundColor: status[statut], color: statut === 'livré' || statut === 'obsolete' ? 'white' : 'black'}}
+          style={{backgroundColor: status[statut], color: statut === 'livre' || statut === 'obsolete' ? 'white' : 'black'}}
           className='fr-badge fr-badge--sm fr-mx-1w'
         >
-          {statut}
+          {statut === 'livre' ? 'LIVRÉ' : statut}
         </p>
-        depuis <b className='fr-text fr-px-2v'>{formatDate(date)}</b>
+        depuis <b className='fr-text fr-px-2v'>{formatDate(dateStatut)}</b>
       </div>
       <hr className='fr-p-1v' />
       <div className='container'>
@@ -41,7 +40,7 @@ const Popup = ({project}) => {
         </div>
         <div className='block'>
           <div className='block-title fr-pb-1v'><b>APLC</b></div>
-          <div><i>{acteurs.aplc.nom}</i></div>
+          <div><i>{aplc}</i></div>
         </div>
       </div>
       <style>{`

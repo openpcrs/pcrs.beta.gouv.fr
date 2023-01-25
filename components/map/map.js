@@ -1,55 +1,19 @@
 import {createRoot} from 'react-dom/client' // eslint-disable-line n/file-extension-in-import
-import {useCallback, useEffect, useRef, useState} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import PropTypes from 'prop-types'
 import maplibreGl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
-import projets from '../../fakeprojets.json'
-import departementData from './sources/departements.json'
 import departementFillLayer from './layers/departement-fill.json'
 import departementLayer from './layers/departement-layer.json'
 
 import vector from './styles/vector.json'
 
 import Popup from '@/components/map/popup.js'
-
-const getPCRSFeatures = projects => {
-  const featurePcrs = []
-
-  projects.forEach(p => {
-    const territoires = new Set(p.perimetre.territoires.map(t => (
-      t.codeDepartement
-    )))
-
-    const pcrs = {
-      id: p.id,
-      perimetre: territoires,
-      statut: p.statut
-    }
-
-    featurePcrs.push(pcrs)
-  })
-
-  return featurePcrs
-}
-
-function loadLayer({map, data, layer, sourceName}) {
-  if (!map.getSource(sourceName)) {
-    map.addSource(sourceName, {
-      type: 'geojson',
-      data,
-      generateId: true
-    })
-  }
-
-  if (!map.getLayer(layer.id)) {
-    map.addLayer(layer)
-  }
-}
+import Loader from '@/components/loader.js'
 
 const Map = ({handleClick, isMobile}) => {
   const [map, setMap] = useState()
   const mapNode = useRef(null)
-  const pcrsFeatures = getPCRSFeatures(projets)
 
   const popupRef = useRef(new maplibreGl.Popup({
     offset: 50,
@@ -59,25 +23,6 @@ const Map = ({handleClick, isMobile}) => {
   }))
   const popupNode = document.createElement('div')
   const popupRoot = createRoot(popupNode)
-
-  const getFeatures = useCallback(() => {
-    const features = []
-
-    departementData.features.forEach(f => {
-      pcrsFeatures.forEach(t => {
-        if (t.perimetre.has(f.properties.code)) {
-          features.push(f)
-          f.properties.pcrsId = t.id
-          f.properties.pcrsStatus = t.statut
-        }
-      })
-    })
-
-    return {
-      type: 'FeatureCollection',
-      features
-    }
-  }, [pcrsFeatures])
 
   useEffect(() => {
     const node = mapNode.current
@@ -98,7 +43,6 @@ const Map = ({handleClick, isMobile}) => {
       maplibreMap.addControl(new maplibreGl.AttributionControl({compact: true}), 'bottom-right')
 
       setMap(maplibreMap)
-      console.log('set map')
 
       return () => {
         resizer.disconnect()
@@ -108,30 +52,24 @@ const Map = ({handleClick, isMobile}) => {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
+    if (map) {
+      map.addSource('projetsData', {
+        type: 'geojson',
+        data: '/projets.geojson',
+        generateId: true
+      })
+
+      map.addLayer(departementFillLayer)
+      map.addLayer(departementLayer)
+    }
+  }, [map])
+
+  useEffect(() => {
     let hoveredCode = null
-    let selectedCodes = null
+    let selectedCode = null
     let projet = null
-    const features = getFeatures()
 
     if (map) {
-      map.on('styledata', () => {
-        loadLayer({
-          map,
-          data: features,
-          layer: departementFillLayer,
-          sourceName: 'departements'
-        })
-      })
-
-      map.on('styledata', () => {
-        loadLayer({
-          map,
-          data: features,
-          layer: departementLayer,
-          sourceName: 'contours-departements'
-        })
-      })
-
       map.on('click', 'departements-fills', e => {
         handleClick(e)
       })
@@ -139,13 +77,15 @@ const Map = ({handleClick, isMobile}) => {
       if (!isMobile) {
         map.on('mousemove', 'departements-fills', e => {
           if (e.features.length > 0) {
-            if (hoveredCode !== null) {
+            if (hoveredCode) {
               map.setFeatureState(
-                {source: 'departements', id: hoveredCode}
+                {source: 'projetsData', id: null}
               )
             }
 
-            projet = projets.find(p => p.id === e.features[0].properties.pcrsId)
+            hoveredCode = e.features[0].id
+
+            projet = e.features[0].properties
 
             popupRoot.render(
               <Popup
@@ -158,10 +98,8 @@ const Map = ({handleClick, isMobile}) => {
               .setDOMContent(popupNode)
               .addTo(map)
 
-            hoveredCode = e.features[0].id
-
             map.setFeatureState(
-              {source: 'departements', id: hoveredCode}
+              {source: 'projetsData', id: hoveredCode}
             )
           }
         })
@@ -169,17 +107,17 @@ const Map = ({handleClick, isMobile}) => {
 
       map.on('click', 'departements-fills', e => {
         if (e.features.length > 0) {
-          if (selectedCodes !== null) {
+          if (selectedCode) {
             map.setFeatureState(
-              {source: 'departements', id: selectedCodes},
+              {source: 'projetsData', id: selectedCode},
               {hover: false}
             )
           }
 
-          selectedCodes = e.features[0].id
+          selectedCode = e.features[0].id
 
           map.setFeatureState(
-            {source: 'departements', id: selectedCodes},
+            {source: 'projetsData', id: selectedCode},
             {hover: true}
           )
         }
@@ -188,17 +126,17 @@ const Map = ({handleClick, isMobile}) => {
       map.on('mouseleave', 'departements-fills', () => {
         if (hoveredCode !== null) {
           map.setFeatureState(
-            {source: 'departements', id: hoveredCode}
+            {source: 'projetsData', id: hoveredCode}
           )
 
-          popupRoot.render(null)
+          popupRoot.render(<Loader size='small' />)
           popupRef.current.remove()
         }
 
         hoveredCode = null
       })
     }
-  }, [map, popupNode, popupRoot, getFeatures, handleClick, isMobile])
+  }, [map, popupNode, popupRoot, handleClick, isMobile])
 
   return (
     <div style={{position: 'relative', height: '100%', width: '100%'}}>

@@ -9,16 +9,16 @@ import MapSidebar from '@/components/map-sidebar/index.js'
 export const Mobile = () => {
   const {viewHeight} = useContext(DeviceContext)
   const [isOpen, setIsOpen] = useState(false)
-  const [project, setProject] = useState()
+  const [projet, setProjet] = useState()
 
-  const handleClick = e => {
-    const projectId = getProject(e.features[0].properties.pcrsId)
-    setProject(projectId)
+  const handleClick = async e => {
+    const projet = await getProject(e.features[0].properties.id)
+    setProjet(projet)
     setIsOpen(true)
   }
 
   const handleTitleClick = () => {
-    if (project) {
+    if (projet) {
       setIsOpen(!isOpen)
     }
   }
@@ -55,10 +55,10 @@ export const Mobile = () => {
             float: isOpen ? 'right' : 'left',
             width: '100%',
             display: 'flex',
-            justifyContent: project && isOpen ? 'end' : 'space-between'
+            justifyContent: projet && isOpen ? 'end' : 'space-between'
           }}
         >
-          {isOpen && project ? (
+          {isOpen && projet ? (
             <span
               className='fr-icon--lg fr-icon-close-circle-line'
               style={{
@@ -68,7 +68,7 @@ export const Mobile = () => {
               onClick={handleTitleClick}
             />
           ) : (
-            (!isOpen && project) ? (
+            (!isOpen && projet) ? (
               <div
                 style={{
                   display: 'flex',
@@ -77,7 +77,7 @@ export const Mobile = () => {
                   width: '100%'
                 }}
               >
-                <span>{project?.nom}</span>
+                <span>{projet?.nom}</span>
                 <span
                   className='fr-icon--lg fr-icon-arrow-up-s-line'
                   aria-hidden='true'
@@ -93,7 +93,7 @@ export const Mobile = () => {
           )}
         </div>
         {isOpen && (
-          <MapSidebar project={project} />
+          <MapSidebar projet={projet} />
         )}
       </div>
     </div>
@@ -102,11 +102,11 @@ export const Mobile = () => {
 
 export const Desktop = () => {
   const [isOpen, setIsOpen] = useState(false)
-  const [project, setProject] = useState()
+  const [projet, setProjet] = useState()
 
-  const handleClick = e => {
-    const projectId = getProject(e.features[0].properties.pcrsId)
-    setProject(projectId)
+  const handleClick = async e => {
+    const projet = await getProject(e.features[0].properties.id)
+    setProjet(projet)
     setIsOpen(true)
   }
 
@@ -117,7 +117,7 @@ export const Desktop = () => {
         contain: 'content'
       }}
     >
-      {project && (
+      {projet && (
         <div
           style={{
             minWidth: isOpen ? '460px' : '5px',
@@ -148,7 +148,7 @@ export const Desktop = () => {
             onClick={() => setIsOpen(!isOpen)}
           />
           {isOpen && (
-            <MapSidebar project={project} />
+            <MapSidebar projet={projet} />
           )}
         </div>
       )}
