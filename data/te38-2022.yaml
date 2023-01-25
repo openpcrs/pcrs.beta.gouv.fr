@@ -25,7 +25,6 @@ acteurs:
     nom: Aerodata France
     role: presta_vol
 
-
 perimetres:
   - epci:200040715
   - epci:200030658
