@@ -1,0 +1,59 @@
+nom: Côtes d'Armor - Tranche principale
+regime: production
+nature: mixte
+
+livrables:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ferme
+    crs: EPSG:3948
+  - nom: Données vectorielles
+    nature: gml
+    diffusion: flux
+    licence: ferme
+
+acteurs: 
+  - siren: 200046175
+    nom: SDE 22
+    role: aplc
+    finance_part_euro: 306500
+  - siren: 253514491
+    nom: Megalis Bretagne
+    role: financeur
+    finance_part_euro: 90000
+  - siren: 180067019
+    nom: IGN
+    role: financeur
+    finance_part_euro: 140000
+  - siren: 444608442
+    nom: Enedis
+    role: financeur
+    finance_part_euro: 420500
+  - siren: 444786511
+    nom: GRDF
+    role: financeur
+    finance_part_euro: 380500
+  - siren: 380129866
+    nom: Orange
+    role: financeur
+    finance_part_euro: 61600
+  - siren: 252202189
+    nom: SDAEP
+    role: financeur
+    finance_part_euro: 28650
+  - siren: 222200016
+    nom: CD22
+    role: financeur
+    finance_part_euro: 61300
+    
+etapes: 
+  - statut: investigation
+    date_debut: 2016-09-30
+  - statut: production
+    date_debut: 2020-01-01
+    
+ perimetres:
+  - departement:22
+  
+subventions: 

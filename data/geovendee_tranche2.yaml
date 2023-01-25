@@ -1,0 +1,63 @@
+nom: Vendée - Tranche 2
+regime: production
+nature: mixte
+
+livrables:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ferme
+  - nom: Données vectorielles
+    nature: gml
+    diffusion: flux
+    licence: ferme
+
+acteurs: 
+  - siren: 488256835
+    nom: Géo Vendée
+    role: aplc
+    finance_part_perc: 30.30
+  - siren: 200042489
+    nom: Sydev
+    role: financeur
+    finance_part_perc: 20.78
+  - siren: 258500222
+    nom: Vendée eau
+    role: financeur
+    finance_part_perc: 15.88
+  - siren: 444608442
+    nom: Enedis
+    role: financeur
+    finance_part_perc: 9.11
+  - siren: 450889225
+    nom: Soregies
+    role: financeur
+    finance_part_perc: 0.80
+  - siren: 380129866
+    nom: Orange
+    role: financeur
+    finance_part_perc: 1.59
+  - siren: 130018559
+    nom: Vendée Numérique
+    role: financeur
+    finance_part_perc: 2.07
+    
+etapes: 
+  - statut: investigation
+    date_debut: 2020-01-01
+  - statut: production
+    date_debut: 2021-01-01
+  - statut: produit
+    date_debut: 2021-09-01
+  - statut: livre
+    date_debut: 2022-01-01
+    
+ perimetres:
+  - epci:200071629
+  - epci:200070233
+  - epci:248500621
+  - epci:200071934
+  
+subventions: 
+  - nom: FEDER
+    nature: feder

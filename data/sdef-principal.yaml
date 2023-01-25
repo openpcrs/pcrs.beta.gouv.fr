@@ -1,0 +1,72 @@
+nom: Finistère - Tranche principale
+regime: production
+nature: mixte
+
+livrable:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ferme
+  - nom: Données vectorielles
+    nature: gml
+    diffusion: flux
+    licence: ferme
+
+acteur:
+  - siren: 252901145
+    nom: SDEF
+    telephone: "+33298103636"
+    role: aplc
+    finance_part_euro: 1350000
+  - siren: 222900011
+    nom: CD29
+    role: financeur
+    finance_part_euro: 200000
+  - siren: 444608442
+    nom: Enedis
+    role: financeur
+    finance_part_euro: 400000
+  - siren: 444786511
+    nom: GRDF
+    role: financeur
+    finance_part_euro: 150000
+
+perimetres:
+  - epci:242900074
+  - epci:242900553
+  - epci:242900793
+  - epci:200067072
+  - epci:242900835
+  - epci:242900751
+  - epci:242900801
+  - epci:200067197
+  - epci:200066868
+  - epci:200067247
+  - epci:242900561
+  - epci:242900629
+  - epci:242900645
+  - epci:200068120
+  - epci:242900710
+  - epci:242900660
+  - epci:242900702
+  - epci:242900769
+  - epci:242900694
+  - commune:29227
+  - commune:29205
+  - commune:29089
+  - commune:29024
+  - commune:29029
+  - commune:29250
+  - commune:29152
+
+etapes:
+  - statut: investigation
+    date_debut:
+  - statut: production
+    date_debut:
+  - statut: produit
+    date_debut:
+  - statut: livré
+    date_debut:
+
+subventions:
