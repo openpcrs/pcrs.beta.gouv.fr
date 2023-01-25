@@ -11,24 +11,25 @@ import PcrsInfos from '@/components/map-sidebar/pcrs-infos.js'
 import Documents from '@/components/map-sidebar/documents.js'
 import Contact from '@/components/map-sidebar/contact.js'
 
-const MapSidebar = ({project}) => {
+const MapSidebar = ({projet}) => {
   const {status} = PCRS_DATA_COLORS
-  const {nom, perimetre, statut, steps, source, documentation, contrat, acteurs} = project
+  const {nom, perimetres, statut, etapes, source, documentation, contrat, acteurs} = projet
+  const contactAPLC = acteurs.find(acteur => acteur.role === 'aplc')
 
-  const projectStartDate = formatDate(find(project.steps, {statut: 'investigation'}).date_debut)
-  const isObsolete = project.statut === 'obsolète'
+  const projectStartDate = formatDate(find(projet.etapes, {statut: 'investigation'}).date_debut)
+  const isObsolete = projet.statut === 'obsolète'
 
   return (
     <>
-      <Header projectName={nom} territoires={perimetre.territoires} />
+      <Header projectName={nom} territoires={perimetres.territoires} />
       <div className='infos-container'>
         <h2 className='fr-text--lead fr-mb-1w'>État d’avancement du PCRS</h2>
         <div className='actual-status fr-mb-3w'>
           <Badge
             background={status[statut]}
-            textColor={statut === 'livré' || statut === 'obsolete' ? 'white' : 'black'}
+            textColor={statut === 'livre' || statut === 'obsolete' ? 'white' : 'black'}
           >
-            {project.statut}
+            {projet.statut === 'livre' ? 'LIVRÉ' : projet.statut}
           </Badge>
 
           <div className='start-date fr-text--sm fr-m-0'>Lancement du projet le {projectStartDate}</div>
@@ -37,26 +38,26 @@ const MapSidebar = ({project}) => {
           <Timeline
             stepsColors={status}
             currentStatus={statut}
-            steps={steps}
+            steps={etapes}
             isObsolete={isObsolete}
           />
         )}
 
         <h2 className='fr-text--lead fr-my-0'>Détails du projet</h2>
-        <PcrsInfos {...project} />
+        <PcrsInfos {...projet} />
 
         <h2 className='fr-text--lead fr-mt-3w'>Sources et documentations</h2>
         <Documents
           source={source}
-          documentation={documentation}
+          documentation={documentation || 'https://docs.pcrs.beta.gouv.fr'}
           contract={contrat}
         />
 
         <h2 className='fr-text--lead fr-mt-3w'>Contact</h2>
         <Contact
-          name={acteurs.aplc.interlocuteur.nom}
-          phone={acteurs.aplc.interlocuteur.telephone}
-          mail={acteurs.aplc.interlocuteur.mail}
+          name={contactAPLC?.nom}
+          phone={contactAPLC?.telephone}
+          mail={contactAPLC?.mail}
         />
       </div>
 
@@ -78,7 +79,7 @@ const MapSidebar = ({project}) => {
 }
 
 MapSidebar.propTypes = {
-  project: PropTypes.object.isRequired
+  projet: PropTypes.object.isRequired
 }
 
 export default MapSidebar

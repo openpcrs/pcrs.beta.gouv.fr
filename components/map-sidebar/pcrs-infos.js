@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 import {useState} from 'react'
 import PropTypes from 'prop-types'
-import {concat} from 'lodash'
 
 import colors from '@/styles/colors.js'
 import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors.js'
@@ -17,33 +16,31 @@ const LICENCESLABELS = {
 }
 
 const ACTORSLABELS = {
-  financeurs: 'Financeurs',
-  diffuseurs: 'Diffuseurs',
-  presta_vol: 'Prestataire de vol',
-  presta_lidar: 'Prestataire Lidar',
-  controleurs: 'Controleurs'
+  financeur: 'Financeurs',
+  diffuseur: 'Diffuseurs',
+  presta_vol: 'Prestataires de vol',
+  presta_lidar: 'Prestataires Lidar',
+  controleur: 'Controleurs',
+  aplc: 'Autorité Publique Locale Compétente'
 }
 
 const PcrsInfos = ({nature, regime, livrable, diffusion, licence, acteurs}) => {
   const [isActorsShow, setIsActorsShow] = useState(false)
+  const nomAPLC = acteurs.find(acteur => acteur.role === 'aplc').nom
+  const {natures: naturesColors, regimes: regimesColors, licences: licencesColors, diffusions: diffusionsColors, livrables: livrablesColors, actors: actorsColors} = PCRS_DATA_COLORS
 
-  const {natures, regimes, licences, diffusions, livrables, actors} = PCRS_DATA_COLORS
+  function uniq(items) {
+    return [...new Set(items)]
+  }
 
-  const actorsTypes = Object.keys(acteurs)
-  const allActors = concat(
-    acteurs.financeurs,
-    acteurs.diffuseurs,
-    acteurs.presta_vol,
-    acteurs.presta_lidar,
-    acteurs.controleurs
-  )
+  const rolesActeurs = uniq(acteurs.map(acteur => acteur.role))
 
   return (
     <div>
       <div className='infos-block fr-my-1w'>
         {nature && (
           <LabeledWrapper label='Format'>
-            <Badge background={natures[nature]}>
+            <Badge background={naturesColors[nature]}>
               {nature}
             </Badge>
           </LabeledWrapper>
@@ -51,7 +48,7 @@ const PcrsInfos = ({nature, regime, livrable, diffusion, licence, acteurs}) => {
 
         {regime && (
           <LabeledWrapper label='Régime'>
-            <Badge background={regimes[regime]}>
+            <Badge background={regimesColors[regime]}>
               {regime}
             </Badge>
           </LabeledWrapper>
@@ -59,7 +56,7 @@ const PcrsInfos = ({nature, regime, livrable, diffusion, licence, acteurs}) => {
 
         {livrable && (
           <LabeledWrapper label='Livrable'>
-            <Badge background={livrables[livrable]}>
+            <Badge background={livrablesColors[livrable]}>
               {livrable}
             </Badge>
           </LabeledWrapper>
@@ -67,7 +64,7 @@ const PcrsInfos = ({nature, regime, livrable, diffusion, licence, acteurs}) => {
 
         {diffusion && (
           <LabeledWrapper label='Diffusion'>
-            <Badge background={diffusions[diffusion]}>
+            <Badge background={diffusionsColors[diffusion]}>
               {diffusion}
             </Badge>
           </LabeledWrapper>
@@ -75,17 +72,17 @@ const PcrsInfos = ({nature, regime, livrable, diffusion, licence, acteurs}) => {
 
         {licence && (
           <LabeledWrapper label='Licence'>
-            <Badge background={licences[licence]} >
+            <Badge background={licencesColors[licence]} >
               {LICENCESLABELS[licence]}
             </Badge>
           </LabeledWrapper>
 
         )}
 
-        {acteurs.aplc.nom && (
+        {nomAPLC && (
           <LabeledWrapper label='Porteur de projet'>
-            <Badge background={actors.aplc}>
-              {acteurs.aplc.nom}
+            <Badge background={actorsColors.aplc}>
+              {nomAPLC}
             </Badge>
           </LabeledWrapper>
         )}
@@ -93,16 +90,15 @@ const PcrsInfos = ({nature, regime, livrable, diffusion, licence, acteurs}) => {
         <div className='fr-my-2w'>
           <LabeledWrapper label='Acteurs'>
             <div className='actors-badges'>
-              {actorsTypes.slice(1, actorsTypes.length).map(actor => (
+              {rolesActeurs.map(role => (
                 <Badge
-                  key={actor}
-                  background={actors[actor]}
+                  key={role}
+                  background={actorsColors[role]}
                   size='small'
                 >
-                  {ACTORSLABELS[actor]}
+                  {ACTORSLABELS[role]}
                 </Badge>
-              )
-              )}
+              ))}
               <button
                 type='button'
                 className='fr-btn--tertiary-no-outline'
@@ -115,8 +111,12 @@ const PcrsInfos = ({nature, regime, livrable, diffusion, licence, acteurs}) => {
 
           {isActorsShow && (
             <HiddenInfos onClose={() => setIsActorsShow(false)}>
-              {allActors.map((actor, idx) => (
-                <span key={actor.nom} className='fr-text--sm'>{actor.nom} {idx === allActors.length - 1 ? '' : ' - '}</span>
+              {acteurs.map((acteur, idx) => (
+                acteur.nom && (
+                  <span key={acteur.nom} className='fr-text--sm'>
+                    {acteur.nom} {idx === acteurs.length - 1 ? '' : ' - '}
+                  </span>
+                )
               ))}
             </HiddenInfos>
           )}
@@ -151,7 +151,7 @@ PcrsInfos.propTypes = {
   livrable: PropTypes.string,
   diffusion: PropTypes.string,
   licence: PropTypes.string,
-  acteurs: PropTypes.object.isRequired
+  acteurs: PropTypes.array.isRequired
 }
 
 export default PcrsInfos

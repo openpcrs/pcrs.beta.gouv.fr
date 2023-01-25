@@ -14,9 +14,13 @@ const Contact = ({name, phone, mail}) => (
         {`${name || 'non-renseigné'}`}
       </div>
 
-      <div className={phone ? '' : 'no-data'} aria-label='Numéro de téléphone du contact de référence'>
+      <a
+        href={`tel:${phone}`}
+        className={phone ? '' : 'no-data'}
+        aria-label='Numéro de téléphone du contact de référence'
+      >
         {`${phone || 'non-renseigné'}`}
-      </div>
+      </a>
 
       <a
         href={`mailto:${mail}`}
@@ -60,10 +64,16 @@ const Contact = ({name, phone, mail}) => (
   </div>
 )
 
+Contact.defaultProps = {
+  name: null,
+  phone: null,
+  mail: null
+}
+
 Contact.propTypes = {
-  name: PropTypes.string.isRequired,
-  phone: PropTypes.string.isRequired,
-  mail: PropTypes.string.isRequired
+  name: PropTypes.string,
+  phone: PropTypes.string,
+  mail: PropTypes.string
 }
 
 export default Contact

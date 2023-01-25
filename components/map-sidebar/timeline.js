@@ -12,7 +12,7 @@ const TIMELINE = [
   {step: 1, label: 'investigation', isProgressingStep: true},
   {step: 2, label: 'production', isProgressingStep: true},
   {step: 3, label: 'produit'},
-  {step: 4, label: 'livré'}
+  {step: 4, label: 'livre'}
 ]
 
 const Timeline = ({currentStatus, stepsColors, steps, isObsolete}) => {
