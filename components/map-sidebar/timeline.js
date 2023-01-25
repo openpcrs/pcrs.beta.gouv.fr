@@ -25,14 +25,14 @@ const Timeline = ({currentStatus, stepsColors, steps, isObsolete}) => {
       <div className='timeline fr-mt-3w'>
         {Object.keys(TIMELINE).map((step, idx) => {
           const {label} = TIMELINE[step]
-          const stepStartingDate = idx + 1 <= currentStep.step && formatDate(find(steps, {statut: TIMELINE[step].label.toLowerCase()}).date_debut)
+          const stepStartingDate = idx + 1 <= currentStep?.step && formatDate(find(steps, {statut: TIMELINE[step].label.toLowerCase()}).date_debut)
 
-          const isCurrentStep = currentStep.step === idx + 1
+          const isCurrentStep = currentStep?.step === idx + 1
           const isProgressing = isCurrentStep && TIMELINE[step].isProgressingStep
 
           const tooltipContent = () => (
             <>
-              <div className={`tooltip-label ${idx + 1 > currentStep.step ? 'futur-label' : ''}`}>
+              <div className={`tooltip-label ${idx + 1 > currentStep?.step ? 'futur-label' : ''}`}>
                 {`${TIMELINE[step].label} ${isProgressing ? 'en cours' : ''}`}
               </div>
               {stepStartingDate && <div className='start-date fr-text--sm fr-mb-0'>Depuis le {stepStartingDate}</div>}
@@ -58,7 +58,7 @@ const Timeline = ({currentStatus, stepsColors, steps, isObsolete}) => {
 
           return (
             <div key={step} className='step'>
-              {isProgressing || idx + 1 > currentStep.step ? (
+              {isProgressing || idx + 1 > currentStep?.step ? (
               // Unvalidated steps
                 <Tooltip tooltipContent={tooltipContent}>
                   {isProgressing ? <Loader type='pulse' size='small' /> : <div className='circle' />}
@@ -84,7 +84,7 @@ const Timeline = ({currentStatus, stepsColors, steps, isObsolete}) => {
         })}
       </div>
 
-      {currentStep.step < timelineLength && (
+      {currentStep?.step < timelineLength && (
         <div className='fr-text--sm'>
           Prochaine étape: <span className='next-step'>{TIMELINE[currentIndex + 1].label}</span>
         </div>

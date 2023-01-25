@@ -26,7 +26,11 @@ const Popup = ({project}) => {
         >
           {statut === 'livre' ? 'LIVRÉ' : statut}
         </p>
-        depuis <b className='fr-text fr-px-2v'>{formatDate(dateStatut)}</b>
+        {dateStatut && (
+          <>
+            depuis <b className='fr-text fr-px-2v'>{formatDate(dateStatut)}</b>
+          </>
+        )}
       </div>
       <hr className='fr-p-1v' />
       <div className='container'>
