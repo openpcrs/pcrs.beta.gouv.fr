@@ -46,14 +46,14 @@ acteurs:
     nom: CD22
     role: financeur
     finance_part_euro: 61300
-    
-etapes: 
+
+etapes:
   - statut: investigation
     date_debut: 2016-09-30
   - statut: production
     date_debut: 2020-01-01
-    
- perimetres:
+
+perimetres:
   - departement:22
-  
+
 subventions: 

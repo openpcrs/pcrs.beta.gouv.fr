@@ -53,19 +53,19 @@ acteurs:
     nom: Vendée Numérique
     role: financeur
     finance_part_perc: 2.07
-    
-etapes: 
+
+etapes:
   - statut: investigation
     date_debut: 2016-01-01
   - statut: production
     date_debut: 2023-01-01
-    
- perimetres:
+
+perimetres:
   - epci:248500258
   - epci:200071918
   - epci:248500340
   - epci:200073260
   - epci:248500563
   - epci:248500415
-  
-subventions: 
+
+subventions:

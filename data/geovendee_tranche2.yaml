@@ -41,8 +41,8 @@ acteurs:
     nom: Vendée Numérique
     role: financeur
     finance_part_perc: 2.07
-    
-etapes: 
+
+etapes:
   - statut: investigation
     date_debut: 2020-01-01
   - statut: production
@@ -51,13 +51,13 @@ etapes:
     date_debut: 2021-09-01
   - statut: livre
     date_debut: 2022-01-01
-    
- perimetres:
+
+perimetres:
   - epci:200071629
   - epci:200070233
   - epci:248500621
   - epci:200071934
-  
-subventions: 
+
+subventions:
   - nom: FEDER
     nature: feder

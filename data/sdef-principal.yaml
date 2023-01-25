@@ -2,7 +2,7 @@ nom: Finistère - Tranche principale
 regime: production
 nature: mixte
 
-livrable:
+livrables:
   - nom: Images raster
     nature: geotiff
     diffusion: flux
@@ -12,7 +12,7 @@ livrable:
     diffusion: flux
     licence: ferme
 
-acteur:
+acteurs:
   - siren: 252901145
     nom: SDEF
     telephone: "+33298103636"
