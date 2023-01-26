@@ -29,7 +29,7 @@ const Evenements = () => {
     const sortedNextMonthEvents = filteredFuturEvents.filter(event => {
       const [year, month] = event.date.split('-')
 
-      return currentYear < year || (currentMonth < Number(month) && currentYear === year)
+      return currentYear < year || (currentMonth < Number(month) && currentYear === Number(year))
     })
 
     setCurrentMonthEvents(sortedCurrentMonthEvents)
