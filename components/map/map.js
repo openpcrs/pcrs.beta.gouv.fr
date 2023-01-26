@@ -1,5 +1,5 @@
 import {createRoot} from 'react-dom/client' // eslint-disable-line n/file-extension-in-import
-import {useEffect, useRef, useState} from 'react'
+import {useEffect, useRef} from 'react'
 import PropTypes from 'prop-types'
 import maplibreGl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
@@ -12,7 +12,6 @@ import Popup from '@/components/map/popup.js'
 import Loader from '@/components/loader.js'
 
 const Map = ({handleClick, isMobile}) => {
-  const [map, setMap] = useState()
   const mapNode = useRef(null)
 
   const popupRef = useRef(new maplibreGl.Popup({
@@ -26,117 +25,106 @@ const Map = ({handleClick, isMobile}) => {
 
   useEffect(() => {
     const node = mapNode.current
+    let hoveredCode = null
+    let selectedCode = null
+    let projet = null
 
-    if (!map) {
-      const maplibreMap = new maplibreGl.Map({
-        container: node,
-        style: vector,
-        center: [1.7, 46.9],
-        zoom: isMobile ? 4 : 5,
-        attributionControl: false
+    const maplibreMap = new maplibreGl.Map({
+      container: node,
+      style: vector,
+      center: [1.7, 46.9],
+      zoom: isMobile ? 4 : 5,
+      attributionControl: false
+    })
+
+    const resizer = new ResizeObserver(() => maplibreMap.resize())
+    resizer.observe(node)
+
+    maplibreMap.addControl(new maplibreGl.NavigationControl())
+    maplibreMap.addControl(new maplibreGl.AttributionControl({compact: true}), 'bottom-right')
+
+    maplibreMap.on('click', 'departements-fills', e => {
+      handleClick(e)
+    })
+
+    if (!isMobile) {
+      maplibreMap.on('mousemove', 'departements-fills', e => {
+        if (e.features.length > 0) {
+          if (hoveredCode) {
+            maplibreMap.setFeatureState(
+              {source: 'projetsData', id: null}
+            )
+          }
+
+          hoveredCode = e.features[0].id
+
+          projet = e.features[0].properties
+
+          popupRoot.render(
+            <Popup
+              projet={projet}
+            />
+          )
+
+          popupRef.current
+            .setLngLat(e.lngLat)
+            .setDOMContent(popupNode)
+            .addTo(maplibreMap)
+
+          maplibreMap.setFeatureState(
+            {source: 'projetsData', id: hoveredCode}
+          )
+        }
       })
-
-      const resizer = new ResizeObserver(() => maplibreMap.resize())
-      resizer.observe(node)
-
-      maplibreMap.addControl(new maplibreGl.NavigationControl())
-      maplibreMap.addControl(new maplibreGl.AttributionControl({compact: true}), 'bottom-right')
-
-      setMap(maplibreMap)
-
-      return () => {
-        resizer.disconnect()
-        maplibreMap.remove()
-      }
     }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => {
-    if (map) {
-      map.addSource('projetsData', {
+    maplibreMap.on('click', 'departements-fills', e => {
+      if (e.features.length > 0) {
+        if (selectedCode) {
+          maplibreMap.setFeatureState(
+            {source: 'projetsData', id: selectedCode},
+            {hover: false}
+          )
+        }
+
+        selectedCode = e.features[0].id
+
+        maplibreMap.setFeatureState(
+          {source: 'projetsData', id: selectedCode},
+          {hover: true}
+        )
+      }
+    })
+
+    maplibreMap.on('mouseleave', 'departements-fills', () => {
+      if (hoveredCode !== null) {
+        maplibreMap.setFeatureState(
+          {source: 'projetsData', id: hoveredCode}
+        )
+
+        popupRoot.render(<Loader size='small' />)
+      }
+
+      popupRef.current.remove()
+      hoveredCode = null
+    })
+
+    maplibreMap.on('load', () => {
+      maplibreMap.addSource('projetsData', {
         type: 'geojson',
         data: '/projets.geojson',
         generateId: true
       })
 
-      map.addLayer(departementFillLayer)
-      map.addLayer(departementLayer)
+      maplibreMap.addLayer(departementFillLayer)
+      maplibreMap.addLayer(departementLayer)
+    })
+
+    return () => {
+      resizer.disconnect()
+      maplibreMap.remove()
     }
-  }, [map])
-
-  useEffect(() => {
-    let hoveredCode = null
-    let selectedCode = null
-    let projet = null
-
-    if (map) {
-      map.on('click', 'departements-fills', e => {
-        handleClick(e)
-      })
-
-      if (!isMobile) {
-        map.on('mousemove', 'departements-fills', e => {
-          if (e.features.length > 0) {
-            if (hoveredCode) {
-              map.setFeatureState(
-                {source: 'projetsData', id: null}
-              )
-            }
-
-            hoveredCode = e.features[0].id
-
-            projet = e.features[0].properties
-
-            popupRoot.render(
-              <Popup
-                project={projet}
-              />
-            )
-
-            popupRef.current
-              .setLngLat(e.lngLat)
-              .setDOMContent(popupNode)
-              .addTo(map)
-
-            map.setFeatureState(
-              {source: 'projetsData', id: hoveredCode}
-            )
-          }
-        })
-      }
-
-      map.on('click', 'departements-fills', e => {
-        if (e.features.length > 0) {
-          if (selectedCode) {
-            map.setFeatureState(
-              {source: 'projetsData', id: selectedCode},
-              {hover: false}
-            )
-          }
-
-          selectedCode = e.features[0].id
-
-          map.setFeatureState(
-            {source: 'projetsData', id: selectedCode},
-            {hover: true}
-          )
-        }
-      })
-
-      map.on('mouseleave', 'departements-fills', () => {
-        if (hoveredCode !== null) {
-          map.setFeatureState(
-            {source: 'projetsData', id: hoveredCode}
-          )
-
-          popupRoot.render(<Loader size='small' />)
-          popupRef.current.remove()
-        }
-
-        hoveredCode = null
-      })
-    }
-  }, [map, popupNode, popupRoot, handleClick, isMobile])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div style={{position: 'relative', height: '100%', width: '100%'}}>

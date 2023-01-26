@@ -1,13 +1,28 @@
-import {useContext} from 'react'
+import {useState, useContext, useCallback, useMemo} from 'react'
 
 import Page from '@/layouts/main.js'
+import {getProject} from '@/lib/pcrs.js'
 import {Desktop, Mobile} from '@/layouts/map.js'
 
 import DeviceContext from '@/contexts/device.js'
 
 const PcrsMap = () => {
   const {isMobileDevice} = useContext(DeviceContext)
-  const Layout = isMobileDevice ? Mobile : Desktop
+  const Layout = useMemo(() => isMobileDevice ? Mobile : Desktop, [isMobileDevice])
+  const [isOpen, setIsOpen] = useState(false)
+  const [projet, setProjet] = useState()
+
+  const handleClick = useCallback(async e => {
+    const projet = await getProject(e.features[0].properties.id)
+    setProjet(projet)
+    setIsOpen(true)
+  }, [])
+
+  const handleTitleClick = () => {
+    if (projet) {
+      setIsOpen(!isOpen)
+    }
+  }
 
   return (
     <Page
@@ -15,7 +30,13 @@ const PcrsMap = () => {
       description='Carte de déploiement des PCRS'
       hasFooter={false}
     >
-      <Layout />
+      <Layout
+        handleClick={handleClick}
+        handleTitleClick={handleTitleClick}
+        projet={projet}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+      />
     </Page>
   )
 }
