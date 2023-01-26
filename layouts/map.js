@@ -6,19 +6,6 @@ import DeviceContext from '@/contexts/device.js'
 import Map from '@/components/map/index.js'
 import MapSidebar from '@/components/map-sidebar/index.js'
 
-const defaultProps = {
-  handleTitleClick: null,
-  projet: null,
-  isOpen: false
-}
-
-const propTypes = {
-  handleClick: PropTypes.func.isRequired,
-  handleTitleClick: PropTypes.func,
-  projet: PropTypes.object,
-  isOpen: PropTypes.bool
-}
-
 export const Mobile = ({handleClick, handleTitleClick, projet, isOpen}) => {
   const {viewHeight} = useContext(DeviceContext)
 
@@ -99,8 +86,17 @@ export const Mobile = ({handleClick, handleTitleClick, projet, isOpen}) => {
   )
 }
 
-Mobile.defaultProps = defaultProps
-Mobile.propTypes = propTypes
+Mobile.defaultProps = {
+  handleTitleClick: null,
+  projet: null,
+  isOpen: false
+}
+Mobile.propTypes = {
+  handleClick: PropTypes.func.isRequired,
+  handleTitleClick: PropTypes.func,
+  projet: PropTypes.object,
+  isOpen: PropTypes.bool
+}
 
 export const Desktop = ({handleClick, projet, isOpen, setIsOpen}) => (
   <div
@@ -150,6 +146,15 @@ export const Desktop = ({handleClick, projet, isOpen, setIsOpen}) => (
   </div>
 )
 
-Desktop.defaultProps = defaultProps
-Desktop.propTypes = propTypes
+Desktop.defaultProps = {
+  projet: null,
+  isOpen: false
+}
+
+Desktop.propTypes = {
+  handleClick: PropTypes.func.isRequired,
+  setIsOpen: PropTypes.func,
+  projet: PropTypes.object,
+  isOpen: PropTypes.bool
+}
 
