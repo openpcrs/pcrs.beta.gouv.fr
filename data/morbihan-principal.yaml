@@ -16,7 +16,8 @@ acteur:
 
 perimetres:
   - epci:245614417
-  - epci:245614433
+  - epci:200096675
+  - epci:200096683
   - epci:200066777
   - epci:200066785
   - epci:245614383
@@ -24,6 +25,7 @@ perimetres:
   - epci:200043123
   - epci:200067932
   - epci:200027027
+  - epci:245600465
   - commune:56155
   - commune:56030
   - commune:56058
@@ -37,6 +39,29 @@ perimetres:
   - commune:56011
   - commune:56223
   - commune:56194
+  - commune:56024
+  - commune:56041
+  - commune:56047
+  - commune:56213
+  - commune:56072
+  - commune:56076
+  - commune:56092
+  - commune:56093
+  - commune:56125
+  - commune:56146
+  - commune:56151
+  - commune:56160
+  - commune:56178
+  - commune:56189
+  - commune:56190
+  - commune:56198
+  - commune:56203
+  - commune:56209
+  - commune:56215
+  - commune:56237
+  - commune:56242
+  - commune:56245
+  - commune:56246
   
 etapes:
   - statut: investigation
