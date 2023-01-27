@@ -13,7 +13,7 @@ import Contact from '@/components/map-sidebar/contact.js'
 
 const MapSidebar = ({projet}) => {
   const {status} = PCRS_DATA_COLORS
-  const {nom, perimetres, statut, etapes, source, documentation, contrat, acteurs} = projet
+  const {nom, territoires, statut, etapes, source, documentation, contrat, acteurs} = projet
   const contactAPLC = acteurs.find(acteur => acteur.role === 'aplc')
 
   const projectStartDate = formatDate(find(projet.etapes, {statut: 'investigation'}).date_debut)
@@ -21,7 +21,7 @@ const MapSidebar = ({projet}) => {
 
   return (
     <>
-      <Header projectName={nom} territoires={perimetres.territoires} />
+      <Header projectName={nom} territoires={territoires} />
       <div className='infos-container'>
         <h2 className='fr-text--lead fr-mb-1w'>État d’avancement du PCRS</h2>
         <div className='actual-status fr-mb-3w'>

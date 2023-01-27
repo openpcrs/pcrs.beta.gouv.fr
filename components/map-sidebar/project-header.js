@@ -20,14 +20,18 @@ const Header = ({projectName, territoires}) => {
           {isTerritoiresShow ? (
           // Display complete territoires list
             <HiddenInfos theme='secondary' onClose={() => setIsTerritoiresShow(false)}>
-              {territoires.map(({nom, codeDepartement}, idx) => (
-                <span key={nom} className='fr-text--sm'>{nom} ({codeDepartement}) {idx === territoires.length - 1 ? '' : ' - '}</span>
+              {territoires.map((territoire, idx) => (
+                <span key={territoire} className='fr-text--sm'>
+                  {territoire} {idx === territoires.length - 1 ? '' : ' - '}
+                </span>
               ))}
             </HiddenInfos>
           ) : (
           // Display shorten list
             <>
-              {territoires.slice(0, 4).map(({nom, codeDepartement}) => <span key={nom}>{nom} ({codeDepartement}) - </span>)}
+              {territoires.slice(0, 4).map((territoire, idx) => (
+                <span key={territoire}>{territoire} {idx === 3 ? '' : ' - '}</span>
+              ))}
               <button
                 type='button'
                 className='fr-btn--tertiary-no-outline'
@@ -40,7 +44,11 @@ const Header = ({projectName, territoires}) => {
         </div>
       ) : (
       // Less than 5 territoires
-        territoires.map(({nom, codeDepartement, idx}) => <span key={nom}>{nom} ({codeDepartement}) {idx === territoires.length - 1 ? '' : ' - '} </span>)
+        territoires.map((territoire, idx) => (
+          <span key={territoire}>
+            {territoire} {idx === territoires.length - 1 ? '' : ' - '}
+          </span>
+        ))
       )}
 
       <style jsx>{`
