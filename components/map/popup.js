@@ -21,10 +21,13 @@ const Popup = ({projet}) => {
       <div className='fr-text fr-text--sm fr-grid-row fr-pb-3v'>
         En
         <p
-          style={{backgroundColor: status[statut], color: statut === 'livre' || statut === 'obsolete' ? 'white' : 'black'}}
+          style={{
+            backgroundColor: status[statut],
+            color: statut === 'livré' || statut === 'obsolete' ? 'white' : 'black'
+          }}
           className='fr-badge fr-badge--sm fr-mx-1w'
         >
-          {statut === 'livre' ? 'LIVRÉ' : statut}
+          {statut}
         </p>
         {dateStatut && (
           <>
@@ -36,7 +39,8 @@ const Popup = ({projet}) => {
       <div className='container'>
         <div className='block'>
           <div className='block-title fr-pb-1v'>Nature</div>
-          <Badge size='small'
+          <Badge
+            size='small'
             background={natures[nature]}
           >
             {nature}

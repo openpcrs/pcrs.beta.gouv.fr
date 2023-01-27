@@ -12,7 +12,7 @@ const TIMELINE = [
   {step: 1, label: 'investigation', isProgressingStep: true},
   {step: 2, label: 'production', isProgressingStep: true},
   {step: 3, label: 'produit'},
-  {step: 4, label: 'livre'}
+  {step: 4, label: 'livré'}
 ]
 
 const Timeline = ({currentStatus, stepsColors, steps, isObsolete}) => {
@@ -25,7 +25,7 @@ const Timeline = ({currentStatus, stepsColors, steps, isObsolete}) => {
       <div className='timeline fr-mt-3w'>
         {Object.keys(TIMELINE).map((step, idx) => {
           const {label} = TIMELINE[step]
-          const stepStartingDate = idx + 1 <= currentStep?.step && formatDate(find(steps, {statut: TIMELINE[step].label.toLowerCase()}).date_debut)
+          const stepStartingDate = idx + 1 <= currentStep?.step && formatDate(find(steps, {statut: TIMELINE[step]?.label.toLowerCase()})?.date_debut)
 
           const isCurrentStep = currentStep?.step === idx + 1
           const isProgressing = isCurrentStep && TIMELINE[step].isProgressingStep

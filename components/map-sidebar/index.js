@@ -16,7 +16,7 @@ const MapSidebar = ({projet}) => {
   const {nom, territoires, statut, etapes, source, documentation, contrat, acteurs} = projet
   const contactAPLC = acteurs.find(acteur => acteur.role === 'aplc')
 
-  const projectStartDate = formatDate(find(projet.etapes, {statut: 'investigation'}).date_debut)
+  const projectStartDate = formatDate(find(projet.etapes, {statut: 'investigation'})?.date_debut) || null
   const isObsolete = projet.statut === 'obsolète'
 
   return (
@@ -27,12 +27,14 @@ const MapSidebar = ({projet}) => {
         <div className='actual-status fr-mb-3w'>
           <Badge
             background={status[statut]}
-            textColor={statut === 'livre' || statut === 'obsolete' ? 'white' : 'black'}
+            textColor={statut === 'livré' || statut === 'obsolete' ? 'white' : 'black'}
           >
-            {projet.statut === 'livre' ? 'LIVRÉ' : projet.statut}
+            {projet.statut}
           </Badge>
 
-          <div className='start-date fr-text--sm fr-m-0'>Lancement du projet le {projectStartDate}</div>
+          {projectStartDate && (
+            <div className='start-date fr-text--sm fr-m-0'>Lancement du projet le {projectStartDate}</div>
+          )}
         </div>
         {!isObsolete && (
           <Timeline
