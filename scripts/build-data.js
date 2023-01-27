@@ -53,6 +53,8 @@ function validateProjetPCRS(entry) {
   validateFields(entry.acteurs, REQUIRED_FIELDS.acteurs)
 }
 
+const geometryBuilder = await createGeometryBuilder()
+
 async function buildPCRSData() {
   const projets = []
   const jsonOutputPath = new URL('../public/projets.json', import.meta.url)
@@ -71,6 +73,7 @@ async function buildPCRSData() {
       projet.statut = projet.etapes[projet.etapes.length - 1].statut
       projet.dateStatut = projet.etapes[projet.etapes.length - 1].date_debut
       projet.aplc = projet.acteurs.find(acteur => acteur.role === 'aplc').nom
+      projet.territoires = geometryBuilder.getTerritoryName(projet.perimetres)
 
       projets.push(projet)
     }
@@ -78,7 +81,6 @@ async function buildPCRSData() {
 
   await writeFile(jsonOutputPath, JSON.stringify(projets))
 
-  const geometryBuilder = await createGeometryBuilder()
   const geojsonOutputPath = new URL('../public/projets.geojson', import.meta.url)
 
   const projetsFeatures = projets.map(projet => ({
