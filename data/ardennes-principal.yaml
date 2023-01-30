@@ -1,0 +1,30 @@
+nom: Ardennes - Principal
+regime: production
+nature: raster
+livrables:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ouverte_lo
+
+acteurs: 
+  - siren: 200047389
+    nom: FDEA08
+    telephone: "+33324594528"
+    role: aplc
+  - siren: 444608442
+    nom: Enedis
+    role: financeur
+
+perimetres:
+  - departement:08
+
+etapes:
+  - statut: investigation
+    date_debut: 2019-01-01
+  - statut: production
+    date_debut: 2022-01-01
+    
+subventions: 
+  - nom: Participation feder
+    nature: feder

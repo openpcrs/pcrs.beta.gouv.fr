@@ -1,0 +1,35 @@
+nom: Moselle - Tranche finale
+regime: production
+nature: raster
+livrables:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: fermee
+
+acteurs: 
+  - siren: 225700012
+    nom: CD Moselle
+    telephone: "+33387375757"
+    role: aplc
+  - siren: 444608442
+    nom: Enedis
+    role: financeur
+
+perimetres:
+  - epci:200067486
+  - epci:200067957
+  - epci:200067650
+  - epci:245701164
+  - epci:200067502
+  - epci:245700133
+  - epci:200039907
+  - epci:245701206
+  - epci:200068146
+  - epci:245700950
+
+etapes:
+  - statut: investigation
+    date_debut: 2019-01-01
+    
+subventions: 

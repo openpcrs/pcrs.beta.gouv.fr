@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 
-const BlogPagination = ({page, pages, prev, next}) => {
+const Pagination = ({page, pages, prev, next}) => {
   const router = useRouter()
 
   const pageNumbers = Array.from({length: pages}, (_, i) => i + 1)
@@ -11,7 +11,7 @@ const BlogPagination = ({page, pages, prev, next}) => {
   return (
     <nav
       role='navigation'
-      className='blog-navigation fr-pagination'
+      className='page-navigation fr-pagination'
       aria-label='Pagination'
     >
       <ul className='fr-pagination__list'>
@@ -114,7 +114,7 @@ const BlogPagination = ({page, pages, prev, next}) => {
       </ul>
 
       <style jsx>{`
-        .blog-navigation {
+        .page-navigation {
           display: flex;
           justify-content: center;
         }
@@ -123,16 +123,16 @@ const BlogPagination = ({page, pages, prev, next}) => {
   )
 }
 
-BlogPagination.propTypes = {
+Pagination.propTypes = {
   page: PropTypes.number.isRequired,
   pages: PropTypes.number.isRequired,
   prev: PropTypes.number,
   next: PropTypes.number
 }
 
-BlogPagination.defaultProps = {
+Pagination.defaultProps = {
   prev: null,
   next: null
 }
 
-export default BlogPagination
+export default Pagination
