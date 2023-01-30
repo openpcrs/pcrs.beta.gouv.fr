@@ -10,6 +10,7 @@ export default ({
   // Blue
   blueFranceSun113: '#000091',
   blueFrance850: '#cacafb',
+  blueFrance925: '#e3e3fd',
   blueFrance975: '#f5f5fe',
   info200: '#273961',
   info425: '#0063cb',
