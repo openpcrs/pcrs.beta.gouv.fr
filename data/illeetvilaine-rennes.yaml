@@ -1,14 +1,14 @@
 nom: Métropole de Rennes
 regime: production
-nature: vectoriel
+nature: vecteur
 
-livrable:
+livrables:
   - nom: Données vectorielles
     nature: gml
     diffusion: flux
     licence: ferme
 
-acteur:
+acteurs:
   - siren: 243500139
     nom: Métropole de Rennes
     telephone: "+33299866060"
@@ -24,7 +24,7 @@ etapes:
     date_debut:
   - statut: produit
     date_debut:
-  - statut: livré
+  - statut: livre
     date_debut:
 
 subventions:

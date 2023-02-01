@@ -64,7 +64,7 @@ etapes:
   - statut: livre
     date_debut: 2019-01-01
     
- perimetres:
+perimetres:
   - epci:248500464
   - epci:248500589
   - epci:200023778
