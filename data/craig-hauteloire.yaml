@@ -17,7 +17,6 @@ acteurs:
     telephone: "+33972622531"
     role: aplc
 
-
 perimetres:
   - departement:43
 

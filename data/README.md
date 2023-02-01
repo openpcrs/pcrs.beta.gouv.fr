@@ -31,6 +31,8 @@ Il convient donc de créer un projet différent par campagne de mise à jour, av
 Cela semble beaucoup plus fin que ce qu'on peut s'imaginer des projets PCRS, c'est néanmoins le seul moyen de décrire un calendrier très simple de quelques étapes avec des livrables clairement identifiés à la fin.  
 La plupart de ces différents projets correspondront à la même convention.
 
+Un fichier modèle `_porteur_projet_A_DUPLIQUER_ET_RENOMMER.yaml` est à votre disposition pour initialiser la description de votre projet.
+
 ## Propriétés générales
 
 Un projet PCRS est décrit selon les propriétés principales suivantes :
@@ -76,6 +78,8 @@ Puisque beaucoup de projets peuvent en produire plusieurs, ils sont définis com
     * telechargement : Téléchargement des fichiers en masse
     * flux : Accès via un flux (WMTS, WFS...)
 * avancement : Pourcentage de complétude du livrable
+* crs : Identifiant du système de référence du livrable (format EPSG:1234)
+* compression : Indication descriptive de la nature de la compression appliquée au livrable
 
 Exemple de déclaration de deux livrables pour un même projet :
 ```yaml
@@ -84,10 +88,12 @@ livrables:
     nature: geotiff
     diffusion: flux
     licence: ferme
+    crs: EPSG:2154
   - nom: Données vecteur
     nature: gml
     diffusion: flux
     licence: ferme
+    crs: EPSG:3946
 ```
 
 ## Etapes
@@ -150,7 +156,9 @@ acteurs:
 ## Périmètres
 
 Les projets couvrent le plus souvent des périmètres administratifs connus.  
-Nous avons fait le choix de définir ces périmètres comme l'agrégation d'une liste de territoires identifiés.
+Nous avons fait le choix de définir ces périmètres comme l'agrégation d'une liste de territoires identifiés.  
+Il s'agit avant tout des périmètres intentionnels, c'est à dire conventionnels ou envisagés.  
+Les périmètres des livrables, si différents, seront déduits directement de ces livrables.
 
 Chaque territoire est identifié par une nature et leurs identifiant, soit insee soit SIREN.  
 Nous considérons actuellement trois natures différentes : commune, epci et departement qui peuvent être combinées à façon

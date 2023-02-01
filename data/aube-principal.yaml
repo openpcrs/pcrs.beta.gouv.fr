@@ -1,4 +1,4 @@
-nom: Allier
+nom: Aube - Principal
 regime: production
 nature: mixte
 livrables:
@@ -12,23 +12,16 @@ livrables:
     licence: ferme
 
 acteurs: 
-  - siren: 130014582
-    nom: CRAIG
-    telephone: "+33972622531"
+  - siren: 200093391
+    nom: SDEA10
+    telephone: "+33325832626"
     role: aplc
 
 perimetres:
-  - departement:03
+  - departement:10
 
 etapes:
   - statut: investigation
     date_debut: 2019-01-01
-  - statut: production
-    date_debut: 2022-01-01
-  - statut: produit
-    date_debut: 2021-09-01
-  - statut: livre
-    date_debut: 2022-01-01
     
 subventions: 
-    

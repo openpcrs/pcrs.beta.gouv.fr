@@ -17,7 +17,6 @@ acteurs:
     telephone: "+33972622531"
     role: diffuseur
 
-
 perimetres:
   - epci:240700716
   - epci:200016905
@@ -33,6 +32,35 @@ perimetres:
   - epci:200039824
   - epci:200041465
   - epci:200072015
+  - epci:200041366
+  - commune:07174
+  - commune:07051
+  - commune:07009
+  - commune:07084
+  - commune:07169
+  - commune:07234
+  - commune:07308
+  - commune:07015
+  - commune:07014
+  - commune:07039
+  - commune:07040
+  - commune:07063
+  - commune:07068
+  - commune:07069
+  - commune:07086
+  - commune:07097
+  - commune:07140
+  - commune:07152
+  - commune:07170
+  - commune:07177
+  - commune:07217
+  - commune:07236
+  - commune:07245
+  - commune:07301
+  - commune:07312
+  - commune:07324
+  - commune:07335
+  - commune:07345
 
 etapes:
   - statut: investigation

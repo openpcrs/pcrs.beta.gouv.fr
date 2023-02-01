@@ -1,0 +1,52 @@
+nom: Métropole de Brest
+regime: production
+nature: mixte
+
+livrable:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ferme
+  - nom: Données vectorielles
+    nature: gml
+    diffusion: flux
+    licence: ferme
+
+acteur:
+  - siren: 242900314
+    nom: Brest Métropole
+    telephone: "+33298335050"
+    role: aplc
+    finance_part_perc: 55.17
+  - siren: 529268633
+    nom: Eau du Ponant
+    telephone: "+33229007878"
+    role: financeur
+    finance_part_perc: 20.66
+  - siren: 444608442
+    nom: Enedis
+    role: financeur
+    finance_part_perc: 14.51
+  - siren: 444786511
+    nom: GRDF
+    role: financeur
+    finance_part_perc: 8.84
+  - siren: 523259224
+    nom: Eco chaleur de Brest
+    role: financeur
+    finance_part_perc: 0.83
+
+perimetres:
+  - epci:242900314
+
+etapes:
+  - statut: investigation
+    date_debut: 2017-01-01
+  - statut: production
+    date_debut: 2019-01-01
+  - statut: produit
+    date_debut: 2019-09-01
+  - statut: livré
+    date_debut: 2021-01-01
+
+subventions:

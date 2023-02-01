@@ -12,11 +12,11 @@ const Post = dynamic(() => import('@/components/post.js'), {
   ssr: false
 })
 
-const BlogPost = ({post}) => {
-  const {title, feature_image, feature_image_alt, feature_image_caption} = post
+const Temoignage = ({testimony}) => {
+  const {title, published_at, feature_image, feature_image_alt, feature_image_caption} = testimony
 
   return (
-    <Page title={title} description={`Article ${post.title} du ${dateWithDay(post.published_at)}`}>
+    <Page title={title} description={`Témoignage ${title} du ${dateWithDay(published_at)}`}>
       <div className='blog-feature-image-container'>
         <Image
           src={feature_image || '/images/illustrations/blog_fallback.svg'}
@@ -34,7 +34,7 @@ const BlogPost = ({post}) => {
         <div className='caption fr-pr-1w fr-text--sm'>{feature_image_caption || ''}</div>
       </div>
 
-      <Post baseUrl='/blog' {...post} />
+      <Post {...testimony} baseUrl='/temoignages' />
 
       <style jsx>{`
         .blog-feature-image-container {
@@ -52,15 +52,15 @@ const BlogPost = ({post}) => {
 }
 
 export async function getServerSideProps(context) {
-  const post = await getSinglePost(context.params.slug)
+  const testimony = await getSinglePost(context.params.slug)
 
   return {
-    props: {post}
+    props: {testimony}
   }
 }
 
-BlogPost.propTypes = {
-  post: PropTypes.object.isRequired
+Temoignage.propTypes = {
+  testimony: PropTypes.object.isRequired
 }
 
-export default BlogPost
+export default Temoignage

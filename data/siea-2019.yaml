@@ -31,7 +31,6 @@ acteurs:
     role: financeur
     finance_part_euro: 7051
 
-
 perimetres:
   - epci:240100750
   - epci:200042497
@@ -39,6 +38,7 @@ perimetres:
   - epci:240100610
   - commune:01194
   - commune:01028
+  - commune:01093
   - commune:01428
   - commune:01083
   - commune:01389
