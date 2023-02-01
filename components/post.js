@@ -8,7 +8,7 @@ import {shortDate} from '@/lib/date-utils.js'
 
 import colors from '@/styles/colors.js'
 
-const Post = ({authors, published_at, reading_time, title, html}) => {
+const Post = ({baseUrl, authors, published_at, reading_time, title, html}) => {
   useEffect(() => {
     const audioPlayers = [...document.querySelectorAll('audio')]
     const videoPlayers = [...document.querySelectorAll('video')]
@@ -31,7 +31,7 @@ const Post = ({authors, published_at, reading_time, title, html}) => {
   return (
     <div className='blog fr-my-5w fr-mx-3w fr-mx-md-15w'>
       <div className='fr-pb-5w'>
-        <Link legacyBehavior href='/blog'>
+        <Link legacyBehavior href={baseUrl}>
           <a className='fr-link fr-fi-arrow-left-line fr-link--icon-left'>
             Retournez à la liste des articles
           </a>
@@ -66,7 +66,7 @@ const Post = ({authors, published_at, reading_time, title, html}) => {
 
       <div dangerouslySetInnerHTML={{__html: html}} /* eslint-disable-line react/no-danger */ />
 
-      <Link legacyBehavior href='/blog'>
+      <Link legacyBehavior href={baseUrl}>
         <a className='fr-link fr-fi-arrow-left-line fr-link--icon-left'>
           Retourner à la liste des articles
         </a>
@@ -520,6 +520,7 @@ const Post = ({authors, published_at, reading_time, title, html}) => {
 }
 
 Post.propTypes = {
+  baseUrl: PropTypes.string.isRequired,
   authors: PropTypes.array.isRequired,
   published_at: PropTypes.string.isRequired,
   reading_time: PropTypes.number.isRequired,

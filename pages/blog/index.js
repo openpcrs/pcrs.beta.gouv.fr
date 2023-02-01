@@ -7,8 +7,8 @@ import colors from '@/styles/colors.js'
 
 import Page from '@/layouts/main.js'
 
-import BlogPagination from '@/components/blog/blog-pagination.js'
-import BlogCard from '@/components/blog/blog-card.js'
+import Pagination from '@/components/pagination.js'
+import BlogCard from '@/components/post-card.js'
 import BlogTags from '@/components/blog/blog-tags.js'
 
 const Blog = ({posts, tags, tagsList, pagination}) => (
@@ -26,16 +26,19 @@ const Blog = ({posts, tags, tagsList, pagination}) => (
           <h2 className='fr-mt-5w fr-mb-0'>Blog du PCRS</h2>
         </div>
 
-        <div className='blog-posts-container'>
+        <div className='fr-grid-row fr-grid-row--center'>
           {tagsList.length > 0 && <BlogTags selectedTags={tags} tagsList={tagsList} />}
-
-          <div className='blog-cards-list fr-my-6w fr-px-md-6w'>
-            {posts.length > 0 && posts.map(post => <BlogCard key={post.id} post={post} />)}
+          <div className='fr-grid-row fr-mb-6w fr-px-1w fr-px-md-5w'>
+            {posts.length > 0 && posts.map(post => (
+              <div key={post.id} className='fr-col-12 fr-col-md-6 fr-col-lg-3 fr-col-lg-4 fr-p-md-3w'>
+                <BlogCard post={post} />
+              </div>
+            ))}
             {(posts.length === 0 && tags.length === 0) && <div className='no-article'>Aucun article de blog n’est disponible</div>}
             {(posts.length === 0 && tags.length > 0) && <div className='no-article'>Aucun article ne contient ces tags</div>}
           </div>
 
-          <BlogPagination {...pagination} />
+          <Pagination {...pagination} />
         </div>
       </div>
     ) : (

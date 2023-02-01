@@ -1,0 +1,78 @@
+nom: Drôme - Principal
+regime: production
+nature: raster
+livrables:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ferme
+
+acteurs: 
+  - siren: 252601026
+    nom: SDED
+    telephone: "+33475826550"
+    role: aplc
+
+perimetres:
+  - epci:242600252
+  - epci:200040459
+  - epci:200042901
+  - epci:200068229
+  - epci:242600492
+  - epci:242600534
+  - epci:200040509
+  - epci:200067767
+  - commune:26002
+  - commune:26009
+  - commune:26010
+  - commune:26014
+  - commune:26028
+  - commune:26038
+  - commune:26041
+  - commune:26061
+  - commune:26071
+  - commune:26072
+  - commune:26077
+  - commune:26083
+  - commune:26092
+  - commune:26094
+  - commune:26110
+  - commune:26118
+  - commune:26119
+  - commune:26133
+  - commune:26143
+  - commune:26148
+  - commune:26155
+  - commune:26156
+  - commune:26160
+  - commune:26162
+  - commune:26172
+  - commune:26174
+  - commune:26177
+  - commune:26179
+  - commune:26194
+  - commune:26213
+  - commune:26216
+  - commune:26247
+  - commune:26250
+  - commune:26259
+  - commune:26271
+  - commune:26293
+  - commune:26295
+  - commune:26301
+  - commune:26314
+  - commune:26325
+  - commune:26330
+  - commune:26332
+  - commune:26333
+  - commune:26341
+  - commune:26347
+  - commune:26349
+  - commune:26380
+
+etapes:
+  - statut: investigation
+    date_debut: 2022-08-24
+
+subventions: 
+    
