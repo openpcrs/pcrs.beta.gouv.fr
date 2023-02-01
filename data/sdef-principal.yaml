@@ -66,7 +66,7 @@ etapes:
     date_debut:
   - statut: produit
     date_debut:
-  - statut: livré
+  - statut: livre
     date_debut:
 
 subventions:

@@ -1,6 +1,6 @@
 nom: Métropole de Rennes
 regime: production
-nature: vectoriel
+nature: vecteur
 
 livrables:
   - nom: Données vectorielles
@@ -24,7 +24,7 @@ etapes:
     date_debut:
   - statut: produit
     date_debut:
-  - statut: livré
+  - statut: livre
     date_debut:
 
 subventions:

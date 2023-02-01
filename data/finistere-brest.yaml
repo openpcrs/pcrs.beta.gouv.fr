@@ -46,7 +46,7 @@ etapes:
     date_debut: 2019-01-01
   - statut: produit
     date_debut: 2019-09-01
-  - statut: livré
+  - statut: livre
     date_debut: 2021-01-01
 
 subventions:
