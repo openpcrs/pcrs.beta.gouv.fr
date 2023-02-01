@@ -26,7 +26,7 @@ export const PCRS_DATA_COLORS = {
     investigation: '#ffe386',
     production: '#a7f192',
     produit: '#87c1ea',
-    livré: '#175c8b',
+    livre: '#175c8b',
     obsolete: '#7c7c7c'
   },
   actors: {

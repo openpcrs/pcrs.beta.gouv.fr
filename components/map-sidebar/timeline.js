@@ -12,7 +12,7 @@ const TIMELINE = [
   {step: 1, label: 'investigation', isProgressingStep: true},
   {step: 2, label: 'production', isProgressingStep: true},
   {step: 3, label: 'produit'},
-  {step: 4, label: 'livré'}
+  {step: 4, label: 'livre'}
 ]
 
 const Timeline = ({currentStatus, stepsColors, steps, isObsolete}) => {
@@ -33,9 +33,11 @@ const Timeline = ({currentStatus, stepsColors, steps, isObsolete}) => {
           const tooltipContent = () => (
             <>
               <div className={`tooltip-label ${idx + 1 > currentStep?.step ? 'futur-label' : ''}`}>
-                {`${TIMELINE[step].label} ${isProgressing ? 'en cours' : ''}`}
+                {`${TIMELINE[step].label === 'livre' ? 'livré' : TIMELINE[step].label} ${isProgressing ? 'en cours' : ''}`}
               </div>
-              {stepStartingDate && <div className='start-date fr-text--sm fr-mb-0'>Depuis le {stepStartingDate}</div>}
+              {stepStartingDate && (
+                <div className='start-date fr-text--sm fr-mb-0'>Depuis le {stepStartingDate}</div>
+              )}
             </>
           )
 

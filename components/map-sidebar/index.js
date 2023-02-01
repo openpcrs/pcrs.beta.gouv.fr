@@ -27,9 +27,9 @@ const MapSidebar = ({projet}) => {
         <div className='actual-status fr-mb-3w'>
           <Badge
             background={status[statut]}
-            textColor={statut === 'livré' || statut === 'obsolete' ? 'white' : 'black'}
+            textColor={statut === 'livre' || statut === 'obsolete' ? 'white' : 'black'}
           >
-            {projet.statut}
+            {projet.statut === 'livre' ? 'livré' : projet.statut}
           </Badge>
 
           {projectStartDate && (

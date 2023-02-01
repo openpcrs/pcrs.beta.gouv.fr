@@ -23,11 +23,11 @@ const Popup = ({projet}) => {
         <p
           style={{
             backgroundColor: status[statut],
-            color: statut === 'livré' || statut === 'obsolete' ? 'white' : 'black'
+            color: statut === 'livre' || statut === 'obsolete' ? 'white' : 'black'
           }}
           className='fr-badge fr-badge--sm fr-mx-1w'
         >
-          {statut}
+          {statut === 'livre' ? 'livré' : statut}
         </p>
         {dateStatut && (
           <>
