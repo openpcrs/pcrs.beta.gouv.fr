@@ -6,8 +6,8 @@ import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors.js'
 
 import {formatDate} from '@/lib/date-utils.js'
 
-const Popup = ({project}) => {
-  const {aplc, dateStatut, id, nature, statut} = project
+const Popup = ({projet}) => {
+  const {aplc, dateStatut, id, nature, statut} = projet
   const {status, natures} = PCRS_DATA_COLORS
 
   return (
@@ -21,10 +21,13 @@ const Popup = ({project}) => {
       <div className='fr-text fr-text--sm fr-grid-row fr-pb-3v'>
         En
         <p
-          style={{backgroundColor: status[statut], color: statut === 'livre' || statut === 'obsolete' ? 'white' : 'black'}}
+          style={{
+            backgroundColor: status[statut],
+            color: statut === 'livre' || statut === 'obsolete' ? 'white' : 'black'
+          }}
           className='fr-badge fr-badge--sm fr-mx-1w'
         >
-          {statut === 'livre' ? 'LIVRÉ' : statut}
+          {statut === 'livre' ? 'livré' : statut}
         </p>
         depuis <b className='fr-text fr-px-2v'>{formatDate(dateStatut)}</b>
       </div>
@@ -63,7 +66,7 @@ const Popup = ({project}) => {
 }
 
 Popup.propTypes = {
-  project: PropTypes.object.isRequired
+  projet: PropTypes.object.isRequired
 }
 
 export default Popup
