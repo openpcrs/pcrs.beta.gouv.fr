@@ -1,27 +1,13 @@
-import {useState, useContext} from 'react'
+import {useContext} from 'react'
+import PropTypes from 'prop-types'
 
-import {getProject} from '@/lib/pcrs.js'
 import DeviceContext from '@/contexts/device.js'
 
 import Map from '@/components/map/index.js'
 import MapSidebar from '@/components/map-sidebar/index.js'
 
-export const Mobile = () => {
+export const Mobile = ({handleClick, handleTitleClick, projet, isOpen}) => {
   const {viewHeight} = useContext(DeviceContext)
-  const [isOpen, setIsOpen] = useState(false)
-  const [projet, setProjet] = useState()
-
-  const handleClick = async e => {
-    const projet = await getProject(e.features[0].properties.id)
-    setProjet(projet)
-    setIsOpen(true)
-  }
-
-  const handleTitleClick = () => {
-    if (projet) {
-      setIsOpen(!isOpen)
-    }
-  }
 
   return (
     <div
@@ -100,62 +86,75 @@ export const Mobile = () => {
   )
 }
 
-export const Desktop = () => {
-  const [isOpen, setIsOpen] = useState(false)
-  const [projet, setProjet] = useState()
+Mobile.defaultProps = {
+  handleTitleClick: null,
+  projet: null,
+  isOpen: false
+}
+Mobile.propTypes = {
+  handleClick: PropTypes.func.isRequired,
+  handleTitleClick: PropTypes.func,
+  projet: PropTypes.object,
+  isOpen: PropTypes.bool
+}
 
-  const handleClick = async e => {
-    const projet = await getProject(e.features[0].properties.id)
-    setProjet(projet)
-    setIsOpen(true)
-  }
-
-  return (
-    <div
-      style={{
-        display: 'flex',
-        contain: 'content'
-      }}
-    >
-      {projet && (
-        <div
+export const Desktop = ({handleClick, projet, isOpen, setIsOpen}) => (
+  <div
+    style={{
+      display: 'flex',
+      contain: 'content'
+    }}
+  >
+    {projet && (
+      <div
+        style={{
+          minWidth: isOpen ? '460px' : '5px',
+          maxWidth: '460px',
+          boxShadow: '0px 0px 5px grey',
+          height: 'calc(100vh - 117px)',
+          zIndex: 1,
+          overflow: 'auto',
+          overflowX: 'hidden'
+        }}
+      >
+        <button
+          type='button'
+          className={`fr-icon-arrow-${isOpen ? 'left' : 'right'}-s-line`}
           style={{
-            minWidth: isOpen ? '460px' : '5px',
-            maxWidth: '460px',
-            boxShadow: '0px 0px 5px grey',
-            height: 'calc(100vh - 117px)',
-            zIndex: 1,
-            overflow: 'auto',
-            overflowX: 'hidden'
+            position: 'absolute',
+            top: '25px',
+            left: isOpen ? '460px' : '5px',
+            backgroundColor: 'white',
+            height: '50px',
+            width: '30px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            borderRadius: '0 5px 5px 0',
+            boxShadow: '2px 2px 5px grey'
           }}
-        >
-          <button
-            type='button'
-            className={`fr-icon-arrow-${isOpen ? 'left' : 'right'}-s-line`}
-            style={{
-              position: 'absolute',
-              top: '25px',
-              left: isOpen ? '460px' : '5px',
-              backgroundColor: 'white',
-              height: '50px',
-              width: '30px',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              borderRadius: '0 5px 5px 0',
-              boxShadow: '2px 2px 5px grey'
-            }}
-            onClick={() => setIsOpen(!isOpen)}
-          />
-          {isOpen && (
-            <MapSidebar projet={projet} />
-          )}
-        </div>
-      )}
-      <div style={{width: '100%', height: 'calc(100vh - 117px)'}}>
-        <Map handleClick={handleClick} />
+          onClick={() => setIsOpen(!isOpen)}
+        />
+        {isOpen && (
+          <MapSidebar projet={projet} />
+        )}
       </div>
+    )}
+    <div style={{width: '100%', height: 'calc(100vh - 117px)'}}>
+      <Map handleClick={handleClick} />
     </div>
-  )
+  </div>
+)
+
+Desktop.defaultProps = {
+  projet: null,
+  isOpen: false
+}
+
+Desktop.propTypes = {
+  handleClick: PropTypes.func.isRequired,
+  setIsOpen: PropTypes.func,
+  projet: PropTypes.object,
+  isOpen: PropTypes.bool
 }
 
