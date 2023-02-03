@@ -10,6 +10,7 @@ import vector from './styles/vector.json'
 
 import Popup from '@/components/map/popup.js'
 import Loader from '@/components/loader.js'
+import Legend from '@/components/map/legend.js'
 
 const Map = ({handleClick, isMobile}) => {
   const mapNode = useRef(null)
@@ -129,6 +130,7 @@ const Map = ({handleClick, isMobile}) => {
   return (
     <div style={{position: 'relative', height: '100%', width: '100%'}}>
       <div ref={mapNode} style={{width: '100%', height: '100%'}} />
+      <Legend isMobile={isMobile} />
     </div>
   )
 }
