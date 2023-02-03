@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "build": "node scripts/build-data && next build",
+    "build-next": "next build",
     "build-data": "node scripts/build-data",
     "dev": "node server/index.js",
     "start": "NODE_ENV=production node server/index.js",

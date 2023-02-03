@@ -24,4 +24,4 @@ jobs:
       - run: yarn lint
       - run: yarn test
       - run: yarn build-data
-      - run: next build
+      - run: yarn build-next
