@@ -32,7 +32,7 @@ acteurs:
     nom: Enedis
     role: financeur
     
- perimetres:
+perimetres:
   - commune:74010
   - epci:257400085
   - departement:74

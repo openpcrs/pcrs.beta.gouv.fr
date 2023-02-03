@@ -60,7 +60,7 @@ etapes:
   - statut: production
     date_debut: 2023-01-01
     
- perimetres:
+perimetres:
   - epci:248500258
   - epci:200071918
   - epci:248500340

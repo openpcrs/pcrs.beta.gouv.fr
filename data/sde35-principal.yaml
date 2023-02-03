@@ -2,13 +2,13 @@ nom: Ille et Vilaine - Tranche principale
 regime: production
 nature: raster
 
-livrable:
+livrables:
   - nom: Images raster
     nature: geotiff
     diffusion: flux
     licence: ferme
 
-acteur:
+acteurs:
   - siren: 200050425
     nom: SDE35
     telephone: "+33299231555"
@@ -57,7 +57,7 @@ etapes:
     date_debut:
   - statut: produit
     date_debut:
-  - statut: livré
+  - statut: livre
     date_debut:
 
 subventions:

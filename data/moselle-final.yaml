@@ -5,7 +5,7 @@ livrables:
   - nom: Images raster
     nature: geotiff
     diffusion: flux
-    licence: fermee
+    licence: ferme
 
 acteurs: 
   - siren: 225700012

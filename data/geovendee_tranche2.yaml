@@ -52,7 +52,7 @@ etapes:
   - statut: livre
     date_debut: 2022-01-01
     
- perimetres:
+perimetres:
   - epci:200071629
   - epci:200070233
   - epci:248500621
