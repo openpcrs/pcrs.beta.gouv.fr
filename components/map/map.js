@@ -80,7 +80,7 @@ const Map = ({handleClick, isMobile}) => {
 
     maplibreMap.on('click', 'departements-fills', e => {
       if (e.features.length > 0) {
-        if (selectedCode) {
+        if (selectedCode !== null) {
           maplibreMap.setFeatureState(
             {source: 'projetsData', id: selectedCode},
             {hover: false}
