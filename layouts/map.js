@@ -32,7 +32,8 @@ export const Mobile = ({handleClick, handleTitleClick, projet, isOpen}) => {
           overflowX: 'hidden',
           padding: '2px',
           border: '1px solid lightgrey',
-          borderBottom: '0'
+          borderBottom: '0',
+          zIndex: 5
         }}
       >
         <div

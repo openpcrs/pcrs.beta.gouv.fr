@@ -11,9 +11,10 @@ const Legend = ({isMobile}) => {
     <div
       style={{
         position: 'absolute',
-        bottom: 5,
-        left: 10,
-        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        left: '10px',
+        top: isMobile ? '5px' : '',
+        bottom: isMobile ? '' : '5px',
+        backgroundColor: 'rgba(255, 255, 255, .8)',
         padding: '.5em',
         borderRadius: '5px'
       }}
