@@ -19,7 +19,9 @@ const Popup = ({projet}) => {
     >
       <h6 className='title fr-text fr-text--md'><u>{nom}</u></h6>
       <div className='fr-text fr-text--sm fr-grid-row fr-pb-3v'>
-        En
+        {statut !== 'livre' && (
+          <span>En</span>
+        )}
         <p
           style={{
             backgroundColor: status[statut],
