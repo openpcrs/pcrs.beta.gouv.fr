@@ -1,0 +1,50 @@
+nom: PCRS de l'Aude 
+regime: production
+nature: raster
+
+livrables:
+  - nom: Images raster
+    nature: jpeg2000
+    diffusion: flux, telechargement
+    licence: ouvert_lo
+
+etapes: 
+  - statut: investigation
+    date_debut: 2020-03-12
+  - statut: production
+    date_debut: 2021-04-15
+
+acteurs: 
+  - siren: 200026789
+    nom: SYADEN
+    interlocuteur: Responsable Gestion des Infrastructures et données réseaux
+    mail: nicolas.delpoux@syaden.fr
+    telephone: +33645839891
+    role: aplc
+    finance_part_perc: 33.3 %
+    finance_part_euro: 381611 
+  - siren: 180067019
+    nom: IGN
+    interlocuteur: Délégué Régional Occitanie
+    mail: philippe.abadie@ign.fr
+    telephone: +33607043758
+    role: presta_vol presta_lidar financeur diffuseur
+    finance_part_perc: 9.5 %
+    finance_part_euro: 108593
+  - siren: 401651500 
+    nom: OPenIG
+    interlocuteur: Chef de projets PCRS
+    mail: gpoujol@openig.org
+    telephone: +33643935920
+    role: diffuseur financeur
+    finance_part_perc: 5.6 %
+    finance_part_euro: 64167
+
+ perimetres:
+  - departement: 11
+  
+subventions: 
+  - nom: FEDER
+    nature: feder
+    montant: 592070
+    echeance: 2023
