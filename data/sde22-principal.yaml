@@ -53,7 +53,7 @@ etapes:
   - statut: production
     date_debut: 2020-01-01
     
- perimetres:
+perimetres:
   - departement:22
   
 subventions: 

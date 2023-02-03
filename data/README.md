@@ -31,7 +31,7 @@ Il convient donc de créer un projet différent par campagne de mise à jour, av
 Cela semble beaucoup plus fin que ce qu'on peut s'imaginer des projets PCRS, c'est néanmoins le seul moyen de décrire un calendrier très simple de quelques étapes avec des livrables clairement identifiés à la fin.  
 La plupart de ces différents projets correspondront à la même convention.
 
-Un fichier modèle `_porteur_projet_A_DUPLIQUER_ET_RENOMMER.yaml` est à votre disposition pour initialiser la description de votre projet.
+Un fichier modèle `projet-exemple.yaml` est à votre disposition pour initialiser la description de votre projet.
 
 ## Propriétés générales
 

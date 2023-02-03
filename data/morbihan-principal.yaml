@@ -2,13 +2,13 @@ nom: Morbihan - Principal
 regime: production
 nature: raster
 
-livrable:
+livrables:
   - nom: Images raster
     nature: geotiff
     diffusion: flux
     licence: ferme
 
-acteur:
+acteurs:
   - siren: 200042174
     nom: Morbihan Energies
     telephone: "+33297620750"
@@ -21,7 +21,7 @@ perimetres:
   - epci:200066777
   - epci:200066785
   - epci:245614383
-  - epci:200067221
+  - epci:200096683
   - epci:200043123
   - epci:200067932
   - epci:200027027
@@ -70,7 +70,7 @@ etapes:
     date_debut:
   - statut: produit
     date_debut:
-  - statut: livré
+  - statut: livre
     date_debut:
 
 subventions:

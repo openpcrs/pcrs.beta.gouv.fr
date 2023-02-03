@@ -62,7 +62,7 @@ etapes:
   - statut: produit
     date_debut: 2022-09-01
     
- perimetres:
+perimetres:
   - epci:248500191
   - epci:200072882
   - epci:248500662
