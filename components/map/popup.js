@@ -7,7 +7,7 @@ import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors.js'
 import {formatDate} from '@/lib/date-utils.js'
 
 const Popup = ({projet}) => {
-  const {aplc, dateStatut, id, nature, statut} = projet
+  const {aplc, dateStatut, nom, nature, statut} = projet
   const {status, natures} = PCRS_DATA_COLORS
 
   return (
@@ -17,7 +17,7 @@ const Popup = ({projet}) => {
         textAlign: 'center'
       }}
     >
-      <h6 className='title fr-text fr-text--md'><u>{id}</u></h6>
+      <h6 className='title fr-text fr-text--md'><u>{nom}</u></h6>
       <div className='fr-text fr-text--sm fr-grid-row fr-pb-3v'>
         En
         <p
