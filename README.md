@@ -37,7 +37,7 @@ yarn lint
 ```bash
 yarn build-data
 ```
-Les fichiers YAML contenus dans le dossier `/data` vont être parcouru et transformé en deux fichiers :   
+Les fichiers YAML contenus dans le dossier `/data` vont être parcourus et transformés en deux fichiers :   
 - `projets.json` : qui contient les données des projets PCRS
 - `projets.geojson` : qui contient les contours des projets PCRS
 > *Les données vont préalablement __être validées__.*   
