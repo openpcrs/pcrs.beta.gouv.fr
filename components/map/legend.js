@@ -1,4 +1,5 @@
 import {useState} from 'react'
+import PropTypes from 'prop-types'
 import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors.js'
 import Badge from '@/components/badge.js'
 
@@ -25,7 +26,7 @@ const Legend = ({isMobile}) => {
           <Badge className='fr-pb-1v' size='small' background={status.produit}>Produit</Badge>
           <Badge className='fr-pb-1v' size='small' background={status.livre} textColor='snow'>Livré</Badge>
           <Badge className='fr-pb-2v' size='small' background={status.obsolete} textColor='snow'>Obsolète</Badge>
-          <hr className='fr-p-1v'/>
+          <hr className='fr-p-1v' />
           <span
             className='fr-icon--sm fr-icon-close-circle-line'
             aria-hidden='true'
@@ -52,6 +53,14 @@ const Legend = ({isMobile}) => {
       )}
     </div>
   )
+}
+
+Legend.defaultProps = {
+  isMobile: true
+}
+
+Legend.propTypes = {
+  isMobile: PropTypes.bool
 }
 
 export default Legend
