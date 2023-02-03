@@ -9,7 +9,7 @@ import yaml from 'js-yaml'
 import Joi from 'joi'
 import {createGeometryBuilder} from '../lib/build-geometry.js'
 
-const pcrsFolder = './data'
+const projetsDirectory = './data'
 
 const acteursSchema = Joi.object().keys({
   siren: Joi.number().required(),
@@ -95,17 +95,17 @@ async function buildPCRSData() {
   const projets = []
   const jsonOutputPath = new URL('../public/projets.json', import.meta.url)
 
-  const filesList = await readdir(pcrsFolder)
+  const filesList = await readdir(projetsDirectory)
 
   for (const fileName of filesList) {
     if (fileName.endsWith('.yaml') && fileName !== 'projet-exemple.yaml') {
       console.log(`  → Reading ${fileName}  `)
-      const filePath = path.join(pcrsFolder, fileName)
+      const filePath = path.join(projetsDirectory, fileName)
       const projet = yaml.load(await readFile(filePath))
 
-      try {
-        await schema.validateAsync(projet)
-      } catch (error) {
+      const {error} = schema.validate(projet)
+
+      if (error) {
         throw new Error(error)
       }
 
