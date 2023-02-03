@@ -55,6 +55,8 @@ perimetres:
   - commune:01204
   - commune:01010
   - commune:01118
+  - commune:01407
+  - commune:01011
 
 etapes:
   - statut: investigation
