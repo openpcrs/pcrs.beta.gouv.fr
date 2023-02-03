@@ -41,8 +41,8 @@ Les fichiers YAML contenus dans le dossier `/data` vont être parcourus et trans
 - `projets.json` : qui contient les données des projets PCRS
 - `projets.geojson` : qui contient les contours des projets PCRS
 > *Les données vont préalablement __être validées__.*   
-> *Une erreur sera affichée en console si un champ est manquant, mal orhtographié,*   
-> *ou si l’indentation du fichier yaml n’est pas correcte.*   
+> *Une erreur sera affichée en console si un champ est manquant, mal orthographié,*   
+> *ou si l’indentation du fichier YAML n’est pas correcte.*   
 ---
 
 ## Licence
