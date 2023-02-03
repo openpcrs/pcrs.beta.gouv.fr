@@ -130,7 +130,7 @@ const Map = ({handleClick, isMobile}) => {
   return (
     <div style={{position: 'relative', height: '100%', width: '100%'}}>
       <div ref={mapNode} style={{width: '100%', height: '100%'}} />
-      <Legend isMobile={isMobile} />
+      <Legend isMobile={isMobile === true} />
     </div>
   )
 }
