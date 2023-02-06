@@ -1,14 +1,22 @@
+import {useState} from 'react'
 import PropTypes from 'prop-types'
 
 import colors from '@/styles/colors.js'
 
-const Tooltip = ({tooltipContent, children}) => (
-  <div className='tooltip-container'>
-    {children}
+const Tooltip = ({tooltipContent, position, children}) => {
+  const [isScreenPress, setIsScreenPress] = useState(false)
 
-    <div className='tooltip-text'>{tooltipContent()}</div>
+  return (
+    <div
+      className='tooltip-container'
+      onTouchStart={() => setIsScreenPress(true)}
+      onTouchEnd={() => setIsScreenPress(false)}
+    >
+      {children}
 
-    <style jsx>{`
+      <div className={`tooltip-text ${position}`}>{tooltipContent()}</div>
+
+      <style jsx>{`
       .tooltip-container {
         position: relative;
         display: inline-block;
@@ -16,7 +24,7 @@ const Tooltip = ({tooltipContent, children}) => (
       }
 
       .tooltip-container .tooltip-text {
-        visibility: hidden;
+        visibility: ${isScreenPress ? 'visible' : 'hidden'};
         background-color: ${colors.info425};
         color: white;
         text-align: center;
@@ -24,24 +32,38 @@ const Tooltip = ({tooltipContent, children}) => (
         padding: 5px 10px;
         position: absolute;
         z-index: 1;
-        top: 105%;
+        top: 110%;
         width: max-content;
+      }
+
+      .left {
+        right: 0;
+      }
+
+      .right {
+        left: 0;
       }
 
       .tooltip-container:hover .tooltip-text {
         visibility: visible;
       }
     `}</style>
-  </div>
-)
+    </div>
+  )
+}
 
 Tooltip.propTypes = {
   tooltipContent: PropTypes.func.isRequired,
+  position: PropTypes.oneOf([
+    'left',
+    'right'
+  ]),
   children: PropTypes.node
 }
 
 Tooltip.defaultProps = {
-  children: null
+  children: null,
+  position: 'right'
 }
 
 export default Tooltip
