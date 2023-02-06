@@ -23,7 +23,7 @@ const MapSidebar = ({projet}) => {
     <>
       <Header projectName={nom} territoires={territoires} />
       <div className='infos-container'>
-        <h2 className='fr-text--lead fr-mb-1w'>État d’avancement du PCRS</h2>
+        <h2 className='fr-text--lead fr-mb-1w'>État d’avancement</h2>
         <div className='actual-status fr-mb-3w'>
           <Badge
             background={status[statut]}

@@ -44,7 +44,7 @@ const Popup = ({projet}) => {
           </Badge>
         </div>
         <div className='block'>
-          <div className='block-title fr-pb-1v'><b>APLC</b></div>
+          <div className='block-title fr-pb-1v'><b>Porteur</b></div>
           <div><i>{aplc}</i></div>
         </div>
       </div>

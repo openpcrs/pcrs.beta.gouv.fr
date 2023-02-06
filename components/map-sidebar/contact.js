@@ -28,7 +28,7 @@ const Contact = ({name, phone, mail}) => (
         target='_self'
         aria-label='Email du contact de référence'
       >
-        {`${mail || 'non-renseigné'}`}
+        {`${mail || 'non renseigné'}`}
       </a>
     </div>
 
