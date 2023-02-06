@@ -5,7 +5,7 @@ const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === 'true'
 })
 
-const imagesDomains = ['static.data.gouv.fr']
+const imagesDomains = []
 
 if (process.env.NEXT_PUBLIC_GHOST_URL_IMAGES_SOURCE) {
   imagesDomains.push(process.env.NEXT_PUBLIC_GHOST_URL_IMAGES_SOURCE)

@@ -128,6 +128,7 @@ async function buildPCRSData() {
     geometry: geometryBuilder.buildFromTerritories(projet.perimetres),
     properties: {
       id: projet.id,
+      nom: projet.nom,
       statut: projet.statut,
       dateStatut: projet.dateStatut,
       aplc: projet.aplc,

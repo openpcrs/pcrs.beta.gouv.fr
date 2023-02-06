@@ -4,7 +4,7 @@ import Meta from '@/components/meta.js'
 import Header from '@/components/header.js'
 import Footer from '@/components/footer.js'
 
-const Page = ({title, description, image, children}) => (
+const Page = ({title, description, image, hasFooter, children}) => (
   <>
     <Meta title={title} description={description} image={image} />
     <Header />
@@ -13,7 +13,9 @@ const Page = ({title, description, image, children}) => (
       {children}
     </main>
 
-    <Footer />
+    {hasFooter && (
+      <Footer />
+    )}
 
     <style jsx>{`
       main {
@@ -29,12 +31,14 @@ Page.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
   image: PropTypes.string,
+  hasFooter: PropTypes.bool,
   children: PropTypes.node
 }
 
 Page.defaultProps = {
   title: 'Accompagnement national du PCRS',
   description: 'Accompagner et diffuser les projets locaux de PCRS en cours et à venir',
+  hasFooter: true,
   image: null
 }
 
