@@ -66,6 +66,7 @@ const MapSidebar = ({projet}) => {
       <style jsx>{`
         .infos-container {
           padding: 1em;
+          background-color: #ffffff;
         }
         .actual-status {
           display: flex;
