@@ -1,0 +1,31 @@
+nom: Manche - CA du Cotentin
+regime: production
+nature: raster
+livrables:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ferme
+
+acteurs: 
+  - siren: 200067205
+    nom: Agglomération du Cotentin
+    telephone: "+33250791610"
+    role: aplc
+
+perimetres:
+  - commune:50041
+  - commune:50129
+
+etapes:
+  - statut: investigation
+    date_debut: 2021-01-01
+  - statut: production
+    date_debut: 2021-06-01
+  - statut: produit
+    date_debut: 2021-12-01
+  - statut: livre
+    date_debut: 2022-03-01
+
+subventions: 
+    
