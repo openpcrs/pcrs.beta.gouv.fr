@@ -32,7 +32,9 @@ const MapSidebar = ({projet}) => {
             {projet.statut === 'livre' ? 'livré' : projet.statut}
           </Badge>
 
-          <div className='start-date fr-text--sm fr-m-0'>Lancement du projet le {projectStartDate}</div>
+          {projectStartDate && (
+            <div className='start-date fr-text--sm fr-m-0'>Lancement du projet le {projectStartDate}</div>
+          )}
         </div>
         {!isObsolete && (
           <Timeline
