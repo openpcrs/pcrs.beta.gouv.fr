@@ -40,7 +40,7 @@ acteurs:
     finance_part_perc: 5.6 %
     finance_part_euro: 64167
 
- perimetres:
+perimetres:
   - departement:11
   
 subventions: 
