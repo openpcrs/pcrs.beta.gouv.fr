@@ -41,7 +41,7 @@ acteurs:
     finance_part_euro: 64167
 
  perimetres:
-  - departement: 11
+  - departement:11
   
 subventions: 
   - nom: FEDER
