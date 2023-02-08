@@ -48,7 +48,7 @@ const livrablesSchema = Joi.object().keys({
     'gml'
   ).required(),
   licence: Joi.valid(
-    'ouverte_lo',
+    'ouvert_lo',
     'ouvert_odbl',
     'ferme'
   ).required(),
