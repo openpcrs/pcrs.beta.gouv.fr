@@ -67,7 +67,9 @@ const subventionsSchema = Joi.object().keys({
     'feder',
     'cepr',
     'detr'
-  ).required()
+  ).required(),
+  montant: Joi.number(),
+  echeance: Joi.date()
 })
 
 const schema = Joi.object({
