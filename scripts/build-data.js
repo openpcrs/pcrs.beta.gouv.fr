@@ -65,7 +65,8 @@ const subventionsSchema = Joi.object().keys({
   nom: Joi.string().required(),
   nature: Joi.valid(
     'feder',
-    'cepr'
+    'cepr',
+    'detr'
   ).required()
 })
 
