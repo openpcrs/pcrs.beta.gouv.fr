@@ -85,7 +85,7 @@ const schema = Joi.object({
   ).required(),
   livrables: Joi.array().items(livrablesSchema).required(),
   acteurs: Joi.array().items(acteursSchema).required(),
-  perimetres: Joi.array().required(),
+  perimetres: Joi.array().items(Joi.string()).required(),
   etapes: Joi.array().items(etapesSchema).required(),
   subventions: Joi.array().items(subventionsSchema).required().allow(null)
 }).prefs({convert: false})
