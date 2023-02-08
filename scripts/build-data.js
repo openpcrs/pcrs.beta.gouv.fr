@@ -24,7 +24,7 @@ const acteursSchema = Joi.object().keys({
     'presta_vol',
     'presta_lidar',
     'controleur'
-  ),
+  ).required(),
   finance_part_perc: Joi.number(),
   finance_part_euro: Joi.number()
 })
@@ -37,7 +37,7 @@ const etapesSchema = Joi.object().keys({
     'livre',
     'obsolete'
   ).required(),
-  date_debut: Joi.date().allow(null)
+  date_debut: Joi.date().allow(null).required()
 })
 
 const livrablesSchema = Joi.object().keys({
