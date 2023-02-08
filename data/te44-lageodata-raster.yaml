@@ -74,5 +74,5 @@ perimetres:
 
 subventions: 
   - nom: DETR
-    nature : detr
-    montant : 100000
+    nature: detr
+    montant: 100000
