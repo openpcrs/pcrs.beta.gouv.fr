@@ -11,6 +11,9 @@
       "@/layouts/*": [
         "layouts/*"
       ],
+      "@/contexts/*": [
+        "contexts/*"
+      ],
       "@/lib/*": [
         "lib/*"
       ]
