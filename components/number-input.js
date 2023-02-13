@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 
-const NumberInput = ({label, value, name, min, max, placeholder, errorMessage, description, isRequired, isDisable, onValueChange}) => {
+const NumberInput = ({label, value, min, max, placeholder, errorMessage, description, isRequired, isDisabled, onValueChange}) => {
   const [minMaxError, setMinMaxError] = useState(null)
 
   const inputState = minMaxError || errorMessage ? 'error' : ''
@@ -40,7 +40,7 @@ const NumberInput = ({label, value, name, min, max, placeholder, errorMessage, d
         min={min}
         max={max}
         placeholder={placeholder}
-        disabled={isDisable}
+        disabled={isDisabled}
         type='number'
         name={name}
         pattern='[0-9]+'
@@ -67,7 +67,7 @@ NumberInput.propTypes = {
   errorMessage: PropTypes.string,
   description: PropTypes.string,
   isRequired: PropTypes.bool,
-  isDisable: PropTypes.bool,
+  isDisabled: PropTypes.bool,
   onValueChange: PropTypes.func.isRequired
 }
 
@@ -79,7 +79,7 @@ NumberInput.defaultProps = {
   errorMessage: null,
   description: null,
   isRequired: false,
-  isDisable: false
+  isDisabled: false
 }
 
 export default NumberInput

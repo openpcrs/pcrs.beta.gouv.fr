@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-const TextInput = ({label, value, name, placeholder, errorMessage, description, isRequired, isDisable, onValueChange}) => {
+const TextInput = ({label, value, placeholder, errorMessage, description, isRequired, isDisabled, onValueChange}) => {
   const inputState = errorMessage ? 'error' : ''
 
   return (
@@ -17,7 +17,7 @@ const TextInput = ({label, value, name, placeholder, errorMessage, description, 
         value={value}
         name={name}
         placeholder={placeholder}
-        disabled={isDisable}
+        disabled={isDisabled}
         onChange={e => onValueChange(e.target.value)}
       />
 
@@ -34,7 +34,7 @@ TextInput.propTypes = {
   errorMessage: PropTypes.string,
   description: PropTypes.string,
   isRequired: PropTypes.bool,
-  isDisable: PropTypes.bool,
+  isDisabled: PropTypes.bool,
   onValueChange: PropTypes.func
 }
 
@@ -44,7 +44,7 @@ TextInput.defaultProps = {
   errorMessage: null,
   description: null,
   isRequired: false,
-  isDisable: false
+  isDisabled: false
 }
 
 export default TextInput

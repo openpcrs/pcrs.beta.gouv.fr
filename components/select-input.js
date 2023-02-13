@@ -5,7 +5,7 @@ const SelectInput = ({label, value, name, options, errorMessage, description, is
 
   return (
     <div className={`fr-select-group fr-select-group--${inputState}`}>
-      <label className='fr-label' htmlFor='select'>{label}</label>
+      <label className='fr-label'>{label}</label>
       {description && <span className='fr-hint-text fr-mb-2w'>{description}</span>}
 
       <select
@@ -13,7 +13,7 @@ const SelectInput = ({label, value, name, options, errorMessage, description, is
         name={name}
         className={`fr-select fr-select--${inputState}`}
         required={isRequired}
-        disabled={isDisable}
+        disabled={isDisabled}
         onChange={e => onValueChange(e.target.value)}
       >
         <option
@@ -24,11 +24,11 @@ const SelectInput = ({label, value, name, options, errorMessage, description, is
           Selectionnez une option
         </option>
 
-        {options.map(({value, label, isDisable}) => (
+        {options.map(({value, label, isDisabled}) => (
           <option
             key={value}
             value={value}
-            disabled={isDisable}
+            disabled={isDisabled}
           >
             {label}
           </option>
@@ -49,14 +49,14 @@ SelectInput.propTypes = {
   errorMessage: PropTypes.string,
   isRequired: PropTypes.bool,
   onValueChange: PropTypes.func.isRequired,
-  isDisable: PropTypes.bool
+  isDisabled: PropTypes.bool
 }
 
 SelectInput.defaultProps = {
   errorMessage: null,
   description: null,
   isRequired: false,
-  isDisable: false
+  isDisabled: false
 }
 
 export default SelectInput
