@@ -42,7 +42,7 @@ const SelectInput = ({label, value, ariaLabel, options, errorMessage, descriptio
 
 SelectInput.propTypes = {
   label: PropTypes.string,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   ariaLabel: PropTypes.string,
   options: PropTypes.array.isRequired,
   description: PropTypes.string,
@@ -54,6 +54,7 @@ SelectInput.propTypes = {
 
 SelectInput.defaultProps = {
   label: '',
+  value: '',
   ariaLabel: '',
   errorMessage: null,
   description: null,
