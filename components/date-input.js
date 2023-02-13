@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types'
 
-const DateInput = ({label, value, errorMessage, description, isRequired, isDisabled, onValueChange}) => {
+const DateInput = ({label, value, ariaLabel, errorMessage, description, isRequired, isDisabled, onValueChange}) => {
   const inputState = errorMessage ? 'error' : ''
 
   return (
     <div className='fr-input-group'>
-      <label className='fr-label' htmlFor='text-input-calendar'>{label}</label>
+      <label className='fr-label'>{label}</label>
       {description && <span className='fr-hint-text fr-mb-2w'>{description}</span>}
 
       <div className='fr-input-wrap fr-fi-calendar-line'>
@@ -13,7 +13,7 @@ const DateInput = ({label, value, errorMessage, description, isRequired, isDisab
           className={`fr-input fr-input--${inputState}`}
           type='date'
           value={value}
-          name={name}
+          aria-label={ariaLabel}
           required={isRequired}
           disabled={isDisabled}
           onChange={e => onValueChange(e.target.value)}
@@ -28,7 +28,7 @@ const DateInput = ({label, value, errorMessage, description, isRequired, isDisab
 DateInput.propTypes = {
   label: PropTypes.string,
   value: PropTypes.string,
-  name: PropTypes.string.isRequired,
+  ariaLabel: PropTypes.string,
   errorMessage: PropTypes.string,
   description: PropTypes.string,
   isRequired: PropTypes.bool,
@@ -39,6 +39,7 @@ DateInput.propTypes = {
 DateInput.defaultProps = {
   label: '',
   value: '',
+  ariaLabel: '',
   errorMessage: null,
   description: null,
   isRequired: false,

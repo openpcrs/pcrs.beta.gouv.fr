@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-const SelectInput = ({label, value, name, options, errorMessage, description, isRequired, isDisable, onValueChange}) => {
+const SelectInput = ({label, value, ariaLabel, options, errorMessage, description, isRequired, isDisabled, onValueChange}) => {
   const inputState = errorMessage ? 'error' : ''
 
   return (
@@ -10,7 +10,7 @@ const SelectInput = ({label, value, name, options, errorMessage, description, is
 
       <select
         value={value}
-        name={name}
+        aria-label={ariaLabel}
         className={`fr-select fr-select--${inputState}`}
         required={isRequired}
         disabled={isDisabled}
@@ -43,7 +43,7 @@ const SelectInput = ({label, value, name, options, errorMessage, description, is
 SelectInput.propTypes = {
   label: PropTypes.string,
   value: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
+  ariaLabel: PropTypes.string,
   options: PropTypes.array.isRequired,
   description: PropTypes.string,
   errorMessage: PropTypes.string,
@@ -54,6 +54,7 @@ SelectInput.propTypes = {
 
 SelectInput.defaultProps = {
   label: '',
+  ariaLabel: '',
   errorMessage: null,
   description: null,
   isRequired: false,

@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types'
 
-const TextInput = ({label, value, placeholder, errorMessage, description, isRequired, isDisabled, onValueChange}) => {
+const TextInput = ({label, value, ariaLabel, placeholder, errorMessage, description, isRequired, isDisabled, onValueChange}) => {
   const inputState = errorMessage ? 'error' : ''
 
   return (
     <div className={`fr-input-group fr-input-group--${inputState}`}>
-      <label className='fr-label' htmlFor={`text-input-${inputState}`}>
+      <label className='fr-label'>
         {label}
         {description && <span className='fr-hint-text fr-mb-2w'>{description}</span>}
       </label>
@@ -15,7 +15,7 @@ const TextInput = ({label, value, placeholder, errorMessage, description, isRequ
         required={isRequired}
         className={`fr-input fr-input--${inputState}`}
         value={value}
-        name={name}
+        aria-label={ariaLabel}
         placeholder={placeholder}
         disabled={isDisabled}
         onChange={e => onValueChange(e.target.value)}
@@ -29,7 +29,7 @@ const TextInput = ({label, value, placeholder, errorMessage, description, isRequ
 TextInput.propTypes = {
   label: PropTypes.string,
   value: PropTypes.string,
-  name: PropTypes.string.isRequired,
+  ariaLabel: PropTypes.string,
   placeholder: PropTypes.string,
   errorMessage: PropTypes.string,
   description: PropTypes.string,
@@ -41,6 +41,7 @@ TextInput.propTypes = {
 TextInput.defaultProps = {
   label: '',
   value: '',
+  ariaLabel: '',
   placeholder: null,
   errorMessage: null,
   description: null,

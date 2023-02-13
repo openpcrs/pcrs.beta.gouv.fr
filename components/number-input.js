@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 
-const NumberInput = ({label, value, min, max, placeholder, errorMessage, description, isRequired, isDisabled, onValueChange}) => {
+const NumberInput = ({label, value, ariaLabel, min, max, placeholder, errorMessage, description, isRequired, isDisabled, onValueChange}) => {
   const [minMaxError, setMinMaxError] = useState(null)
 
   const inputState = minMaxError || errorMessage ? 'error' : ''
@@ -26,14 +26,12 @@ const NumberInput = ({label, value, min, max, placeholder, errorMessage, descrip
   }, [value, min, max])
 
   return (
-    <div className={`fr-input-group fr-input-group--${inputState}`}>
-      <label
-        className='fr-label'
-        htmlFor={`text-input-${inputState}`}
-      >
+    <div className={`fr-input-group fr-input-group--${inputState}`} >
+      <label className='fr-label'>
         {label}
         {description && <span className='fr-hint-text fr-mb-2w'>{description}</span>}
       </label>
+
       <input
         required={isRequired}
         value={value}
@@ -41,8 +39,8 @@ const NumberInput = ({label, value, min, max, placeholder, errorMessage, descrip
         max={max}
         placeholder={placeholder}
         disabled={isDisabled}
+        aria-label={ariaLabel}
         type='number'
-        name={name}
         pattern='[0-9]+'
         className={`fr-input fr-input--${inputState}`}
         onChange={e => onValueChange(e.target.value)}
@@ -60,7 +58,7 @@ const NumberInput = ({label, value, min, max, placeholder, errorMessage, descrip
 NumberInput.propTypes = {
   label: PropTypes.string,
   value: PropTypes.string,
-  name: PropTypes.string.isRequired,
+  ariaLabel: PropTypes.string,
   placeholder: PropTypes.string,
   min: PropTypes.number,
   max: PropTypes.number,
@@ -74,6 +72,7 @@ NumberInput.propTypes = {
 NumberInput.defaultProps = {
   label: '',
   value: '',
+  ariaLabel: '',
   min: null,
   max: null,
   placeholder: null,
