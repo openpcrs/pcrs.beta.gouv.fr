@@ -2,7 +2,7 @@ nom: Métropole de Brest
 regime: production
 nature: mixte
 
-livrable:
+livrables:
   - nom: Images raster
     nature: geotiff
     diffusion: flux
@@ -12,7 +12,7 @@ livrable:
     diffusion: flux
     licence: ferme
 
-acteur:
+acteurs:
   - siren: 242900314
     nom: Brest Métropole
     telephone: "+33298335050"
@@ -46,7 +46,7 @@ etapes:
     date_debut: 2019-01-01
   - statut: produit
     date_debut: 2019-09-01
-  - statut: livré
+  - statut: livre
     date_debut: 2021-01-01
 
 subventions:

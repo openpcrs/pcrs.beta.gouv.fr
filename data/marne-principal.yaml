@@ -5,7 +5,7 @@ livrables:
   - nom: Images raster
     nature: geotiff
     diffusion: flux
-    licence: ouverte_lo
+    licence: ouvert_lo
 
 acteurs: 
   - siren: 255100984

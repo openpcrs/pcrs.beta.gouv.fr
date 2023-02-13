@@ -11,16 +11,16 @@ livrables:
     nature: gml
     diffusion: flux
     licence: ferme
-    
-etapes: 
+
+etapes:
   - statut: investigation
     date_debut: 2015-01-01
   - statut: production
     date_debut: 2016-01-01
   - statut: produit
     date_debut: 2018-01-01
-    
-acteurs: 
+
+acteurs:
   - siren: 257400085
     nom: Acteur 1
     interlocuteur: Chef de projet
@@ -31,13 +31,13 @@ acteurs:
   - siren: 444608442
     nom: Enedis
     role: financeur
-    
- perimetres:
+
+perimetres:
   - commune:74010
   - epci:257400085
   - departement:74
-  
-subventions: 
+
+subventions:
   - nom: FEDER
     nature: feder
   - nom: Contrat Etat-Région

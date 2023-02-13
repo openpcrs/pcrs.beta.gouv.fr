@@ -22,7 +22,8 @@ CHANGELOG.md
 # Build
 .next
 bundle-stats
-available-flags.json
+public/projets.json
+public/projets.geojson
 
 # Cache
 .yarn-cache
