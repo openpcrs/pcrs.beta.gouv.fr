@@ -5,7 +5,7 @@ nature: raster
 livrables:
   - nom: Images raster
     nature: jpeg2000
-    diffusion: flux, telechargement
+    diffusion: flux
     licence: ouvert_lo
 
 etapes: 
