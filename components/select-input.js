@@ -41,7 +41,7 @@ const SelectInput = ({label, value, name, options, errorMessage, description, is
 }
 
 SelectInput.propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   value: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   options: PropTypes.array.isRequired,
@@ -53,6 +53,7 @@ SelectInput.propTypes = {
 }
 
 SelectInput.defaultProps = {
+  label: '',
   errorMessage: null,
   description: null,
   isRequired: false,

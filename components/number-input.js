@@ -58,7 +58,7 @@ const NumberInput = ({label, value, min, max, placeholder, errorMessage, descrip
 }
 
 NumberInput.propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   value: PropTypes.string,
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
@@ -72,6 +72,7 @@ NumberInput.propTypes = {
 }
 
 NumberInput.defaultProps = {
+  label: '',
   value: '',
   min: null,
   max: null,

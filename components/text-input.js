@@ -27,7 +27,7 @@ const TextInput = ({label, value, placeholder, errorMessage, description, isRequ
 }
 
 TextInput.propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   value: PropTypes.string,
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
@@ -39,6 +39,7 @@ TextInput.propTypes = {
 }
 
 TextInput.defaultProps = {
+  label: '',
   value: '',
   placeholder: null,
   errorMessage: null,

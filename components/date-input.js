@@ -26,7 +26,7 @@ const DateInput = ({label, value, errorMessage, description, isRequired, isDisab
 }
 
 DateInput.propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   value: PropTypes.string,
   name: PropTypes.string.isRequired,
   errorMessage: PropTypes.string,
@@ -37,6 +37,7 @@ DateInput.propTypes = {
 }
 
 DateInput.defaultProps = {
+  label: '',
   value: '',
   errorMessage: null,
   description: null,
