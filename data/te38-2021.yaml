@@ -29,13 +29,7 @@ perimetres:
   - epci:200070431
   - epci:243801024
   - epci:200018166
-  - commune:38155
-  - commune:38236
-  - commune:38376
-  - commune:38405
-  - commune:38412
-  - commune:38442
-  - commune:38446
+  - epci:200040111
 
 etapes:
   - statut: investigation

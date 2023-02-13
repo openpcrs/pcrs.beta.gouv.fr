@@ -2,7 +2,19 @@ nom: Savoie principal
 regime: production
 nature: raster
 livrables:
-  - nom: Images raster
+  - nom: Images raster bloc 2022
+    nature: geotiff
+    diffusion: flux
+    licence: ouvert_lo
+  - nom: Images raster bloc 2023
+    nature: geotiff
+    diffusion: flux
+    licence: ouvert_lo
+  - nom: Images raster bloc 2024
+    nature: geotiff
+    diffusion: flux
+    licence: ouvert_lo
+  - nom: Images raster bloc 2025
     nature: geotiff
     diffusion: flux
     licence: ouvert_lo
@@ -90,45 +102,17 @@ perimetres:
   - epci:247300528
   - epci:247300668
   - epci:200040798
-  - commune:73017
-  - commune:73018
-  - commune:73041
-  - commune:73052
-  - commune:73053
-  - commune:73068
-  - commune:73069
-  - commune:73072
-  - commune:73075
-  - commune:73079
-  - commune:73082
-  - commune:73084
-  - commune:73089
-  - commune:73095
-  - commune:73096
-  - commune:73099
-  - commune:73120
-  - commune:73133
-  - commune:73141
-  - commune:73159
-  - commune:73166
-  - commune:73171
-  - commune:73183
-  - commune:73200
-  - commune:73205
-  - commune:73207
-  - commune:73215
-  - commune:73217
-  - commune:73240
-  - commune:73247
-  - commune:73270
-  - commune:73276
-  - commune:73289
-  - commune:73302
-  - commune:73311
-  - commune:73314
-  - commune:73315
-  - commune:73316
-  - commune:73324
+  - epci:200041010
+  - commune:73033
+  - commune:73092
+  - commune:73105
+  - commune:73107
+  - commune:73229
+  - commune:73233
+  - commune:73246
+  - commune:73274
+  - commune:73275
+  - commune:73282
 
 etapes:
   - statut: investigation

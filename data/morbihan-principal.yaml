@@ -63,6 +63,7 @@ perimetres:
   - commune:56242
   - commune:56245
   - commune:56246
+  - commune:56250
   
 etapes:
   - statut: investigation
