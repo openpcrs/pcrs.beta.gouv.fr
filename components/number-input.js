@@ -11,11 +11,11 @@ const NumberInput = ({label, value, ariaLabel, min, max, placeholder, errorMessa
     const hasMax = max === 0 || max
 
     if ((hasMin && !hasMax) && value < min) {
-      setMinMaxError(`La valeur est inférieur à ${min}`)
+      setMinMaxError(`La valeur est inférieure à ${min}`)
     }
 
     if ((!hasMin && hasMax) && value > max) {
-      setMinMaxError(`La valeur est supérieur à ${max}`)
+      setMinMaxError(`La valeur est supérieure à ${max}`)
     }
 
     if ((hasMin && hasMax) && (value < min || value > max)) {
