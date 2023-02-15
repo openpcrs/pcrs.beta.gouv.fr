@@ -100,6 +100,8 @@ const Home = ({testimonies}) => (
       subtitle='Les étapes suivantes marqueront le développement de ce portail'
       imageLink='/images/illustrations/progress_illustration.png'
       id='feuille-de-route'
+      background='secondary'
+      imageSide='right'
     >
       <ul className='fr-text--sm dev-list'>
         <li>
