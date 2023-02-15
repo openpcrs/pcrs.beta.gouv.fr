@@ -17,9 +17,15 @@ acteurs:
     nom: Eurométropole de Strasbourg
     telephone: "+33368985000"
     role: aplc
-  - siren: 444608442
-    nom: Enedis
+    finance_part_perc: 85
+  - siren: 823982954
+    nom: Strabourg Electricite Réseaux
     role: financeur
+    finance_part_perc: 7.5
+  - siren: 548501113
+    nom: R-GDS
+    role: financeur
+    finance_part_perc: 7.5
 
 perimetres:
   - epci:246700488

@@ -7,18 +7,36 @@ livrables:
     diffusion: flux
     licence: ferme
 
-
 acteurs: 
-  - siren: 246700488
+  - siren: 246800726
     nom: Agglomération de Colmar
     telephone: "+33368985000"
     role: aplc
-  - siren: 444608442
-    nom: Enedis
+    finance_part_perc: 32
+    finance_part_euro: 280000
+  - siren: 444786511
+    nom: GRDF
     role: financeur
+    finance_part_perc: 2.1
+  - siren: 451279848
+    nom: Vialis
+    role: financeur
+    finance_part_perc: 17
+  - siren: 389807108
+    nom: Colmarienne des eaux
+    role: financeur
+    finance_part_perc: 14.6
+  - siren: 256800202
+    nom: SIEPI
+    role: financeur
+    finance_part_perc: 1.7
+  - siren: 256803180
+    nom: Syndicat mixte d'assainissement du vignoble
+    role: financeur
+    finance_part_perc: 0.6
 
 perimetres:
-  - epci:246700488
+  - epci:246800726
 
 etapes:
   - statut: investigation
