@@ -29,7 +29,7 @@ const NumberInput = ({label, value, ariaLabel, min, max, placeholder, errorMessa
     <div className={`fr-input-group fr-input-group--${inputState}`} >
       <label className='fr-label'>
         {label}
-        {description && <span className='fr-hint-text fr-mb-2w'>{description}</span>}
+        {description && <span className='fr-hint-text fr-mb-2w fr-mt-0'>{description}</span>}
       </label>
 
       <input
