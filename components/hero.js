@@ -29,7 +29,7 @@ const Hero = () => (
       <Link
         passHref
         legacyBehavior
-        href='/#suivi-geo'
+        href='/suivi-pcrs'
       >
         <a aria-label='Accéder à la section suivi géo' className='fr-link illustrated-link'>
           <Image
