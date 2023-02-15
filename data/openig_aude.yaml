@@ -21,7 +21,7 @@ acteurs:
     mail: nicolas.delpoux@syaden.fr
     telephone: "+33468115630"
     role: aplc
-    finance_part_perc: 33.3 %
+    finance_part_perc: 33.3
     finance_part_euro: 381611 
   - siren: 180067019
     nom: IGN
@@ -29,7 +29,7 @@ acteurs:
     mail: philippe.abadie@ign.fr
     telephone: "+33556166084"
     role: presta_vol presta_lidar financeur diffuseur
-    finance_part_perc: 9.5 %
+    finance_part_perc: 9.5
     finance_part_euro: 108593
   - siren: 401651500 
     nom: OPenIG
@@ -37,7 +37,7 @@ acteurs:
     mail: gpoujol@openig.org
     telephone: "+33467558654"
     role: diffuseur financeur
-    finance_part_perc: 5.6 %
+    finance_part_perc: 5.6
     finance_part_euro: 64167
 
 perimetres:
