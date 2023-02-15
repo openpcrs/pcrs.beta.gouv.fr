@@ -28,7 +28,7 @@ acteurs:
     interlocuteur: Délégué Régional Occitanie
     mail: philippe.abadie@ign.fr
     telephone: "+33556166084"
-    role: presta_vol presta_lidar financeur diffuseur
+    role: financeur
     finance_part_perc: 9.5
     finance_part_euro: 108593
   - siren: 401651500 
@@ -36,7 +36,7 @@ acteurs:
     interlocuteur: Chef de projets PCRS
     mail: gpoujol@openig.org
     telephone: "+33467558654"
-    role: diffuseur financeur
+    role: diffuseur
     finance_part_perc: 5.6
     finance_part_euro: 64167
 
