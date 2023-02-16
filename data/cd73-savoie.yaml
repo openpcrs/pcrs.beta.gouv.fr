@@ -116,11 +116,9 @@ perimetres:
 
 etapes:
   - statut: investigation
-    date_debut: 2015-01-01
+    date_debut: 2017-01-01
   - statut: production
-    date_debut: 2018-01-01
-  - statut: produit
-    date_debut: 2021-01-01
+    date_debut: 2022-03-01
 
 subventions: 
     
