@@ -17,7 +17,8 @@ const AutocompleteInput = ({
   isDisabled,
   isLoading,
   onValueChange,
-  onSelectValue
+  onSelectValue,
+  getItemValue
 }) => {
   const inputState = errorMessage ? 'error' : ''
 
@@ -67,7 +68,7 @@ const AutocompleteInput = ({
   return (
     <Autocomplete
       value={value}
-      getItemValue={item => item.siren}
+      getItemValue={getItemValue}
       items={results}
       renderItem={(item, isHighlighted) => customItem(item, isHighlighted)}
       renderMenu={customMenu}
@@ -91,6 +92,7 @@ AutocompleteInput.propTypes = {
   isDisabled: PropTypes.bool,
   isLoading: PropTypes.bool.isRequired,
   customItem: PropTypes.func.isRequired,
+  getItemValue: PropTypes.func.isRequired,
   onValueChange: PropTypes.func.isRequired,
   onSelectValue: PropTypes.func.isRequired
 }
