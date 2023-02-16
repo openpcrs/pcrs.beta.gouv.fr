@@ -84,6 +84,7 @@ perimetres:
   - commune:26099
   - commune:26073
   - commune:26070
+  - commune:26284
 
 etapes:
   - statut: investigation
