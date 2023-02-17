@@ -274,6 +274,7 @@ const Home = ({testimonies}) => (
       title='Suivez l’actualité'
       subtitle='En vous inscrivant à la newsletter ou en nous suivant sur Twitter'
       background='secondary'
+      id='newsletter'
       style={{
         textAlign: 'center'
       }}
