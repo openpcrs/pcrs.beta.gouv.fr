@@ -1,0 +1,56 @@
+nom: Aveyron
+regime: production
+nature: raster
+
+livrables:
+  - nom: Images raster bloc A
+    nature: geotiff
+    diffusion: flux
+    licence: ferme
+  - nom: Images raster bloc B
+    nature: geotiff
+    diffusion: flux
+    licence: ferme
+  - nom: Images raster bloc C
+    nature: geotiff
+    diffusion: flux
+    licence: ferme
+
+acteurs: 
+  - siren: 251200861
+    nom: SMICA
+    telephone: "+33468115630"
+    role: aplc
+    finance_part_perc: 30.7
+    finance_part_euro: 378861
+  - siren: 180067019
+    nom: IGN
+    interlocuteur: Délégué Régional Occitanie
+    mail: philippe.abadie@ign.fr
+    telephone: "+33556166084"
+    role: financeur
+    finance_part_perc: 9
+    finance_part_euro: 111164
+  - siren: 401651500 
+    nom: OPenIG
+    interlocuteur: Chef de projets PCRS
+    mail: gpoujol@openig.org
+    telephone: "+33467558654"
+    role: diffuseur
+    finance_part_perc: 0.3
+    finance_part_euro: 4338
+
+perimetres:
+  - departement:12
+
+etapes: 
+  - statut: investigation
+    date_debut: 2020-03-12
+  - statut: production
+    date_debut: 2022-07-01
+
+subventions: 
+  - nom: FEDER
+    nature: feder
+    montant: 617273
+    echeance: 2023-12-01
