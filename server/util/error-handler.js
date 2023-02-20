@@ -7,7 +7,8 @@ function errorHandler(err, req, res, _next) {
       .status(statusCode)
       .send({
         code: statusCode,
-        message: exposeError ? err.message : 'Une erreur inattendue est survenue.'
+        message: exposeError ? err.message : 'Une erreur inattendue est survenue.',
+        validationErrors: err.details
       })
 
     if (statusCode === 500) {
