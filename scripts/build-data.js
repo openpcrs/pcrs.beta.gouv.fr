@@ -34,7 +34,7 @@ async function buildPCRSData() {
       projet.statut = projet.etapes[projet.etapes.length - 1].statut
       projet.dateStatut = projet.etapes[projet.etapes.length - 1].date_debut
       projet.aplc = projet.acteurs.find(acteur => acteur.role === 'aplc').nom
-      projet.territoires = geometryBuilder.getTerritoryName(projet.perimetres)
+      projet.territoires = geometryBuilder.getTerritoriesName(projet.perimetres)
 
       projets.push(projet)
     }
