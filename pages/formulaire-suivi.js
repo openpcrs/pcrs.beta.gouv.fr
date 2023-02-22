@@ -7,6 +7,7 @@ import {postSuivi} from '@/lib/suivi-pcrs.js'
 import Page from '@/layouts/main.js'
 
 import GeneralInfos from '@/components/suivi-form/general-infos.js'
+import Livrables from '@/components/suivi-form/livrables/index.js'
 import Button from '@/components/button.js'
 
 const FormulaireSuivi = () => {
@@ -17,6 +18,7 @@ const FormulaireSuivi = () => {
   const [nom, setNom] = useState('')
   const [nature, setNature] = useState('')
   const [regime, setRegime] = useState('')
+  const [livrables, setLivrables] = useState([])
 
   const handleSubmit = event => {
     event.preventDefault()
@@ -29,7 +31,8 @@ const FormulaireSuivi = () => {
       const suivi = {
         nom,
         regime,
-        nature
+        nature,
+        livrables
       }
       postSuivi(suivi)
       setValidationMessage('Le suivi a correctement été envoyé !')
@@ -59,6 +62,12 @@ const FormulaireSuivi = () => {
           handleName={setNom}
           handleRegime={setRegime}
           handleNature={setNature}
+        />
+
+        <Livrables
+          livrables={livrables}
+          handleLivrables={setLivrables}
+          hasMissingData={hasMissingDataOnValidation}
         />
 
         <div className='fr-grid-row fr-grid-row--center fr-mt-5w'>
