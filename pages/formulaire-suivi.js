@@ -9,6 +9,7 @@ import Page from '@/layouts/main.js'
 import GeneralInfos from '@/components/suivi-form/general-infos.js'
 import Livrables from '@/components/suivi-form/livrables/index.js'
 import Acteurs from '@/components/suivi-form/acteurs/index.js'
+import Perimetres from '@/components/suivi-form/perimetres/index.js'
 import Button from '@/components/button.js'
 
 const FormulaireSuivi = () => {
@@ -21,11 +22,12 @@ const FormulaireSuivi = () => {
   const [regime, setRegime] = useState('')
   const [livrables, setLivrables] = useState([])
   const [acteurs, setActeurs] = useState([])
+  const [perimetres, setPerimetres] = useState([])
 
   const handleSubmit = event => {
     event.preventDefault()
 
-    const hasMissingData = livrables.length === 0 || acteurs.length === 0
+    const hasMissingData = livrables.length === 0 || acteurs.length === 0 || perimetres.length === 0
 
     setValidationMessage(null)
     setErrorOnValidationMessage(null)
@@ -41,7 +43,8 @@ const FormulaireSuivi = () => {
           regime,
           nature,
           livrables,
-          acteurs
+          acteurs,
+          perimetres
         }
         postSuivi(suivi)
         setValidationMessage('Le suivi a correctement été envoyé !')
@@ -83,6 +86,12 @@ const FormulaireSuivi = () => {
         <Acteurs
           acteurs={acteurs}
           handleActors={setActeurs}
+          hasMissingData={hasMissingDataOnValidation}
+        />
+
+        <Perimetres
+          perimetres={perimetres}
+          handlePerimetres={setPerimetres}
           hasMissingData={hasMissingDataOnValidation}
         />
 
