@@ -3,6 +3,7 @@ import {useState} from 'react'
 import Image from 'next/image'
 
 import {postSuivi} from '@/lib/suivi-pcrs.js'
+import {dateToUtc} from '@/lib/date-utils.js'
 
 import Page from '@/layouts/main.js'
 
@@ -10,6 +11,7 @@ import GeneralInfos from '@/components/suivi-form/general-infos.js'
 import Livrables from '@/components/suivi-form/livrables/index.js'
 import Acteurs from '@/components/suivi-form/acteurs/index.js'
 import Perimetres from '@/components/suivi-form/perimetres/index.js'
+import Etapes from '@/components/suivi-form/etapes.js'
 import Button from '@/components/button.js'
 
 const FormulaireSuivi = () => {
@@ -23,6 +25,7 @@ const FormulaireSuivi = () => {
   const [livrables, setLivrables] = useState([])
   const [acteurs, setActeurs] = useState([])
   const [perimetres, setPerimetres] = useState([])
+  const [etapes, setEtapes] = useState([{statut: 'investigation', date_debut: ''}]) // eslint-disable-line camelcase
 
   const handleSubmit = event => {
     event.preventDefault()
@@ -38,13 +41,16 @@ const FormulaireSuivi = () => {
         setHasMissingDataOnValidation(true)
         setErrorOnValidationMessage('Veuillez ajouter les données manquantes')
       } else {
+        const etapesWithSanitizedDates = etapes.map(etape => ({...etape, date_debut: dateToUtc(etape.date_debut)})) // eslint-disable-line camelcase
+
         const suivi = {
           nom,
           regime,
           nature,
           livrables,
           acteurs,
-          perimetres
+          perimetres,
+          etapes: etapesWithSanitizedDates
         }
         postSuivi(suivi)
         setValidationMessage('Le suivi a correctement été envoyé !')
@@ -94,6 +100,8 @@ const FormulaireSuivi = () => {
           handlePerimetres={setPerimetres}
           hasMissingData={hasMissingDataOnValidation}
         />
+
+        <Etapes etapes={etapes} handleEtapes={setEtapes} />
 
         <div className='fr-grid-row fr-grid-row--center fr-mt-5w'>
           <div className='fr-grid-row fr-grid-row--center fr-col-12'>
