@@ -10,93 +10,60 @@ const Hero = () => (
       <div className='subtitle fr-text fr-text--lg'>Animer et outiller les projets locaux du Plan Corps de Rue Simplifié en cours et à venir</div>
     </div>
 
-    <div className='nav-wrapper'>
-      <Link
-        passHref
-        legacyBehavior
-        href='/#documentation'
-      >
-        <a aria-label='Accéder à la section documentation' className='fr-link illustrated-link'>
-          <Image
-            height={100}
-            width={100}
-            src='/images/icons/book.png'
-            alt=''
-          />
-          Documentation
-        </a>
-      </Link>
-      <Link
-        passHref
-        legacyBehavior
-        href='/suivi-pcrs'
-      >
-        <a aria-label='Accéder à la section suivi géo' className='fr-link illustrated-link'>
-          <Image
-            height={100}
-            width={100}
-            src='/images/icons/map.png'
-            alt=''
-          />
-          Suivi géographique
-        </a>
-      </Link>
-      <Link
-        passHref
-        legacyBehavior
-        href='/#feuille-de-route'
-      >
-        <a aria-label='Accéder à la section feuille de route' className='fr-link illustrated-link'>
-          <Image
-            height={100}
-            width={100}
-            src='/images/icons/document.png'
-            alt=''
-          />
-          Feuille de route
-        </a>
-      </Link>
-      <Link
-        passHref
-        legacyBehavior
-        href='/#evenements'
-      >
-        <a aria-label='Accéder à la section évenements' className='fr-link illustrated-link'>
-          <Image
-            height={100}
-            width={100}
-            src='/images/icons/calendar.png'
-            alt=''
-          />
-          Événements
-        </a>
-      </Link>
-      <Link legacyBehavior href='/blog'>
-        <a aria-label='Accéder au blog du PCRS' className='fr-link illustrated-link'>
-          <Image
-            height={100}
-            width={100}
-            src='/images/icons/blog.png'
-            alt=''
-          />
-          Blog du PCRS
-        </a>
-      </Link>
-      <Link
-        passHref
-        legacyBehavior
-        href='/#contact'
-      >
-        <a aria-label='Accéder à la section prendre contact' className='fr-link illustrated-link'>
-          <Image
-            height={100}
-            width={100}
-            src='/images/icons/community.png'
-            alt=''
-          />
-          Prendre contact
-        </a>
-      </Link>
+    <div className='nav-wrapper fr-p-4w'>
+      <div className='fr-p-2w'>
+        <Link
+          passHref
+          legacyBehavior
+          href='/#feuille-de-route'
+        >
+          <a aria-label='Accéder à la section feuille de route' className='fr-link illustrated-link fr-text--sm'>
+            <Image
+              height={70}
+              width={51}
+              src='/images/icons/document.png'
+              alt=''
+            />
+            <span className='fr-pt-2w'>Feuille de route</span>
+          </a>
+        </Link>
+      </div>
+
+      <div className='fr-p-2w'>
+        <Link
+          passHref
+          legacyBehavior
+          href='/#contact'
+        >
+          <a aria-label='Accéder à la section prendre contact' className='fr-link illustrated-link fr-text--sm'>
+            <Image
+              height={70}
+              width={72}
+              src='/images/icons/community.png'
+              alt=''
+            />
+            <span className='fr-pt-2w'>Prendre contact</span>
+          </a>
+        </Link>
+      </div>
+
+      <div className='fr-p-2w'>
+        <Link
+          passHref
+          legacyBehavior
+          href='/#newsletter'
+        >
+          <a aria-label='Accéder à la section suivez l’actualité' className='fr-link illustrated-link fr-text--sm'>
+            <Image
+              height={70}
+              width={70}
+              src='/images/icons/newsletter.png'
+              alt=''
+            />
+            <span className='fr-pt-2w'>Suivez l’actualité</span>
+          </a>
+        </Link>
+      </div>
     </div>
 
     <Image
@@ -166,7 +133,7 @@ const Hero = () => (
       .fr-link--icon-right {
         color: white;
       }
-  `}</style>
+    `}</style>
   </div>
 )
 
