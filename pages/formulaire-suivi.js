@@ -1,9 +1,7 @@
-
 import {useState} from 'react'
 import Image from 'next/image'
 
 import {postSuivi} from '@/lib/suivi-pcrs.js'
-import {dateToUtc} from '@/lib/date-utils.js'
 
 import Page from '@/layouts/main.js'
 
@@ -12,6 +10,7 @@ import Livrables from '@/components/suivi-form/livrables/index.js'
 import Acteurs from '@/components/suivi-form/acteurs/index.js'
 import Perimetres from '@/components/suivi-form/perimetres/index.js'
 import Etapes from '@/components/suivi-form/etapes.js'
+import Subventions from '@/components/suivi-form/subventions/index.js'
 import Button from '@/components/button.js'
 
 const FormulaireSuivi = () => {
@@ -26,6 +25,7 @@ const FormulaireSuivi = () => {
   const [acteurs, setActeurs] = useState([])
   const [perimetres, setPerimetres] = useState([])
   const [etapes, setEtapes] = useState([{statut: 'investigation', date_debut: ''}]) // eslint-disable-line camelcase
+  const [subventions, setSubventions] = useState([])
 
   const handleSubmit = event => {
     event.preventDefault()
@@ -41,7 +41,9 @@ const FormulaireSuivi = () => {
         setHasMissingDataOnValidation(true)
         setErrorOnValidationMessage('Veuillez ajouter les données manquantes')
       } else {
+        const dateToUtc = date => new Date(date)
         const etapesWithSanitizedDates = etapes.map(etape => ({...etape, date_debut: dateToUtc(etape.date_debut)})) // eslint-disable-line camelcase
+        const subventionsWithSanitizedDates = subventions.map(subvention => ({...subvention, echeance: subvention.echeance ? dateToUtc(subvention.echeance) : ''}))
 
         const suivi = {
           nom,
@@ -50,7 +52,8 @@ const FormulaireSuivi = () => {
           livrables,
           acteurs,
           perimetres,
-          etapes: etapesWithSanitizedDates
+          etapes: etapesWithSanitizedDates,
+          subventions: subventionsWithSanitizedDates
         }
         postSuivi(suivi)
         setValidationMessage('Le suivi a correctement été envoyé !')
@@ -102,6 +105,8 @@ const FormulaireSuivi = () => {
         />
 
         <Etapes etapes={etapes} handleEtapes={setEtapes} />
+
+        <Subventions subventions={subventions} handleSubventions={setSubventions} />
 
         <div className='fr-grid-row fr-grid-row--center fr-mt-5w'>
           <div className='fr-grid-row fr-grid-row--center fr-col-12'>
