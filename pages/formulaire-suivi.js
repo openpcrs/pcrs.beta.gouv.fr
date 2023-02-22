@@ -8,6 +8,7 @@ import Page from '@/layouts/main.js'
 
 import GeneralInfos from '@/components/suivi-form/general-infos.js'
 import Livrables from '@/components/suivi-form/livrables/index.js'
+import Acteurs from '@/components/suivi-form/acteurs/index.js'
 import Button from '@/components/button.js'
 
 const FormulaireSuivi = () => {
@@ -19,23 +20,32 @@ const FormulaireSuivi = () => {
   const [nature, setNature] = useState('')
   const [regime, setRegime] = useState('')
   const [livrables, setLivrables] = useState([])
+  const [acteurs, setActeurs] = useState([])
 
   const handleSubmit = event => {
     event.preventDefault()
+
+    const hasMissingData = livrables.length === 0 || acteurs.length === 0
 
     setValidationMessage(null)
     setErrorOnValidationMessage(null)
     setHasMissingDataOnValidation(false)
 
     try {
-      const suivi = {
-        nom,
-        regime,
-        nature,
-        livrables
+      if (hasMissingData) {
+        setHasMissingDataOnValidation(true)
+        setErrorOnValidationMessage('Veuillez ajouter les données manquantes')
+      } else {
+        const suivi = {
+          nom,
+          regime,
+          nature,
+          livrables,
+          acteurs
+        }
+        postSuivi(suivi)
+        setValidationMessage('Le suivi a correctement été envoyé !')
       }
-      postSuivi(suivi)
-      setValidationMessage('Le suivi a correctement été envoyé !')
     } catch {
       console.log('L’envoi du suivi du PCRS a échoué')
     }
@@ -67,6 +77,12 @@ const FormulaireSuivi = () => {
         <Livrables
           livrables={livrables}
           handleLivrables={setLivrables}
+          hasMissingData={hasMissingDataOnValidation}
+        />
+
+        <Acteurs
+          acteurs={acteurs}
+          handleActors={setActeurs}
           hasMissingData={hasMissingDataOnValidation}
         />
 
