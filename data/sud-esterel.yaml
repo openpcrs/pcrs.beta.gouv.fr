@@ -1,0 +1,32 @@
+nom: Alpes Maritimes - Principal
+regime: production
+nature: raster
+livrables:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ferme
+    crs: EPSG:2154
+
+acteurs: 
+  - siren: 200035319
+    nom: Communauté d'Agglomération Esterel Côté d'Azur
+    telephone: "+33494193100"
+    role: aplc
+    finance_part_perc: 100
+
+perimetres:
+  - epci:200035319
+
+etapes:
+  - statut: investigation
+    date_debut: 2021-01-01
+  - statut: production
+    date_debut: 2021-11-01
+  - statut: produit
+    date_debut: 2022-05-01
+  - statut: livre
+    date_debut: 2022-07-01
+
+subventions: 
+    
