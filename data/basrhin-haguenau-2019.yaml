@@ -9,14 +9,14 @@ livrables:
     crs: EPSG:3948
 
 acteurs: 
-  - siren: 200030583
+  - siren: 200067874
     nom: Communauté d'agglomération d'Haguenau
     telephone: "+33388906850"
     role: aplc
     finance_part_perc: 100
 
 perimetres:
-  - epci:200030583
+  - epci:200067874
 
 etapes:
   - statut: investigation
