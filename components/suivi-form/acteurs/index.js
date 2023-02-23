@@ -159,10 +159,10 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
   }, [nom])
 
   const renderItem = (item, isHighlighted) => {
-    const {nom_complet, section_activite_principale} = item
+    const {nom_complet, section_activite_principale, siren} = item
 
     return (
-      <div className='item fr-px-1w fr-py-2w'>
+      <div key={siren} className='item fr-px-1w fr-py-2w'>
         {nom_complet} - <span className='ape'>{secteursActivites[section_activite_principale]}</span>
 
         <style jsx>{`

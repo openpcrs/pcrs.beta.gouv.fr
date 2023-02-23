@@ -85,10 +85,10 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
   }
 
   const renderItem = (item, isHighlighted) => {
-    const {nom} = item
+    const {nom, code} = item
 
     return (
-      <div className='item fr-px-1w fr-py-2w'>
+      <div key={code} className='item fr-px-1w fr-py-2w'>
         {nom}
 
         <style jsx>{`
