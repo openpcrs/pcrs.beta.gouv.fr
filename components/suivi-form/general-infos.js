@@ -20,7 +20,7 @@ const GeneralInfos = ({inputValues, handleName, handleRegime, handleNature}) => 
   return (
     <div>
       <div className='fr-grid-row'>
-        <div className='fr-col-6'>
+        <div className='fr-col-12 fr-col-md-6'>
           <TextInput
             isRequired
             label='Nom du PCRS *'

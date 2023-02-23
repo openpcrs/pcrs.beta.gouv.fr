@@ -161,7 +161,7 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
         <div className='fr-mt-4w'>
           <div className='fr-grid-row'>
             {/* Nom du livrable */}
-            <div className='fr-col-6'>
+            <div className='fr-col-12 fr-col-md-6'>
               <TextInput
                 isRequired
                 label='Nom *'
