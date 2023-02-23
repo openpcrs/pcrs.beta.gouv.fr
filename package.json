@@ -66,6 +66,10 @@
             "jsx"
           ]
         }
+      ],
+      "n/prefer-global/process": [
+        "error",
+        "always"
       ]
     }
   },
