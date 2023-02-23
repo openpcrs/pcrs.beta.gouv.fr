@@ -1,0 +1,31 @@
+nom: Bas-Rhin - Haguenau 2019
+regime: production
+nature: raster
+livrables:
+  - nom: Images raster
+    nature: jpeg2000
+    diffusion: flux
+    licence: ouvert_lo
+    crs: EPSG:3948
+
+acteurs: 
+  - siren: 200030583
+    nom: Communauté d'agglomération d'Haguenau
+    telephone: "+33388906850"
+    role: aplc
+    finance_part_perc: 100
+
+perimetres:
+  - epci:200030583
+
+etapes:
+  - statut: investigation
+    date_debut: 2019-01-01
+  - statut: production
+    date_debut: 2019-06-01
+  - statut: produit
+    date_debut: 2019-06-15
+  - statut: livre
+    date_debut: 2019-10-30
+    
+subventions: 
