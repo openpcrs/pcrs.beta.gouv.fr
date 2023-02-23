@@ -182,7 +182,7 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
 
       {(isFormOpen || isUpdating) && (
         <div>
-          <div className='fr-grid-row'>
+          <div className='fr-grid-row fr-my-5w'>
             <div className='fr-col-12 fr-col-md-6 fr-mb-3w'>
               <SelectInput
                 isRequired
