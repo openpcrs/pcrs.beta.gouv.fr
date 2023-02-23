@@ -36,6 +36,10 @@ class Mongo {
       return null
     }
   }
+
+  addObjectId(projet) {
+    projet._id = new ObjectId()
+  }
 }
 
 const mongo = new Mongo()
