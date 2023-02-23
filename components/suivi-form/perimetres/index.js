@@ -128,7 +128,7 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
 
   useEffect(() => {
     // Fetch siren/insee on name changes
-    if (nom) {
+    if (nom && nom.length >= 3) {
       setIsLoading(true)
       const fetchPerimetre = debounce(async () => {
         try {

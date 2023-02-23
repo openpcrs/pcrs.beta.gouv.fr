@@ -137,7 +137,7 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
 
   useEffect(() => {
     // Fetch actors on name changes
-    if (nom) {
+    if (nom && nom.length >= 3) {
       const fetchActors = (debounce(async () => {
         setIsLoading(true)
         try {
