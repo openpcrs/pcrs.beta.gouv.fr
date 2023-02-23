@@ -1,0 +1,47 @@
+nom: Belfort - Montbéliard
+regime: production
+nature: raster
+
+livrables:
+  - nom: Images raster
+    nature: jpeg2000
+    diffusion: flux
+    licence: ferme
+    crs: EPSG:3948
+
+acteurs:
+  - siren: 200069052
+    nom: Communauté d'agglomération Grand Belfort
+    telephone: "+33384542424"
+    role: aplc
+  - siren: 247000722
+    nom: Communauté de communes Pays Héricourt
+    telephone: "+33384469870"
+    role: financeur
+  - siren: 200065647
+    nom: Communauté d'agglomération du Pays de Montbéliard
+    role: financeur
+  - siren: 229000013
+    nom: Conseil départemental du Territoire de Belfort
+    role: financeur
+  - siren: 444608442
+    nom: Enedis
+    role: financeur
+    finance_part_perc: 50
+
+perimetres:
+  - epci:200069052
+  - epci:247000722
+  - epci:200065647
+
+etapes:
+  - statut: investigation
+    date_debut: 2021-01-01
+  - statut: production
+    date_debut: 2023-02-16
+  - statut: produit
+    date_debut: 2023-06-21
+  - statut: livre
+    date_debut: 2023-12-31
+
+subventions:
