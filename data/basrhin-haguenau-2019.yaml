@@ -27,5 +27,7 @@ etapes:
     date_debut: 2019-06-15
   - statut: livre
     date_debut: 2019-10-30
+  - statut: obsolete
+    date_debut: 2022-06-20
     
 subventions: 

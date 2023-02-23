@@ -22,10 +22,10 @@ etapes:
   - statut: investigation
     date_debut: 2019-01-01
   - statut: production
-    date_debut: 2019-06-01
+    date_debut: 2022-03-01
   - statut: produit
-    date_debut: 2019-06-15
+    date_debut: 2022-03-20
   - statut: livre
-    date_debut: 2019-10-30
+    date_debut: 2022-06-20
     
 subventions: 
