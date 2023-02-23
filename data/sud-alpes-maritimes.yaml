@@ -11,7 +11,7 @@ acteurs:
   - siren: 231300021
     nom: Région sud
     telephone: "+33491575757"
-    role: financeur
+    role: aplc
   - siren: 220600019
     nom: Conseil départemental des Alpes Maritimes
     telephone: "+33497186000"
