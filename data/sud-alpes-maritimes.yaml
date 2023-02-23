@@ -1,0 +1,48 @@
+nom: Alpes Maritimes - Principal
+regime: production
+nature: raster
+livrables:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ferme
+
+acteurs: 
+  - siren: 231300021
+    nom: Région sud
+    telephone: "+33491575757"
+    role: aplc
+  - siren: 220600019
+    nom: Conseil départemental des Alpes Maritimes
+    telephone: "+33497186000"
+    role: financeur
+  - siren: 200030195
+    nom: Métropole de Nice
+    telephone: "+33489981000"
+    role: financeur
+  - siren: 240600585
+    nom: Communauté d'Agglomération de Sophia Antipolis
+    telephone: "+33489877000"
+    role: financeur
+  - siren: 200039857
+    nom: Communauté d'Agglomération du Pays de Grasse
+    role: financeur
+  - siren: 240600551
+    nom: Communauté d'Agglomération de la Riviéra Française
+    role: financeur
+  - siren: 240600593
+    nom: Communauté d'Agglomération du Pays des Paillons
+    role: financeur
+  - siren: 200039915
+    nom: Communauté d'Agglomération Cannes Pays des Lérins
+    role: financeur
+
+perimetres:
+  - departement:06
+
+etapes:
+  - statut: investigation
+    date_debut: 2022-06-01
+
+subventions: 
+    
