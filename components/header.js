@@ -6,20 +6,22 @@ const Header = () => (
     <div className='fr-header__body'>
       <div className='fr-container'>
         <div className='fr-header__body-row'>
-          <Link legacyBehavior href='/'>
-            <div className='header-redirect fr-header__brand fr-enlarge-link'>
-              <div className='fr-header__brand-top'>
+          <div className='header-redirect fr-header__brand fr-enlarge-link'>
+            <div className='fr-header__brand-top'>
+              <Link href='/'>
                 <div className='fr-header__logo'>
                   <p className='fr-logo'>
                     RÉPUBLIQUE<br />FRANÇAISE
                   </p>
                 </div>
-                <div className='fr-header__navbar'>
-                  <button type='button' className='fr-btn--menu fr-btn' data-fr-opened='false' aria-controls='modal-499' aria-haspopup='menu' id='button-500' title='Menu'>
-                    Menu
-                  </button>
-                </div>
+              </Link>
+              <div className='fr-header__navbar'>
+                <button type='button' className='fr-btn--menu fr-btn' data-fr-opened='false' aria-controls='modal-499' aria-haspopup='menu' id='button-500' title='Menu'>
+                  Menu
+                </button>
               </div>
+            </div>
+            <Link href='/'>
               <div className='fr-header__service'>
                 <Image
                   src='/images/logos/logo-pcrsgouvfr.png'
@@ -28,8 +30,9 @@ const Header = () => (
                   alt='pcrs.beta.gouv.fr'
                 />
               </div>
-            </div>
-          </Link>
+            </Link>
+          </div>
+
           <div className='fr-header__tools'>
             <div className='fr-header__tools-links'>
               <ul className='fr-btns-group'>
