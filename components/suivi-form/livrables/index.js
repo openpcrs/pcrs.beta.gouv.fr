@@ -56,7 +56,7 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
   const [crs, setCrs] = useState('')
   const [compression, setCompression] = useState('')
 
-  const avancementAsNumber = Number(avancement)
+  const avancementAsNumber = Number(avancement) || null
 
   const isFormComplete = Boolean(nom && nature && licence)
   const isAvancementValid = avancementAsNumber >= 0 && avancementAsNumber <= 100
@@ -64,7 +64,15 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
 
   const onAdd = () => {
     if (isFormComplete && isAvancementValid) {
-      handleLivrables([...livrables, {nom, nature, diffusion, licence, avancement: avancementAsNumber, crs, compression}])
+      handleLivrables([...livrables, {
+        nom,
+        nature,
+        diffusion: diffusion || null,
+        licence,
+        avancement: avancementAsNumber,
+        crs: crs || null,
+        compression: compression || null
+      }])
 
       onReset()
     } else {
@@ -79,11 +87,11 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
           livrable = {
             nom,
             nature,
-            diffusion,
+            diffusion: diffusion || null,
             licence,
             avancement: avancementAsNumber,
-            crs,
-            compression
+            crs: crs || null,
+            compression: compression || null
           }
         }
 

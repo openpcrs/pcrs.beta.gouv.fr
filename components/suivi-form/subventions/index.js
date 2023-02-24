@@ -43,7 +43,12 @@ const Subventions = ({subventions, handleSubventions}) => {
     if (!nom || !nature) {
       setHasMissingInput(true)
     } else {
-      handleSubventions([...subventions, {nom, nature, montant: Number(montant), echeance}])
+      handleSubventions([...subventions, {
+        nom,
+        nature,
+        montant: Number(montant) || null,
+        echeance: echeance ? echeance : null
+      }])
       onReset()
     }
   }
@@ -52,9 +57,10 @@ const Subventions = ({subventions, handleSubventions}) => {
     if (!nom || !nature) {
       setHasMissingInput(true)
     } else {
+      console.log(echeance || null)
       handleSubventions([...subventions].map((subvention, i) => {
         if (i === updatingSubvIndex) {
-          subvention = {nom, nature, montant: Number(montant), echeance}
+          subvention = {nom, nature, montant: Number(montant) || null, echeance: echeance ? echeance : null}
         }
 
         return subvention

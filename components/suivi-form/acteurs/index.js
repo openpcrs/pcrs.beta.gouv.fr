@@ -50,9 +50,9 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
         nom,
         siren: Number(siren),
         role,
-        telephone: phone,
-        finance_part_perc: Number(finPerc),
-        finance_part_euro: Number(finEuros)
+        telephone: phone || null,
+        finance_part_perc: Number(finPerc) || null,
+        finance_part_euro: Number(finEuros) || null
       }
 
       handleActors([...acteurs, newActor])
@@ -70,9 +70,9 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
             nom,
             siren: Number(siren),
             role,
-            telephone: phone,
-            finance_part_perc: Number(finPerc),
-            finance_part_euro: Number(finEuros)
+            telephone: phone || null,
+            finance_part_perc: Number(finPerc) || null,
+            finance_part_euro: Number(finEuros) || null
           }
         }
 
