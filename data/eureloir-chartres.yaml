@@ -1,0 +1,43 @@
+nom: Eure et Loir - Chartres
+regime: production
+nature: raster
+
+livrables:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ferme
+
+acteurs:
+  - siren: 200033181
+    nom: Chartres Métropole
+    telephone: "+33237234000"
+    role: aplc
+    finance_part_perc: 62
+  - siren: 444608442
+    nom: Enedis
+    role: financeur
+    finance_part_perc: 14
+  - siren: 444786511
+    nom: GRDF
+    role: financeur
+    finance_part_perc: 10
+  - siren: 200080869
+    nom: Energie Eure-et-Loir
+    role: financeur
+    finance_part_perc: 14
+
+perimetres:
+  - epci:200033181
+
+etapes:
+  - statut: investigation
+    date_debut: 2019-01-01
+  - statut: production
+    date_debut: 2019-09-01
+  - statut: produit
+    date_debut: 2019-09-30
+  - statut: livre
+    date_debut: 2020-03-31
+
+subventions:
