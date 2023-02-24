@@ -9,7 +9,7 @@ livrables:
     licence: ferme
 
 acteurs:
-  - siren: 242800191
+  - siren: 200033181
     nom: Chartres Métropole
     telephone: "+33237234000"
     role: aplc
@@ -28,7 +28,7 @@ acteurs:
     finance_part_perc: 14
 
 perimetres:
-  - epci:242800191
+  - epci:200033181
 
 etapes:
   - statut: investigation
