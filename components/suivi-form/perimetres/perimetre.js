@@ -30,7 +30,7 @@ const Perimetre = ({perimetre, perimetreAsObject, handleUpdate, handleDelete}) =
   }, [perimetre, perimetreType, perimetreCode])
 
   return (
-    <div className='fr-grid-row fr-mr-1w fr-px-2w fr-py-1w card-container'>
+    <div className='fr-grid-row fr-mr-1w fr-px-2w fr-py-1w fr-my-1w card-container'>
       {isLoading ? (
         <div className='fr-grid-row fr-grid-row--center'>
           <Loader size='small' />
