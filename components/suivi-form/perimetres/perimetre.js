@@ -95,7 +95,7 @@ const Perimetre = ({perimetre, perimetreAsObject, handleUpdate, handleDelete}) =
 
 Perimetre.propTypes = {
   perimetre: PropTypes.string.isRequired,
-  perimetreAsObject: PropTypes.func.isRequired,
+  perimetreAsObject: PropTypes.object.isRequired,
   handleUpdate: PropTypes.func.isRequired,
   handleDelete: PropTypes.func.isRequired
 }
