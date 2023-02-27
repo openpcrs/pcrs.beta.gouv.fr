@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import {formatDate} from '@/lib/date-utils.js'
 
 import colors from '@/styles/colors.js'
 
@@ -27,7 +28,7 @@ const SubventionCard = ({nom, nature, montant, echeance, natures, handleDelete, 
 
         <div className='fr-grid-row col-12 fr-col-md-6 fr-p-1w'>
           <div className='label fr-col-12 fr-text--lg fr-m-0'>Échéance</div>
-          <div className='fr-m-0 fr-col-12 fr-text--sm'>{echeance || 'N/A'}</div>
+          <div className='fr-m-0 fr-col-12 fr-text--sm'>{echeance ? `le ${formatDate(echeance)}` : 'N/A'}</div>
         </div>
       </div>
     </div>

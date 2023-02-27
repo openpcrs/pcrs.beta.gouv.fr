@@ -41,10 +41,6 @@ const FormulaireSuivi = () => {
         setHasMissingDataOnValidation(true)
         setErrorOnValidationMessage('Veuillez ajouter les données manquantes')
       } else {
-        const dateToUtc = date => new Date(date)
-        const etapesWithSanitizedDates = etapes.map(etape => ({...etape, date_debut: dateToUtc(etape.date_debut)})) // eslint-disable-line camelcase
-        const subventionsWithSanitizedDates = subventions.map(subvention => ({...subvention, echeance: subvention.echeance ? dateToUtc(subvention?.echeance) : null}))
-
         const suivi = {
           nom,
           regime,
@@ -52,8 +48,8 @@ const FormulaireSuivi = () => {
           livrables,
           acteurs,
           perimetres,
-          etapes: etapesWithSanitizedDates,
-          subventions: subventionsWithSanitizedDates
+          etapes,
+          subventions
         }
         postSuivi(suivi)
         setValidationMessage('Le suivi a correctement été envoyé !')
