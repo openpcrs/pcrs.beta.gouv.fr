@@ -20,9 +20,7 @@ acteurs:
     nom: Département du Loiret
     interlocuteur: Robin PREST
     mail: sig@loiret.fr
-    telephone:
-    role:
-    finance_part_perc:
+    role: aplc
 
 perimetres:
   - departement:45
