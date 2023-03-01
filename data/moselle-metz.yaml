@@ -9,14 +9,14 @@ livrables:
     crs: EPSG:3949
 
 acteurs: 
-  - siren: 245700240
+  - siren: 200039865
     nom: Métropole de Metz
     telephone: "+33387201000"
     role: aplc
     finance_part_perc: 40
 
 perimetres:
-  - epci:245700240
+  - epci:200039865
 
 etapes:
   - statut: investigation
