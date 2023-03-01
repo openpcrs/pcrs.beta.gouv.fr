@@ -1,0 +1,89 @@
+nom: Orne - Tranche principale
+regime: production
+nature: mixte
+
+livrables:
+  - nom: Images raster
+    nature: jpeg2000
+    diffusion: flux
+    licence: ferme
+    crs: EPSG:3949
+  - nom: Données vectorielles
+    nature: gml
+    diffusion: flux
+    licence: ferme
+
+acteurs: 
+  - siren: 256102922
+    nom: TE 61
+    role: aplc
+    finance_part_perc: 32
+  - siren: 444608442
+    nom: Enedis
+    role: financeur
+    finance_part_perc: 43
+  - siren: 444786511
+    nom: GRDF
+    role: financeur
+    finance_part_perc: 15
+  - siren: 216101691
+    nom: Commune de Flers
+    role: financeur
+  - siren: 200068443
+    nom: Communauté de communes d'Andaine Passais
+    role: financeur
+  - siren: 200068450
+    nom: Intercommunalité d'Argentan
+    role: financeur
+  - siren: 200068435
+    nom: Communauté de communes Coeur du Perche
+    role: financeur
+  - siren: 200071504
+    nom: Communauté de communes Colines du Perche Normand
+    role: financeur
+  - siren: 200068856
+    nom: Communauté de communes des Hauts du Perche
+    role: financeur
+  - siren: 200071652
+    nom: Communauté de communes du Pays Fertois et du Bocage Carrougien
+    role: financeur
+  - siren: 200068468
+    nom: Communauté de communes des pays de l'Aigle
+    role: financeur
+  - siren: 200036069
+    nom: Communauté de communes du Pays de Mortagne au Perche
+    role: financeur
+  - siren: 200035111
+    nom: Communauté de communes des sources de l'Orne
+    role: financeur
+  - siren: 200069458
+    nom: Communauté de communes des vallées d'Auge et du Merlerault
+    role: financeur
+  - siren: 390501021
+    nom: Val d'Orne
+    role: financeur
+  - siren: 246100663
+    nom: Communauté urbaine d'Alençon
+    role: financeur
+    
+etapes: 
+  - statut: investigation
+    date_debut: 2018-01-01
+  - statut: production
+    date_debut: 2023-02-01
+    
+perimetres:
+  - commune:61169
+  - epci:200068443
+  - epci:200068450
+  - epci:200068435
+  - epci:200071504
+  - epci:200068856
+  - epci:200071652
+  - epci:200068468
+  - epci:200036069
+  - epci:200035111
+  - epci:200069458
+  - epci:246100663
+  
+subventions: 

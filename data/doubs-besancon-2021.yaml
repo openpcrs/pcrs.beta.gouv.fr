@@ -1,0 +1,42 @@
+nom: Metropole de Besançon 2021
+regime: production
+nature: raster
+
+livrables:
+  - nom: Images raster
+    nature: jpeg2000
+    diffusion: flux
+    licence: ferme
+    crs: EPSG:3947
+
+acteurs:
+  - siren: 242500361
+    nom: Grand Besançon Métropole
+    telephone: "+33381878889"
+    role: aplc
+  - siren: 444608442
+    nom: Enedis
+    role: financeur
+  - siren: 539426114
+    nom: Territoire 25
+    role: financeur
+  - siren: 444619258
+    nom: Réseau de Transport d'Electricité
+    role: financeur
+  - siren: 775665359
+    nom: SEDIA
+    role: financeur
+  - siren: 423615137
+    nom: Europe vue du ciel
+    role: presta_vol
+
+perimetres:
+  - epci:242500361
+
+etapes:
+  - statut: investigation
+    date_debut: 2020-01-01
+  - statut: production
+    date_debut: 2021-07-01
+
+subventions:

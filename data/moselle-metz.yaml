@@ -1,0 +1,34 @@
+nom: Moselle - Métropole de Metz
+regime: production
+nature: raster
+livrables:
+  - nom: Images raster
+    nature: jpeg2000
+    diffusion: flux
+    licence: ouvert_lo
+    crs: EPSG:3949
+
+acteurs: 
+  - siren: 200039865
+    nom: Métropole de Metz
+    telephone: "+33387201000"
+    role: aplc
+    finance_part_perc: 40
+
+perimetres:
+  - epci:200039865
+
+etapes:
+  - statut: investigation
+    date_debut: 2017-01-01
+  - statut: production
+    date_debut: 2019-03-01
+  - statut: produit
+    date_debut: 2019-12-01
+  - statut: livre
+    date_debut: 2020-01-01
+    
+subventions: 
+  - nom: Participation feder
+    nature: feder
+    montant: 60000
