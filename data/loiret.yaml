@@ -1,0 +1,30 @@
+nom: Loiret
+regime: production
+nature: mixte
+livrables:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ouvert_lo
+  - nom: Données vecteur
+    nature: gml
+    diffusion: flux
+    licence: ferme
+
+etapes:
+  - statut: investigation
+    date_debut: 2015-01-01
+
+acteurs:
+  - siren: 224500017
+    nom: Département du Loiret
+    interlocuteur: Robin PREST
+    mail: sig@loiret.fr
+    telephone:
+    role:
+    finance_part_perc:
+
+perimetres:
+  - departement:45
+
+subventions:
