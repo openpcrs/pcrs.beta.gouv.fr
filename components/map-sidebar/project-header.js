@@ -21,8 +21,8 @@ const Header = ({projectName, territoires}) => {
           // Display complete territoires list
             <HiddenInfos theme='secondary' onClose={() => setIsTerritoiresShow(false)}>
               {territoires.map((territoire, idx) => (
-                <span key={territoire} className='fr-text--sm'>
-                  {territoire} {idx === territoires.length - 1 ? '' : ' - '}
+                <span key={territoire.nom} className='fr-text--sm'>
+                  {territoire.nom} {idx === territoires.length - 1 ? '' : ' - '}
                 </span>
               ))}
             </HiddenInfos>
@@ -30,7 +30,7 @@ const Header = ({projectName, territoires}) => {
           // Display shorten list
             <>
               {territoires.slice(0, 4).map((territoire, idx) => (
-                <span key={territoire}>{territoire} {idx === 3 ? '' : ' - '}</span>
+                <span key={territoire.nom}>{territoire.nom} {idx === 3 ? '' : ' - '}</span>
               ))}
               <button
                 type='button'
@@ -45,8 +45,8 @@ const Header = ({projectName, territoires}) => {
       ) : (
       // Less than 5 territoires
         territoires.map((territoire, idx) => (
-          <span key={territoire}>
-            {territoire} {idx === territoires.length - 1 ? '' : ' - '}
+          <span key={territoire.nom}>
+            {territoire.nom} {idx === territoires.length - 1 ? '' : ' - '}
           </span>
         ))
       )}
