@@ -5,7 +5,7 @@
 import process from 'node:process'
 import path from 'node:path'
 import {readdir, readFile, writeFile} from 'node:fs/promises'
-import yaml from 'js-yaml'
+import yaml, {JSON_SCHEMA} from 'js-yaml'
 import Joi from 'joi'
 import {createGeometryBuilder} from '../lib/build-geometry.js'
 
@@ -104,7 +104,7 @@ async function buildPCRSData() {
     if (fileName.endsWith('.yaml') && fileName !== 'projet-exemple.yaml') {
       console.log(`  → Reading ${fileName}  `)
       const filePath = path.join(projetsDirectory, fileName)
-      const projet = yaml.load(await readFile(filePath))
+      const projet = yaml.load(await readFile(filePath), {schema: JSON_SCHEMA})
 
       const {error} = schema.validate(projet)
 
