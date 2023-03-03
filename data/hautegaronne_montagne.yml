@@ -1,0 +1,30 @@
+nom: PCRS Haute-Garonne montagne
+regime: production
+nature: vecteur
+
+livrables:
+  - nom: PCRS Vecteur
+    nature: gml
+    diffusion: 
+    licence: ferme
+
+etapes:
+    - statut: production
+    date_debut: 
+
+acteurs: 
+  - siren: 200075240
+    nom: SDEHG
+    interlocuteur: Jean-Marie Audouard
+    mail: contact@sdehg.fr
+    role: aplc
+  - siren: 401651500
+    nom: OpenIG
+    interlocuteur: Gabriel Poujol
+    mail: gpoujol@openig.org
+    role: Diffuseur
+   
+
+perimetres:
+    - EPCI: 200068641 
+    - EPCI: 200072635
