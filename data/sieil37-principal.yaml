@@ -1,0 +1,36 @@
+nom: Indre-et-Loire
+regime: production
+nature: vecteur
+livrables:
+  - nom: Données vecteur
+    nature: gml
+    diffusion: flux
+    licence: ferme
+
+acteurs: 
+  - siren: 200076545
+    nom: Syndicat Intercommunal d'Energie d'Indre-et-Loire
+    telephone: "+33247316868"
+    role: aplc
+    finance_part_perc: 100
+
+perimetres:
+  - epci:243700820
+  - epci:243700499
+  - epci:200043081
+  - epci:200073237
+  - epci:200071587
+  - epci:200073161
+  - epci:200072981
+  - epci:200072650
+  - epci:200072668
+  - epci:200043065
+
+etapes:
+  - statut: investigation
+    date_debut: 2018-01-01
+  - statut: production
+    date_debut: 2020-01-01
+
+subventions: 
+    
