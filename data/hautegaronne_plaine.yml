@@ -1,0 +1,50 @@
+nom: PCRS Haute-Garonne plaine
+regime: production
+nature: raster
+
+livrables:
+  - nom: Images raster
+    nature: 
+    diffusion: 
+    licence: 
+
+etapes:
+    - statut: produit
+    - date_livraison: 2022-09-01
+
+acteurs: 
+  - siren: 200075240
+    nom: SDEHG
+    interlocuteur: 
+    mail: 
+    telephone: "+33"
+    role: aplc
+    finance_part_perc: 
+    finance_part_euro: 
+  
+
+perimetres:
+    - CA Le Muretain Agglo	: 200068641 
+    - CA du Sicoval	: 243100633
+    - CC de la Gascogne Toulousaine : 200023620
+    - CC Tarn-Agout :	200034023
+    - CC du Frontonnais	: 200034957
+    - CC du Volvestre	: 200066819
+    - CC du Bassin Auterivain Haut-Garonnais	: 200068807
+    - CC Cœur de Garonne	: 200068815
+    - CC des Terres du Lauragais :	200071298
+    - CC des Hauts Tolosans	: 200071314
+    - CC Pyrénées Haut Garonnaises :	200072635
+    - CC Cœur et Coteaux du Comminges	: 200072643
+    - CC Cagire Garonne Salat	: 200073146
+    - CC Lauragais Revel Sorezois :	243100567
+    - CC des Coteaux du Girou	: 243100732
+    - CC de la Save au Touch	: 243100781
+    - CC des Coteaux Bellevue	: 243100815
+    - CC Val Aïgo : 243100773  
+
+subventions: 
+  - nom: 
+    nature: 
+    montant: 
+    echeance: 
