@@ -5,12 +5,10 @@ import process from 'node:process'
 import path from 'node:path'
 import {readdir, readFile, writeFile} from 'node:fs/promises'
 import yaml, {JSON_SCHEMA} from 'js-yaml'
-import {createGeometryBuilder} from '../lib/build-geometry.js'
+import {buildGeometryFromTerritoires, getTerritoire} from '../lib/territoires.js'
 import {validateCreation} from '../lib/projets-validator.js'
 
 const projetsDirectory = './data'
-
-const geometryBuilder = await createGeometryBuilder()
 
 async function buildPCRSData() {
   const projets = []
@@ -31,7 +29,7 @@ async function buildPCRSData() {
       projet.dateStatut = projet.etapes[projet.etapes.length - 1].date_debut
       projet.aplc = projet.acteurs.find(acteur => acteur.role === 'aplc')?.nom || null
       projet.territoires = projet.perimetres.map(perimetre => (
-        geometryBuilder.getTerritoire(perimetre)
+        getTerritoire(perimetre)
       ))
 
       projets.push(projet)
@@ -44,7 +42,7 @@ async function buildPCRSData() {
 
   const projetsFeatures = projets.map(projet => ({
     type: 'Feature',
-    geometry: geometryBuilder.buildFromTerritories(projet.perimetres),
+    geometry: buildGeometryFromTerritoires(projet.perimetres),
     properties: {
       id: projet.id,
       nom: projet.nom,
