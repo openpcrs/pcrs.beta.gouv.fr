@@ -5,6 +5,7 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "download-contours": "node scripts/download-contours",
     "build": "node scripts/build-data && next build",
     "build-data": "node scripts/build-data",
     "dev": "node server/index.js",
