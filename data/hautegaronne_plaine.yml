@@ -9,9 +9,9 @@ livrables:
     licence: ferme
 
 etapes:
-    - statut: production
+  - statut: production
     date_debut: 2020
-    - statut: livre
+  - statut: livre
    date_livraison: 2022-09-01
 
 acteurs: 
@@ -25,24 +25,23 @@ acteurs:
     interlocuteur: Gabriel Poujol
     mail: gpoujol@openig.org
     role: Diffuseur
-   
 
 perimetres:
-    - EPCI: 200068641 
-    - EPCI: 243100633
-    - EPCI: 200023620
-    - EPCI: 200034023
-    - EPCI: 200034957
-    - EPCI: 200066819
-    - EPCI: 200068807
-    - EPCI: 200068815
-    - EPCI: 200071298
-    - EPCI: 200071314
-    - EPCI: 200072635
-    - EPCI: 200072643
-    - EPCI: 200073146
-    - EPCI: 243100567
-    - EPCI: 243100732
-    - EPCI: 243100781
-    - EPCI: 243100815
-    - EPCI: 243100773  
+    - epci:200068641 
+    - epci:243100633
+    - epci:200023620
+    - EPCI:200034023
+    - epci:200034957
+    - epci:200066819
+    - epci:200068807
+    - epci:200068815
+    - epci:200071298
+    - epci:200071314
+    - epci:200072635
+    - epci:200072643
+    - epci:200073146
+    - epci:243100567
+    - epci:243100732
+    - epci:243100781
+    - epci:243100815
+    - epci:243100773  
