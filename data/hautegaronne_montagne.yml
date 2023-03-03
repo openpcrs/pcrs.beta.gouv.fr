@@ -26,5 +26,5 @@ acteurs:
    
 
 perimetres:
-    - EPCI: 200068641 
-    - EPCI: 200072635
+    - epci:200068641 
+    - epci:200072635
