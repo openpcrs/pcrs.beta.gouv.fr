@@ -69,9 +69,6 @@
       ]
     }
   },
-  "ava": {
-    "timeout": "1m"
-  },
   "engines": {
     "node": ">= 18"
   }
