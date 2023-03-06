@@ -1,0 +1,52 @@
+nom: Moselle - Agglomération de Thionville
+regime: production
+nature: raster
+livrables:
+  - nom: Images raster
+    nature: jpeg2000
+    diffusion: flux
+    licence: ferme
+    crs: EPSG:2154
+
+acteurs: 
+  - siren: 245701362
+    nom: Communauté d'Agglomération de Thionville
+    telephone: "+33382526526"
+    role: aplc
+  - siren: 200039949
+    nom: Communauté de communes Rives de Moselle
+    telephone: "+33387517702"
+    role: financeur
+  - siren: 245701222
+    nom: Communauté d'Agglomération Val de Fensch
+    telephone: "+33382868181"
+    role: financeur
+  - siren: 225700012
+    nom: Conseil départemental de Moselle
+    telephone: "+33382868181"
+    role: financeur
+    finance_part_perc: 30
+  - siren: 444608442
+    nom: Enedis
+    role: financeur
+    finance_part_perc: 50
+  - siren: 423615137
+    nom: L'Europe vue du ciel
+    role: presta_vol
+
+perimetres:
+  - epci:245701362
+  - epci:200039949
+  - epci:245701222
+
+etapes:
+  - statut: investigation
+    date_debut: 2019-01-01
+  - statut: production
+    date_debut: 2021-04-01
+  - statut: produit
+    date_debut: 2021-05-01
+  - statut: livre
+    date_debut: 2021-12-01
+    
+subventions: 
