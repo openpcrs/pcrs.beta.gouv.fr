@@ -9,10 +9,14 @@ livrables:
     crs: EPSG:3949
 
 acteurs: 
+  - siren: 225700012
+    nom: Conseil départemental de Moselle
+    telephone: "+33382868181"
+    role: aplc
   - siren: 200039865
     nom: Métropole de Metz
     telephone: "+33387201000"
-    role: aplc
+    role: financeur
     finance_part_perc: 40
 
 perimetres:
