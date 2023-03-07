@@ -18,6 +18,12 @@ Il utilise [Next.js](https://nextjs.org) et [le Système de Design de l’État]
 yarn
 ```
 
+### Télécharger les données des contours géographiques
+
+```bash
+yarn download-contours
+```
+
 ### Lancer en mode développement
 
 ```bash
@@ -37,12 +43,12 @@ yarn lint
 ```bash
 yarn build-data
 ```
-Les fichiers YAML contenus dans le dossier `/data` vont être parcourus et transformés en deux fichiers :   
+Les fichiers YAML contenus dans le dossier `/data` vont être parcourus et transformés en deux fichiers :
 - `projets.json` : qui contient les données des projets PCRS
 - `projets.geojson` : qui contient les contours des projets PCRS
-> *Les données vont préalablement __être validées__.*   
-> *Une erreur sera affichée en console si un champ est manquant, mal orthographié,*   
-> *ou si l’indentation du fichier YAML n’est pas correcte.*   
+> *Les données vont préalablement __être validées__.*
+> *Une erreur sera affichée en console si un champ est manquant, mal orthographié,*
+> *ou si l’indentation du fichier YAML n’est pas correcte.*
 ---
 
 ## Licence
