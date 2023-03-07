@@ -1,0 +1,35 @@
+nom: Métropole de Brest 2023
+regime: maj
+nature: raster
+
+livrables:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ouvert_lo
+
+acteurs:
+  - siren: 242900314
+    nom: Brest Métropole
+    telephone: "+33298335050"
+    role: aplc
+  - siren: 200068120
+    nom: Quimper Bretagne Occidentale
+    telephone: "+33298988717"
+    role: financeur
+
+perimetres:
+  - epci:242900314
+  - epci:200068120
+
+etapes:
+  - statut: investigation
+    date_debut: 2021-01-01
+  - statut: production
+    date_debut: 2023-03-01
+  - statut: produit
+    date_debut: 2023-03-31
+  - statut: livre
+    date_debut: 2023-05-01
+
+subventions:

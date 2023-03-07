@@ -1,0 +1,31 @@
+nom: Métropole de Brest 2019
+regime: production
+nature: raster
+
+livrables:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ouvert_lo
+
+acteurs:
+  - siren: 242900314
+    nom: Brest Métropole
+    telephone: "+33298335050"
+    role: aplc
+    finance_part_perc: 100
+
+perimetres:
+  - epci:242900314
+
+etapes:
+  - statut: investigation
+    date_debut: 2017-01-01
+  - statut: production
+    date_debut: 2019-01-01
+  - statut: produit
+    date_debut: 2019-09-01
+  - statut: livre
+    date_debut: 2019-12-01
+
+subventions:

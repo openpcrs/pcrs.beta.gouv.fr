@@ -1,16 +1,13 @@
-nom: Métropole de Brest
+nom: Métropole de Brest 2022
 regime: production
-nature: mixte
+nature: vecteur
 
 livrables:
-  - nom: Images raster
-    nature: geotiff
-    diffusion: flux
-    licence: ferme
   - nom: Données vectorielles
     nature: gml
     diffusion: flux
-    licence: ferme
+    crs: EPSG:2154
+    licence: ouvert_lo
 
 acteurs:
   - siren: 242900314
@@ -41,12 +38,8 @@ perimetres:
 
 etapes:
   - statut: investigation
-    date_debut: 2017-01-01
+    date_debut: 2018-01-01
   - statut: production
-    date_debut: 2019-01-01
-  - statut: produit
-    date_debut: 2019-09-01
-  - statut: livre
-    date_debut: 2021-01-01
+    date_debut: 2022-01-01
 
 subventions:

@@ -1,0 +1,33 @@
+nom: Métropole de Montpellier 2019
+regime: production
+nature: raster
+
+livrables:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ferme
+    
+acteurs:
+  - siren: 243400017
+    nom: Montpellier Métropole
+    telephone: "+33467136000"
+    role: aplc
+  - siren: 444608442
+    nom: Enedis
+    role: financeur
+
+perimetres:
+  - epci:243400017
+
+etapes:
+  - statut: investigation
+    date_debut: 2017-01-01
+  - statut: production
+    date_debut: 2019-01-01
+  - statut: produit
+    date_debut: 2019-09-01
+  - statut: livre
+    date_debut: 2019-12-01
+
+subventions:
