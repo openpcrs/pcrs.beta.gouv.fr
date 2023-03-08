@@ -1,7 +1,8 @@
 class ValidationError extends Error {
   constructor(validationDetails) {
     super('Invalid payload')
-    this.validation = validationDetails
+    this.statusCode = 400
+    this.details = validationDetails
   }
 }
 
