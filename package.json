@@ -19,6 +19,7 @@
     "@next/bundle-analyzer": "^13.0.7",
     "@turf/union": "^6.5.0",
     "date-fns": "^2.29.3",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "got": "^12.5.3",
     "http-errors": "^2.0.0",
