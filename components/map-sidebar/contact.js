@@ -11,7 +11,7 @@ const Contact = ({name, phone, mail}) => (
     </div>
     <div className='contact-infos fr-pl-2w'>
       <div className={name ? '' : 'no-data'} aria-label='Nom du contact de référence'>
-        {`${name || 'non-renseigné'}`}
+        {`${name || 'non renseigné'}`}
       </div>
 
       <a

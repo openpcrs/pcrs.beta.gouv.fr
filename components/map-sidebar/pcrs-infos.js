@@ -102,6 +102,9 @@ const PcrsInfos = ({nature, regime, livrable, diffusion, licence, acteurs}) => {
               <button
                 type='button'
                 className='fr-btn--tertiary-no-outline'
+                style={{
+                  visibility: isActorsShow ? 'hidden' : 'visible'
+                }}
                 onClick={() => setIsActorsShow(true)}
               >
                 ...afficher la liste des acteurs
