@@ -40,6 +40,7 @@
     "ava": "^5.2.0",
     "eslint-config-xo": "^0.42.0",
     "eslint-config-xo-nextjs": "^4.2.2",
+    "mongodb-memory-server": "^8.12.0",
     "xo": "^0.52.4"
   },
   "xo": {
