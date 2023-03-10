@@ -1,0 +1,34 @@
+nom: Métropole du Grand Nancy - 2024
+regime: maj
+nature: raster
+livrables:
+  - nom: Images raster
+    nature: jpeg2000
+    diffusion: flux
+    licence: ouvert_lo
+    crs: EPSG:2154
+
+acteurs: 
+  - siren: 245400676
+    nom: Métropole du Grand Nancy
+    telephone: "+33383918391"
+    role: aplc
+    finance_part_perc: 100
+  - siren: 423615137
+    nom: L'Europe vue du ciel
+    role: presta_vol
+
+perimetres:
+  - epci:245400676
+
+etapes:
+  - statut: investigation
+    date_debut: 2019-01-01
+  - statut: production
+    date_debut: 2020-04-01
+  - statut: produit
+    date_debut: 2020-06-01
+  - statut: livre
+    date_debut: 2020-12-01
+    
+subventions: 
