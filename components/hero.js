@@ -5,12 +5,12 @@ import colors from '@/styles/colors.js'
 
 const Hero = () => (
   <div className='hero-component'>
-    <div className='hero-title'>
+    <div className='hero-title fr-p-4w'>
       <h2>Accompagnement national des projets PCRS</h2>
       <div className='subtitle fr-text fr-text--lg'>Animer et outiller les projets locaux du Plan Corps de Rue Simplifié en cours et à venir</div>
     </div>
 
-    <div className='nav-wrapper fr-p-4w'>
+    <div className='nav-wrapper fr-mb-3w'>
       <div className='fr-p-2w'>
         <Link
           passHref
@@ -85,17 +85,12 @@ const Hero = () => (
         position: relative;
       }
 
-      .hero-title {
-        padding: 2em 5em;
-      }
-
       .subtitle {
          color: ${colors.grey200};
          font-weight: bold;
       }
 
       .nav-wrapper {
-        padding: 2em 5em;
         display: flex;
         justify-content: space-around;
         flex-wrap: wrap;
@@ -120,14 +115,6 @@ const Hero = () => (
 
       h3 {
         color: white;
-      }
-
-      .intro {
-        box-sizing: border-box;
-        position: absolute;
-        background: ${colors.darkgrey};
-        color: white;
-        padding: 2em 5em;
       }
 
       .fr-link--icon-right {
