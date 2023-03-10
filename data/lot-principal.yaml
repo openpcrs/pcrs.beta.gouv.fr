@@ -16,7 +16,7 @@ acteurs:
   - siren: 180067019
     nom: IGN
     role: financeur
-  - siren: 401 651 500
+  - siren: 401651500
     nom: OpenIG
     role: diffuseur
   - siren: 444608442
