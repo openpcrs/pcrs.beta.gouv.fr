@@ -1,7 +1,13 @@
 #!/usr/bin/env node
-import process from 'node:process'
+
+/* eslint-disable import/first */
+/* eslint-disable import/order */
 
 import * as dotenv from 'dotenv'
+
+dotenv.config()
+
+import process from 'node:process'
 
 import express from 'express'
 import createError from 'http-errors'
@@ -11,8 +17,6 @@ import errorHandler from './util/error-handler.js'
 import w from './util/w.js'
 
 import {getProjet, getProjets, createProjet, deleteProjet, updateProjet} from './projets.js'
-
-dotenv.config()
 
 const port = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production'
