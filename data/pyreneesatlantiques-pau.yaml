@@ -1,0 +1,46 @@
+nom: Agglomération de Pau
+regime: production
+nature: raster
+
+livrables:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ferme
+    crs: EPSG:3943
+
+acteurs:
+  - siren: 200067254
+    nom: Communauté d'agglomération de Pau Béarn Pyrénées
+    telephone: "+33559987800"
+    role: aplc
+  - siren: 444608442
+    nom: Enedis
+    role: financeur
+  - siren: 200024883
+    nom: Sydnicat Mixte des Transports Urbain Pau
+    role: financeur
+  - siren: 256402041
+    nom: Syndicat départemental d'énergie des Pyrénées-Atlantiques
+    role: financeur
+  - siren: 130000763
+    nom: GIP Atgeri
+    role: diffuseur
+  - siren: 318637196
+    nom: Aero Photo Europe Investigation
+    role: presta_vol
+
+perimetres:
+  - epci:200067254
+
+etapes:
+  - statut: investigation
+    date_debut: 2018-01-01
+  - statut: production
+    date_debut: 2020-03-16
+  - statut: produit
+    date_debut: 2020-04-01
+  - statut: livre
+    date_debut: 2021-01-01
+
+subventions:

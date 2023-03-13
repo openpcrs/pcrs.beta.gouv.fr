@@ -1,0 +1,54 @@
+nom: Moselle - Tranche 2022
+regime: production
+nature: raster
+livrables:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ferme
+
+acteurs: 
+  - siren: 225700012
+    nom: CD Moselle
+    telephone: "+33387375757"
+    role: aplc
+    finance_part_perc: 30
+  - siren: 200069441
+    nom: Communauté de communes du Pays de Bitche
+    role: financeur
+  - siren: 200070746
+    nom: Communauté d'agglomération de Sarreguemines Confluences
+    role: financeur
+  - siren: 245700372
+    nom: Communauté d'agglomération de Forbach Porte France
+    role: financeur
+  - siren: 245700398
+    nom: Communauté de communes Freyming Merlebach
+    role: financeur
+  - siren: 200070738
+    nom: Communauté de communes Mad et Moselle
+    role: financeur
+  - siren: 444608442
+    nom: Enedis
+    role: financeur
+    finance_part_perc: 50
+  - siren: 423615137
+    nom: L'Europe Vue du Ciel
+    role: presta_vol
+
+perimetres:
+  - epci:200069441
+  - epci:200070746
+  - epci:245700372
+  - epci:245700398
+  - epci:200070738
+
+etapes:
+  - statut: investigation
+    date_debut: 2019-01-01
+  - statut: production
+    date_debut: 2022-05-01
+  - statut: produit
+    date_debut: 2022-09-01
+    
+subventions: 
