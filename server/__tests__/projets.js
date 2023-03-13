@@ -7,7 +7,7 @@ import {getProjets, createProjet, deleteProjet, updateProjet} from '../projets.j
 
 let mongod
 
-const requiredKEys = ['_id', 'nom', 'regime', 'livrables', 'acteurs', 'perimetres', 'etapes', 'subventions']
+const requiredKeys = ['_id', 'nom', 'regime', 'livrables', 'acteurs', 'perimetres', 'etapes', 'subventions']
 
 test.before('Start server', async () => {
   mongod = await MongoMemoryServer.create()
@@ -68,7 +68,7 @@ test.serial('create valid projet', async t => {
     ]
   })
 
-  t.true(requiredKEys.every(k => k in projet))
+  t.true(requiredKeys.every(k => k in projet))
   t.is(projet.nom, 'Nom du pcrs')
   t.is(projet.regime, 'production')
   t.is(projet.etapes.length, 2)
