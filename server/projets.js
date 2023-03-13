@@ -9,10 +9,6 @@ export async function getProjets() {
 export async function getProjet(projetId) {
   projetId = mongo.parseObjectId(projetId)
 
-  if (!projetId) {
-    throw createError(404, 'Le projet est introuvable')
-  }
-
   return mongo.db.collection('projets').findOne({_id: projetId})
 }
 
@@ -36,10 +32,6 @@ export async function createProjet(payload) {
 
 export async function deleteProjet(projetId) {
   const deleted = await mongo.db.collection('projets').deleteOne({_id: projetId})
-
-  if (deleted.deletedCount === 0) {
-    return 'Aucun projet n’a été suprimmé'
-  }
 
   return deleted
 }
