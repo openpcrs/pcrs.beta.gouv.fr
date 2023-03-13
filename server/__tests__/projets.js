@@ -95,9 +95,8 @@ test.serial('create invalid projet', async t => {
 })
 
 test.serial('update projet', async t => {
-  const projet = await createProjet(validProjet)
-
-  const update = await updateProjet(projet._id, {nom: 'plop'})
+  const projet = await mongo.db.collection('projets').insertOne(validProjet)
+  const update = await updateProjet(projet.insertedId, {nom: 'plop'})
   const updatedProjet = await mongo.db.collection('projets').findOne({nom: 'plop'})
 
   t.is(updatedProjet.nom, 'plop')
@@ -105,15 +104,17 @@ test.serial('update projet', async t => {
 })
 
 test.serial('get all projets', async t => {
-  await createProjet(validProjet)
+  await mongo.db.collection('projets').insertOne(validProjet)
+  await mongo.db.collection('projets').insertOne({nom: 'Un aurte projet PCRS non valide'})
+
   const projets = await getProjets()
 
-  t.is(projets.length, 1)
+  t.is(projets.length, 2)
 })
 
 test.serial('delete projet', async t => {
-  const projet = await createProjet(validProjet)
-  const {deletedCount} = await deleteProjet(projet._id)
+  const projet = await mongo.db.collection('projets').insertOne(validProjet)
+  const {deletedCount} = await deleteProjet(projet.insertedId)
   const deletedProjet = await mongo.db.collection('projets').findOne({nom: 'plop'})
 
   t.is(deletedCount, 1)
