@@ -66,8 +66,8 @@ cp .env.sample .env
 Puis compléter les champs suivants :
 - `PORT` -> Port d’écoute du serveur, 3000 par défaut.
 >*Les champs suivants sont optionnels, mais vous ne pourez pas accéder à la page `/blog` du site.*
-- `NEXT_PUBLIC_GHOST_URL` -> Adresse du Blog Ghost (optionnel)
-- `NEXT_PUBLIC_GHOST_URL_IMAGES_SOURCE` -> Adresse du Blog Ghost (optionnel)
+- `NEXT_PUBLIC_GHOST_URL` -> Adresse complète du Blog Ghost (optionnel)
+- `NEXT_PUBLIC_GHOST_URL_IMAGES_SOURCE` -> Adresse du Blog Ghost sans `https://` (optionnel)
 - `GHOST_KEY` -> Jeton permettant l’accès aux articles du Blog Ghost (optionnel)
 >*Pour utiliser l’API, vous devez compléter ce champ.*   
 >*En local, utilisez ce jeton pour authentifier les appels à l’API*
@@ -78,11 +78,9 @@ Puis compléter les champs suivants :
 |-------|------|-------------|
 | `/projets`| **GET** | *Retourne la liste de tous les projets PCRS* |
 | `/projets`| **POST** | *Permet d’ajouter un projet PCRS* |
-| `/projets:id`| **GET** | *Retourne le projet demandé* |
-| `/projets:id`| **DELETE** | *Supprime le projet demandé* |
-| `/projets:id`| **PUT** | *Modifie le projet demandé* |
-
-Les champs permettant la création, la modification ou la suppression d’un projet sont soumis à une validation des champs.
+| `/projets/:id`| **GET** | *Retourne le projet demandé* |
+| `/projets/:id`| **DELETE** | *Supprime le projet demandé* |
+| `/projets/:id`| **PUT** | *Modifie le projet demandé* |
 
 Vous pouvez accéder au modèle de données à [cette adresse](https://docs.pcrs.beta.gouv.fr/suivi-des-projets/modele-de-donnees).
 
