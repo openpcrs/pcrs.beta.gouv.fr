@@ -13,7 +13,7 @@ import Button from '@/components/button.js'
 
 const NATURES = [
   {value: 'feder', label: 'Financement FEDER'},
-  {value: 'cepr ', label: 'Contrat État-Région'},
+  {value: 'cepr', label: 'Contrat État-Région'},
   {value: 'detr', label: 'Dotations de l’État aux Territoires Ruraux'}
 ]
 
