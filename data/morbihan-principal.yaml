@@ -6,13 +6,20 @@ livrables:
   - nom: Images raster
     nature: geotiff
     diffusion: flux
-    licence: ferme
+    licence: ouvert_odbl
+    crs: EPSG:3948
 
 acteurs:
   - siren: 200042174
     nom: Morbihan Energies
     telephone: "+33297620750"
     role: aplc
+  - siren: 444608442
+    nom: Enedis
+    role: financeur
+  - siren: 444786511
+    nom: GRDF
+    role: financeur
 
 perimetres:
   - epci:245614417
@@ -67,12 +74,12 @@ perimetres:
   
 etapes:
   - statut: investigation
-    date_debut:
+    date_debut: 2017-01-01
   - statut: production
-    date_debut:
+    date_debut: 2019-01-01
   - statut: produit
-    date_debut:
+    date_debut: 2020-12-31
   - statut: livre
-    date_debut:
+    date_debut: 2022-01-01
 
 subventions:
