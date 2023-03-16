@@ -1,0 +1,37 @@
+nom: Tarn - Tranche principale
+regime: production
+nature: mixte
+
+livrables:
+  - nom: Images raster
+    nature: jpeg2000
+    diffusion: flux
+    licence: ferme
+    crs: EPSG:3949
+  - nom: Données vectorielles
+    nature: gml
+    diffusion: flux
+    licence: ferme
+
+acteurs: 
+  - siren: 258100072
+    nom: TE 81
+    telephone: "+33563432140"
+    role: aplc
+  - siren: 444608442
+    nom: Enedis
+    role: financeur
+    finance_part_perc: 43
+  - siren: 180067019
+    nom: IGN
+    role: financeur
+    finance_part_perc: 15
+    
+etapes: 
+  - statut: investigation
+    date_debut: 2022-01-01
+    
+perimetres:
+  - departement:81
+  
+subventions: 
