@@ -66,10 +66,9 @@ cp .env.sample .env
 Puis compléter les champs suivants :
 - `PORT` -> Port d’écoute du serveur, 3000 par défaut.
 >*Les champs suivants sont optionnels, mais vous ne pourez pas accéder à la page `/blog` du site.*
-- `NEXT_PUBLIC_GHOST_URL` -> Adresse complète du Blog Ghost (optionnel)
-- `NEXT_PUBLIC_GHOST_URL_IMAGES_SOURCE` -> Adresse du Blog Ghost sans `https://` (optionnel)
+- `NEXT_PUBLIC_GHOST_URL` -> URL complète du blog Ghost (optionnel)
 - `GHOST_KEY` -> Jeton permettant l’accès aux articles du Blog Ghost (optionnel)
->*Pour utiliser l’API, vous devez compléter ce champ.*   
+>*Pour utiliser l’API, vous devez compléter ce champ.*
 >*En local, utilisez ce jeton pour authentifier les appels à l’API*
 - `ADMIN_TOKEN` -> Jeton d’authentification des appels à l’API.
 
