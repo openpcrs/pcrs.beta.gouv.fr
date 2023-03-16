@@ -1,0 +1,29 @@
+nom: Ariège - Principal
+regime: production
+nature: raster
+livrables:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ferme
+
+acteurs: 
+  - siren: 220900013
+    nom: Conseil départemental de l'Ariège
+    telephone: "+33561020909"
+    role: aplc
+  - siren: 250901873
+    nom: Syndicat Mixte départemental eau et assainissement de l'Ariège
+    role: financeur
+  - siren: 250900180
+    nom: Syndicat départemental des énergies de l'Ariège
+    role: financeur
+
+perimetres:
+  - departement:09
+
+etapes:
+  - statut: investigation
+    date_debut: 2022-01-01
+    
+subventions: 
