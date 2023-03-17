@@ -70,6 +70,9 @@ Puis compléter les champs suivants :
 - `GHOST_KEY` -> Jeton permettant l’accès aux articles du Blog Ghost (optionnel)
 >*Pour utiliser l’API, vous devez compléter ce champ.*
 >*En local, utilisez ce jeton pour authentifier les appels à l’API*
+- `API_ENTREPRISES_URL` -> URL de l’API "recherch-entreprises"
+- `MONGODB_URL` -> URL de la base de données MongoDB
+- `MONGODB_DBNAME` -> Nom de la collection MongoDB
 - `ADMIN_TOKEN` -> Jeton d’authentification des appels à l’API.
 
 ### Routes de l’API des projets PCRS
