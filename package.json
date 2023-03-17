@@ -19,12 +19,15 @@
     "@next/bundle-analyzer": "^13.0.7",
     "@turf/union": "^6.5.0",
     "date-fns": "^2.29.3",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "got": "^12.5.3",
+    "http-errors": "^2.0.0",
     "joi": "^17.7.0",
     "js-yaml": "^4.1.0",
     "lodash-es": "^4.17.21",
     "maplibre-gl": "^2.4.0",
+    "mongodb": "^5.1.0",
     "next": "^13.0.3",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
@@ -37,6 +40,7 @@
     "ava": "^5.2.0",
     "eslint-config-xo": "^0.42.0",
     "eslint-config-xo-nextjs": "^4.2.2",
+    "mongodb-memory-server": "^8.12.0",
     "xo": "^0.52.4"
   },
   "xo": {
