@@ -58,10 +58,7 @@
         "error",
         "never"
       ],
-      "n/prefer-global/process": [
-        "error",
-        "always"
-      ],
+      "n/prefer-global/process": "off",
       "unicorn/no-array-for-each": "off",
       "unicorn/prefer-switch": "off",
       "react/no-unknown-property": [

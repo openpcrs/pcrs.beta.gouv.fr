@@ -1,3 +1,5 @@
+import process from 'node:process'
+
 import {MongoClient, ObjectId} from 'mongodb'
 
 const MONGODB_URL = process.env.MONGODB_URL || 'mongodb://localhost'
