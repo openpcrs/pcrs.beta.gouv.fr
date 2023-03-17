@@ -22,6 +22,57 @@ acteurs:
     nom: CD29
     role: financeur
     finance_part_euro: 200000
+  - siren: 242900769
+    nom: Agglomération de Concarneau Cornouaille
+    role: financeur
+  - siren: 242900835
+    nom: Communauté d'agglomération de Morlaix Communauté
+    role: financeur
+  - siren: 242900629
+    nom: Communauté de communes Cap Sizun-Pointe du Raz
+    role: financeur
+  - siren: 242900645
+    nom: Communauté de Douarnenez
+    role: financeur
+  - siren: 242900561
+    nom: Communauté de communes de Haute-Cornouaille
+    role: financeur
+  - siren: 242900710
+    nom: Communauté de communes du Haut Pays Bigouden
+    role: financeur
+  - siren: 242900553
+    nom: Communauté de communes du Pays des Abers
+    role: financeur
+  - siren: 242900702
+    nom: Communauté de communes du Pays Bigouden sud
+    role: financeur
+  - siren: 242900074
+    nom: Communauté de communes du Pays d'Iroise
+    role: financeur
+  - siren: 242900801
+    nom: Communauté d'agglomération du pays de Landerneau-Daoulas
+    role: financeur
+  - siren: 242900751
+    nom: Communauté de communes du Pays de Landivisiau
+    role: financeur
+  - siren: 200067247
+    nom: Communauté de communes Pleyben - Chteaulin - Porzay
+    role: financeur
+  - siren: 242900744
+    nom: Communauté de communes de Poher
+    role: financeur
+  - siren: 200066868
+    nom: Communauté de communes Presqu'ile de Crozon
+    role: financeur
+  - siren: 200067072
+    nom: Communauté de communes du Haut Léon
+    role: financeur
+  - siren: 242900793
+    nom: Communauté de communes Lesneven Cote des Légendes
+    role: financeur
+  - siren: 242900694
+    nom: Communauté d'agglomération de Quimperlé
+    role: financeur
   - siren: 444608442
     nom: Enedis
     role: financeur
@@ -45,7 +96,6 @@ perimetres:
   - epci:242900561
   - epci:242900629
   - epci:242900645
-  - epci:200068120
   - epci:242900710
   - epci:242900660
   - epci:242900702
@@ -61,12 +111,8 @@ perimetres:
 
 etapes:
   - statut: investigation
-    date_debut:
+    date_debut: 2019-01-01
   - statut: production
-    date_debut:
-  - statut: produit
-    date_debut:
-  - statut: livre
-    date_debut:
+    date_debut: 2020-04-01
 
 subventions:

@@ -107,17 +107,21 @@ export const Desktop = ({handleClick, projet, isOpen, setIsOpen}) => (
     }}
   >
     {projet && (
-      <div
-        style={{
-          minWidth: isOpen ? '460px' : '5px',
-          maxWidth: '460px',
-          boxShadow: '0px 0px 5px grey',
-          height: 'calc(100vh - 117px)',
-          zIndex: 1,
-          overflow: 'auto',
-          overflowX: 'hidden'
-        }}
-      >
+      <>
+        <div
+          style={{
+            minWidth: isOpen ? '460px' : '5px',
+            maxWidth: '460px',
+            boxShadow: '0px 0px 5px grey',
+            height: 'calc(100vh - 117px)',
+            overflow: 'auto',
+            overflowX: 'hidden'
+          }}
+        >
+          {isOpen && (
+            <MapSidebar projet={projet} />
+          )}
+        </div>
         <button
           type='button'
           className={`fr-icon-arrow-${isOpen ? 'left' : 'right'}-s-line`}
@@ -131,18 +135,18 @@ export const Desktop = ({handleClick, projet, isOpen, setIsOpen}) => (
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
+            alignItems: 'center',
             borderRadius: '0 5px 5px 0',
-            boxShadow: '2px 2px 5px grey'
+            boxShadow: '2px 2px 5px grey',
+            zIndex: 3
           }}
           onClick={() => setIsOpen(!isOpen)}
         />
-        {isOpen && (
-          <MapSidebar projet={projet} />
-        )}
-      </div>
+      </>
     )}
+
     <div style={{width: '100%', height: 'calc(100vh - 117px)'}}>
-      <Map handleClick={handleClick} />
+      <Map style={{pointerEvents: 'all'}} handleClick={handleClick} />
     </div>
   </div>
 )

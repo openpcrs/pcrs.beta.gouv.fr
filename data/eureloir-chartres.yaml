@@ -29,6 +29,16 @@ acteurs:
 
 perimetres:
   - epci:200033181
+  - commune:28039
+  - commune:28168
+  - commune:28298
+  - commune:28357
+  - commune:28023
+  - commune:28188
+  - commune:28249
+  - commune:28379
+  - commune:28423
+  - commune:28425
 
 etapes:
   - statut: investigation

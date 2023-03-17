@@ -1,0 +1,70 @@
+nom: Moselle - Tranche 2023
+regime: production
+nature: raster
+livrables:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ferme
+
+acteurs: 
+  - siren: 225700012
+    nom: CD Moselle
+    telephone: "+33387375757"
+    role: aplc
+    finance_part_perc: 30
+  - siren: 200067502
+    nom: Communauté d'agglomération Saint-Avold Synergie
+    role: financeur
+  - siren: 200067486
+    nom: Communauté de communes Bouzonvillois-Trois frontières
+    role: financeur
+  - siren: 245700133
+    nom: Communauté de communes de Faulquemont
+    role: financeur
+  - siren: 245700950
+    nom: Communauté de communes du Pays de Phaslbourg
+    role: financeur
+  - siren: 245701206
+    nom: Communauté de communes du Saulnois
+    role: financeur
+  - siren: 200039907
+    nom: Communauté de communes du Sud Messin
+    role: financeur
+  - siren: 245701164
+    nom: Communauté de communes du Warndt
+    role: financeur
+  - siren: 200067957
+    nom: Communauté de communes du Haut Chemin-Pays de Pange
+    role: financeur
+  - siren: 200067650
+    nom: Communauté de communes Houve-Pays Boulageois
+    role: financeur
+  - siren: 200068146
+    nom: Communauté de communes Sarrebourg Moselle Sud
+    role: financeur
+  - siren: 444608442
+    nom: Enedis
+    role: financeur
+    finance_part_perc: 50
+  - siren: 423615137
+    nom: L'Europe Vue du Ciel
+    role: presta_vol
+
+perimetres:
+  - epci:200067502
+  - epci:200067486
+  - epci:245700133
+  - epci:245700950
+  - epci:245701206
+  - epci:200039907
+  - epci:245701164
+  - epci:200067957
+  - epci:200067650
+  - epci:200068146
+
+etapes:
+  - statut: investigation
+    date_debut: 2023-01-01
+    
+subventions: 

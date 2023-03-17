@@ -1,0 +1,38 @@
+nom: Nievre - Principal
+regime: production
+nature: mixte
+livrables:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ferme
+  - nom: Données vectorielles
+    nature: gml
+    diffusion: flux
+    licence: ferme
+
+acteurs: 
+  - siren: 255801185
+    nom: Syndicat intercommunal d'Energies, d'Equipement et d'Environnement de la Nièvre
+    telephone: "+33386597690"
+    role: aplc
+
+perimetres:
+  - epci:245804406
+  - epci:200067908
+  - epci:200067882
+  - epci:200067916
+  - epci:200067429
+  - epci:200068088
+  - epci:245801063
+  - epci:200067890
+  - epci:245804497
+  - epci:200067700
+  - epci:200067692
+
+etapes:
+  - statut: investigation
+    date_debut: 2015-01-01
+
+subventions: 
+    
