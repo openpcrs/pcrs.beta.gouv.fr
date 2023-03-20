@@ -1,0 +1,68 @@
+nom: Dordogne - Principal
+regime: production
+nature: mixte
+livrables:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ferme
+    crs: EPSG:2154
+  - nom: Données vectorielles
+    nature: gml
+    diffusion: flux
+    crs: EPSG:2154
+    licence: ferme
+
+acteurs: 
+  - siren: 252405147
+    nom: Agence Technique Départementale de la Dordogne
+    telephone: "+33553066565"
+    role: aplc
+  - siren: 222400012
+    nom: Conseil départemental de la Dordogne
+    role: financeur
+  - siren: 444608442
+    nom: Enedis
+    role: financeur
+  - siren: 252401476
+    nom: Syndicat départemental d'énergies de Dordogne
+    role: financeur
+  - siren: 130000763
+    nom: GIP Atgeri
+    role: diffuseur
+  - siren: 180067019
+    nom: IGN
+    role: presta_vol
+  - siren: 200040392
+    nom: Communauté d'agglomération du Grand Périgueux
+    role: financeur
+  - siren: 200070647
+    nom: Communauté d'agglomération Bergeracoise
+    role: financeur
+  - siren: 252405329
+    nom: Syndicat mixte départemental des déchets de la Dordogne
+    role: financeur
+  - siren: 200025278
+    nom: Syndicat mixte des eaux de Dordogne
+    role: financeur
+  - siren: 200094811
+    nom: Syndicat des eaux Coeur du Périgord
+    role: financeur
+  - siren: 200045771
+    nom: Syndicat mixte Périgord Numérique
+    role: financeur
+  - siren: 444619258
+    nom: RTE
+    role: financeur
+
+perimetres:
+  - departement:24
+
+etapes:
+  - statut: investigation
+    date_debut: 2021-01-01
+  - statut: production
+    date_debut: 2022-03-01
+
+subventions: 
+    
