@@ -1,0 +1,38 @@
+nom: Hauts-de-France - Tranche principale
+regime: production
+nature: raster
+livrables:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ferme
+
+acteurs: 
+  - siren: 200053742
+    nom: Région des Hauts-de-France
+    telephone: "+33374270000"
+    role: aplc
+  - siren: 334381746
+    nom: Sintegra
+    role: presta_vol
+  - siren: 342174018
+    nom: GeoFit
+    role: presta_vol
+  - siren: 392866307
+    nom: Eurosense
+    role: presta_vol
+
+perimetres:
+  - departement:02
+  - departement:59
+  - departement:60
+  - departement:62
+  - departement:80
+
+etapes:
+  - statut: investigation
+    date_debut: 2019-01-01
+  - statut: production
+    date_debut: 2022-03-01
+    
+subventions: 
