@@ -103,11 +103,7 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs}) => {
           <LabeledWrapper label='Livrables'>
             <div className='livrables-badges'>
               {livrables.map(livrable => (
-                <Tooltip
-                  key={livrable.nom}
-                  position='center'
-                  tooltipContent={() => livrableTooltip(livrable)}
-                >
+                <Tooltip key={livrable.nom} tooltipContent={() => livrableTooltip(livrable)}>
                   <Badge size='small' background={livrablesNatures[livrable.nature]}>{livrable.nom}</Badge>
                 </Tooltip>
               ))}
