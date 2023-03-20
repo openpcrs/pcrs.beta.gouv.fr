@@ -61,7 +61,6 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs}) => {
   const livrableTooltip = livrable => (
     <div className='tooltip-container'>
       <div>Nature : <span>{NATURE_LABELS[livrable.nature] || 'N/A'}</span></div>
-      <div>Diffusion : <span>{DIFFUSION_LABELS[livrable.diffusion] || 'N/A'}</span></div>
       <div>Licence : <span>{LICENCE_LABELS[livrable.licence] || 'N/A'}</span></div>
 
       <style jsx>{`
