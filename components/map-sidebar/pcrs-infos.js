@@ -32,14 +32,6 @@ const NATURE_LABELS = {
   gml: 'Livrable GML vecteur'
 }
 
-const DIFFUSION_LABELS = {
-  wms: 'Diffusion via un service WMS',
-  wmts: 'Diffusion via un service WMTS',
-  tms: 'Diffusion via un service TMS',
-  flux: 'Flux',
-  telechargement: 'Téléchargement'
-}
-
 const LICENCE_LABELS = {
   ouvert_lo: 'Ouvert sous licence ouverte',
   ouvert_odbl: 'Ouvert sous licence ODbL',
