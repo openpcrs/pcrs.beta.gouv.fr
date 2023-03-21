@@ -42,7 +42,8 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
   const [updatingActorSiren, setUpdatingActorSiren] = useState()
 
   const sortActorsByAplc = orderBy(acteurs, a => a.role === 'aplc', ['desc'])
-  const isFormComplete = useMemo(() => nom && role, [nom, role])
+  const isPhoneNumberValid = /^(?:\+33|0)[1-9](?:\d{8}|\d(?:\s?\d{2}){4})$/.test(phone)
+  const isFormComplete = useMemo(() => nom && role && (!phone || isPhoneNumberValid), [nom, role, phone, isPhoneNumberValid])
   const isSirenValid = useMemo(() => siren && /^\d{9}$/.test(siren), [siren]) // Check if siren is 9 numbers long
   const isUpdating = useMemo(() => updatingActorIndex || updatingActorIndex === 0, [updatingActorIndex])
 
@@ -115,7 +116,7 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
   }
 
   const handleErrors = useCallback((input, name) => {
-    if (!input && hasInvalidInput) {
+    if (!input && hasInvalidInput && name !== 'phone') {
       if (!input) {
         return 'Ce champs est requis'
       }
@@ -124,7 +125,11 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
         return 'Le SIREN doit être composé de 9 chiffres'
       }
     }
-  }, [isSirenValid, hasInvalidInput])
+
+    if (input && !isPhoneNumberValid && name === 'phone') {
+      return 'Le numéro de téléphone doit être composé de 10 chiffres ou de 9 chiffres précédés du préfixe +33'
+    }
+  }, [isSirenValid, isPhoneNumberValid, hasInvalidInput])
 
   useEffect(() => {
     // Disable APLC selector option when already selected
@@ -256,6 +261,7 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
                 value={phone}
                 ariaLabel='numéro de téléphone de l’interlocuteur'
                 description='Numéro de téléphone de l’interlocuteur'
+                errorMessage={handleErrors(phone, 'phone')}
                 onValueChange={setPhone}
               />
             </div>
