@@ -29,6 +29,7 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [hasInvalidInput, setHasInvalidInput] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState()
 
   const [nom, setNom] = useState('')
   const [siren, setSiren] = useState('')
@@ -38,6 +39,7 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
   const [role, setRole] = useState('')
   const [foundedEtablissements, setFoundedEtablissements] = useState([])
   const [updatingActorIndex, setUpdatingActorIndex] = useState()
+  const [updatingActorSiren, setUpdatingActorSiren] = useState()
 
   const sortActorsByAplc = orderBy(acteurs, a => a.role === 'aplc', ['desc'])
   const isFormComplete = useMemo(() => nom && role, [nom, role])
@@ -46,17 +48,21 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
 
   const onAdd = () => {
     if (isFormComplete && isSirenValid) {
-      const newActor = {
-        nom,
-        siren: Number(siren),
-        role,
-        telephone: phone || null,
-        finance_part_perc: Number(finPerc) || null,
-        finance_part_euro: Number(finEuros) || null
-      }
+      if (acteurs.some(acteur => siren === acteur.siren.toString())) {
+        setErrorMessage('Cet acteur est déjà présent.')
+      } else {
+        const newActor = {
+          nom,
+          siren: Number(siren),
+          role,
+          telephone: phone || null,
+          finance_part_perc: Number(finPerc) || null,
+          finance_part_euro: Number(finEuros) || null
+        }
 
-      handleActors([...acteurs, newActor])
-      onReset()
+        handleActors([...acteurs, newActor])
+        onReset()
+      }
     } else {
       setHasInvalidInput(true)
     }
@@ -64,22 +70,26 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
 
   const onUpdate = () => {
     if (isFormComplete && isSirenValid) {
-      handleActors([...acteurs].map((acteur, idx) => {
-        if (idx === updatingActorIndex) {
-          acteur = {
-            nom,
-            siren: Number(siren),
-            role,
-            telephone: phone || null,
-            finance_part_perc: Number(finPerc) || null,
-            finance_part_euro: Number(finEuros) || null
+      if (acteurs.some(acteur => siren === acteur.siren.toString()) && siren !== updatingActorSiren.toString()) {
+        setErrorMessage('Cet acteur est déjà présent.')
+      } else {
+        handleActors([...acteurs].map((acteur, idx) => {
+          if (idx === updatingActorIndex) {
+            acteur = {
+              nom,
+              siren: Number(siren),
+              role,
+              telephone: phone || null,
+              finance_part_perc: Number(finPerc) || null,
+              finance_part_euro: Number(finEuros) || null
+            }
           }
-        }
 
-        return acteur
-      }))
+          return acteur
+        }))
 
-      onReset()
+        onReset()
+      }
     } else {
       setHasInvalidInput(true)
     }
@@ -100,6 +110,8 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
     setFinEuros()
     setRole('')
     setUpdatingActorIndex()
+    setErrorMessage()
+    setUpdatingActorSiren()
   }
 
   const handleErrors = useCallback((input, name) => {
@@ -130,6 +142,7 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
       setFinPerc(foundedActor.finance_part_perc?.toString())
       setFinEuros(foundedActor.finance_part_euro?.toString())
       setPhone(foundedActor.telephone)
+      setUpdatingActorSiren(foundedActor.siren)
 
       setIsFormOpen(true)
     }
@@ -303,6 +316,7 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
               </Button>
             </div>
           </div>
+          {errorMessage && <p id='text-input-error-desc-error' className='fr-error-text'>{errorMessage}</p>}
         </div>
       )}
 

@@ -47,6 +47,8 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [hasMissingInput, setHasMissingInput] = useState(false)
   const [updatingLivrableIndex, setUpdatingLivrableIndex] = useState()
+  const [updatingLivrableName, setUpdatingLivrableName] = useState()
+  const [errorMessage, setErrorMessage] = useState()
 
   const [nom, setNom] = useState('')
   const [nature, setNature] = useState('')
@@ -64,17 +66,21 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
 
   const onAdd = () => {
     if (isFormComplete && isAvancementValid) {
-      handleLivrables([...livrables, {
-        nom,
-        nature,
-        diffusion: diffusion || null,
-        licence,
-        avancement: avancementAsNumber,
-        crs: crs || null,
-        compression: compression || null
-      }])
+      if (livrables.some(livrable => livrable.nom === nom)) {
+        setErrorMessage('Un livrable avec un nom identique est déjà présent.')
+      } else {
+        handleLivrables([...livrables, {
+          nom,
+          nature,
+          diffusion: diffusion || null,
+          licence,
+          avancement: avancementAsNumber,
+          crs: crs || null,
+          compression: compression || null
+        }])
 
-      onReset()
+        onReset()
+      }
     } else {
       setHasMissingInput(true)
     }
@@ -82,23 +88,27 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
 
   const onUpdate = () => {
     if (isFormComplete && isAvancementValid) {
-      handleLivrables([...livrables].map((livrable, i) => {
-        if (i === updatingLivrableIndex) {
-          livrable = {
-            nom,
-            nature,
-            diffusion: diffusion || null,
-            licence,
-            avancement: avancementAsNumber,
-            crs: crs || null,
-            compression: compression || null
+      if (livrables.some(livrable => livrable.nom === nom) && nom !== updatingLivrableName) {
+        setErrorMessage('Un livrable avec un nom identique est déjà présent.')
+      } else {
+        handleLivrables([...livrables].map((livrable, i) => {
+          if (i === updatingLivrableIndex) {
+            livrable = {
+              nom,
+              nature,
+              diffusion: diffusion || null,
+              licence,
+              avancement: avancementAsNumber,
+              crs: crs || null,
+              compression: compression || null
+            }
           }
-        }
 
-        return livrable
-      }))
+          return livrable
+        }))
 
-      onReset()
+        onReset()
+      }
     } else {
       setHasMissingInput(true)
     }
@@ -126,6 +136,8 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
     setCrs('')
     setCompression('')
     setUpdatingLivrableIndex()
+    setErrorMessage()
+    setUpdatingLivrableName()
   }, [])
 
   useEffect(() => {
@@ -140,7 +152,7 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
       setAvancement(foundedLivrable.avancement?.toString())
       setCrs(foundedLivrable.crs)
       setCompression(foundedLivrable.compression)
-
+      setUpdatingLivrableName(foundedLivrable.nom)
       setIsFormOpen(true)
     }
   }, [updatingLivrableIndex, livrables, isUpdating])
@@ -281,6 +293,7 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
               </Button>
             </div>
           </div>
+          {errorMessage && <p id='text-input-error-desc-error' className='fr-error-text'>{errorMessage}</p>}
         </div>
       )}
 

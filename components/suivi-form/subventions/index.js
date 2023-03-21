@@ -21,11 +21,13 @@ const Subventions = ({subventions, handleSubventions}) => {
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [updatingSubvIndex, setUpdatingSubvIndex] = useState(null)
   const [hasMissingInput, setHasMissingInput] = useState(false)
+  const [errorMessage, setErrorMessage] = useState()
 
   const [nom, setNom] = useState('')
   const [nature, setNature] = useState('')
   const [montant, setMontant] = useState('')
   const [echeance, setEcheance] = useState('')
+  const [updatingName, setUpdatingName] = useState()
 
   const isUpdating = useMemo(() => updatingSubvIndex || updatingSubvIndex === 0, [updatingSubvIndex])
 
@@ -38,11 +40,15 @@ const Subventions = ({subventions, handleSubventions}) => {
     setNature('')
     setMontant('')
     setEcheance('')
+    setUpdatingName()
+    setErrorMessage()
   }
 
   const onAdd = () => {
     if (!nom || !nature) {
       setHasMissingInput(true)
+    } else if (subventions.some(subvention => subvention.nom === nom)) {
+      setErrorMessage('Cette subvention existe déjà')
     } else {
       handleSubventions([...subventions, {
         nom,
@@ -57,8 +63,9 @@ const Subventions = ({subventions, handleSubventions}) => {
   const onUpdate = () => {
     if (!nom || !nature) {
       setHasMissingInput(true)
+    } else if (subventions.some(subvention => subvention.nom === nom) && nom !== updatingName) {
+      setErrorMessage('Cette subvention existe déjà')
     } else {
-      console.log(echeance || null)
       handleSubventions([...subventions].map((subvention, i) => {
         if (i === updatingSubvIndex) {
           subvention = {nom, nature, montant: Number(montant) || null, echeance: echeance ? echeance : null}
@@ -91,6 +98,7 @@ const Subventions = ({subventions, handleSubventions}) => {
       setNature(subvToUpdate.nature)
       setMontant(subvToUpdate.montant)
       setEcheance(subvToUpdate.echeance)
+      setUpdatingName(subvToUpdate.nom)
 
       setIsFormOpen(true)
     }
@@ -181,6 +189,7 @@ const Subventions = ({subventions, handleSubventions}) => {
               </Button>
             </div>
           </div>
+          {errorMessage && <p id='text-input-error-desc-error' className='fr-error-text'>{errorMessage}</p>}
         </div>
       )}
 

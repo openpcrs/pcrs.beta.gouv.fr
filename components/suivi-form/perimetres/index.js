@@ -21,12 +21,14 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
   const [isFormOpen, setIsFormOpen] = useState()
   const [hasMissingInput, setHasMissingInput] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState()
 
   const [type, setType] = useState('')
   const [nom, setNom] = useState()
   const [code, setCode] = useState('')
   const [foundedPerimetres, setFoundedPerimetres] = useState([])
   const [updatingPerimetreIndex, setUpdatingPerimetreIndex] = useState()
+  const [updatingPerimetreCode, setUpdatingPerimetreCode] = useState()
 
   const isUpdating = useMemo(() => (updatingPerimetreIndex || updatingPerimetreIndex === 0) && true, [updatingPerimetreIndex])
 
@@ -43,13 +45,19 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
     setCode('')
     setIsFormOpen(false)
     setHasMissingInput(false)
+    setUpdatingPerimetreCode()
+    setErrorMessage()
   }
 
   const onAdd = () => {
     if (type && code) {
-      handlePerimetres([...perimetres, `${type}:${code}`])
+      if (perimetres.includes(`${type}:${code}`)) {
+        setErrorMessage('Ce périmètre est déjà présent.')
+      } else {
+        handlePerimetres([...perimetres, `${type}:${code}`])
 
-      onReset()
+        onReset()
+      }
     } else {
       setHasMissingInput(true)
     }
@@ -57,15 +65,19 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
 
   const onUpdate = () => {
     if (type && code) {
-      handlePerimetres([...perimetres].map((perimetre, idx) => {
-        if (idx === updatingPerimetreIndex) {
-          perimetre = `${type}:${code}`
-        }
+      if (perimetres.includes(`${type}:${code}`) && updatingPerimetreCode !== code) {
+        setErrorMessage('Ce périmètre est déjà présent.')
+      } else {
+        handlePerimetres([...perimetres].map((perimetre, idx) => {
+          if (idx === updatingPerimetreIndex) {
+            perimetre = `${type}:${code}`
+          }
 
-        return perimetre
-      }))
+          return perimetre
+        }))
 
-      onReset()
+        onReset()
+      }
     } else {
       setHasMissingInput(true)
     }
@@ -116,6 +128,7 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
           setType(perimetreType)
           setCode(perimetre.code)
           setNom(perimetre.nom)
+          setUpdatingPerimetreCode(perimetre.code)
           setIsFormOpen(true)
         }
 
@@ -234,6 +247,7 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
               </Button>
             </div>
           </div>
+          {errorMessage && <p id='text-input-error-desc-error' className='fr-error-text'>{errorMessage}</p>}
         </div>
       )}
 
