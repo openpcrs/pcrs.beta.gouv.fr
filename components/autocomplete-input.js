@@ -46,7 +46,7 @@ const AutocompleteInput = ({
 
   // Custom suggestions dropdown menu
   const customMenu = useCallback((items, value) => (
-    <div className={value.length > 0 ? 'menu fr-mt-1w' : 'hidden'}>
+    <div className={value.length > 0 ? 'menu fr-mt-1w fr-p-2w' : 'hidden'}>
       {isLoading && items.length === 0 ? (
         <div className='fr-grid-row fr-grid-row--center fr-p-2w'><Loader size='small' /></div>
       ) : (items.length === 0 ? (
@@ -59,6 +59,7 @@ const AutocompleteInput = ({
           box-shadow: 2px 12px 23px 2px rgba(0,0,0,0.23);
           z-index: 999;
           border-radius: 0 0 5px 5px;
+          background: white;
         }
 
         .hidden {
