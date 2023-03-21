@@ -96,7 +96,7 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
             livrable = {
               nom,
               nature,
-              diffusion: diffusion || null,
+              diffusion,
               licence,
               avancement: avancementAsNumber,
               crs: crs || null,
@@ -212,11 +212,13 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
             {/* Mode de diffusion du livrable - selecteur */}
             <div className='fr-col-12 fr-col-lg-4 fr-pr-3w fr-mt-6w'>
               <SelectInput
-                label='Diffusion'
+                isRequired
+                label='Diffusion *'
                 options={DIFFUSIONS}
                 value={diffusion}
                 ariaLabel='mode de diffusion du livrable'
                 description='Mode de diffusion'
+                errorMessage={handleErrorMessage(diffusion)}
                 onValueChange={setDiffusion}
               />
             </div>
