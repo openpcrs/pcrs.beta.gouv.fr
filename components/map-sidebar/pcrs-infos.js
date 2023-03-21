@@ -3,8 +3,10 @@ import {useState} from 'react'
 import PropTypes from 'prop-types'
 
 import colors from '@/styles/colors.js'
+
 import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors.js'
 
+import Tooltip from '@/components/tooltip.js'
 import Badge from '@/components/badge.js'
 import HiddenInfos from '@/components/hidden-infos.js'
 import LabeledWrapper from '@/components/labeled-wrapper.js'
@@ -15,7 +17,7 @@ const LICENCESLABELS = {
   ferme: 'Fermée'
 }
 
-const ACTORSLABELS = {
+const ACTORS_LABELS = {
   financeur: 'Financeurs',
   diffuseur: 'Diffuseurs',
   presta_vol: 'Prestataires de vol',
@@ -24,10 +26,23 @@ const ACTORSLABELS = {
   aplc: 'Autorité Publique Locale Compétente'
 }
 
-const PcrsInfos = ({nature, regime, livrable, diffusion, licence, acteurs}) => {
+const NATURE_LABELS = {
+  geotiff: 'Livrable GeoTIFF',
+  jpeg2000: 'Livrable Jpeg 2000',
+  gml: 'Livrable GML vecteur'
+}
+
+const LICENCE_LABELS = {
+  ouvert_lo: 'Ouvert sous licence ouverte',
+  ouvert_odbl: 'Ouvert sous licence ODbL',
+  ferme: 'Fermé'
+}
+
+const PcrsInfos = ({nature, regime, livrables, licence, acteurs}) => {
   const [isActorsShow, setIsActorsShow] = useState(false)
+
   const nomAPLC = acteurs.find(acteur => acteur.role === 'aplc').nom
-  const {natures: naturesColors, regimes: regimesColors, licences: licencesColors, diffusions: diffusionsColors, livrables: livrablesColors, actors: actorsColors} = PCRS_DATA_COLORS
+  const {natures: naturesColors, regimes: regimesColors, licences: licencesColors, actors: actorsColors, livrablesNatures} = PCRS_DATA_COLORS
 
   function uniq(items) {
     return [...new Set(items)]
@@ -35,40 +50,66 @@ const PcrsInfos = ({nature, regime, livrable, diffusion, licence, acteurs}) => {
 
   const rolesActeurs = uniq(acteurs.map(acteur => acteur.role))
 
+  const livrableTooltip = livrable => (
+    <div className='tooltip-container'>
+      <div>Nature : <span>{NATURE_LABELS[livrable.nature] || 'N/A'}</span></div>
+      <div>Licence : <span>{LICENCE_LABELS[livrable.licence] || 'N/A'}</span></div>
+
+      <style jsx>{`
+        .tooltip-container {
+          text-align: left;
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+        }
+
+        .tooltip-container div {
+          font-weight: bold
+        }
+
+        .tooltip-container span {
+          font-weight: normal;
+        }
+      `}</style>
+    </div>
+  )
+
   return (
     <div>
       <div className='infos-block fr-my-1w'>
-        {nature && (
-          <LabeledWrapper label='Format'>
-            <Badge background={naturesColors[nature]}>
-              {nature}
-            </Badge>
-          </LabeledWrapper>
-        )}
+        <div className='format-regime-container fr-grid-row'>
+          {nature && (
+            <div className='fr-col-6'>
+              <LabeledWrapper label='Format'>
+                <Badge background={naturesColors[nature]}>
+                  {nature}
+                </Badge>
+              </LabeledWrapper>
+            </div>
+          )}
 
-        {regime && (
-          <LabeledWrapper label='Régime'>
-            <Badge background={regimesColors[regime]}>
-              {regime}
-            </Badge>
-          </LabeledWrapper>
-        )}
+          {regime && (
+            <div className='fr-col-6'>
+              <LabeledWrapper label='Régime'>
+                <Badge background={regimesColors[regime]}>
+                  {regime}
+                </Badge>
+              </LabeledWrapper>
+            </div>
+          )}
+        </div>
 
-        {livrable && (
-          <LabeledWrapper label='Livrable'>
-            <Badge background={livrablesColors[livrable]}>
-              {livrable}
-            </Badge>
+        <div className='livrable-container'>
+          <LabeledWrapper label='Livrables'>
+            <div className='livrables-badges'>
+              {livrables.map(livrable => (
+                <Tooltip key={livrable.nom} tooltipContent={() => livrableTooltip(livrable)}>
+                  <Badge size='small' background={livrablesNatures[livrable.nature]}>{livrable.nom}</Badge>
+                </Tooltip>
+              ))}
+            </div>
           </LabeledWrapper>
-        )}
-
-        {diffusion && (
-          <LabeledWrapper label='Diffusion'>
-            <Badge background={diffusionsColors[diffusion]}>
-              {diffusion}
-            </Badge>
-          </LabeledWrapper>
-        )}
+        </div>
 
         {licence && (
           <LabeledWrapper label='Licence'>
@@ -96,7 +137,7 @@ const PcrsInfos = ({nature, regime, livrable, diffusion, licence, acteurs}) => {
                   background={actorsColors[role]}
                   size='small'
                 >
-                  {ACTORSLABELS[role]}
+                  {ACTORS_LABELS[role]}
                 </Badge>
               ))}
               <button
@@ -133,11 +174,17 @@ const PcrsInfos = ({nature, regime, livrable, diffusion, licence, acteurs}) => {
           flex-wrap: wrap;
           gap: 2em 2em;
         }
-        .actors-badges {
+
+        .actors-badges, .livrables-badges {
           display: flex;
           gap: 5px;
           flex-wrap: wrap;
         }
+
+        .livrable-container, .format-regime-container {
+          width: 100%;
+        }
+
         .fr-btn--tertiary-no-outline {
           color: ${colors.grey50};
           font-style: italic;
@@ -151,8 +198,7 @@ const PcrsInfos = ({nature, regime, livrable, diffusion, licence, acteurs}) => {
 PcrsInfos.propTypes = {
   nature: PropTypes.string,
   regime: PropTypes.string,
-  livrable: PropTypes.string,
-  diffusion: PropTypes.string,
+  livrables: PropTypes.array,
   licence: PropTypes.string,
   acteurs: PropTypes.array.isRequired
 }

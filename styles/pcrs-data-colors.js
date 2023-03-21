@@ -18,10 +18,6 @@ export const PCRS_DATA_COLORS = {
     téléchargement: '#dffee6',
     flux: '#88fdaa'
   },
-  livrables: {
-    geotiff: '#fddfda',
-    gml: '#fcbfb7'
-  },
   status: {
     investigation: '#ffe386',
     production: '#a7f192',
@@ -36,6 +32,11 @@ export const PCRS_DATA_COLORS = {
     presta_vol: '#c7f6fc',
     presta_lidar: '#dee5fd',
     controleur: '#b6cffb'
+  },
+  livrablesNatures: {
+    geotiff: '#f7b39e',
+    jpeg2000: '#87bbed',
+    gml: '#f9b8f5'
   }
 }
 
