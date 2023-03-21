@@ -46,6 +46,7 @@ const SYST_REF_SPATIAL = [
 const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [hasMissingInput, setHasMissingInput] = useState(false)
+  const [hasInvalidInput, setHasInvalidInput] = useState(false)
   const [updatingLivrableIndex, setUpdatingLivrableIndex] = useState()
   const [updatingLivrableName, setUpdatingLivrableName] = useState()
   const [errorMessage, setErrorMessage] = useState()
@@ -65,7 +66,7 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
   const isUpdating = updatingLivrableIndex || updatingLivrableIndex === 0
 
   const onAdd = () => {
-    if (isFormComplete && isAvancementValid) {
+    if (isFormComplete && isAvancementValid && !hasInvalidInput) {
       if (livrables.some(livrable => livrable.nom === nom)) {
         setErrorMessage('Un livrable avec un nom identique est déjà présent.')
       } else {
@@ -248,6 +249,7 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
                 description='Pourcentage de progression'
                 min={0}
                 max={100}
+                onIsInvalid={setHasInvalidInput}
                 onValueChange={setAvancement}
               />
             </div>

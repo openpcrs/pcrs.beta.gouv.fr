@@ -21,6 +21,7 @@ const Subventions = ({subventions, handleSubventions}) => {
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [updatingSubvIndex, setUpdatingSubvIndex] = useState(null)
   const [hasMissingInput, setHasMissingInput] = useState(false)
+  const [hasInvalidInput, setHasInvalidInput] = useState(false)
   const [errorMessage, setErrorMessage] = useState()
 
   const [nom, setNom] = useState('')
@@ -45,18 +46,20 @@ const Subventions = ({subventions, handleSubventions}) => {
   }
 
   const onAdd = () => {
-    if (!nom || !nature) {
-      setHasMissingInput(true)
-    } else if (subventions.some(subvention => subvention.nom === nom)) {
-      setErrorMessage('Cette subvention existe déjà')
-    } else {
-      handleSubventions([...subventions, {
-        nom,
-        nature,
-        montant: Number(montant) || null,
-        echeance: echeance ? echeance : null
-      }])
-      onReset()
+    if (!hasInvalidInput) {
+      if (!nom || !nature) {
+        setHasMissingInput(true)
+      } else if (subventions.some(subvention => subvention.nom === nom)) {
+        setErrorMessage('Cette subvention existe déjà')
+      } else {
+        handleSubventions([...subventions, {
+          nom,
+          nature,
+          montant: Number(montant) || null,
+          echeance: echeance ? echeance : null
+        }])
+        onReset()
+      }
     }
   }
 
@@ -154,8 +157,10 @@ const Subventions = ({subventions, handleSubventions}) => {
                 <NumberInput
                   label='Montant'
                   value={montant}
+                  min={0}
                   ariaLabel='montant de la subvention'
                   description='Montant de la subvention'
+                  onIsInvalid={setHasInvalidInput}
                   onValueChange={setMontant}
                 />
               </div>

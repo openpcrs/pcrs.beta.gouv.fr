@@ -27,6 +27,7 @@ const ROLES = [
 
 const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
   const [isFormOpen, setIsFormOpen] = useState(false)
+  const [hasMissingInput, setHasMissingInput] = useState(false)
   const [hasInvalidInput, setHasInvalidInput] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState()
@@ -43,56 +44,59 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
 
   const sortActorsByAplc = orderBy(acteurs, a => a.role === 'aplc', ['desc'])
   const isPhoneNumberValid = /^(?:\+33|0)[1-9](?:\d{8}|\d(?:\s?\d{2}){4})$/.test(phone)
-  const isFormComplete = useMemo(() => nom && role && (!phone || isPhoneNumberValid), [nom, role, phone, isPhoneNumberValid])
+  const isFormComplete = useMemo(() => nom && role && !hasInvalidInput && (!phone || isPhoneNumberValid), [nom, role, phone, hasInvalidInput, isPhoneNumberValid])
   const isSirenValid = useMemo(() => siren && /^\d{9}$/.test(siren), [siren]) // Check if siren is 9 numbers long
   const isUpdating = useMemo(() => updatingActorIndex || updatingActorIndex === 0, [updatingActorIndex])
 
   const onAdd = () => {
-    if (isFormComplete && isSirenValid) {
-      if (acteurs.some(acteur => siren === acteur.siren.toString())) {
-        setErrorMessage('Cet acteur est déjà présent.')
-      } else {
-        const newActor = {
-          nom,
-          siren: Number(siren),
-          role,
-          telephone: phone || null,
-          finance_part_perc: Number(finPerc) || null,
-          finance_part_euro: Number(finEuros) || null
-        }
+    if (isFormComplete) {
+      if (isSirenValid) {
+        if (acteurs.some(acteur => siren === acteur.siren.toString())) {
+          setErrorMessage('Cet acteur est déjà présent.')
+        } else {
+          const newActor = {
+            nom,
+            siren: Number(siren),
+            role,
+            telephone: phone || null,
+            finance_part_perc: Number(finPerc) || null,
+            finance_part_euro: Number(finEuros) || null
+          }
 
-        handleActors([...acteurs, newActor])
-        onReset()
+          handleActors([...acteurs, newActor])
+          onReset()
+        }
+      } else {
+        setHasInvalidInput(true)
       }
     } else {
-      setHasInvalidInput(true)
+      setHasMissingInput(true)
     }
   }
 
   const onUpdate = () => {
-    if (isFormComplete && isSirenValid) {
-      if (acteurs.some(acteur => siren === acteur.siren.toString()) && siren !== updatingActorSiren.toString()) {
-        setErrorMessage('Cet acteur est déjà présent.')
-      } else {
-        handleActors([...acteurs].map((acteur, idx) => {
-          if (idx === updatingActorIndex) {
-            acteur = {
-              nom,
-              siren: Number(siren),
-              role,
-              telephone: phone || null,
-              finance_part_perc: Number(finPerc) || null,
-              finance_part_euro: Number(finEuros) || null
-            }
+    if (isFormComplete) {
+      if (isSirenValid) {
+        if (acteurs.some(acteur => siren === acteur.siren.toString()) && siren !== updatingActorSiren.toString()) {
+          setErrorMessage('Cet acteur est déjà présent.')
+        } else {
+          const newActor = {
+            nom,
+            siren: Number(siren),
+            role,
+            telephone: phone || null,
+            finance_part_perc: Number(finPerc) || null,
+            finance_part_euro: Number(finEuros) || null
           }
 
-          return acteur
-        }))
-
-        onReset()
+          handleActors([...acteurs, newActor])
+          onReset()
+        }
+      } else {
+        setHasInvalidInput(true)
       }
     } else {
-      setHasInvalidInput(true)
+      setHasMissingInput(true)
     }
   }
 
@@ -113,10 +117,11 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
     setUpdatingActorIndex()
     setErrorMessage()
     setUpdatingActorSiren()
+    setHasMissingInput(false)
   }
 
   const handleErrors = useCallback((input, name) => {
-    if (!input && hasInvalidInput && name !== 'phone') {
+    if (!input && hasMissingInput && name !== 'phone') {
       if (!input) {
         return 'Ce champs est requis'
       }
@@ -129,7 +134,7 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
     if (input && !isPhoneNumberValid && name === 'phone') {
       return 'Le numéro de téléphone doit être composé de 10 chiffres ou de 9 chiffres précédés du préfixe +33'
     }
-  }, [isSirenValid, isPhoneNumberValid, hasInvalidInput])
+  }, [isSirenValid, isPhoneNumberValid, hasMissingInput])
 
   useEffect(() => {
     // Disable APLC selector option when already selected
@@ -289,6 +294,7 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
                 placeholder='Veuillez n’entrer que des valeurs numéraires'
                 min={0}
                 max={100}
+                onIsInvalid={setHasInvalidInput}
                 onValueChange={setFinPerc}
               />
             </div>
@@ -299,6 +305,8 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
                 placeholder='Veuillez n’entrer que des valeurs numéraires'
                 description='Montant du financement en euros'
                 ariaLabel='montant du financement'
+                min={0}
+                onIsInvalid={setHasInvalidInput}
                 onValueChange={setFinEuros}
               />
             </div>

@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 
-const NumberInput = ({label, value, ariaLabel, min, max, placeholder, errorMessage, description, isRequired, isDisabled, onValueChange}) => {
+const NumberInput = ({label, value, ariaLabel, min, max, placeholder, errorMessage, description, isRequired, isDisabled, onIsInvalid, onValueChange}) => {
   const [minMaxError, setMinMaxError] = useState(null)
 
   const inputState = minMaxError || errorMessage ? 'error' : ''
@@ -11,19 +11,27 @@ const NumberInput = ({label, value, ariaLabel, min, max, placeholder, errorMessa
     const hasMax = max === 0 || max
 
     if ((hasMin && !hasMax) && value < min) {
-      setMinMaxError(`La valeur est inférieure à ${min}`)
+      return setMinMaxError(`La valeur est inférieure à ${min}`)
     }
 
     if ((!hasMin && hasMax) && value > max) {
-      setMinMaxError(`La valeur est supérieure à ${max}`)
+      return setMinMaxError(`La valeur est supérieure à ${max}`)
     }
 
     if ((hasMin && hasMax) && (value < min || value > max)) {
-      setMinMaxError(`La valeur doit être comprise entre ${min} et ${max}`)
-    } else {
-      setMinMaxError(null)
+      return setMinMaxError(`La valeur doit être comprise entre ${min} et ${max}`)
     }
+
+    return setMinMaxError(null)
   }, [value, min, max])
+
+  useEffect(() => {
+    if (minMaxError) {
+      onIsInvalid(true)
+    } else {
+      onIsInvalid(false)
+    }
+  }, [minMaxError, onIsInvalid])
 
   return (
     <div className={`fr-input-group fr-input-group--${inputState}`} >
@@ -66,6 +74,7 @@ NumberInput.propTypes = {
   description: PropTypes.string,
   isRequired: PropTypes.bool,
   isDisabled: PropTypes.bool,
+  onIsInvalid: PropTypes.func.isRequired,
   onValueChange: PropTypes.func.isRequired
 }
 
