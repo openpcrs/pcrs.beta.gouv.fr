@@ -7,8 +7,9 @@ const withBundleAnalyzer = bundleAnalyzer({
 
 const imagesDomains = []
 
-if (process.env.NEXT_PUBLIC_GHOST_URL_IMAGES_SOURCE) {
-  imagesDomains.push(process.env.NEXT_PUBLIC_GHOST_URL_IMAGES_SOURCE)
+if (process.env.NEXT_PUBLIC_GHOST_URL) {
+  const url = new URL(process.env.NEXT_PUBLIC_GHOST_URL)
+  imagesDomains.push(url.hostname)
 }
 
 export default withBundleAnalyzer({
