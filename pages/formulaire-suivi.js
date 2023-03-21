@@ -16,7 +16,7 @@ import Button from '@/components/button.js'
 const FormulaireSuivi = () => {
   const [hasMissingDataOnValidation, setHasMissingDataOnValidation] = useState(false)
   const [validationMessage, setValidationMessage] = useState(null)
-  const [errorOnValidationMessage, setErrorOnValidationMessage] = useState(null)
+  const [errorOnValidationMessage, setErrorOnValidationMessage] = useState()
 
   const [nom, setNom] = useState('')
   const [nature, setNature] = useState('')
@@ -27,7 +27,7 @@ const FormulaireSuivi = () => {
   const [etapes, setEtapes] = useState([{statut: 'investigation', date_debut: ''}]) // eslint-disable-line camelcase
   const [subventions, setSubventions] = useState([])
 
-  const handleSubmit = event => {
+  const handleSubmit = async event => {
     event.preventDefault()
 
     const hasMissingData = livrables.length === 0 || acteurs.length === 0 || perimetres.length === 0
@@ -39,7 +39,7 @@ const FormulaireSuivi = () => {
     try {
       if (hasMissingData) {
         setHasMissingDataOnValidation(true)
-        setErrorOnValidationMessage('Veuillez ajouter les données manquantes')
+        setErrorOnValidationMessage(['Veuillez ajouter les données manquantes'])
       } else {
         const suivi = {
           nom,
@@ -51,11 +51,21 @@ const FormulaireSuivi = () => {
           etapes,
           subventions
         }
-        postSuivi(suivi)
-        setValidationMessage('Le suivi a correctement été envoyé !')
+
+        const sendSuivi = await postSuivi(suivi)
+
+        if (sendSuivi.message) {
+          if (sendSuivi.message === 'Invalid payload') {
+            sendSuivi.message = 'Le projet n’a pas pu être pris en compte car il y a des erreurs'
+          }
+
+          setErrorOnValidationMessage(sendSuivi)
+        } else {
+          setValidationMessage('Le suivi a correctement été envoyé !')
+        }
       }
-    } catch {
-      console.log('L’envoi du suivi du PCRS a échoué')
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -123,9 +133,9 @@ const FormulaireSuivi = () => {
             </p>
           )}
 
-          {hasMissingDataOnValidation && (
-            <p className='fr-grid-row fr-grid-row--center fr-error-text fr-col-12 fr-mt-2w fr-mb-0'>
-              {errorOnValidationMessage}
+          {errorOnValidationMessage && !hasMissingDataOnValidation && (
+            <p key={errorOnValidationMessage.message} className='fr-grid-row--center fr-error-text fr-col-12 fr-mt-2w fr-mb-0'>
+              {errorOnValidationMessage.message}
             </p>
           )}
         </div>
