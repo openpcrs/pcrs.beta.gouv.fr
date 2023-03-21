@@ -1,5 +1,11 @@
 #!/usr/bin/env node
+/* eslint-disable import/order */
+/* eslint-disable import/first */
 /* eslint-disable no-await-in-loop */
+
+import * as dotenv from 'dotenv'
+
+dotenv.config()
 
 import process from 'node:process'
 import path from 'node:path'
