@@ -35,8 +35,10 @@ async function projetsMigration() {
   mongo.disconnect()
 }
 
-projetsMigration().catch(error => {
-  console.error(error)
+try {
+  await projetsMigration()
+} catch (error) {
+  console.log(error)
   process.exit(1)
-})
+}
 
