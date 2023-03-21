@@ -15,7 +15,7 @@ etapes:
     date_debut: 2021-04-15
   - statut: produit
     date_debut: 2022-12-31
-  - statut: livré
+  - statut: livre
     date_debut: 2023-01-31
 
 acteurs: 
