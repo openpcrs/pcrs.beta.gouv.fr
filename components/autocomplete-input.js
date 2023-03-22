@@ -26,7 +26,8 @@ const AutocompleteInput = ({
   const customInput = props => (
     <div className={`fr-grid-row fr-search-bar fr-input-group--${inputState}`} role='search'>
       <label className='fr-col-12'>
-        {label}
+        <div className={isRequired ? 'required-label' : ''} >{label}</div>
+
         {description && <span className='fr-hint-text fr-mb-2w fr-mt-0'>{description}</span>}
       </label>
 
@@ -41,6 +42,13 @@ const AutocompleteInput = ({
       />
 
       {errorMessage && <p id='text-input-error-desc-error' className='fr-error-text'>{errorMessage}</p>}
+
+      <style jsx>{`
+        .required-label::after {
+          content: '*';
+          margin-left: 5px
+        }
+      `}</style>
     </div>
   )
 
@@ -50,12 +58,16 @@ const AutocompleteInput = ({
       {isLoading && items.length === 0 ? (
         <div className='fr-grid-row fr-grid-row--center fr-p-2w'><Loader size='small' /></div>
       ) : (items.length === 0 ? (
-        <div className='item'>Aucun résultat</div>
+        <div className='item fr-p-2w'>Aucun résultat</div>
       ) : items)}
 
       <style jsx>{`
         .menu {
+          position: absolute;
           box-shadow: 2px 12px 23px 2px rgba(0,0,0,0.23);
+          z-index: 1;
+          border-radius: 0 0 5px 5px;
+          background: white;
         }
 
         .hidden {

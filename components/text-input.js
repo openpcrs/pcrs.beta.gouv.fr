@@ -6,7 +6,7 @@ const TextInput = ({label, value, ariaLabel, placeholder, errorMessage, descript
   return (
     <div className={`fr-input-group fr-input-group--${inputState}`}>
       <label className='fr-label'>
-        {label}
+        <div className={isRequired ? 'required-label' : ''}>{label}</div>
         {description && <span className='fr-hint-text fr-mb-2w fr-mt-0'>{description}</span>}
       </label>
 
@@ -22,6 +22,13 @@ const TextInput = ({label, value, ariaLabel, placeholder, errorMessage, descript
       />
 
       {errorMessage && <p id='text-input-error-desc-error' className='fr-error-text'>{errorMessage}</p>}
+
+      <style jsx>{`
+        .required-label::after {
+          content: '*';
+          margin-left: 5px
+        }
+      `}</style>
     </div>
   )
 }

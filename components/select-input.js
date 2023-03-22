@@ -5,7 +5,7 @@ const SelectInput = ({label, value, ariaLabel, options, errorMessage, descriptio
 
   return (
     <div className={`fr-select-group fr-select-group--${inputState}`}>
-      <label className='fr-label'>{label}</label>
+      <label className={`fr-label ${isRequired ? 'required-label' : ''}`}>{label}</label>
       {description && <span className='fr-hint-text fr-mb-2w'>{description}</span>}
 
       <select
@@ -36,6 +36,13 @@ const SelectInput = ({label, value, ariaLabel, options, errorMessage, descriptio
       </select>
 
       {errorMessage && <p className='fr-error-text'>{errorMessage}</p>}
+
+      <style jsx>{`
+        .required-label::after {
+          content: '*';
+          margin-left: 5px
+        }
+      `}</style>
     </div>
   )
 }
