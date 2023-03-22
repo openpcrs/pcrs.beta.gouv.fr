@@ -14,7 +14,7 @@ const SelectInput = ({label, value, ariaLabel, options, errorMessage, descriptio
         className={`fr-select fr-select--${inputState}`}
         required={isRequired}
         disabled={isDisabled}
-        onChange={e => onValueChange(e.target.value)}
+        onChange={onValueChange}
       >
         <option
           disabled

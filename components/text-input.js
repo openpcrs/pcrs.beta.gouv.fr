@@ -18,7 +18,7 @@ const TextInput = ({label, value, ariaLabel, placeholder, errorMessage, descript
         aria-label={ariaLabel}
         placeholder={placeholder}
         disabled={isDisabled}
-        onChange={e => onValueChange(e.target.value)}
+        onChange={onValueChange}
       />
 
       {errorMessage && <p id='text-input-error-desc-error' className='fr-error-text'>{errorMessage}</p>}

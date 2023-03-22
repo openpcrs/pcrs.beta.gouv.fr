@@ -86,7 +86,7 @@ const AutocompleteInput = ({
       renderMenu={customMenu}
       renderInput={customInput}
       wrapperStyle={{width: '100%'}}
-      onChange={event => onValueChange(event.target.value)}
+      onChange={onValueChange}
       onSelect={onSelectValue}
     />
   )

@@ -52,7 +52,7 @@ const NumberInput = ({label, value, ariaLabel, min, max, placeholder, errorMessa
         type='number'
         pattern='[0-9]+'
         className={`fr-input fr-input--${inputState}`}
-        onChange={e => onValueChange(e.target.value)}
+        onChange={onValueChange}
       />
 
       {(minMaxError || errorMessage) && (
