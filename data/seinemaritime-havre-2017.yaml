@@ -13,6 +13,7 @@ acteurs:
     telephone: "+33235222525"
     role: aplc
     finance_part_perc: 31.79
+  - siren: 444608442
     nom: Enedis
     role: financeur
     finance_part_perc: 31.79
