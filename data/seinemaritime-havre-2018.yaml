@@ -8,20 +8,16 @@ livrables:
     licence: ferme
 
 acteurs: 
-  - siren: 247600596
+  - siren: 200084952
     nom: Métropole du Havre
     telephone: "+33235222525"
     role: aplc
-  - siren: 247600539
-    nom: Communauté de communes de Caux Estuaire
-    role: financeur
   - siren: 067501494
     nom: Setis
     role: presta_vol
 
 perimetres:
-  - epci:247600596
-  - epci:247600539
+  - epci:200084952
 
 etapes:
   - statut: investigation
