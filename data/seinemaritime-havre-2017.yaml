@@ -1,0 +1,47 @@
+nom: Métropole du Havre - 2017
+regime: production
+nature: vecteur
+livrables:
+  - nom: Données vectorielles
+    nature: gml
+    diffusion: flux
+    licence: ferme
+
+acteurs: 
+  - siren: 247600596
+    nom: Métropole du Havre
+    telephone: "+33235222525"
+    role: aplc
+    finance_part_perc: 16.57
+  - siren: 247600539
+    nom: Communauté de communes de Caux Estuaire
+    role: financeur
+    finance_part_perc: 15.22
+  - siren: 444608442
+    nom: Enedis
+    role: financeur
+    finance_part_perc: 31.79
+  - siren: 444786511
+    nom: GRDF
+    role: financeur
+    finance_part_perc: 27.12
+  - siren: 775700198
+    nom: Grand port maritime du Havre
+    role: financeur
+    finance_part_perc: 9.30
+
+perimetres:
+  - epci:247600596
+  - epci:247600539
+
+etapes:
+  - statut: investigation
+    date_debut: 2015-06-01
+  - statut: production
+    date_debut: 2016-06-01
+  - statut: produit
+    date_debut: 2017-09-01
+  - statut: livre
+    date_debut: 2017-12-01
+    
+subventions: 
