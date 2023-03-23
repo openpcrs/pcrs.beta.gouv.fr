@@ -73,7 +73,6 @@ const Subventions = ({subventions, handleSubventions}) => {
     }
   }
 
-
   const onUpdate = () => {
     if (montant && montant < 0) {
       return setErrorMessage('Veuillez entrer des valeurs supérieurs à 0 dans les champs de financement')
