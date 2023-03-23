@@ -3,6 +3,7 @@ export default ({
   // Grey
   grey50: '#161616',
   grey200: '#7b7b7b',
+  grey850: '#cecece',
   grey900: '#dddddd',
   grey975: '#F5F5FE',
   darkgrey: '#304B5B',
