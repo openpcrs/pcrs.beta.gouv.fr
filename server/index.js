@@ -82,6 +82,11 @@ server.route('/projets')
     res.status(201).send(projet)
   }))
 
+server.route('/me')
+  .get(w(ensureAdmin), w(async (req, res) => {
+    res.send({isAdmin: true})
+  }))
+
 server.use(errorHandler)
 
 server.get('*', (req, res) => {
