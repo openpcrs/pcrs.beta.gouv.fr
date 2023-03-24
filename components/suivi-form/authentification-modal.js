@@ -54,6 +54,7 @@ const AuthentificationModal = ({handleModal, handleToken}) => {
             <TextInput
               label='Authentification'
               errorMessage={errorMessage}
+              type='password'
               value={token}
               ariaLabel='Entrer le token d’authentification'
               description='Entrez votre token d’authentification'
