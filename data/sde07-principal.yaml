@@ -66,8 +66,6 @@ perimetres:
 etapes:
   - statut: investigation
     date_debut: 2019-01-01
-  - statut: production
-    date_debut: 2022-01-01
 
 subventions: 
     
