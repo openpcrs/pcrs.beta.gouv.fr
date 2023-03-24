@@ -33,7 +33,7 @@ const renderItem = (item, isHighlighted) => {
 
       <style jsx>{`
         .item {
-          background: ${isHighlighted ? colors.info425 : 'white'};
+          background: ${isHighlighted ? colors.blueHover : 'white'};
           color: ${isHighlighted ? 'white' : colors.darkgrey};
         }
 
