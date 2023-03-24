@@ -96,7 +96,7 @@ const FormulaireSuivi = () => {
         <h2 className='fr-mt-5w fr-mb-0'>Formulaire de suivi PCRS</h2>
       </div>
       <div className='fr-my-5w fr-p-5w'>
-        {!isLoading && !token && <AuthentificationModal handleModal={handleModal} />}
+        {!isLoading && !token && <AuthentificationModal handleToken={setToken} handleModal={handleModal} />}
 
         <p className='required-disclaimer'>Les champs indiqués par une * sont obligatoires</p>
 

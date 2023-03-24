@@ -8,7 +8,7 @@ import TextInput from '@/components/text-input.js'
 import Modal from '@/components/modal.js'
 import Button from '@/components/button.js'
 
-const AuthentificationModal = ({handleModal}) => {
+const AuthentificationModal = ({handleModal, handleToken}) => {
   const router = useRouter()
 
   const [token, setToken] = useState('')
@@ -23,10 +23,10 @@ const AuthentificationModal = ({handleModal}) => {
         const checkIfIsAdmin = await authentification(token)
         if (checkIfIsAdmin.isAdmin) {
           localStorage.setItem('Token', token)
+          handleToken(token)
           setValidationMessage('Token valide ! Vous allez être redirigé...')
 
           setTimeout(() => {
-            handleModal()
             router.push('/formulaire-suivi')
           }, 3000)
         }
@@ -80,7 +80,8 @@ const AuthentificationModal = ({handleModal}) => {
 }
 
 AuthentificationModal.propTypes = {
-  handleModal: PropTypes.func.isRequired
+  handleModal: PropTypes.func.isRequired,
+  handleToken: PropTypes.func
 }
 
 export default AuthentificationModal
