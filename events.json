@@ -22,5 +22,29 @@
     "eventHref": "",
     "description": "Nous souhaitons finaliser notre cycle de rencontre avec les animateurs régionaux et le réseau des CRIGE par cet atelier afin de présenter notre initiative. Ce sera l’occasion de faire le point sur nos feuilles de route respectives et de croiser nos besoins.",
     "type": "Atelier"
+  },
+  {
+    "title": "Atelier thématique : la mise à jour",
+    "date": "2023-03-16",
+    "start": "10:00",
+    "end": "12:00",
+    "isOnSite": false,
+    "isOnline": true,
+    "address": "",
+    "eventHref": "",
+    "description": "Les territoires PCRS les plus avancés entrent désormais dans une phase de mise à jour. Différentes méthodes et inducteurs existent et les porteurs de projets sont invités à partager leur expérience pour créer une communauté de pratiques. Ce sera également l'occasion de faire le point sur l'actualité de la startup d'Etat.",
+    "type": "Atelier"
+  },
+  {
+    "title": "Atelier thématique : le contrôle qualité",
+    "date": "2023-05-12",
+    "start": "10:00",
+    "end": "12:00",
+    "isOnSite": false,
+    "isOnline": true,
+    "address": "",
+    "eventHref": "",
+    "description": "Qu'il s'agisse de production ou de mise à jour, la certification des livrables produits suppose des dispositifs de contrôle qualité. Nous vous invitons à cette session pour des présentations de solutions et pour partager vos expériences locales pour réaliser ces contrôles.",
+    "type": "Atelier"
   }
 ]
