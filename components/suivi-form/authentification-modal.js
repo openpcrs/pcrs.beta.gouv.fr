@@ -24,7 +24,7 @@ const AuthentificationModal = ({handleModal, handleToken}) => {
         if (checkIfIsAdmin.isAdmin) {
           localStorage.setItem('Token', token)
           handleToken(token)
-          setValidationMessage('Token valide ! Vous allez être redirigé...')
+          setValidationMessage('Jeton valide ! Vous allez être redirigé...')
 
           setTimeout(() => {
             handleModal()
@@ -33,17 +33,17 @@ const AuthentificationModal = ({handleModal, handleToken}) => {
         }
       } catch (error) {
         console.error(error)
-        setErrorMessage('L’authentification a échouée. Veuillez entrer un token valide')
+        setErrorMessage('L’authentification a échouée. Veuillez entrer un jeton valide')
       }
     } else {
-      setErrorMessage('Veuillez entrer un token')
+      setErrorMessage('Veuillez entrer un jeton')
     }
   }
 
   return (
     <Modal title='S’authentifier' onClose={handleModal}>
       <div>
-        <p>Afin de vérifier vos droit en tant qu’administrateur, nous devons procéder à la vérification de votre token d’authentification.<br /><br />
+        <p>Afin de vérifier vos droit en tant qu’administrateur, nous devons procéder à la vérification de votre jeton d’authentification.<br /><br />
           Une fois authentifié, vous serez en mesure d’accéder au formulaire de suivi du PCRS
         </p>
         <div className='fr-alert fr-alert--info fr-alert--sm'>
@@ -57,8 +57,8 @@ const AuthentificationModal = ({handleModal, handleToken}) => {
               errorMessage={errorMessage}
               type='password'
               value={token}
-              ariaLabel='Entrer le token d’authentification'
-              description='Entrez votre token d’authentification'
+              ariaLabel='Entrer le jeton d’authentification'
+              description='Entrez votre jeton d’authentification'
               onValueChange={e => setToken(e.target.value)}
             />
           </div>
