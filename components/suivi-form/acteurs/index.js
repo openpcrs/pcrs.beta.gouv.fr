@@ -225,7 +225,7 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
 
   useEffect(() => {
     // Fetch actors on name changes
-    if (nom) {
+    if (nom && nom.length > 2) {
       fetchActors()
     } else {
       setSearchErrorMessage(null)
