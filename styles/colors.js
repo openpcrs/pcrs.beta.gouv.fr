@@ -3,6 +3,7 @@ export default ({
   // Grey
   grey50: '#161616',
   grey200: '#7b7b7b',
+  grey850: '#cecece',
   grey900: '#dddddd',
   grey975: '#F5F5FE',
   darkgrey: '#304B5B',
@@ -14,6 +15,7 @@ export default ({
   blueFrance975: '#f5f5fe',
   info200: '#273961',
   info425: '#0063cb',
+  blueHover: '#1212FF',
 
   // Red
   error425: '#CE0500',

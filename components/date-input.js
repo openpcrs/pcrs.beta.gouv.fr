@@ -16,7 +16,7 @@ const DateInput = ({label, value, ariaLabel, errorMessage, description, isRequir
           aria-label={ariaLabel}
           required={isRequired}
           disabled={isDisabled}
-          onChange={e => onValueChange(e.target.value)}
+          onChange={onValueChange}
         />
       </div>
 
