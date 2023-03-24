@@ -1,0 +1,25 @@
+nom: Charente-Maritime
+regime: production
+nature: raster
+livrables:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ferme
+
+acteurs: 
+  - siren: 251702320
+    nom: Soluris
+    telephone: "+33546923905"
+    role: aplc
+    finance_part_perc: 100
+
+perimetres:
+  - departement:17
+
+etapes:
+  - statut: investigation
+    date_debut: 2023-01-01
+
+subventions: 
+    

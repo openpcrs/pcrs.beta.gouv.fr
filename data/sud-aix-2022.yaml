@@ -1,0 +1,38 @@
+nom: Métropole Aix-Marseille - 2022
+regime: maj
+nature: raster
+livrables:
+  - nom: Images raster
+    nature: geotiff
+    diffusion: flux
+    licence: ferme
+    crs: EPSG:3944
+
+acteurs: 
+  - siren: 200054807
+    nom: Métropole Aix-Marseille
+    telephone: "+33491999900"
+    role: aplc
+  - siren: 444608442
+    nom: Enedis
+    role: financeur
+  - siren: 221300015
+    nom: Conseil départemental des Bouches du Rhône
+    role: financeur
+  - siren: 444619258
+    nom: Réseau de Transport d'Electricité
+    role: financeur
+
+perimetres:
+  - epci:200054807
+
+etapes:
+  - statut: investigation
+    date_debut: 2021-01-01
+  - statut: production
+    date_debut: 2022-03-01
+  - statut: produit
+    date_debut: 2022-06-01
+
+subventions: 
+    
