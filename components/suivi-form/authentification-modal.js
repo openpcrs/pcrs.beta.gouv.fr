@@ -27,6 +27,7 @@ const AuthentificationModal = ({handleModal, handleToken}) => {
           setValidationMessage('Token valide ! Vous allez être redirigé...')
 
           setTimeout(() => {
+            handleModal()
             router.push('/formulaire-suivi')
           }, 3000)
         }
