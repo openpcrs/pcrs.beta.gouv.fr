@@ -7,7 +7,7 @@ const Header = () => {
   const handleMenuOpen = () => setIsMobileMenuOpen(!isMobileMenuOpen)
 
   return (
-    <header role='banner' className='fr-header'>
+    <header role='banner' className='header fr-header'>
       <div className='fr-header__body'>
         <div className='fr-container'>
           <div className='fr-header__body-row'>
@@ -115,16 +115,20 @@ const Header = () => {
       )}
 
       <style jsx>{`
-      .header-redirect {
-        cursor: pointer;
-      }
+        .header {
+          z-index: 2
+        }
+
+        .header-redirect {
+          cursor: pointer;
+        }
 
       a {
         width: 100%;
       }
 
       .custom-mobile-menu {
-        z-index: 9999;
+        z-index: 3;
         position: fixed;
         top: 0;
         left: 0;

@@ -2,10 +2,10 @@ import PropTypes from 'prop-types'
 
 const Modal = ({children, title, onClose}) => (
   <div className='modal-wrapper fr-grid-row fr-grid-row--center fr-grid-row--middle' onClick={onClose}>
-    <div className='fr-container fr-container--fluid fr-container-md' onClick={e => e.stopPropagation()}>
+    <div className='fr-container fr-container--fluid fr-container-md'>
       <div className='fr-grid-row fr-grid-row--center'>
         <div className='fr-col-12 fr-col-md-8 fr-col-lg-6'>
-          <div className='fr-modal__body'>
+          <div className='fr-modal__body' onClick={e => e.stopPropagation()}>
             <div className='fr-modal__header fr-container fr-grid-row--right'>
               <button
                 type='button'
@@ -31,7 +31,7 @@ const Modal = ({children, title, onClose}) => (
 
     <style jsx>{`
       .modal-wrapper {
-        z-index: 2;
+        z-index: 3;
         position: fixed;
         top: 0;
         bottom: 0;

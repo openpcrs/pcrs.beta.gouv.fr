@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import Image from 'next/image'
 
 import {postSuivi} from '@/lib/suivi-pcrs.js'
@@ -12,11 +12,14 @@ import Perimetres from '@/components/suivi-form/perimetres/index.js'
 import Etapes from '@/components/suivi-form/etapes.js'
 import Subventions from '@/components/suivi-form/subventions/index.js'
 import Button from '@/components/button.js'
+import AuthentificationModal from '@/components/suivi-form/authentification-modal.js'
 
 const FormulaireSuivi = () => {
+  const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
   const [hasMissingDataOnValidation, setHasMissingDataOnValidation] = useState(false)
   const [validationMessage, setValidationMessage] = useState(null)
   const [errorOnValidationMessage, setErrorOnValidationMessage] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
 
   const [generalInfos, setGeneralInfos] = useState({
     nom: '',
@@ -28,6 +31,14 @@ const FormulaireSuivi = () => {
   const [perimetres, setPerimetres] = useState([])
   const [etapes, setEtapes] = useState([{statut: 'investigation', date_debut: ''}]) // eslint-disable-line camelcase
   const [subventions, setSubventions] = useState([])
+  const [token, setToken] = useState(null)
+
+  useEffect(() => {
+    setToken(localStorage.getItem('Token'))
+    setIsLoading(false)
+  }, [])
+
+  const handleModal = () => setIsAuthentificationModalOpen(!isAuthentificationModalOpen)
 
   const handleSubmit = async event => {
     event.preventDefault()
@@ -55,7 +66,7 @@ const FormulaireSuivi = () => {
           subventions
         }
 
-        const sendSuivi = await postSuivi(suivi)
+        const sendSuivi = await postSuivi(suivi, token)
 
         if (sendSuivi.message) {
           if (sendSuivi.message === 'Invalid payload') {
@@ -84,63 +95,66 @@ const FormulaireSuivi = () => {
         />
         <h2 className='fr-mt-5w fr-mb-0'>Formulaire de suivi PCRS</h2>
       </div>
+      <div className='fr-my-5w fr-p-5w'>
+        {!isLoading && !token && <AuthentificationModal handleToken={setToken} handleModal={handleModal} />}
 
-      <form className='fr-my-5w fr-p-5w' onSubmit={handleSubmit}>
         <p className='required-disclaimer'>Les champs indiqués par une * sont obligatoires</p>
 
-        <GeneralInfos
-          inputValues={generalInfos}
-          handleValues={setGeneralInfos}
-        />
+        <form className='fr-mb-5w fr-p-5w' onSubmit={handleSubmit}>
+          <GeneralInfos
+            inputValues={generalInfos}
+            handleValues={setGeneralInfos}
+          />
 
-        <Livrables
-          livrables={livrables}
-          handleLivrables={setLivrables}
-          hasMissingData={hasMissingDataOnValidation}
-        />
+          <Livrables
+            livrables={livrables}
+            handleLivrables={setLivrables}
+            hasMissingData={hasMissingDataOnValidation}
+          />
 
-        <Acteurs
-          acteurs={acteurs}
-          handleActors={setActeurs}
-          hasMissingData={hasMissingDataOnValidation}
-        />
+          <Acteurs
+            acteurs={acteurs}
+            handleActors={setActeurs}
+            hasMissingData={hasMissingDataOnValidation}
+          />
 
-        <Perimetres
-          perimetres={perimetres}
-          handlePerimetres={setPerimetres}
-          hasMissingData={hasMissingDataOnValidation}
-        />
+          <Perimetres
+            perimetres={perimetres}
+            handlePerimetres={setPerimetres}
+            hasMissingData={hasMissingDataOnValidation}
+          />
 
-        <Etapes etapes={etapes} handleEtapes={setEtapes} />
+          <Etapes etapes={etapes} handleEtapes={setEtapes} />
 
-        <Subventions subventions={subventions} handleSubventions={setSubventions} />
+          <Subventions subventions={subventions} handleSubventions={setSubventions} />
 
-        <div className='fr-grid-row fr-grid-row--center fr-mt-5w'>
-          <div className='fr-grid-row fr-grid-row--center fr-col-12'>
-            <Button
-              label='Valider le formulaire'
-              icon='checkbox-circle-fill'
-              iconSide='right'
-              type='submit'
-              size='lg'
-            >
-              Valider le formulaire
-            </Button>
+          <div className='fr-grid-row fr-grid-row--center fr-mt-5w'>
+            <div className='fr-grid-row fr-grid-row--center fr-col-12'>
+              <Button
+                label='Valider le formulaire'
+                icon='checkbox-circle-fill'
+                iconSide='right'
+                type='submit'
+                size='lg'
+              >
+                Valider le formulaire
+              </Button>
+            </div>
+
+            {validationMessage && (
+              <p className='fr-grid-row fr-grid-row--center fr-valid-text fr-col-12 fr-mt-2w fr-mb-0'>
+                {validationMessage}
+              </p>
+            )}
+
+            {errorOnValidationMessage && !hasMissingDataOnValidation && (
+              <p key={errorOnValidationMessage.message} className='fr-grid-row--center fr-error-text fr-col-12 fr-mt-2w fr-mb-0'>
+                {errorOnValidationMessage.message}
+              </p>
+            )}
           </div>
-
-          {validationMessage && (
-            <p className='fr-grid-row fr-grid-row--center fr-valid-text fr-col-12 fr-mt-2w fr-mb-0'>
-              {validationMessage}
-            </p>
-          )}
-
-          {errorOnValidationMessage && !hasMissingDataOnValidation && (
-            <p key={errorOnValidationMessage.message} className='fr-grid-row--center fr-error-text fr-col-12 fr-mt-2w fr-mb-0'>
-              {errorOnValidationMessage.message}
-            </p>
-          )}
-        </div>
-      </form>
+        </form>
+      </div>
 
       <style jsx>{`
         .form-header {

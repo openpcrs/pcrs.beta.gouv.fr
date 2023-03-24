@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-const TextInput = ({label, value, ariaLabel, placeholder, errorMessage, description, isRequired, isDisabled, onValueChange}) => {
+const TextInput = ({label, value, type, ariaLabel, placeholder, errorMessage, description, isRequired, isDisabled, onValueChange}) => {
   const inputState = errorMessage ? 'error' : ''
 
   return (
@@ -11,7 +11,7 @@ const TextInput = ({label, value, ariaLabel, placeholder, errorMessage, descript
       </label>
 
       <input
-        type='text'
+        type={type}
         required={isRequired}
         className={`fr-input fr-input--${inputState}`}
         value={value}
@@ -36,6 +36,10 @@ const TextInput = ({label, value, ariaLabel, placeholder, errorMessage, descript
 TextInput.propTypes = {
   label: PropTypes.string,
   value: PropTypes.string,
+  type: PropTypes.oneOf([
+    'text',
+    'password'
+  ]),
   ariaLabel: PropTypes.string,
   placeholder: PropTypes.string,
   errorMessage: PropTypes.string,
@@ -48,6 +52,7 @@ TextInput.propTypes = {
 TextInput.defaultProps = {
   label: '',
   value: '',
+  type: 'text',
   ariaLabel: '',
   placeholder: null,
   errorMessage: null,
