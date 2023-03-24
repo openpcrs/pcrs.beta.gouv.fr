@@ -85,4 +85,8 @@ AuthentificationModal.propTypes = {
   handleToken: PropTypes.func
 }
 
+AuthentificationModal.defaultProps = {
+  handleToken() {}
+}
+
 export default AuthentificationModal
