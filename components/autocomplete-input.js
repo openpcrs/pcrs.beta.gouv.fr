@@ -24,7 +24,7 @@ const AutocompleteInput = ({
 
   // Custom autocomplete input
   const customInput = props => (
-    <div className={`fr-grid-row fr-search-bar fr-input-group--${inputState}`} role='search'>
+    <div className={`fr-grid-row fr-search fr-input-group--${inputState}`} role='search'>
       <label className='fr-col-12'>
         <div className={isRequired ? 'required-label' : ''} >{label}</div>
 
