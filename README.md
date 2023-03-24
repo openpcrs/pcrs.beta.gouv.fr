@@ -82,7 +82,8 @@ Puis compléter les champs suivants :
 | `/projets`| **POST** | *Permet d’ajouter un projet PCRS* |
 | `/projets/:id`| **GET** | *Retourne le projet demandé* |
 | `/projets/:id`| **DELETE** | *Supprime le projet demandé* |
-| `/projets/:id`| **PUT** | *Modifie le projet demandé* |
+  | `/projets/:id`| **PUT** | *Modifie le projet demandé* |
+  | `/me`| **GET** | *Permet à un administrateur de s'authentifier après avoir fourni le jeton d'administration* |
 
 Vous pouvez accéder au modèle de données à [cette adresse](https://docs.pcrs.beta.gouv.fr/suivi-des-projets/modele-de-donnees).
 
