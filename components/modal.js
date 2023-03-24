@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 
 const Modal = ({children, title, onClose}) => (
-  <dialogue className='modal-wrapper fr-grid-row fr-grid-row--center fr-grid-row--middle' onClick={onClose}>
+  <div className='modal-wrapper fr-grid-row fr-grid-row--center fr-grid-row--middle' onClick={onClose}>
     <div className='fr-container fr-container--fluid fr-container-md' onClick={e => e.stopPropagation()}>
       <div className='fr-grid-row fr-grid-row--center'>
         <div className='fr-col-12 fr-col-md-8 fr-col-lg-6'>
@@ -40,7 +40,7 @@ const Modal = ({children, title, onClose}) => (
         background: rgba(0, 0, 0, 0.4);
       }
     `}</style>
-  </dialogue>
+  </div>
 )
 
 Modal.propTypes = {
