@@ -13,7 +13,8 @@ import Contact from '@/components/map-sidebar/contact.js'
 
 const MapSidebar = ({projet}) => {
   const {status} = PCRS_DATA_COLORS
-  const {nom, territoires, statut, etapes, source, documentation, contrat, acteurs} = projet
+  const {nom, territoires, etapes, source, documentation, contrat, acteurs} = projet
+  const {statut} = projet.etapes[projet.etapes.length - 1]
   const contactAPLC = acteurs.find(acteur => acteur.role === 'aplc')
 
   const projectStartDate = formatDate(find(projet.etapes, {statut: 'investigation'}).date_debut)
@@ -29,7 +30,7 @@ const MapSidebar = ({projet}) => {
             background={status[statut]}
             textColor={statut === 'livre' || statut === 'obsolete' ? 'white' : 'black'}
           >
-            {projet.statut === 'livre' ? 'livré' : projet.statut}
+            {statut === 'livre' ? 'livré' : statut}
           </Badge>
 
           {projectStartDate && (
