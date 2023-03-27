@@ -10,30 +10,16 @@ import Page from '@/layouts/main.js'
 import EventCard from '@/components/event-card.js'
 
 const Evenements = () => {
-  const [currentMonthEvents, setCurrentMonthEvents] = useState([])
-  const [nextMonthsEvents, setNextMonthsEvents] = useState([])
+  const [nextEvents, setNextEvents] = useState([])
+  const [pastEvents, setPastEvents] = useState([])
 
   useEffect(() => {
     const today = new Date()
-    const currentMonth = new Date().getMonth() + 1
-    const currentYear = new Date().getFullYear()
-
     const filteredFuturEvents = sortEventsByDate(events.filter(event => new Date(event.date).setHours(0, 0, 0, 0) >= today.setHours(0, 0, 0, 0)))
+    const filteredPassedEvents = sortEventsByDate(events.filter(event => new Date(event.date).setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)))
 
-    const sortedCurrentMonthEvents = filteredFuturEvents.filter(event => {
-      const [year, month] = event.date.split('-')
-
-      return (currentMonth === Number(month)) && (currentYear === Number(year))
-    })
-
-    const sortedNextMonthEvents = filteredFuturEvents.filter(event => {
-      const [year, month] = event.date.split('-')
-
-      return currentYear < year || (currentMonth < Number(month) && currentYear === Number(year))
-    })
-
-    setCurrentMonthEvents(sortedCurrentMonthEvents)
-    setNextMonthsEvents(sortedNextMonthEvents)
+    setNextEvents(filteredFuturEvents)
+    setPastEvents(filteredPassedEvents)
   }, [])
 
   return (
@@ -51,24 +37,24 @@ const Evenements = () => {
 
       <div className='fr-p-5w'>
         <div>
-          <h3 className='fr-h6'>Les événements du mois</h3>
-          {currentMonthEvents.length > 0 ? (
+          <h3 className='fr-h6'>Les événements à venir</h3>
+          {nextEvents.length > 0 ? (
             <div className='events-container'>
-              {currentMonthEvents.map(event => <EventCard key={`${event.date}-${event.start}-${event.end}`} {...event} />)}
+              {nextEvents.map(event => <EventCard key={`${event.date}-${event.start}-${event.end}`} {...event} />)}
             </div>
           ) : (
-            <div className='empty'>Aucun événement prévu ce mois-ci</div>
+            <div className='empty'>Aucun événement prévu</div>
           )}
         </div>
 
         <div className='fr-mt-8w'>
-          <h3 className='fr-h6'>À venir les mois prochains</h3>
-          {nextMonthsEvents.length > 0 ? (
+          <h3 className='fr-h6'>Événements passés</h3>
+          {pastEvents.length > 0 ? (
             <div className='events-container'>
-              {nextMonthsEvents.map(event => <EventCard key={`${event.date}-${event.start}-${event.end}`} {...event} />)}
+              {pastEvents.map(event => <EventCard key={`${event.date}-${event.start}-${event.end}`} {...event} />)}
             </div>
           ) : (
-            <div className='empty'>Aucun événement prévu les mois prochains</div>
+            <div className='empty'>Aucun événement passés</div>
           )}
         </div>
 
