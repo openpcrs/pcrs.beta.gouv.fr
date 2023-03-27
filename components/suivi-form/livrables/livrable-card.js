@@ -2,26 +2,31 @@ import PropTypes from 'prop-types'
 
 import colors from '@/styles/colors.js'
 
-const LivrableCard = ({nom, nature, licence, diffusion, crs, avancement, handleEdition, handleDelete}) => (
+const LivrableCard = ({nom, nature, licence, diffusion, crs, avancement, publication, handleEdition, handleDelete}) => (
   <div className='fr-grid-row fr-p-2w fr-my-3w card-container'>
     <div className='fr-grid-row fr-col-10'>
-      <div className='fr-grid-row fr-col-12 fr-col-xl-6'>
-        <div className='fr-grid-row col-12 fr-col-md-4 fr-p-1w'>
+      <div className='fr-grid-row'>
+        <div className='fr-grid-row col-12 fr-col-md-3 fr-p-1w'>
           <div className='label fr-col-12 fr-m-0'>Nom</div>
           <div className='fr-m-0 fr-grid-row fr-grid-row--top fr-col-12 fr-text--sm'>{nom}</div>
         </div>
 
-        <div className='fr-grid-row col-12 fr-col-md-4 fr-p-1w'>
+        <div className='fr-grid-row col-12 fr-col-md-3 fr-p-1w'>
+          <div className='label fr-col-12 fr-m-0'>Publication</div>
+          <div className='fr-m-0 fr-grid-row fr-grid-row--top fr-col-12 fr-text--sm'>{publication}</div>
+        </div>
+
+        <div className='fr-grid-row col-12 fr-col-md-3 fr-p-1w'>
           <div className='label fr-col-12 fr-m-0'>Nature</div>
           <div className='fr-m-0 fr-grid-row fr-grid-row--top fr-col-12 fr-text--sm'>{nature}</div>
         </div>
-        <div className='fr-grid-row fr-col-12 fr-col-md-4 fr-p-1w'>
+        <div className='fr-grid-row fr-col-12 fr-col-md-3 fr-p-1w'>
           <div className='label fr-col-12 fr-m-0'>Licence</div>
           <div className='fr-m-0 fr-grid-row fr-grid-row--top fr-col-12 fr-text--sm'>{licence}</div>
         </div>
       </div>
 
-      <div className='fr-grid-row fr-col-12 fr-col-xl-6'>
+      <div className='fr-grid-row fr-col-12'>
         <div className='fr-grid-row fr-col-12 fr-col-md-4 fr-p-1w'>
           <div className='label fr-col-12 fr-m-0'>Diffusion</div>
           <div className='fr-m-0 fr-grid-row fr-grid-row--top fr-col-12 fr-text--sm'>{diffusion || 'N/A'}</div>
@@ -96,6 +101,7 @@ LivrableCard.propTypes = {
   diffusion: PropTypes.string,
   avancement: PropTypes.number,
   crs: PropTypes.string,
+  publication: PropTypes.string.isRequired,
   handleDelete: PropTypes.func.isRequired,
   handleEdition: PropTypes.func.isRequired
 }

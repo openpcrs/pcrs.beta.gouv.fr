@@ -43,6 +43,13 @@ const SYST_REF_SPATIAL = [
   {label: 'EPSG:4471', value: 'EPSG:4471'}
 ]
 
+const PUBLICATIONS = [
+  {label: 'Accès via FTP', value: 'ftp'},
+  {label: 'Accès via un service cloud (oneDrive...)', value: 'cloud'},
+  {label: 'Accès via service HTTP(S)', value: 'http'},
+  {label: 'Aucun moyen d’accès en ligne', value: 'inexistante'}
+]
+
 const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [hasMissingInput, setHasMissingInput] = useState(false)
@@ -58,10 +65,11 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
     licence: '',
     avancement: '',
     crs: '',
-    compression: ''
+    compression: '',
+    publication: ''
   })
 
-  const {nom, nature, diffusion, licence, avancement, crs, compression} = livrable
+  const {nom, nature, diffusion, licence, avancement, crs, compression, publication} = livrable
   const avancementAsNumber = Number(avancement) || null
 
   const isFormComplete = Boolean(nom && nature && licence)
@@ -84,7 +92,8 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
           licence,
           avancement: avancementAsNumber,
           crs: crs || null,
-          compression: compression || null
+          compression: compression || null,
+          publication
         }])
 
         onReset()
@@ -112,7 +121,8 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
               licence,
               avancement: avancementAsNumber,
               crs: crs || null,
-              compression: compression || null
+              compression: compression || null,
+              publication
             }
           }
 
@@ -147,7 +157,8 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
       licence: '',
       avancement: '',
       crs: '',
-      compression: ''
+      compression: '',
+      publication: ''
     })
     setUpdatingLivrableIndex()
     setErrorMessage()
@@ -166,7 +177,8 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
         licence: foundedLivrable.licence,
         avancement: foundedLivrable.avancement?.toString() || '',
         crs: foundedLivrable.crs || '',
-        compression: foundedLivrable.compression || ''
+        compression: foundedLivrable.compression || '',
+        publication: foundedLivrable.publication
       })
 
       setUpdatingLivrableName(foundedLivrable.nom)
@@ -277,7 +289,7 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
 
           <div className='fr-grid-row'>
             {/* Avancement du livrable - number */}
-            <div className='fr-input-group fr-col-12 fr-col-lg-4 fr-pr-3w fr-mt-6w fr-mb-0'>
+            <div className='fr-input-group fr-col-12 fr-col-lg-3 fr-pr-3w fr-mt-6w fr-mb-0'>
               <NumberInput
                 label='Avancement'
                 value={avancement}
@@ -296,7 +308,7 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
             </div>
 
             {/* Système de référence spatial du livrable - select */}
-            <div className='fr-col-12 fr-col-lg-4 fr-pr-3w fr-mt-6w'>
+            <div className='fr-col-12 fr-col-lg-3 fr-pr-3w fr-mt-6w'>
               <SelectInput
                 label='Système de référence spatial'
                 options={SYST_REF_SPATIAL}
@@ -313,7 +325,7 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
             </div>
 
             {/* Nature de compression du livrable - text */}
-            <div className='fr-col-12 fr-col-lg-4 fr-pr-3w fr-mt-6w'>
+            <div className='fr-col-12 fr-col-lg-3 fr-pr-3w fr-mt-6w'>
               <TextInput
                 label='Compression'
                 value={compression}
@@ -323,6 +335,24 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
                   setLivrable({
                     ...livrable,
                     compression: e.target.value
+                  })
+                }}
+              />
+            </div>
+
+            {/* Type de publication du livrable - text */}
+            <div className='fr-col-12 fr-col-lg-3 fr-pr-3w fr-mt-6w'>
+              <SelectInput
+                label='Publication'
+                options={PUBLICATIONS}
+                value={publication}
+                errorMessage={handleErrorMessage(publication)}
+                ariaLabel='publication du livrable'
+                description='Publication du livrable'
+                onValueChange={e => {
+                  setLivrable({
+                    ...livrable,
+                    publication: e.target.value
                   })
                 }}
               />
@@ -353,7 +383,7 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
       )}
 
       {livrables.map((livrable, idx) => {
-        const {nom, nature, licence, crs, avancement, diffusion} = livrable
+        const {nom, nature, licence, crs, avancement, diffusion, publication} = livrable
 
         return (
           <LivrableCard
@@ -364,6 +394,7 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
             licence={find(LICENCES, l => l.value === licence).label}
             diffusion={find(DIFFUSIONS, d => d.value === diffusion)?.label}
             crs={crs}
+            publication={find(PUBLICATIONS, p => p.value === publication)?.label}
             avancement={avancement}
             handleEdition={() => setUpdatingLivrableIndex(idx)}
             handleDelete={() => onDelete(idx)}
