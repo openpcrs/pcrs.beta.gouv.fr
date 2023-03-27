@@ -114,7 +114,7 @@ const Map = ({handleClick, isMobile}) => {
       maplibreMap.addSource('projetsData', {
         type: 'geojson',
         data: '/projets.geojson',
-        generateId: true
+        promoteId: '_id'
       })
 
       maplibreMap.addLayer(departementFillLayer)

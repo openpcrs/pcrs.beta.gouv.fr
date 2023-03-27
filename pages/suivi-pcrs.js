@@ -13,7 +13,7 @@ const PcrsMap = () => {
   const [projet, setProjet] = useState()
 
   const handleClick = useCallback(async e => {
-    const projet = await getProject(e.features[0].properties.id)
+    const projet = await getProject(e.features[0].properties._id)
     setProjet(projet)
     setIsOpen(true)
   }, [])
