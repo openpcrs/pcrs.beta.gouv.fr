@@ -1,42 +1,14 @@
 #!/usr/bin/env node
-/* eslint-disable no-await-in-loop */
 
 import process from 'node:process'
-import path from 'node:path'
-import {readdir, readFile, writeFile} from 'node:fs/promises'
-import yaml, {JSON_SCHEMA} from 'js-yaml'
-import {buildGeometryFromTerritoires, getTerritoire} from '../lib/territoires.js'
-import {validateCreation} from '../lib/projets-validator.js'
-
-const projetsDirectory = './data'
+import {writeFile} from 'node:fs/promises'
+import {buildGeometryFromTerritoires} from '../lib/territoires.js'
+import mongo from '../server/util/mongo.js'
 
 async function buildPCRSData() {
-  const projets = []
-  const jsonOutputPath = new URL('../public/projets.json', import.meta.url)
+  await mongo.connect()
 
-  const filesList = await readdir(projetsDirectory)
-
-  for (const fileName of filesList) {
-    if (fileName.endsWith('.yaml') && fileName !== 'projet-exemple.yaml') {
-      console.log(`  → Reading ${fileName}  `)
-      const filePath = path.join(projetsDirectory, fileName)
-      const projet = yaml.load(await readFile(filePath), {schema: JSON_SCHEMA})
-
-      validateCreation(projet)
-
-      projet.id = fileName.slice(0, -5)
-      projet.statut = projet.etapes[projet.etapes.length - 1].statut
-      projet.dateStatut = projet.etapes[projet.etapes.length - 1].date_debut
-      projet.aplc = projet.acteurs.find(acteur => acteur.role === 'aplc')?.nom || null
-      projet.territoires = projet.perimetres.map(perimetre => (
-        getTerritoire(perimetre)
-      ))
-
-      projets.push(projet)
-    }
-  }
-
-  await writeFile(jsonOutputPath, JSON.stringify(projets))
+  const projets = await mongo.db.collection('projets').find().toArray()
 
   const geojsonOutputPath = new URL('../public/projets.geojson', import.meta.url)
 
@@ -44,11 +16,11 @@ async function buildPCRSData() {
     type: 'Feature',
     geometry: buildGeometryFromTerritoires(projet.perimetres),
     properties: {
-      id: projet.id,
+      _id: projet._id,
       nom: projet.nom,
-      statut: projet.statut,
-      dateStatut: projet.dateStatut,
-      aplc: projet.aplc,
+      statut: projet.etapes[projet.etapes.length - 1].statut,
+      dateStatut: projet.etapes[projet.etapes.length - 1].date_debut,
+      aplc: projet.acteurs.find(acteur => acteur.role === 'aplc')?.nom || null,
       nature: projet.nature
     }
   }))
@@ -57,6 +29,8 @@ async function buildPCRSData() {
     type: 'FeatureCollection',
     features: projetsFeatures
   }))
+
+  mongo.disconnect()
 }
 
 buildPCRSData().catch(error => {
