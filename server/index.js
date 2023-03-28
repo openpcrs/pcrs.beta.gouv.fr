@@ -12,6 +12,7 @@ import process from 'node:process'
 import express from 'express'
 import createError from 'http-errors'
 import next from 'next'
+import morgan from 'morgan'
 import mongo from './util/mongo.js'
 import errorHandler from './util/error-handler.js'
 import w from './util/w.js'
@@ -30,6 +31,10 @@ await nextApp.prepare()
 await mongo.connect()
 
 server.use(express.json())
+
+if (dev) {
+  server.use(morgan('dev'))
+}
 
 if (!ADMIN_TOKEN) {
   throw new Error('Le serveur ne peut pas démarrer car ADMIN_TOKEN n\'est pas défini')
