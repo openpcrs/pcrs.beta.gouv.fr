@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 
 import colors from '@/styles/colors.js'
 
+import {formatDate} from '@/lib/date-utils.js'
+
 import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors.js'
 
 import Tooltip from '@/components/tooltip.js'
@@ -38,6 +40,19 @@ const LICENCE_LABELS = {
   ferme: 'Fermé'
 }
 
+const PUBLICATIONS = [
+  {label: 'Accès via FTP', value: 'ftp'},
+  {label: 'Accès via un service cloud (oneDrive...)', value: 'cloud'},
+  {label: 'Accès via service HTTP(S)', value: 'http'},
+  {label: 'Aucun moyen d’accès en ligne', value: 'inexistante'}
+]
+
+const DIFFUSIONS = [
+  {label: 'wms', value: 'Diffusion via un service WMS'},
+  {label: 'wmts', value: 'Diffusion via un service WMTS'},
+  {label: 'tms', value: 'Diffusion via un service TMS'}
+]
+
 const PcrsInfos = ({nature, regime, livrables, licence, acteurs}) => {
   const [isActorsShow, setIsActorsShow] = useState(false)
 
@@ -52,8 +67,11 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs}) => {
 
   const livrableTooltip = livrable => (
     <div className='tooltip-container'>
-      <div>Nature : <span>{NATURE_LABELS[livrable.nature] || 'N/A'}</span></div>
-      <div>Licence : <span>{LICENCE_LABELS[livrable.licence] || 'N/A'}</span></div>
+      <div>Nature : <br /><span>{NATURE_LABELS[livrable.nature]}</span></div>
+      <div>Licence : <br /><span>{LICENCE_LABELS[livrable.licence]}</span></div>
+      <div>Diffusion : <br /><span>{DIFFUSIONS[livrable.diffusion]}</span></div>
+      {livrable.publication && <div>Type de publication : <br /><span>{PUBLICATIONS[livrable.publication]}</span></div>}
+      {livrable.date_livraison && <div>Livraison : <br /><span>le {formatDate(livrable.date_livraison)}</span></div>}
 
       <style jsx>{`
         .tooltip-container {
