@@ -16,7 +16,7 @@ import mongo from './util/mongo.js'
 import errorHandler from './util/error-handler.js'
 import w from './util/w.js'
 
-import {getProjet, getProjets, createProjet, deleteProjet, updateProjet} from './projets.js'
+import {getProjet, getProjets, createProjet, deleteProjet, updateProjet, getProjetsGeojson} from './projets.js'
 
 const port = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -58,6 +58,12 @@ server.param('projetId', w(async (req, res, next) => {
   req.projet = projet
   next()
 }))
+
+server.route('/projets/geojson')
+  .get(w(async (req, res) => {
+    const projetsGeojson = await getProjetsGeojson()
+    res.send(projetsGeojson)
+  }))
 
 server.route('/projets/:projetId')
   .get(w(async (req, res) => {
