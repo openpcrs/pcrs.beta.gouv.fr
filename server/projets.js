@@ -1,5 +1,6 @@
 import createError from 'http-errors'
 import {validateCreation, validateChanges} from '../lib/projets-validator.js'
+import {buildGeometryFromTerritoires} from '../lib/territoires.js'
 import mongo from './util/mongo.js'
 
 export async function getProjets() {
@@ -58,3 +59,21 @@ export async function updateProjet(id, payload) {
   return value
 }
 
+export async function getProjetsGeojson() {
+  const projets = await mongo.db.collection('projets').find().toArray()
+
+  const projetsFeatures = projets.map(projet => ({
+    type: 'Feature',
+    geometry: buildGeometryFromTerritoires(projet.perimetres),
+    properties: {
+      _id: projet._id,
+      nom: projet.nom,
+      statut: projet.etapes[projet.etapes.length - 1].statut,
+      dateStatut: projet.etapes[projet.etapes.length - 1].date_debut,
+      aplc: projet.acteurs.find(acteur => acteur.role === 'aplc')?.nom || null,
+      nature: projet.nature
+    }
+  }))
+
+  return projetsFeatures
+}
