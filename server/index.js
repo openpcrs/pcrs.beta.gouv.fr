@@ -64,6 +64,9 @@ server.param('projetId', w(async (req, res, next) => {
   next()
 }))
 
+// Pre-warm underlying cache
+await getProjetsGeojson()
+
 server.route('/projets/geojson')
   .get(w(async (req, res) => {
     const projetsGeojson = await getProjetsGeojson()
