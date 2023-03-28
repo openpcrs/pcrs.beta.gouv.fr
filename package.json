@@ -15,6 +15,7 @@
     "scalingo-postbuild": "yarn download-contours && yarn build-data && next build"
   },
   "dependencies": {
+    "@etalab/decoupage-administratif": "^2.3.1",
     "@gouvfr/dsfr": "^1.8.1",
     "@keyv/sqlite": "^3.6.5",
     "@next/bundle-analyzer": "^13.0.7",
