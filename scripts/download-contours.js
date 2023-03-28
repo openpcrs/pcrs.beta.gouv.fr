@@ -1,34 +1,41 @@
 #!/usr/bin/env node
-import {downloadTo} from '../lib/download.js'
+import {promisify} from 'node:util'
+import zlib from 'node:zlib'
+import Keyv from 'keyv'
+import got from 'got'
 
-console.log('  * Téléchargement de communes.geojson.gz')
+const gunzip = promisify(zlib.gunzip)
 
-await downloadTo(
-  'http://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2022/geojson/communes-50m.geojson.gz',
-  '../sources/communes.geojson.gz',
-  import.meta.url
-)
+const MILLESIME = '2022'
+const RESOLUTION = '100m'
 
-console.log('  * Téléchargement de epci.geojson.gz')
+const keyv = new Keyv('sqlite://contours.sqlite')
 
-await downloadTo(
-  'http://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2022/geojson/epci-50m.geojson.gz',
-  '../sources/epci.geojson.gz',
-  import.meta.url
-)
+await keyv.clear()
 
-console.log('  * Téléchargement de departements.geojson.gz')
+async function storeLayer(layerName, getKey) {
+  // Downloading dataset
+  const url = `http://etalab-datasets.geo.data.gouv.fr/contours-administratifs/${MILLESIME}/geojson/${layerName}-${RESOLUTION}.geojson.gz`
+  const buffer = await got(url).buffer()
 
-await downloadTo(
-  'http://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2022/geojson/departements-50m.geojson.gz',
-  '../sources/departements.geojson.gz',
-  import.meta.url
-)
+  // Extracting features
+  const {features} = JSON.parse(await gunzip(buffer))
 
-console.log('  * Téléchargement de regions.geojson.gz')
+  // Storing features in key/value database
+  await Promise.all(features.map(async feature => {
+    const key = getKey(feature)
+    await keyv.set(key, feature)
+  }))
+}
 
-await downloadTo(
-  'http://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2022/geojson/regions-50m.geojson.gz',
-  '../sources/regions.geojson.gz',
-  import.meta.url
-)
+console.log('  * Téléchargement des contours des communes')
+await storeLayer('communes', f => `commune:${f.properties.code}`)
+
+console.log('  * Téléchargement des contours des EPCI')
+await storeLayer('epci', f => `epci:${f.properties.code}`)
+
+console.log('  * Téléchargement des contours des départements')
+await storeLayer('departements', f => `departement:${f.properties.code}`)
+
+console.log('  * Téléchargement des contours des régions')
+await storeLayer('regions', f => `region:${f.properties.code}`)
