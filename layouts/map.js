@@ -6,7 +6,7 @@ import DeviceContext from '@/contexts/device.js'
 import Map from '@/components/map/index.js'
 import MapSidebar from '@/components/map-sidebar/index.js'
 
-export const Mobile = ({handleClick, handleTitleClick, projet, isOpen}) => {
+export const Mobile = ({handleClick, handleTitleClick, projet, isOpen, geometry}) => {
   const {viewHeight} = useContext(DeviceContext)
 
   return (
@@ -17,14 +17,16 @@ export const Mobile = ({handleClick, handleTitleClick, projet, isOpen}) => {
         contain: 'content'
       }}
     >
-      <div
-        style={{
-          height: isOpen ? 0 : viewHeight - 204,
-          width: '100%'
-        }}
-      >
-        <Map isMobile handleClick={handleClick} />
-      </div>
+      {geometry && (
+        <div
+          style={{
+            height: isOpen ? 0 : viewHeight - 204,
+            width: '100%'
+          }}
+        >
+          <Map isMobile handleClick={handleClick} geometry={geometry} />
+        </div>
+      )}
       <div
         style={{
           height: isOpen ? viewHeight - 147 : '46px',
@@ -99,7 +101,7 @@ Mobile.propTypes = {
   isOpen: PropTypes.bool
 }
 
-export const Desktop = ({handleClick, projet, isOpen, setIsOpen}) => (
+export const Desktop = ({handleClick, projet, isOpen, setIsOpen, geometry}) => (
   <div
     style={{
       display: 'flex',
@@ -145,9 +147,11 @@ export const Desktop = ({handleClick, projet, isOpen, setIsOpen}) => (
       </>
     )}
 
-    <div style={{width: '100%', height: 'calc(100vh - 117px)'}}>
-      <Map style={{pointerEvents: 'all'}} handleClick={handleClick} />
-    </div>
+    {geometry && (
+      <div style={{width: '100%', height: 'calc(100vh - 117px)'}}>
+        <Map style={{pointerEvents: 'all'}} handleClick={handleClick} geometry={geometry} />
+      </div>
+    )}
   </div>
 )
 

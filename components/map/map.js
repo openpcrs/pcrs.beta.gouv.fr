@@ -12,7 +12,7 @@ import Popup from '@/components/map/popup.js'
 import Loader from '@/components/loader.js'
 import Legend from '@/components/map/legend.js'
 
-const Map = ({handleClick, isMobile}) => {
+const Map = ({handleClick, isMobile, geometry}) => {
   const mapNode = useRef(null)
 
   const popupRef = useRef(new maplibreGl.Popup({
@@ -113,7 +113,7 @@ const Map = ({handleClick, isMobile}) => {
     maplibreMap.on('load', () => {
       maplibreMap.addSource('projetsData', {
         type: 'geojson',
-        data: '/projets.geojson',
+        data: geometry,
         promoteId: '_id'
       })
 
