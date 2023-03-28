@@ -97,7 +97,7 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
           avancement: avancementAsNumber,
           crs: crs || null,
           compression: compression || null,
-          publication,
+          publication: publication || null,
           date_livraison: date_livraison || null
         }])
 
@@ -127,7 +127,7 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
               avancement: avancementAsNumber,
               crs: crs || null,
               compression: compression || null,
-              publication,
+              publication: publication || null,
               date_livraison: date_livraison || null
             }
           }
