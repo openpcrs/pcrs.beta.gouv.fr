@@ -12,9 +12,9 @@ async function buildPCRSData() {
 
   const geojsonOutputPath = new URL('../public/projets.geojson', import.meta.url)
 
-  const projetsFeatures = projets.map(projet => ({
+  const projetsFeatures = await Promise.all(projets.map(async projet => ({
     type: 'Feature',
-    geometry: buildGeometryFromTerritoires(projet.perimetres),
+    geometry: await buildGeometryFromTerritoires(projet.perimetres),
     properties: {
       _id: projet._id,
       nom: projet.nom,
@@ -23,7 +23,7 @@ async function buildPCRSData() {
       aplc: projet.acteurs.find(acteur => acteur.role === 'aplc')?.nom || null,
       nature: projet.nature
     }
-  }))
+  })))
 
   await writeFile(geojsonOutputPath, JSON.stringify({
     type: 'FeatureCollection',
