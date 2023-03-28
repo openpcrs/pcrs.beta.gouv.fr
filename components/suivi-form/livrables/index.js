@@ -17,8 +17,9 @@ const NATURES = [
 ]
 
 const DIFFUSIONS = [
-  {label: 'Téléchargement massif', value: 'telechargement'},
-  {label: 'Accès via un serveur/flux', value: 'flux'}
+  {label: 'Diffusion via un service WMS', value: 'wms'},
+  {label: 'Diffusion via un service WMTS', value: 'wmts'},
+  {label: 'Diffusion via un service TMS', value: 'tms'}
 ]
 
 const LICENCES = [
