@@ -4,49 +4,53 @@ import colors from '@/styles/colors.js'
 
 const LivrableCard = ({nom, nature, licence, diffusion, crs, avancement, publication, handleEdition, handleDelete}) => (
   <div className='fr-grid-row fr-p-2w fr-my-3w card-container'>
-    <div className='fr-grid-row fr-col-10'>
-      <div className='fr-grid-row'>
-        <div className='fr-grid-row col-12 fr-col-md-3 fr-p-1w'>
+    <div className='fr-grid-row fr-col-12 fr-col-md-11'>
+      <div className='fr-grid-row fr-col-lg-6'>
+        <div className='fr-grid-row fr-col-12 fr-col-md-3 fr-p-1w fr-my-lg-2w'>
           <div className='label fr-col-12 fr-m-0'>Nom</div>
           <div className='fr-m-0 fr-grid-row fr-grid-row--top fr-col-12 fr-text--sm'>{nom}</div>
         </div>
 
-        <div className='fr-grid-row col-12 fr-col-md-3 fr-p-1w'>
+        <div className='fr-grid-row fr-col-12 fr-col-md-3 fr-p-1w fr-my-lg-2w'>
           <div className='label fr-col-12 fr-m-0'>Publication</div>
           <div className='fr-m-0 fr-grid-row fr-grid-row--top fr-col-12 fr-text--sm'>{publication}</div>
         </div>
 
-        <div className='fr-grid-row col-12 fr-col-md-3 fr-p-1w'>
+        <div className='fr-grid-row fr-col-12 fr-col-md-3 fr-p-1w fr-my-lg-2w'>
           <div className='label fr-col-12 fr-m-0'>Nature</div>
           <div className='fr-m-0 fr-grid-row fr-grid-row--top fr-col-12 fr-text--sm'>{nature}</div>
         </div>
-        <div className='fr-grid-row fr-col-12 fr-col-md-3 fr-p-1w'>
+
+        <div className='fr-grid-row fr-col-12 fr-col-md-3 fr-p-1w fr-my-lg-2w'>
           <div className='label fr-col-12 fr-m-0'>Licence</div>
           <div className='fr-m-0 fr-grid-row fr-grid-row--top fr-col-12 fr-text--sm'>{licence}</div>
         </div>
       </div>
 
-      <div className='fr-grid-row fr-col-12'>
-        <div className='fr-grid-row fr-col-12 fr-col-md-4 fr-p-1w'>
+      <div className='fr-grid-row fr-col-lg-6'>
+        <div className='fr-grid-row fr-col-12 fr-col-md-3 fr-col-lg-4 fr-p-1w fr-my-lg-2w'>
           <div className='label fr-col-12 fr-m-0'>Diffusion</div>
           <div className='fr-m-0 fr-grid-row fr-grid-row--top fr-col-12 fr-text--sm'>{diffusion || 'N/A'}</div>
         </div>
 
-        <div className='fr-grid-row fr-col-12 fr-col-md-4 fr-p-1w'>
+        <div className='fr-grid-row fr-col-12 fr-col-md-3 fr-col-lg-4 fr-p-1w fr-my-lg-2w'>
           <div className='label fr-col-12 fr-m-0'>Avancement (%)</div>
           <div className='fr-grid-row fr-grid-row--top fr-m-0 fr-col-12 fr-text--sm'>{avancement || 'N/A'}</div>
         </div>
-        <div className='fr-grid-row fr-col-12 fr-col-md-4 fr-p-1w'>
+
+        <div className='fr-grid-row fr-col-12 fr-col-md-3 fr-col-lg-4 fr-p-1w fr-my-lg-2w'>
           <div className='label fr-col-12 fr-m-0'>Système de référence spatial</div>
           <div className='fr-m-0 fr-col-12 fr-text--sm'>{crs || 'N/A'}</div>
         </div>
+        <div className='fr-col-3 fr-col-lg-12' />
       </div>
+
     </div>
 
-    <div className='fr-grid-row fr-col-12 fr-col-md-2 fr-mt-3w fr-mt-md-0 fr-pl-md-3w fr-grid-row--middle fr-grid-row--center'>
+    <div className='fr-grid-row fr-col-12 fr-col-md-1 fr-mt-3w fr-mt-md-0 fr-grid-row--middle fr-grid-row--center'>
       <button
         type='button'
-        className='fr-grid-row fr-col-md-12 fr-col-lg-6 update-button'
+        className='fr-grid-row fr-col-md-12 fr-col-md-6 fr-my-1w fr-p-0 update-button'
         onClick={handleEdition}
       >
         <span className='fr-icon-edit-line fr-col-12' aria-hidden='true' />
@@ -55,7 +59,7 @@ const LivrableCard = ({nom, nature, licence, diffusion, crs, avancement, publica
 
       <button
         type='button'
-        className='fr-grid-row fr-col-md-12 fr-col-lg-6 fr-pl-1w delete-button'
+        className='fr-grid-row fr-col-md-12 fr-col-md-6 fr-my-1w fr-p-0 delete-button'
         onClick={handleDelete}
       >
         <span className='fr-icon-delete-line fr-col-12' aria-hidden='true' />

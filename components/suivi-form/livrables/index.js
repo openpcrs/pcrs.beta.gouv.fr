@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import {useState, useCallback, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {uniqueId, find} from 'lodash-es'
@@ -7,6 +8,7 @@ import SelectInput from '@/components/select-input.js'
 import TextInput from '@/components/text-input.js'
 import NumberInput from '@/components/number-input.js'
 import Button from '@/components/button.js'
+import DateInput from '@/components/date-input.js'
 
 const NATURES = [
   {label: 'Livrable GeoTIFF', value: 'geotiff'},
@@ -66,10 +68,11 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
     avancement: '',
     crs: '',
     compression: '',
-    publication: ''
+    publication: '',
+    date_livraison: ''
   })
 
-  const {nom, nature, diffusion, licence, avancement, crs, compression, publication} = livrable
+  const {nom, nature, diffusion, licence, avancement, crs, compression, publication, date_livraison} = livrable
   const avancementAsNumber = Number(avancement) || null
 
   const isFormComplete = Boolean(nom && nature && licence)
@@ -93,7 +96,8 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
           avancement: avancementAsNumber,
           crs: crs || null,
           compression: compression || null,
-          publication
+          publication,
+          date_livraison: date_livraison || null
         }])
 
         onReset()
@@ -122,7 +126,8 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
               avancement: avancementAsNumber,
               crs: crs || null,
               compression: compression || null,
-              publication
+              publication,
+              date_livraison: date_livraison || null
             }
           }
 
@@ -158,7 +163,8 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
       avancement: '',
       crs: '',
       compression: '',
-      publication: ''
+      publication: '',
+      date_livraison: ''
     })
     setUpdatingLivrableIndex()
     setErrorMessage()
@@ -208,9 +214,9 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
 
       {(isFormOpen || isUpdating) && (
         <div className='fr-mt-4w'>
-          <div className='fr-grid-row'>
+          <div className='fr-grid-row fr-grid-row--bottom'>
             {/* Nom du livrable */}
-            <div className='fr-col-12 fr-col-md-6'>
+            <div className='fr-col-12 fr-col-lg-4 fr-pr-3w'>
               <TextInput
                 isRequired
                 label='Nom'
@@ -226,9 +232,7 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
                 }}
               />
             </div>
-          </div>
 
-          <div className='fr-grid-row'>
             {/* Nature du livrable - selecteur */}
             <div className='fr-col-12 fr-col-lg-4 fr-pr-3w fr-mt-6w'>
               <SelectInput
@@ -249,7 +253,7 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
             </div>
 
             {/* Mode de diffusion du livrable - selecteur */}
-            <div className='fr-col-12 fr-col-lg-4 fr-pr-3w fr-mt-6w'>
+            <div className='fr-col-12 fr-col-lg-4 fr-mt-6w'>
               <SelectInput
                 isRequired
                 label='Diffusion'
@@ -266,9 +270,11 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
                 }}
               />
             </div>
+          </div>
 
+          <div className='fr-grid-row'>
             {/* Licence du livrable - select */}
-            <div className='fr-select-group fr-col-12 fr-col-lg-4 fr-pr-3w fr-mt-6w'>
+            <div className='fr-select-group fr-col-12 fr-col-lg-4 fr-pr-3w fr-mt-6w fr-mb-0'>
               <SelectInput
                 isRequired
                 label='Licence'
@@ -285,11 +291,45 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
                 }}
               />
             </div>
+
+            {/* Type de publication du livrable - text */}
+            <div className='fr-col-12 fr-col-lg-4 fr-mt-6w fr-pr-3w'>
+              <SelectInput
+                label='Publication'
+                options={PUBLICATIONS}
+                value={publication}
+                errorMessage={handleErrorMessage(publication)}
+                ariaLabel='publication du livrable'
+                description='Publication du livrable'
+                onValueChange={e => {
+                  setLivrable({
+                    ...livrable,
+                    publication: e.target.value
+                  })
+                }}
+              />
+            </div>
+
+            {/* Date de livraison du projet - date */}
+            <div className='fr-select-group fr-col-12 fr-col-lg-4 fr-mt-6w'>
+              <DateInput
+                label='Date de livraison'
+                value={date_livraison}
+                ariaLabel='date de livraison du livrable'
+                description='Date de livraison du livrable'
+                onValueChange={e => {
+                  setLivrable({
+                    ...livrable,
+                    date_livraison: e.target.value
+                  })
+                }}
+              />
+            </div>
           </div>
 
           <div className='fr-grid-row'>
             {/* Avancement du livrable - number */}
-            <div className='fr-input-group fr-col-12 fr-col-lg-3 fr-pr-3w fr-mt-6w fr-mb-0'>
+            <div className='fr-input-group fr-col-12 fr-col-lg-4 fr-pr-3w fr-mt-6w fr-mb-0'>
               <NumberInput
                 label='Avancement'
                 value={avancement}
@@ -308,7 +348,7 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
             </div>
 
             {/* Système de référence spatial du livrable - select */}
-            <div className='fr-col-12 fr-col-lg-3 fr-pr-3w fr-mt-6w'>
+            <div className='fr-col-12 fr-col-lg-4 fr-pr-3w fr-mt-6w'>
               <SelectInput
                 label='Système de référence spatial'
                 options={SYST_REF_SPATIAL}
@@ -325,7 +365,7 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
             </div>
 
             {/* Nature de compression du livrable - text */}
-            <div className='fr-col-12 fr-col-lg-3 fr-pr-3w fr-mt-6w'>
+            <div className='fr-col-12 fr-col-lg-4 fr-pr-3w fr-mt-6w'>
               <TextInput
                 label='Compression'
                 value={compression}
@@ -340,23 +380,6 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
               />
             </div>
 
-            {/* Type de publication du livrable - text */}
-            <div className='fr-col-12 fr-col-lg-3 fr-pr-3w fr-mt-6w'>
-              <SelectInput
-                label='Publication'
-                options={PUBLICATIONS}
-                value={publication}
-                errorMessage={handleErrorMessage(publication)}
-                ariaLabel='publication du livrable'
-                description='Publication du livrable'
-                onValueChange={e => {
-                  setLivrable({
-                    ...livrable,
-                    publication: e.target.value
-                  })
-                }}
-              />
-            </div>
           </div>
 
           <div className='fr-grid-row fr-mt-3w'>
