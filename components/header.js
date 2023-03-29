@@ -116,7 +116,7 @@ const Header = () => {
 
       <style jsx>{`
         .header {
-          z-index: 2
+          z-index: 1;
         }
 
         .header-redirect {
@@ -128,7 +128,7 @@ const Header = () => {
       }
 
       .custom-mobile-menu {
-        z-index: 3;
+        z-index: 999;
         position: fixed;
         top: 0;
         left: 0;
