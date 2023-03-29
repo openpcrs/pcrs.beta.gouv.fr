@@ -78,6 +78,9 @@
       ]
     }
   },
+  "ava": {
+    "workerThreads": false
+  },
   "engines": {
     "node": ">= 18"
   }
