@@ -98,7 +98,8 @@ Mobile.propTypes = {
   handleClick: PropTypes.func.isRequired,
   handleTitleClick: PropTypes.func,
   projet: PropTypes.object,
-  isOpen: PropTypes.bool
+  isOpen: PropTypes.bool,
+  geometry: PropTypes.object
 }
 
 export const Desktop = ({handleClick, projet, isOpen, setIsOpen, geometry}) => (
@@ -164,6 +165,7 @@ Desktop.propTypes = {
   handleClick: PropTypes.func.isRequired,
   setIsOpen: PropTypes.func,
   projet: PropTypes.object,
-  isOpen: PropTypes.bool
+  isOpen: PropTypes.bool,
+  geometry: PropTypes.object
 }
 

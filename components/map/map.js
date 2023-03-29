@@ -137,7 +137,8 @@ const Map = ({handleClick, isMobile, geometry}) => {
 
 Map.propTypes = {
   handleClick: PropTypes.func,
-  isMobile: PropTypes.bool
+  isMobile: PropTypes.bool,
+  geometry: PropTypes.object
 }
 
 export default Map
