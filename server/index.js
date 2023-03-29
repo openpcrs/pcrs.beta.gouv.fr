@@ -12,11 +12,12 @@ import process from 'node:process'
 import express from 'express'
 import createError from 'http-errors'
 import next from 'next'
+import morgan from 'morgan'
 import mongo from './util/mongo.js'
 import errorHandler from './util/error-handler.js'
 import w from './util/w.js'
 
-import {getProjet, getProjets, createProjet, deleteProjet, updateProjet} from './projets.js'
+import {getProjet, getProjets, createProjet, deleteProjet, updateProjet, getProjetsGeojson} from './projets.js'
 
 const port = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -30,6 +31,10 @@ await nextApp.prepare()
 await mongo.connect()
 
 server.use(express.json())
+
+if (dev) {
+  server.use(morgan('dev'))
+}
 
 if (!ADMIN_TOKEN) {
   throw new Error('Le serveur ne peut pas démarrer car ADMIN_TOKEN n\'est pas défini')
@@ -58,6 +63,15 @@ server.param('projetId', w(async (req, res, next) => {
   req.projet = projet
   next()
 }))
+
+// Pre-warm underlying cache
+await getProjetsGeojson()
+
+server.route('/projets/geojson')
+  .get(w(async (req, res) => {
+    const projetsGeojson = await getProjetsGeojson()
+    res.send(projetsGeojson)
+  }))
 
 server.route('/projets/:projetId')
   .get(w(async (req, res) => {
