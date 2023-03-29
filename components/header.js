@@ -86,14 +86,14 @@ const Header = () => {
             <ul className='fr-btns-group'>
               <li>
                 <Link legacyBehavior href='/suivi-pcrs'>
-                  <a className='fr-btn fr-icon-road-map-line'>
+                  <a className='fr-btn fr-icon-road-map-line fr-p-2w'>
                     Suivi géographique
                   </a>
                 </Link>
               </li>
               <li>
                 <Link legacyBehavior href='/blog'>
-                  <a className='fr-btn fr-icon-article-line'>
+                  <a className='fr-btn fr-icon-article-line fr-p-2w'>
                     Blog du PCRS
                   </a>
                 </Link>
@@ -101,7 +101,7 @@ const Header = () => {
               <li>
                 <a
                   href='https://docs.pcrs.beta.gouv.fr/'
-                  className='fr-btn fr-icon-book-2-line'
+                  className='fr-btn fr-icon-book-2-line fr-p-2w'
                   target='_blank'
                   rel='noreferrer'
                 >
