@@ -1,9 +1,14 @@
-import {useState} from 'react'
+import {useState, useContext} from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
+import DeviceContext from '@/contexts/device.js'
+
 const Header = () => {
+  const {isMobileDevice} = useContext(DeviceContext)
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
   const handleMenuOpen = () => setIsMobileMenuOpen(!isMobileMenuOpen)
 
   return (
@@ -72,7 +77,7 @@ const Header = () => {
         </div>
       </div>
 
-      {isMobileMenuOpen && (
+      {isMobileMenuOpen && isMobileDevice && (
         <div className='custom-mobile-menu'>
           <button
             type='button'
