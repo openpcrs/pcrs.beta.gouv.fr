@@ -19,7 +19,7 @@ const STATUS = [
 
 const Etapes = ({etapes, handleEtapes}) => {
   const [statutInput, setStatutInput] = useState('investigation')
-  const [startDate, setStartDate] = useState('')
+  const [startDate, setStartDate] = useState(etapes[0].date_debut)
 
   const handleDateChange = (value, statut) => {
     if (statut === statutInput) {

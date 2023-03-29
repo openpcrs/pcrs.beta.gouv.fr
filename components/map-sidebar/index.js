@@ -13,15 +13,16 @@ import Contact from '@/components/map-sidebar/contact.js'
 
 const MapSidebar = ({projet}) => {
   const {status} = PCRS_DATA_COLORS
-  const {nom, territoires, statut, etapes, source, documentation, contrat, acteurs} = projet
-  const contactAPLC = acteurs.find(acteur => acteur.role === 'aplc')
+  const {nom, territoires, _id, etapes, source, documentation, contrat, acteurs} = projet
 
+  const contactAPLC = acteurs.find(acteur => acteur.role === 'aplc')
+  const {statut} = projet.etapes[projet.etapes.length - 1]
   const projectStartDate = formatDate(find(projet.etapes, {statut: 'investigation'}).date_debut)
   const isObsolete = projet.statut === 'obsolète'
 
   return (
     <>
-      <Header projectName={nom} territoires={territoires} />
+      <Header projectId={_id} projectName={nom} territoires={territoires} />
       <div className='infos-container'>
         <h2 className='fr-text--lead fr-mb-1w'>État d’avancement</h2>
         <div className='actual-status fr-mb-3w'>
@@ -29,7 +30,7 @@ const MapSidebar = ({projet}) => {
             background={status[statut]}
             textColor={statut === 'livre' || statut === 'obsolete' ? 'white' : 'black'}
           >
-            {projet.statut === 'livre' ? 'livré' : projet.statut}
+            {statut === 'livre' ? 'livré' : statut}
           </Badge>
 
           {projectStartDate && (

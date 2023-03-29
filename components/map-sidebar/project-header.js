@@ -1,17 +1,22 @@
 import {useState} from 'react'
 import PropTypes from 'prop-types'
+import Link from 'next/link'
 
 import colors from '@/styles/colors.js'
 
 import HiddenInfos from '@/components/hidden-infos.js'
 
-const Header = ({projectName, territoires}) => {
+const Header = ({projectId, projectName, territoires}) => {
   const [isTerritoiresShow, setIsTerritoiresShow] = useState(false)
 
   const hasToMuchTerritoires = territoires.length >= 4
 
   return (
     <div className='header'>
+      <Link href={`/formulaire-suivi/${projectId}`} >
+        click
+      </Link>
+
       <h1 className='fr-h4'>{projectName}</h1>
       <div className='fr-text--lg fr-my-0'>Liste des territoires</div>
       {hasToMuchTerritoires ? (
@@ -76,6 +81,7 @@ const Header = ({projectName, territoires}) => {
 }
 
 Header.propTypes = {
+  projectId: PropTypes.string.isRequired,
   projectName: PropTypes.string.isRequired,
   territoires: PropTypes.array
 }

@@ -1,7 +1,7 @@
 import {useState, useContext, useCallback, useMemo} from 'react'
 
 import Page from '@/layouts/main.js'
-import {getProject} from '@/lib/pcrs.js'
+import {getProject} from '@/lib/suivi-pcrs.js'
 import {Desktop, Mobile} from '@/layouts/map.js'
 
 import DeviceContext from '@/contexts/device.js'
@@ -13,7 +13,8 @@ const PcrsMap = () => {
   const [projet, setProjet] = useState()
 
   const handleClick = useCallback(async e => {
-    const projet = await getProject(e.features[0].properties.id)
+    const projet = await getProject(e.features[0].properties._id)
+
     setProjet(projet)
     setIsOpen(true)
   }, [])
