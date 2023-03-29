@@ -37,19 +37,6 @@ Le style de code utilisé est [xo](https://github.com/xojs/xo).
 ```bash
 yarn lint
 ```
----
-
-### Lancer la construction des données de la carte de suivi
-```bash
-yarn build-data
-```
-Les fichiers YAML contenus dans le dossier `/data` vont être parcourus et transformés en deux fichiers :
-- `projets.json` : qui contient les données des projets PCRS
-- `projets.geojson` : qui contient les contours des projets PCRS
-> *Les données vont préalablement __être validées__.*
-> *Une erreur sera affichée en console si un champ est manquant, mal orthographié,*
-> *ou si l’indentation du fichier YAML n’est pas correcte.*
----
 
 ### Lancer les tests
 ```bash
