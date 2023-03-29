@@ -4,6 +4,7 @@
   "main": "index.js",
   "type": "module",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "download-contours": "node scripts/download-contours",
     "build": "yarn build-data && next build",
