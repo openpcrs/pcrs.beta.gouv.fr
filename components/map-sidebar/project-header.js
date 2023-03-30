@@ -1,23 +1,31 @@
 import {useState} from 'react'
 import PropTypes from 'prop-types'
-import Link from 'next/link'
+import {useRouter} from 'next/router'
 
 import colors from '@/styles/colors.js'
 
 import HiddenInfos from '@/components/hidden-infos.js'
 
 const Header = ({projectId, projectName, territoires}) => {
+  const router = useRouter()
   const [isTerritoiresShow, setIsTerritoiresShow] = useState(false)
 
   const hasToMuchTerritoires = territoires.length >= 4
 
   return (
     <div className='header'>
-      <Link href={`/formulaire-suivi/${projectId}`} >
-        click
-      </Link>
+      <div className='fr-grid-row fr-my-2w'>
+        <h1 className='fr-h4 fr-m-0 fr-pr-1w'>{projectName}</h1>
+        <button
+          type='button'
+          className='fr-btn--tertiary-no-outline'
+          aria-label='Editer le projet'
+          onClick={() => router.push(`/formulaire-suivi/${projectId}`)}
+        >
+          <span className='fr-icon-edit-line ' aria-hidden='true' />
+        </button>
+      </div>
 
-      <h1 className='fr-h4'>{projectName}</h1>
       <div className='fr-text--lg fr-my-0'>Liste des territoires</div>
       {hasToMuchTerritoires ? (
       // More than 5 territoires
@@ -60,18 +68,22 @@ const Header = ({projectId, projectName, territoires}) => {
         .header {
           padding: 1em;
         }
+
         .header, h1 {
           background: ${colors.info425};
           color: white;
         }
+
         .fr-text--lg {
           font-weight: bold;
         }
+
         .fr-btn--tertiary-no-outline {
           color: white;
           font-style: italic;
           text-decoration: underline;
         }
+
         .fr-btn--tertiary-no-outline:hover {
           color: ${colors.grey50};
         }
