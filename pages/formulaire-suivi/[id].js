@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import Image from 'next/image'
+import {useRouter} from 'next/router'
 
 import {getProject, editProject} from '@/lib/suivi-pcrs.js'
 
@@ -16,6 +17,7 @@ import Button from '@/components/button.js'
 import AuthentificationModal from '@/components/suivi-form/authentification-modal.js'
 
 const EditProject = ({project}) => {
+  const router = useRouter()
   const {_id, nom, nature, regime, livrables, subventions, perimetres, etapes, acteurs} = project
 
   const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
@@ -79,6 +81,9 @@ const EditProject = ({project}) => {
           setErrorOnValidationMessage(sendSuivi)
         } else {
           setValidationMessage('Le suivi a correctement été envoyé !')
+          setTimeout(() => {
+            router.push('/suivi-pcrs')
+          }, 2000)
         }
       }
     } catch (error) {
@@ -98,12 +103,12 @@ const EditProject = ({project}) => {
         />
         <h2 className='fr-mt-5w fr-mb-0'>Formulaire de suivi PCRS</h2>
       </div>
-      <div className='fr-my-5w fr-p-5w'>
+      <div className='fr-p-5w'>
         {!isLoading && !token && <AuthentificationModal handleToken={setToken} handleModal={handleModal} />}
 
         <p className='required-disclaimer'>Les champs indiqués par une * sont obligatoires</p>
 
-        <form className='fr-mb-5w fr-p-5w' onSubmit={handleSubmit}>
+        <form className='fr-p-5w' onSubmit={handleSubmit}>
           <GeneralInfos
             inputValues={generalInfos}
             handleValues={setGeneralInfos}
@@ -136,16 +141,30 @@ const EditProject = ({project}) => {
           <Subventions subventions={editedSubventions} handleSubventions={setEditedSubventions} />
 
           <div className='fr-grid-row fr-grid-row--center fr-mt-5w'>
-            <div className='fr-grid-row fr-grid-row--center fr-col-12'>
-              <Button
-                label='Valider le formulaire'
-                icon='checkbox-circle-fill'
-                iconSide='right'
-                type='submit'
-                size='lg'
-              >
-                Valider le formulaire
-              </Button>
+            <div className='fr-grid-row fr-grid-row--center fr-grid-row--middle fr-col-12'>
+              <div className='fr-p-2w'>
+                <Button
+                  label='Valider le formulaire'
+                  buttonStyle='tertiary'
+                  icon='arrow-go-back-fill'
+                  iconSide='left'
+                  isDisabled={validationMessage}
+                  onClick={() => router.push('/suivi-pcrs')}
+                >
+                  Annuler et retourner sur la carte
+                </Button>
+              </div>
+              <div className='fr-p-2w'>
+                <Button
+                  label='Valider le formulaire'
+                  icon='checkbox-circle-fill'
+                  iconSide='right'
+                  type='submit'
+                  size='lg'
+                >
+                  Valider le formulaire
+                </Button>
+              </div>
             </div>
 
             {validationMessage && (
