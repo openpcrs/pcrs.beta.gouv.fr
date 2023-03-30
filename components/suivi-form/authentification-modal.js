@@ -87,11 +87,13 @@ const AuthentificationModal = ({isNewForm, handleModal, handleToken}) => {
 }
 
 AuthentificationModal.propTypes = {
+  isNewForm: PropTypes.bool,
   handleModal: PropTypes.func.isRequired,
   handleToken: PropTypes.func
 }
 
 AuthentificationModal.defaultProps = {
+  isNewForm: false,
   handleToken() {}
 }
 
