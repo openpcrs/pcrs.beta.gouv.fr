@@ -36,8 +36,7 @@ const AuthentificationModal = ({isNewForm, handleModal, handleToken}) => {
             handleModal()
           }
         }
-      } catch (error) {
-        console.error(error)
+      } catch {
         setErrorMessage('L’authentification a échouée. Veuillez entrer un jeton valide')
       }
     } else {

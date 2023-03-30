@@ -20,7 +20,7 @@ const Perimetre = ({perimetre, perimetreAsObject, handleUpdate, handleDelete}) =
         setType(perimetreType)
         setNom(perimetreData.nom)
       } catch (error) {
-        console.error(error)
+        throw new Error(error)
       }
 
       setIsLoading(false)
