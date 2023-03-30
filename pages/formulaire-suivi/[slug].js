@@ -127,7 +127,11 @@ const EditProject = ({project}) => {
             hasMissingData={hasMissingDataOnValidation}
           />
 
-          <Etapes etapes={editedEtapes} handleEtapes={setEditedEtapes} />
+          <Etapes
+            etapes={editedEtapes}
+            handleEtapes={setEditedEtapes}
+            initialValue={etapes[etapes.length - 1]}
+          />
 
           <Subventions subventions={editedSubventions} handleSubventions={setEditedSubventions} />
 

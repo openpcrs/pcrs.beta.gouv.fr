@@ -124,7 +124,11 @@ const FormulaireSuivi = () => {
             hasMissingData={hasMissingDataOnValidation}
           />
 
-          <Etapes etapes={etapes} handleEtapes={setEtapes} />
+          <Etapes
+            etapes={etapes}
+            handleEtapes={setEtapes}
+            initialValue={etapes[etapes.length - 1]}
+          />
 
           <Subventions subventions={subventions} handleSubventions={setSubventions} />
 

@@ -17,9 +17,11 @@ const STATUS = [
   {label: 'Obsolète', value: 'obsolete'}
 ]
 
-const Etapes = ({etapes, handleEtapes}) => {
-  const [statutInput, setStatutInput] = useState('investigation')
-  const [startDate, setStartDate] = useState(etapes[0].date_debut)
+const Etapes = ({initialValue, etapes, handleEtapes}) => {
+  const {statut, date_debut} = initialValue
+
+  const [statutInput, setStatutInput] = useState(statut)
+  const [startDate, setStartDate] = useState(date_debut)
 
   const handleDateChange = (value, statut) => {
     if (statut === statutInput) {
@@ -133,7 +135,11 @@ const Etapes = ({etapes, handleEtapes}) => {
 
 Etapes.propTypes = {
   etapes: PropTypes.array.isRequired,
-  handleEtapes: PropTypes.func.isRequired
+  handleEtapes: PropTypes.func.isRequired,
+  initialValue: PropTypes.shape({
+    statut: PropTypes.string.isRequired,
+    date_debut: PropTypes.string.isRequired
+}).isRequired
 }
 
 export default Etapes
