@@ -6,7 +6,7 @@ import DeviceContext from '@/contexts/device.js'
 import Map from '@/components/map/index.js'
 import MapSidebar from '@/components/map-sidebar/index.js'
 
-export const Mobile = ({handleClick, handleTitleClick, projet, isOpen, geometry}) => {
+export const Mobile = ({handleClick, handleTitleClick, projet, isOpen, setIsOpen, geometry}) => {
   const {viewHeight} = useContext(DeviceContext)
 
   return (
@@ -82,7 +82,7 @@ export const Mobile = ({handleClick, handleTitleClick, projet, isOpen, geometry}
           )}
         </div>
         {isOpen && (
-          <MapSidebar projet={projet} />
+          <MapSidebar projet={projet} onClose={() => setIsOpen(false)} />
         )}
       </div>
     </div>
@@ -94,8 +94,10 @@ Mobile.defaultProps = {
   projet: null,
   isOpen: false
 }
+
 Mobile.propTypes = {
   handleClick: PropTypes.func.isRequired,
+  setIsOpen: PropTypes.func.isRequired,
   handleTitleClick: PropTypes.func,
   projet: PropTypes.object,
   isOpen: PropTypes.bool,
@@ -122,7 +124,7 @@ export const Desktop = ({handleClick, projet, isOpen, setIsOpen, geometry}) => (
           }}
         >
           {isOpen && (
-            <MapSidebar projet={projet} />
+            <MapSidebar projet={projet} onClose={() => setIsOpen(false)} />
           )}
         </div>
         <button
