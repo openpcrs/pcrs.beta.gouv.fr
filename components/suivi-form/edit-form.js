@@ -79,14 +79,14 @@ const EditForm = ({project}) => {
 
           setErrorOnValidationMessage(sendSuivi)
         } else {
-          setValidationMessage('Le suivi a correctement été envoyé !')
+          setValidationMessage('Le suivi été correctement modifié !')
           setTimeout(() => {
             router.push('/suivi-pcrs')
           }, 2000)
         }
       }
-    } catch (error) {
-      console.log(error)
+    } catch {
+      throw new Error('Une erreur a eu lieu lors de la modification du suivi')
     }
   }
 
