@@ -8,7 +8,7 @@ import TextInput from '@/components/text-input.js'
 import Modal from '@/components/modal.js'
 import Button from '@/components/button.js'
 
-const AuthentificationModal = ({handleModal, handleToken}) => {
+const AuthentificationModal = ({isNewForm, handleModal, handleToken}) => {
   const router = useRouter()
 
   const [token, setToken] = useState('')
@@ -24,12 +24,17 @@ const AuthentificationModal = ({handleModal, handleToken}) => {
         if (checkIfIsAdmin.isAdmin) {
           localStorage.setItem('Token', token)
           handleToken(token)
-          setValidationMessage('Jeton valide ! Vous allez être redirigé...')
 
-          setTimeout(() => {
+          if (isNewForm) {
+            setValidationMessage('Jeton valide ! Vous allez être redirigé...')
+
+            setTimeout(() => {
+              handleModal()
+              router.push('/formulaire-suivi')
+            }, 3000)
+          } else {
             handleModal()
-            router.push('/formulaire-suivi')
-          }, 3000)
+          }
         }
       } catch (error) {
         console.error(error)
