@@ -177,7 +177,7 @@ const EditProject = ({project}) => {
 }
 
 EditProject.getInitialProps = async ({query}) => {
-  const id = query.slug
+  const {id} = query
   const project = await getProject(id)
 
   return {
