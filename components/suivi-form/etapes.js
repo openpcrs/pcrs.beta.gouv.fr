@@ -138,8 +138,8 @@ Etapes.propTypes = {
   handleEtapes: PropTypes.func.isRequired,
   initialValue: PropTypes.shape({
     statut: PropTypes.string.isRequired,
-    date_debut: PropTypes.string.isRequired
-}).isRequired
+    date_debut: PropTypes.string
+  }).isRequired
 }
 
 export default Etapes

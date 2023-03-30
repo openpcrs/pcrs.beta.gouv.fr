@@ -147,7 +147,7 @@ const EditForm = ({project}) => {
                   buttonStyle='tertiary'
                   icon='arrow-go-back-fill'
                   iconSide='left'
-                  isDisabled={validationMessage}
+                  isDisabled={Boolean(validationMessage)}
                   onClick={() => router.push('/suivi-pcrs')}
                 >
                   Annuler et retourner sur la carte
