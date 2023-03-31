@@ -188,49 +188,57 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
   useEffect(() => {
     // Switch to actor update form
     if (isUpdating) {
-      const foundedActor = acteurs[updatingActorIndex]
+      const foundActor = acteurs[updatingActorIndex]
       setActeur(
         {
-          nom: foundedActor.nom,
-          siren: foundedActor.siren?.toString(),
-          phone: foundedActor.telephone || '',
-          finPerc: foundedActor.finance_part_perc?.toString() || '',
-          finEuros: foundedActor.finance_part_euro?.toString() || '',
-          role: foundedActor.role || ''
+          nom: foundActor.nom,
+          siren: foundActor.siren?.toString(),
+          phone: foundActor.telephone || '',
+          finPerc: foundActor.finance_part_perc?.toString() || '',
+          finEuros: foundActor.finance_part_euro?.toString() || '',
+          role: foundActor.role || ''
         }
       )
-      setUpdatingActorSiren(foundedActor.siren)
+      setUpdatingActorSiren(foundActor.siren)
 
       setIsFormOpen(true)
     }
   }, [isUpdating, updatingActorIndex, acteurs])
 
-  const fetchActors = useCallback(debounce(async () => { // eslint-disable-line react-hooks/exhaustive-deps
+  const fetchActors = useCallback(debounce(async (nom, signal) => { // eslint-disable-line react-hooks/exhaustive-deps
     setIsLoading(true)
     setSearchErrorMessage(null)
+
     try {
-      const foundedActors = await getEntreprises(nom)
-      const firstResults = foundedActors.results.slice(0, 5)
+      const foundActors = await getEntreprises(nom, {signal})
+      const firstResults = foundActors.results.slice(0, 5)
 
       const sanitizedResults = firstResults.map(result => pick(result, ['nom_complet', 'siren', 'section_activite_principale', 'tranche_effectif_salarie']))
 
       setFoundedEtablissements(sanitizedResults)
     } catch {
-      setSearchErrorMessage('Aucun acteur n’a été trouvé')
-      setFoundedEtablissements([])
+      if (!signal.aborted) {
+        setSearchErrorMessage('Aucun acteur n’a été trouvé')
+        setFoundedEtablissements([])
+      }
     }
 
     setIsLoading(false)
-  }, 300), [nom])
+  }, 300), [setIsLoading, setFoundedEtablissements])
 
   useEffect(() => {
-    // Fetch actors on name changes
-    if (nom && nom.length > 2) {
-      fetchActors()
-    } else {
+    if (!nom || nom.length < 3) {
       setSearchErrorMessage(null)
+      return
     }
-  }, [nom, fetchActors])
+
+    const ac = new AbortController()
+    fetchActors(nom, ac.signal)
+
+    return () => {
+      ac.abort()
+    }
+  }, [nom, fetchActors, setSearchErrorMessage])
 
   useEffect(() => {
     if (updatingActorIndex || updatingActorIndex === 0) {
