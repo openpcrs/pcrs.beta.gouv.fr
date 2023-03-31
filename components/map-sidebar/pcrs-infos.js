@@ -41,7 +41,7 @@ const LICENCE_LABELS = {
 const PcrsInfos = ({nature, regime, livrables, licence, acteurs}) => {
   const [isActorsShow, setIsActorsShow] = useState(false)
 
-  const nomAPLC = acteurs.find(acteur => acteur.role === 'aplc')?.nom || null
+  const nomAPLC = acteurs.find(acteur => acteur.role === 'aplc')?.nom
   const {natures: naturesColors, regimes: regimesColors, licences: licencesColors, actors: actorsColors, livrablesNatures} = PCRS_DATA_COLORS
 
   function uniq(items) {
