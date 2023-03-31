@@ -48,7 +48,7 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
 
   const [type, setType] = useState('')
 
-  const [foundedPerimetres, setFoundedPerimetres] = useState([])
+  const [foundPerimetres, setFoundPerimetres] = useState([])
   const [updatingPerimetreIndex, setUpdatingPerimetreIndex] = useState()
   const [updatingPerimetreCode, setUpdatingPerimetreCode] = useState()
 
@@ -139,23 +139,33 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
     }
   }, [perimetres, updatingPerimetreIndex])
 
-  useEffect(() => {
-    // Fetch siren/insee on name changes
-    if (nom && nom.length >= 3) {
-      setIsLoading(true)
-      const fetchPerimetre = debounce(async () => {
-        try {
-          const perimetres = await getPerimetersByName(nom, type)
-          setFoundedPerimetres(perimetres)
-        } catch {
-          setFoundedPerimetres([])
-        }
-      }, 300)
+  const fetchPerimetres = useCallback(debounce(async (nom, type, signal) => {
+    setIsLoading(true)
 
-      fetchPerimetre()
-      setIsLoading(false)
+    try {
+      const perimetres = await getPerimetersByName(nom, type, signal)
+      setFoundPerimetres(perimetres)
+    } catch {
+      if (!signal.aborted) {
+        setFoundPerimetres([])
+      }
     }
-  }, [nom, type])
+
+    setIsLoading(false)
+  }, 300), [setFoundPerimetres, setIsLoading])
+
+  useEffect(() => {
+    if (!nom || nom.length < 3) {
+      return
+    }
+
+    const ac = new AbortController()
+    fetchPerimetres(nom, type, ac.signal)
+
+    return () => {
+      ac.abort()
+    }
+  }, [nom, type, fetchPerimetres])
 
   const handleChange = value => {
     setType(value)
@@ -163,12 +173,12 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
     if (value !== type) {
       setNom('')
       setCode('')
-      setFoundedPerimetres([])
+      setFoundPerimetres([])
     }
   }
 
   const handleSelect = item => {
-    const foundPerimetreName = foundedPerimetres.find(result => result.code === item).nom
+    const foundPerimetreName = foundPerimetres.find(result => result.code === item).nom
 
     setCode(item)
     setNom(foundPerimetreName)
@@ -219,7 +229,7 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
                   description='Nom du territoire *'
                   ariaLabel='rechercher le nom du territoire'
                   errorMessage={handleErrors(nom)}
-                  results={foundedPerimetres}
+                  results={foundPerimetres}
                   customItem={renderItem}
                   isLoading={isLoading}
                   getItemValue={item => item.code}
