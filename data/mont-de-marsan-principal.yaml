@@ -1,0 +1,53 @@
+nom: Mont-de-Marsan Agglo - Tranche principale
+regime: production
+nature: raster
+acteurs:
+  - siren: 244000808
+    nom: Mont-de-Marsan Agglo
+    role: aplc
+    finance_part_euro: 23
+  - siren: 444608442
+    nom: enedis
+    role: financeur
+    finance_part_euro: 45
+  - siren: 214001927
+    nom: Commune de Mont-de-Marsan
+    role: financeur
+    finance_part_euro: 12
+  - siren: 254001399
+    nom: SIDEC
+    role: financeur
+    finance_part_euro: 10
+  - siren: 224000018
+    nom: departement des Landes
+    role: financeur
+    finance_part_euro: 10
+  - siren: 254002272
+    nom: Agence Départementale d’Aide aux collectivités locales
+    role: diffuseur
+  - siren: 130000763
+    nom: GIP AMENAGEMENT TERRITOIRE GESTION RISQUES
+    role: diffuseur
+  - siren: 315360610
+    nom: Ge-infra
+    role: controleur
+  - siren: 334381746
+    nom: Sintegra
+    role: presta_vol
+perimetres:
+  - epci:244000808
+etapes:
+  - statut: investigation
+    date_debut: 2018-11-01
+  - statut: production
+    date_debut: 2019-04-30
+  - statut: produit
+    date_debut: 2020-02-01
+  - statut: livre
+    date_debut: 2020-09-01
+livrables:
+  - nom: Image raster
+    licence: ferme
+    nature:
+subventions:
+
