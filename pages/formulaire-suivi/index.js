@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react'
 import Image from 'next/image'
+import {useRouter} from 'next/router'
 
 import {postSuivi} from '@/lib/suivi-pcrs.js'
 
@@ -15,6 +16,7 @@ import Button from '@/components/button.js'
 import AuthentificationModal from '@/components/suivi-form/authentification-modal.js'
 
 const FormulaireSuivi = () => {
+  const router = useRouter()
   const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
   const [hasMissingDataOnValidation, setHasMissingDataOnValidation] = useState(false)
   const [validationMessage, setValidationMessage] = useState(null)
@@ -75,11 +77,14 @@ const FormulaireSuivi = () => {
 
           setErrorOnValidationMessage(sendSuivi)
         } else {
-          setValidationMessage('Le suivi a correctement été envoyé !')
+          setValidationMessage('Le projet a bien été créé, vous allez maintenant être redirigé vers la carte de suivi')
+          setTimeout(() => {
+            router.push('/suivi-pcrs')
+          }, 2000)
         }
       }
-    } catch (error) {
-      console.log(error)
+    } catch {
+      throw new Error('Une erreur a été rencontrée')
     }
   }
 
