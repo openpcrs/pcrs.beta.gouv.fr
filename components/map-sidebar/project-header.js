@@ -76,7 +76,8 @@ const Header = ({projectId, projectName, territoires}) => {
 
           {isDeleteModalOpen && (
             <Modal title='Confirmer la suppression du projet' onClose={handleDeleteModalOpen}>
-              <p className='modal-content'>Êtes-vous bien sûr de vouloir supprimer le suivi <b>{projectName}</b> ? Cette action est irreversible</p>
+              <p className='modal-content fr-mb-0'>Êtes-vous bien sûr de vouloir supprimer le suivi de <b>{projectName}</b> ? </p><br />
+              <p className='irreversible'><b>Cette action est irréversible</b></p>
               <div className='fr-grid-row fr-grid-row--center'>
                 <Button
                   label='Confirmer la suppression'
@@ -169,6 +170,12 @@ const Header = ({projectId, projectName, territoires}) => {
         .modal-content {
           color: ${colors.darkgrey};
         }
+
+        .irreversible {
+          text-decoration: underline;
+          text-align: center;
+          width: 100%;
+        }
       `}</style>
     </div>
   )
@@ -185,4 +192,3 @@ Header.defaultProps = {
 }
 
 export default Header
-
