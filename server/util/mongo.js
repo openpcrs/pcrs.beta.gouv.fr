@@ -1,7 +1,6 @@
 import process from 'node:process'
 
 import {MongoClient, ObjectId} from 'mongodb'
-import {getTerritoiresProperties} from '../../lib/territoires.js'
 
 const MONGODB_URL = process.env.MONGODB_URL || 'mongodb://localhost'
 const MONGODB_DBNAME = process.env.MONGODB_DBNAME || 'pcrs'
@@ -50,12 +49,6 @@ class Mongo {
 
   decorateUpdate(projet) {
     projet._updated = new Date()
-  }
-
-  expandProjet(projet) {
-    projet.territoires = projet?.perimetres?.map(p => getTerritoiresProperties(p)) || null
-
-    return projet
   }
 }
 

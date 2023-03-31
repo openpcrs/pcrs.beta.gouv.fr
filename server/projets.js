@@ -1,7 +1,16 @@
 import createError from 'http-errors'
 import {validateCreation, validateChanges} from '../lib/projets-validator.js'
-import {buildGeometryFromTerritoires} from '../lib/territoires.js'
+import {buildGeometryFromTerritoires, getTerritoiresProperties} from '../lib/territoires.js'
 import mongo from './util/mongo.js'
+
+export function expandProjet(projet) {
+  const territoires = projet?.perimetres?.map(p => getTerritoiresProperties(p)) || null
+
+  return {
+    ...projet,
+    territoires
+  }
+}
 
 export async function getProjets() {
   return mongo.db.collection('projets').find().toArray()
@@ -12,15 +21,12 @@ export async function getProjet(projetId) {
 
   const projet = await mongo.db.collection('projets').findOne({_id: projetId})
 
-  mongo.expandProjet(projet)
-
   return projet
 }
 
 export async function createProjet(payload) {
   const projet = validateCreation(payload)
 
-  mongo.expandProjet(projet)
   mongo.decorateCreation(projet)
 
   try {
@@ -45,7 +51,6 @@ export async function deleteProjet(projetId) {
 export async function updateProjet(id, payload) {
   const projet = validateChanges(payload)
 
-  mongo.expandProjet(projet)
   mongo.decorateUpdate(projet)
 
   if (Object.keys(projet).length === 0) {
