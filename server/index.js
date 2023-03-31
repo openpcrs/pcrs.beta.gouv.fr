@@ -17,7 +17,7 @@ import mongo from './util/mongo.js'
 import errorHandler from './util/error-handler.js'
 import w from './util/w.js'
 
-import {getProjet, getProjets, createProjet, deleteProjet, updateProjet, getProjetsGeojson} from './projets.js'
+import {getProjet, getProjets, createProjet, deleteProjet, updateProjet, getProjetsGeojson, expandProjet} from './projets.js'
 
 const port = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -75,7 +75,8 @@ server.route('/projets/geojson')
 
 server.route('/projets/:projetId')
   .get(w(async (req, res) => {
-    res.send(req.projet)
+    const expandedProjet = expandProjet(req.projet)
+    res.send(expandedProjet)
   }))
   .delete(w(ensureAdmin), w(async (req, res) => {
     await deleteProjet(req.projet._id)
@@ -83,17 +84,23 @@ server.route('/projets/:projetId')
   }))
   .put(w(ensureAdmin), w(async (req, res) => {
     const projet = await updateProjet(req.projet._id, req.body)
-    res.send(projet)
+    const expandedProjet = expandProjet(projet)
+
+    res.send(expandedProjet)
   }))
 
 server.route('/projets')
   .get(w(async (req, res) => {
     const projets = await getProjets()
-    res.send(projets)
+    const expandedProjets = projets.map(p => expandProjet(p))
+
+    res.send(expandedProjets)
   }))
   .post(w(ensureAdmin), w(async (req, res) => {
     const projet = await createProjet(req.body)
-    res.status(201).send(projet)
+    const expandedProjet = expandProjet(projet)
+
+    res.status(201).send(expandedProjet)
   }))
 
 server.route('/me')
