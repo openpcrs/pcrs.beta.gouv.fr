@@ -1,0 +1,42 @@
+nom: Energie Vienne – Tranche Principale
+regime: production
+nature: raster
+acteurs:
+  - siren: 200086262
+    nom: SYNDICAT ENERGIES VIENNE
+    role: aplc
+  - siren: 180067019
+    nom: IGN
+    role: financeur
+  - siren: 200069854
+    nom: GRAND POITIERS COMMUNAUTE URBAINE
+    role: financeur
+  - siren: 200049104
+    nom: EAUX DE VIENNE
+    role: financeur
+  - siren: 444608442
+    nom: Enedis
+    role: controleur
+perimetres:
+  - epci:200069854
+  - epci:248600413
+  - epci:200069763
+  - epci:248600447
+  - epci:200043628
+  - epci:200070043
+etapes:
+  - statut: investigation
+    date_debut: 2019-12-01
+  - statut: production
+    date_debut: 2020-01-01
+  - statut: produit
+    date_debut: 2022-01-01
+  - statut: livre
+    date_debut: 2023-01-01
+livrables:
+  - nom: raster
+    nature: geotiff
+    diffusion: flux
+    licence: ouvert_lo
+    crs: RFG93/CC47
+subventions:
