@@ -18,7 +18,7 @@ const MapSidebar = ({projet, onClose}) => {
   const contactAPLC = acteurs.find(acteur => acteur.role === 'aplc')
   const {statut} = projet.etapes[projet.etapes.length - 1]
   const projectStartDate = formatDate(find(projet.etapes, {statut: 'investigation'}).date_debut)
-  const isObsolete = projet.statut === 'obsolète'
+  const isObsolete = statut === 'obsolete'
 
   return (
     <>
@@ -42,7 +42,6 @@ const MapSidebar = ({projet, onClose}) => {
             stepsColors={status}
             currentStatus={statut}
             steps={etapes}
-            isObsolete={isObsolete}
           />
         )}
 
