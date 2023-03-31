@@ -20,7 +20,7 @@ const FormulaireSuivi = () => {
   const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
   const [hasMissingDataOnValidation, setHasMissingDataOnValidation] = useState(false)
   const [validationMessage, setValidationMessage] = useState(null)
-  const [errorOnValidationMessage, setErrorOnValidationMessage] = useState(null)
+  const [errorOnValidationMessages, setErrorOnValidationMessages] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
 
   const [generalInfos, setGeneralInfos] = useState({
@@ -46,16 +46,28 @@ const FormulaireSuivi = () => {
     event.preventDefault()
 
     const hasMissingData = livrables.length === 0 || acteurs.length === 0 || perimetres.length === 0
+    const handleScrollToError = () => {
+      const firstErrorSection = livrables.length === 0 ? 'livrables' : (acteurs.length === 0 ? 'acteurs' : 'perimetres')
+      const input = document.querySelector(`#${firstErrorSection}`)
+
+      input.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'start'
+      })
+    }
+
     const {nom, nature, regime} = generalInfos
 
     setValidationMessage(null)
-    setErrorOnValidationMessage(null)
+    setErrorOnValidationMessages(null)
     setHasMissingDataOnValidation(false)
 
     try {
       if (hasMissingData) {
         setHasMissingDataOnValidation(true)
-        setErrorOnValidationMessage(['Veuillez ajouter les données manquantes'])
+        handleScrollToError()
+        setErrorOnValidationMessages([{message: 'Des données nécessaires à la validation du formulaires sont manquantes. Au moins un livrable, un acteur et un périmètre doivent être ajoutés.'}])
       } else {
         const suivi = {
           nom,
@@ -75,7 +87,7 @@ const FormulaireSuivi = () => {
             sendSuivi.message = 'Le projet n’a pas pu être pris en compte car il y a des erreurs'
           }
 
-          setErrorOnValidationMessage(sendSuivi)
+          setErrorOnValidationMessages(sendSuivi)
         } else {
           setValidationMessage('Le projet a bien été créé, vous allez maintenant être redirigé vers la carte de suivi')
           setTimeout(() => {
@@ -111,24 +123,30 @@ const FormulaireSuivi = () => {
             handleValues={setGeneralInfos}
           />
 
-          <Livrables
-            livrables={livrables}
-            handleLivrables={setLivrables}
-            hasMissingData={hasMissingDataOnValidation}
-          />
+          <div id='livrables'>
+            <Livrables
+              livrables={livrables}
+              handleLivrables={setLivrables}
+              hasMissingData={hasMissingDataOnValidation}
+            />
+          </div>
 
-          <Acteurs
-            acteurs={acteurs}
-            handleActors={setActeurs}
-            hasMissingData={hasMissingDataOnValidation}
-          />
+          <div id='acteurs'>
+            <Acteurs
+              acteurs={acteurs}
+              handleActors={setActeurs}
+              hasMissingData={hasMissingDataOnValidation}
+            />
+          </div>
 
-          <Perimetres
-            perimetres={perimetres}
-            handlePerimetres={setPerimetres}
-            hasMissingData={hasMissingDataOnValidation}
-          />
+          <div className='perimetres'>
+            <Perimetres
+              perimetres={perimetres}
+              handlePerimetres={setPerimetres}
+              hasMissingData={hasMissingDataOnValidation}
+            />
 
+          </div>
           <Etapes
             etapes={etapes}
             handleEtapes={setEtapes}
@@ -156,10 +174,12 @@ const FormulaireSuivi = () => {
               </p>
             )}
 
-            {errorOnValidationMessage && !hasMissingDataOnValidation && (
-              <p key={errorOnValidationMessage.message} className='fr-grid-row--center fr-error-text fr-col-12 fr-mt-2w fr-mb-0'>
-                {errorOnValidationMessage.message}
-              </p>
+            {errorOnValidationMessages && (
+              errorOnValidationMessages.map(error => (
+                <p key={error.message} className='fr-grid-row--center fr-error-text fr-col-12 fr-mt-2w fr-mb-0'>
+                  {error.message}
+                </p>
+              ))
             )}
           </div>
         </form>
