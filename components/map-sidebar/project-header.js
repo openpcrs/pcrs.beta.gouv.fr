@@ -11,7 +11,7 @@ import Button from '@/components/button.js'
 import Modal from '@/components/modal.js'
 import AuthentificationModal from '@/components/suivi-form/authentification-modal.js'
 
-const Header = ({projectId, projectName, territoires, onSidebarClose}) => {
+const Header = ({projectId, projectName, territoires}) => {
   const router = useRouter()
   const [isTerritoiresShow, setIsTerritoiresShow] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
@@ -41,8 +41,7 @@ const Header = ({projectId, projectName, territoires, onSidebarClose}) => {
 
         setDeleteValidationMessage('le projet a bien été supprimé')
         setTimeout(() => {
-          handleDeleteModalOpen()
-          onSidebarClose()
+          router.reload(window.location.pathname)
         }, 2000)
       } else {
         setIsAuthentificationModalOpen(true)
@@ -78,7 +77,15 @@ const Header = ({projectId, projectName, territoires, onSidebarClose}) => {
           {isDeleteModalOpen && (
             <Modal title='Confirmer la suppression du projet' onClose={handleDeleteModalOpen}>
               <p className='modal-content'>Êtes-vous bien sûr de vouloir supprimer le suivi <b>{projectName}</b> ? Cette action est irreversible</p>
-              <div className='fr-grid-row fr-grid-row--center'> <Button label='Confirmer la suppression' onClick={() => onDelete()}>Supprimer le projet</Button></div>
+              <div className='fr-grid-row fr-grid-row--center'>
+                <Button
+                  label='Confirmer la suppression'
+                  isDisabled={Boolean(deleteValidationMessage)}
+                  onClick={() => onDelete()}
+                >
+                  Supprimer le projet
+                </Button>
+              </div>
               {deleteValidationMessage && (
                 <p className='fr-grid-row fr-grid-row--center fr-valid-text fr-col-12 fr-mt-2w fr-mb-0'>
                   {deleteValidationMessage}
@@ -170,7 +177,6 @@ const Header = ({projectId, projectName, territoires, onSidebarClose}) => {
 Header.propTypes = {
   projectId: PropTypes.string.isRequired,
   projectName: PropTypes.string.isRequired,
-  onSidebarClose: PropTypes.func.isRequired,
   territoires: PropTypes.array
 }
 
