@@ -1,0 +1,56 @@
+nom: Agence Technique du Département de la Charente - Tranche principale
+regime: production
+nature: raster
+acteurs:
+  - siren: 200044543
+    nom: Agence Technique du Département de la Charente
+    role: aplc
+  - siren: 221700016
+    nom: Conseil Départemental de la Charente
+    role: financeur
+  - siren: 444608442
+    nom: enedis
+    role: financeur
+  - siren: 180067019
+    nom: ign
+    role: financeur
+  - siren: 381427582
+    nom: SDEC 16
+    role: financeur
+  - siren: 251601464
+    nom: SYNDICAT CHARENTE EAUX
+    role: financeur
+  - siren: 251602660
+    nom: CALITOM
+    role: financeur
+  - siren: 200070639
+    nom: CHARENTE NUMERIQUE
+    role: financeur
+  - siren: 444619258
+    nom: RTE
+    role: financeur
+  - siren: 130000763
+    nom: ATGERI
+    role: controleur
+perimetres:
+  - epci:200071827
+  - epci:200070514
+  - epci:200029734
+  - epci:200072049
+  - epci:200072023
+  - epci:200068914
+  - epci:200070282
+  - epci:241600303
+  - epci:200043016
+etapes:
+  - statut: investigation
+    date_debut: 2019-09-01
+  - statut: production
+    date_debut: 2021-09-01
+livrables:
+  - nom: vecteur
+    nature: geotiff
+    diffusion: flux
+    crs: EPSG:2154/Lambert93
+    licence: ferme
+subventions:
