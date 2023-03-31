@@ -77,7 +77,7 @@ const Header = ({projectId, projectName, territoires, onSidebarClose}) => {
 
           {isDeleteModalOpen && (
             <Modal title='Confirmer la suppression du projet' onClose={handleDeleteModalOpen}>
-              <p className='modal-content'>Êtes-vous bien sûr de vouloir supprimer le suivi <b>projectName</b> ? Cette action est irreversible</p>
+              <p className='modal-content'>Êtes-vous bien sûr de vouloir supprimer le suivi <b>{projectName}</b> ? Cette action est irreversible</p>
               <div className='fr-grid-row fr-grid-row--center'> <Button label='Confirmer la suppression' onClick={() => onDelete()}>Supprimer le projet</Button></div>
               {deleteValidationMessage && (
                 <p className='fr-grid-row fr-grid-row--center fr-valid-text fr-col-12 fr-mt-2w fr-mb-0'>
