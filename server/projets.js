@@ -10,12 +10,17 @@ export async function getProjets() {
 export async function getProjet(projetId) {
   projetId = mongo.parseObjectId(projetId)
 
-  return mongo.db.collection('projets').findOne({_id: projetId})
+  const projet = await mongo.db.collection('projets').findOne({_id: projetId})
+
+  mongo.expandProjet(projet)
+
+  return projet
 }
 
 export async function createProjet(payload) {
   const projet = validateCreation(payload)
 
+  mongo.expandProjet(projet)
   mongo.decorateCreation(projet)
 
   try {
@@ -40,6 +45,7 @@ export async function deleteProjet(projetId) {
 export async function updateProjet(id, payload) {
   const projet = validateChanges(payload)
 
+  mongo.expandProjet(projet)
   mongo.decorateUpdate(projet)
 
   if (Object.keys(projet).length === 0) {
