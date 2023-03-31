@@ -1,0 +1,27 @@
+nom: Communauté Agglomération Pays Basque - Tranche principale
+regime: production
+nature: raster
+acteurs:
+  - siren: 200067106
+    nom: CA DU PAYS BASQUE 
+    role: aplc
+  - siren: 444619258
+    nom: RTE
+    role: financeur
+  - siren: 444608442
+    nom: Enedis
+    role: financeur
+  - siren: 256402041
+    nom: TERRITOIRE D'ENERGIE PYRENEES-ATLANTIQUES 
+    role: financeur
+  - siren: 130000763
+    nom: GIP AMENAGEMENT TERRITOIRE GESTION RISQUES (ATGERI)
+    role: diffuseur
+perimetres:
+  - epci:200067106
+etapes:
+  - statut: investigation
+    date_debut: 2022-03-01
+  - statut: production
+    date_debut: 2022-10-01
+subventions:
