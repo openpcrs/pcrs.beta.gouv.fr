@@ -45,7 +45,7 @@ const renderItem = (item, isHighlighted) => {
   )
 }
 
-const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
+const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) => {
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [hasMissingInput, setHasMissingInput] = useState(false)
   const [hasInvalidInput, setHasInvalidInput] = useState(false)
@@ -147,6 +147,7 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
 
   const onReset = () => {
     setIsFormOpen(false)
+    onRequiredFormOpen(false)
     setHasInvalidInput(false)
     setActeur({
       nom: '',
@@ -202,8 +203,9 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
       setUpdatingActorSiren(foundActor.siren)
 
       setIsFormOpen(true)
+      onRequiredFormOpen(true)
     }
-  }, [isUpdating, updatingActorIndex, acteurs])
+  }, [isUpdating, updatingActorIndex, acteurs, onRequiredFormOpen])
 
   const fetchActors = useCallback(debounce(async (nom, signal) => { // eslint-disable-line react-hooks/exhaustive-deps
     setIsLoading(true)
@@ -277,7 +279,10 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
           icon='add-circle-fill'
           iconSide='left'
           isDisabled={isFormOpen || isUpdating}
-          onClick={() => setIsFormOpen(true)}
+          onClick={() => {
+            setIsFormOpen(true)
+            onRequiredFormOpen(true)
+          }}
         >
           Ajouter un acteur
         </Button>
@@ -458,7 +463,8 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
 Acteurs.propTypes = {
   acteurs: PropTypes.array.isRequired,
   hasMissingData: PropTypes.bool,
-  handleActors: PropTypes.func.isRequired
+  handleActors: PropTypes.func.isRequired,
+  onRequiredFormOpen: PropTypes.func.isRequired
 }
 
 Acteurs.defaultProps = {

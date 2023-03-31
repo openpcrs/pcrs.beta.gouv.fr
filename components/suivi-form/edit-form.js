@@ -24,6 +24,7 @@ const EditForm = ({project}) => {
   const [validationMessage, setValidationMessage] = useState(null)
   const [errorOnValidationMessages, setErrorOnValidationMessages] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [isRequiredFormOpen, setIsRequiredFormOpen] = useState(false)
 
   const [generalInfos, setGeneralInfos] = useState({
     nom: nom || '',
@@ -66,6 +67,10 @@ const EditForm = ({project}) => {
     }
 
     try {
+      if (isRequiredFormOpen) {
+        return setErrorOnValidationMessages([{message: 'Veuiller valider ou annuler le livrable, l’acteur ou le périmètre en cours d’ajout.'}])
+      }
+
       if (hasMissingData) {
         setHasMissingDataOnValidation(true)
         handleScrollToError()
@@ -130,6 +135,7 @@ const EditForm = ({project}) => {
               livrables={editedLivrables}
               handleLivrables={setEditedLivrables}
               hasMissingData={hasMissingDataOnValidation}
+              onRequiredFormOpen={setIsRequiredFormOpen}
             />
           </div>
 
@@ -138,6 +144,7 @@ const EditForm = ({project}) => {
               acteurs={editedActeurs}
               handleActors={setEditedActeurs}
               hasMissingData={hasMissingDataOnValidation}
+              onRequiredFormOpen={setIsRequiredFormOpen}
             />
           </div>
 
@@ -146,6 +153,7 @@ const EditForm = ({project}) => {
               perimetres={editedPerimetres}
               handlePerimetres={setEditedPerimetres}
               hasMissingData={hasMissingDataOnValidation}
+              onRequiredFormOpen={setIsRequiredFormOpen}
             />
           </div>
 

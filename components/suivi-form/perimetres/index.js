@@ -38,7 +38,7 @@ const renderItem = (item, isHighlighted) => {
   )
 }
 
-const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
+const Perimetres = ({perimetres, hasMissingData, handlePerimetres, onRequiredFormOpen}) => {
   const [isFormOpen, setIsFormOpen] = useState()
   const [hasMissingInput, setHasMissingInput] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -66,6 +66,7 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
     setType('')
     setUpdatingPerimetreIndex(null)
     setIsFormOpen(false)
+    onRequiredFormOpen(false)
     setHasMissingInput(false)
     setUpdatingPerimetreCode(null)
     setErrorMessage(null)
@@ -130,6 +131,7 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
           setType(perimetreType)
           setUpdatingPerimetreCode(perimetre.code)
           setIsFormOpen(true)
+          onRequiredFormOpen(true)
         }
 
         switchToUpdateForm()
@@ -137,7 +139,7 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
         console.log('Impossible de retrouver le périmètre')
       }
     }
-  }, [perimetres, updatingPerimetreIndex])
+  }, [perimetres, updatingPerimetreIndex, onRequiredFormOpen])
 
   const fetchPerimetres = useCallback(debounce(async (nom, type, signal) => {
     setIsLoading(true)
@@ -197,7 +199,10 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
           icon='add-circle-fill'
           iconSide='left'
           isDisabled={isFormOpen || isUpdating}
-          onClick={() => setIsFormOpen(true)}
+          onClick={() => {
+            onRequiredFormOpen(true)
+            setIsFormOpen(true)
+          }}
         >
           Ajouter un périmètre
         </Button>
@@ -288,7 +293,8 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
 Perimetres.propTypes = {
   perimetres: PropTypes.array.isRequired,
   hasMissingData: PropTypes.bool,
-  handlePerimetres: PropTypes.func.isRequired
+  handlePerimetres: PropTypes.func.isRequired,
+  onRequiredFormOpen: PropTypes.func.isRequired
 }
 
 Perimetres.defaultProps = {

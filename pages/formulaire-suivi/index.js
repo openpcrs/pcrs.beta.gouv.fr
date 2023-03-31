@@ -22,6 +22,7 @@ const FormulaireSuivi = () => {
   const [validationMessage, setValidationMessage] = useState(null)
   const [errorOnValidationMessages, setErrorOnValidationMessages] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [isRequiredFormOpen, setIsRequiredFormOpen] = useState(false)
 
   const [generalInfos, setGeneralInfos] = useState({
     nom: '',
@@ -46,6 +47,7 @@ const FormulaireSuivi = () => {
     event.preventDefault()
 
     const hasMissingData = livrables.length === 0 || acteurs.length === 0 || perimetres.length === 0
+
     const handleScrollToError = () => {
       const firstErrorSection = livrables.length === 0 ? 'livrables' : (acteurs.length === 0 ? 'acteurs' : 'perimetres')
       const input = document.querySelector(`#${firstErrorSection}`)
@@ -64,6 +66,10 @@ const FormulaireSuivi = () => {
     setHasMissingDataOnValidation(false)
 
     try {
+      if (isRequiredFormOpen) {
+        return setErrorOnValidationMessages([{message: 'Veuiller valider ou annuler le livrable, l’acteur ou le périmètre en cours d’ajout.'}])
+      }
+
       if (hasMissingData) {
         setHasMissingDataOnValidation(true)
         handleScrollToError()
@@ -100,6 +106,12 @@ const FormulaireSuivi = () => {
     }
   }
 
+  useEffect(() => {
+    if (!isRequiredFormOpen) {
+      setErrorOnValidationMessages(null)
+    }
+  }, [isRequiredFormOpen])
+
   return (
     <Page>
       <div className='form-header fr-my-5w'>
@@ -128,6 +140,7 @@ const FormulaireSuivi = () => {
               livrables={livrables}
               handleLivrables={setLivrables}
               hasMissingData={hasMissingDataOnValidation}
+              onRequiredFormOpen={setIsRequiredFormOpen}
             />
           </div>
 
@@ -136,6 +149,7 @@ const FormulaireSuivi = () => {
               acteurs={acteurs}
               handleActors={setActeurs}
               hasMissingData={hasMissingDataOnValidation}
+              onRequiredFormOpen={setIsRequiredFormOpen}
             />
           </div>
 
@@ -144,6 +158,7 @@ const FormulaireSuivi = () => {
               perimetres={perimetres}
               handlePerimetres={setPerimetres}
               hasMissingData={hasMissingDataOnValidation}
+              onRequiredFormOpen={setIsRequiredFormOpen}
             />
 
           </div>
