@@ -157,19 +157,19 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
   useEffect(() => {
     // Switch to livrable update form
     if (isUpdating) {
-      const foundedLivrable = livrables[updatingLivrableIndex]
+      const foundLivrable = livrables[updatingLivrableIndex]
 
       setLivrable({
-        nom: foundedLivrable.nom,
-        nature: foundedLivrable.nature,
-        diffusion: foundedLivrable.diffusion,
-        licence: foundedLivrable.licence,
-        avancement: foundedLivrable.avancement?.toString() || '',
-        crs: foundedLivrable.crs || '',
-        compression: foundedLivrable.compression || ''
+        nom: foundLivrable.nom,
+        nature: foundLivrable.nature,
+        diffusion: foundLivrable.diffusion,
+        licence: foundLivrable.licence,
+        avancement: foundLivrable.avancement?.toString() || '',
+        crs: foundLivrable.crs || '',
+        compression: foundLivrable.compression || ''
       })
 
-      setUpdatingLivrableName(foundedLivrable.nom)
+      setUpdatingLivrableName(foundLivrable.nom)
       setIsFormOpen(true)
     }
   }, [updatingLivrableIndex, livrables, isUpdating])

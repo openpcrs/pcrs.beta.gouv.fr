@@ -66,7 +66,7 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
     role: ''
   })
 
-  const [foundedEtablissements, setFoundedEtablissements] = useState([])
+  const [foundEtablissements, setFoundEtablissements] = useState([])
   const [updatingActorIndex, setUpdatingActorIndex] = useState(null)
   const [updatingActorSiren, setUpdatingActorSiren] = useState(null)
 
@@ -215,16 +215,16 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
 
       const sanitizedResults = firstResults.map(result => pick(result, ['nom_complet', 'siren', 'section_activite_principale', 'tranche_effectif_salarie']))
 
-      setFoundedEtablissements(sanitizedResults)
+      setFoundEtablissements(sanitizedResults)
     } catch {
       if (!signal.aborted) {
         setSearchErrorMessage('Aucun acteur n’a été trouvé')
-        setFoundedEtablissements([])
+        setFoundEtablissements([])
       }
     }
 
     setIsLoading(false)
-  }, 300), [setIsLoading, setFoundedEtablissements])
+  }, 300), [setIsLoading, setFoundEtablissements])
 
   useEffect(() => {
     if (!nom || nom.length < 3) {
@@ -295,7 +295,7 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
                 name='nom'
                 description='Nom de l’entreprise'
                 ariaLabel='nom de l’entreprise à rechercher'
-                results={foundedEtablissements}
+                results={foundEtablissements}
                 isLoading={isLoading}
                 errorMessage={searchErrorMessage ? searchErrorMessage : handleErrors(nom)}
                 getItemValue={item => item.siren}
@@ -307,7 +307,7 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
                   })
                 }}
                 onSelectValue={item => {
-                  const foundActorName = foundedEtablissements.find(result => result.siren === item).nom_complet
+                  const foundActorName = foundEtablissements.find(result => result.siren === item).nom_complet
 
                   setActeur({
                     ...acteur,
