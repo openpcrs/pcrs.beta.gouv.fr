@@ -79,7 +79,7 @@ const EditForm = ({project}) => {
 
           setErrorOnValidationMessage(sendSuivi)
         } else {
-          setValidationMessage('Le suivi été correctement modifié !')
+          setValidationMessage('Le projet a bien été modifié, vous allez maintenant être redirigé vers la carte de suivi')
           setTimeout(() => {
             router.push('/suivi-pcrs')
           }, 2000)
