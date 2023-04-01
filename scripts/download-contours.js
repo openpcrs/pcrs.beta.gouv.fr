@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import {promisify} from 'node:util'
+import {mkdir} from 'node:fs/promises'
 import zlib from 'node:zlib'
 import Keyv from 'keyv'
 import got from 'got'
@@ -9,7 +10,9 @@ const gunzip = promisify(zlib.gunzip)
 const MILLESIME = '2022'
 const RESOLUTION = '100m'
 
-const keyv = new Keyv('sqlite://contours.sqlite')
+await mkdir('./.db')
+
+const keyv = new Keyv('sqlite://.db/contours.sqlite')
 
 await keyv.clear()
 
