@@ -1,6 +1,9 @@
 #!/usr/bin/env node
+import 'dotenv/config.js'
+
+import process from 'node:process'
 import {promisify} from 'node:util'
-import {mkdir} from 'node:fs/promises'
+import {mkdir, writeFile} from 'node:fs/promises'
 import zlib from 'node:zlib'
 import Keyv from 'keyv'
 import got from 'got'
@@ -11,6 +14,16 @@ const MILLESIME = '2022'
 const RESOLUTION = '100m'
 
 await mkdir('./.db')
+
+if (process.env.DOWNLOAD_CONTOURS_FROM) {
+  console.log(' * Téléchargement des contours à partir de l’adresse indiquée')
+
+  const buffer = await got(process.env.DOWNLOAD_CONTOURS_FROM).buffer()
+  await writeFile('./.db/contours.sqlite', buffer)
+
+  console.log(' * Terminé !')
+  process.exit(0)
+}
 
 const keyv = new Keyv('sqlite://.db/contours.sqlite')
 
