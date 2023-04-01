@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint import/no-unassigned-import: off */
 import 'dotenv/config.js'
 
 import process from 'node:process'
