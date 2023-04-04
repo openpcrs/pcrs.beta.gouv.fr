@@ -56,23 +56,27 @@ const Header = ({projectId, projectName, territoires}) => {
       <div className='fr-grid-row fr-my-2w'>
         <h1 className='fr-h4 fr-m-0 fr-col-9'>{projectName}</h1>
         <div>
-          <button
-            type='button'
-            className='fr-btn--tertiary-no-outline fr-px-1w'
-            aria-label='Editer le projet'
-            onClick={() => router.push(`/formulaire-suivi/${projectId}`)}
-          >
-            <span className='fr-icon-edit-line ' aria-hidden='true' />
-          </button>
+          {token && (
+            <>
+              <button
+                type='button'
+                className='fr-btn--tertiary-no-outline fr-px-1w'
+                aria-label='Editer le projet'
+                onClick={() => router.push(`/formulaire-suivi/${projectId}`)}
+              >
+                <span className='fr-icon-edit-line ' aria-hidden='true' />
+              </button>
 
-          <button
-            type='button'
-            className='fr-btn--tertiary-no-outline'
-            aria-label='Supprimer le projet'
-            onClick={handleDeleteModalOpen}
-          >
-            <span className='fr-icon-delete-line' aria-hidden='true' />
-          </button>
+              <button
+                type='button'
+                className='fr-btn--tertiary-no-outline'
+                aria-label='Supprimer le projet'
+                onClick={handleDeleteModalOpen}
+              >
+                <span className='fr-icon-delete-line' aria-hidden='true' />
+              </button>
+            </>
+          )}
 
           {isDeleteModalOpen && (
             <Modal title='Confirmer la suppression du projet' onClose={handleDeleteModalOpen}>
