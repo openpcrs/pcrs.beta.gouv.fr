@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-const TextInput = ({label, value, type, ariaLabel, placeholder, errorMessage, description, isRequired, isDisabled, onValueChange}) => {
+const TextInput = ({label, value, type, ariaLabel, placeholder, errorMessage, description, isRequired, isDisabled, onValueChange, onFocus, onBlur}) => {
   const inputState = errorMessage ? 'error' : ''
 
   return (
@@ -19,6 +19,8 @@ const TextInput = ({label, value, type, ariaLabel, placeholder, errorMessage, de
         placeholder={placeholder}
         disabled={isDisabled}
         onChange={onValueChange}
+        onFocus={onFocus}
+        onBlur={onBlur}
       />
 
       {errorMessage && <p id='text-input-error-desc-error' className='fr-error-text'>{errorMessage}</p>}
