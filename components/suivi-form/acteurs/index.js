@@ -319,6 +319,8 @@ const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) =>
                     nom: foundActorName,
                     siren: item
                   })
+
+                  setIsSirenValid(/^\d{9}$/.test(item))
                 }}
               />
             </div>
@@ -330,12 +332,12 @@ const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) =>
                 ariaLabel='numéro siren de l’entreprise'
                 description='SIREN de l’entreprise'
                 errorMessage={handleErrors(siren, 'siren')}
+                onBlur={e => setIsSirenValid(/^\d{9}$/.test(e.target.value))}
                 onValueChange={e => {
                   setActeur({
                     ...acteur,
                     siren: e.target.value
                   })
-                  setIsSirenValid(/^\d{9}$/.test(e.target.value))
                 }}
               />
             </div>
