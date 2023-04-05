@@ -48,7 +48,9 @@ TextInput.propTypes = {
   description: PropTypes.string,
   isRequired: PropTypes.bool,
   isDisabled: PropTypes.bool,
-  onValueChange: PropTypes.func
+  onValueChange: PropTypes.func,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func
 }
 
 TextInput.defaultProps = {
@@ -60,7 +62,9 @@ TextInput.defaultProps = {
   errorMessage: null,
   description: null,
   isRequired: false,
-  isDisabled: false
+  isDisabled: false,
+  onFocus: null,
+  onBlur: null
 }
 
 export default TextInput
