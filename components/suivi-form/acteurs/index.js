@@ -249,12 +249,12 @@ const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) =>
   }, [updatingActorIndex])
 
   useEffect(() => {
-    if (nom && role && !hasInvalidInput && (!phone || isPhoneNumberValid)) {
+    if (nom && role && siren && !hasInvalidInput && (!phone || isPhoneNumberValid)) {
       setIsFormComplete(true)
     } else {
       setIsFormComplete(false)
     }
-  }, [nom, role, hasInvalidInput, phone, isPhoneNumberValid])
+  }, [nom, role, siren, hasInvalidInput, phone, isPhoneNumberValid])
 
   useEffect(() => {
     if (phone) {
