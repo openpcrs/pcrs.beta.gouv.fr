@@ -3,6 +3,7 @@ import {useEffect, useRef} from 'react'
 import PropTypes from 'prop-types'
 import maplibreGl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
+import Link from 'next/link'
 import departementFillLayer from './layers/departement-fill.json'
 import departementLayer from './layers/departement-layer.json'
 
@@ -131,6 +132,20 @@ const Map = ({handleClick, isMobile, geometry}) => {
     <div style={{position: 'relative', height: '100%', width: '100%'}}>
       <div ref={mapNode} style={{width: '100%', height: '100%'}} />
       <Legend isMobile={isMobile === true} />
+      {localStorage.getItem('Token') && (
+        <Link href='/formulaire-suivi'>
+          <button
+            type='button'
+            label='+'
+            className='fr-btn fr-icon-add-circle-fill'
+            style={{
+              position: 'fixed',
+              right: 10,
+              bottom: `${isMobile ? '110px' : '45px'}`
+            }}
+          />
+        </Link>
+      )}
     </div>
   )
 }
