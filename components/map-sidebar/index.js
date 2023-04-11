@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import {find, maxBy, filter} from 'lodash'
+import {find, maxBy} from 'lodash'
 
 import {formatDate} from '@/lib/date-utils.js'
 import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors.js'
