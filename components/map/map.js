@@ -136,14 +136,15 @@ const Map = ({handleClick, isMobile, geometry}) => {
         <Link href='/formulaire-suivi'>
           <button
             type='button'
-            label='+'
-            className='fr-btn fr-icon-add-circle-fill'
+            className='fr-btn fr-btn--icon-left fr-icon-add-circle-fill'
             style={{
               position: 'fixed',
               right: 10,
               bottom: `${isMobile ? '110px' : '45px'}`
             }}
-          />
+          >
+            Ajouter un projet
+          </button>
         </Link>
       )}
     </div>
