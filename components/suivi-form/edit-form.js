@@ -43,7 +43,10 @@ const EditForm = ({project}) => {
     setIsLoading(false)
   }, [])
 
-  const handleModal = () => setIsAuthentificationModalOpen(!isAuthentificationModalOpen)
+  const handleModalClose = () => {
+    setIsAuthentificationModalOpen(!isAuthentificationModalOpen)
+    router.push('/suivi-pcrs')
+  }
 
   const handleSubmit = async event => {
     event.preventDefault()
@@ -120,7 +123,7 @@ const EditForm = ({project}) => {
         <h2 className='fr-mt-5w fr-mb-0'>Formulaire de suivi PCRS</h2>
       </div>
       <div className='fr-p-5w'>
-        {!isLoading && !token && <AuthentificationModal handleToken={setToken} handleModal={handleModal} />}
+        {!isLoading && !token && <AuthentificationModal handleToken={setToken} handleModal={handleModalClose} />}
 
         <p className='required-disclaimer'>Les champs indiqués par une * sont obligatoires</p>
 
