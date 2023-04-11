@@ -1,4 +1,5 @@
 import createError from 'http-errors'
+import {maxBy} from 'lodash-es'
 import {validateCreation, validateChanges} from '../lib/projets-validator.js'
 import {buildGeometryFromTerritoires, getTerritoiresProperties} from '../lib/territoires.js'
 import mongo from './util/mongo.js'
@@ -73,18 +74,25 @@ export async function updateProjet(id, payload) {
 export async function getProjetsGeojson() {
   const projets = await mongo.db.collection('projets').find().toArray()
 
-  const projetsFeatures = await Promise.all(projets.map(async projet => ({
-    type: 'Feature',
-    geometry: await buildGeometryFromTerritoires(projet.perimetres),
-    properties: {
-      _id: projet._id,
-      nom: projet.nom,
-      statut: projet.etapes[projet.etapes.length - 1].statut,
-      dateStatut: projet.etapes[projet.etapes.length - 1].date_debut,
-      aplc: projet.acteurs.find(acteur => acteur.role === 'aplc')?.nom || null,
-      nature: projet.nature
+  const projetsFeatures = await Promise.all(projets.map(async projet => {
+    const now = new Date()
+    const filteredEtapes = projet.etapes.filter(etape => new Date(etape.date_debut) <= now)
+    const closestPostStep = maxBy(filteredEtapes, etape => new Date(etape.date_debut))
+
+    return {
+      type: 'Feature',
+      geometry: await buildGeometryFromTerritoires(projet.perimetres),
+      properties: {
+        _id: projet._id,
+        nom: projet.nom,
+        statut: closestPostStep.statut,
+        dateStatut: closestPostStep.date_debut,
+        aplc: projet.acteurs.find(acteur => acteur.role === 'aplc')?.nom || null,
+        nature: projet.nature
+      }
     }
-  })))
+  }))
 
   return projetsFeatures
 }
+
