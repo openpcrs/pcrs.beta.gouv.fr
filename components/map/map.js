@@ -1,12 +1,13 @@
 import {createRoot} from 'react-dom/client' // eslint-disable-line n/file-extension-in-import
 import {useEffect, useRef} from 'react'
 import PropTypes from 'prop-types'
+import Link from 'next/link'
+
 import maplibreGl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
-import Link from 'next/link'
+
 import departementFillLayer from './layers/departement-fill.json'
 import departementLayer from './layers/departement-layer.json'
-
 import vector from './styles/vector.json'
 
 import Popup from '@/components/map/popup.js'
