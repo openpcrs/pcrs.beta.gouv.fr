@@ -193,23 +193,39 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres, onRequiredFor
         <div className='fr-error-text fr-mt-1w'>Au moins un périmètre doit être ajouté</div>
       )}
 
-      <div className='fr-mt-3w'>
-        <Button
-          label='Ajouter un périmètre'
-          icon='add-circle-fill'
-          iconSide='left'
-          isDisabled={isFormOpen || isUpdating}
-          onClick={() => {
-            onRequiredFormOpen(true)
-            setIsFormOpen(true)
-          }}
-        >
-          Ajouter un périmètre
-        </Button>
-      </div>
       {(perimetres.length > 1 || isFormOpen) && <div className='separator fr-my-3w' />}
 
-      {(isFormOpen || isUpdating) && (
+      <div className='fr-grid-row fr-mt-2w'>
+        {perimetres.map((perimetre, idx) => (
+          <Perimetre
+            key={perimetre}
+            perimetre={perimetre}
+            perimetreAsObject={perimetreAsObject(perimetre)}
+            handleUpdate={() => setUpdatingPerimetreIndex(idx)}
+            handleDelete={() => onDelete(idx)}
+            onReset={onReset}
+          />
+        )
+        )}
+      </div>
+
+      {!isFormOpen && (
+        <div className='fr-mt-3w'>
+          <Button
+            label='Ajouter un périmètre'
+            icon='add-circle-fill'
+            iconSide='left'
+            onClick={() => {
+              onRequiredFormOpen(true)
+              setIsFormOpen(true)
+            }}
+          >
+            Ajouter un périmètre
+          </Button>
+        </div>
+      )}
+
+      {isFormOpen && (
         <div>
           <div className='fr-grid-row fr-my-5w'>
             <div className='fr-col-12 fr-col-md-6 fr-mb-3w'>
@@ -266,20 +282,6 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres, onRequiredFor
           {errorMessage && <p id='text-input-error-desc-error' className='fr-error-text'>{errorMessage}</p>}
         </div>
       )}
-
-      <div className='fr-grid-row fr-mt-2w'>
-        {perimetres.map((perimetre, idx) => (
-          <Perimetre
-            key={perimetre}
-            perimetre={perimetre}
-            perimetreAsObject={perimetreAsObject(perimetre)}
-            handleUpdate={() => setUpdatingPerimetreIndex(idx)}
-            handleDelete={() => onDelete(idx)}
-            onReset={onReset}
-          />
-        )
-        )}
-      </div>
 
       <style jsx>{`
         .separator {

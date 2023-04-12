@@ -273,23 +273,36 @@ const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) =>
         <div className='fr-error-text fr-mt-1w'>Au moins un acteur doit être ajouté</div>
       )}
 
-      <div className='fr-mt-3w'>
-        <Button
-          label='Ajouter un acteur'
-          icon='add-circle-fill'
-          iconSide='left'
-          isDisabled={isFormOpen || isUpdating}
-          onClick={() => {
-            setIsFormOpen(true)
-            onRequiredFormOpen(true)
-          }}
-        >
-          Ajouter un acteur
-        </Button>
-      </div>
       {(acteurs.length > 1 || isFormOpen) && <div className='separator fr-my-3w' />}
 
-      {(isFormOpen || isUpdating) && (
+      {sortActorsByAplc.map((actor, idx) => (
+        <ActeurCard
+          key={actor.siren}
+          handleActors={handleActors}
+          roles={rolesList}
+          handleEdition={() => setUpdatingActorIndex(idx)}
+          handleDelete={() => onDelete(actor.siren)}
+          {...actor}
+        />
+      ))}
+
+      {!isFormOpen && (
+        <div className='fr-mt-3w'>
+          <Button
+            label='Ajouter un acteur'
+            icon='add-circle-fill'
+            iconSide='left'
+            onClick={() => {
+              setIsFormOpen(true)
+              onRequiredFormOpen(true)
+            }}
+          >
+            Ajouter un acteur
+          </Button>
+        </div>
+      )}
+
+      {isFormOpen && (
         <div className='fr-mt-4w'>
           <div className='fr-grid-row '>
             <div className='fr-col-12 fr-col-md-6'>
@@ -435,17 +448,6 @@ const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) =>
           {errorMessage && <p id='text-input-error-desc-error' className='fr-error-text'>{errorMessage}</p>}
         </div>
       )}
-
-      {sortActorsByAplc.map((actor, idx) => (
-        <ActeurCard
-          key={actor.siren}
-          handleActors={handleActors}
-          roles={rolesList}
-          handleEdition={() => setUpdatingActorIndex(idx)}
-          handleDelete={() => onDelete(actor.siren)}
-          {...actor}
-        />
-      ))}
 
       <style jsx>{`
         .separator {

@@ -2,6 +2,8 @@ import {useState, useCallback, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {uniqueId, find} from 'lodash-es'
 
+import colors from '@/styles/colors.js'
+
 import LivrableCard from '@/components/suivi-form/livrables/livrable-card.js'
 import SelectInput from '@/components/select-input.js'
 import TextInput from '@/components/text-input.js'
@@ -183,23 +185,44 @@ const Livrables = ({livrables, hasMissingData, handleLivrables, onRequiredFormOp
         <div className='fr-error-text fr-mt-1w'>Au moins un livrable doit être ajouté</div>
       )}
 
-      <div className='fr-mt-3w'>
-        <Button
-          label='Ajouter un livrable'
-          icon='add-circle-fill'
-          iconSide='left'
-          isDisabled={isFormOpen}
-          onClick={() => {
-            onRequiredFormOpen(true)
-            setIsFormOpen(true)
-          }}
-        >
-          Ajouter un livrable
-        </Button>
-      </div>
       {(livrables.length > 1 || isFormOpen) && <div className='separator fr-my-3w' />}
 
-      {(isFormOpen || isUpdating) && (
+      {livrables.map((livrable, idx) => {
+        const {nom, nature, licence, crs, avancement, diffusion} = livrable
+
+        return (
+          <LivrableCard
+            key={uniqueId()}
+            index={idx}
+            nom={nom}
+            nature={find(NATURES, n => n.value === nature).label}
+            licence={find(LICENCES, l => l.value === licence).label}
+            diffusion={find(DIFFUSIONS, d => d.value === diffusion)?.label}
+            crs={crs}
+            avancement={avancement}
+            handleEdition={() => setUpdatingLivrableIndex(idx)}
+            handleDelete={() => onDelete(idx)}
+          />
+        )
+      })}
+
+      {!isFormOpen && (
+        <div className='fr-mt-3w'>
+          <Button
+            label='Ajouter un livrable'
+            icon='add-circle-fill'
+            iconSide='left'
+            onClick={() => {
+              onRequiredFormOpen(true)
+              setIsFormOpen(true)
+            }}
+          >
+            Ajouter un livrable
+          </Button>
+        </div>
+      )}
+
+      {isFormOpen && (
         <div className='fr-mt-4w'>
           <div className='fr-grid-row'>
             {/* Nom du livrable */}
@@ -357,24 +380,11 @@ const Livrables = ({livrables, hasMissingData, handleLivrables, onRequiredFormOp
         </div>
       )}
 
-      {livrables.map((livrable, idx) => {
-        const {nom, nature, licence, crs, avancement, diffusion} = livrable
-
-        return (
-          <LivrableCard
-            key={uniqueId()}
-            index={idx}
-            nom={nom}
-            nature={find(NATURES, n => n.value === nature).label}
-            licence={find(LICENCES, l => l.value === licence).label}
-            diffusion={find(DIFFUSIONS, d => d.value === diffusion)?.label}
-            crs={crs}
-            avancement={avancement}
-            handleEdition={() => setUpdatingLivrableIndex(idx)}
-            handleDelete={() => onDelete(idx)}
-          />
-        )
-      })}
+      <style jsx>{`
+        .separator {
+          border-top: 3px solid ${colors.grey850};
+        }
+      `}</style>
     </div>
   )
 }

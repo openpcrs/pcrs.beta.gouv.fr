@@ -132,19 +132,32 @@ const Subventions = ({subventions, handleSubventions}) => {
   return (
     <div className='fr-mt-8w'>
       <h3 className='fr-h5'>Subventions</h3>
-      <Button
-        label='Ajouter une subvention'
-        icon='add-circle-fill'
-        iconSide='left'
-        isDisabled={isFormOpen}
-        onClick={() => setIsFormOpen(true)}
-      >
-        Ajouter une subvention
-      </Button>
 
       {(subventions.length > 1 || isFormOpen) && <div className='separator fr-my-3w' />}
 
-      {(isFormOpen || isUpdating) && (
+      {subventions.map((subvention, idx) => (
+        <SubventionCard
+          key={uniqueId()}
+          natures={NATURES}
+          handleSubventions={handleSubventions}
+          handleEdition={() => setUpdatingSubvIndex(idx)}
+          handleDelete={() => onDelete(idx)}
+          {...subvention}
+        />
+      ))}
+
+      {!isFormOpen && (
+        <Button
+          label='Ajouter une subvention'
+          icon='add-circle-fill'
+          iconSide='left'
+          onClick={() => setIsFormOpen(true)}
+        >
+          Ajouter une subvention
+        </Button>
+      )}
+
+      {isFormOpen && (
         <div>
           <div className='fr-grid-row fr-my-5w'>
             <div className='fr-grid-row fr-col-12'>
@@ -239,17 +252,6 @@ const Subventions = ({subventions, handleSubventions}) => {
           {errorMessage && <p id='text-input-error-desc-error' className='fr-error-text'>{errorMessage}</p>}
         </div>
       )}
-
-      {subventions.map((subvention, idx) => (
-        <SubventionCard
-          key={uniqueId()}
-          natures={NATURES}
-          handleSubventions={handleSubventions}
-          handleEdition={() => setUpdatingSubvIndex(idx)}
-          handleDelete={() => onDelete(idx)}
-          {...subvention}
-        />
-      ))}
 
       <style jsx>{`
         .separator {
