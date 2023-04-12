@@ -6,7 +6,7 @@ import DeviceContext from '@/contexts/device.js'
 import Map from '@/components/map/index.js'
 import MapSidebar from '@/components/map-sidebar/index.js'
 
-export const Mobile = ({handleClick, handleTitleClick, projet, isOpen, setIsOpen, geometry}) => {
+export const Mobile = ({handleClick, handleTitleClick, projet, isOpen, setIsOpen, geometry, projets, onProjetChange}) => {
   const {viewHeight} = useContext(DeviceContext)
 
   return (
@@ -81,8 +81,13 @@ export const Mobile = ({handleClick, handleTitleClick, projet, isOpen, setIsOpen
             )
           )}
         </div>
-        {isOpen && (
-          <MapSidebar projet={projet} onClose={() => setIsOpen(false)} />
+        {isOpen && projet && (
+          <MapSidebar
+            projet={projet}
+            projets={projets}
+            onProjetChange={onProjetChange}
+            onClose={() => setIsOpen(false)}
+          />
         )}
       </div>
     </div>
@@ -92,7 +97,9 @@ export const Mobile = ({handleClick, handleTitleClick, projet, isOpen, setIsOpen
 Mobile.defaultProps = {
   handleTitleClick: null,
   projet: null,
-  isOpen: false
+  isOpen: false,
+  projets: null,
+  onProjetChange: null
 }
 
 Mobile.propTypes = {
@@ -101,10 +108,12 @@ Mobile.propTypes = {
   handleTitleClick: PropTypes.func,
   projet: PropTypes.object,
   isOpen: PropTypes.bool,
-  geometry: PropTypes.object
+  geometry: PropTypes.object,
+  projets: PropTypes.array,
+  onProjetChange: PropTypes.func
 }
 
-export const Desktop = ({handleClick, projet, isOpen, setIsOpen, geometry}) => (
+export const Desktop = ({handleClick, projet, isOpen, setIsOpen, geometry, onProjetChange, projets}) => (
   <div
     style={{
       display: 'flex',
@@ -124,7 +133,11 @@ export const Desktop = ({handleClick, projet, isOpen, setIsOpen, geometry}) => (
           }}
         >
           {isOpen && (
-            <MapSidebar projet={projet} onClose={() => setIsOpen(false)} />
+            <MapSidebar
+              projet={projet}
+              projets={projets}
+              onProjetChange={onProjetChange}
+              onClose={() => setIsOpen(false)} />
           )}
         </div>
         <button
@@ -160,7 +173,9 @@ export const Desktop = ({handleClick, projet, isOpen, setIsOpen, geometry}) => (
 
 Desktop.defaultProps = {
   projet: null,
-  isOpen: false
+  isOpen: false,
+  projets: null,
+  onProjetChange: null
 }
 
 Desktop.propTypes = {
@@ -168,6 +183,8 @@ Desktop.propTypes = {
   setIsOpen: PropTypes.func,
   projet: PropTypes.object,
   isOpen: PropTypes.bool,
-  geometry: PropTypes.object
+  geometry: PropTypes.object,
+  projets: PropTypes.array,
+  onProjetChange: PropTypes.func
 }
 

@@ -11,7 +11,7 @@ import PcrsInfos from '@/components/map-sidebar/pcrs-infos.js'
 import Documents from '@/components/map-sidebar/documents.js'
 import Contact from '@/components/map-sidebar/contact.js'
 
-const MapSidebar = ({projet, onClose}) => {
+const MapSidebar = ({projet, onClose, onProjetChange, projets}) => {
   const {status} = PCRS_DATA_COLORS
   const {nom, territoires, _id, etapes, source, documentation, contrat, acteurs} = projet
 
@@ -22,7 +22,14 @@ const MapSidebar = ({projet, onClose}) => {
 
   return (
     <>
-      <Header projectId={_id} projectName={nom} territoires={territoires} onSidebarClose={onClose} />
+      <Header
+        projets={projets}
+        projectId={_id}
+        projectName={nom}
+        territoires={territoires}
+        onSidebarClose={onClose}
+        onProjetChange={onProjetChange}
+      />
       <div className='infos-container'>
         <h2 className='fr-text--lead fr-mb-1w'>État d’avancement</h2>
         <div className='actual-status fr-mb-3w'>
@@ -81,9 +88,16 @@ const MapSidebar = ({projet, onClose}) => {
   )
 }
 
+MapSidebar.defaultProps = {
+  projets: null,
+  onProjetChange: null
+}
+
 MapSidebar.propTypes = {
   projet: PropTypes.object.isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
+  projets: PropTypes.array,
+  onProjetChange: PropTypes.func
 }
 
 export default MapSidebar
