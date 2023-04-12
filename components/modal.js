@@ -31,7 +31,7 @@ const Modal = ({children, title, onClose}) => (
 
     <style jsx>{`
       .modal-wrapper {
-        z-index: 3;
+        z-index: 2;
         position: fixed;
         top: 0;
         bottom: 0;

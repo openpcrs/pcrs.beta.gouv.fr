@@ -1,15 +1,9 @@
-import {useState, useContext} from 'react'
+import PropTypes from 'prop-types'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import DeviceContext from '@/contexts/device.js'
-
-const Header = () => {
-  const {isMobileDevice} = useContext(DeviceContext)
-
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-
-  const handleMenuOpen = () => setIsMobileMenuOpen(!isMobileMenuOpen)
+const Header = ({isMobileDevice, handleMobileMenu, isMobileMenuOpen}) => {
+  const handleMenuOpen = () => handleMobileMenu(!isMobileMenuOpen)
 
   return (
     <header role='banner' className='header fr-header'>
@@ -126,25 +120,32 @@ const Header = () => {
 
         .header-redirect {
           cursor: pointer;
+          z-index: 1;
         }
 
-      a {
-        width: 100%;
-      }
+        a {
+          width: 100%;
+        }
 
-      .custom-mobile-menu {
-        z-index: 999;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: white;
-        padding: 1.5em;
-      }
-    `}</style>
+        .custom-mobile-menu {
+          z-index: 3;
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: white;
+          padding: 1.5em;
+        }
+      `}</style>
     </header>
   )
+}
+
+Header.propTypes = {
+  isMobileDevice: PropTypes.bool.isRequired,
+  isMobileMenuOpen: PropTypes.bool.isRequired,
+  handleMobileMenu: PropTypes.func.isRequired
 }
 
 export default Header
