@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react'
 import Image from 'next/image'
+import {useRouter} from 'next/router'
 
 import {postSuivi} from '@/lib/suivi-pcrs.js'
 
@@ -15,11 +16,13 @@ import Button from '@/components/button.js'
 import AuthentificationModal from '@/components/suivi-form/authentification-modal.js'
 
 const FormulaireSuivi = () => {
+  const router = useRouter()
   const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
   const [hasMissingDataOnValidation, setHasMissingDataOnValidation] = useState(false)
   const [validationMessage, setValidationMessage] = useState(null)
-  const [errorOnValidationMessage, setErrorOnValidationMessage] = useState(null)
+  const [errorOnValidationMessages, setErrorOnValidationMessages] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [isRequiredFormOpen, setIsRequiredFormOpen] = useState(false)
 
   const [generalInfos, setGeneralInfos] = useState({
     nom: '',
@@ -44,16 +47,33 @@ const FormulaireSuivi = () => {
     event.preventDefault()
 
     const hasMissingData = livrables.length === 0 || acteurs.length === 0 || perimetres.length === 0
+
+    const handleScrollToError = () => {
+      const firstErrorSection = livrables.length === 0 ? 'livrables' : (acteurs.length === 0 ? 'acteurs' : 'perimetres')
+      const input = document.querySelector(`#${firstErrorSection}`)
+
+      input.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'start'
+      })
+    }
+
     const {nom, nature, regime} = generalInfos
 
     setValidationMessage(null)
-    setErrorOnValidationMessage(null)
+    setErrorOnValidationMessages(null)
     setHasMissingDataOnValidation(false)
 
     try {
+      if (isRequiredFormOpen) {
+        return setErrorOnValidationMessages([{message: 'Veuiller valider ou annuler le livrable, l’acteur ou le périmètre en cours d’ajout.'}])
+      }
+
       if (hasMissingData) {
         setHasMissingDataOnValidation(true)
-        setErrorOnValidationMessage(['Veuillez ajouter les données manquantes'])
+        handleScrollToError()
+        setErrorOnValidationMessages([{message: 'Des données nécessaires à la validation du formulaires sont manquantes. Au moins un livrable, un acteur et un périmètre doivent être ajoutés.'}])
       } else {
         const suivi = {
           nom,
@@ -73,15 +93,24 @@ const FormulaireSuivi = () => {
             sendSuivi.message = 'Le projet n’a pas pu être pris en compte car il y a des erreurs'
           }
 
-          setErrorOnValidationMessage(sendSuivi)
+          setErrorOnValidationMessages(sendSuivi)
         } else {
-          setValidationMessage('Le suivi a correctement été envoyé !')
+          setValidationMessage('Le projet a bien été créé, vous allez maintenant être redirigé vers la carte de suivi')
+          setTimeout(() => {
+            router.push('/suivi-pcrs')
+          }, 2000)
         }
       }
-    } catch (error) {
-      console.log(error)
+    } catch {
+      throw new Error('Une erreur a été rencontrée')
     }
   }
+
+  useEffect(() => {
+    if (!isRequiredFormOpen) {
+      setErrorOnValidationMessages(null)
+    }
+  }, [isRequiredFormOpen])
 
   return (
     <Page>
@@ -106,25 +135,38 @@ const FormulaireSuivi = () => {
             handleValues={setGeneralInfos}
           />
 
-          <Livrables
-            livrables={livrables}
-            handleLivrables={setLivrables}
-            hasMissingData={hasMissingDataOnValidation}
-          />
+          <div id='livrables'>
+            <Livrables
+              livrables={livrables}
+              handleLivrables={setLivrables}
+              hasMissingData={hasMissingDataOnValidation}
+              onRequiredFormOpen={setIsRequiredFormOpen}
+            />
+          </div>
 
-          <Acteurs
-            acteurs={acteurs}
-            handleActors={setActeurs}
-            hasMissingData={hasMissingDataOnValidation}
-          />
+          <div id='acteurs'>
+            <Acteurs
+              acteurs={acteurs}
+              handleActors={setActeurs}
+              hasMissingData={hasMissingDataOnValidation}
+              onRequiredFormOpen={setIsRequiredFormOpen}
+            />
+          </div>
 
-          <Perimetres
-            perimetres={perimetres}
-            handlePerimetres={setPerimetres}
-            hasMissingData={hasMissingDataOnValidation}
-          />
+          <div className='perimetres'>
+            <Perimetres
+              perimetres={perimetres}
+              handlePerimetres={setPerimetres}
+              hasMissingData={hasMissingDataOnValidation}
+              onRequiredFormOpen={setIsRequiredFormOpen}
+            />
 
-          <Etapes etapes={etapes} handleEtapes={setEtapes} />
+          </div>
+          <Etapes
+            etapes={etapes}
+            handleEtapes={setEtapes}
+            initialValue={etapes[etapes.length - 1]}
+          />
 
           <Subventions subventions={subventions} handleSubventions={setSubventions} />
 
@@ -147,10 +189,12 @@ const FormulaireSuivi = () => {
               </p>
             )}
 
-            {errorOnValidationMessage && !hasMissingDataOnValidation && (
-              <p key={errorOnValidationMessage.message} className='fr-grid-row--center fr-error-text fr-col-12 fr-mt-2w fr-mb-0'>
-                {errorOnValidationMessage.message}
-              </p>
+            {errorOnValidationMessages && (
+              errorOnValidationMessages.map(error => (
+                <p key={error.message} className='fr-grid-row--center fr-error-text fr-col-12 fr-mt-2w fr-mb-0'>
+                  {error.message}
+                </p>
+              ))
             )}
           </div>
         </form>

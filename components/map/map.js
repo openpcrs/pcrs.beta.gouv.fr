@@ -12,7 +12,7 @@ import Popup from '@/components/map/popup.js'
 import Loader from '@/components/loader.js'
 import Legend from '@/components/map/legend.js'
 
-const Map = ({handleClick, isMobile}) => {
+const Map = ({handleClick, isMobile, geometry}) => {
   const mapNode = useRef(null)
 
   const popupRef = useRef(new maplibreGl.Popup({
@@ -113,8 +113,8 @@ const Map = ({handleClick, isMobile}) => {
     maplibreMap.on('load', () => {
       maplibreMap.addSource('projetsData', {
         type: 'geojson',
-        data: '/projets.geojson',
-        generateId: true
+        data: geometry,
+        promoteId: '_id'
       })
 
       maplibreMap.addLayer(departementFillLayer)
@@ -137,7 +137,8 @@ const Map = ({handleClick, isMobile}) => {
 
 Map.propTypes = {
   handleClick: PropTypes.func,
-  isMobile: PropTypes.bool
+  isMobile: PropTypes.bool,
+  geometry: PropTypes.object
 }
 
 export default Map

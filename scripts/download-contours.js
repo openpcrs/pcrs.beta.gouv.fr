@@ -1,34 +1,58 @@
 #!/usr/bin/env node
-import {downloadTo} from '../lib/download.js'
+/* eslint import/no-unassigned-import: off */
+import 'dotenv/config.js'
 
-console.log('  * Téléchargement de communes.geojson.gz')
+import process from 'node:process'
+import {promisify} from 'node:util'
+import {mkdir, writeFile} from 'node:fs/promises'
+import zlib from 'node:zlib'
+import Keyv from 'keyv'
+import got from 'got'
 
-await downloadTo(
-  'http://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2022/geojson/communes-50m.geojson.gz',
-  '../sources/communes.geojson.gz',
-  import.meta.url
-)
+const gunzip = promisify(zlib.gunzip)
 
-console.log('  * Téléchargement de epci.geojson.gz')
+const MILLESIME = '2022'
+const RESOLUTION = '100m'
 
-await downloadTo(
-  'http://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2022/geojson/epci-50m.geojson.gz',
-  '../sources/epci.geojson.gz',
-  import.meta.url
-)
+await mkdir('./.db')
 
-console.log('  * Téléchargement de departements.geojson.gz')
+if (process.env.DOWNLOAD_CONTOURS_FROM) {
+  console.log(' * Téléchargement des contours à partir de l’adresse indiquée')
 
-await downloadTo(
-  'http://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2022/geojson/departements-50m.geojson.gz',
-  '../sources/departements.geojson.gz',
-  import.meta.url
-)
+  const buffer = await got(process.env.DOWNLOAD_CONTOURS_FROM).buffer()
+  await writeFile('./.db/contours.sqlite', buffer)
 
-console.log('  * Téléchargement de regions.geojson.gz')
+  console.log(' * Terminé !')
+  process.exit(0)
+}
 
-await downloadTo(
-  'http://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2022/geojson/regions-50m.geojson.gz',
-  '../sources/regions.geojson.gz',
-  import.meta.url
-)
+const keyv = new Keyv('sqlite://.db/contours.sqlite')
+
+await keyv.clear()
+
+async function storeLayer(layerName, getKey) {
+  // Downloading dataset
+  const url = `http://etalab-datasets.geo.data.gouv.fr/contours-administratifs/${MILLESIME}/geojson/${layerName}-${RESOLUTION}.geojson.gz`
+  const buffer = await got(url).buffer()
+
+  // Extracting features
+  const {features} = JSON.parse(await gunzip(buffer))
+
+  // Storing features in key/value database
+  await Promise.all(features.map(async feature => {
+    const key = getKey(feature)
+    await keyv.set(key, feature)
+  }))
+}
+
+console.log('  * Téléchargement des contours des communes')
+await storeLayer('communes', f => `commune:${f.properties.code}`)
+
+console.log('  * Téléchargement des contours des EPCI')
+await storeLayer('epci', f => `epci:${f.properties.code}`)
+
+console.log('  * Téléchargement des contours des départements')
+await storeLayer('departements', f => `departement:${f.properties.code}`)
+
+console.log('  * Téléchargement des contours des régions')
+await storeLayer('regions', f => `region:${f.properties.code}`)

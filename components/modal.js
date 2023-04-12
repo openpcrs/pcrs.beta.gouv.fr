@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types'
 
+import colors from '@/styles/colors.js'
+
 const Modal = ({children, title, onClose}) => (
   <div className='modal-wrapper fr-grid-row fr-grid-row--center fr-grid-row--middle' onClick={onClose}>
     <div className='fr-container fr-container--fluid fr-container-md'>
@@ -32,6 +34,7 @@ const Modal = ({children, title, onClose}) => (
     <style jsx>{`
       .modal-wrapper {
         z-index: 2;
+        color: ${colors.darkgrey};
         position: fixed;
         top: 0;
         bottom: 0;

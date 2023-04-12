@@ -105,7 +105,7 @@ const Footer = () => {
         </div>
       </footer>
 
-      {isAuthentificationModalOpen && <AuthentificationModal handleModal={handleModal} />}
+      {isAuthentificationModalOpen && <AuthentificationModal isNewForm handleModal={handleModal} />}
     </>
   )
 }
