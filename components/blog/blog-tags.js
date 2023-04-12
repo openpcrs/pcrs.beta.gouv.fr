@@ -61,6 +61,7 @@ const BlogTags = ({selectedTags, tagsList}) => {
           flex-direction: column;
           justify-content: flex-start;
           gap: 1em;
+          z-index: 0;
         }
 
         .tags-list {

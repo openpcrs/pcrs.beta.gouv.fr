@@ -1,10 +1,9 @@
-import {useState} from 'react'
+import PropTypes from 'prop-types'
 import Image from 'next/image'
 import Link from 'next/link'
 
-const Header = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const handleMenuOpen = () => setIsMobileMenuOpen(!isMobileMenuOpen)
+const Header = ({isMobileDevice, handleMobileMenu, isMobileMenuOpen}) => {
+  const handleMenuOpen = () => handleMobileMenu(!isMobileMenuOpen)
 
   return (
     <header role='banner' className='header fr-header'>
@@ -72,7 +71,7 @@ const Header = () => {
         </div>
       </div>
 
-      {isMobileMenuOpen && (
+      {isMobileMenuOpen && isMobileDevice && (
         <div className='custom-mobile-menu'>
           <button
             type='button'
@@ -86,14 +85,14 @@ const Header = () => {
             <ul className='fr-btns-group'>
               <li>
                 <Link legacyBehavior href='/suivi-pcrs'>
-                  <a className='fr-btn fr-icon-road-map-line'>
+                  <a className='fr-btn fr-icon-road-map-line fr-p-2w'>
                     Suivi géographique
                   </a>
                 </Link>
               </li>
               <li>
                 <Link legacyBehavior href='/blog'>
-                  <a className='fr-btn fr-icon-article-line'>
+                  <a className='fr-btn fr-icon-article-line fr-p-2w'>
                     Blog du PCRS
                   </a>
                 </Link>
@@ -101,7 +100,7 @@ const Header = () => {
               <li>
                 <a
                   href='https://docs.pcrs.beta.gouv.fr/'
-                  className='fr-btn fr-icon-book-2-line'
+                  className='fr-btn fr-icon-book-2-line fr-p-2w'
                   target='_blank'
                   rel='noreferrer'
                 >
@@ -116,30 +115,37 @@ const Header = () => {
 
       <style jsx>{`
         .header {
-          z-index: 2
+          z-index: 1;
         }
 
         .header-redirect {
           cursor: pointer;
+          z-index: 1;
         }
 
-      a {
-        width: 100%;
-      }
+        a {
+          width: 100%;
+        }
 
-      .custom-mobile-menu {
-        z-index: 3;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: white;
-        padding: 1.5em;
-      }
-    `}</style>
+        .custom-mobile-menu {
+          z-index: 3;
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: white;
+          padding: 1.5em;
+        }
+      `}</style>
     </header>
   )
+}
+
+Header.propTypes = {
+  isMobileDevice: PropTypes.bool.isRequired,
+  isMobileMenuOpen: PropTypes.bool.isRequired,
+  handleMobileMenu: PropTypes.func.isRequired
 }
 
 export default Header
