@@ -1,7 +1,7 @@
 import createError from 'http-errors'
-import {maxBy} from 'lodash-es'
 import {validateCreation, validateChanges} from '../lib/projets-validator.js'
 import {buildGeometryFromTerritoires, getTerritoiresProperties} from '../lib/territoires.js'
+import {findClosestEtape} from '../lib/suivi-pcrs.js'
 import mongo from './util/mongo.js'
 
 export function expandProjet(projet) {
@@ -75,9 +75,7 @@ export async function getProjetsGeojson() {
   const projets = await mongo.db.collection('projets').find().toArray()
 
   const projetsFeatures = await Promise.all(projets.map(async projet => {
-    const now = new Date()
-    const filteredEtapes = projet.etapes.filter(etape => new Date(etape.date_debut) <= now)
-    const closestPostStep = maxBy(filteredEtapes, etape => new Date(etape.date_debut))
+    const closestPostStep = findClosestEtape(projet.etapes)
 
     return {
       type: 'Feature',

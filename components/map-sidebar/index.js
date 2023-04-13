@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types'
-import {find, maxBy} from 'lodash'
+import {find} from 'lodash'
 
 import {formatDate} from '@/lib/date-utils.js'
+import {findClosestEtape} from '@/lib/suivi-pcrs.js'
 import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors.js'
 
 import Header from '@/components/map-sidebar/project-header.js'
@@ -20,10 +21,7 @@ const MapSidebar = ({projet, onClose}) => {
   const projectStartDate = formatDate(find(projet.etapes, {statut: 'investigation'}).date_debut)
   const isObsolete = statut === 'obsolete'
 
-  const now = new Date()
-
-  const filteredLaterSteps = etapes.filter(etape => new Date(etape.date_debut) <= now)
-  const closestPostStep = maxBy(filteredLaterSteps, etape => new Date(etape.date_debut))
+  const closestPostStep = findClosestEtape(etapes)
 
   return (
     <>
