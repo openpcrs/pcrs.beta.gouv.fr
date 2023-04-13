@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import {find} from 'lodash'
+import {find, maxBy} from 'lodash'
 
 import {formatDate} from '@/lib/date-utils.js'
 import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors.js'
@@ -20,6 +20,11 @@ const MapSidebar = ({projet, onClose}) => {
   const projectStartDate = formatDate(find(projet.etapes, {statut: 'investigation'}).date_debut)
   const isObsolete = statut === 'obsolete'
 
+  const now = new Date()
+
+  const filteredLaterSteps = etapes.filter(etape => new Date(etape.date_debut) <= now)
+  const closestPostStep = maxBy(filteredLaterSteps, etape => new Date(etape.date_debut))
+
   return (
     <>
       <Header projectId={_id} projectName={nom} territoires={territoires} onSidebarClose={onClose} />
@@ -27,10 +32,10 @@ const MapSidebar = ({projet, onClose}) => {
         <h2 className='fr-text--lead fr-mb-1w'>État d’avancement</h2>
         <div className='actual-status fr-mb-3w'>
           <Badge
-            background={status[statut]}
-            textColor={statut === 'livre' || statut === 'obsolete' ? 'white' : 'black'}
+            background={status[closestPostStep.statut]}
+            textColor={closestPostStep.statut === 'livre' || closestPostStep.statut === 'obsolete' ? 'white' : 'black'}
           >
-            {statut === 'livre' ? 'livré' : statut}
+            {closestPostStep.statut === 'livre' ? 'livré' : closestPostStep.statut}
           </Badge>
 
           {projectStartDate && (
@@ -40,7 +45,7 @@ const MapSidebar = ({projet, onClose}) => {
         {!isObsolete && (
           <Timeline
             stepsColors={status}
-            currentStatus={statut}
+            currentStatus={closestPostStep.statut}
             steps={etapes}
           />
         )}
