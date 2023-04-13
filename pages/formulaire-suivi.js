@@ -6,10 +6,11 @@ import colors from '@/styles/colors.js'
 import {getProject} from '@/lib/suivi-pcrs.js'
 
 import Page from '@/layouts/main.js'
-import Button from '@/components/button.js'
-import EditForm from '@/components/suivi-form/edit-form.js'
 
-const EditProject = ({project, isNotFound}) => {
+import Button from '@/components/button.js'
+import SuiviForm from '@/components/suivi-form/index.js'
+
+const FormulaireSuivi = ({project, isNotFound}) => {
   if (isNotFound) {
     return (
       <Page>
@@ -45,17 +46,20 @@ const EditProject = ({project, isNotFound}) => {
 
   return (
     <Page>
-      <EditForm project={project} />
+      <SuiviForm initialProject={project} />
     </Page>
   )
 }
 
-EditProject.getInitialProps = async ({query}) => {
-  const {id} = query
-  const project = await getProject(id)
+FormulaireSuivi.getInitialProps = async ({query}) => {
+  let project
 
-  if (project.code && project.code === 404) {
-    return {isNotFound: true}
+  if (query.id) {
+    project = await getProject(query.id)
+
+    if (project.code && project.code === 404) {
+      return {isNotFound: true}
+    }
   }
 
   return {
@@ -63,10 +67,9 @@ EditProject.getInitialProps = async ({query}) => {
   }
 }
 
-EditProject.propTypes = {
+FormulaireSuivi.propTypes = {
   project: PropTypes.object,
   isNotFound: PropTypes.bool
 }
 
-export default EditProject
-
+export default FormulaireSuivi
