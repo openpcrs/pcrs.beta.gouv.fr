@@ -1,47 +1,31 @@
-import {useState, useContext} from 'react'
 import PropTypes from 'prop-types'
-
-import DeviceContext from '@/contexts/device.js'
 
 import Meta from '@/components/meta.js'
 import Header from '@/components/header.js'
 import Footer from '@/components/footer.js'
 
-const Page = ({title, description, image, hasFooter, children}) => {
-  const {isMobileDevice} = useContext(DeviceContext)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+const Page = ({title, description, image, hasFooter, children}) => (
+  <>
+    <Meta title={title} description={description} image={image} />
+    <Header />
 
-  return (
-    <div className='page-content'>
-      <Meta title={title} description={description} image={image} />
-      <Header
-        isMobileDevice={isMobileDevice}
-        handleMobileMenu={setIsMobileMenuOpen}
-        isMobileMenuOpen={isMobileMenuOpen}
-      />
+    <main>
+      {children}
+    </main>
 
-      <main>
-        {children}
-      </main>
+    {hasFooter && (
+      <Footer />
+    )}
 
-      {hasFooter && (
-        <Footer />
-      )}
-
-      <style jsx>{`
-        .page-content {
-          overflow: ${isMobileDevice && isMobileMenuOpen ? 'hidden' : 'scroll'};
-        }
-
-        main {
-          flex: 1;
-          box-sizing: border-box;
-        }
-      `}
-      </style>
-    </div>
-  )
-}
+    <style jsx>{`
+      main {
+        flex: 1;
+        box-sizing: border-box;
+      }
+    `}
+    </style>
+  </>
+)
 
 Page.propTypes = {
   title: PropTypes.string,

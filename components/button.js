@@ -39,10 +39,6 @@ const Button = ({label, size, type, buttonStyle, isDisabled, icon, iconSide, hre
         )}
 
         <style jsx>{`
-          a {
-            z-index: 0;
-          }
-
           .white-button {
             background: none;
             border: 1px solid white;
@@ -77,10 +73,6 @@ const Button = ({label, size, type, buttonStyle, isDisabled, icon, iconSide, hre
       {children}
 
       <style jsx>{`
-        button {
-          z-index: 0;
-        }
-
         .white-button {
           background: none;
           border: 1px solid white;
