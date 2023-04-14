@@ -16,6 +16,7 @@ for (const projet of projets) {
   const updatedLivrables = projet.livrables.map(livrable => {
     if (livrable.diffusion === 'flux') {
       return {
+        ...livrable,
         diffusion: 'wms',
         publication: 'ftp'
       }
@@ -23,6 +24,7 @@ for (const projet of projets) {
 
     if (livrable.diffusion === 'telechargement') {
       return {
+        ...livrable,
         diffusion: null,
         publication: 'ftp'
       }
