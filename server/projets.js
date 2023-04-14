@@ -83,8 +83,8 @@ export async function getProjetsGeojson() {
       properties: {
         _id: projet._id,
         nom: projet.nom,
-        statut: closestPostStep.statut,
-        dateStatut: closestPostStep.date_debut,
+        statut: closestPostStep?.statut,
+        dateStatut: closestPostStep?.date_debut,
         aplc: projet.acteurs.find(acteur => acteur.role === 'aplc')?.nom || null,
         nature: projet.nature
       }
