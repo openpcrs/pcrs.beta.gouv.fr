@@ -21,11 +21,30 @@ for (const projet of projetsWithDiffusionTelechargement) {
   )
 }
 
-for (const projet of projetsWithDiffusionFlux) {
-  console.log('Modification du projet : ' + projet.nom)
-  await mongo.db.collection('projets').findOneAndUpdate(
-    {livrables: {$elemMatch: {diffusion: 'flux'}}},
-    {$set: {'livrables.$.diffusion': 'wms', 'livrables.$.publication': 'ftp'}}
+const projets = await mongo.db.collection('projets').find().toArray()
+
+for (const projet of projets) {
+  const updatedLivrables = projet.livrables.map(livrable => {
+    if (livrable.diffusion === 'flux') {
+      return {
+        diffusion: 'wms',
+        publication: 'ftp'
+      }
+    }
+
+    if (livrable.diffusion === 'telechargement') {
+      return {
+        diffusion: null,
+        publication: 'ftp'
+      }
+    }
+
+    return livrable
+  })
+
+  await mongo.db.collection('projets').updateOne(
+    {_id: projet._id},
+    {$set: {livrables: updatedLivrables}}
   )
 }
 
