@@ -1,25 +1,14 @@
 #!/usr/bin/env node
+/* eslint-disable import/first */
 /* eslint-disable no-await-in-loop */
+
+import * as dotenv from 'dotenv'
+
+dotenv.config()
 
 import mongo from '../server/util/mongo.js'
 
 await mongo.connect()
-
-const projetsWithDiffusionFlux = await mongo.db.collection('projets').find(
-  {livrables: {$elemMatch: {diffusion: 'flux'}}}
-).toArray()
-
-const projetsWithDiffusionTelechargement = await mongo.db.collection('projets').find(
-  {livrables: {$elemMatch: {diffusion: 'telechargement'}}}
-).toArray()
-
-for (const projet of projetsWithDiffusionTelechargement) {
-  console.log('Modification du projet : ' + projet.nom)
-  await mongo.db.collection('projets').findOneAndUpdate(
-    {livrables: {$elemMatch: {diffusion: 'telechargement'}}},
-    {$set: {'livrables.$.diffusion': null, 'livrables.$.publication': 'ftp'}}
-  )
-}
 
 const projets = await mongo.db.collection('projets').find().toArray()
 
