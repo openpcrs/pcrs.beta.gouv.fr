@@ -15,10 +15,14 @@ const PcrsMap = () => {
   const [geometry, setGeometry] = useState()
 
   const handleClick = useCallback(async e => {
-    setProjets([])
-    const promises = e.features.map(f => getProject(f.properties._id))
-    const projets = await Promise.all(promises)
-    setProjets(prevProjets => [...prevProjets, ...projets])
+    try {
+      setProjets([])
+      const promises = e.features.map(f => getProject(f.properties._id))
+      const projets = await Promise.all(promises)
+      setProjets(prevProjets => [...prevProjets, ...projets])
+    } catch {
+      throw new Error('Projet introuvable')
+    }
 
     setIsOpen(true)
   }, [])
