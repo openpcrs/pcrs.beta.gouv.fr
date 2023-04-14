@@ -74,6 +74,7 @@ const FormulaireSuivi = () => {
       }
 
       if (hasMissingData) {
+        console.log(1)
         setHasMissingDataOnValidation(true)
         handleScrollToError()
         setErrorOnValidationMessages([{message: 'Des données nécessaires à la validation du formulaires sont manquantes. Au moins un livrable, un acteur et un périmètre doivent être ajoutés.'}])
@@ -104,7 +105,8 @@ const FormulaireSuivi = () => {
           }, 2000)
         }
       }
-    } catch {
+    } catch (error) {
+      console.log(error)
       throw new Error('Une erreur a été rencontrée')
     }
   }
@@ -156,7 +158,7 @@ const FormulaireSuivi = () => {
             />
           </div>
 
-          <div className='perimetres'>
+          <div id='perimetres'>
             <Perimetres
               perimetres={perimetres}
               handlePerimetres={setPerimetres}
