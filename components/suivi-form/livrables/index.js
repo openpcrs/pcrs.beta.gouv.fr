@@ -185,7 +185,7 @@ const Livrables = ({livrables, hasMissingData, handleLivrables, onRequiredFormOp
         <div className='fr-error-text fr-mt-1w'>Au moins un livrable doit être ajouté</div>
       )}
 
-      {(livrables.length > 1 || isFormOpen) && <div className='separator fr-my-3w' />}
+      {(livrables.length > 0 || isFormOpen) && <div className='separator fr-my-3w' />}
 
       {livrables.map((livrable, idx) => {
         const {nom, nature, licence, crs, avancement, diffusion} = livrable

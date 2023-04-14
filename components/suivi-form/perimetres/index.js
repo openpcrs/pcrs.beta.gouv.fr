@@ -193,7 +193,7 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres, onRequiredFor
         <div className='fr-error-text fr-mt-1w'>Au moins un périmètre doit être ajouté</div>
       )}
 
-      {(perimetres.length > 1 || isFormOpen) && <div className='separator fr-my-3w' />}
+      {(perimetres.length > 0 || isFormOpen) && <div className='separator fr-my-3w' />}
 
       <div className='fr-grid-row fr-mt-2w'>
         {perimetres.map((perimetre, idx) => (

@@ -273,7 +273,7 @@ const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) =>
         <div className='fr-error-text fr-mt-1w'>Au moins un acteur doit être ajouté</div>
       )}
 
-      {(acteurs.length > 1 || isFormOpen) && <div className='separator fr-my-3w' />}
+      {(acteurs.length > 0 || isFormOpen) && <div className='separator fr-my-3w' />}
 
       {sortActorsByAplc.map((actor, idx) => (
         <ActeurCard

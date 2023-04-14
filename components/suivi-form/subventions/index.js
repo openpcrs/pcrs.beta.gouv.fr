@@ -133,7 +133,7 @@ const Subventions = ({subventions, handleSubventions}) => {
     <div className='fr-mt-8w'>
       <h3 className='fr-h5'>Subventions</h3>
 
-      {(subventions.length > 1 || isFormOpen) && <div className='separator fr-my-3w' />}
+      {(subventions.length > 0 || isFormOpen) && <div className='separator fr-my-3w' />}
 
       {subventions.map((subvention, idx) => (
         <SubventionCard
