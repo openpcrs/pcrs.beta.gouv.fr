@@ -17,8 +17,13 @@ const Popup = ({projet, otherProjets}) => {
         textAlign: 'center'
       }}
     >
-      <h6 className='title fr-text fr-text--md'><u>{nom}</u></h6>
-      <div className='fr-text fr-text--sm fr-grid-row fr-pb-3v'>
+      <div className='title'><u>{nom}</u></div>
+      {otherProjets > 1 && (
+        <div className='more'>
+          <i>...et {otherProjets - 1} {otherProjets === 2 ? 'autre projet' : 'autres projets'}</i>
+        </div>
+      )}
+      <div className='fr-text fr-text--sm fr-grid-row--center fr-pt-3v'>
         {statut !== 'livre' && (
           <span>En</span>
         )}
@@ -52,14 +57,12 @@ const Popup = ({projet, otherProjets}) => {
           <div><i>{aplc}</i></div>
         </div>
       </div>
-      {otherProjets > 1 && (
-        <p className='fr-pt-5v'>
-          <i>Et {otherProjets - 1} {otherProjets === 2 ? 'autre projet' : 'autres projets'}</i>
-        </p>
-      )}
       <style>{`
         .title {
           color: ${colors.blueFranceSun113};
+          font-size: 1.4em;
+          font-weight: bold;
+          padding-bottom: 5px;
         }
         .container {
           display: flex;
