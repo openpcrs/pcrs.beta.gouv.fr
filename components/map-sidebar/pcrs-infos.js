@@ -41,23 +41,23 @@ const LICENCE_LABELS = {
   ferme: 'Fermé'
 }
 
-const PUBLICATIONS = [
-  {label: 'Accès via FTP', value: 'ftp'},
-  {label: 'Accès via un service cloud (oneDrive...)', value: 'cloud'},
-  {label: 'Accès via service HTTP(S)', value: 'http'},
-  {label: 'Aucun moyen d’accès en ligne', value: 'inexistante'}
-]
+const PUBLICATIONS = {
+  ftp: 'Accès via FTP',
+  cloud: 'Accès via un service cloud (oneDrive...)',
+  http: 'Accès via service HTTP(S)',
+  inexistante: 'Aucun moyen d’accès en ligne'
+}
 
-const DIFFUSIONS = [
-  {label: 'wms', value: 'Diffusion via un service WMS'},
-  {label: 'wmts', value: 'Diffusion via un service WMTS'},
-  {label: 'tms', value: 'Diffusion via un service TMS'}
-]
+const DIFFUSIONS = {
+  wms: 'Diffusion via un service WMS',
+  wmts: 'Diffusion via un service WMTS',
+  tms: 'Diffusion via un service TMS'
+}
 
 const PcrsInfos = ({nature, regime, livrables, licence, acteurs}) => {
   const [isActorsShow, setIsActorsShow] = useState(false)
 
-  const nomAPLC = acteurs.find(acteur => acteur.role === 'aplc').nom
+  const nomAPLC = acteurs.find(acteur => acteur.role === 'aplc')?.nom
   const {natures: naturesColors, regimes: regimesColors, licences: licencesColors, actors: actorsColors, livrablesNatures} = PCRS_DATA_COLORS
 
   function uniq(items) {
@@ -71,8 +71,8 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs}) => {
       <div>Nature : <br /><span>{NATURE_LABELS[livrable.nature]}</span></div>
       <div>Licence : <br /><span>{LICENCE_LABELS[livrable.licence]}</span></div>
       <div>Diffusion : <br /><span>{DIFFUSIONS[livrable.diffusion]}</span></div>
-      {livrable.publication && <div>Type de publication : <br /><span>{PUBLICATIONS[livrable.publication]}</span></div>}
-      {livrable.date_livraison && <div>Livraison : <br /><span>le {formatDate(livrable.date_livraison)}</span></div>}
+      <div>Type de publication : <br /><span>{livrable.publication ? PUBLICATIONS[livrable.publication] : 'N/A'}</span></div>
+      <div>Livraison : <br /><span>{livrable.date_livraison ? `le ${formatDate(livrable.date_livraison)}` : 'N/A'}</span></div>
 
       <style jsx>{`
         .tooltip-container {
@@ -223,4 +223,3 @@ PcrsInfos.propTypes = {
 }
 
 export default PcrsInfos
-
