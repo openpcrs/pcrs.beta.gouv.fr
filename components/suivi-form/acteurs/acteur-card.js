@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import colors from '@/styles/colors.js'
 
 const ActeurCard = ({siren, nom, telephone, role, finance_part_euro, finance_part_perc, roles, handleDelete, handleEdition}) => {
-  const isAplc = role === 'aplc'
+  const isAplc = role === 'aplc' || role === 'porteur'
 
   return (
     <div className='fr-grid-row fr-p-2w fr-my-3w card-container'>
