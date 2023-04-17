@@ -14,7 +14,7 @@ import Etapes from '@/components/suivi-form/etapes.js'
 import Subventions from '@/components/suivi-form/subventions/index.js'
 import Button from '@/components/button.js'
 
-const SuiviForm = ({initialProject}) => {
+const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subventions, etapes, _id}) => {
   const router = useRouter()
 
   const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
@@ -25,16 +25,16 @@ const SuiviForm = ({initialProject}) => {
   const [isRequiredFormOpen, setIsRequiredFormOpen] = useState(false)
 
   const [generalInfos, setGeneralInfos] = useState({
-    nom: initialProject?.nom || '',
-    nature: initialProject?.nature || '',
-    regime: initialProject?.regime || ''
+    nom,
+    nature,
+    regime
   })
 
-  const [livrables, setLivrables] = useState(initialProject?.livrables || [])
-  const [acteurs, setActeurs] = useState(initialProject?.acteurs || [])
-  const [perimetres, setPerimetres] = useState(initialProject?.perimetres || [])
-  const [etapes, setEtapes] = useState(initialProject?.etapes || [{statut: 'investigation', date_debut: ''}]) // eslint-disable-line camelcase
-  const [subventions, setSubventions] = useState(initialProject?.subventions || [])
+  const [projetLivrables, setProjetLivrables] = useState(livrables)
+  const [projetActeurs, setProjetActeurs] = useState(acteurs)
+  const [projetPerimetres, setProjetPerimetres] = useState(perimetres)
+  const [projetEtapes, setProjetEtapes] = useState(etapes)
+  const [projetSubventions, setProjetSubventions] = useState(subventions)
   const [token, setToken] = useState(null)
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const SuiviForm = ({initialProject}) => {
   const handleSubmit = async event => {
     event.preventDefault()
 
-    const hasMissingData = livrables.length === 0 || acteurs.length === 0 || perimetres.length === 0
+    const hasMissingData = projetLivrables.length === 0 || projetActeurs.length === 0 || projetPerimetres.length === 0
     const {nom, nature, regime} = generalInfos
 
     setValidationMessage(null)
@@ -55,7 +55,7 @@ const SuiviForm = ({initialProject}) => {
     setHasMissingDataOnValidation(false)
 
     const handleScrollToError = () => {
-      const firstErrorSection = livrables.length === 0 ? 'livrables' : (acteurs.length === 0 ? 'acteurs' : 'perimetres')
+      const firstErrorSection = projetLivrables.length === 0 ? 'livrables' : (projetActeurs.length === 0 ? 'acteurs' : 'perimetres')
       const input = document.querySelector(`#${firstErrorSection}`)
 
       input.scrollIntoView({
@@ -79,14 +79,14 @@ const SuiviForm = ({initialProject}) => {
           nom,
           regime,
           nature,
-          livrables,
-          acteurs,
-          perimetres,
-          etapes,
-          subventions
+          livrables: projetLivrables,
+          acteurs: projetActeurs,
+          perimetres: projetPerimetres,
+          etapes: projetEtapes,
+          subventions: projetSubventions
         }
 
-        const sendSuivi = initialProject ? await editProject(suivi, initialProject?._id, token) : await postSuivi(suivi, token)
+        const sendSuivi = _id ? await editProject(suivi, _id, token) : await postSuivi(suivi, token)
 
         if (sendSuivi.message) {
           if (sendSuivi.message === 'Invalid payload') {
@@ -95,7 +95,7 @@ const SuiviForm = ({initialProject}) => {
 
           setErrorOnValidationMessages([sendSuivi])
         } else {
-          const validation = initialProject ? 'Le projet a bien été modifié, vous allez maintenant être redirigé vers la carte de suivi' : 'Le projet a bien été créé, vous allez maintenant être redirigé vers la carte de suivi'
+          const validation = _id ? 'Le projet a bien été modifié, vous allez maintenant être redirigé vers la carte de suivi' : 'Le projet a bien été créé, vous allez maintenant être redirigé vers la carte de suivi'
           setValidationMessage(validation)
           setTimeout(() => {
             router.push('/suivi-pcrs')
@@ -103,7 +103,7 @@ const SuiviForm = ({initialProject}) => {
         }
       }
     } catch {
-      throw new Error(initialProject ? 'Une erreur a eu lieu lors de la modification du suivi' : 'Une erreur a eu lieu lors de la création du suivi')
+      throw new Error(_id ? 'Une erreur a eu lieu lors de la modification du suivi' : 'Une erreur a eu lieu lors de la création du suivi')
     }
   }
 
@@ -132,8 +132,8 @@ const SuiviForm = ({initialProject}) => {
 
           <div id='livrables'>
             <Livrables
-              livrables={livrables}
-              handleLivrables={setLivrables}
+              livrables={projetLivrables}
+              handleLivrables={setProjetLivrables}
               hasMissingData={hasMissingDataOnValidation}
               onRequiredFormOpen={setIsRequiredFormOpen}
             />
@@ -141,8 +141,8 @@ const SuiviForm = ({initialProject}) => {
 
           <div id='acteurs'>
             <Acteurs
-              acteurs={acteurs}
-              handleActors={setActeurs}
+              acteurs={projetActeurs}
+              handleActors={setProjetActeurs}
               hasMissingData={hasMissingDataOnValidation}
               onRequiredFormOpen={setIsRequiredFormOpen}
             />
@@ -150,20 +150,20 @@ const SuiviForm = ({initialProject}) => {
 
           <div id='perimetres'>
             <Perimetres
-              perimetres={perimetres}
-              handlePerimetres={setPerimetres}
+              perimetres={projetPerimetres}
+              handlePerimetres={setProjetPerimetres}
               hasMissingData={hasMissingDataOnValidation}
               onRequiredFormOpen={setIsRequiredFormOpen}
             />
           </div>
 
           <Etapes
-            etapes={etapes}
-            handleEtapes={setEtapes}
-            initialValue={etapes[etapes.length - 1]}
+            etapes={projetEtapes}
+            handleEtapes={setProjetEtapes}
+            initialValue={projetEtapes[projetEtapes.length - 1]}
           />
 
-          <Subventions subventions={subventions} handleSubventions={setSubventions} />
+          <Subventions subventions={projetSubventions} handleSubventions={setProjetSubventions} />
 
           <div className='fr-grid-row fr-grid-row--center fr-mt-5w'>
             <div className='fr-grid-row fr-grid-row--center fr-col-12'>
@@ -209,8 +209,28 @@ const SuiviForm = ({initialProject}) => {
 }
 
 SuiviForm.propTypes = {
-  initialProject: PropTypes.object
+  nom: PropTypes.string,
+  nature: PropTypes.string,
+  regime: PropTypes.string,
+  livrables: PropTypes.array,
+  acteurs: PropTypes.array,
+  perimetres: PropTypes.array,
+  etapes: PropTypes.array,
+  subventions: PropTypes.array,
+  _id: PropTypes.string
+
+}
+
+SuiviForm.defaultProps = {
+  nom: '',
+  nature: '',
+  regime: '',
+  livrables: [],
+  acteurs: [],
+  perimetres: [],
+  etapes: [{statut: 'investigation', date_debut: ''}],
+  subventions: [],
+  _id: null
 }
 
 export default SuiviForm
-

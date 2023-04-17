@@ -46,7 +46,7 @@ const FormulaireSuivi = ({project, isNotFound}) => {
 
   return (
     <Page>
-      <SuiviForm initialProject={project} />
+      <SuiviForm {...project} />
     </Page>
   )
 }
