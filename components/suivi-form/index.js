@@ -103,7 +103,10 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
         }
       }
     } catch {
-      throw new Error(_id ? 'Une erreur a eu lieu lors de la modification du suivi' : 'Une erreur a eu lieu lors de la création du suivi')
+      const errorMessage = _id ? 'Une erreur a eu lieu lors de la modification du suivi' : 'Une erreur a eu lieu lors de la création du suivi'
+
+      setErrorOnValidationMessages(errorMessage)
+      throw new Error(errorMessage)
     }
   }
 
