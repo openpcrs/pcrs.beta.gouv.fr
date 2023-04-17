@@ -231,7 +231,7 @@ SuiviForm.defaultProps = {
   livrables: [],
   acteurs: [],
   perimetres: [],
-  etapes: [{statut: 'investigation', date_debut: ''}],
+  etapes: [{statut: 'investigation', date_debut: ''}], // eslint-disable-line camelcase
   subventions: [],
   _id: null
 }
