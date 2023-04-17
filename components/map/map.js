@@ -65,7 +65,7 @@ const Map = ({handleClick, isMobile, geometry}) => {
             <Popup
               key={projet.nom}
               projet={projet}
-              otherProjets={e.features.length}
+              numberOfProjets={e.features.length}
             />
           )
 
