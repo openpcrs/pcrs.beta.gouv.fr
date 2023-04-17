@@ -25,7 +25,8 @@ const ACTORS_LABELS = {
   presta_vol: 'Prestataires de vol',
   presta_lidar: 'Prestataires Lidar',
   controleur: 'Controleurs',
-  aplc: 'Autorité Publique Locale Compétente'
+  aplc: 'Autorité Publique Locale Compétente',
+  porteur: 'Porteur de projet non-APLC'
 }
 
 const NATURE_LABELS = {
