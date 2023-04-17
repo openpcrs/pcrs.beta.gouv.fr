@@ -53,7 +53,7 @@ const PUBLICATIONS = [
   {label: 'Aucun moyen d’accès en ligne', value: 'inexistante'}
 ]
 
-const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
+const Livrables = ({livrables, hasMissingData, handleLivrables, onRequiredFormOpen}) => {
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [hasMissingInput, setHasMissingInput] = useState(false)
   const [hasInvalidInput, setHasInvalidInput] = useState(false)
@@ -155,6 +155,7 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
 
   const onReset = useCallback(() => {
     setIsFormOpen(false)
+    onRequiredFormOpen(false)
     setHasMissingInput(false)
     setLivrable({
       nom: '',
@@ -170,28 +171,29 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
     setUpdatingLivrableIndex()
     setErrorMessage()
     setUpdatingLivrableName()
-  }, [])
+  }, [onRequiredFormOpen])
 
   useEffect(() => {
     // Switch to livrable update form
     if (isUpdating) {
-      const foundedLivrable = livrables[updatingLivrableIndex]
+      const foundLivrable = livrables[updatingLivrableIndex]
 
       setLivrable({
-        nom: foundedLivrable.nom,
-        nature: foundedLivrable.nature,
-        diffusion: foundedLivrable.diffusion,
-        licence: foundedLivrable.licence,
-        avancement: foundedLivrable.avancement?.toString() || '',
-        crs: foundedLivrable.crs || '',
-        compression: foundedLivrable.compression || '',
-        publication: foundedLivrable.publication
+        nom: foundLivrable.nom,
+        nature: foundLivrable.nature,
+        diffusion: foundLivrable.diffusion,
+        licence: foundLivrable.licence,
+        avancement: foundLivrable.avancement?.toString() || '',
+        crs: foundLivrable.crs || '',
+        compression: foundLivrable.compression || '',
+        publication: foundLivrable.publication
       })
 
-      setUpdatingLivrableName(foundedLivrable.nom)
+      setUpdatingLivrableName(foundLivrable.nom)
       setIsFormOpen(true)
+      onRequiredFormOpen(false)
     }
-  }, [updatingLivrableIndex, livrables, isUpdating])
+  }, [updatingLivrableIndex, livrables, isUpdating, onRequiredFormOpen])
 
   return (
     <div className='fr-mt-8w'>
@@ -206,7 +208,10 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
           icon='add-circle-fill'
           iconSide='left'
           isDisabled={isFormOpen}
-          onClick={() => setIsFormOpen(true)}
+          onClick={() => {
+            onRequiredFormOpen(true)
+            setIsFormOpen(true)
+          }}
         >
           Ajouter un livrable
         </Button>
@@ -432,7 +437,8 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
 Livrables.propTypes = {
   livrables: PropTypes.array.isRequired,
   hasMissingData: PropTypes.bool,
-  handleLivrables: PropTypes.func.isRequired
+  handleLivrables: PropTypes.func.isRequired,
+  onRequiredFormOpen: PropTypes.func.isRequired
 }
 
 Livrables.defaultProps = {

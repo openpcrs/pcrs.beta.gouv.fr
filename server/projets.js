@@ -1,6 +1,17 @@
 import createError from 'http-errors'
 import {validateCreation, validateChanges} from '../lib/projets-validator.js'
+import {buildGeometryFromTerritoires, getTerritoiresProperties} from '../lib/territoires.js'
+import {findClosestEtape} from '../lib/suivi-pcrs.js'
 import mongo from './util/mongo.js'
+
+export function expandProjet(projet) {
+  const territoires = projet?.perimetres?.map(p => getTerritoiresProperties(p)) || null
+
+  return {
+    ...projet,
+    territoires
+  }
+}
 
 export async function getProjets() {
   return mongo.db.collection('projets').find().toArray()
@@ -9,7 +20,9 @@ export async function getProjets() {
 export async function getProjet(projetId) {
   projetId = mongo.parseObjectId(projetId)
 
-  return mongo.db.collection('projets').findOne({_id: projetId})
+  const projet = await mongo.db.collection('projets').findOne({_id: projetId})
+
+  return projet
 }
 
 export async function createProjet(payload) {
@@ -56,5 +69,28 @@ export async function updateProjet(id, payload) {
   }
 
   return value
+}
+
+export async function getProjetsGeojson() {
+  const projets = await mongo.db.collection('projets').find().toArray()
+
+  const projetsFeatures = await Promise.all(projets.map(async projet => {
+    const closestPostStep = findClosestEtape(projet.etapes)
+
+    return {
+      type: 'Feature',
+      geometry: await buildGeometryFromTerritoires(projet.perimetres),
+      properties: {
+        _id: projet._id,
+        nom: projet.nom,
+        statut: closestPostStep?.statut,
+        dateStatut: closestPostStep?.date_debut,
+        aplc: projet.acteurs.find(acteur => acteur.role === 'aplc')?.nom || null,
+        nature: projet.nature
+      }
+    }
+  }))
+
+  return projetsFeatures
 }
 

@@ -22,7 +22,7 @@ const renderItem = (item, isHighlighted) => {
 
   return (
     <div key={code} className='item fr-px-1w fr-py-2w'>
-      {nom}
+      {nom} - {code}
 
       <style jsx>{`
         .item {
@@ -38,7 +38,7 @@ const renderItem = (item, isHighlighted) => {
   )
 }
 
-const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
+const Perimetres = ({perimetres, hasMissingData, handlePerimetres, onRequiredFormOpen}) => {
   const [isFormOpen, setIsFormOpen] = useState()
   const [hasMissingInput, setHasMissingInput] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -48,7 +48,7 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
 
   const [type, setType] = useState('')
 
-  const [foundedPerimetres, setFoundedPerimetres] = useState([])
+  const [foundPerimetres, setFoundPerimetres] = useState([])
   const [updatingPerimetreIndex, setUpdatingPerimetreIndex] = useState()
   const [updatingPerimetreCode, setUpdatingPerimetreCode] = useState()
 
@@ -66,6 +66,7 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
     setType('')
     setUpdatingPerimetreIndex(null)
     setIsFormOpen(false)
+    onRequiredFormOpen(false)
     setHasMissingInput(false)
     setUpdatingPerimetreCode(null)
     setErrorMessage(null)
@@ -130,6 +131,7 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
           setType(perimetreType)
           setUpdatingPerimetreCode(perimetre.code)
           setIsFormOpen(true)
+          onRequiredFormOpen(true)
         }
 
         switchToUpdateForm()
@@ -137,25 +139,35 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
         console.log('Impossible de retrouver le périmètre')
       }
     }
-  }, [perimetres, updatingPerimetreIndex])
+  }, [perimetres, updatingPerimetreIndex, onRequiredFormOpen])
+
+  const fetchPerimetres = useCallback(debounce(async (nom, type, signal) => {
+    setIsLoading(true)
+
+    try {
+      const perimetres = await getPerimetersByName(nom, type, signal)
+      setFoundPerimetres(perimetres)
+    } catch {
+      if (!signal.aborted) {
+        setFoundPerimetres([])
+      }
+    }
+
+    setIsLoading(false)
+  }, 300), [setFoundPerimetres, setIsLoading])
 
   useEffect(() => {
-    // Fetch siren/insee on name changes
-    if (nom && nom.length >= 3) {
-      setIsLoading(true)
-      const fetchPerimetre = debounce(async () => {
-        try {
-          const perimetres = await getPerimetersByName(nom, type)
-          setFoundedPerimetres(perimetres)
-        } catch {
-          setFoundedPerimetres([])
-        }
-      }, 300)
-
-      fetchPerimetre()
-      setIsLoading(false)
+    if (!nom || nom.length < 3) {
+      return
     }
-  }, [nom, type])
+
+    const ac = new AbortController()
+    fetchPerimetres(nom, type, ac.signal)
+
+    return () => {
+      ac.abort()
+    }
+  }, [nom, type, fetchPerimetres])
 
   const handleChange = value => {
     setType(value)
@@ -163,12 +175,12 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
     if (value !== type) {
       setNom('')
       setCode('')
-      setFoundedPerimetres([])
+      setFoundPerimetres([])
     }
   }
 
   const handleSelect = item => {
-    const foundPerimetreName = foundedPerimetres.find(result => result.code === item).nom
+    const foundPerimetreName = foundPerimetres.find(result => result.code === item).nom
 
     setCode(item)
     setNom(foundPerimetreName)
@@ -187,7 +199,10 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
           icon='add-circle-fill'
           iconSide='left'
           isDisabled={isFormOpen || isUpdating}
-          onClick={() => setIsFormOpen(true)}
+          onClick={() => {
+            onRequiredFormOpen(true)
+            setIsFormOpen(true)
+          }}
         >
           Ajouter un périmètre
         </Button>
@@ -219,7 +234,7 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
                   description='Nom du territoire *'
                   ariaLabel='rechercher le nom du territoire'
                   errorMessage={handleErrors(nom)}
-                  results={foundedPerimetres}
+                  results={foundPerimetres}
                   customItem={renderItem}
                   isLoading={isLoading}
                   getItemValue={item => item.code}
@@ -278,7 +293,8 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
 Perimetres.propTypes = {
   perimetres: PropTypes.array.isRequired,
   hasMissingData: PropTypes.bool,
-  handlePerimetres: PropTypes.func.isRequired
+  handlePerimetres: PropTypes.func.isRequired,
+  onRequiredFormOpen: PropTypes.func.isRequired
 }
 
 Perimetres.defaultProps = {

@@ -46,7 +46,7 @@ const renderItem = (item, isHighlighted) => {
   )
 }
 
-const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
+const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) => {
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [hasMissingInput, setHasMissingInput] = useState(false)
   const [hasInvalidInput, setHasInvalidInput] = useState(false)
@@ -67,7 +67,7 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
     role: ''
   })
 
-  const [foundedEtablissements, setFoundedEtablissements] = useState([])
+  const [foundEtablissements, setFoundEtablissements] = useState([])
   const [updatingActorIndex, setUpdatingActorIndex] = useState(null)
   const [updatingActorSiren, setUpdatingActorSiren] = useState(null)
 
@@ -148,6 +148,7 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
 
   const onReset = () => {
     setIsFormOpen(false)
+    onRequiredFormOpen(false)
     setHasInvalidInput(false)
     setActeur({
       nom: '',
@@ -189,49 +190,58 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
   useEffect(() => {
     // Switch to actor update form
     if (isUpdating) {
-      const foundedActor = acteurs[updatingActorIndex]
+      const foundActor = acteurs[updatingActorIndex]
       setActeur(
         {
-          nom: foundedActor.nom,
-          siren: foundedActor.siren?.toString(),
-          phone: foundedActor.telephone || '',
-          finPerc: foundedActor.finance_part_perc?.toString() || '',
-          finEuros: foundedActor.finance_part_euro?.toString() || '',
-          role: foundedActor.role || ''
+          nom: foundActor.nom,
+          siren: foundActor.siren?.toString(),
+          phone: foundActor.telephone || '',
+          finPerc: foundActor.finance_part_perc?.toString() || '',
+          finEuros: foundActor.finance_part_euro?.toString() || '',
+          role: foundActor.role || ''
         }
       )
-      setUpdatingActorSiren(foundedActor.siren)
+      setUpdatingActorSiren(foundActor.siren)
 
       setIsFormOpen(true)
+      onRequiredFormOpen(true)
     }
-  }, [isUpdating, updatingActorIndex, acteurs])
+  }, [isUpdating, updatingActorIndex, acteurs, onRequiredFormOpen])
 
-  const fetchActors = useCallback(debounce(async () => { // eslint-disable-line react-hooks/exhaustive-deps
+  const fetchActors = useCallback(debounce(async (nom, signal) => { // eslint-disable-line react-hooks/exhaustive-deps
     setIsLoading(true)
     setSearchErrorMessage(null)
+
     try {
-      const foundedActors = await getEntreprises(nom)
-      const firstResults = foundedActors.results.slice(0, 5)
+      const foundActors = await getEntreprises(nom, {signal})
+      const firstResults = foundActors.results.slice(0, 5)
 
       const sanitizedResults = firstResults.map(result => pick(result, ['nom_complet', 'siren', 'section_activite_principale', 'tranche_effectif_salarie']))
 
-      setFoundedEtablissements(sanitizedResults)
+      setFoundEtablissements(sanitizedResults)
     } catch {
-      setSearchErrorMessage('Aucun acteur n’a été trouvé')
-      setFoundedEtablissements([])
+      if (!signal.aborted) {
+        setSearchErrorMessage('Aucun acteur n’a été trouvé')
+        setFoundEtablissements([])
+      }
     }
 
     setIsLoading(false)
-  }, 300), [nom])
+  }, 300), [setIsLoading, setFoundEtablissements])
 
   useEffect(() => {
-    // Fetch actors on name changes
-    if (nom && nom.length > 2) {
-      fetchActors()
-    } else {
+    if (!nom || nom.length < 3) {
       setSearchErrorMessage(null)
+      return
     }
-  }, [nom, fetchActors])
+
+    const ac = new AbortController()
+    fetchActors(nom, ac.signal)
+
+    return () => {
+      ac.abort()
+    }
+  }, [nom, fetchActors, setSearchErrorMessage])
 
   useEffect(() => {
     if (updatingActorIndex || updatingActorIndex === 0) {
@@ -240,12 +250,12 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
   }, [updatingActorIndex])
 
   useEffect(() => {
-    if (nom && role && !hasInvalidInput && (!phone || isPhoneNumberValid)) {
+    if (nom && role && siren && !hasInvalidInput && (!phone || isPhoneNumberValid)) {
       setIsFormComplete(true)
     } else {
       setIsFormComplete(false)
     }
-  }, [nom, role, hasInvalidInput, phone, isPhoneNumberValid])
+  }, [nom, role, siren, hasInvalidInput, phone, isPhoneNumberValid])
 
   useEffect(() => {
     if (phone) {
@@ -270,7 +280,10 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
           icon='add-circle-fill'
           iconSide='left'
           isDisabled={isFormOpen || isUpdating}
-          onClick={() => setIsFormOpen(true)}
+          onClick={() => {
+            setIsFormOpen(true)
+            onRequiredFormOpen(true)
+          }}
         >
           Ajouter un acteur
         </Button>
@@ -288,7 +301,7 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
                 name='nom'
                 description='Nom de l’entreprise'
                 ariaLabel='nom de l’entreprise à rechercher'
-                results={foundedEtablissements}
+                results={foundEtablissements}
                 isLoading={isLoading}
                 errorMessage={searchErrorMessage ? searchErrorMessage : handleErrors(nom)}
                 getItemValue={item => item.siren}
@@ -300,13 +313,15 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
                   })
                 }}
                 onSelectValue={item => {
-                  const foundActorName = foundedEtablissements.find(result => result.siren === item).nom_complet
+                  const foundActorName = foundEtablissements.find(result => result.siren === item).nom_complet
 
                   setActeur({
                     ...acteur,
                     nom: foundActorName,
                     siren: item
                   })
+
+                  setIsSirenValid(/^\d{9}$/.test(item))
                 }}
               />
             </div>
@@ -318,12 +333,12 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
                 ariaLabel='numéro siren de l’entreprise'
                 description='SIREN de l’entreprise'
                 errorMessage={handleErrors(siren, 'siren')}
+                onBlur={e => setIsSirenValid(/^\d{9}$/.test(e.target.value))}
                 onValueChange={e => {
                   setActeur({
                     ...acteur,
                     siren: e.target.value
                   })
-                  setIsSirenValid(/^\d{9}$/.test(e.target.value))
                 }}
               />
             </div>
@@ -451,7 +466,8 @@ const Acteurs = ({acteurs, handleActors, hasMissingData}) => {
 Acteurs.propTypes = {
   acteurs: PropTypes.array.isRequired,
   hasMissingData: PropTypes.bool,
-  handleActors: PropTypes.func.isRequired
+  handleActors: PropTypes.func.isRequired,
+  onRequiredFormOpen: PropTypes.func.isRequired
 }
 
 Acteurs.defaultProps = {

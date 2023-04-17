@@ -1,0 +1,42 @@
+nom: Vienne – Tranche Principale
+regime: production
+nature: raster
+
+acteurs:
+  - siren: 200086262
+    nom: Energies Vienne
+    role: aplc
+  - siren: 180067019
+    nom: IGN
+    role: financeur
+  - siren: 200069854
+    nom: Communauté urbaine du Grand Poitiers
+    role: financeur
+  - siren: 200049104
+    nom: Eaux de Vienne
+    role: financeur
+  - siren: 444608442
+    nom: Enedis
+    role: financeur
+
+perimetres:
+  - departement:86
+
+etapes:
+  - statut: investigation
+    date_debut: 2019-12-01
+  - statut: production
+    date_debut: 2020-04-01
+  - statut: produit
+    date_debut: 2022-04-01
+  - statut: livre
+    date_debut: 2023-01-01
+
+livrables:
+  - nom: raster
+    nature: geotiff
+    diffusion: flux
+    licence: ouvert_lo
+    crs: EPSG:3947
+
+subventions:

@@ -20,8 +20,16 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+          cache: "yarn"
       - run: yarn --frozen-lockfile
       - run: yarn lint
+      - name: db cache
+        id: cache-db
+        uses: actions/cache@v3
+        with:
+          path: .db
+          key: db
       - run: yarn download-contours
+        if: steps.cache-db.outputs.cache-hit != 'true'
       - run: yarn test
       - run: yarn build

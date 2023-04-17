@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import {find} from 'lodash'
 
 import {formatDate} from '@/lib/date-utils.js'
+import {findClosestEtape} from '@/lib/suivi-pcrs.js'
 import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors.js'
 
 import Header from '@/components/map-sidebar/project-header.js'
@@ -11,25 +12,28 @@ import PcrsInfos from '@/components/map-sidebar/pcrs-infos.js'
 import Documents from '@/components/map-sidebar/documents.js'
 import Contact from '@/components/map-sidebar/contact.js'
 
-const MapSidebar = ({projet}) => {
+const MapSidebar = ({projet, onClose}) => {
   const {status} = PCRS_DATA_COLORS
-  const {nom, territoires, statut, etapes, source, documentation, contrat, acteurs} = projet
-  const contactAPLC = acteurs.find(acteur => acteur.role === 'aplc')
+  const {nom, territoires, _id, etapes, source, documentation, contrat, acteurs} = projet
 
+  const contactAPLC = acteurs.find(acteur => acteur.role === 'aplc')
+  const {statut} = projet.etapes[projet.etapes.length - 1]
   const projectStartDate = formatDate(find(projet.etapes, {statut: 'investigation'}).date_debut)
-  const isObsolete = projet.statut === 'obsolète'
+  const isObsolete = statut === 'obsolete'
+
+  const closestPostStep = findClosestEtape(etapes)
 
   return (
     <>
-      <Header projectName={nom} territoires={territoires} />
+      <Header projectId={_id} projectName={nom} territoires={territoires} onSidebarClose={onClose} />
       <div className='infos-container'>
         <h2 className='fr-text--lead fr-mb-1w'>État d’avancement</h2>
         <div className='actual-status fr-mb-3w'>
           <Badge
-            background={status[statut]}
-            textColor={statut === 'livre' || statut === 'obsolete' ? 'white' : 'black'}
+            background={status[closestPostStep.statut]}
+            textColor={closestPostStep.statut === 'livre' || closestPostStep.statut === 'obsolete' ? 'white' : 'black'}
           >
-            {projet.statut === 'livre' ? 'livré' : projet.statut}
+            {closestPostStep.statut === 'livre' ? 'livré' : closestPostStep.statut}
           </Badge>
 
           {projectStartDate && (
@@ -39,9 +43,8 @@ const MapSidebar = ({projet}) => {
         {!isObsolete && (
           <Timeline
             stepsColors={status}
-            currentStatus={statut}
+            currentStatus={closestPostStep.statut}
             steps={etapes}
-            isObsolete={isObsolete}
           />
         )}
 
@@ -82,7 +85,8 @@ const MapSidebar = ({projet}) => {
 }
 
 MapSidebar.propTypes = {
-  projet: PropTypes.object.isRequired
+  projet: PropTypes.object.isRequired,
+  onClose: PropTypes.func.isRequired
 }
 
 export default MapSidebar
