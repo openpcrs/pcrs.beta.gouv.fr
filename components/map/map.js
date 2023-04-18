@@ -65,7 +65,9 @@ const Map = ({handleClick, isMobile, geometry}) => {
 
           popupRoot.render(
             <Popup
+              key={projet.nom}
               projet={projet}
+              numberOfProjets={e.features.length}
             />
           )
 
