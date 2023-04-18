@@ -17,6 +17,7 @@ import Button from '@/components/button.js'
 
 const rolesList = [
   {label: 'Autorité Public Locale Compétente', value: 'aplc'},
+  {label: 'Porteur de projet non APLC', value: 'porteur'},
   {label: 'Financeur', value: 'financeur'},
   {label: 'Diffuseur des livrables', value: 'diffuseur'},
   {label: 'Prestataire de vol', value: 'presta_vol'},
