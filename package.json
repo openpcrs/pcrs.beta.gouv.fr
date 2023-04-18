@@ -12,7 +12,7 @@
     "start": "NODE_ENV=production node server/index.js",
     "lint": "xo",
     "test": "ava",
-    "scalingo-postbuild": "yarn download-contours && next build && node scripts/migration-v03"
+    "scalingo-postbuild": "yarn download-contours && next build"
   },
   "dependencies": {
     "@etalab/decoupage-administratif": "^2.3.1",
