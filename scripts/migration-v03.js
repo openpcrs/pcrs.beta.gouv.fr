@@ -1,12 +1,17 @@
 #!/usr/bin/env node
-/* eslint-disable import/first */
+/* eslint-disable import/first, import/order */
 /* eslint-disable no-await-in-loop */
 
 import * as dotenv from 'dotenv'
 
 dotenv.config()
 
+import process from 'node:process'
 import mongo from '../server/util/mongo.js'
+
+if (process.env.RUN_MIGRATION !== '1') {
+  process.exit(0)
+}
 
 await mongo.connect()
 
