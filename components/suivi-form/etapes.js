@@ -63,21 +63,13 @@ const Etapes = ({initialValue, etapes, handleEtapes}) => {
   return (
     <div className='fr-mt-8w'>
       <h3 className='fr-h5'>Étapes</h3>
-      <Button
-        label='Ajouter une étape'
-        icon='add-circle-fill'
-        iconSide='left'
-        isDisabled={statutInput === 'obsolete' || !startDate}
-        onClick={addStep}
-      >
-        Ajouter l’étape suivante
-      </Button>
+      <div className='separator fr-my-3w' />
 
       {etapes.map((etape, index) => {
         const findLabel = STATUS.find(status => etape.statut === status.value).label
 
         return (
-          <div key={etape.statut} className='fr-grid-row fr-mt-4w'>
+          <div key={etape.statut} className='fr-grid-row fr-my-5w'>
             <div className='fr-grid-row fr-col-11'>
               <div className='fr-col-12 fr-col-md-6'>
                 <TextInput
@@ -118,6 +110,17 @@ const Etapes = ({initialValue, etapes, handleEtapes}) => {
       }
       )}
 
+      {(startDate || statutInput !== 'obsolete') && (
+        <Button
+          label='Ajouter une étape'
+          icon='add-circle-fill'
+          iconSide='left'
+          onClick={addStep}
+        >
+          Ajouter l’étape suivante
+        </Button>
+      )}
+
       <style jsx>{`
         .delete-button {
           text-decoration: underline;
@@ -127,6 +130,10 @@ const Etapes = ({initialValue, etapes, handleEtapes}) => {
 
         button:disabled {
           color: ${colors.grey850};
+        }
+
+        .separator {
+          border-top: 3px solid ${colors.grey850};
         }
       `}</style>
     </div>
