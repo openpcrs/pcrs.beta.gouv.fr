@@ -34,7 +34,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
   const [projetActeurs, setProjetActeurs] = useState(acteurs)
   const [projetPerimetres, setProjetPerimetres] = useState(perimetres)
   const [projetEtapes, setProjetEtapes] = useState(etapes)
-  const [projetSubventions, setProjetSubventions] = useState(subventions)
+  const [projetSubventions, setProjetSubventions] = useState(subventions || [])
   const [token, setToken] = useState(null)
 
   useEffect(() => {
