@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import DeviceContext from '@/contexts/device.js'
 
-import Map from '@/components/map/index.js'
+import Map from '@/components/map/map.js'
 import MapSidebar from '@/components/map-sidebar/index.js'
 
 export const Mobile = ({handleClick, handleTitleClick, projet, isOpen, setIsOpen, geometry, projets, onProjetChange}) => {
@@ -24,7 +24,12 @@ export const Mobile = ({handleClick, handleTitleClick, projet, isOpen, setIsOpen
             width: '100%'
           }}
         >
-          <Map isMobile handleClick={handleClick} geometry={geometry} />
+          <Map
+            isMobile
+            handleClick={handleClick}
+            geometry={geometry}
+            projetId={projet?._id}
+          />
         </div>
       )}
       <div
@@ -165,7 +170,12 @@ export const Desktop = ({handleClick, projet, isOpen, setIsOpen, geometry, onPro
 
     {geometry && (
       <div style={{width: '100%', height: 'calc(100vh - 117px)'}}>
-        <Map style={{pointerEvents: 'all'}} handleClick={handleClick} geometry={geometry} />
+        <Map
+          style={{pointerEvents: 'all'}}
+          handleClick={handleClick}
+          geometry={geometry}
+          projetId={projet?._id}
+        />
       </div>
     )}
   </div>
