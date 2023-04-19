@@ -33,6 +33,11 @@ const PcrsMap = () => {
     }
   }
 
+  const handleProjet = e => {
+    const selectedProjet = projets.find(p => p._id === e.target.value)
+    setProjet(selectedProjet)
+  }
+
   useEffect(() => {
     if (projets && projets.length > 0) {
       setProjet(projets[0])
@@ -65,7 +70,7 @@ const PcrsMap = () => {
         geometry={geometry}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
-        onProjetChange={e => setProjet(projets[e.target.value])}
+        onProjetChange={handleProjet}
       />
     </Page>
   )
