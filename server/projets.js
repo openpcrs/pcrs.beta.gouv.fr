@@ -85,7 +85,7 @@ export async function getProjetsGeojson() {
         nom: projet.nom,
         statut: closestPostStep?.statut,
         dateStatut: closestPostStep?.date_debut,
-        aplc: projet.acteurs.find(acteur => acteur.role === 'aplc')?.nom || null,
+        aplc: projet.acteurs.find(acteur => acteur.role === 'aplc' || acteur.role === 'porteur')?.nom || null,
         nature: projet.nature
       }
     }
