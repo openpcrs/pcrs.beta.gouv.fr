@@ -22,7 +22,7 @@ const renderItem = (item, isHighlighted) => {
 
   return (
     <div key={code} className='item fr-px-1w fr-py-2w'>
-      {nom}
+      {nom} - {code}
 
       <style jsx>{`
         .item {

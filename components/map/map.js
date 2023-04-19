@@ -1,11 +1,13 @@
 import {createRoot} from 'react-dom/client' // eslint-disable-line n/file-extension-in-import
 import {useEffect, useRef} from 'react'
 import PropTypes from 'prop-types'
+import Link from 'next/link'
+
 import maplibreGl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
+
 import departementFillLayer from './layers/departement-fill.json'
 import departementLayer from './layers/departement-layer.json'
-
 import vector from './styles/vector.json'
 
 import Popup from '@/components/map/popup.js'
@@ -63,7 +65,9 @@ const Map = ({handleClick, isMobile, geometry}) => {
 
           popupRoot.render(
             <Popup
+              key={projet.nom}
               projet={projet}
+              numberOfProjets={e.features.length}
             />
           )
 
@@ -131,6 +135,21 @@ const Map = ({handleClick, isMobile, geometry}) => {
     <div style={{position: 'relative', height: '100%', width: '100%'}}>
       <div ref={mapNode} style={{width: '100%', height: '100%'}} />
       <Legend isMobile={isMobile === true} />
+      {localStorage.getItem('Token') && (
+        <Link href='/formulaire-suivi'>
+          <button
+            type='button'
+            className='fr-btn fr-btn--icon-left fr-icon-add-circle-fill'
+            style={{
+              position: 'fixed',
+              right: 10,
+              bottom: `${isMobile ? '110px' : '45px'}`
+            }}
+          >
+            Ajouter un projet
+          </button>
+        </Link>
+      )}
     </div>
   )
 }

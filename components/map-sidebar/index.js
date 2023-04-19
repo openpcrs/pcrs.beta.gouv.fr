@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import {find} from 'lodash'
 
 import {formatDate} from '@/lib/date-utils.js'
+import {findClosestEtape} from '@/lib/suivi-pcrs.js'
 import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors.js'
 
 import Header from '@/components/map-sidebar/project-header.js'
@@ -11,7 +12,7 @@ import PcrsInfos from '@/components/map-sidebar/pcrs-infos.js'
 import Documents from '@/components/map-sidebar/documents.js'
 import Contact from '@/components/map-sidebar/contact.js'
 
-const MapSidebar = ({projet, onClose}) => {
+const MapSidebar = ({projet, onClose, onProjetChange, projets}) => {
   const {status} = PCRS_DATA_COLORS
   const {nom, territoires, _id, etapes, source, documentation, contrat, acteurs} = projet
 
@@ -20,17 +21,26 @@ const MapSidebar = ({projet, onClose}) => {
   const projectStartDate = formatDate(find(projet.etapes, {statut: 'investigation'}).date_debut)
   const isObsolete = statut === 'obsolete'
 
+  const closestPostStep = findClosestEtape(etapes)
+
   return (
     <>
-      <Header projectId={_id} projectName={nom} territoires={territoires} onSidebarClose={onClose} />
+      <Header
+        projets={projets}
+        projectId={_id}
+        projectName={nom}
+        territoires={territoires}
+        onSidebarClose={onClose}
+        onProjetChange={onProjetChange}
+      />
       <div className='infos-container'>
         <h2 className='fr-text--lead fr-mb-1w'>État d’avancement</h2>
         <div className='actual-status fr-mb-3w'>
           <Badge
-            background={status[statut]}
-            textColor={statut === 'livre' || statut === 'obsolete' ? 'white' : 'black'}
+            background={status[closestPostStep.statut]}
+            textColor={closestPostStep.statut === 'livre' || closestPostStep.statut === 'obsolete' ? 'white' : 'black'}
           >
-            {statut === 'livre' ? 'livré' : statut}
+            {closestPostStep.statut === 'livre' ? 'livré' : closestPostStep.statut}
           </Badge>
 
           {projectStartDate && (
@@ -40,7 +50,7 @@ const MapSidebar = ({projet, onClose}) => {
         {!isObsolete && (
           <Timeline
             stepsColors={status}
-            currentStatus={statut}
+            currentStatus={closestPostStep.statut}
             steps={etapes}
           />
         )}
@@ -81,9 +91,16 @@ const MapSidebar = ({projet, onClose}) => {
   )
 }
 
+MapSidebar.defaultProps = {
+  projets: null,
+  onProjetChange: null
+}
+
 MapSidebar.propTypes = {
   projet: PropTypes.object.isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
+  projets: PropTypes.array,
+  onProjetChange: PropTypes.func
 }
 
 export default MapSidebar

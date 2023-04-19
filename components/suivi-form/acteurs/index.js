@@ -17,6 +17,7 @@ import Button from '@/components/button.js'
 
 const rolesList = [
   {label: 'Autorité Public Locale Compétente', value: 'aplc'},
+  {label: 'Porteur de projet non APLC', value: 'porteur'},
   {label: 'Financeur', value: 'financeur'},
   {label: 'Diffuseur des livrables', value: 'diffuseur'},
   {label: 'Prestataire de vol', value: 'presta_vol'},
@@ -249,12 +250,12 @@ const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) =>
   }, [updatingActorIndex])
 
   useEffect(() => {
-    if (nom && role && !hasInvalidInput && (!phone || isPhoneNumberValid)) {
+    if (nom && role && siren && !hasInvalidInput && (!phone || isPhoneNumberValid)) {
       setIsFormComplete(true)
     } else {
       setIsFormComplete(false)
     }
-  }, [nom, role, hasInvalidInput, phone, isPhoneNumberValid])
+  }, [nom, role, siren, hasInvalidInput, phone, isPhoneNumberValid])
 
   useEffect(() => {
     if (phone) {
@@ -332,6 +333,8 @@ const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) =>
                     nom: foundActorName,
                     siren: item
                   })
+
+                  setIsSirenValid(/^\d{9}$/.test(item))
                 }}
               />
             </div>
@@ -343,12 +346,12 @@ const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) =>
                 ariaLabel='numéro siren de l’entreprise'
                 description='SIREN de l’entreprise'
                 errorMessage={handleErrors(siren, 'siren')}
+                onBlur={e => setIsSirenValid(/^\d{9}$/.test(e.target.value))}
                 onValueChange={e => {
                   setActeur({
                     ...acteur,
                     siren: e.target.value
                   })
-                  setIsSirenValid(/^\d{9}$/.test(e.target.value))
                 }}
               />
             </div>

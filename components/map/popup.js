@@ -6,7 +6,7 @@ import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors.js'
 
 import {formatDate} from '@/lib/date-utils.js'
 
-const Popup = ({projet}) => {
+const Popup = ({projet, numberOfProjets}) => {
   const {aplc, dateStatut, nom, nature, statut} = projet
   const {status, natures} = PCRS_DATA_COLORS
 
@@ -17,8 +17,13 @@ const Popup = ({projet}) => {
         textAlign: 'center'
       }}
     >
-      <h6 className='title fr-text fr-text--md'><u>{nom}</u></h6>
-      <div className='fr-text fr-text--sm fr-grid-row fr-pb-3v'>
+      <div className='title'><u>{nom}</u></div>
+      {numberOfProjets > 1 && (
+        <div className='more'>
+          <i>...et {numberOfProjets - 1} {numberOfProjets === 2 ? 'autre projet' : 'autres projets'}</i>
+        </div>
+      )}
+      <div className='fr-text fr-text--sm fr-grid-row--center fr-pt-3v'>
         {statut !== 'livre' && (
           <span>En</span>
         )}
@@ -55,6 +60,9 @@ const Popup = ({projet}) => {
       <style>{`
         .title {
           color: ${colors.blueFranceSun113};
+          font-size: 1.4em;
+          font-weight: bold;
+          padding-bottom: 5px;
         }
         .container {
           display: flex;
@@ -72,7 +80,8 @@ const Popup = ({projet}) => {
 }
 
 Popup.propTypes = {
-  projet: PropTypes.object.isRequired
+  projet: PropTypes.object.isRequired,
+  numberOfProjets: PropTypes.number
 }
 
 export default Popup

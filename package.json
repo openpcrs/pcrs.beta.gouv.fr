@@ -12,7 +12,7 @@
     "start": "NODE_ENV=production node server/index.js",
     "lint": "xo",
     "test": "ava",
-    "scalingo-postbuild": "yarn download-contours && next build && node scripts/migration-projets"
+    "scalingo-postbuild": "yarn download-contours && next build"
   },
   "dependencies": {
     "@etalab/decoupage-administratif": "^2.3.1",
@@ -27,7 +27,6 @@
     "hash-obj": "^4.0.0",
     "http-errors": "^2.0.0",
     "joi": "^17.7.0",
-    "js-yaml": "^4.1.0",
     "keyv": "^4.5.2",
     "lodash-es": "^4.17.21",
     "lru-cache": "^8.0.4",

@@ -31,7 +31,7 @@ const validProjet = {
     {
       nom: 'Nom du livrable',
       nature: 'geotiff',
-      diffusion: 'telechargement',
+      diffusion: 'wmts',
       licence: 'ouvert_odbl',
       avancement: 100,
       crs: 'EPSG:2971',
