@@ -13,7 +13,7 @@ const LivrableCard = ({nom, nature, licence, diffusion, crs, avancement, publica
 
         <div className='fr-grid-row fr-col-12 fr-col-md-3 fr-p-1w fr-my-lg-2w'>
           <div className='label fr-col-12 fr-m-0'>Publication</div>
-          <div className='fr-m-0 fr-grid-row fr-grid-row--top fr-col-12 fr-text--sm'>{publication}</div>
+          <div className='fr-m-0 fr-grid-row fr-grid-row--top fr-col-12 fr-text--sm'>{publication || 'N/A'}</div>
         </div>
 
         <div className='fr-grid-row fr-col-12 fr-col-md-3 fr-p-1w fr-my-lg-2w'>
@@ -105,12 +105,13 @@ LivrableCard.propTypes = {
   diffusion: PropTypes.string,
   avancement: PropTypes.number,
   crs: PropTypes.string,
-  publication: PropTypes.string.isRequired,
+  publication: PropTypes.string,
   handleDelete: PropTypes.func.isRequired,
   handleEdition: PropTypes.func.isRequired
 }
 
 LivrableCard.defaultProps = {
+  publication: null,
   diffusion: null,
   avancement: null,
   crs: null
