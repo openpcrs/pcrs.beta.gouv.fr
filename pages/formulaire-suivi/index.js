@@ -74,7 +74,6 @@ const FormulaireSuivi = () => {
       }
 
       if (hasMissingData) {
-        console.log(1)
         setHasMissingDataOnValidation(true)
         handleScrollToError()
         setErrorOnValidationMessages([{message: 'Des données nécessaires à la validation du formulaires sont manquantes. Au moins un livrable, un acteur et un périmètre doivent être ajoutés.'}])
@@ -105,8 +104,8 @@ const FormulaireSuivi = () => {
           }, 2000)
         }
       }
-    } catch (error) {
-      console.log(error)
+    } catch {
+      setErrorOnValidationMessages('Une erreur a été rencontrée')
       throw new Error('Une erreur a été rencontrée')
     }
   }
