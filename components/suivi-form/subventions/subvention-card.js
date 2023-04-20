@@ -3,7 +3,13 @@ import {formatDate} from '@/lib/date-utils.js'
 
 import colors from '@/styles/colors.js'
 
-const SubventionCard = ({nom, nature, montant, echeance, natures, handleDelete, handleEdition}) => (
+const NATURES = {
+  feder: 'Financement FEDER',
+  cepr: 'Contrat État-Région',
+  detr: 'Dotations de l’État aux Territoires Ruraux'
+}
+
+const SubventionCard = ({nom, montant, echeance, nature, handleDelete, handleEdition}) => (
   <div className='fr-grid-row fr-p-2w fr-my-3w card-container'>
     <div className='fr-grid-row fr-col-10'>
       <div className='fr-grid-row fr-col-12 fr-col-xl-6'>
@@ -16,7 +22,7 @@ const SubventionCard = ({nom, nature, montant, echeance, natures, handleDelete, 
 
         <div className='fr-grid-row col-12 fr-col-md-6 fr-p-1w'>
           <div className='label fr-col-12 fr-text--lg fr-m-0'>Nature</div>
-          <div className='fr-m-0 fr-col-12 fr-text--sm'>{natures.find(n => n.value === nature).label}</div>
+          <div className='fr-m-0 fr-col-12 fr-text--sm'>{NATURES[nature]}</div>
         </div>
       </div>
 
@@ -82,10 +88,9 @@ const SubventionCard = ({nom, nature, montant, echeance, natures, handleDelete, 
 
 SubventionCard.propTypes = {
   nom: PropTypes.string.isRequired,
-  nature: PropTypes.string.isRequired,
   montant: PropTypes.number,
   echeance: PropTypes.string,
-  natures: PropTypes.array.isRequired,
+  nature: PropTypes.string.isRequired,
   handleEdition: PropTypes.func.isRequired,
   handleDelete: PropTypes.func.isRequired
 }
