@@ -206,7 +206,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
         .required-disclaimer {
           font-style: italic;
         }
-    `}</style>
+      `}</style>
     </>
   )
 }
