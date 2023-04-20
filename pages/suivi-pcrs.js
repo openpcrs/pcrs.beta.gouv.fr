@@ -11,11 +11,19 @@ const PcrsMap = () => {
   const Layout = useMemo(() => isMobileDevice ? Mobile : Desktop, [isMobileDevice])
   const [isOpen, setIsOpen] = useState(false)
   const [projet, setProjet] = useState()
+  const [projets, setProjets] = useState()
   const [geometry, setGeometry] = useState()
 
   const handleClick = useCallback(async e => {
-    const projet = await getProject(e.features[0].properties._id)
-    setProjet(projet)
+    try {
+      setProjets([])
+      const promises = e.features.map(f => getProject(f.properties._id))
+      const projets = await Promise.all(promises)
+      setProjets(prevProjets => [...prevProjets, ...projets])
+    } catch {
+      throw new Error('Projet introuvable')
+    }
+
     setIsOpen(true)
   }, [])
 
@@ -24,6 +32,17 @@ const PcrsMap = () => {
       setIsOpen(!isOpen)
     }
   }
+
+  const handleProjet = e => {
+    const selectedProjet = projets.find(p => p._id === e.target.value)
+    setProjet(selectedProjet)
+  }
+
+  useEffect(() => {
+    if (projets && projets.length > 0) {
+      setProjet(projets[0])
+    }
+  }, [projets])
 
   useEffect(() => {
     async function getGeometry() {
@@ -47,9 +66,11 @@ const PcrsMap = () => {
         handleClick={handleClick}
         handleTitleClick={handleTitleClick}
         projet={projet}
+        projets={projets}
+        geometry={geometry}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
-        geometry={geometry}
+        onProjetChange={handleProjet}
       />
     </Page>
   )

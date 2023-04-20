@@ -14,8 +14,10 @@ import Popup from '@/components/map/popup.js'
 import Loader from '@/components/loader.js'
 import Legend from '@/components/map/legend.js'
 
-const Map = ({handleClick, isMobile, geometry}) => {
-  const mapNode = useRef(null)
+const Map = ({handleClick, isMobile, geometry, projetId}) => {
+  const mapNode = useRef()
+  const mapRef = useRef()
+  const selectedCode = useRef()
 
   const popupRef = useRef(new maplibreGl.Popup({
     offset: 50,
@@ -29,7 +31,6 @@ const Map = ({handleClick, isMobile, geometry}) => {
   useEffect(() => {
     const node = mapNode.current
     let hoveredCode = null
-    let selectedCode = null
     let projet = null
 
     const maplibreMap = new maplibreGl.Map({
@@ -39,6 +40,8 @@ const Map = ({handleClick, isMobile, geometry}) => {
       zoom: isMobile ? 4 : 5,
       attributionControl: false
     })
+
+    mapRef.current = maplibreMap
 
     const resizer = new ResizeObserver(() => maplibreMap.resize())
     resizer.observe(node)
@@ -65,7 +68,9 @@ const Map = ({handleClick, isMobile, geometry}) => {
 
           popupRoot.render(
             <Popup
+              key={projet.nom}
               projet={projet}
+              numberOfProjets={e.features.length}
             />
           )
 
@@ -83,17 +88,17 @@ const Map = ({handleClick, isMobile, geometry}) => {
 
     maplibreMap.on('click', 'departements-fills', e => {
       if (e.features.length > 0) {
-        if (selectedCode !== null) {
+        if (selectedCode.current !== undefined) {
           maplibreMap.setFeatureState(
-            {source: 'projetsData', id: selectedCode},
+            {source: 'projetsData', id: selectedCode.current},
             {hover: false}
           )
         }
 
-        selectedCode = e.features[0].id
+        selectedCode.current = e.features[0].id
 
         maplibreMap.setFeatureState(
-          {source: 'projetsData', id: selectedCode},
+          {source: 'projetsData', id: selectedCode.current},
           {hover: true}
         )
       }
@@ -119,6 +124,13 @@ const Map = ({handleClick, isMobile, geometry}) => {
         promoteId: '_id'
       })
 
+      if (projetId) {
+        maplibreMap.setFeatureState(
+          {source: 'projetsData', id: projetId},
+          {hover: true}
+        )
+      }
+
       maplibreMap.addLayer(departementFillLayer)
       maplibreMap.addLayer(departementLayer)
     })
@@ -128,6 +140,24 @@ const Map = ({handleClick, isMobile, geometry}) => {
       maplibreMap.remove()
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (mapRef?.current.isStyleLoaded() && projetId) {
+      if (selectedCode?.current && selectedCode?.current !== projetId) {
+        mapRef.current.setFeatureState(
+          {source: 'projetsData', id: selectedCode.current},
+          {hover: false}
+        )
+      }
+
+      selectedCode.current = projetId
+
+      mapRef.current.setFeatureState(
+        {source: 'projetsData', id: projetId},
+        {hover: true}
+      )
+    }
+  }, [projetId])
 
   return (
     <div style={{position: 'relative', height: '100%', width: '100%'}}>
@@ -155,7 +185,8 @@ const Map = ({handleClick, isMobile, geometry}) => {
 Map.propTypes = {
   handleClick: PropTypes.func,
   isMobile: PropTypes.bool,
-  geometry: PropTypes.object
+  geometry: PropTypes.object,
+  projetId: PropTypes.string
 }
 
 export default Map

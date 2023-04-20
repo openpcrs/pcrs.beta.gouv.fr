@@ -17,6 +17,7 @@ import Button from '@/components/button.js'
 
 const rolesList = [
   {label: 'Autorité Public Locale Compétente', value: 'aplc'},
+  {label: 'Porteur de projet non APLC', value: 'porteur'},
   {label: 'Financeur', value: 'financeur'},
   {label: 'Diffuseur des livrables', value: 'diffuseur'},
   {label: 'Prestataire de vol', value: 'presta_vol'},
@@ -181,10 +182,18 @@ const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) =>
   }
 
   useEffect(() => {
-    // Disable APLC selector option when already selected
-    const hasAplc = acteurs.some(actor => actor.role === 'aplc')
-    rolesList.find(role => role.value === 'aplc').isDisabled = Boolean(hasAplc)
-  }, [acteurs])
+    // Enable aplc/porteur selector choices for editing aplc/porteur actor...
+    if (acteur.role === 'aplc' || acteur.role === 'porteur') {
+      rolesList.find(role => role.value === 'porteur').isDisabled = false
+      rolesList.find(role => role.value === 'aplc').isDisabled = false
+    } else {
+      const hasAplc = acteurs.some(actor => actor.role === 'aplc' || actor.role === 'porteur')
+
+      // ... disable aplc/porteur selector choices when actor with this role already exist
+      rolesList.find(role => role.value === 'aplc').isDisabled = Boolean(hasAplc)
+      rolesList.find(role => role.value === 'porteur').isDisabled = Boolean(hasAplc)
+    }
+  }, [acteur, acteurs])
 
   useEffect(() => {
     // Switch to actor update form

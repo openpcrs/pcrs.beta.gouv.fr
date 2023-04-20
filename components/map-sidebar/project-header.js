@@ -11,7 +11,7 @@ import Button from '@/components/button.js'
 import Modal from '@/components/modal.js'
 import AuthentificationModal from '@/components/suivi-form/authentification-modal.js'
 
-const Header = ({projectId, projectName, territoires}) => {
+const Header = ({projectId, projectName, territoires, projets, onProjetChange}) => {
   const router = useRouter()
   const [isTerritoiresShow, setIsTerritoiresShow] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
@@ -146,7 +146,20 @@ const Header = ({projectId, projectName, territoires}) => {
           </span>
         ))
       )}
-
+      {projets && projets.length > 1 && (
+        <div className='fr-select-group fr-p-3v fr-mt-3w' style={{borderTop: '1px solid white'}}>
+          <label className='fr-label' style={{color: 'white'}}>Sélectionnez un autre projet</label>
+          <select
+            className='fr-select'
+            defaultValue={projets.find(p => p._id === projectId)?._id}
+            onChange={onProjetChange}
+          >
+            {projets.map(projet => (
+              <option key={projet.nom} value={projet._id}>{projet.nom}</option>
+            ))}
+          </select>
+        </div>
+      )}
       <style jsx>{`
         .header {
           padding: 1em;
@@ -185,14 +198,18 @@ const Header = ({projectId, projectName, territoires}) => {
   )
 }
 
+Header.defaultProps = {
+  territoires: [],
+  projets: null,
+  onProjetChange: null
+}
+
 Header.propTypes = {
   projectId: PropTypes.string.isRequired,
   projectName: PropTypes.string.isRequired,
-  territoires: PropTypes.array
-}
-
-Header.defaultProps = {
-  territoires: []
+  territoires: PropTypes.array,
+  projets: PropTypes.array,
+  onProjetChange: PropTypes.func
 }
 
 export default Header

@@ -8,7 +8,7 @@ const Contact = ({name, phone, mail}) => (
       <span aria-disabled className='fr-icon-user-fill fr-col-1 fr-mr-1w' aria-hidden='true' />
       <div className='fr-col-10 contact-data fr-pl-2w fr-ml-1w'>
         <div aria-label='Nom du contact de référence'>
-          {`${name || 'non renseigné'}`}
+          {name || 'non renseigné'}
         </div>
       </div>
     </div>
@@ -16,8 +16,8 @@ const Contact = ({name, phone, mail}) => (
     <div className='contact-info fr-grid-row fr-grid-row--middle'>
       <span aria-disabled className='fr-icon-phone-fill fr-col-1 fr-mr-1w fr-py-2w' aria-hidden='true' />
       <div className='fr-col-10 contact-data fr-py-2w fr-pl-2w fr-ml-1w'>
-        <a href={`tel:${phone}`} aria-label='Numéro de téléphone du contact de référence'>
-          {`${phone || 'non-renseigné'}`}
+        <a href={phone && `tel:${phone}`} aria-label='Numéro de téléphone du contact de référence'>
+          {phone || 'non renseigné'}
         </a>
       </div>
     </div>
@@ -26,11 +26,11 @@ const Contact = ({name, phone, mail}) => (
       <span aria-disabled className='fr-icon-mail-fill fr-col-1 fr-mr-1w' aria-hidden='true' />
       <div className='fr-col-10 contact-data fr-pl-2w fr-ml-1w'>
         <a
-          href={`mailto:${mail}`}
+          href={mail && `mailto:${mail}`}
           target='_self'
           aria-label='Email du contact de référence'
         >
-          {`${mail || 'non renseigné'}`}
+          {mail || 'non renseigné'}
         </a>
       </div>
     </div>

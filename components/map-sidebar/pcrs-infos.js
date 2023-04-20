@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 
 import colors from '@/styles/colors.js'
 
+import {formatDate} from '@/lib/date-utils.js'
+
 import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors.js'
 
 import Tooltip from '@/components/tooltip.js'
@@ -23,7 +25,8 @@ const ACTORS_LABELS = {
   presta_vol: 'Prestataires de vol',
   presta_lidar: 'Prestataires Lidar',
   controleur: 'Controleurs',
-  aplc: 'Autorité Publique Locale Compétente'
+  aplc: 'Autorité Publique Locale Compétente',
+  porteur: 'Porteur de projet non-APLC'
 }
 
 const NATURE_LABELS = {
@@ -36,6 +39,19 @@ const LICENCE_LABELS = {
   ouvert_lo: 'Ouvert sous licence ouverte',
   ouvert_odbl: 'Ouvert sous licence ODbL',
   ferme: 'Fermé'
+}
+
+const PUBLICATIONS = {
+  ftp: 'Accès via FTP',
+  cloud: 'Accès via un service cloud (oneDrive...)',
+  http: 'Accès via service HTTP(S)',
+  inexistante: 'Aucun moyen d’accès en ligne'
+}
+
+const DIFFUSIONS = {
+  wms: 'Diffusion via un service WMS',
+  wmts: 'Diffusion via un service WMTS',
+  tms: 'Diffusion via un service TMS'
 }
 
 const PcrsInfos = ({nature, regime, livrables, licence, acteurs}) => {
@@ -52,8 +68,11 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs}) => {
 
   const livrableTooltip = livrable => (
     <div className='tooltip-container'>
-      <div>Nature : <span>{NATURE_LABELS[livrable.nature] || 'N/A'}</span></div>
-      <div>Licence : <span>{LICENCE_LABELS[livrable.licence] || 'N/A'}</span></div>
+      <div>Nature : <br /><span>{NATURE_LABELS[livrable.nature]}</span></div>
+      <div>Licence : <br /><span>{LICENCE_LABELS[livrable.licence]}</span></div>
+      <div>Diffusion : <br /><span>{DIFFUSIONS[livrable.diffusion]}</span></div>
+      <div>Type de publication : <br /><span>{livrable.publication ? PUBLICATIONS[livrable.publication] : 'N/A'}</span></div>
+      <div>Livraison : <br /><span>{livrable.date_livraison ? `le ${formatDate(livrable.date_livraison)}` : 'N/A'}</span></div>
 
       <style jsx>{`
         .tooltip-container {
@@ -204,4 +223,3 @@ PcrsInfos.propTypes = {
 }
 
 export default PcrsInfos
-
