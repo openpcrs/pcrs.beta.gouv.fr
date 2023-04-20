@@ -105,6 +105,7 @@ const FormulaireSuivi = () => {
         }
       }
     } catch {
+      setErrorOnValidationMessages('Une erreur a été rencontrée')
       throw new Error('Une erreur a été rencontrée')
     }
   }
@@ -156,7 +157,7 @@ const FormulaireSuivi = () => {
             />
           </div>
 
-          <div className='perimetres'>
+          <div id='perimetres'>
             <Perimetres
               perimetres={perimetres}
               handlePerimetres={setPerimetres}
