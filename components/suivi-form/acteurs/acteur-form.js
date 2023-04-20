@@ -163,10 +163,18 @@ const ActeurForm = ({acteurs, roles, updatingActorIndex, isEditing, handleActorI
   }
 
   useEffect(() => {
-    // Disable APLC selector option when already selected
-    const hasAplc = acteurs.some(actor => actor.role === 'aplc')
-    roles.find(role => role.value === 'aplc').isDisabled = Boolean(hasAplc)
-  }, [acteurs, roles])
+    // Enable aplc/porteur selector choices for editing aplc/porteur actor...
+    if (acteur.role === 'aplc' || acteur.role === 'porteur') {
+      roles.find(role => role.value === 'porteur').isDisabled = false
+      roles.find(role => role.value === 'aplc').isDisabled = false
+    } else {
+      const hasAplc = acteurs.some(actor => actor.role === 'aplc' || actor.role === 'porteur')
+
+      // ... disable aplc/porteur selector choices when actor with this role already exist
+      roles.find(role => role.value === 'aplc').isDisabled = Boolean(hasAplc)
+      roles.find(role => role.value === 'porteur').isDisabled = Boolean(hasAplc)
+    }
+  }, [acteur, roles, acteurs])
 
   useEffect(() => {
     // Switch to actor update form
