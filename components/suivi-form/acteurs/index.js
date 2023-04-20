@@ -23,8 +23,6 @@ const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) =>
   const [isEditing, setIsEditing] = useState(false)
   const [updatingActorIndex, setUpdatingActorIndex] = useState(null)
 
-  const isFormOpen = isAdding || isEditing
-
   const onDelete = siren => {
     handleActors(current => current.filter(c => c.siren !== siren))
     setIsAdding(false)
@@ -36,18 +34,18 @@ const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) =>
   return (
     <div className='fr-mt-8w'>
       <h3 className='fr-h5 fr-m-0'>Acteurs *</h3>
+      <hr className='fr-my-3w' />
+
       {(hasMissingData && acteurs.length === 0) && (
         <div className='fr-error-text fr-mt-1w'>Au moins un acteur doit être ajouté</div>
       )}
-
-      {(acteurs.length > 0 || isFormOpen) && <div className='separator fr-my-3w' />}
 
       {sortActorsByAplc.map((actor, idx) => (
         <div key={actor.siren}>
           <ActeurCard
             handleActors={handleActors}
             roles={rolesList}
-            isFormOpen={isFormOpen}
+            isFormOpen={isAdding || isEditing}
             handleEdition={() => {
               setUpdatingActorIndex(idx)
               setIsEditing(true)
@@ -70,7 +68,7 @@ const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) =>
                 handleEditing={setIsEditing}
                 onRequiredFormOpen={onRequiredFormOpen}
               />
-              <div className='edit-separator fr-my-3w' />
+              <hr className='edit-separator fr-my-3w' />
             </div>
           )}
         </div>
@@ -108,7 +106,7 @@ const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) =>
       )}
 
       <style jsx>{`
-       .separator {
+        hr {
           border-top: 3px solid ${colors.grey850};
         }
 

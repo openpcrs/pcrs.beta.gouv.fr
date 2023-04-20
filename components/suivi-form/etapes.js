@@ -63,7 +63,7 @@ const Etapes = ({initialValue, etapes, handleEtapes}) => {
   return (
     <div className='fr-mt-8w'>
       <h3 className='fr-h5'>Étapes</h3>
-      <div className='separator fr-my-3w' />
+      <hr className='separator fr-my-3w' />
 
       {etapes.map((etape, index) => {
         const findLabel = STATUS.find(status => etape.statut === status.value).label
@@ -132,7 +132,7 @@ const Etapes = ({initialValue, etapes, handleEtapes}) => {
           color: ${colors.grey850};
         }
 
-        .separator {
+        hr {
           border-top: 3px solid ${colors.grey850};
         }
       `}</style>

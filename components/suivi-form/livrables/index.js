@@ -33,8 +33,6 @@ const Livrables = ({livrables, hasMissingData, handleLivrables, onRequiredFormOp
   const [isEditing, setIsEditing] = useState(false)
   const [updatingLivrableIndex, setUpdatingLivrableIndex] = useState()
 
-  const isFormOpen = isAdding || isEditing
-
   const onDelete = index => {
     handleLivrables(current => current.filter((_, i) => index !== i))
     setIsAdding(false)
@@ -44,11 +42,11 @@ const Livrables = ({livrables, hasMissingData, handleLivrables, onRequiredFormOp
   return (
     <div className='fr-mt-8w'>
       <h3 className='fr-h5 fr-m-0'>Livrables *</h3>
+      <hr className='fr-my-3w' />
+
       {(hasMissingData && livrables.length === 0) && (
         <div className='fr-error-text fr-mt-1w'>Au moins un livrable doit être ajouté</div>
       )}
-
-      {(livrables.length > 0 || isFormOpen) && <div className='separator fr-my-3w' />}
 
       {livrables.map((livrable, idx) => {
         const {nom, nature, licence, crs, avancement, diffusion} = livrable
@@ -63,7 +61,7 @@ const Livrables = ({livrables, hasMissingData, handleLivrables, onRequiredFormOp
               diffusion={DIFFUSIONS[diffusion]}
               crs={crs}
               avancement={avancement}
-              isFormOpen={isFormOpen}
+              isFormOpen={isAdding || isEditing}
               handleEdition={() => {
                 setUpdatingLivrableIndex(idx)
                 setIsEditing(true)
@@ -122,7 +120,7 @@ const Livrables = ({livrables, hasMissingData, handleLivrables, onRequiredFormOp
       )}
 
       <style jsx>{`
-        .separator {
+        hr {
           border-top: 3px solid ${colors.grey850};
         }
 

@@ -24,8 +24,7 @@ const Subventions = ({subventions, handleSubventions}) => {
   return (
     <div className='fr-mt-8w'>
       <h3 className='fr-h5'>Subventions</h3>
-
-      {(subventions.length > 0 || isFormOpen) && <div className='separator fr-my-3w' />}
+      <hr className='fr-my-3w' />
 
       {subventions.map((subvention, idx) => (
         <div key={uniqueId()}>
@@ -52,7 +51,7 @@ const Subventions = ({subventions, handleSubventions}) => {
                 handleAdding={setIsAdding}
                 handleUpdatingSubvIdx={setUpdatingSubvIndex}
               />
-              <div className='edit-separator fr-my-3w' />
+              <hr className='edit-separator fr-my-3w' />
             </div>
           )}
         </div>
@@ -83,7 +82,7 @@ const Subventions = ({subventions, handleSubventions}) => {
       )}
 
       <style jsx>{`
-        .separator {
+        hr {
           border-top: 3px solid ${colors.grey850};
         }
 

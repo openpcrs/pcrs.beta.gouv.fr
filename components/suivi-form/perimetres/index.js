@@ -31,11 +31,11 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres, onRequiredFor
   return (
     <div className='fr-mt-8w'>
       <h3 className='fr-h5 fr-m-0'>Périmètres *</h3>
+      <hr className='fr-my-3w' />
+
       {(hasMissingData && perimetres.length === 0) && (
         <div className='fr-error-text fr-mt-1w'>Au moins un périmètre doit être ajouté</div>
       )}
-
-      {(perimetres.length > 0 || isFormOpen) && <div className='separator fr-my-3w' />}
 
       <div className='fr-grid-row fr-mt-2w'>
         {perimetres.map((perimetre, idx) => (
@@ -65,7 +65,7 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres, onRequiredFor
                   onRequiredFormOpen={onRequiredFormOpen}
                 />
 
-                <div className='edit-separator fr-my-3w' />
+                <hr className='edit-separator fr-my-3w' />
               </div>
             )}
           </div>
@@ -106,6 +106,10 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres, onRequiredFor
       <style jsx>{`
         .editing-perimetre {
           flex: 1;
+        }
+
+        hr {
+          border-top: 3px solid ${colors.grey850};
         }
 
         .edit-separator {
