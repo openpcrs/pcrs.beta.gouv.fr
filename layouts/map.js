@@ -24,7 +24,12 @@ export const Mobile = ({handleClick, handleTitleClick, projet, isOpen, setIsOpen
             width: '100%'
           }}
         >
-          <Map isMobile handleClick={handleClick} geometry={geometry} />
+          <Map
+            isMobile
+            handleClick={handleClick}
+            geometry={geometry}
+            projetId={projet?._id}
+          />
         </div>
       )}
       <div
@@ -165,7 +170,12 @@ export const Desktop = ({handleClick, projet, isOpen, setIsOpen, geometry, onPro
 
     {geometry && (
       <div style={{width: '100%', height: 'calc(100vh - 117px)'}}>
-        <Map style={{pointerEvents: 'all'}} handleClick={handleClick} geometry={geometry} />
+        <Map
+          style={{pointerEvents: 'all'}}
+          handleClick={handleClick}
+          geometry={geometry}
+          projetId={projet?._id}
+        />
       </div>
     )}
   </div>

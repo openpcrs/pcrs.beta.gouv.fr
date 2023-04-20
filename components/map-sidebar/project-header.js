@@ -149,9 +149,13 @@ const Header = ({projectId, projectName, territoires, projets, onProjetChange}) 
       {projets && projets.length > 1 && (
         <div className='fr-select-group fr-p-3v fr-mt-3w' style={{borderTop: '1px solid white'}}>
           <label className='fr-label' style={{color: 'white'}}>Sélectionnez un autre projet</label>
-          <select className='fr-select' onChange={onProjetChange}>
-            {projets.map((projet, idx) => (
-              <option key={projet.nom} value={idx}>{projet.nom}</option>
+          <select
+            className='fr-select'
+            defaultValue={projets.find(p => p._id === projectId)?._id}
+            onChange={onProjetChange}
+          >
+            {projets.map(projet => (
+              <option key={projet.nom} value={projet._id}>{projet.nom}</option>
             ))}
           </select>
         </div>
