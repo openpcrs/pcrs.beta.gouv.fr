@@ -13,6 +13,8 @@ const Subventions = ({subventions, handleSubventions}) => {
   const [isEditing, setIsEditing] = useState(false)
   const [updatingSubvIndex, setUpdatingSubvIndex] = useState(null)
 
+  const isFormOpen = isAdding || isEditing
+
   const onDelete = index => {
     handleSubventions(current => current.filter((_, i) => index !== i))
     setIsAdding(false)
@@ -23,18 +25,19 @@ const Subventions = ({subventions, handleSubventions}) => {
     <div className='fr-mt-8w'>
       <h3 className='fr-h5'>Subventions</h3>
 
-      {(subventions.length > 0 || isAdding || isEditing) && <div className='separator fr-my-3w' />}
+      {(subventions.length > 0 || isFormOpen) && <div className='separator fr-my-3w' />}
 
       {subventions.map((subvention, idx) => (
         <div key={uniqueId()}>
           <SubventionCard
+            {...subvention}
+            isFormOpen={isFormOpen}
             handleSubventions={handleSubventions}
             handleEdition={() => {
               setUpdatingSubvIndex(idx)
               setIsEditing(true)
             }}
             handleDelete={() => onDelete(idx)}
-            {...subvention}
           />
 
           {updatingSubvIndex === idx && (

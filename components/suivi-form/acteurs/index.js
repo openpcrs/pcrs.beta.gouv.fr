@@ -22,6 +22,8 @@ const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) =>
   const [isEditing, setIsEditing] = useState(false)
   const [updatingActorIndex, setUpdatingActorIndex] = useState(null)
 
+  const isFormOpen = isAdding || isEditing
+
   const onDelete = siren => {
     handleActors(current => current.filter(c => c.siren !== siren))
     setIsAdding(false)
@@ -37,13 +39,14 @@ const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) =>
         <div className='fr-error-text fr-mt-1w'>Au moins un acteur doit être ajouté</div>
       )}
 
-      {(acteurs.length > 0 || isAdding || isEditing) && <div className='separator fr-my-3w' />}
+      {(acteurs.length > 0 || isFormOpen) && <div className='separator fr-my-3w' />}
 
       {sortActorsByAplc.map((actor, idx) => (
         <div key={actor.siren}>
           <ActeurCard
             handleActors={handleActors}
             roles={rolesList}
+            isFormOpen={isFormOpen}
             handleEdition={() => {
               setUpdatingActorIndex(idx)
               setIsEditing(true)
