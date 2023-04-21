@@ -1,11 +1,11 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useCallback} from 'react'
+import PropTypes from 'prop-types'
 import Image from 'next/image'
 import {useRouter} from 'next/router'
 
-import {postSuivi} from '@/lib/suivi-pcrs.js'
+import {postSuivi, editProject} from '@/lib/suivi-pcrs.js'
 
-import Page from '@/layouts/main.js'
-
+import AuthentificationModal from '@/components/suivi-form/authentification-modal.js'
 import GeneralInfos from '@/components/suivi-form/general-infos.js'
 import Livrables from '@/components/suivi-form/livrables/index.js'
 import Acteurs from '@/components/suivi-form/acteurs/index.js'
@@ -13,27 +13,28 @@ import Perimetres from '@/components/suivi-form/perimetres/index.js'
 import Etapes from '@/components/suivi-form/etapes.js'
 import Subventions from '@/components/suivi-form/subventions/index.js'
 import Button from '@/components/button.js'
-import AuthentificationModal from '@/components/suivi-form/authentification-modal.js'
 
-const FormulaireSuivi = () => {
+const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subventions, etapes, _id}) => {
   const router = useRouter()
+
   const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
   const [hasMissingDataOnValidation, setHasMissingDataOnValidation] = useState(false)
   const [validationMessage, setValidationMessage] = useState(null)
-  const [errorOnValidationMessages, setErrorOnValidationMessages] = useState(null)
+  const [errorOnValidationMessages, setErrorOnValidationMessages] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [isRequiredFormOpen, setIsRequiredFormOpen] = useState(false)
 
   const [generalInfos, setGeneralInfos] = useState({
-    nom: '',
-    nature: '',
-    regime: ''
+    nom,
+    nature,
+    regime
   })
-  const [livrables, setLivrables] = useState([])
-  const [acteurs, setActeurs] = useState([])
-  const [perimetres, setPerimetres] = useState([])
-  const [etapes, setEtapes] = useState([{statut: 'investigation', date_debut: ''}]) // eslint-disable-line camelcase
-  const [subventions, setSubventions] = useState([])
+
+  const [projetLivrables, setProjetLivrables] = useState(livrables)
+  const [projetActeurs, setProjetActeurs] = useState(acteurs)
+  const [projetPerimetres, setProjetPerimetres] = useState(perimetres)
+  const [projetEtapes, setProjetEtapes] = useState(etapes)
+  const [projetSubventions, setProjetSubventions] = useState(subventions || [])
   const [token, setToken] = useState(null)
 
   useEffect(() => {
@@ -41,18 +42,20 @@ const FormulaireSuivi = () => {
     setIsLoading(false)
   }, [])
 
-  const handleModalClose = () => {
-    setIsAuthentificationModalOpen(!isAuthentificationModalOpen)
-    router.push('/suivi-pcrs')
-  }
+  const handleModal = useCallback(() => setIsAuthentificationModalOpen(!isAuthentificationModalOpen), [isAuthentificationModalOpen])
 
   const handleSubmit = async event => {
     event.preventDefault()
 
-    const hasMissingData = livrables.length === 0 || acteurs.length === 0 || perimetres.length === 0
+    const hasMissingData = projetLivrables.length === 0 || projetActeurs.length === 0 || projetPerimetres.length === 0
+    const {nom, nature, regime} = generalInfos
+
+    setValidationMessage(null)
+    setErrorOnValidationMessages([])
+    setHasMissingDataOnValidation(false)
 
     const handleScrollToError = () => {
-      const firstErrorSection = livrables.length === 0 ? 'livrables' : (acteurs.length === 0 ? 'acteurs' : 'perimetres')
+      const firstErrorSection = projetLivrables.length === 0 ? 'livrables' : (projetActeurs.length === 0 ? 'acteurs' : 'perimetres')
       const input = document.querySelector(`#${firstErrorSection}`)
 
       input.scrollIntoView({
@@ -61,12 +64,6 @@ const FormulaireSuivi = () => {
         inline: 'start'
       })
     }
-
-    const {nom, nature, regime} = generalInfos
-
-    setValidationMessage(null)
-    setErrorOnValidationMessages(null)
-    setHasMissingDataOnValidation(false)
 
     try {
       if (isRequiredFormOpen) {
@@ -82,42 +79,39 @@ const FormulaireSuivi = () => {
           nom,
           regime,
           nature,
-          livrables,
-          acteurs,
-          perimetres,
-          etapes,
-          subventions
+          livrables: projetLivrables,
+          acteurs: projetActeurs,
+          perimetres: projetPerimetres,
+          etapes: projetEtapes,
+          subventions: projetSubventions
         }
 
-        const sendSuivi = await postSuivi(suivi, token)
+        const sendSuivi = _id ? await editProject(suivi, _id, token) : await postSuivi(suivi, token)
 
         if (sendSuivi.message) {
           if (sendSuivi.message === 'Invalid payload') {
             sendSuivi.message = 'Le projet n’a pas pu être pris en compte car il y a des erreurs'
           }
 
-          setErrorOnValidationMessages(sendSuivi)
+          setErrorOnValidationMessages([sendSuivi])
         } else {
-          setValidationMessage('Le projet a bien été créé, vous allez maintenant être redirigé vers la carte de suivi')
+          const validation = _id ? 'Le projet a bien été modifié, vous allez maintenant être redirigé vers la carte de suivi' : 'Le projet a bien été créé, vous allez maintenant être redirigé vers la carte de suivi'
+          setValidationMessage(validation)
           setTimeout(() => {
             router.push('/suivi-pcrs')
           }, 2000)
         }
       }
     } catch {
-      setErrorOnValidationMessages('Une erreur a été rencontrée')
-      throw new Error('Une erreur a été rencontrée')
+      const errorMessage = _id ? 'Une erreur a eu lieu lors de la modification du suivi' : 'Une erreur a eu lieu lors de la création du suivi'
+
+      setErrorOnValidationMessages(errorMessage)
+      throw new Error(errorMessage)
     }
   }
 
-  useEffect(() => {
-    if (!isRequiredFormOpen) {
-      setErrorOnValidationMessages(null)
-    }
-  }, [isRequiredFormOpen])
-
   return (
-    <Page>
+    <>
       <div className='form-header fr-my-5w'>
         <Image
           src='/images/illustrations/form_illustration.png'
@@ -128,12 +122,12 @@ const FormulaireSuivi = () => {
         />
         <h2 className='fr-mt-5w fr-mb-0'>Formulaire de suivi PCRS</h2>
       </div>
-      <div className='fr-my-5w fr-p-5w'>
-        {!isLoading && !token && <AuthentificationModal handleToken={setToken} handleModal={handleModalClose} />}
+      <div className='fr-p-5w'>
+        {!isLoading && !token && <AuthentificationModal handleToken={setToken} handleModal={handleModal} />}
 
         <p className='required-disclaimer'>Les champs indiqués par une * sont obligatoires</p>
 
-        <form className='fr-mb-5w fr-p-5w' onSubmit={handleSubmit}>
+        <form className='fr-p-5w' onSubmit={handleSubmit}>
           <GeneralInfos
             inputValues={generalInfos}
             handleValues={setGeneralInfos}
@@ -141,8 +135,8 @@ const FormulaireSuivi = () => {
 
           <div id='livrables'>
             <Livrables
-              livrables={livrables}
-              handleLivrables={setLivrables}
+              livrables={projetLivrables}
+              handleLivrables={setProjetLivrables}
               hasMissingData={hasMissingDataOnValidation}
               onRequiredFormOpen={setIsRequiredFormOpen}
             />
@@ -150,8 +144,8 @@ const FormulaireSuivi = () => {
 
           <div id='acteurs'>
             <Acteurs
-              acteurs={acteurs}
-              handleActors={setActeurs}
+              acteurs={projetActeurs}
+              handleActors={setProjetActeurs}
               hasMissingData={hasMissingDataOnValidation}
               onRequiredFormOpen={setIsRequiredFormOpen}
             />
@@ -159,20 +153,20 @@ const FormulaireSuivi = () => {
 
           <div id='perimetres'>
             <Perimetres
-              perimetres={perimetres}
-              handlePerimetres={setPerimetres}
+              perimetres={projetPerimetres}
+              handlePerimetres={setProjetPerimetres}
               hasMissingData={hasMissingDataOnValidation}
               onRequiredFormOpen={setIsRequiredFormOpen}
             />
-
           </div>
+
           <Etapes
-            etapes={etapes}
-            handleEtapes={setEtapes}
-            initialValue={etapes[etapes.length - 1]}
+            etapes={projetEtapes}
+            handleEtapes={setProjetEtapes}
+            initialValue={projetEtapes[projetEtapes.length - 1]}
           />
 
-          <Subventions subventions={subventions} handleSubventions={setSubventions} />
+          <Subventions subventions={projetSubventions} handleSubventions={setProjetSubventions} />
 
           <div className='fr-grid-row fr-grid-row--center fr-mt-5w'>
             <div className='fr-grid-row fr-grid-row--center fr-col-12'>
@@ -193,7 +187,7 @@ const FormulaireSuivi = () => {
               </p>
             )}
 
-            {errorOnValidationMessages && (
+            {errorOnValidationMessages.length > 0 && (
               errorOnValidationMessages.map(error => (
                 <p key={error.message} className='fr-grid-row--center fr-error-text fr-col-12 fr-mt-2w fr-mb-0'>
                   {error.message}
@@ -212,9 +206,34 @@ const FormulaireSuivi = () => {
         .required-disclaimer {
           font-style: italic;
         }
-     `}</style>
-    </Page>
+      `}</style>
+    </>
   )
 }
 
-export default FormulaireSuivi
+SuiviForm.propTypes = {
+  nom: PropTypes.string,
+  nature: PropTypes.string,
+  regime: PropTypes.string,
+  livrables: PropTypes.array,
+  acteurs: PropTypes.array,
+  perimetres: PropTypes.array,
+  etapes: PropTypes.array,
+  subventions: PropTypes.array,
+  _id: PropTypes.string
+
+}
+
+SuiviForm.defaultProps = {
+  nom: '',
+  nature: '',
+  regime: '',
+  livrables: [],
+  acteurs: [],
+  perimetres: [],
+  etapes: [{statut: 'investigation', date_debut: ''}], // eslint-disable-line camelcase
+  subventions: [],
+  _id: null
+}
+
+export default SuiviForm
