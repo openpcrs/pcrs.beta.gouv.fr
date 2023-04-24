@@ -5,11 +5,10 @@ import {debounce, pick} from 'lodash-es'
 
 import {getEntreprises} from '@/lib/entreprises-api.js'
 
-import colors from '@/styles/colors.js'
-
 import {secteursActivites} from '@/components/suivi-form/acteurs/utils/actor-activites.js'
 
 import AutocompleteInput from '@/components/autocomplete-input.js'
+import AutocompleteRenderItem from '@/components/autocomplete-render-item.js'
 import TextInput from '@/components/text-input.js'
 import SelectInput from '@/components/select-input.js'
 import NumberInput from '@/components/number-input.js'
@@ -19,15 +18,12 @@ const renderItem = (item, isHighlighted) => {
   const {nom_complet, section_activite_principale, siren} = item
 
   return (
-    <div key={siren} className='item fr-px-1w fr-py-2w'>
-      {nom_complet} - <span className='ape'>{secteursActivites[section_activite_principale]}</span>
+    <div key={siren}>
+      <AutocompleteRenderItem isHighlighted={isHighlighted}>
+        {nom_complet} - <span className='ape'>{secteursActivites[section_activite_principale]}</span>
+      </AutocompleteRenderItem>
 
       <style jsx>{`
-        .item {
-          background: ${isHighlighted ? colors.blueHover : 'white'};
-          color: ${isHighlighted ? 'white' : colors.darkgrey};
-        }
-
         .ape {
           font-weight: bold;
         }

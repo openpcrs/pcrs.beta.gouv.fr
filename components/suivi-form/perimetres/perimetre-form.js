@@ -4,38 +4,16 @@ import {debounce} from 'lodash-es'
 
 import {getPerimetersByName, getPerimetersByCode} from '@/lib/decoupage-administratif-api.js'
 
-import colors from '@/styles/colors.js'
-
 import AutocompleteInput from '@/components/autocomplete-input.js'
 import SelectInput from '@/components/select-input.js'
 import Button from '@/components/button.js'
+import AutocompleteRenderItem from '@/components/autocomplete-render-item.js'
 
 const TYPES = [
   {label: 'EPCI', value: 'epci'},
   {label: 'Commune', value: 'commune'},
   {label: 'Département', value: 'departement'}
 ]
-
-const renderItem = (item, isHighlighted) => {
-  const {nom, code} = item
-
-  return (
-    <div key={code} className='item fr-px-1w fr-py-2w'>
-      {nom} - {code}
-
-      <style jsx>{`
-        .item {
-          background: ${isHighlighted ? colors.blueHover : 'white'};
-          color: ${isHighlighted ? 'white' : colors.darkgrey};
-        }
-
-        .ape {
-          font-weight: bold;
-        }
-      `}</style>
-    </div>
-  )
-}
 
 const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObject, updatingPerimetreIdx, handleUpdatingPerimetreIdx, handleAdding, handleEditing, onRequiredFormOpen}) => {
   const [hasMissingInput, setHasMissingInput] = useState(false)
@@ -96,6 +74,19 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
     } else {
       setHasMissingInput(true)
     }
+  }
+
+  const renderItem = (item, isHighlighted) => {
+    const {nom, code} = item
+
+    return (
+      <div key={code}>
+        <AutocompleteRenderItem isHighlighted={isHighlighted}>
+          {nom} - {code}
+        </AutocompleteRenderItem>
+      </div>
+
+    )
   }
 
   useEffect(() => {
