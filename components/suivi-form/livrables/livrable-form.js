@@ -78,7 +78,7 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
 
   const onAdd = () => {
     if (avancement && avancement < 0) {
-      return setErrorMessage('Veuillez entrer des valeurs supérieurs à 0 dans les champs de financement')
+      return setErrorMessage('Veuillez entrer des valeurs supérieures à 0 dans les champs de financement')
     }
 
     if (isFormComplete && isAvancementValid && !hasInvalidInput) {
@@ -106,7 +106,7 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
 
   const onUpdate = () => {
     if (avancement && avancement < 0) {
-      return setErrorMessage('Veuillez entrer des valeurs supérieurs à 0 dans les champs de financement')
+      return setErrorMessage('Veuillez entrer des valeurs supérieures à 0 dans les champs de financement')
     }
 
     if (isFormComplete && isAvancementValid) {

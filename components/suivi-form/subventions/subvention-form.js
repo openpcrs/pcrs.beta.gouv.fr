@@ -30,7 +30,7 @@ const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventi
 
   const onAdd = () => {
     if (montant && montant < 0) {
-      return setErrorMessage('Veuillez entrer des valeurs supérieurs à 0 dans les champs de financement')
+      return setErrorMessage('Veuillez entrer des valeurs supérieures à 0 dans les champs de financement')
     }
 
     if (!hasInvalidInput) {
@@ -52,7 +52,7 @@ const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventi
 
   const onUpdate = () => {
     if (montant && montant < 0) {
-      return setErrorMessage('Veuillez entrer des valeurs supérieurs à 0 dans les champs de financement')
+      return setErrorMessage('Veuillez entrer des valeurs supérieures à 0 dans les champs de financement')
     }
 
     if (!nom || !nature) {

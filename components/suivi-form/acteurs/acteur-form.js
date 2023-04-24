@@ -62,7 +62,7 @@ const ActeurForm = ({acteurs, roles, updatingActorIndex, isEditing, handleActorI
 
   const onAdd = () => {
     if ((finPerc && finPerc < 0) || (finEuros && finEuros < 0)) {
-      return setErrorMessage('Veuillez entrer des valeurs supérieurs à 0 dans les champs de financement')
+      return setErrorMessage('Veuillez entrer des valeurs supérieures à 0 dans les champs de financement')
     }
 
     if (isFormComplete) {
@@ -92,7 +92,7 @@ const ActeurForm = ({acteurs, roles, updatingActorIndex, isEditing, handleActorI
 
   const onUpdate = () => {
     if (finPerc < 0 || finEuros < 0) {
-      return setErrorMessage('Veuillez entrer des valeurs supérieurs à 0 dans les champs de financement')
+      return setErrorMessage('Veuillez entrer des valeurs supérieures à 0 dans les champs de financement')
     }
 
     if (isFormComplete) {
