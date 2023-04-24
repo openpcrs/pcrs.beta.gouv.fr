@@ -29,7 +29,7 @@ const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) =>
     setIsEditing(false)
   }
 
-  const sortActorsByAplc = useMemo(() => orderBy(acteurs, a => a.role === 'aplc', ['desc']), [acteurs])
+  const sortActorsByAplc = useMemo(() => orderBy(acteurs, a => a.role === 'porteur' || 'aplc', ['desc']), [acteurs])
 
   return (
     <div className='fr-mt-8w'>
