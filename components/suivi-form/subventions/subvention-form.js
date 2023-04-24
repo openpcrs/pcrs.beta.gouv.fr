@@ -28,47 +28,43 @@ const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventi
 
   const {nom, nature, montant, echeance} = subvention
 
-  const onAdd = () => {
+  const handleSubmit = () => {
     if (montant && montant < 0) {
       return setErrorMessage('Veuillez entrer des valeurs supérieures à 0 dans les champs de financement')
     }
 
     if (!hasInvalidInput) {
+      const checkIsExisting = () => {
+        if (isEditing) {
+          return subventions.some(subvention => subvention.nom === nom) && nom !== updatingName
+        }
+
+        return subventions.some(subvention => subvention.nom === nom)
+      }
+
       if (!nom || !nature) {
         setHasMissingInput(true)
-      } else if (subventions.some(subvention => subvention.nom === nom)) {
+      } else if (checkIsExisting()) {
         setErrorMessage('Cette subvention existe déjà')
       } else {
-        handleSubventions([...subventions, {
+        const newSubvention = {
           nom,
           nature,
           montant: Number(montant) || null,
           echeance: echeance ? echeance : null
-        }])
-        onReset()
-      }
-    }
-  }
-
-  const onUpdate = () => {
-    if (montant && montant < 0) {
-      return setErrorMessage('Veuillez entrer des valeurs supérieures à 0 dans les champs de financement')
-    }
-
-    if (!nom || !nature) {
-      setHasMissingInput(true)
-    } else if (subventions.some(subvention => subvention.nom === nom) && nom !== updatingName) {
-      setErrorMessage('Cette subvention existe déjà')
-    } else {
-      handleSubventions([...subventions].map((subvention, i) => {
-        if (i === updatingSubvIdx) {
-          subvention = {nom, nature, montant: Number(montant) || null, echeance: echeance ? echeance : null}
+        }
+        if (isEditing) {
+          handleSubventions(prevSubventions => {
+            const subventionsCopy = [...prevSubventions]
+            subventionsCopy[updatingSubvIdx] = newSubvention
+            return subventionsCopy
+          })
+        } else {
+          handleSubventions([...subventions, newSubvention])
         }
 
-        return subvention
-      }))
-
-      onReset()
+        onReset()
+      }
     }
   }
 
@@ -187,7 +183,7 @@ const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventi
         <Button
           label='Valider l’ajout de la subvention'
           icon='checkbox-circle-fill'
-          onClick={() => isEditing ? onUpdate() : onAdd()}
+          onClick={handleSubmit}
         >
           Valider
         </Button>

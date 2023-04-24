@@ -76,16 +76,24 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
   const isFormComplete = Boolean(nom && nature && licence)
   const isAvancementValid = avancementAsNumber >= 0 && avancementAsNumber <= 100
 
-  const onAdd = () => {
+  const handleSubmit = () => {
     if (avancement && avancement < 0) {
       return setErrorMessage('Veuillez entrer des valeurs supérieures à 0 dans les champs de financement')
     }
 
     if (isFormComplete && isAvancementValid && !hasInvalidInput) {
-      if (livrables.some(livrable => livrable.nom === nom)) {
+      const checkIsExisting = () => {
+        if (isEditing) {
+          return livrables.some(livrable => livrable.nom === nom) && nom !== updatingLivrableName
+        }
+
+        return livrables.some(livrable => livrable.nom === nom)
+      }
+
+      if (checkIsExisting()) {
         setErrorMessage('Un livrable avec un nom identique est déjà présent.')
       } else {
-        handleLivrables([...livrables, {
+        const newLivrable = {
           nom,
           nature,
           diffusion: diffusion || null,
@@ -95,41 +103,17 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
           compression: compression || null,
           publication: publication || null,
           date_livraison: date_livraison || null
-        }])
+        }
 
-        onReset()
-      }
-    } else {
-      setHasMissingInput(true)
-    }
-  }
-
-  const onUpdate = () => {
-    if (avancement && avancement < 0) {
-      return setErrorMessage('Veuillez entrer des valeurs supérieures à 0 dans les champs de financement')
-    }
-
-    if (isFormComplete && isAvancementValid) {
-      if (livrables.some(livrable => livrable.nom === nom) && nom !== updatingLivrableName) {
-        setErrorMessage('Un livrable avec un nom identique est déjà présent.')
-      } else {
-        handleLivrables([...livrables].map((livrable, i) => {
-          if (i === updatingLivrableIdx) {
-            livrable = {
-              nom,
-              nature,
-              diffusion,
-              licence,
-              avancement: avancementAsNumber,
-              crs: crs || null,
-              compression: compression || null,
-              publication: publication || null,
-              date_livraison: date_livraison || null
-            }
-          }
-
-          return livrable
-        }))
+        if (isEditing) {
+          handleLivrables(prevLivrables => {
+            const livrablesCopy = [...prevLivrables]
+            livrablesCopy[updatingLivrableIdx] = newLivrable
+            return livrablesCopy
+          })
+        } else {
+          handleLivrables([...livrables, newLivrable])
+        }
 
         onReset()
       }
@@ -360,7 +344,7 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
         <Button
           label='Valider l’ajout du livrable'
           icon='checkbox-circle-fill'
-          onClick={() => isEditing ? onUpdate() : onAdd()}
+          onClick={handleSubmit}
         >
           Valider
         </Button>

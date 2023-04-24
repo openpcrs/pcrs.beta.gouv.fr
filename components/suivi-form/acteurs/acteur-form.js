@@ -60,44 +60,22 @@ const ActeurForm = ({acteurs, roles, updatingActorIndex, isEditing, handleActorI
 
   const {nom, siren, phone, finPerc, finEuros, role} = acteur
 
-  const onAdd = () => {
+  const handleSubmit = () => {
     if ((finPerc && finPerc < 0) || (finEuros && finEuros < 0)) {
       return setErrorMessage('Veuillez entrer des valeurs supérieures à 0 dans les champs de financement')
     }
 
     if (isFormComplete) {
       if (isSirenValid) {
-        if (acteurs.some(acteur => siren === acteur.siren.toString())) {
-          setErrorMessage('Cet acteur est déjà présent.')
-        } else {
-          const newActor = {
-            nom,
-            siren: Number(siren),
-            role,
-            telephone: phone || null,
-            finance_part_perc: Number(finPerc) || null,
-            finance_part_euro: Number(finEuros) || null
+        const checkIsExisting = () => {
+          if (isEditing) {
+            return acteurs.some(a => siren === a.siren.toString()) && siren !== updatingActorSiren.toString()
           }
 
-          handleActors([...acteurs, newActor])
-          onReset()
+          return acteurs.some(acteur => siren === acteur.siren.toString())
         }
-      } else {
-        setHasInvalidInput(true)
-      }
-    } else {
-      setHasMissingInput(true)
-    }
-  }
 
-  const onUpdate = () => {
-    if (finPerc < 0 || finEuros < 0) {
-      return setErrorMessage('Veuillez entrer des valeurs supérieures à 0 dans les champs de financement')
-    }
-
-    if (isFormComplete) {
-      if (isSirenValid) {
-        if (acteurs.some(a => siren === a.siren.toString()) && siren !== updatingActorSiren.toString()) {
+        if (checkIsExisting()) {
           setErrorMessage('Cet acteur est déjà présent.')
         } else {
           const newActor = {
@@ -109,13 +87,15 @@ const ActeurForm = ({acteurs, roles, updatingActorIndex, isEditing, handleActorI
             finance_part_euro: Number(finEuros) || null
           }
 
-          handleActors([...acteurs].map((a, i) => {
-            if (i === updatingActorIndex) {
-              a = newActor
-            }
-
-            return a
-          }))
+          if (isEditing) {
+            handleActors(prevActeurs => {
+              const acteursCopy = [...prevActeurs]
+              acteursCopy[updatingActorIndex] = newActor
+              return acteursCopy
+            })
+          } else {
+            handleActors([...acteurs, newActor])
+          }
 
           onReset()
         }
@@ -383,7 +363,7 @@ const ActeurForm = ({acteurs, roles, updatingActorIndex, isEditing, handleActorI
         <Button
           label='Valider l’ajout de l’acteur'
           icon='checkbox-circle-fill'
-          onClick={() => isEditing ? onUpdate() : onAdd()}
+          onClick={handleSubmit}
         >
           Valider
         </Button>

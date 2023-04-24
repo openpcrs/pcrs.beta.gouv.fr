@@ -68,32 +68,28 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
     setErrorMessage(null)
   }
 
-  const onAdd = () => {
+  const handleSubmit = () => {
     if (type && code) {
-      if (perimetres.includes(`${type}:${code}`)) {
-        setErrorMessage('Ce périmètre est déjà présent.')
-      } else {
-        handlePerimetres([...perimetres, `${type}:${code}`])
+      const checkIsExisting = () => {
+        if (isEditing) {
+          return perimetres.includes(`${type}:${code}`) && updatingPerimetreCode !== code
+        }
 
-        onReset()
+        return perimetres.includes(`${type}:${code}`)
       }
-    } else {
-      setHasMissingInput(true)
-    }
-  }
 
-  const onUpdate = () => {
-    if (type && code) {
-      if (perimetres.includes(`${type}:${code}`) && updatingPerimetreCode !== code) {
+      if (checkIsExisting()) {
         setErrorMessage('Ce périmètre est déjà présent.')
       } else {
-        handlePerimetres([...perimetres].map((perimetre, idx) => {
-          if (idx === updatingPerimetreIdx) {
-            perimetre = `${type}:${code}`
-          }
-
-          return perimetre
-        }))
+        if (isEditing) {
+          handlePerimetres(prevPerimetres => {
+            const perimetresCopy = [...prevPerimetres]
+            perimetresCopy[updatingPerimetreIdx] = `${type}:${code}`
+            return perimetresCopy
+          })
+        } else {
+          handlePerimetres([...perimetres, `${type}:${code}`])
+        }
 
         onReset()
       }
@@ -208,7 +204,7 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
         <Button
           label='Valider l’ajout du périmètre'
           icon='checkbox-circle-fill'
-          onClick={() => isEditing ? onUpdate() : onAdd()}
+          onClick={handleSubmit}
         >
           Valider
         </Button>
