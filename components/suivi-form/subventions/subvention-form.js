@@ -112,7 +112,7 @@ const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventi
   return (
     <div>
       <div className='fr-grid-row fr-my-5w'>
-        <div className='fr-grid-row fr-col-12'>
+        <div className='fr-grid-row fr-col-12 fr-pr-3w'>
           <div className='fr-col-12 fr-col-md-6'>
             <TextInput
               isRequired
@@ -132,7 +132,7 @@ const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventi
         </div>
 
         <div className='fr-grid-row fr-col-12 fr-mt-5w'>
-          <div className='fr-col-12 fr-col-md-4'>
+          <div className='fr-col-12 fr-col-lg-4 fr-pr-3w fr-mt-3w fr-mt-lg-0'>
             <SelectInput
               isRequired
               options={NATURES}
@@ -150,7 +150,7 @@ const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventi
             />
           </div>
 
-          <div className='fr-col-12 fr-col-md-4 fr-px-md-3w'>
+          <div className='fr-col-12 fr-col-lg-4 fr-pr-3w fr-mt-3w fr-mt-lg-0'>
             <NumberInput
               label='Montant'
               value={montant.toString()}
@@ -167,7 +167,7 @@ const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventi
             />
           </div>
 
-          <div className='fr-col-12 fr-col-md-4'>
+          <div className='fr-col-12 fr-col-lg-4 fr-pr-3w fr-mt-3w fr-mt-lg-0'>
             <DateInput
               label='Échéance'
               value={echeance}

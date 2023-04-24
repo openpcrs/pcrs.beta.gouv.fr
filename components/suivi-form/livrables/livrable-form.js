@@ -228,7 +228,7 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
         </div>
 
         {/* Mode de diffusion du livrable - selecteur */}
-        <div className='fr-col-12 fr-col-lg-4 fr-mt-6w'>
+        <div className='fr-col-12 fr-col-lg-4 fr-mt-6w fr-pr-3w'>
           <SelectInput
             isRequired
             label='Diffusion'
@@ -249,7 +249,7 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
 
       <div className='fr-grid-row'>
         {/* Licence du livrable - select */}
-        <div className='fr-select-group fr-col-12 fr-col-lg-4 fr-pr-3w fr-mt-6w fr-mb-0'>
+        <div className='fr-select-group fr-col-12 fr-col-lg-4 fr-mt-6w fr-mb-0 fr-pr-3w'>
           <SelectInput
             isRequired
             label='Licence'
@@ -285,7 +285,7 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
         </div>
 
         {/* Date de livraison du projet - date */}
-        <div className='fr-select-group fr-col-12 fr-col-lg-4 fr-mt-6w'>
+        <div className='fr-select-group fr-col-12 fr-col-lg-4 fr-mt-6w fr-pr-3w'>
           <DateInput
             label='Date de livraison'
             value={date_livraison}
@@ -303,7 +303,7 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
 
       <div className='fr-grid-row'>
         {/* Avancement du livrable - number */}
-        <div className='fr-input-group fr-col-12 fr-col-lg-4 fr-pr-3w fr-mt-6w fr-mb-0'>
+        <div className='fr-input-group fr-col-12 fr-col-lg-4 fr-pr-3w fr-mt-6w'>
           <NumberInput
             label='Avancement'
             value={avancement}
@@ -322,7 +322,7 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
         </div>
 
         {/* Système de référence spatial du livrable - select */}
-        <div className='fr-col-12 fr-col-lg-4 fr-pr-3w fr-mt-6w'>
+        <div className='fr-col-12 fr-col-lg-4 fr-mt-6w fr-pr-3w'>
           <SelectInput
             label='Système de référence spatial'
             options={SYST_REF_SPATIAL}
@@ -339,7 +339,7 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
         </div>
 
         {/* Nature de compression du livrable - text */}
-        <div className='fr-col-12 fr-col-lg-4 fr-pr-3w fr-mt-6w'>
+        <div className='fr-col-12 fr-col-lg-4 fr-mt-6w fr-pr-3w'>
           <TextInput
             label='Compression'
             value={compression}
