@@ -28,16 +28,11 @@ const Etapes = ({initialValue, etapes, handleEtapes}) => {
       setStartDate(value)
     }
 
-    handleEtapes([...etapes].map(etape => {
-      if (etape.statut === statut) {
-        etape = {
-          statut,
-          date_debut: value
-        }
-      }
-
-      return etape
-    }))
+    handleEtapes(prevEtapes => {
+      const etapesCopy = [...prevEtapes]
+      etapesCopy[etapesCopy.findIndex(e => e.statut === statut)] = {statut, date_debut: value}
+      return etapesCopy
+    })
   }
 
   const addStep = () => {
