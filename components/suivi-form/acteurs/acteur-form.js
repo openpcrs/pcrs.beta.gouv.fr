@@ -12,7 +12,6 @@ import AutocompleteInput from '@/components/autocomplete-input.js'
 import AutocompleteRenderItem from '@/components/autocomplete-render-item.js'
 import TextInput from '@/components/text-input.js'
 import SelectInput from '@/components/select-input.js'
-import NumberInput from '@/components/number-input.js'
 import Button from '@/components/button.js'
 
 const renderItem = (item, isHighlighted) => {
@@ -58,9 +57,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
   const {nom, siren, phone, finPerc, finEuros, role} = acteur
 
   const handleSubmit = () => {
-    if ((finPerc && finPerc < 0) || (finEuros && finEuros < 0)) {
-      return setErrorMessage('Veuillez entrer des valeurs supérieures à 0 dans les champs de financement')
-    }
+    setErrorMessage(null)
 
     if (isFormComplete) {
       if (isSirenValid) {
@@ -125,7 +122,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
     setIsFormComplete(true)
   }, [handleAdding, handleActorIndex, handleEditing, onRequiredFormOpen])
 
-  const handleErrors = (input, name) => {
+  const handleErrors = useCallback((input, name) => {
     if (!input && hasMissingInput && name !== 'phone' && !input) {
       return 'Ce champs est requis'
     }
@@ -137,7 +134,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
     if (input && name === 'phone' && !isPhoneNumberValid) {
       return 'Le numéro de téléphone doit être composé de 10 chiffres ou de 9 chiffres précédés du préfixe +33'
     }
-  }
+  }, [hasMissingInput, isPhoneNumberValid, isSirenValid])
 
   useEffect(() => {
     // Enable aplc/porteur selector choices for editing aplc/porteur actor...
@@ -320,7 +317,8 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
 
       <div className='fr-grid-row fr-col-12'>
         <div className='fr-col-12 fr-col-md-6 fr-mt-6w'>
-          <NumberInput
+          <TextInput
+            isNumber
             label='Part de financement'
             value={finPerc}
             ariaLabel='Part de financement en pourcentage du total'
@@ -328,7 +326,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
             placeholder='Veuillez n’entrer que des valeurs numéraires'
             min={0}
             max={100}
-            onIsInvalid={setHasInvalidInput}
+            handleInvalidInput={setHasInvalidInput}
             onValueChange={e => {
               setActeur({
                 ...acteur,
@@ -338,14 +336,15 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
           />
         </div>
         <div className='fr-col-12 fr-col-md-6 fr-mt-6w fr-pl-md-3w'>
-          <NumberInput
+          <TextInput
+            isNumber
             label='Montant du financement'
             value={finEuros}
-            placeholder='Veuillez n’entrer que des valeurs numéraires'
-            description='Montant du financement en euros'
             ariaLabel='montant du financement'
+            description='Montant du financement en euros'
+            placeholder='Veuillez n’entrer que des valeurs numéraires'
             min={0}
-            onIsInvalid={setHasInvalidInput}
+            handleInvalidInput={setHasInvalidInput}
             onValueChange={e => {
               setActeur({
                 ...acteur,
