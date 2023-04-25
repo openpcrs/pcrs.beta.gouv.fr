@@ -89,7 +89,7 @@ const Etapes = ({initialValue, etapes, handleEtapes}) => {
                 />
               </div>
             </div>
-            <div className='fr-grid-row fr-grid-row--bottom fr-pl-2w fr-col-1'>
+            <div className='fr-grid-row fr-grid-row--bottom fr-pl-2w fr-col-1 fr-pb-1w'>
               <button
                 type='button'
                 aria-label='Supprimer l’étape'

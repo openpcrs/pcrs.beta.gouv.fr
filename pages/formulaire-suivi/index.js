@@ -133,7 +133,7 @@ const FormulaireSuivi = () => {
 
         <p className='required-disclaimer'>Les champs indiqués par une * sont obligatoires</p>
 
-        <form className='fr-mb-5w fr-p-5w' onSubmit={handleSubmit}>
+        <form className='fr-mt-5w' onSubmit={handleSubmit}>
           <GeneralInfos
             inputValues={generalInfos}
             handleValues={setGeneralInfos}
