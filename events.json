@@ -46,5 +46,17 @@
     "eventHref": "",
     "description": "Qu'il s'agisse de production ou de mise à jour, la certification des livrables produits suppose des dispositifs de contrôle qualité. Nous vous invitons à cette session pour des présentations de solutions et pour partager vos expériences locales pour réaliser ces contrôles.",
     "type": "Atelier"
+  },
+  {
+    "title": "Présentation de scénarios de financement national",
+    "date": "2023-05-25",
+    "start": "11:00",
+    "end": "12:00",
+    "isOnSite": false,
+    "isOnline": true,
+    "address": "",
+    "eventHref": "",
+    "description": "Notre équipe mène actuellement une investigation sur de potentielles solutions de financement national pour les projets PCRS de production comme de mise à jour. Vous pourrez prendre connaissance de l'avancée de nos travaux au cours de cette présentation en ligne.",
+    "type": "Webinaire"
   }
 ]
