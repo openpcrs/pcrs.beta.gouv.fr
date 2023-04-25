@@ -133,7 +133,7 @@ const ActeurForm = ({acteurs, roles, updatingActorIndex, isEditing, handleActorI
       return 'Le SIREN doit être composé de 9 chiffres'
     }
 
-    if (input && !isPhoneNumberValid && name === 'phone') {
+    if (input && name === 'phone' && !isPhoneNumberValid) {
       return 'Le numéro de téléphone doit être composé de 10 chiffres ou de 9 chiffres précédés du préfixe +33'
     }
   }
