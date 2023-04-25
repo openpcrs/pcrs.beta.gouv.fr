@@ -55,7 +55,7 @@ Puis compléter les champs suivants :
 >*Les champs suivants sont optionnels, mais vous ne pourez pas accéder à la page `/blog` du site.*
 - `NEXT_PUBLIC_GHOST_URL` -> URL complète du blog Ghost (optionnel)
 - `GHOST_KEY` -> Jeton permettant l’accès aux articles du Blog Ghost (optionnel)
->*Pour utiliser l’API, vous devez compléter ce champ.*
+>*Pour utiliser l’API, vous devez compléter ce champ.*   
 >*En local, utilisez ce jeton pour authentifier les appels à l’API*
 - `API_ENTREPRISES_URL` -> URL de l’API "recherch-entreprises"
 - `MONGODB_URL` -> URL de la base de données MongoDB
@@ -69,8 +69,12 @@ Puis compléter les champs suivants :
 | `/projets`| **POST** | *Permet d’ajouter un projet PCRS* |
 | `/projets/:id`| **GET** | *Retourne le projet demandé* |
 | `/projets/:id`| **DELETE** | *Supprime le projet demandé* |
-  | `/projets/:id`| **PUT** | *Modifie le projet demandé* |
-  | `/me`| **GET** | *Permet à un administrateur de s'authentifier après avoir fourni le jeton d'administration* |
+| `/projets/:id`| **PUT** | *Modifie le projet demandé* |
+| `/me`| **GET** | *Permet à un administrateur de s'authentifier après avoir fourni le jeton d'administration* |
+| `/data/projets.csv`| **GET** | *Retourne un fichier CSV contenant l’ensemble des projets PCRS* |
+| `/data/livrables.csv`| **GET** | *Retourne un fichier CSV contenant l’ensemble des livrables des projets PCRS* |
+| `/data/tours-de-table.csv`| **GET** | *Retourne un fichier CSV contenant l’ensemble des tours de table des projets PCRS* |
+| `/data/subventions.csv`| **GET** | *Retourne un fichier CSV contenant l’ensemble des subventions des projets PCRS* |
 
 Vous pouvez accéder au modèle de données à [cette adresse](https://docs.pcrs.beta.gouv.fr/suivi-des-projets/modele-de-donnees).
 
