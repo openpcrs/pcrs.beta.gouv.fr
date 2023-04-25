@@ -1,9 +1,11 @@
 /* eslint-disable camelcase */
 import PropTypes from 'prop-types'
 
+import {getRoles} from '@/components/suivi-form/acteurs/utils/select-options.js'
+
 import colors from '@/styles/colors.js'
 
-const ActeurCard = ({siren, nom, telephone, role, finance_part_euro, finance_part_perc, roles, isFormOpen, handleDelete, handleEdition}) => {
+const ActeurCard = ({siren, nom, telephone, role, finance_part_euro, finance_part_perc, isFormOpen, handleDelete, handleEdition}) => {
   const isAplc = role === 'aplc' || role === 'porteur'
 
   return (
@@ -32,7 +34,7 @@ const ActeurCard = ({siren, nom, telephone, role, finance_part_euro, finance_par
 
           <div className='fr-grid-row col-12 fr-col-md-6 fr-p-1w'>
             <div className='label fr-col-12 fr-m-0'>Rôle</div>
-            <div className='fr-m-0 fr-col-12 fr-text--sm'>{roles.find(r => r.value === role).label}</div>
+            <div className='fr-m-0 fr-col-12 fr-text--sm'>{getRoles()[role]}</div>
           </div>
         </div>
 
@@ -110,7 +112,6 @@ ActeurCard.propTypes = {
   siren: PropTypes.number.isRequired,
   nom: PropTypes.string.isRequired,
   role: PropTypes.string.isRequired,
-  roles: PropTypes.array.isRequired,
   telephone: PropTypes.string,
   finance_part_euro: PropTypes.number,
   finance_part_perc: PropTypes.number,

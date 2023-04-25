@@ -4,16 +4,12 @@ import {debounce} from 'lodash-es'
 
 import {getPerimetersByName, getPerimetersByCode} from '@/lib/decoupage-administratif-api.js'
 
+import {typeOptions} from '@/components/suivi-form/perimetres/utils/select-options.js'
+
 import AutocompleteInput from '@/components/autocomplete-input.js'
 import SelectInput from '@/components/select-input.js'
 import Button from '@/components/button.js'
 import AutocompleteRenderItem from '@/components/autocomplete-render-item.js'
-
-const TYPES = [
-  {label: 'EPCI', value: 'epci'},
-  {label: 'Commune', value: 'commune'},
-  {label: 'Département', value: 'departement'}
-]
 
 const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObject, updatingPerimetreIdx, handleUpdatingPerimetreIdx, handleAdding, handleEditing, onRequiredFormOpen}) => {
   const [hasMissingInput, setHasMissingInput] = useState(false)
@@ -163,7 +159,7 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
             isRequired
             label='Type'
             value={type}
-            options={TYPES}
+            options={typeOptions}
             ariaLabel='types de territoire'
             description='Types de territoire'
             errorMessage={handleErrors(type)}

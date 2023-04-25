@@ -1,5 +1,4 @@
 
-/* eslint-disable camelcase */
 import {useState} from 'react'
 import PropTypes from 'prop-types'
 import {uniqueId} from 'lodash-es'
@@ -10,23 +9,7 @@ import colors from '@/styles/colors.js'
 import Button from '@/components/button.js'
 import LivrableCard from '@/components/suivi-form/livrables/livrable-card.js'
 
-const NATURES = {
-  geotiff: 'Livrable GeoTIFF',
-  jpeg2000: 'Livrable Jpeg 2000',
-  gml: 'Livrable GML vecteur'
-}
-
-const DIFFUSIONS = {
-  wms: 'Diffusion via un service WMS',
-  wmts: 'Diffusion via un service WMTS',
-  tms: 'Diffusion via un service TMS'
-}
-
-const LICENCES = {
-  ouvert_odbl: 'Ouvert sous licence ODbL',
-  ouvert_lo: 'Ouvert sous licence ouverte',
-  ferme: 'Fermée'
-}
+import {getNatures, getLicences, getDiffusions, getPublications} from '@/components/suivi-form/livrables/utils/select-options.js'
 
 const Livrables = ({livrables, hasMissingData, handleLivrables, onRequiredFormOpen}) => {
   const [isAdding, setIsAdding] = useState(false)
@@ -49,16 +32,17 @@ const Livrables = ({livrables, hasMissingData, handleLivrables, onRequiredFormOp
       )}
 
       {livrables.map((livrable, idx) => {
-        const {nom, nature, licence, crs, avancement, diffusion} = livrable
+        const {nom, nature, licence, crs, avancement, diffusion, publication} = livrable
 
         return (
           <div key={uniqueId()}>
             <LivrableCard
               index={idx}
               nom={nom}
-              nature={NATURES[nature]}
-              licence={LICENCES[licence]}
-              diffusion={DIFFUSIONS[diffusion]}
+              nature={getNatures()[nature]}
+              licence={getLicences()[licence]}
+              diffusion={getDiffusions()[diffusion]}
+              publication={getPublications()[publication]}
               crs={crs}
               avancement={avancement}
               isFormOpen={isAdding || isEditing}

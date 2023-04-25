@@ -1,17 +1,13 @@
 import {useState, useCallback, useEffect} from 'react'
 import PropTypes from 'prop-types'
 
+import {natureOptions} from '@/components/suivi-form/subventions/utils/select-options.js'
+
 import TextInput from '@/components/text-input.js'
 import SelectInput from '@/components/select-input.js'
 import NumberInput from '@/components/number-input.js'
 import DateInput from '@/components/date-input.js'
 import Button from '@/components/button.js'
-
-const NATURES = [
-  {value: 'feder', label: 'Financement FEDER'},
-  {value: 'cepr', label: 'Contrat État-Région'},
-  {value: 'detr', label: 'Dotations de l’État aux Territoires Ruraux'}
-]
 
 const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventions, handleEditing, handleAdding, handleUpdatingSubvIdx}) => {
   const [hasMissingInput, setHasMissingInput] = useState(false)
@@ -131,7 +127,7 @@ const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventi
           <div className='fr-col-12 fr-col-lg-4 fr-pr-3w fr-mt-3w fr-mt-lg-0'>
             <SelectInput
               isRequired
-              options={NATURES}
+              options={natureOptions}
               label='Nature'
               value={nature}
               ariaLabel='nature de la subvention'

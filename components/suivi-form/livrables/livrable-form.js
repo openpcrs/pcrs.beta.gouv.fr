@@ -2,54 +2,13 @@
 import {useState, useCallback, useEffect} from 'react'
 import PropTypes from 'prop-types'
 
+import {natureOptions, diffusionOptions, licenceOptions, publicationOptions, systRefSpatialOptions} from '@/components/suivi-form/livrables/utils/select-options.js'
+
 import SelectInput from '@/components/select-input.js'
 import TextInput from '@/components/text-input.js'
 import NumberInput from '@/components/number-input.js'
 import Button from '@/components/button.js'
 import DateInput from '@/components/date-input.js'
-
-const NATURES = [
-  {label: 'Livrable GeoTIFF', value: 'geotiff'},
-  {label: 'Livrable Jpeg 2000', value: 'jpeg2000'},
-  {label: 'Livrable GML vecteur', value: 'gml'}
-]
-
-const DIFFUSIONS = [
-  {label: 'Diffusion via un service WMS', value: 'wms'},
-  {label: 'Diffusion via un service WMTS', value: 'wmts'},
-  {label: 'Diffusion via un service TMS', value: 'tms'}
-]
-
-const LICENCES = [
-  {label: 'Ouvert sous licence ODbL', value: 'ouvert_odbl'},
-  {label: 'Ouvert sous licence ouverte', value: 'ouvert_lo'},
-  {label: 'Fermé', value: 'ferme'}
-]
-
-const PUBLICATIONS = [
-  {label: 'Accès via FTP', value: 'ftp'},
-  {label: 'Accès via un service cloud (oneDrive...)', value: 'cloud'},
-  {label: 'Accès via service HTTP(S)', value: 'http'},
-  {label: 'Aucun moyen d’accès en ligne', value: 'inexistante'}
-]
-
-const SYST_REF_SPATIAL = [
-  {label: 'EPSG:2154', value: 'EPSG:2154'},
-  {label: 'EPSG:3942', value: 'EPSG:3942'},
-  {label: 'EPSG:3943', value: 'EPSG:3943'},
-  {label: 'EPSG:3944', value: 'EPSG:3944'},
-  {label: 'EPSG:3945', value: 'EPSG:3945'},
-  {label: 'EPSG:3946', value: 'EPSG:3946'},
-  {label: 'EPSG:3947', value: 'EPSG:3947'},
-  {label: 'EPSG:3948', value: 'EPSG:3948'},
-  {label: 'EPSG:3949', value: 'EPSG:3949'},
-  {label: 'EPSG:3950', value: 'EPSG:3950'},
-  {label: 'EPSG:32620', value: 'EPSG:32620'},
-  {label: 'EPSG:5490', value: 'EPSG:5490'},
-  {label: 'EPSG:2971', value: 'EPSG:2971'},
-  {label: 'EPSG:2975', value: 'EPSG:2975'},
-  {label: 'EPSG:4471', value: 'EPSG:4471'}
-]
 
 const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdatingLivrableIdx, handleLivrables, handleAdding, handleEditing, onRequiredFormOpen}) => {
   const [hasMissingInput, setHasMissingInput] = useState(false)
@@ -201,7 +160,7 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
             ariaLabel='nature du livrable'
             description='Nature du livrable'
             errorMessage={handleErrorMessage(nature)}
-            options={NATURES}
+            options={natureOptions}
             onValueChange={e => {
               setLivrable({
                 ...livrable,
@@ -216,7 +175,7 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
           <SelectInput
             isRequired
             label='Diffusion'
-            options={DIFFUSIONS}
+            options={diffusionOptions}
             value={diffusion}
             ariaLabel='mode de diffusion du livrable'
             description='Mode de diffusion'
@@ -241,7 +200,7 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
             ariaLabel='licence du livrable'
             description='Licence du livrable'
             errorMessage={handleErrorMessage(licence)}
-            options={LICENCES}
+            options={licenceOptions}
             onValueChange={e => {
               setLivrable({
                 ...livrable,
@@ -255,7 +214,7 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
         <div className='fr-col-12 fr-col-lg-4 fr-mt-6w fr-pr-3w'>
           <SelectInput
             label='Publication'
-            options={PUBLICATIONS}
+            options={publicationOptions}
             value={publication}
             ariaLabel='publication du livrable'
             description='Publication du livrable'
@@ -309,7 +268,7 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
         <div className='fr-col-12 fr-col-lg-4 fr-mt-6w fr-pr-3w'>
           <SelectInput
             label='Système de référence spatial'
-            options={SYST_REF_SPATIAL}
+            options={systRefSpatialOptions}
             value={crs}
             ariaLabel='système de référence spatial du livrable'
             description='Identifiant EPSG du livrable'

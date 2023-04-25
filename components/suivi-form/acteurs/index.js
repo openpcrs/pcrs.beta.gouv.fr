@@ -8,16 +8,6 @@ import Button from '@/components/button.js'
 import ActeurCard from '@/components/suivi-form/acteurs/acteur-card.js'
 import ActeurForm from '@/components/suivi-form/acteurs/acteur-form.js'
 
-const rolesList = [
-  {label: 'Autorité Public Locale Compétente', value: 'aplc'},
-  {label: 'Porteur de projet non APLC', value: 'porteur'},
-  {label: 'Financeur', value: 'financeur'},
-  {label: 'Diffuseur des livrables', value: 'diffuseur'},
-  {label: 'Prestataire de vol', value: 'presta_vol'},
-  {label: 'Prestataire de relevé LIDAR', value: 'presta_lidar'},
-  {label: 'Contrôleur des livrables', value: 'controleur'}
-]
-
 const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) => {
   const [isAdding, setIsAdding] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
@@ -44,7 +34,6 @@ const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) =>
         <div key={actor.siren}>
           <ActeurCard
             handleActors={handleActors}
-            roles={rolesList}
             isFormOpen={isAdding || isEditing}
             handleEdition={() => {
               setUpdatingActorIndex(idx)
@@ -58,7 +47,6 @@ const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) =>
             <div>
               <ActeurForm
                 acteurs={acteurs}
-                roles={rolesList}
                 updatingActorIndex={updatingActorIndex}
                 isAdding={isAdding}
                 isEditing={isEditing}
@@ -77,7 +65,6 @@ const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) =>
       {isAdding && (
         <ActeurForm
           acteurs={acteurs}
-          roles={rolesList}
           updatingActorIndex={updatingActorIndex}
           isAdding={isAdding}
           isEditing={isEditing}

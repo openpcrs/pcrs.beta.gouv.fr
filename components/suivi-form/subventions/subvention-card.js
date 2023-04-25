@@ -3,11 +3,7 @@ import {formatDate} from '@/lib/date-utils.js'
 
 import colors from '@/styles/colors.js'
 
-const NATURES = {
-  feder: 'Financement FEDER',
-  cepr: 'Contrat État-Région',
-  detr: 'Dotations de l’État aux Territoires Ruraux'
-}
+import {getNatures} from '@/components/suivi-form/subventions/utils/select-options.js'
 
 const SubventionCard = ({nom, montant, echeance, nature, isFormOpen, handleDelete, handleEdition}) => (
   <div className={`fr-grid-row fr-p-2w fr-my-3w card-container ${isFormOpen ? 'card-disable' : ''}`}>
@@ -22,7 +18,7 @@ const SubventionCard = ({nom, montant, echeance, nature, isFormOpen, handleDelet
 
         <div className='fr-grid-row col-12 fr-col-md-6 fr-p-1w'>
           <div className='label fr-col-12 fr-text--lg fr-m-0'>Nature</div>
-          <div className='fr-m-0 fr-col-12 fr-text--sm'>{NATURES[nature]}</div>
+          <div className='fr-m-0 fr-col-12 fr-text--sm'>{getNatures()[nature]}</div>
         </div>
       </div>
 

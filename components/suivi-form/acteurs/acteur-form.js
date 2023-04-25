@@ -6,6 +6,7 @@ import {debounce, pick} from 'lodash-es'
 import {getEntreprises} from '@/lib/entreprises-api.js'
 
 import {secteursActivites} from '@/components/suivi-form/acteurs/utils/actor-activites.js'
+import {roleOptions} from '@/components/suivi-form/acteurs/utils/select-options.js'
 
 import AutocompleteInput from '@/components/autocomplete-input.js'
 import AutocompleteRenderItem from '@/components/autocomplete-render-item.js'
@@ -32,7 +33,7 @@ const renderItem = (item, isHighlighted) => {
   )
 }
 
-const ActeurForm = ({acteurs, roles, updatingActorIndex, isEditing, handleActorIndex, handleActors, handleAdding, handleEditing, onRequiredFormOpen}) => {
+const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, handleActors, handleAdding, handleEditing, onRequiredFormOpen}) => {
   const [acteur, setActeur] = useState({
     nom: '',
     siren: '',
@@ -141,16 +142,16 @@ const ActeurForm = ({acteurs, roles, updatingActorIndex, isEditing, handleActorI
   useEffect(() => {
     // Enable aplc/porteur selector choices for editing aplc/porteur actor...
     if (acteur.role === 'aplc' || acteur.role === 'porteur') {
-      roles.find(role => role.value === 'porteur').isDisabled = false
-      roles.find(role => role.value === 'aplc').isDisabled = false
+      roleOptions.find(role => role.value === 'porteur').isDisabled = false
+      roleOptions.find(role => role.value === 'aplc').isDisabled = false
     } else {
       const hasAplc = acteurs.some(actor => actor.role === 'aplc' || actor.role === 'porteur')
 
       // ... disable aplc/porteur selector choices when actor with this role already exist
-      roles.find(role => role.value === 'aplc').isDisabled = Boolean(hasAplc)
-      roles.find(role => role.value === 'porteur').isDisabled = Boolean(hasAplc)
+      roleOptions.find(role => role.value === 'aplc').isDisabled = Boolean(hasAplc)
+      roleOptions.find(role => role.value === 'porteur').isDisabled = Boolean(hasAplc)
     }
-  }, [acteur, roles, acteurs])
+  }, [acteur, acteurs])
 
   useEffect(() => {
     // Switch to actor update form
@@ -302,7 +303,7 @@ const ActeurForm = ({acteurs, roles, updatingActorIndex, isEditing, handleActorI
           <SelectInput
             isRequired
             label='Rôle'
-            options={roles}
+            options={roleOptions}
             value={role}
             description='Rôle de l’acteur dans le projet'
             ariaLabel='rôle de l’acteur dans le projet'
@@ -380,7 +381,6 @@ const ActeurForm = ({acteurs, roles, updatingActorIndex, isEditing, handleActorI
 
 ActeurForm.propTypes = {
   acteurs: PropTypes.array.isRequired,
-  roles: PropTypes.array.isRequired,
   updatingActorIndex: PropTypes.number,
   handleActorIndex: PropTypes.func.isRequired,
   handleActors: PropTypes.func.isRequired,
