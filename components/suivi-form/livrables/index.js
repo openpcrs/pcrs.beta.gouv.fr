@@ -142,4 +142,5 @@ Livrables.propTypes = {
 Livrables.defaultProps = {
   hasMissingData: false
 }
+
 export default Livrables
