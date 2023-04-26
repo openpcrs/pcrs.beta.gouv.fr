@@ -62,7 +62,7 @@ const Header = ({projectId, projectName, territoires, projets, onProjetChange}) 
                 type='button'
                 className='fr-btn--tertiary-no-outline fr-px-1w'
                 aria-label='Editer le projet'
-                onClick={() => router.push(`/formulaire-suivi/${projectId}`)}
+                onClick={() => router.push(`/formulaire-suivi?id=${projectId}`)}
               >
                 <span className='fr-icon-edit-line ' aria-hidden='true' />
               </button>

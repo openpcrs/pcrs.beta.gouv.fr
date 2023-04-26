@@ -65,7 +65,6 @@ const AutocompleteInput = ({
         .menu {
           position: absolute;
           box-shadow: 2px 12px 23px 2px rgba(0,0,0,0.23);
-          z-index: 1;
           border-radius: 0 0 5px 5px;
           background: white;
         }
