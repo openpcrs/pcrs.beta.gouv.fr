@@ -1,4 +1,4 @@
-import {useState, useEffect, useCallback} from 'react'
+import {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import Image from 'next/image'
 import {useRouter} from 'next/router'
@@ -17,7 +17,6 @@ import Button from '@/components/button.js'
 const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subventions, etapes, _id}) => {
   const router = useRouter()
 
-  const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
   const [hasMissingDataOnValidation, setHasMissingDataOnValidation] = useState(false)
   const [validationMessage, setValidationMessage] = useState(null)
   const [errorOnValidationMessages, setErrorOnValidationMessages] = useState([])
@@ -42,7 +41,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
     setIsLoading(false)
   }, [])
 
-  const handleModal = useCallback(() => setIsAuthentificationModalOpen(!isAuthentificationModalOpen), [isAuthentificationModalOpen])
+  const handleModal = () => router.push('/suivi-form')
 
   const handleSubmit = async event => {
     event.preventDefault()
