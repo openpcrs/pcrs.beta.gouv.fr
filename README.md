@@ -71,7 +71,7 @@ Puis compléter les champs suivants :
 | `/projets/:id`| **DELETE** | *Supprime le projet demandé* |
 | `/projets/:id`| **PUT** | *Modifie le projet demandé* |
 | `/me`| **GET** | *Permet à un administrateur de s'authentifier après avoir fourni le jeton d'administration* |
-| `/data/projets.csv`| **GET** | *Retourne un fichier CSV contenant l’ensemble des projets PCRS* |
+| `/data/projets.csv`| **GET** | *Retourne un fichier CSV contenant l’ensemble des projets PCRS* **Option :** *`/?includesWkt=1` pour inclure les géométries des projets au format WKT* |
 | `/data/livrables.csv`| **GET** | *Retourne un fichier CSV contenant l’ensemble des livrables des projets PCRS* |
 | `/data/tours-de-table.csv`| **GET** | *Retourne un fichier CSV contenant l’ensemble des tours de table des projets PCRS* |
 | `/data/subventions.csv`| **GET** | *Retourne un fichier CSV contenant l’ensemble des subventions des projets PCRS* |
