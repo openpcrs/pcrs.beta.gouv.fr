@@ -5,56 +5,57 @@ import {getRoles} from '@/components/suivi-form/acteurs/utils/select-options.js'
 
 import colors from '@/styles/colors.js'
 
-const ActeurCard = ({siren, nom, telephone, role, finance_part_euro, finance_part_perc, isFormOpen, handleDelete, handleEdition}) => {
+const ActeurCard = ({siren, nom, mail, telephone, role, finance_part_euro, finance_part_perc, isFormOpen, handleDelete, handleEdition}) => {
   const isAplc = role === 'aplc' || role === 'porteur'
 
   return (
     <div className={`fr-grid-row fr-p-2w fr-my-3w card-container ${isFormOpen ? 'card-disable' : ''}`}>
-      <div className='fr-grid-row fr-col-10'>
-        <div className='fr-grid-row fr-col-12 fr-col-xl-4'>
-          <div className='fr-grid-row col-12 fr-col-md-6 fr-p-1w'>
-            {isAplc && <span className='fr-grid-row fr-grid-row--middle fr-icon-user-star-fill fr-col-md-1 fr-icon--lg aplc-icon' aria-hidden='true' />}
-            <div className={`fr-grid-row fr-col-12 fr-col-md-11 ${isAplc ? 'fr-pl-2w fr-pl-md-4w' : ''}`}>
-              <div className='label fr-col-12 fr-m-0'>Nom</div>
-              <div className='fr-m-0 fr-col-12 fr-text--sm'>{nom}</div>
-            </div>
-          </div>
-
-          <div className='fr-grid-row col-12 fr-col-md-6 fr-p-1w'>
-            <div className='label fr-col-12 fr-m-0'>Siren</div>
-            <div className='fr-m-0 fr-col-12 fr-text--sm'>{siren}</div>
+      <div className='fr-grid-row fr-col-10 fr-grid-row--gutters'>
+        <div className='fr-grid-row fr-grid-row--gutters fr-col-12 fr-col-lg-2'>
+          {isAplc && <span className='fr-grid-row fr-grid-row--middle fr-icon-user-star-fill fr-col-lg-4 fr-icon--lg aplc-icon' aria-hidden='true' />}
+          <div className='fr-grid-row fr-col-12 fr-col-lg-8'>
+            <div className='label fr-col-12 fr-m-0'>Nom</div>
+            <div className='fr-m-0 fr-col-12 fr-text--sm'>{nom}</div>
           </div>
         </div>
 
-        <div className='fr-grid-row fr-col-12 fr-col-xl-4'>
-          <div className='fr-grid-row fr-col-12 fr-col-md-6 fr-p-1w'>
+        <div className='fr-grid-row fr-grid-row--gutters fr-col-10'>
+          <div className='fr-grid-row col-12 fr-col-lg-2'>
+            <div className='label fr-col-12 fr-m-0'>Siren</div>
+            <div className='fr-m-0 fr-col-12 fr-text--sm'>{siren}</div>
+          </div>
+
+          <div className='fr-grid-row fr-col-12 fr-col-lg-2'>
             <div className=' label fr-col-12 fr-m-0'>Téléphone</div>
             <div className='fr-m-0 fr-col-12 fr-text--sm'>{telephone || 'N/A'}</div>
           </div>
 
-          <div className='fr-grid-row col-12 fr-col-md-6 fr-p-1w'>
+          <div className='fr-grid-row fr-col-12 fr-col-lg-2'>
+            <div className=' label fr-col-12 fr-m-0'>Email</div>
+            <div className='fr-m-0 fr-col-12 fr-text--sm'>{mail || 'N/A'}</div>
+          </div>
+
+          <div className='fr-grid-row col-12 fr-col-lg-2'>
             <div className='label fr-col-12 fr-m-0'>Rôle</div>
             <div className='fr-m-0 fr-col-12 fr-text--sm'>{getRoles()[role]}</div>
           </div>
-        </div>
 
-        <div className='fr-grid-row fr-col-12 fr-col-xl-4'>
-          <div className='fr-grid-row fr-col-12 fr-col-md-6 fr-p-1w'>
+          <div className='fr-grid-row fr-col-12 fr-col-lg-2'>
             <div className=' label fr-col-12 fr-m-0'>Financement (%)</div>
             <div className='fr-m-0 fr-col-12 fr-text--sm'>{finance_part_perc || 'N/A'}</div>
           </div>
 
-          <div className='fr-grid-row col-12 fr-col-md-6 fr-p-1w'>
+          <div className='fr-grid-row col-12 fr-col-lg-2'>
             <div className='label fr-col-12 fr-m-0'>Financement (€)</div>
             <div className='fr-m-0 fr-col-12 fr-text--sm'>{finance_part_euro || 'N/A'}</div>
           </div>
         </div>
       </div>
 
-      <div className='fr-grid-row fr-col-12 fr-col-md-2 fr-mt-3w fr-mt-md-0 fr-pl-md-1w fr-grid-row--middle '>
+      <div className='fr-grid-row fr-col-12 fr-col-lg-2 fr-mt-3w fr-mt-lg-0 fr-pl-lg-1w fr-grid-row--middle'>
         <button
           type='button'
-          className='fr-grid-row fr-col-md-12 fr-col-lg-6 update-button'
+          className='fr-grid-row fr-col-lg-6 update-button'
           onClick={handleEdition}
         >
           <span className='fr-icon-edit-line fr-col-12' aria-hidden='true' />
@@ -63,7 +64,7 @@ const ActeurCard = ({siren, nom, telephone, role, finance_part_euro, finance_par
 
         <button
           type='button'
-          className='fr-grid-row fr-col-md-12 fr-col-lg-6 fr-pl-1w delete-button'
+          className='fr-grid-row fr-col-lg-6 fr-pl-1w delete-button'
           onClick={handleDelete}
         >
           <span className='fr-icon-delete-line fr-col-12' aria-hidden='true' />
@@ -113,6 +114,7 @@ ActeurCard.propTypes = {
   nom: PropTypes.string.isRequired,
   role: PropTypes.string.isRequired,
   telephone: PropTypes.string,
+  mail: PropTypes.string,
   finance_part_euro: PropTypes.number,
   finance_part_perc: PropTypes.number,
   isFormOpen: PropTypes.bool.isRequired,
@@ -123,7 +125,8 @@ ActeurCard.propTypes = {
 ActeurCard.defaultProps = {
   telephone: null,
   finance_part_euro: null,
-  finance_part_perc: null
+  finance_part_perc: null,
+  mail: null
 }
 
 export default ActeurCard

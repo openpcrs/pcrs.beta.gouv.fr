@@ -38,6 +38,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
     nom: '',
     siren: '',
     phone: '',
+    mail: '',
     finPerc: '',
     finEuros: '',
     role: ''
@@ -55,7 +56,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
   const [errorMessage, setErrorMessage] = useState(null)
   const [searchErrorMessage, setSearchErrorMessage] = useState(null)
 
-  const {nom, siren, phone, finPerc, finEuros, role} = acteur
+  const {nom, siren, phone, mail, finPerc, finEuros, role} = acteur
 
   const handleSubmit = () => {
     if ((finPerc && finPerc < 0) || (finEuros && finEuros < 0)) {
@@ -79,6 +80,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
             nom,
             siren: Number(siren),
             role,
+            mail,
             telephone: phone || null,
             finance_part_perc: Number(finPerc) || null,
             finance_part_euro: Number(finEuros) || null
@@ -112,6 +114,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
       nom: '',
       siren: '',
       phone: '',
+      mail: '',
       finPerc: '',
       finEuros: '',
       role: ''
@@ -162,6 +165,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
           nom: foundActor.nom,
           siren: foundActor.siren?.toString(),
           phone: foundActor.telephone || '',
+          mail: foundActor.mail || '',
           finPerc: foundActor.finance_part_perc?.toString() || '',
           finEuros: foundActor.finance_part_euro?.toString() || '',
           role: foundActor.role || ''
@@ -233,8 +237,8 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
 
   return (
     <div className='fr-mt-4w'>
-      <div className='fr-grid-row '>
-        <div className='fr-col-12 fr-col-md-6'>
+      <div className='fr-grid-row'>
+        <div className='fr-col-12 fr-mt-6w fr-col-md-6'>
           <AutocompleteInput
             isRequired
             label='Nom'
@@ -264,7 +268,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
             }}
           />
         </div>
-        <div className='fr-col-12 fr-col-md-6 fr-pl-md-3w'>
+        <div className='fr-col-12 fr-mt-6w fr-col-md-6 fr-pl-md-3w'>
           <TextInput
             isRequired
             label='SIREN'
@@ -299,7 +303,25 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
             }}
           />
         </div>
+
         <div className='fr-col-12 fr-mt-6w fr-col-md-6 fr-pl-md-3w'>
+          <TextInput
+            label='Adresse e-mail'
+            value={mail}
+            ariaLabel='Adresse e-mail de l’interlocuteur'
+            description='Adresse e-mail de l’interlocuteur'
+            onValueChange={e => {
+              setActeur({
+                ...acteur,
+                mail: e.target.value
+              })
+            }}
+          />
+        </div>
+      </div>
+
+      <div className='fr-grid-row fr-col-12'>
+        <div className='fr-col-12 fr-mt-6w fr-col-md-4 fr-pr-md-3w'>
           <SelectInput
             isRequired
             label='Rôle'
@@ -316,10 +338,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
             }}
           />
         </div>
-      </div>
-
-      <div className='fr-grid-row fr-col-12'>
-        <div className='fr-col-12 fr-col-md-6 fr-mt-6w'>
+        <div className='fr-col-12 fr-col-md-4 fr-mt-6w'>
           <NumberInput
             label='Part de financement'
             value={finPerc}
@@ -337,7 +356,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
             }}
           />
         </div>
-        <div className='fr-col-12 fr-col-md-6 fr-mt-6w fr-pl-md-3w'>
+        <div className='fr-col-12 fr-col-md-4 fr-mt-6w fr-pl-md-3w'>
           <NumberInput
             label='Montant du financement'
             value={finEuros}
