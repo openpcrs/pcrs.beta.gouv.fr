@@ -41,7 +41,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
     setIsLoading(false)
   }, [])
 
-  const handleModal = () => router.push('/suivi-form')
+  const handleModal = () => router.push('/suivi-pcrs')
 
   const handleSubmit = async event => {
     event.preventDefault()
