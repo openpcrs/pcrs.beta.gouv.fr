@@ -106,7 +106,7 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
     }
   }, [perimetres, isEditing, perimetreAsObject, updatingPerimetreIdx, onRequiredFormOpen])
 
-  const fetchPerimetres = useCallback(debounce(async (nom, type, signal) => {
+  const fetchPerimetres = useCallback(debounce(async (nom, type, signal) => { // eslint-disable-line react-hooks/exhaustive-deps
     setIsLoading(true)
 
     try {
