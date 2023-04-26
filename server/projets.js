@@ -58,17 +58,21 @@ export async function updateProjet(id, payload) {
     throw createError(400, 'Le contenu de la requête est invalide (aucun champ valide trouvé)')
   }
 
-  const {value} = await mongo.db.collection('projets').findOneAndUpdate(
-    {_id: mongo.parseObjectId(id)},
-    {$set: projet},
-    {returnDocument: 'after'}
-  )
+  try {
+    const {value} = await mongo.db.collection('projets').findOneAndUpdate(
+      {_id: mongo.parseObjectId(id)},
+      {$set: projet},
+      {returnDocument: 'after'}
+    )
 
-  if (!value) {
-    throw createError(404, 'Le projet est introuvable')
+    if (!value) {
+      throw createError(404, 'Le projet est introuvable')
+    }
+
+    return value
+  } catch {
+    throw createError(410, 'Un projet avec le même nom est déjà existant, merci de modifier le champ "nom"')
   }
-
-  return value
 }
 
 export async function getProjetsGeojson() {
