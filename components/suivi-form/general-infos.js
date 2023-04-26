@@ -3,16 +3,7 @@ import PropTypes from 'prop-types'
 import TextInput from '@/components/text-input.js'
 import SelectInput from '@/components/select-input.js'
 
-const REGIMES = [
-  {label: 'Production initiale', value: 'production'},
-  {label: 'Mise à jour', value: 'maj'}
-]
-
-const NATURES = [
-  {label: 'PCRS vecteur', value: 'vecteur'},
-  {label: 'PCRS raster', value: 'raster'},
-  {label: 'PCRS mixte (vecteur + raster)', value: 'mixte'}
-]
+import {natureOptions, regimeOptions} from '@/components/suivi-form/utils/general-select-options.js'
 
 const GeneralInfos = ({inputValues, handleValues}) => {
   const {nom, regime, nature} = inputValues
@@ -45,7 +36,7 @@ const GeneralInfos = ({inputValues, handleValues}) => {
             value={regime}
             description='Régime du projet'
             ariaLabel='régime du projet pcrs'
-            options={REGIMES}
+            options={regimeOptions}
             onValueChange={e => {
               handleValues({
                 ...inputValues,
@@ -62,7 +53,7 @@ const GeneralInfos = ({inputValues, handleValues}) => {
             value={nature}
             description='Nature du projet'
             ariaLabel='nature du projet pcrs'
-            options={NATURES}
+            options={natureOptions}
             onValueChange={e => {
               handleValues({
                 ...inputValues,

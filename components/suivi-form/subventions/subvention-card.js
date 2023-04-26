@@ -3,8 +3,10 @@ import {formatDate} from '@/lib/date-utils.js'
 
 import colors from '@/styles/colors.js'
 
-const SubventionCard = ({nom, nature, montant, echeance, natures, handleDelete, handleEdition}) => (
-  <div className='fr-grid-row fr-p-2w fr-my-3w card-container'>
+import {getNatures} from '@/components/suivi-form/subventions/utils/select-options.js'
+
+const SubventionCard = ({nom, montant, echeance, nature, isFormOpen, handleDelete, handleEdition}) => (
+  <div className={`fr-grid-row fr-p-2w fr-my-3w card-container ${isFormOpen ? 'card-disable' : ''}`}>
     <div className='fr-grid-row fr-col-10'>
       <div className='fr-grid-row fr-col-12 fr-col-xl-6'>
         <div className='fr-grid-row fr-grid-row--middle fr-col-12 fr-col-md-6 fr-p-1w'>
@@ -16,7 +18,7 @@ const SubventionCard = ({nom, nature, montant, echeance, natures, handleDelete, 
 
         <div className='fr-grid-row col-12 fr-col-md-6 fr-p-1w'>
           <div className='label fr-col-12 fr-text--lg fr-m-0'>Nature</div>
-          <div className='fr-m-0 fr-col-12 fr-text--sm'>{natures.find(n => n.value === nature).label}</div>
+          <div className='fr-m-0 fr-col-12 fr-text--sm'>{getNatures()[nature]}</div>
         </div>
       </div>
 
@@ -54,38 +56,47 @@ const SubventionCard = ({nom, nature, montant, echeance, natures, handleDelete, 
     </div>
 
     <style jsx>{`
-        .card-container {
-          background: ${colors.grey975};
-          border-radius: 4px;
-        }
+      .card-container {
+        background: ${colors.grey975};
+        border-radius: 4px;
+      }
 
-        .label {
-          font-weight: bold;
-          color: ${colors.blueFranceSun113};
-        }
+      .card-disable {
+        opacity: 30%;
+        pointer-events: none;
+      }
 
-        .update-button, .delete-button {
-          text-decoration: underline;
-          width: fit-content;
-        }
+      .label {
+        font-weight: bold;
+        color: ${colors.blueFranceSun113};
+      }
 
-        .update-button {
-          color: ${colors.blueFranceSun113};
-        }
+      .update-button, .delete-button {
+        text-decoration: underline;
+        width: fit-content;
+      }
 
-        .delete-button {
-          color: ${colors.error425};
-        }
+      .update-button {
+        color: ${colors.blueFranceSun113};
+      }
+
+      .delete-button {
+        color: ${colors.error425};
+      }
+
+      button:disabled {
+        color: ${colors.grey200};
+      }
     `}</style>
   </div>
 )
 
 SubventionCard.propTypes = {
   nom: PropTypes.string.isRequired,
-  nature: PropTypes.string.isRequired,
   montant: PropTypes.number,
   echeance: PropTypes.string,
-  natures: PropTypes.array.isRequired,
+  nature: PropTypes.string.isRequired,
+  isFormOpen: PropTypes.bool.isRequired,
   handleEdition: PropTypes.func.isRequired,
   handleDelete: PropTypes.func.isRequired
 }

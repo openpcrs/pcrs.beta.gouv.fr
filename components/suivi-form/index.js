@@ -127,7 +127,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
 
         <p className='required-disclaimer'>Les champs indiqués par une * sont obligatoires</p>
 
-        <form className='fr-p-5w' onSubmit={handleSubmit}>
+        <form className='fr-mt-5w' onSubmit={handleSubmit}>
           <GeneralInfos
             inputValues={generalInfos}
             handleValues={setGeneralInfos}

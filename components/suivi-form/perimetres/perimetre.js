@@ -6,7 +6,7 @@ import colors from '@/styles/colors.js'
 import {getPerimetersByCode} from '@/lib/decoupage-administratif-api.js'
 import Loader from '@/components/loader.js'
 
-const Perimetre = ({perimetre, perimetreAsObject, handleUpdate, handleDelete}) => {
+const Perimetre = ({perimetre, perimetreAsObject, isFormOpen, handleUpdate, handleDelete}) => {
   const [isLoading, setIsLoading] = useState(true)
   const [type, setType] = useState(null)
   const [nom, setNom] = useState(null)
@@ -30,7 +30,7 @@ const Perimetre = ({perimetre, perimetreAsObject, handleUpdate, handleDelete}) =
   }, [perimetre, perimetreType, perimetreCode])
 
   return (
-    <div className='fr-grid-row fr-mr-1w fr-px-2w fr-py-1w fr-my-1w card-container'>
+    <div className={`fr-grid-row fr-mr-1w fr-px-2w fr-py-1w fr-my-1w card-container ${isFormOpen ? 'card-disable' : ''}`}>
       {isLoading ? (
         <div className='fr-grid-row fr-grid-row--center'>
           <Loader size='small' />
@@ -71,6 +71,11 @@ const Perimetre = ({perimetre, perimetreAsObject, handleUpdate, handleDelete}) =
           border-radius: 4px;
         }
 
+        .card-disable {
+          opacity: 30%;
+          pointer-events: none;
+        }
+
         .label {
           font-weight: bold;
           color: ${colors.blueFranceSun113};
@@ -96,6 +101,7 @@ const Perimetre = ({perimetre, perimetreAsObject, handleUpdate, handleDelete}) =
 Perimetre.propTypes = {
   perimetre: PropTypes.string.isRequired,
   perimetreAsObject: PropTypes.object.isRequired,
+  isFormOpen: PropTypes.bool.isRequired,
   handleUpdate: PropTypes.func.isRequired,
   handleDelete: PropTypes.func.isRequired
 }
