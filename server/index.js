@@ -106,7 +106,7 @@ server.route('/projets')
 
 server.route('/data/projets.csv')
   .get(w(async (req, res) => {
-    const projetsCSVFile = await exportProjetAsCSV()
+    const projetsCSVFile = await exportProjetAsCSV(req.query.includesWkt)
 
     res.attachment('projets.csv').type('csv').send(projetsCSVFile)
   }))
