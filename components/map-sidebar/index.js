@@ -16,7 +16,7 @@ const MapSidebar = ({projet, onClose, onProjetChange, projets}) => {
   const {status} = PCRS_DATA_COLORS
   const {nom, territoires, _id, etapes, source, documentation, contrat, acteurs} = projet
 
-  const contactAPLC = acteurs.find(acteur => acteur.role === 'aplc')
+  const contactAPLC = acteurs.find(acteur => acteur.role === 'aplc' || 'porteur')
   const {statut} = projet.etapes[projet.etapes.length - 1]
   const projectStartDate = formatDate(find(projet.etapes, {statut: 'investigation'}).date_debut)
   const isObsolete = statut === 'obsolete'
