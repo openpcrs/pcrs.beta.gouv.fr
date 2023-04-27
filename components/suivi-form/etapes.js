@@ -28,16 +28,11 @@ const Etapes = ({initialValue, etapes, handleEtapes}) => {
       setStartDate(value)
     }
 
-    handleEtapes([...etapes].map(etape => {
-      if (etape.statut === statut) {
-        etape = {
-          statut,
-          date_debut: value
-        }
-      }
-
-      return etape
-    }))
+    handleEtapes(prevEtapes => {
+      const etapesCopy = [...prevEtapes]
+      etapesCopy[etapesCopy.findIndex(e => e.statut === statut)] = {statut, date_debut: value}
+      return etapesCopy
+    })
   }
 
   const addStep = () => {
@@ -63,21 +58,13 @@ const Etapes = ({initialValue, etapes, handleEtapes}) => {
   return (
     <div className='fr-mt-8w'>
       <h3 className='fr-h5'>Étapes</h3>
-      <Button
-        label='Ajouter une étape'
-        icon='add-circle-fill'
-        iconSide='left'
-        isDisabled={statutInput === 'obsolete' || !startDate}
-        onClick={addStep}
-      >
-        Ajouter l’étape suivante
-      </Button>
+      <hr className='separator fr-my-3w' />
 
       {etapes.map((etape, index) => {
         const findLabel = STATUS.find(status => etape.statut === status.value).label
 
         return (
-          <div key={etape.statut} className='fr-grid-row fr-mt-4w'>
+          <div key={etape.statut} className='fr-grid-row fr-my-5w'>
             <div className='fr-grid-row fr-col-11'>
               <div className='fr-col-12 fr-col-md-6'>
                 <TextInput
@@ -102,7 +89,7 @@ const Etapes = ({initialValue, etapes, handleEtapes}) => {
                 />
               </div>
             </div>
-            <div className='fr-grid-row fr-grid-row--bottom fr-pl-2w fr-col-1'>
+            <div className='fr-grid-row fr-grid-row--bottom fr-pl-2w fr-col-1 fr-pb-1w'>
               <button
                 type='button'
                 aria-label='Supprimer l’étape'
@@ -118,6 +105,17 @@ const Etapes = ({initialValue, etapes, handleEtapes}) => {
       }
       )}
 
+      {Boolean(startDate || (startDate && statutInput !== 'obsolete')) && (
+        <Button
+          label='Ajouter une étape'
+          icon='add-circle-fill'
+          iconSide='left'
+          onClick={addStep}
+        >
+          Ajouter l’étape suivante
+        </Button>
+      )}
+
       <style jsx>{`
         .delete-button {
           text-decoration: underline;
@@ -127,6 +125,10 @@ const Etapes = ({initialValue, etapes, handleEtapes}) => {
 
         button:disabled {
           color: ${colors.grey850};
+        }
+
+        hr {
+          border-top: 3px solid ${colors.grey850};
         }
       `}</style>
     </div>

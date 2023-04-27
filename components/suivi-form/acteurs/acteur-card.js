@@ -1,13 +1,15 @@
 /* eslint-disable camelcase */
 import PropTypes from 'prop-types'
 
+import {getRoles} from '@/components/suivi-form/acteurs/utils/select-options.js'
+
 import colors from '@/styles/colors.js'
 
-const ActeurCard = ({siren, nom, telephone, role, finance_part_euro, finance_part_perc, roles, handleDelete, handleEdition}) => {
+const ActeurCard = ({siren, nom, telephone, role, finance_part_euro, finance_part_perc, isFormOpen, handleDelete, handleEdition}) => {
   const isAplc = role === 'aplc' || role === 'porteur'
 
   return (
-    <div className='fr-grid-row fr-p-2w fr-my-3w card-container'>
+    <div className={`fr-grid-row fr-p-2w fr-my-3w card-container ${isFormOpen ? 'card-disable' : ''}`}>
       <div className='fr-grid-row fr-col-10'>
         <div className='fr-grid-row fr-col-12 fr-col-xl-4'>
           <div className='fr-grid-row col-12 fr-col-md-6 fr-p-1w'>
@@ -32,7 +34,7 @@ const ActeurCard = ({siren, nom, telephone, role, finance_part_euro, finance_par
 
           <div className='fr-grid-row col-12 fr-col-md-6 fr-p-1w'>
             <div className='label fr-col-12 fr-m-0'>Rôle</div>
-            <div className='fr-m-0 fr-col-12 fr-text--sm'>{roles.find(r => r.value === role).label}</div>
+            <div className='fr-m-0 fr-col-12 fr-text--sm'>{getRoles()[role]}</div>
           </div>
         </div>
 
@@ -75,6 +77,11 @@ const ActeurCard = ({siren, nom, telephone, role, finance_part_euro, finance_par
           border-radius: 4px;
         }
 
+        .card-disable {
+          opacity: 30%;
+          pointer-events: none;
+        }
+
         .aplc-icon {
           color: ${colors.successMain525};
         }
@@ -105,10 +112,10 @@ ActeurCard.propTypes = {
   siren: PropTypes.number.isRequired,
   nom: PropTypes.string.isRequired,
   role: PropTypes.string.isRequired,
-  roles: PropTypes.array.isRequired,
   telephone: PropTypes.string,
   finance_part_euro: PropTypes.number,
   finance_part_perc: PropTypes.number,
+  isFormOpen: PropTypes.bool.isRequired,
   handleDelete: PropTypes.func.isRequired,
   handleEdition: PropTypes.func.isRequired
 }
