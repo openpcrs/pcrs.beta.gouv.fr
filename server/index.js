@@ -18,6 +18,7 @@ import errorHandler from './util/error-handler.js'
 import w from './util/w.js'
 
 import {getProjet, getProjets, createProjet, deleteProjet, updateProjet, getProjetsGeojson, expandProjet} from './projets.js'
+import {exportLivrablesAsCSV, exportProjetsAsCSV, exportSubventionsAsCSV, exportToursDeTableAsCSV} from '../lib/export/csv.js'
 
 const port = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -101,6 +102,34 @@ server.route('/projets')
     const expandedProjet = expandProjet(projet)
 
     res.status(201).send(expandedProjet)
+  }))
+
+server.route('/data/projets.csv')
+  .get(w(async (req, res) => {
+    const projetsCSVFile = await exportProjetsAsCSV(req.query.includesWkt === '1')
+
+    res.attachment('projets.csv').type('csv').send(projetsCSVFile)
+  }))
+
+server.route('/data/livrables.csv')
+  .get(w(async (req, res) => {
+    const livrablesCSVFile = await exportLivrablesAsCSV()
+
+    res.attachment('livrables.csv').type('csv').send(livrablesCSVFile)
+  }))
+
+server.route('/data/tours-de-table.csv')
+  .get(w(async (req, res) => {
+    const toursDeTableCSVFile = await exportToursDeTableAsCSV()
+
+    res.attachment('tours-de-table.csv').type('csv').send(toursDeTableCSVFile)
+  }))
+
+server.route('/data/subventions.csv')
+  .get(w(async (req, res) => {
+    const subventionsCSVFile = await exportSubventionsAsCSV()
+
+    res.attachment('subventions.csv').type('csv').send(subventionsCSVFile)
   }))
 
 server.route('/me')
