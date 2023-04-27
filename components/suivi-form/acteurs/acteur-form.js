@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import {useState, useCallback, useEffect} from 'react'
+import {useState, useCallback, useEffect, useMemo} from 'react'
 import PropTypes from 'prop-types'
 import {debounce, pick} from 'lodash-es'
 
@@ -38,6 +38,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
     nom: '',
     siren: '',
     phone: '',
+    mail: '',
     finPerc: '',
     finEuros: '',
     role: ''
@@ -48,20 +49,49 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
 
   const [hasMissingInput, setHasMissingInput] = useState(false)
   const [hasInvalidInput, setHasInvalidInput] = useState(false)
-  const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(true)
   const [isSirenValid, setIsSirenValid] = useState(true)
-  const [isFormComplete, setIsFormComplete] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
   const [searchErrorMessage, setSearchErrorMessage] = useState(null)
 
-  const {nom, siren, phone, finPerc, finEuros, role} = acteur
+  const {nom, siren, phone, mail, finPerc, finEuros, role} = acteur
+
+  const isEmailValid = useMemo(() => {
+    const emailChecker = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([a-zA-Z\-\d]+\.)+[a-zA-Z]{2,}))$/
+    if (emailChecker.test(mail) || !mail) {
+      return true
+    }
+
+    return false
+  }, [mail])
+
+  const isPhoneNumberValid = useMemo(() => {
+    if (/^(?:\+33|0)[1-9](?:\d{8}|\d{9})$/.test(phone) || !phone) {
+      return true
+    }
+
+    return false
+  }, [phone])
+
+  const isFormComplete = useMemo(() => {
+    const isRequiredValueComplete = Boolean(nom && role)
+    if (isRequiredValueComplete && !hasInvalidInput && isEmailValid && isPhoneNumberValid) {
+      return true
+    }
+
+    return false
+  }, [hasInvalidInput, isEmailValid, isPhoneNumberValid, nom, role])
 
   const handleSubmit = () => {
-    setErrorMessage(null)
+    setHasInvalidInput(false)
+    setHasMissingInput(false)
+
+    if ((finPerc && finPerc < 0) || (finEuros && finEuros < 0)) {
+      return setErrorMessage('Veuillez entrer des valeurs supérieures à 0 dans les champs de financement')
+    }
 
     if (isFormComplete) {
-      if (isSirenValid) {
+      if (isSirenValid && isEmailValid && isPhoneNumberValid) {
         const checkIsExisting = () => {
           if (isEditing) {
             return acteurs.some(a => siren === a.siren.toString()) && siren !== updatingActorSiren.toString()
@@ -77,6 +107,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
             nom,
             siren: Number(siren),
             role,
+            mail,
             telephone: phone || null,
             finance_part_perc: Number(finPerc) || null,
             finance_part_euro: Number(finEuros) || null
@@ -98,6 +129,10 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
         setHasInvalidInput(true)
       }
     } else {
+      if (!isEmailValid || !isPhoneNumberValid) {
+        setHasInvalidInput(true)
+      }
+
       setHasMissingInput(true)
     }
   }
@@ -110,6 +145,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
       nom: '',
       siren: '',
       phone: '',
+      mail: '',
       finPerc: '',
       finEuros: '',
       role: ''
@@ -120,22 +156,25 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
     setUpdatingActorSiren(null)
     setHasMissingInput(false)
     setSearchErrorMessage(null)
-    setIsFormComplete(true)
   }, [handleAdding, handleActorIndex, handleEditing, onRequiredFormOpen])
 
-  const handleErrors = useCallback((input, name) => {
-    if (!input && hasMissingInput && name !== 'phone' && !input) {
+  const handleErrors = (input, name) => {
+    if (!input && hasMissingInput && name !== 'phone' && name !== 'email' && !input) {
       return 'Ce champs est requis'
+    }
+
+    if (input && name === 'email' && !isEmailValid && hasInvalidInput) {
+      return 'L’adresse mail entrée est invalide'
     }
 
     if (name === 'siren' && !isSirenValid) {
       return 'Le SIREN doit être composé de 9 chiffres'
     }
 
-    if (input && name === 'phone' && !isPhoneNumberValid) {
+    if (input && name === 'phone' && !isPhoneNumberValid && hasInvalidInput) {
       return 'Le numéro de téléphone doit être composé de 10 chiffres ou de 9 chiffres précédés du préfixe +33'
     }
-  }, [hasMissingInput, isPhoneNumberValid, isSirenValid])
+  }
 
   useEffect(() => {
     // Enable aplc/porteur selector choices for editing aplc/porteur actor...
@@ -160,6 +199,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
           nom: foundActor.nom,
           siren: foundActor.siren?.toString(),
           phone: foundActor.telephone || '',
+          mail: foundActor.mail || '',
           finPerc: foundActor.finance_part_perc?.toString() || '',
           finEuros: foundActor.finance_part_euro?.toString() || '',
           role: foundActor.role || ''
@@ -211,28 +251,10 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
     }
   }, [updatingActorIndex, handleEditing])
 
-  useEffect(() => {
-    if (nom && role && !hasInvalidInput && (!phone || isPhoneNumberValid)) {
-      setIsFormComplete(true)
-    } else {
-      setIsFormComplete(false)
-    }
-  }, [nom, role, hasInvalidInput, phone, isPhoneNumberValid])
-
-  useEffect(() => {
-    if (phone) {
-      if (/^(?:\+33|0)[1-9](?:\d{8}|\d{9})$/.test(phone)) {
-        setIsPhoneNumberValid(true)
-      } else {
-        setIsPhoneNumberValid(false)
-      }
-    }
-  }, [phone])
-
   return (
     <div className='fr-mt-4w'>
-      <div className='fr-grid-row '>
-        <div className='fr-col-12 fr-col-md-6'>
+      <div className='fr-grid-row'>
+        <div className='fr-col-12 fr-mt-6w fr-col-md-6'>
           <AutocompleteInput
             isRequired
             label='Nom'
@@ -262,7 +284,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
             }}
           />
         </div>
-        <div className='fr-col-12 fr-col-md-6 fr-pl-md-3w'>
+        <div className='fr-col-12 fr-mt-6w fr-col-md-6 fr-pl-md-3w'>
           <TextInput
             isRequired
             label='SIREN'
@@ -290,6 +312,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
             description='Numéro de téléphone de l’interlocuteur'
             errorMessage={handleErrors(phone, 'phone')}
             onValueChange={e => {
+              setHasInvalidInput(false)
               setActeur({
                 ...acteur,
                 phone: e.target.value
@@ -297,7 +320,29 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
             }}
           />
         </div>
+
         <div className='fr-col-12 fr-mt-6w fr-col-md-6 fr-pl-md-3w'>
+          <TextInput
+            label='Adresse e-mail'
+            value={mail}
+            type='email'
+            ariaLabel='Adresse e-mail de l’interlocuteur'
+            description='Adresse e-mail de l’interlocuteur'
+            errorMessage={handleErrors(mail, 'email')}
+            placeholder='exemple@domaine.fr'
+            onValueChange={e => {
+              setHasInvalidInput(false)
+              setActeur({
+                ...acteur,
+                mail: e.target.value
+              })
+            }}
+          />
+        </div>
+      </div>
+
+      <div className='fr-grid-row fr-col-12'>
+        <div className='fr-col-12 fr-mt-6w fr-col-md-4 fr-pr-md-3w'>
           <SelectInput
             isRequired
             label='Rôle'
@@ -314,10 +359,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
             }}
           />
         </div>
-      </div>
-
-      <div className='fr-grid-row fr-col-12'>
-        <div className='fr-col-12 fr-col-md-6 fr-mt-6w'>
+        <div className='fr-col-12 fr-col-md-4 fr-mt-6w'>
           <NumberInput
             label='Part de financement'
             value={finPerc}
@@ -335,7 +377,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
             }}
           />
         </div>
-        <div className='fr-col-12 fr-col-md-6 fr-mt-6w fr-pl-md-3w'>
+        <div className='fr-col-12 fr-col-md-4 fr-mt-6w fr-pl-md-3w'>
           <NumberInput
             label='Montant du financement'
             value={finEuros}
