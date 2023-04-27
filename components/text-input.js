@@ -40,7 +40,8 @@ TextInput.propTypes = {
   value: PropTypes.string,
   type: PropTypes.oneOf([
     'text',
-    'password'
+    'password',
+    'email'
   ]),
   ariaLabel: PropTypes.string,
   placeholder: PropTypes.string,
