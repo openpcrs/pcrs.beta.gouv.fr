@@ -18,7 +18,7 @@ import errorHandler from './util/error-handler.js'
 import w from './util/w.js'
 
 import {getProjet, getProjets, createProjet, deleteProjet, updateProjet, getProjetsGeojson, expandProjet} from './projets.js'
-import {exportLivrablesAsCSV, exportProjetAsCSV, exportSubventionsAsCSV, exportToursDeTableAsCSV} from '../lib/export/projet-csv.js'
+import {exportLivrablesAsCSV, exportProjetsAsCSV, exportSubventionsAsCSV, exportToursDeTableAsCSV} from '../lib/export/csv.js'
 
 const port = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -106,7 +106,7 @@ server.route('/projets')
 
 server.route('/data/projets.csv')
   .get(w(async (req, res) => {
-    const projetsCSVFile = await exportProjetAsCSV(req.query.includesWkt)
+    const projetsCSVFile = await exportProjetsAsCSV(req.query.includesWkt)
 
     res.attachment('projets.csv').type('csv').send(projetsCSVFile)
   }))
@@ -127,9 +127,9 @@ server.route('/data/tours-de-table.csv')
 
 server.route('/data/subventions.csv')
   .get(w(async (req, res) => {
-    const subvensionsCSVFile = await exportSubventionsAsCSV()
+    const subventionsCSVFile = await exportSubventionsAsCSV()
 
-    res.attachment('subvensions.csv').type('csv').send(subvensionsCSVFile)
+    res.attachment('subventions.csv').type('csv').send(subventionsCSVFile)
   }))
 
 server.route('/me')
