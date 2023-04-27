@@ -7,6 +7,7 @@ import TextInput from '@/components/text-input.js'
 import SelectInput from '@/components/select-input.js'
 import DateInput from '@/components/date-input.js'
 import Button from '@/components/button.js'
+import NumberInput from '@/components/number-input.js'
 
 const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventions, handleEditing, handleAdding, handleUpdatingSubvIdx}) => {
   const [hasMissingInput, setHasMissingInput] = useState(false)
@@ -140,8 +141,7 @@ const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventi
           </div>
 
           <div className='fr-col-12 fr-col-lg-4 fr-pr-3w fr-mt-3w fr-mt-lg-0'>
-            <TextInput
-              isNumber
+            <NumberInput
               label='Montant'
               value={montant}
               ariaLabel='montant de la subvention'

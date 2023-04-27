@@ -13,6 +13,7 @@ import AutocompleteRenderItem from '@/components/autocomplete-render-item.js'
 import TextInput from '@/components/text-input.js'
 import SelectInput from '@/components/select-input.js'
 import Button from '@/components/button.js'
+import NumberInput from '@/components/number-input.js'
 
 const renderItem = (item, isHighlighted) => {
   const {nom_complet, section_activite_principale, siren} = item
@@ -317,8 +318,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
 
       <div className='fr-grid-row fr-col-12'>
         <div className='fr-col-12 fr-col-md-6 fr-mt-6w'>
-          <TextInput
-            isNumber
+          <NumberInput
             label='Part de financement'
             value={finPerc}
             ariaLabel='Part de financement en pourcentage du total'
@@ -336,8 +336,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
           />
         </div>
         <div className='fr-col-12 fr-col-md-6 fr-mt-6w fr-pl-md-3w'>
-          <TextInput
-            isNumber
+          <NumberInput
             label='Montant du financement'
             value={finEuros}
             ariaLabel='montant du financement'

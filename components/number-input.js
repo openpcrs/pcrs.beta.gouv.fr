@@ -1,16 +1,69 @@
-import {useEffect} from 'react'
+import {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 
-const TextInput = ({label, value, type, ariaLabel, placeholder, errorMessage, description, isRequired, isDisabled, onValueChange, handleInvalidInput, onFocus, onBlur}) => {
-  const inputState = errorMessage ? 'error' : ''
+const NumberInput = ({
+  label,
+  value,
+  type,
+  min,
+  max,
+  ariaLabel,
+  placeholder,
+  errorMessage,
+  description,
+  isRequired,
+  isDisabled,
+  onValueChange,
+  handleInvalidInput,
+  onFocus,
+  onBlur
+}) => {
+  const [inputError, setInputError] = useState(null)
+
+  const inputState = inputError ? 'error' : ''
 
   useEffect(() => {
+    setInputError(null)
+
     if (errorMessage) {
+      setInputError(errorMessage)
+      handleInvalidInput(true)
+    }
+
+    if (value) {
+      setInputError(null)
+
+      let inputErrorMessage = null
+      const hasMin = min === 0 || min
+      const hasMax = max === 0 || max
+
+      if (Number(value) !== 0 && !Number(value)) {
+        inputErrorMessage = 'Veuillez entrer uniquement des nombres'
+      }
+
+      if ((hasMin && !hasMax) && value < min) {
+        inputErrorMessage = `La valeur est inférieure à ${min}`
+      }
+
+      if ((!hasMin && hasMax) && value > max) {
+        inputErrorMessage = `La valeur est supérieure à ${max}`
+      }
+
+      if ((hasMin && hasMax) && (value < min || value > max)) {
+        inputErrorMessage = `La valeur doit être comprise entre ${min} et ${max}`
+      }
+
+      setInputError(inputErrorMessage)
+    }
+  }, [value, min, max, errorMessage, handleInvalidInput])
+
+  useEffect(() => {
+    if (inputError) {
       handleInvalidInput(true)
     } else {
       handleInvalidInput(false)
     }
-  }, [errorMessage, handleInvalidInput])
+  }, [inputError, handleInvalidInput])
 
   return (
     <div className={`fr-input-group fr-input-group--${inputState}`}>
@@ -32,9 +85,9 @@ const TextInput = ({label, value, type, ariaLabel, placeholder, errorMessage, de
         onBlur={onBlur}
       />
 
-      {(errorMessage) && (
+      {(inputError) && (
         <p id='text-input-error-desc-error' className='fr-error-text'>
-          {errorMessage}
+          {inputError}
         </p>
       )}
 
@@ -48,20 +101,16 @@ const TextInput = ({label, value, type, ariaLabel, placeholder, errorMessage, de
   )
 }
 
-TextInput.propTypes = {
+NumberInput.propTypes = {
   label: PropTypes.string,
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
-  type: PropTypes.oneOf([
-    'text',
-    'password'
-  ]),
+  value: PropTypes.string,
+  type: PropTypes.string,
   ariaLabel: PropTypes.string,
   placeholder: PropTypes.string,
   errorMessage: PropTypes.string,
   description: PropTypes.string,
+  min: PropTypes.number,
+  max: PropTypes.number,
   isRequired: PropTypes.bool,
   isDisabled: PropTypes.bool,
   onValueChange: PropTypes.func,
@@ -70,7 +119,7 @@ TextInput.propTypes = {
   onBlur: PropTypes.func
 }
 
-TextInput.defaultProps = {
+NumberInput.defaultProps = {
   label: '',
   value: '',
   type: 'text',
@@ -78,6 +127,8 @@ TextInput.defaultProps = {
   placeholder: null,
   errorMessage: null,
   description: null,
+  min: null,
+  max: null,
   isRequired: false,
   isDisabled: false,
   onFocus: null,
@@ -85,4 +136,4 @@ TextInput.defaultProps = {
   handleInvalidInput() {}
 }
 
-export default TextInput
+export default NumberInput

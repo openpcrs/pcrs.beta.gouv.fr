@@ -8,6 +8,7 @@ import SelectInput from '@/components/select-input.js'
 import TextInput from '@/components/text-input.js'
 import Button from '@/components/button.js'
 import DateInput from '@/components/date-input.js'
+import NumberInput from '@/components/number-input.js'
 
 const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdatingLivrableIdx, handleLivrables, handleAdding, handleEditing, onRequiredFormOpen}) => {
   const [hasMissingInput, setHasMissingInput] = useState(false)
@@ -244,8 +245,7 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
       <div className='fr-grid-row'>
         {/* Avancement du livrable - number */}
         <div className='fr-input-group fr-col-12 fr-col-lg-4 fr-pr-3w fr-mt-6w'>
-          <TextInput
-            isNumber
+          <NumberInput
             label='Avancement'
             value={avancement}
             ariaLabel='pourcentage de progression du livrable en pourcentage'
