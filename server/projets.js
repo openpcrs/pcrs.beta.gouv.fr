@@ -75,7 +75,7 @@ export async function updateProjet(id, payload) {
       throw createError(410, 'Un projet avec le même nom est déjà existant, merci de modifier le champ "nom"')
     }
 
-    throw createError(500)
+    throw error
   }
 }
 
