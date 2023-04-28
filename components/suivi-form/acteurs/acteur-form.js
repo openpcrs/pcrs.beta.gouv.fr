@@ -104,7 +104,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
             nom,
             siren: Number(siren),
             role,
-            mail,
+            mail: mail || null,
             telephone: phone || null,
             finance_part_perc: Number(finPerc) || null,
             finance_part_euro: Number(finEuros) || null
