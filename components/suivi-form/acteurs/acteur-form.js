@@ -83,9 +83,6 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
   }, [hasInvalidInput, isEmailValid, isPhoneNumberValid, nom, role])
 
   const handleSubmit = () => {
-    setHasInvalidInput(false)
-    setHasMissingInput(false)
-
     if ((finPerc && finPerc < 0) || (finEuros && finEuros < 0)) {
       return setErrorMessage('Veuillez entrer des valeurs supérieures à 0 dans les champs de financement')
     }

@@ -31,8 +31,6 @@ const NumberInput = ({
     }
 
     if (value) {
-      setInputError(null)
-
       let inputErrorMessage = null
       const hasMin = min === 0 || min
       const hasMax = max === 0 || max
