@@ -12,8 +12,8 @@ import AutocompleteInput from '@/components/autocomplete-input.js'
 import AutocompleteRenderItem from '@/components/autocomplete-render-item.js'
 import TextInput from '@/components/text-input.js'
 import SelectInput from '@/components/select-input.js'
-import NumberInput from '@/components/number-input.js'
 import Button from '@/components/button.js'
+import NumberInput from '@/components/number-input.js'
 
 const renderItem = (item, isHighlighted) => {
   const {nom_complet, section_activite_principale, siren} = item
@@ -83,9 +83,6 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
   }, [hasInvalidInput, isEmailValid, isPhoneNumberValid, nom, role])
 
   const handleSubmit = () => {
-    setHasInvalidInput(false)
-    setHasMissingInput(false)
-
     if ((finPerc && finPerc < 0) || (finEuros && finEuros < 0)) {
       return setErrorMessage('Veuillez entrer des valeurs supérieures à 0 dans les champs de financement')
     }
@@ -107,7 +104,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
             nom,
             siren: Number(siren),
             role,
-            mail,
+            mail: mail || null,
             telephone: phone || null,
             finance_part_perc: Number(finPerc) || null,
             finance_part_euro: Number(finEuros) || null
@@ -368,7 +365,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
             placeholder='Veuillez n’entrer que des valeurs numéraires'
             min={0}
             max={100}
-            onIsInvalid={setHasInvalidInput}
+            handleInvalidInput={setHasInvalidInput}
             onValueChange={e => {
               setActeur({
                 ...acteur,
@@ -381,11 +378,11 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
           <NumberInput
             label='Montant du financement'
             value={finEuros}
-            placeholder='Veuillez n’entrer que des valeurs numéraires'
-            description='Montant du financement en euros'
             ariaLabel='montant du financement'
+            description='Montant du financement en euros'
+            placeholder='Veuillez n’entrer que des valeurs numéraires'
             min={0}
-            onIsInvalid={setHasInvalidInput}
+            handleInvalidInput={setHasInvalidInput}
             onValueChange={e => {
               setActeur({
                 ...acteur,

@@ -1,7 +1,16 @@
+import {useEffect} from 'react'
 import PropTypes from 'prop-types'
 
-const TextInput = ({label, value, type, ariaLabel, placeholder, errorMessage, description, isRequired, isDisabled, onValueChange, onFocus, onBlur}) => {
+const TextInput = ({label, value, type, ariaLabel, placeholder, errorMessage, description, isRequired, isDisabled, onValueChange, handleInvalidInput, onFocus, onBlur}) => {
   const inputState = errorMessage ? 'error' : ''
+
+  useEffect(() => {
+    if (errorMessage) {
+      handleInvalidInput(true)
+    } else {
+      handleInvalidInput(false)
+    }
+  }, [errorMessage, handleInvalidInput])
 
   return (
     <div className={`fr-input-group fr-input-group--${inputState}`}>
@@ -23,7 +32,11 @@ const TextInput = ({label, value, type, ariaLabel, placeholder, errorMessage, de
         onBlur={onBlur}
       />
 
-      {errorMessage && <p id='text-input-error-desc-error' className='fr-error-text'>{errorMessage}</p>}
+      {(errorMessage) && (
+        <p id='text-input-error-desc-error' className='fr-error-text'>
+          {errorMessage}
+        </p>
+      )}
 
       <style jsx>{`
         .required-label::after {
@@ -37,7 +50,10 @@ const TextInput = ({label, value, type, ariaLabel, placeholder, errorMessage, de
 
 TextInput.propTypes = {
   label: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   type: PropTypes.oneOf([
     'text',
     'password',
@@ -50,6 +66,7 @@ TextInput.propTypes = {
   isRequired: PropTypes.bool,
   isDisabled: PropTypes.bool,
   onValueChange: PropTypes.func,
+  handleInvalidInput: PropTypes.func,
   onFocus: PropTypes.func,
   onBlur: PropTypes.func
 }
@@ -65,7 +82,8 @@ TextInput.defaultProps = {
   isRequired: false,
   isDisabled: false,
   onFocus: null,
-  onBlur: null
+  onBlur: null,
+  handleInvalidInput() {}
 }
 
 export default TextInput
