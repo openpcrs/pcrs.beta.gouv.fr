@@ -5,9 +5,9 @@ import {natureOptions} from '@/components/suivi-form/subventions/utils/select-op
 
 import TextInput from '@/components/text-input.js'
 import SelectInput from '@/components/select-input.js'
-import NumberInput from '@/components/number-input.js'
 import DateInput from '@/components/date-input.js'
 import Button from '@/components/button.js'
+import NumberInput from '@/components/number-input.js'
 
 const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventions, handleEditing, handleAdding, handleUpdatingSubvIdx}) => {
   const [hasMissingInput, setHasMissingInput] = useState(false)
@@ -25,9 +25,7 @@ const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventi
   const {nom, nature, montant, echeance} = subvention
 
   const handleSubmit = () => {
-    if (montant && montant < 0) {
-      return setErrorMessage('Veuillez entrer des valeurs supérieures à 0 dans les champs de financement')
-    }
+    setErrorMessage(null)
 
     if (!hasInvalidInput) {
       const checkIsExisting = () => {
@@ -145,11 +143,11 @@ const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventi
           <div className='fr-col-12 fr-col-lg-4 fr-pr-3w fr-mt-3w fr-mt-lg-0'>
             <NumberInput
               label='Montant'
-              value={montant.toString()}
-              min={0}
+              value={montant}
               ariaLabel='montant de la subvention'
               description='Montant de la subvention'
-              onIsInvalid={setHasInvalidInput}
+              min={0}
+              handleInvalidInput={setHasInvalidInput}
               onValueChange={e => {
                 setSubvention({
                   ...subvention,

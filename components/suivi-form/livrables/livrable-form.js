@@ -6,9 +6,9 @@ import {natureOptions, diffusionOptions, licenceOptions, publicationOptions, sys
 
 import SelectInput from '@/components/select-input.js'
 import TextInput from '@/components/text-input.js'
-import NumberInput from '@/components/number-input.js'
 import Button from '@/components/button.js'
 import DateInput from '@/components/date-input.js'
+import NumberInput from '@/components/number-input.js'
 
 const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdatingLivrableIdx, handleLivrables, handleAdding, handleEditing, onRequiredFormOpen}) => {
   const [hasMissingInput, setHasMissingInput] = useState(false)
@@ -36,9 +36,7 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
   const isAvancementValid = avancementAsNumber >= 0 && avancementAsNumber <= 100
 
   const handleSubmit = () => {
-    if (avancement && avancement < 0) {
-      return setErrorMessage('Veuillez entrer des valeurs supérieures à 0 dans les champs de financement')
-    }
+    setErrorMessage(null)
 
     if (isFormComplete && isAvancementValid && !hasInvalidInput) {
       const checkIsExisting = () => {
@@ -254,7 +252,7 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
             description='Pourcentage de progression'
             min={0}
             max={100}
-            onIsInvalid={setHasInvalidInput}
+            handleInvalidInput={setHasInvalidInput}
             onValueChange={e => {
               setLivrable({
                 ...livrable,
