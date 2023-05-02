@@ -5,6 +5,8 @@ import {useRouter} from 'next/router'
 
 import {postSuivi, editProject} from '@/lib/suivi-pcrs.js'
 
+import {useInput} from '@/hooks/input.js'
+
 import AuthentificationModal from '@/components/suivi-form/authentification-modal.js'
 import GeneralInfos from '@/components/suivi-form/general-infos.js'
 import Livrables from '@/components/suivi-form/livrables/index.js'
@@ -23,11 +25,9 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
   const [isLoading, setIsLoading] = useState(true)
   const [isRequiredFormOpen, setIsRequiredFormOpen] = useState(false)
 
-  const [generalInfos, setGeneralInfos] = useState({
-    nom,
-    nature,
-    regime
-  })
+  const [suiviNom, setSuiviNom] = useInput({initialValue: nom})
+  const [suiviNature, setSuiviNature] = useInput({initialValue: nature})
+  const [suiviRegime, setSuiviRegime] = useInput({initialValue: regime})
 
   const [projetLivrables, setProjetLivrables] = useState(livrables)
   const [projetActeurs, setProjetActeurs] = useState(acteurs)
@@ -47,7 +47,6 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
     event.preventDefault()
 
     const hasMissingData = projetLivrables.length === 0 || projetActeurs.length === 0 || projetPerimetres.length === 0
-    const {nom, nature, regime} = generalInfos
 
     setValidationMessage(null)
     setErrorOnValidationMessages([])
@@ -75,9 +74,9 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
         setErrorOnValidationMessages([{message: 'Des données nécessaires à la validation du formulaires sont manquantes. Au moins un livrable, un acteur et un périmètre doivent être ajoutés.'}])
       } else {
         const suivi = {
-          nom,
-          regime,
-          nature,
+          nom: suiviNom,
+          regime: suiviRegime,
+          nature: suiviNature,
           livrables: projetLivrables,
           acteurs: projetActeurs,
           perimetres: projetPerimetres,
@@ -128,8 +127,10 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
 
         <form className='fr-mt-5w' onSubmit={handleSubmit}>
           <GeneralInfos
-            inputValues={generalInfos}
-            handleValues={setGeneralInfos}
+            inputValues={{nom: suiviNom, nature: suiviNature, regime: suiviRegime}}
+            handleNom={setSuiviNom}
+            handleRegime={setSuiviRegime}
+            handleNature={setSuiviNature}
           />
 
           <div id='livrables'>
