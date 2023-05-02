@@ -180,8 +180,8 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
           <Subventions subventions={projetSubventions} handleSubventions={setProjetSubventions} />
 
           <div className='fr-grid-row fr-grid-row--center fr-grid-row--gutters fr-mt-12w'>
-            <div className='fr-grid-row fr-col-12 fr-grid-row--gutters'>
-              <div className='fr-grid-row fr-col-12 fr-col-md-6'>
+            <div className='fr-grid-row fr-col-12 fr-grid-row--center'>
+              <div className='fr-grid-row fr-py-2w fr-px-1w fr-px-md-6w'>
                 <Button
                   label='Retourner à la carte de suivi'
                   iconSide='left'
@@ -195,7 +195,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
                 </Button>
               </div>
 
-              <div className='fr-grid-row fr-col-12 fr-col-md-6'>
+              <div className='fr-grid-row fr-py-2w fr-px-1w fr-px-md-6w'>
                 <Button
                   label='Valider le formulaire'
                   icon='checkbox-circle-fill'
