@@ -125,7 +125,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
         {!isLoading && !token && <AuthentificationModal handleToken={setToken} handleModal={handleModal} />}
 
         <Button
-          label='Retourner à la carte des suivis'
+          label='Retourner à la carte de suivi'
           iconSide='left'
           buttonStyle='secondary'
           icon='arrow-left-line'
@@ -133,7 +133,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
           size='sm'
           onClick={() => router.push('/suivi-pcrs')}
         >
-          Retourner à la carte des suivis
+          Retourner à la carte de suivi
         </Button>
 
         <p className='required-disclaimer fr-mt-3w'>Les champs indiqués par une * sont obligatoires</p>
@@ -183,7 +183,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
             <div className='fr-grid-row fr-col-12 fr-grid-row--gutters'>
               <div className='fr-grid-row fr-col-12 fr-col-md-6'>
                 <Button
-                  label='Retourner à la carte des suivis'
+                  label='Retourner à la carte de suivi'
                   iconSide='left'
                   buttonStyle='secondary'
                   icon='arrow-left-line'
@@ -191,7 +191,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
                   size='sm'
                   onClick={() => router.push('/suivi-pcrs')}
                 >
-                  Retourner à la carte des suivis
+                  Retourner à la carte de suivi
                 </Button>
               </div>
 
