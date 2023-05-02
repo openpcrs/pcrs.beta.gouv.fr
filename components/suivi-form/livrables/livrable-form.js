@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 
 import {natureOptions, diffusionOptions, licenceOptions, publicationOptions, systRefSpatialOptions} from '@/components/suivi-form/livrables/utils/select-options.js'
 
+import {useInput} from '@/hooks/input.js'
+
 import SelectInput from '@/components/select-input.js'
 import TextInput from '@/components/text-input.js'
 import Button from '@/components/button.js'
@@ -12,121 +14,142 @@ import NumberInput from '@/components/number-input.js'
 
 const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdatingLivrableIdx, handleLivrables, handleAdding, handleEditing, onRequiredFormOpen}) => {
   const [hasMissingInput, setHasMissingInput] = useState(false)
-  const [hasInvalidInput, setHasInvalidInput] = useState(false)
   const [updatingLivrableName, setUpdatingLivrableName] = useState()
   const [errorMessage, setErrorMessage] = useState()
 
-  const [livrable, setLivrable] = useState({
-    nom: '',
-    nature: '',
-    diffusion: '',
-    licence: '',
-    avancement: '',
-    crs: '',
-    compression: '',
-    publication: '',
-    date_livraison: ''
-  })
-
-  const {nom, nature, diffusion, licence, avancement, crs, compression, publication, date_livraison} = livrable
-
-  const avancementAsNumber = Number(avancement) || null
+  const [nom, setNom, nomError] = useInput({isRequired: hasMissingInput})
+  const [nature, setNature, natureError] = useInput({isRequired: hasMissingInput})
+  const [diffusion, setDiffusion, diffusionError] = useInput({isRequired: hasMissingInput})
+  const [licence, setLicence, licenceError] = useInput({isRequired: hasMissingInput})
+  const [avancement, setAvancement, avancementError, setIsAvancementValid, isAvancementValid] = useInput({})
+  const [crs, setCrs, crsError] = useInput({})
+  const [compression, setCompression, compressionError] = useInput({})
+  const [publication, setPublication, publicationError] = useInput({})
+  const [dateLivraison, setDateLivraison, DateLivraisonError] = useInput({})
 
   const isFormComplete = Boolean(nom && nature && licence)
-  const isAvancementValid = avancementAsNumber >= 0 && avancementAsNumber <= 100
+
+  useEffect(() => {
+    if (isFormComplete && isAvancementValid) {
+      setErrorMessage(null)
+    }
+  }, [isFormComplete, isAvancementValid])
 
   const handleSubmit = () => {
     setErrorMessage(null)
 
-    if (isFormComplete && isAvancementValid && !hasInvalidInput) {
-      const checkIsExisting = () => {
-        if (isEditing) {
-          return livrables.some(livrable => livrable.nom === nom) && nom !== updatingLivrableName
+    if (isFormComplete) {
+      if (isAvancementValid) {
+        const checkIsExisting = () => {
+          if (isEditing) {
+            return livrables.some(livrable => livrable.nom === nom) && nom !== updatingLivrableName
+          }
+
+          return livrables.some(livrable => livrable.nom === nom)
         }
 
-        return livrables.some(livrable => livrable.nom === nom)
-      }
-
-      if (checkIsExisting()) {
-        setErrorMessage('Un livrable avec un nom identique est déjà présent.')
-      } else {
-        const newLivrable = {
-          nom,
-          nature,
-          diffusion: diffusion || null,
-          licence,
-          avancement: avancementAsNumber,
-          crs: crs || null,
-          compression: compression || null,
-          publication: publication || null,
-          date_livraison: date_livraison || null
-        }
-
-        if (isEditing) {
-          handleLivrables(prevLivrables => {
-            const livrablesCopy = [...prevLivrables]
-            livrablesCopy[updatingLivrableIdx] = newLivrable
-            return livrablesCopy
-          })
+        if (checkIsExisting()) {
+          setErrorMessage('Un livrable avec un nom identique est déjà présent.')
         } else {
-          handleLivrables([...livrables, newLivrable])
-        }
+          const newLivrable = {
+            nom,
+            nature,
+            diffusion: diffusion || null,
+            licence,
+            avancement: Number(avancement) || null,
+            crs: crs || null,
+            compression: compression || null,
+            publication: publication || null,
+            date_livraison: dateLivraison || null
+          }
 
-        onReset()
+          if (isEditing) {
+            handleLivrables(prevLivrables => {
+              const livrablesCopy = [...prevLivrables]
+              livrablesCopy[updatingLivrableIdx] = newLivrable
+              return livrablesCopy
+            })
+          } else {
+            handleLivrables([...livrables, newLivrable])
+          }
+
+          onReset()
+        }
+      } else {
+        setErrorMessage('Veuillez modifier les champs invalides')
       }
     } else {
       setHasMissingInput(true)
+      setErrorMessage('Veuillez compléter les champs requis manquants')
     }
   }
-
-  const handleErrorMessage = (input => {
-    if (!input && hasMissingInput) {
-      return 'Ce champs est requis'
-    }
-  })
 
   const onReset = useCallback(() => {
     handleAdding(false)
     handleEditing(false)
     onRequiredFormOpen(false)
     setHasMissingInput(false)
-    setLivrable({
-      nom: '',
-      nature: '',
-      diffusion: '',
-      licence: '',
-      avancement: '',
-      crs: '',
-      compression: '',
-      publication: '',
-      date_livraison: ''
-    })
     handleUpdatingLivrableIdx(null)
     setErrorMessage(null)
     setUpdatingLivrableName(null)
-  }, [handleAdding, handleEditing, handleUpdatingLivrableIdx, onRequiredFormOpen])
+
+    setNom('')
+    setNature('')
+    setDiffusion('')
+    setLicence('')
+    setAvancement('')
+    setCrs('')
+    setCompression('')
+    setPublication('')
+    setDateLivraison('')
+  }, [
+    handleAdding,
+    handleEditing,
+    handleUpdatingLivrableIdx,
+    onRequiredFormOpen,
+    setNom,
+    setNature,
+    setDiffusion,
+    setLicence,
+    setAvancement,
+    setCrs,
+    setCompression,
+    setPublication,
+    setDateLivraison
+  ])
 
   useEffect(() => {
     // Switch to livrable update form
     if (isEditing) {
       const foundLivrable = livrables[updatingLivrableIdx]
-
-      setLivrable({
-        nom: foundLivrable.nom,
-        nature: foundLivrable.nature,
-        diffusion: foundLivrable.diffusion,
-        licence: foundLivrable.licence,
-        avancement: foundLivrable.avancement?.toString() || '',
-        crs: foundLivrable.crs || '',
-        compression: foundLivrable.compression || '',
-        publication: foundLivrable.publication || '',
-        date_livraison: foundLivrable.date_livraison || ''
-      })
+      setNom(foundLivrable.nom)
+      setNature(foundLivrable.nature)
+      setDiffusion(foundLivrable.diffusion)
+      setLicence(foundLivrable.licence)
+      setAvancement(foundLivrable.avancement?.toString() || '')
+      setCrs(foundLivrable.crs || '')
+      setCompression(foundLivrable.compression || '')
+      setPublication(foundLivrable.publication || '')
+      setDateLivraison(foundLivrable.date_livraison || '')
 
       setUpdatingLivrableName(foundLivrable.nom)
       onRequiredFormOpen(false)
     }
-  }, [updatingLivrableIdx, livrables, isEditing, onRequiredFormOpen])
+  }, [
+    updatingLivrableIdx,
+    livrables,
+    isEditing,
+    onRequiredFormOpen,
+    setNom,
+    setNature,
+    setDiffusion,
+    setLicence,
+    setAvancement,
+    setCrs,
+    setCompression,
+    setPublication,
+    setDateLivraison
+  ])
 
   return (
     <div className='fr-mt-4w'>
@@ -139,13 +162,8 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
             ariaLabel='nom du livrable'
             value={nom}
             placeholder='Nom du livrable'
-            errorMessage={handleErrorMessage(nom)}
-            onValueChange={e => {
-              setLivrable({
-                ...livrable,
-                nom: e.target.value
-              })
-            }}
+            errorMessage={nomError}
+            onValueChange={e => setNom(e.target.value)}
           />
         </div>
 
@@ -157,14 +175,9 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
             value={nature}
             ariaLabel='nature du livrable'
             description='Nature du livrable'
-            errorMessage={handleErrorMessage(nature)}
+            errorMessage={natureError}
             options={natureOptions}
-            onValueChange={e => {
-              setLivrable({
-                ...livrable,
-                nature: e.target.value
-              })
-            }}
+            onValueChange={e => setNature(e.target.value)}
           />
         </div>
 
@@ -177,13 +190,8 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
             value={diffusion}
             ariaLabel='mode de diffusion du livrable'
             description='Mode de diffusion'
-            errorMessage={handleErrorMessage(diffusion)}
-            onValueChange={e => {
-              setLivrable({
-                ...livrable,
-                diffusion: e.target.value
-              })
-            }}
+            errorMessage={diffusionError}
+            onValueChange={e => setDiffusion(e.target.value)}
           />
         </div>
       </div>
@@ -197,14 +205,9 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
             value={licence}
             ariaLabel='licence du livrable'
             description='Licence du livrable'
-            errorMessage={handleErrorMessage(licence)}
+            errorMessage={licenceError}
             options={licenceOptions}
-            onValueChange={e => {
-              setLivrable({
-                ...livrable,
-                licence: e.target.value
-              })
-            }}
+            onValueChange={e => setLicence((e.target.value))}
           />
         </div>
 
@@ -214,14 +217,10 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
             label='Publication'
             options={publicationOptions}
             value={publication}
+            errorMessage={publicationError}
             ariaLabel='publication du livrable'
             description='Publication du livrable'
-            onValueChange={e => {
-              setLivrable({
-                ...livrable,
-                publication: e.target.value
-              })
-            }}
+            onValueChange={e => setPublication((e.target.value))}
           />
         </div>
 
@@ -229,15 +228,11 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
         <div className='fr-select-group fr-col-12 fr-col-lg-4 fr-mt-6w fr-pr-3w'>
           <DateInput
             label='Date de livraison'
-            value={date_livraison}
+            value={dateLivraison}
             ariaLabel='date de livraison du livrable'
             description='Date de livraison du livrable'
-            onValueChange={e => {
-              setLivrable({
-                ...livrable,
-                date_livraison: e.target.value
-              })
-            }}
+            errorMessage={DateLivraisonError}
+            onValueChange={e => setDateLivraison(e.target.value)}
           />
         </div>
       </div>
@@ -252,13 +247,9 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
             description='Pourcentage de progression'
             min={0}
             max={100}
-            handleInvalidInput={setHasInvalidInput}
-            onValueChange={e => {
-              setLivrable({
-                ...livrable,
-                avancement: e.target.value
-              })
-            }}
+            errorMessage={avancementError}
+            setIsValueValid={setIsAvancementValid}
+            onValueChange={e => setAvancement(e.target.value)}
           />
         </div>
 
@@ -270,12 +261,8 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
             value={crs}
             ariaLabel='système de référence spatial du livrable'
             description='Identifiant EPSG du livrable'
-            onValueChange={e => {
-              setLivrable({
-                ...livrable,
-                crs: e.target.value
-              })
-            }}
+            errorMessage={crsError}
+            onValueChange={e => setCrs(e.target.value)}
           />
         </div>
 
@@ -286,15 +273,10 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
             value={compression}
             ariaLabel='nature de compression du livrable'
             description='Nature de compression du livrable'
-            onValueChange={e => {
-              setLivrable({
-                ...livrable,
-                compression: e.target.value
-              })
-            }}
+            errorMessage={compressionError}
+            onValueChange={e => setCompression(e.target.value)}
           />
         </div>
-
       </div>
 
       <div className='fr-grid-row fr-mt-3w'>
