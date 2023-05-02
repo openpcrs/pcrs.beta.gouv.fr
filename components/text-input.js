@@ -1,16 +1,16 @@
 import {useEffect} from 'react'
 import PropTypes from 'prop-types'
 
-const TextInput = ({label, value, type, ariaLabel, placeholder, errorMessage, description, isRequired, isDisabled, onValueChange, handleInvalidInput, onFocus, onBlur}) => {
+const TextInput = ({label, value, type, ariaLabel, placeholder, errorMessage, description, isRequired, isDisabled, onValueChange, setIsValueValid, onFocus, onBlur}) => {
   const inputState = errorMessage ? 'error' : ''
 
   useEffect(() => {
     if (errorMessage) {
-      handleInvalidInput(true)
+      setIsValueValid(false)
     } else {
-      handleInvalidInput(false)
+      setIsValueValid(true)
     }
-  }, [errorMessage, handleInvalidInput])
+  }, [errorMessage, setIsValueValid])
 
   return (
     <div className={`fr-input-group fr-input-group--${inputState}`}>
@@ -66,7 +66,7 @@ TextInput.propTypes = {
   isRequired: PropTypes.bool,
   isDisabled: PropTypes.bool,
   onValueChange: PropTypes.func,
-  handleInvalidInput: PropTypes.func,
+  setIsValueValid: PropTypes.func,
   onFocus: PropTypes.func,
   onBlur: PropTypes.func
 }
@@ -83,7 +83,7 @@ TextInput.defaultProps = {
   isDisabled: false,
   onFocus: null,
   onBlur: null,
-  handleInvalidInput() {}
+  setIsValueValid() {}
 }
 
 export default TextInput
