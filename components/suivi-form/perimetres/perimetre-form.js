@@ -4,6 +4,8 @@ import {debounce} from 'lodash-es'
 
 import {getPerimetersByName, getPerimetersByCode} from '@/lib/decoupage-administratif-api.js'
 
+import {useInput} from '@/hooks/input.js'
+
 import {typeOptions} from '@/components/suivi-form/perimetres/utils/select-options.js'
 
 import AutocompleteInput from '@/components/autocomplete-input.js'
@@ -16,23 +18,21 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
   const [isLoading, setIsLoading] = useState(false)
 
   const [code, setCode] = useState('')
-  const [nom, setNom] = useState('')
-  const [type, setType] = useState('')
+  const [type, setType, typeError] = useInput({isRequired: hasMissingInput})
+
+  const handleNomError = useCallback(() => {
+    if (hasMissingInput) {
+      return `Veuillez sélectionner un nom ${type === 'epci' ? 'd’' : 'de '}${type} valide`
+    }
+  }, [hasMissingInput, type])
+
+  const [nom, setNom, nomError] = useInput({checkValue: handleNomError, isRequired: hasMissingInput})
 
   const [foundPerimetres, setFoundPerimetres] = useState([])
   const [updatingPerimetreCode, setUpdatingPerimetreCode] = useState()
   const [errorMessage, setErrorMessage] = useState()
 
-  const handleErrors = useCallback(input => {
-    if (!input && hasMissingInput) {
-      return 'Ce champs est requis'
-    }
-  }, [hasMissingInput])
-
-  const onReset = () => {
-    setNom('')
-    setCode('')
-    setType('')
+  const onReset = useCallback(() => {
     handleUpdatingPerimetreIdx(null)
     handleAdding(false)
     handleEditing(false)
@@ -40,7 +40,28 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
     setHasMissingInput(false)
     setUpdatingPerimetreCode(null)
     setErrorMessage(null)
-  }
+
+    setNom('')
+    setCode('')
+    setType('')
+  }, [
+    setNom,
+    setCode,
+    setType,
+    handleUpdatingPerimetreIdx,
+    handleAdding,
+    onRequiredFormOpen,
+    setHasMissingInput,
+    setUpdatingPerimetreCode,
+    setErrorMessage,
+    handleEditing
+  ])
+
+  useEffect(() => {
+    if (type && code) {
+      setErrorMessage(null)
+    }
+  }, [type, code])
 
   const handleSubmit = () => {
     if (type && code) {
@@ -68,6 +89,7 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
         onReset()
       }
     } else {
+      setErrorMessage('Veuillez compléter les champs requis manquants')
       setHasMissingInput(true)
     }
   }
@@ -101,10 +123,10 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
 
         switchToUpdateForm()
       } catch {
-        console.log('Impossible de retrouver le périmètre')
+        setErrorMessage('Impossible de retrouver le périmètre')
       }
     }
-  }, [perimetres, isEditing, perimetreAsObject, updatingPerimetreIdx, onRequiredFormOpen])
+  }, [perimetres, isEditing, perimetreAsObject, updatingPerimetreIdx, onRequiredFormOpen, setNom, setType])
 
   const fetchPerimetres = useCallback(debounce(async (nom, type, signal) => { // eslint-disable-line react-hooks/exhaustive-deps
     setIsLoading(true)
@@ -162,8 +184,12 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
             options={typeOptions}
             ariaLabel='types de territoire'
             description='Types de territoire'
-            errorMessage={handleErrors(type)}
-            onValueChange={e => handleChange(e.target.value)}
+            errorMessage={typeError}
+            onValueChange={e => {
+              handleChange(e.target.value)
+              setHasMissingInput(false)
+              setErrorMessage()
+            }}
           />
         </div>
 
@@ -175,7 +201,7 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
               value={nom}
               description='Nom du territoire *'
               ariaLabel='rechercher le nom du territoire'
-              errorMessage={handleErrors(nom)}
+              errorMessage={nomError}
               results={foundPerimetres}
               customItem={renderItem}
               isLoading={isLoading}
