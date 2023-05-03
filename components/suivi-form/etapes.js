@@ -1,9 +1,10 @@
 /* eslint-disable camelcase */
-import {useState} from 'react'
 import PropTypes from 'prop-types'
 import {findIndex} from 'lodash-es'
 
 import colors from '@/styles/colors.js'
+
+import {useInput} from '@/hooks/input.js'
 
 import DateInput from '@/components/date-input.js'
 import TextInput from '@/components/text-input.js'
@@ -20,8 +21,8 @@ const STATUS = [
 const Etapes = ({initialValue, etapes, handleEtapes}) => {
   const {statut, date_debut} = initialValue
 
-  const [statutInput, setStatutInput] = useState(statut)
-  const [startDate, setStartDate] = useState(date_debut)
+  const [statutInput, setStatutInput] = useInput({initialValue: statut})
+  const [startDate, setStartDate] = useInput({initialValue: date_debut})
 
   const handleDateChange = (value, statut) => {
     if (statut === statutInput) {
