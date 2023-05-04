@@ -129,7 +129,19 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
       <div className='fr-p-5w'>
         {!isLoading && !token && <AuthentificationModal handleToken={setToken} handleModal={handleModal} />}
 
-        <p className='required-disclaimer'>Les champs indiqués par une * sont obligatoires</p>
+        <Button
+          label='Retourner à la carte de suivi'
+          iconSide='left'
+          buttonStyle='secondary'
+          icon='arrow-left-line'
+          type='button'
+          size='sm'
+          onClick={() => router.push('/suivi-pcrs')}
+        >
+          Retourner à la carte de suivi
+        </Button>
+
+        <p className='required-disclaimer fr-mt-3w'>Les champs indiqués par une * sont obligatoires</p>
 
         <form className='fr-mt-5w' onSubmit={handleSubmit}>
           <GeneralInfos
@@ -174,21 +186,37 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
 
           <Subventions subventions={projetSubventions} handleSubventions={setProjetSubventions} />
 
-          <div className='fr-grid-row fr-grid-row--center fr-mt-5w'>
-            <div className='fr-grid-row fr-grid-row--center fr-col-12'>
-              <Button
-                label='Valider le formulaire'
-                icon='checkbox-circle-fill'
-                iconSide='right'
-                type='submit'
-                size='lg'
-              >
-                Valider le formulaire
-              </Button>
+          <div className='fr-grid-row fr-grid-row--center fr-grid-row--gutters fr-mt-12w'>
+            <div className='fr-grid-row fr-col-12 fr-grid-row--center'>
+              <div className='fr-grid-row fr-py-2w fr-px-1w fr-px-md-6w'>
+                <Button
+                  label='Retourner à la carte de suivi'
+                  iconSide='left'
+                  buttonStyle='secondary'
+                  icon='arrow-left-line'
+                  type='button'
+                  size='sm'
+                  onClick={() => router.push('/suivi-pcrs')}
+                >
+                  Retourner à la carte de suivi
+                </Button>
+              </div>
+
+              <div className='fr-grid-row fr-py-2w fr-px-1w fr-px-md-6w'>
+                <Button
+                  label='Valider le formulaire'
+                  icon='checkbox-circle-fill'
+                  iconSide='right'
+                  type='submit'
+                  size='lg'
+                >
+                  Valider le formulaire
+                </Button>
+              </div>
             </div>
 
             {validationMessage && (
-              <p className='fr-grid-row fr-grid-row--center fr-valid-text fr-col-12 fr-mt-2w fr-mb-0'>
+              <p className='fr-grid-row fr-grid-row--center fr-valid-text fr-col-12 fr-col-md-6 fr-mb-0'>
                 {validationMessage}
               </p>
             )}
