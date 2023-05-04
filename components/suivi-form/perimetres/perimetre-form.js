@@ -2,7 +2,7 @@ import {useState, useCallback, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {debounce} from 'lodash-es'
 
-import {getPerimetersByName, getPerimetersByCode} from '@/lib/decoupage-administratif-api.js'
+import {getPerimetersByName, getPerimetersByCode, getCommuneByCode} from '@/lib/decoupage-administratif-api.js'
 
 import {typeOptions} from '@/components/suivi-form/perimetres/utils/select-options.js'
 
@@ -16,7 +16,7 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
   const [isLoading, setIsLoading] = useState(false)
 
   const [code, setCode] = useState('')
-  const [nom, setNom] = useState('')
+  const [searchValue, setSearchValue] = useState('')
   const [type, setType] = useState('')
 
   const [foundPerimetres, setFoundPerimetres] = useState([])
@@ -30,7 +30,7 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
   }, [hasMissingInput])
 
   const onReset = () => {
-    setNom('')
+    setSearchValue('')
     setCode('')
     setType('')
     handleUpdatingPerimetreIdx(null)
@@ -92,7 +92,7 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
       try {
         const switchToUpdateForm = async () => {
           const perimetre = await getPerimetersByCode(perimetreCode, perimetreType)
-          setNom(perimetre.nom)
+          setSearchValue(perimetre.nom)
           setCode(perimetre.code)
           setType(perimetreType)
           setUpdatingPerimetreCode(perimetre.code)
@@ -109,9 +109,19 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
   const fetchPerimetres = useCallback(debounce(async (nom, type, signal) => { // eslint-disable-line react-hooks/exhaustive-deps
     setIsLoading(true)
 
+    const inputToNumber = Number.parseInt(nom, 10)
+    const isInputNumber = !Number.isNaN(inputToNumber)
+
     try {
-      const perimetres = await getPerimetersByName(nom, type, signal)
-      setFoundPerimetres(perimetres)
+      if (isInputNumber && type === 'commune') {
+        const perimetre = await getCommuneByCode(nom, signal)
+        // Get on single object
+        setFoundPerimetres([perimetre])
+      } else {
+        const perimetres = await getPerimetersByName(nom, type, signal)
+        // Get an collection
+        setFoundPerimetres(perimetres)
+      }
     } catch {
       if (!signal.aborted) {
         setFoundPerimetres([])
@@ -122,23 +132,24 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
   }, 300), [setFoundPerimetres, setIsLoading])
 
   useEffect(() => {
-    if (!nom || nom.length < 3) {
+    if (!searchValue || searchValue.length < 3) {
+      setFoundPerimetres([])
       return
     }
 
     const ac = new AbortController()
-    fetchPerimetres(nom, type, ac.signal)
+    fetchPerimetres(searchValue, type, ac.signal)
 
     return () => {
       ac.abort()
     }
-  }, [nom, type, fetchPerimetres])
+  }, [searchValue, type, fetchPerimetres])
 
   const handleChange = value => {
     setType(value)
 
     if (value !== type) {
-      setNom('')
+      setSearchValue('')
       setCode('')
       setFoundPerimetres([])
     }
@@ -148,7 +159,7 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
     const foundPerimetreName = foundPerimetres.find(result => result.code === item).nom
 
     setCode(item)
-    setNom(foundPerimetreName)
+    setSearchValue(foundPerimetreName)
   }
 
   return (
@@ -171,16 +182,16 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
           <div className='fr-col-12 fr-col-md-6 fr-pl-md-3w'>
             <AutocompleteInput
               isRequired
-              label='Nom'
-              value={nom}
-              description='Nom du territoire *'
-              ariaLabel='rechercher le nom du territoire'
-              errorMessage={handleErrors(nom)}
+              label={`Nom ${type === 'commune' ? 'ou code' : ''}`}
+              value={searchValue}
+              description={`Recherche par nom ${type === 'commune' ? ' ou code INSEE' : ''} du territoire`}
+              ariaLabel={`Rechercher par nom ${type === 'commune' ? 'ou code INSEE' : ''} du territoire`}
+              errorMessage={handleErrors(searchValue)}
               results={foundPerimetres}
               customItem={renderItem}
               isLoading={isLoading}
               getItemValue={item => item.code}
-              onValueChange={e => setNom(e.target.value)}
+              onValueChange={e => setSearchValue(e.target.value)}
               onSelectValue={item => handleSelect(item)}
             />
           </div>
