@@ -1,9 +1,12 @@
-import {useState} from 'react'
+import {useState, useContext} from 'react'
 import Link from 'next/link'
+
+import AuthentificationContext from '@/contexts/authentification-token.js'
 
 import AuthentificationModal from '@/components/suivi-form/authentification-modal.js'
 
 const Footer = () => {
+  const {storeToken} = useContext(AuthentificationContext)
   const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
 
   const handleModal = () => setIsAuthentificationModalOpen(!isAuthentificationModalOpen)
@@ -105,7 +108,7 @@ const Footer = () => {
         </div>
       </footer>
 
-      {isAuthentificationModalOpen && <AuthentificationModal isNewForm handleModal={handleModal} />}
+      {isAuthentificationModalOpen && <AuthentificationModal isNewForm handleModal={handleModal} handleToken={storeToken} />}
     </>
   )
 }

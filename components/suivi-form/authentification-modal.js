@@ -2,8 +2,6 @@ import {useState} from 'react'
 import PropTypes from 'prop-types'
 import {useRouter} from 'next/router'
 
-import {authentification} from '@/lib/authentification.js'
-
 import TextInput from '@/components/text-input.js'
 import Modal from '@/components/modal.js'
 import Button from '@/components/button.js'
@@ -11,30 +9,23 @@ import Button from '@/components/button.js'
 const AuthentificationModal = ({isNewForm, handleModal, handleToken}) => {
   const router = useRouter()
 
-  const [token, setToken] = useState('')
+  const [tokenInput, setTokenInput] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
   const [validationMessage, setValidationMessage] = useState(null)
 
   const handleAuthentification = async () => {
     setErrorMessage(null)
 
-    if (token) {
+    if (tokenInput) {
       try {
-        const checkIfIsAdmin = await authentification(token)
-        if (checkIfIsAdmin.isAdmin) {
-          localStorage.setItem('Token', token)
-          handleToken(token)
+        handleToken(tokenInput)
 
-          if (isNewForm) {
-            setValidationMessage('Jeton valide ! Vous allez être redirigé...')
+        if (isNewForm) {
+          setValidationMessage('Jeton valide ! Vous allez être redirigé...')
 
-            setTimeout(() => {
-              handleModal()
-              router.push('/formulaire-suivi')
-            }, 3000)
-          } else {
-            handleModal()
-          }
+          setTimeout(() => {
+            router.push('/formulaire-suivi')
+          }, 3000)
         }
       } catch {
         setErrorMessage('L’authentification a échouée. Veuillez entrer un jeton valide')
@@ -60,10 +51,10 @@ const AuthentificationModal = ({isNewForm, handleModal, handleToken}) => {
               label='Authentification'
               errorMessage={errorMessage}
               type='password'
-              value={token}
+              value={tokenInput}
               ariaLabel='Entrer le jeton d’authentification'
               description='Entrez votre jeton d’authentification'
-              onValueChange={e => setToken(e.target.value)}
+              onValueChange={e => setTokenInput(e.target.value)}
             />
           </div>
           <div className='fr-col-12 fr-grid-row fr-grid-row--center fr-mt-3w'>

@@ -1,10 +1,12 @@
-import {useState, useEffect} from 'react'
+import {useState, useContext} from 'react'
 import PropTypes from 'prop-types'
 import {useRouter} from 'next/router'
 
 import {deleteSuivi} from '@/lib/suivi-pcrs.js'
 
 import colors from '@/styles/colors.js'
+
+import AuthentificationContext from '@/contexts/authentification-token.js'
 
 import HiddenInfos from '@/components/hidden-infos.js'
 import Button from '@/components/button.js'
@@ -13,30 +15,25 @@ import AuthentificationModal from '@/components/suivi-form/authentification-moda
 
 const Header = ({projectId, projectName, territoires, projets, onProjetChange}) => {
   const router = useRouter()
+  const {isAdmin, token, storeToken} = useContext(AuthentificationContext)
+
   const [isTerritoiresShow, setIsTerritoiresShow] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [deleteValidationMessage, setDeleteValidationMessage] = useState(null)
   const [deleteErrorMessage, setDeleteErrorMessage] = useState(null)
   const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
-  const [token, setToken] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
 
   const hasToMuchTerritoires = territoires.length >= 4
 
   const handleAuthentificationModal = () => setIsAuthentificationModalOpen(!isAuthentificationModalOpen)
   const handleDeleteModalOpen = () => setIsDeleteModalOpen(!isDeleteModalOpen)
 
-  useEffect(() => {
-    setToken(localStorage.getItem('Token'))
-    setIsLoading(false)
-  }, [])
-
   const onDelete = async () => {
     setDeleteValidationMessage(null)
     setDeleteErrorMessage(null)
 
     try {
-      if (token) {
+      if (isAdmin) {
         await deleteSuivi(projectId, token)
 
         setDeleteValidationMessage('le projet a bien été supprimé')
@@ -56,7 +53,7 @@ const Header = ({projectId, projectName, territoires, projets, onProjetChange}) 
       <div className='fr-grid-row fr-my-2w'>
         <h1 className='fr-h4 fr-m-0 fr-col-9'>{projectName}</h1>
         <div>
-          {token && (
+          {isAdmin && (
             <>
               <button
                 type='button'
@@ -107,7 +104,7 @@ const Header = ({projectId, projectName, territoires, projets, onProjetChange}) 
         </div>
       </div>
 
-      {isAuthentificationModalOpen && !isLoading && <AuthentificationModal handleToken={setToken} handleModal={handleAuthentificationModal} />}
+      {isAuthentificationModalOpen && <AuthentificationModal isAdmin={isAdmin} handleModal={handleAuthentificationModal} handleToken={storeToken} />}
 
       <div className='fr-text--lg fr-my-0'>Liste des territoires</div>
       {hasToMuchTerritoires ? (
