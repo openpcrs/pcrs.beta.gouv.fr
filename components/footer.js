@@ -7,7 +7,6 @@ const Footer = () => {
   const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
 
   const handleModal = () => setIsAuthentificationModalOpen(!isAuthentificationModalOpen)
-
   return (
     <>
       <footer className='fr-footer' role='contentinfo' id='footer'>
@@ -72,7 +71,7 @@ const Footer = () => {
                   className='fr-footer__bottom-link'
                   type='button'
                   label='Accéder à au panneau d’authentification'
-                  onClick={handleModal}
+                  onClick={() => setIsAuthentificationModalOpen(true)}
                 >
                   Accès administrateur
                 </button>
@@ -105,7 +104,7 @@ const Footer = () => {
         </div>
       </footer>
 
-      {isAuthentificationModalOpen && <AuthentificationModal isNewForm handleModal={handleModal} />}
+      {isAuthentificationModalOpen && <AuthentificationModal isNewForm handleModalClose={handleModal} />}
     </>
   )
 }
