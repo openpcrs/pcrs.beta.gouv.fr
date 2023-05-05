@@ -13,7 +13,8 @@ const AuthentificationModal = ({isNewForm, handleModal, handleToken}) => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [validationMessage, setValidationMessage] = useState(null)
 
-  const handleAuthentification = async () => {
+  const handleAuthentification = async e => {
+    e.preventDefault()
     setErrorMessage(null)
 
     if (tokenInput) {
@@ -46,25 +47,27 @@ const AuthentificationModal = ({isNewForm, handleModal, handleToken}) => {
         </div>
 
         <div className='fr-container fr-mt-6w fr-grid-row fr-grid-row--center'>
-          <div className='fr-col-12'>
-            <TextInput
-              label='Authentification'
-              errorMessage={errorMessage}
-              type='password'
-              value={tokenInput}
-              ariaLabel='Entrer le jeton d’authentification'
-              description='Entrez votre jeton d’authentification'
-              onValueChange={e => setTokenInput(e.target.value)}
-            />
-          </div>
-          <div className='fr-col-12 fr-grid-row fr-grid-row--center fr-mt-3w'>
-            <Button
-              label='S’authentifier'
-              onClick={handleAuthentification}
-            >
-              S’authentifier
-            </Button>
-          </div>
+          <form onSubmit={handleAuthentification}>
+            <div className='fr-col-12'>
+              <TextInput
+                label='Authentification'
+                errorMessage={errorMessage}
+                type='password'
+                value={tokenInput}
+                ariaLabel='Entrer le jeton d’authentification'
+                description='Entrez votre jeton d’authentification'
+                onValueChange={e => setTokenInput(e.target.value)}
+              />
+            </div>
+            <div className='fr-col-12 fr-grid-row fr-grid-row--center fr-mt-3w'>
+              <Button
+                type='submit'
+                label='S’authentifier'
+              >
+                S’authentifier
+              </Button>
+            </div>
+          </form>
         </div>
         {validationMessage && (
           <p className='fr-grid-row fr-grid-row--center fr-valid-text fr-col-12 fr-mt-2w fr-mb-0'>
