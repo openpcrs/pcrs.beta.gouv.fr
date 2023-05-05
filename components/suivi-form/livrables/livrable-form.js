@@ -184,7 +184,6 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
         {/* Mode de diffusion du livrable - selecteur */}
         <div className='fr-col-12 fr-col-lg-4 fr-mt-6w fr-pr-3w'>
           <SelectInput
-            isRequired
             label='Diffusion'
             options={diffusionOptions}
             value={diffusion}
