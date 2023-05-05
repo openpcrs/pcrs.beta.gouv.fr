@@ -37,6 +37,12 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres, onRequiredFor
         <div className='fr-error-text fr-mt-1w'>Au moins un périmètre doit être ajouté</div>
       )}
 
+      <div className='fr-notice fr-notice--info'>
+        <div className='fr-mx-2w fr-notice__body'>
+          <p>les référentiels INSEE les plus à jour qui ne tiennent pas compte des territoires fusionnés il y a plus d’un an </p>
+        </div>
+      </div>
+
       <div className='fr-grid-row fr-mt-2w'>
         {perimetres.map((perimetre, idx) => (
           <div key={perimetre} className={updatingPerimetreIndex === idx ? 'fr-col-12' : ''}>
