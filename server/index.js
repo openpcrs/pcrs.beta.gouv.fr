@@ -55,7 +55,7 @@ function ensureAdmin(req, res, next) {
 
 server.param('projetId', w(async (req, res, next) => {
   const {projetId} = req.params
-  const projet = await getProjet(projetId)
+  const projet = await getProjet(projetId, req)
 
   if (!projet) {
     throw createError(404, 'L’identifiant de projet demandé n’existe pas')

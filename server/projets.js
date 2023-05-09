@@ -14,6 +14,12 @@ export function expandProjet(projet) {
   }
 }
 
+export function checkIsEditor(projet, req) {
+  const test = req.get('Authorization') === `Token ${projet.editorKey}` || req.get('Authorization') === `Token ${process.env.ADMIN_TOKEN}`
+
+  return test
+}
+
 export function filterSensitiveFields(projet) {
   return omit(projet, 'editorKey')
 }
@@ -23,12 +29,12 @@ export async function getProjets() {
   return projets.map(p => filterSensitiveFields(p))
 }
 
-export async function getProjet(projetId) {
+export async function getProjet(projetId, req) {
   projetId = mongo.parseObjectId(projetId)
 
   const projet = await mongo.db.collection('projets').findOne({_id: projetId})
 
-  return filterSensitiveFields(projet)
+  return checkIsEditor(projet, req) ? projet : filterSensitiveFields(projet)
 }
 
 export async function createProjet(payload) {
