@@ -42,8 +42,7 @@ export const AuthentificationContextProvider = props => {
   const value = useMemo(() => ({
     isAdmin,
     token,
-    storeToken,
-    setToken
+    storeToken
   }), [isAdmin, token, storeToken])
 
   return (
