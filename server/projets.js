@@ -1,4 +1,5 @@
 import createError from 'http-errors'
+import {omit} from 'lodash-es'
 import {validateCreation, validateChanges} from '../lib/projets-validator.js'
 import {buildGeometryFromTerritoires, getTerritoiresProperties} from '../lib/territoires.js'
 import {findClosestEtape} from '../lib/suivi-pcrs.js'
@@ -13,8 +14,13 @@ export function expandProjet(projet) {
   }
 }
 
+export function filterSensitiveFields(projet) {
+  return omit(projet, 'editorKey')
+}
+
 export async function getProjets() {
-  return mongo.db.collection('projets').find().toArray()
+  const projets = await mongo.db.collection('projets').find().toArray()
+  return projets.map(p => filterSensitiveFields(p))
 }
 
 export async function getProjet(projetId) {
@@ -22,7 +28,7 @@ export async function getProjet(projetId) {
 
   const projet = await mongo.db.collection('projets').findOne({_id: projetId})
 
-  return projet
+  return filterSensitiveFields(projet)
 }
 
 export async function createProjet(payload) {
