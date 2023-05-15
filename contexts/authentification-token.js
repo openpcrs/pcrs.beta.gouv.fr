@@ -1,5 +1,6 @@
-
 import {useState, useEffect, useCallback, useMemo, createContext} from 'react'
+
+import {authentification} from '@/lib/authentification.js'
 
 const AuthentificationContext = createContext()
 
@@ -23,6 +24,18 @@ export const AuthentificationContextProvider = props => {
     }
   }
 
+  const checkIsAdmin = useCallback(async () => {
+    try {
+      const checkIfIsAdmin = await authentification(token)
+
+      if (checkIfIsAdmin.isAdmin) {
+        setIsAdmin(true)
+      }
+    } catch {
+      setIsAdmin(false)
+    }
+  }, [token])
+
   // Initializes with data already stored if none is provided
   useEffect(() => {
     const t = getData()
@@ -33,11 +46,9 @@ export const AuthentificationContextProvider = props => {
 
   useEffect(() => {
     if (token) {
-      setIsAdmin(true)
-    } else {
-      setIsAdmin(false)
+      checkIsAdmin()
     }
-  }, [token])
+  }, [token, checkIsAdmin])
 
   const value = useMemo(() => ({
     isAdmin,
