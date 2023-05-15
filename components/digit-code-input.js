@@ -10,8 +10,8 @@ const DigitCodeInput = ({codeValue, handleCodeValue, codeLength, isRequired}) =>
     // Récupérer la valeur de l'input
     const {value} = event.target
 
-    // Supprimer tout ce qui n'est pas un chiffre dans l'input (lettres et caractères spéciaux)
-    const input = value.replaceAll('_', '').replace(/\D/, '')
+    // Supprimer tous caractères spéciaux dans l'input
+    const input = value.replaceAll('_', '').replace(/[^a-zA-Z\d]/g, '')
 
     if (input.length < codeLength + 1) {
       // Si on efface, supprimer la dernière valeur de l'input
