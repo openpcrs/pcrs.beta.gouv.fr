@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import {useState, useCallback, useEffect} from 'react'
+import {useState, useCallback, useEffect, useMemo} from 'react'
 import PropTypes from 'prop-types'
 
 import {natureOptions, diffusionOptions, licenceOptions, publicationOptions, systRefSpatialOptions} from '@/components/suivi-form/livrables/utils/select-options.js'
@@ -35,20 +35,20 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
     }
   }, [isCompleteOnSubmit, isAvancementValid])
 
+  const isLivrableExisting = useMemo(() => {
+    if (isEditing) {
+      return livrables.some(livrable => livrable.nom === nom) && nom !== updatingLivrableName
+    }
+
+    return livrables.some(livrable => livrable.nom === nom)
+  }, [isEditing, livrables, nom, updatingLivrableName])
+
   const handleSubmit = () => {
     setErrorMessage(null)
 
     if (isCompleteOnSubmit) {
       if (isAvancementValid) {
-        const checkIsExisting = () => {
-          if (isEditing) {
-            return livrables.some(livrable => livrable.nom === nom) && nom !== updatingLivrableName
-          }
-
-          return livrables.some(livrable => livrable.nom === nom)
-        }
-
-        if (checkIsExisting()) {
+        if (isLivrableExisting) {
           setErrorMessage('Un livrable avec un nom identique est déjà présent.')
         } else {
           const newLivrable = {
