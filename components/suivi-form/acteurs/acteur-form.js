@@ -90,21 +90,21 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
     }
   }, [isCompleteOnSubmit, isValidOnSubmit])
 
+  const isActorExisting = useMemo(() => {
+    if (isEditing) {
+      return acteurs.some(a => siren === a.siren.toString()) && siren !== updatingActorSiren.toString()
+    }
+
+    return acteurs.some(acteur => siren === acteur.siren.toString())
+  }, [acteurs, siren, isEditing, updatingActorSiren])
+
   const handleSubmit = () => {
     setErrorMessage(null)
     setIsFormValid(true)
 
     if (isCompleteOnSubmit) {
       if (isValidOnSubmit) {
-        const checkIsExisting = () => {
-          if (isEditing) {
-            return acteurs.some(a => siren === a.siren.toString()) && siren !== updatingActorSiren.toString()
-          }
-
-          return acteurs.some(acteur => siren === acteur.siren.toString())
-        }
-
-        if (checkIsExisting()) {
+        if (isActorExisting) {
           setErrorMessage('Cet acteur est déjà présent.')
         } else {
           const newActor = {
