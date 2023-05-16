@@ -1,4 +1,4 @@
-import {useState, useCallback, useEffect} from 'react'
+import {useState, useCallback, useEffect, useMemo} from 'react'
 import PropTypes from 'prop-types'
 
 import {useInput} from '@/hooks/input.js'
@@ -29,22 +29,22 @@ const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventi
     }
   }, [isCompleteOnSubmit, isMontantInputValid])
 
+  const isSubventionExisting = useMemo(() => {
+    if (isEditing) {
+      return subventions.some(subvention => subvention.nom === nom) && nom !== updatingName
+    }
+
+    return subventions.some(subvention => subvention.nom === nom)
+  }, [subventions, updatingName, nom, isEditing])
+
   const handleSubmit = () => {
     setErrorMessage(null)
 
     if (isCompleteOnSubmit) {
       if (isMontantInputValid) {
-        const checkIsExisting = () => {
-          if (isEditing) {
-            return subventions.some(subvention => subvention.nom === nom) && nom !== updatingName
-          }
-
-          return subventions.some(subvention => subvention.nom === nom)
-        }
-
         if (!nom || !nature) {
           setIsFormComplete(false)
-        } else if (checkIsExisting()) {
+        } else if (isSubventionExisting) {
           setErrorMessage('Cette subvention existe déjà')
         } else {
           const newSubvention = {
