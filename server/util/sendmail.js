@@ -38,7 +38,6 @@ export async function sendMail(email, recipients = []) {
     throw new Error('At least one recipient must be provided')
   }
 
-  email.html = email.html.replace(/\$\$SITE_URL\$\$/g, 'no-reply@pcrs.beta.gouv.fr')
   const info = await transport.sendMail({
     ...pick(email, 'text', 'html', 'subject'),
     from: process.env.SMTP_FROM,
