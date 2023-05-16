@@ -1,4 +1,4 @@
-import {useState, useContext, useEffect} from 'react'
+import {useState, useContext} from 'react'
 import PropTypes from 'prop-types'
 import Image from 'next/image'
 import {useRouter} from 'next/router'
@@ -24,7 +24,6 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
   const [validationMessage, setValidationMessage] = useState(null)
   const [errorOnValidationMessages, setErrorOnValidationMessages] = useState([])
   const [isRequiredFormOpen, setIsRequiredFormOpen] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
 
   const [generalInfos, setGeneralInfos] = useState({
     nom,
@@ -106,10 +105,6 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
     }
   }
 
-  useEffect(() => {
-    setIsLoading(false)
-  }, [])
-
   return (
     <>
       <div className='form-header fr-my-5w'>
@@ -123,7 +118,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
         <h2 className='fr-mt-5w fr-mb-0'>Formulaire de suivi PCRS</h2>
       </div>
       <div className='fr-p-5w'>
-        {(!isLoading && !token) && <AuthentificationModal handleModalClose={handleAuthentificationModal} />}
+        {!token && <AuthentificationModal handleModalClose={handleAuthentificationModal} />}
 
         <Button
           label='Retourner à la carte de suivi'
