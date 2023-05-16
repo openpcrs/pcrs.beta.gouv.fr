@@ -13,32 +13,32 @@ import DateInput from '@/components/date-input.js'
 import NumberInput from '@/components/number-input.js'
 
 const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdatingLivrableIdx, handleLivrables, handleAdding, handleEditing, onRequiredFormOpen}) => {
-  const [hasMissingInput, setHasMissingInput] = useState(false)
+  const [isFormComplete, setIsFormComplete] = useState(true)
   const [updatingLivrableName, setUpdatingLivrableName] = useState()
   const [errorMessage, setErrorMessage] = useState()
 
-  const [nom, setNom, nomError] = useInput({isRequired: hasMissingInput})
-  const [nature, setNature, natureError] = useInput({isRequired: hasMissingInput})
-  const [diffusion, setDiffusion, diffusionError] = useInput({isRequired: hasMissingInput})
-  const [licence, setLicence, licenceError] = useInput({isRequired: hasMissingInput})
+  const [nom, setNom, nomError] = useInput({isRequired: !isFormComplete})
+  const [nature, setNature, natureError] = useInput({isRequired: !isFormComplete})
+  const [diffusion, setDiffusion, diffusionError] = useInput({isRequired: !isFormComplete})
+  const [licence, setLicence, licenceError] = useInput({isRequired: !isFormComplete})
   const [avancement, setAvancement, avancementError, setIsAvancementValid, isAvancementValid] = useInput({})
   const [crs, setCrs, crsError] = useInput({})
   const [compression, setCompression, compressionError] = useInput({})
   const [publication, setPublication, publicationError] = useInput({})
-  const [dateLivraison, setDateLivraison, DateLivraisonError] = useInput({})
+  const [dateLivraison, setDateLivraison, dateLivraisonError] = useInput({})
 
-  const isFormComplete = Boolean(nom && nature && licence)
+  const isCompleteOnSubmit = Boolean(nom && nature && licence)
 
   useEffect(() => {
-    if (isFormComplete && isAvancementValid) {
+    if (isCompleteOnSubmit && isAvancementValid) {
       setErrorMessage(null)
     }
-  }, [isFormComplete, isAvancementValid])
+  }, [isCompleteOnSubmit, isAvancementValid])
 
   const handleSubmit = () => {
     setErrorMessage(null)
 
-    if (isFormComplete) {
+    if (isCompleteOnSubmit) {
       if (isAvancementValid) {
         const checkIsExisting = () => {
           if (isEditing) {
@@ -79,7 +79,7 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
         setErrorMessage('Veuillez modifier les champs invalides')
       }
     } else {
-      setHasMissingInput(true)
+      setIsFormComplete(false)
       setErrorMessage('Veuillez compléter les champs requis manquants')
     }
   }
@@ -88,7 +88,7 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
     handleAdding(false)
     handleEditing(false)
     onRequiredFormOpen(false)
-    setHasMissingInput(false)
+    setIsFormComplete(true)
     handleUpdatingLivrableIdx(null)
     setErrorMessage(null)
     setUpdatingLivrableName(null)
@@ -230,7 +230,7 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
             value={dateLivraison}
             ariaLabel='date de livraison du livrable'
             description='Date de livraison du livrable'
-            errorMessage={DateLivraisonError}
+            errorMessage={dateLivraisonError}
             onValueChange={e => setDateLivraison(e.target.value)}
           />
         </div>

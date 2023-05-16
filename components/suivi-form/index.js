@@ -19,9 +19,9 @@ import Button from '@/components/button.js'
 const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subventions, etapes, _id}) => {
   const router = useRouter()
 
-  const [hasMissingDataOnValidation, setHasMissingDataOnValidation] = useState(false)
+  const [hasMissingItemsOnValidation, setHasMissingItemsOnValidation] = useState(false)
   const [validationMessage, setValidationMessage] = useState(null)
-  const [errorOnValidationMessage, setErrorOnValidationMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isRequiredFormOpen, setIsRequiredFormOpen] = useState(false)
 
@@ -45,7 +45,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
 
   useEffect(() => {
     if (!hasMissingData && !isRequiredFormOpen) {
-      setErrorOnValidationMessage(null)
+      setErrorMessage(null)
     }
   }, [hasMissingData, isRequiredFormOpen])
 
@@ -55,8 +55,8 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
     event.preventDefault()
 
     setValidationMessage(null)
-    setErrorOnValidationMessage(null)
-    setHasMissingDataOnValidation(false)
+    setErrorMessage(null)
+    setHasMissingItemsOnValidation(false)
 
     const handleScrollToError = () => {
       const firstErrorSection = projetLivrables.length === 0 ? 'livrables' : (projetActeurs.length === 0 ? 'acteurs' : 'perimetres')
@@ -71,13 +71,13 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
 
     try {
       if (isRequiredFormOpen) {
-        return setErrorOnValidationMessage('Veuiller valider ou annuler le livrable, l’acteur ou le périmètre en cours d’ajout.')
+        return setErrorMessage('Veuiller valider ou annuler le livrable, l’acteur ou le périmètre en cours d’ajout.')
       }
 
       if (hasMissingData) {
-        setHasMissingDataOnValidation(true)
+        setHasMissingItemsOnValidation(true)
         handleScrollToError()
-        setErrorOnValidationMessage('Des données nécessaires à la validation du formulaires sont manquantes. Au moins un livrable, un acteur et un périmètre doivent être ajoutés.')
+        setErrorMessage('Des données nécessaires à la validation du formulaires sont manquantes. Au moins un livrable, un acteur et un périmètre doivent être ajoutés.')
       } else {
         const suivi = {
           nom: suiviNom,
@@ -97,7 +97,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
             sendSuivi.message = 'Le projet n’a pas pu être pris en compte car il y a des erreurs'
           }
 
-          setErrorOnValidationMessage(sendSuivi.message)
+          setErrorMessage(sendSuivi.message)
         } else {
           const validation = _id ? 'Le projet a bien été modifié, vous allez maintenant être redirigé vers la carte de suivi' : 'Le projet a bien été créé, vous allez maintenant être redirigé vers la carte de suivi'
           setValidationMessage(validation)
@@ -109,7 +109,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
     } catch {
       const errorMessage = _id ? 'Une erreur a eu lieu lors de la modification du suivi' : 'Une erreur a eu lieu lors de la création du suivi'
 
-      setErrorOnValidationMessage(errorMessage)
+      setErrorMessage(errorMessage)
       throw new Error(errorMessage)
     }
   }
@@ -155,7 +155,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
             <Livrables
               livrables={projetLivrables}
               handleLivrables={setProjetLivrables}
-              hasMissingData={hasMissingDataOnValidation}
+              hasMissingData={hasMissingItemsOnValidation}
               onRequiredFormOpen={setIsRequiredFormOpen}
             />
           </div>
@@ -164,7 +164,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
             <Acteurs
               acteurs={projetActeurs}
               handleActors={setProjetActeurs}
-              hasMissingData={hasMissingDataOnValidation}
+              hasMissingData={hasMissingItemsOnValidation}
               onRequiredFormOpen={setIsRequiredFormOpen}
             />
           </div>
@@ -173,7 +173,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
             <Perimetres
               perimetres={projetPerimetres}
               handlePerimetres={setProjetPerimetres}
-              hasMissingData={hasMissingDataOnValidation}
+              hasMissingData={hasMissingItemsOnValidation}
               onRequiredFormOpen={setIsRequiredFormOpen}
             />
           </div>
@@ -221,9 +221,9 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
               </p>
             )}
 
-            {errorOnValidationMessage && (
+            {errorMessage && (
               <p className='fr-grid-row--center fr-error-text fr-col-12 fr-mt-2w fr-mb-0'>
-                {errorOnValidationMessage}
+                {errorMessage}
               </p>
             )}
           </div>

@@ -14,19 +14,19 @@ import Button from '@/components/button.js'
 import AutocompleteRenderItem from '@/components/autocomplete-render-item.js'
 
 const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObject, updatingPerimetreIdx, handleUpdatingPerimetreIdx, handleAdding, handleEditing, onRequiredFormOpen}) => {
-  const [hasMissingInput, setHasMissingInput] = useState(false)
+  const [isFormComplete, setIsFormComplete] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
 
-  const [type, setType, typeError] = useInput({isRequired: hasMissingInput})
+  const [type, setType, typeError] = useInput({isRequired: !isFormComplete})
   const [code, setCode] = useState('')
 
   const handleNomError = useCallback(() => {
-    if (hasMissingInput) {
+    if (!isFormComplete) {
       return `Veuillez sélectionner un nom ${type === 'epci' ? 'd’' : 'de '}${type} valide`
     }
-  }, [hasMissingInput, type])
+  }, [isFormComplete, type])
 
-  const [searchValue, setSearchValue, searchValueError] = useInput({checkValue: handleNomError, isRequired: hasMissingInput})
+  const [searchValue, setSearchValue, searchValueError] = useInput({checkValue: handleNomError, isRequired: !isFormComplete})
 
   const [foundPerimetres, setFoundPerimetres] = useState([])
   const [updatingPerimetreCode, setUpdatingPerimetreCode] = useState()
@@ -37,7 +37,7 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
     handleAdding(false)
     handleEditing(false)
     onRequiredFormOpen(false)
-    setHasMissingInput(false)
+    setIsFormComplete(true)
     setUpdatingPerimetreCode(null)
     setErrorMessage(null)
 
@@ -51,7 +51,7 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
     handleUpdatingPerimetreIdx,
     handleAdding,
     onRequiredFormOpen,
-    setHasMissingInput,
+    setIsFormComplete,
     setUpdatingPerimetreCode,
     setErrorMessage,
     handleEditing
@@ -90,7 +90,7 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
       }
     } else {
       setErrorMessage('Veuillez compléter les champs requis manquants')
-      setHasMissingInput(true)
+      setIsFormComplete(false)
     }
   }
 
@@ -198,7 +198,7 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
             errorMessage={typeError}
             onValueChange={e => {
               handleChange(e.target.value)
-              setHasMissingInput(false)
+              setIsFormComplete(true)
               setErrorMessage()
             }}
           />

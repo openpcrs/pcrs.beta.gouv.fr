@@ -3,7 +3,7 @@ import {useState, useCallback, useEffect, useMemo} from 'react'
 import PropTypes from 'prop-types'
 import {debounce, pick} from 'lodash-es'
 
-import {onSirenCheck, onEmailCheck, onPhoneCheck} from '@/components/suivi-form/acteurs/utils/error-handlers.js'
+import {checkIsPhoneValid, checkIsEmailValid, checkIsSirenValid} from '@/components/suivi-form/acteurs/utils/error-handlers.js'
 import {getEntreprises} from '@/lib/entreprises-api.js'
 
 import {secteursActivites} from '@/components/suivi-form/acteurs/utils/actor-activites.js'
@@ -48,21 +48,21 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
 
   // Phone number conformity error handler
   const handlePhoneError = useCallback(input => {
-    if (!onPhoneCheck(input) && !isFormValid) {
+    if (!checkIsPhoneValid(input) && !isFormValid) {
       return 'Le numéro de téléphone doit être composé de 10 chiffres ou de 9 chiffres précédés du préfixe +33'
     }
   }, [isFormValid])
 
   // Mail conformity error handler
   const handleMailError = useCallback(input => {
-    if (!onEmailCheck(input) && !isFormValid) {
+    if (!checkIsEmailValid(input) && !isFormValid) {
       return 'L’adresse mail entrée est invalide. Exemple : dupont@domaine.fr'
     }
   }, [isFormValid])
 
   // Siren conformity error handler
   const handleSirenError = useCallback(input => {
-    if (!onSirenCheck(input) && !isFormValid) {
+    if (!checkIsSirenValid(input) && !isFormValid) {
       return 'Le SIREN doit être composé de 9 chiffres'
     }
   }, [isFormValid])
@@ -77,7 +77,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
 
   const isCompleteOnSubmit = Boolean(nom && siren && role)
   const isValidOnSubmit = useMemo(() => {
-    if (onSirenCheck(siren) && onPhoneCheck(phone) && onEmailCheck(mail) && isFinPercInputValid && isFinEurosInputValid) {
+    if (checkIsSirenValid(siren) && checkIsPhoneValid(phone) && checkIsEmailValid(mail) && isFinPercInputValid && isFinEurosInputValid) {
       return true
     }
 

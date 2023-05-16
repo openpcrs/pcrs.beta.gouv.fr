@@ -12,27 +12,27 @@ import Button from '@/components/button.js'
 import NumberInput from '@/components/number-input.js'
 
 const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventions, handleEditing, handleAdding, handleUpdatingSubvIdx}) => {
-  const [hasMissingInput, setHasMissingInput] = useState(false)
+  const [isFormComplete, setIsFormComplete] = useState(true)
   const [errorMessage, setErrorMessage] = useState()
   const [updatingName, setUpdatingName] = useState()
 
-  const [nom, setNom, nomError] = useInput({isRequired: hasMissingInput})
-  const [nature, setNature, natureError] = useInput({isRequired: hasMissingInput})
+  const [nom, setNom, nomError] = useInput({isRequired: !isFormComplete})
+  const [nature, setNature, natureError] = useInput({isRequired: !isFormComplete})
   const [montant, setMontant, montantError, handleMontantValidity, isMontantInputValid] = useInput({})
   const [echeance, setEcheance] = useInput({})
 
-  const isFormComplete = Boolean(nom && nature)
+  const isCompleteOnSubmit = Boolean(nom && nature)
 
   useEffect(() => {
-    if (isFormComplete && isMontantInputValid) {
+    if (isCompleteOnSubmit && isMontantInputValid) {
       setErrorMessage(null)
     }
-  }, [isFormComplete, isMontantInputValid])
+  }, [isCompleteOnSubmit, isMontantInputValid])
 
   const handleSubmit = () => {
     setErrorMessage(null)
 
-    if (isFormComplete) {
+    if (isCompleteOnSubmit) {
       if (isMontantInputValid) {
         const checkIsExisting = () => {
           if (isEditing) {
@@ -43,7 +43,7 @@ const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventi
         }
 
         if (!nom || !nature) {
-          setHasMissingInput(true)
+          setIsFormComplete(false)
         } else if (checkIsExisting()) {
           setErrorMessage('Cette subvention existe déjà')
         } else {
@@ -69,7 +69,7 @@ const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventi
         setErrorMessage('Veuillez modifier les champs invalides')
       }
     } else {
-      setHasMissingInput(true)
+      setIsFormComplete(false)
       setErrorMessage('Veuillez compléter les champs requis manquants')
     }
   }
@@ -77,7 +77,7 @@ const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventi
   const onReset = useCallback(() => {
     handleAdding(false)
     handleEditing(false)
-    setHasMissingInput(false)
+    setIsFormComplete(true)
     handleUpdatingSubvIdx(null)
     setUpdatingName(null)
     setErrorMessage(null)
@@ -89,7 +89,7 @@ const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventi
   }, [
     handleAdding,
     handleEditing,
-    setHasMissingInput,
+    setIsFormComplete,
     handleUpdatingSubvIdx,
     setNom,
     setNature,
