@@ -1,5 +1,7 @@
 import {deburr} from 'lodash-es'
 import randomNumber from 'random-number-csprng'
+import createError from 'http-errors'
+import mongo, {ObjectId} from '../mongo.js'
 
 import {sendMail} from '../sendmail.js'
 import {formatMail} from './pin-code-template.js'
@@ -22,10 +24,24 @@ export async function sendPinCodeMail(email) {
   if (validateEmail(normalize(email))) {
     const pinCode = await generatePinCode()
     const emailContent = formatMail({pinCode, userEmail: email})
+    const now = new Date()
+    const expirationDate = new Date(now.getTime() + (10 * 60 * 1000))
+    const _id = new ObjectId()
+
+    await mongo.db.collection('projetAdmin').insertOne({
+      _id,
+      creator: email,
+      pinCode,
+      createdAt: now,
+      expiresAt: expirationDate,
+      status: 'pending',
+      token: null,
+      codeEdition: null
+    })
 
     await sendMail(emailContent, email)
   } else {
-    throw new Error('Cette adresse courriel est invalide')
+    throw createError(404, 'Cette adresse courriel est invalide')
   }
 }
 
