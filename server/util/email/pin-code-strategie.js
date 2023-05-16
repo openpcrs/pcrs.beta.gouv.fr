@@ -1,5 +1,6 @@
 import {deburr} from 'lodash-es'
 import randomNumber from 'random-number-csprng'
+import {nanoid} from 'nanoid'
 import createError from 'http-errors'
 import mongo, {ObjectId} from '../mongo.js'
 
@@ -45,3 +46,38 @@ export async function sendPinCodeMail(email) {
   }
 }
 
+export async function checkPinCodeValidity({email, pinCode}) {
+  const foundEmail = await mongo.db.collection('projetAdmin').findOne({creator: email, pinCode})
+  const now = new Date()
+
+  if (!foundEmail) {
+    throw createError(404, 'L’adresse mail est inconnue ou le code est erroné')
+  }
+
+  if (foundEmail.status !== 'pending') {
+    throw createError(401, 'Ce code a déjà été utilisé')
+  }
+
+  if (foundEmail.expiresAt.getTime() <= now.getTime()) {
+    await mongo.db.collection('projetAdmin').updateOne(
+      {_id: foundEmail._id},
+      {$set: {
+        status: 'expired'
+      }}
+    )
+
+    throw createError(401, 'Le code est expiré')
+  }
+
+  const token = nanoid()
+
+  await mongo.db.collection('projetAdmin').updateOne(
+    {_id: foundEmail._id},
+    {$set: {
+      status: 'validated',
+      token
+    }}
+  )
+
+  return token
+}
