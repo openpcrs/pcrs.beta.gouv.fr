@@ -9,7 +9,6 @@ export const useInput = ({initialValue, checkValue, isRequired}) => {
 
   useEffect(() => {
     setError(null)
-    setIsValueValid(true)
 
     // Handle input error if form invalid
     if (checkValue) {

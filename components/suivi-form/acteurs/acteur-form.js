@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import {useState, useCallback, useEffect} from 'react'
+import {useState, useCallback, useEffect, useMemo} from 'react'
 import PropTypes from 'prop-types'
 import {debounce, pick} from 'lodash-es'
 
@@ -37,8 +37,8 @@ const renderItem = (item, isHighlighted) => {
 }
 
 const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, handleActors, handleAdding, handleEditing, onRequiredFormOpen}) => {
-  const [hasMissingInput, setHasMissingInput] = useState(false)
-  const [isFormInvalid, setIsFormInvalid] = useState(false)
+  const [isFormComplete, setIsFormComplete] = useState(true)
+  const [isFormValid, setIsFormValid] = useState(true)
   const [errorMessage, setErrorMessage] = useState(null)
   const [searchErrorMessage, setSearchErrorMessage] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -48,48 +48,54 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
 
   // Phone number conformity error handler
   const handlePhoneError = useCallback(input => {
-    if (!onPhoneCheck(input) && isFormInvalid) {
+    if (!onPhoneCheck(input) && !isFormValid) {
       return 'Le numéro de téléphone doit être composé de 10 chiffres ou de 9 chiffres précédés du préfixe +33'
     }
-  }, [isFormInvalid])
+  }, [isFormValid])
 
   // Mail conformity error handler
   const handleMailError = useCallback(input => {
-    if (!onEmailCheck(input) && isFormInvalid) {
+    if (!onEmailCheck(input) && !isFormValid) {
       return 'L’adresse mail entrée est invalide. Exemple : dupont@domaine.fr'
     }
-  }, [isFormInvalid])
+  }, [isFormValid])
 
   // Siren conformity error handler
   const handleSirenError = useCallback(input => {
-    if (!onSirenCheck(input) && isFormInvalid) {
+    if (!onSirenCheck(input) && !isFormValid) {
       return 'Le SIREN doit être composé de 9 chiffres'
     }
-  }, [isFormInvalid])
+  }, [isFormValid])
 
-  const [nom, setNom, nomError] = useInput({isRequired: hasMissingInput})
-  const [siren, setSiren, sirenError] = useInput({checkValue: handleSirenError, isRequired: hasMissingInput})
+  const [nom, setNom, nomError] = useInput({isRequired: !isFormComplete})
+  const [siren, setSiren, sirenError] = useInput({checkValue: handleSirenError, isRequired: !isFormComplete})
   const [phone, setPhone, phoneError] = useInput({checkValue: handlePhoneError})
   const [mail, setMail, mailError] = useInput({checkValue: handleMailError})
   const [finPerc, setFinPerc, finPercError, handleFinPercValidity, isFinPercInputValid] = useInput({})
   const [finEuros, setFinEuros, finEurosError, handleFinEurosValidity, isFinEurosInputValid] = useInput({})
-  const [role, setRole, roleError] = useInput({isRequired: hasMissingInput})
+  const [role, setRole, roleError] = useInput({isRequired: !isFormComplete})
 
-  const isFormComplete = Boolean(nom && siren && role)
-  const isFormValid = onSirenCheck(siren) && onPhoneCheck(phone) && onEmailCheck(mail) && isFinPercInputValid && isFinEurosInputValid
+  const isCompleteOnSubmit = Boolean(nom && siren && role)
+  const isValidOnSubmit = useMemo(() => {
+    if (onSirenCheck(siren) && onPhoneCheck(phone) && onEmailCheck(mail) && isFinPercInputValid && isFinEurosInputValid) {
+      return true
+    }
+
+    return false
+  }, [siren, phone, mail, isFinPercInputValid, isFinEurosInputValid])
 
   useEffect(() => {
-    if (isFormComplete && isFormValid) {
+    if (isCompleteOnSubmit && isValidOnSubmit) {
       setErrorMessage(null)
     }
-  }, [isFormComplete, isFormValid])
+  }, [isCompleteOnSubmit, isValidOnSubmit])
 
   const handleSubmit = () => {
-    setIsFormInvalid(false)
     setErrorMessage(null)
+    setIsFormValid(true)
 
-    if (isFormComplete) {
-      if (isFormValid) {
+    if (isCompleteOnSubmit) {
+      if (isValidOnSubmit) {
         const checkIsExisting = () => {
           if (isEditing) {
             return acteurs.some(a => siren === a.siren.toString()) && siren !== updatingActorSiren.toString()
@@ -125,15 +131,15 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
         }
       } else {
         setErrorMessage('Veuillez modifier les champs invalides')
-        setIsFormInvalid(true)
+        setIsFormValid(false)
       }
     } else {
-      if (!isFormValid) {
+      if (!isValidOnSubmit) {
         setErrorMessage('Veuillez modifier les champs invalides')
-        setIsFormInvalid(true)
+        setIsFormValid(false)
       }
 
-      setHasMissingInput(true)
+      setIsFormComplete(false)
       setErrorMessage('Veuillez compléter les champs requis manquants')
     }
   }
@@ -141,8 +147,8 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
   const onReset = useCallback(() => {
     handleAdding(false)
     onRequiredFormOpen(false)
-    setIsFormInvalid(false)
-    setHasMissingInput(false)
+    setIsFormValid(true)
+    setIsFormComplete(true)
     handleActorIndex(null)
     handleEditing(false)
     setErrorMessage(null)
@@ -332,6 +338,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
             onValueChange={e => setFinPerc(e.target.value)}
           />
         </div>
+
         <div className='fr-col-12 fr-col-md-4 fr-mt-6w fr-pl-md-3w'>
           <NumberInput
             label='Montant du financement'
