@@ -15,7 +15,7 @@ export const AuthentificationContextProvider = props => {
     setToken(value)
   }, [])
 
-  const getData = () => {
+  const getStoredToken = () => {
     try {
       return JSON.parse(localStorage.getItem(TOKEN_KEY))
     } catch {
@@ -38,7 +38,7 @@ export const AuthentificationContextProvider = props => {
 
   // Initializes with data already stored if none is provided
   useEffect(() => {
-    const t = getData()
+    const t = getStoredToken()
     if (t) {
       setToken(t)
     }
