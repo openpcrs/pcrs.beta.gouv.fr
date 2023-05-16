@@ -1,4 +1,4 @@
-import {useState, useCallback, useEffect} from 'react'
+import {useState, useCallback, useEffect, useMemo} from 'react'
 import PropTypes from 'prop-types'
 import {debounce} from 'lodash-es'
 
@@ -63,17 +63,17 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
     }
   }, [type, code])
 
+  const isPerimetreExisting = useMemo(() => {
+    if (isEditing) {
+      return perimetres.includes(`${type}:${code}`) && updatingPerimetreCode !== code
+    }
+
+    return perimetres.includes(`${type}:${code}`)
+  }, [isEditing, updatingPerimetreCode, code, perimetres, type])
+
   const handleSubmit = () => {
     if (type && code) {
-      const checkIsExisting = () => {
-        if (isEditing) {
-          return perimetres.includes(`${type}:${code}`) && updatingPerimetreCode !== code
-        }
-
-        return perimetres.includes(`${type}:${code}`)
-      }
-
-      if (checkIsExisting()) {
+      if (isPerimetreExisting) {
         setErrorMessage('Ce périmètre est déjà présent.')
       } else {
         if (isEditing) {
