@@ -106,8 +106,8 @@ const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventi
 
       setNom(subvToUpdate.nom)
       setNature(subvToUpdate.nature)
-      setEcheance(subvToUpdate.montant || '')
-      setMontant(subvToUpdate.echeance || '')
+      setEcheance(subvToUpdate.echeance || '')
+      setMontant(subvToUpdate.montant || '')
 
       setUpdatingName(subvToUpdate.nom)
     }
@@ -163,7 +163,7 @@ const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventi
               value={echeance}
               ariaLabel='date d’expiration de la subvention'
               description='Date à laquelle la subvention expire'
-              onValueChange={e => echeance(e.target.value)}
+              onValueChange={e => setEcheance(e.target.value)}
             />
           </div>
         </div>
