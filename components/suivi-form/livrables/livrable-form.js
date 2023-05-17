@@ -151,7 +151,7 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
         </div>
 
         {/* Nature du livrable - selecteur */}
-        <div className='fr-col-12 fr-mt-6w fr-col-md-4 fr-pr-3w'>
+        <div className='fr-col-12 fr-mt-6w fr-col-lg-4 fr-pr-3w'>
           <SelectInput
             isRequired
             label='Nature'
@@ -170,7 +170,7 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
         </div>
 
         {/* Mode de diffusion du livrable - selecteur */}
-        <div className='fr-col-12 fr-mt-6w fr-col-md-4 fr-pr-3w'>
+        <div className='fr-col-12 fr-mt-6w fr-col-lg-4 fr-pr-3w'>
           <SelectInput
             label='Diffusion'
             options={diffusionOptions}
