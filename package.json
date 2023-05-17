@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@etalab/decoupage-administratif": "^2.3.1",
-    "@gouvfr/dsfr": "^1.8.1",
+    "@gouvfr/dsfr": "^1.9.2",
     "@keyv/sqlite": "^3.6.5",
     "@next/bundle-analyzer": "^13.0.7",
     "@turf/union": "^6.5.0",
