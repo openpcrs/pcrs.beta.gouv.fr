@@ -6,7 +6,7 @@ import {generateEditorKey} from '../server/util/generate-key.js'
 
 await mongo.connect()
 
-const projets = await mongo.db.collection('projets').find().toArray()
+const projets = await mongo.db.collection('projets').find({editorKey: {$exists: false}}).toArray()
 
 for (const projet of projets) {
   await generateEditorKey(projet._id)
