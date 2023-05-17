@@ -1,5 +1,7 @@
+import {readFile} from 'node:fs/promises'
 import {deburr} from 'lodash-es'
 import randomNumber from 'random-number-csprng'
+import Papa from 'papaparse'
 import {nanoid} from 'nanoid'
 import createError from 'http-errors'
 import mongo, {ObjectId} from '../mongo.js'
@@ -19,6 +21,13 @@ export function validateEmail(email) {
 export async function generatePinCode() {
   const number = await randomNumber(0, 999_999)
   return number.toString().padStart(6, '0')
+}
+
+export async function isAuthorizedMail(mail) {
+  const csvMailList = await readFile('./data/PCRS_mailing.csv', {encoding: 'utf8'})
+  const parsedCsvFile = Papa.parse(csvMailList).data.flat()
+
+  return parsedCsvFile.find(row => row === mail)
 }
 
 export async function sendPinCodeMail(email) {
