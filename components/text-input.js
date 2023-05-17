@@ -21,6 +21,7 @@ const TextInput = ({label, value, type, ariaLabel, placeholder, errorMessage, de
 
       <input
         type={type}
+        autoComplete='off'
         required={isRequired}
         className={`fr-input fr-input--${inputState}`}
         value={value}

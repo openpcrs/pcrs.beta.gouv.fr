@@ -1,5 +1,5 @@
 import {createRoot} from 'react-dom/client' // eslint-disable-line n/file-extension-in-import
-import {useEffect, useRef} from 'react'
+import {useEffect, useRef, useContext} from 'react'
 import PropTypes from 'prop-types'
 import Link from 'next/link'
 
@@ -10,11 +10,15 @@ import departementFillLayer from './layers/departement-fill.json'
 import departementLayer from './layers/departement-layer.json'
 import vector from './styles/vector.json'
 
+import AuthentificationContext from '@/contexts/authentification-token.js'
+
 import Popup from '@/components/map/popup.js'
 import Loader from '@/components/loader.js'
 import Legend from '@/components/map/legend.js'
 
 const Map = ({handleClick, isMobile, geometry, projetId}) => {
+  const {isAdmin} = useContext(AuthentificationContext)
+
   const mapNode = useRef()
   const mapRef = useRef()
   const selectedCode = useRef()
@@ -163,7 +167,7 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
     <div style={{position: 'relative', height: '100%', width: '100%'}}>
       <div ref={mapNode} style={{width: '100%', height: '100%'}} />
       <Legend isMobile={isMobile === true} />
-      {localStorage.getItem('Token') && (
+      {isAdmin && (
         <Link href='/formulaire-suivi'>
           <button
             type='button'
