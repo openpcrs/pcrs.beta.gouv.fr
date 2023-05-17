@@ -41,12 +41,45 @@ if (!ADMIN_TOKEN) {
   throw new Error('Le serveur ne peut pas démarrer car ADMIN_TOKEN n\'est pas défini')
 }
 
-function ensureAdmin(req, res, next) {
+async function checkRole(req) {
+  const token = req.get('Authorization').slice(6)
+  const creationToken = await mongo.db.collection('projetAdmin').findOne({token})
+  const editionToken = await mongo.db.collection('projetAdmin').findOne({codeEdition: token})
+
+  if (creationToken) {
+    if (!creationToken.codeEdition) {
+      await mongo.db.collection('projetAdmin').updateOne(
+        {_id: creationToken._id},
+        {$set: {status: 'used'}}
+      )
+    }
+
+    req.role = 'creator'
+
+    return req
+  }
+
+  if (editionToken) {
+    req.role = 'editor'
+
+    return req
+  }
+
+  if (token === ADMIN_TOKEN) {
+    req.role = 'admin'
+  }
+
+  return false
+}
+
+async function ensureAdmin(req, res, next) {
   if (!req.get('Authorization') || !req.get('Authorization').startsWith('Token ')) {
     throw createError(401, 'Cette action nécessite une authentification')
   }
 
-  if (req.get('Authorization').slice(6) !== ADMIN_TOKEN) {
+  const token = await checkRole(req.get('Authorization').slice(6))
+
+  if (!token) {
     throw createError(403, 'Authentification refusée')
   }
 
