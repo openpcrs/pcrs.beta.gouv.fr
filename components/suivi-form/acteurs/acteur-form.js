@@ -134,12 +134,8 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
         setIsFormValid(false)
       }
     } else {
-      if (!isValidOnSubmit) {
-        setErrorMessage('Veuillez modifier les champs invalides')
-        setIsFormValid(false)
-      }
-
       setIsFormComplete(false)
+      setIsFormValid(false)
       setErrorMessage('Veuillez compléter les champs requis manquants')
     }
   }
