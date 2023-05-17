@@ -2,7 +2,7 @@
 /* eslint-disable no-await-in-loop */
 
 import mongo from '../server/util/mongo.js'
-import {generateEditorKey} from '../server/util/generate-key.js'
+import {generateEditorKey} from '../server/projets.js'
 
 await mongo.connect()
 
