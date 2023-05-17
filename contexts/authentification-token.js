@@ -9,6 +9,7 @@ const TOKEN_KEY = 'Token'
 export const AuthentificationContextProvider = props => {
   const [token, setToken] = useState(null)
   const [isAdmin, setIsAdmin] = useState(false)
+  const [isTokenRecovering, setIsTokenRecovering] = useState(true)
 
   const storeToken = useCallback(value => {
     localStorage.setItem(TOKEN_KEY, JSON.stringify(value))
@@ -42,6 +43,8 @@ export const AuthentificationContextProvider = props => {
     if (t) {
       setToken(t)
     }
+
+    setIsTokenRecovering(false)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
@@ -53,8 +56,9 @@ export const AuthentificationContextProvider = props => {
   const value = useMemo(() => ({
     isAdmin,
     token,
+    isTokenRecovering,
     storeToken
-  }), [isAdmin, token, storeToken])
+  }), [isAdmin, token, isTokenRecovering, storeToken])
 
   return (
     <AuthentificationContext.Provider

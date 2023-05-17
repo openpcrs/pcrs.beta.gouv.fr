@@ -18,7 +18,7 @@ import Button from '@/components/button.js'
 
 const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subventions, etapes, _id}) => {
   const router = useRouter()
-  const {token} = useContext(AuthentificationContext)
+  const {token, isTokenRecovering} = useContext(AuthentificationContext)
 
   const [hasMissingDataOnValidation, setHasMissingDataOnValidation] = useState(false)
   const [validationMessage, setValidationMessage] = useState(null)
@@ -118,7 +118,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
         <h2 className='fr-mt-5w fr-mb-0'>Formulaire de suivi PCRS</h2>
       </div>
       <div className='fr-p-5w'>
-        {!token && <AuthentificationModal handleModalClose={handleAuthentificationModal} />}
+        {(!token && !isTokenRecovering) && <AuthentificationModal handleModalClose={handleAuthentificationModal} />}
 
         <Button
           label='Retourner à la carte de suivi'
