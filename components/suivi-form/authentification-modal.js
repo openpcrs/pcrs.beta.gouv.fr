@@ -1,39 +1,41 @@
-import {useState} from 'react'
+import {useState, useContext} from 'react'
 import PropTypes from 'prop-types'
 import {useRouter} from 'next/router'
 
 import {authentification} from '@/lib/authentification.js'
 
+import AuthentificationContext from '@/contexts/authentification-token.js'
+
 import TextInput from '@/components/text-input.js'
 import Modal from '@/components/modal.js'
 import Button from '@/components/button.js'
 
-const AuthentificationModal = ({isNewForm, handleModal, handleToken}) => {
+const AuthentificationModal = ({isNewForm, handleModalClose}) => {
   const router = useRouter()
+  const {storeToken} = useContext(AuthentificationContext)
 
-  const [token, setToken] = useState('')
+  const [tokenInput, setTokenInput] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
   const [validationMessage, setValidationMessage] = useState(null)
 
-  const handleAuthentification = async () => {
+  const handleAuthentification = async e => {
+    e.preventDefault()
     setErrorMessage(null)
 
-    if (token) {
+    if (tokenInput) {
       try {
-        const checkIfIsAdmin = await authentification(token)
+        const checkIfIsAdmin = await authentification(tokenInput)
         if (checkIfIsAdmin.isAdmin) {
-          localStorage.setItem('Token', token)
-          handleToken(token)
+          storeToken(tokenInput)
 
           if (isNewForm) {
-            setValidationMessage('Jeton valide ! Vous allez être redirigé...')
+            setValidationMessage('Utilisateur authentifié avec succès ! ! Vous allez être redirigé...')
 
             setTimeout(() => {
-              handleModal()
               router.push('/formulaire-suivi')
             }, 3000)
           } else {
-            handleModal()
+            setValidationMessage('Utilisateur authentifié avec succès ! !')
           }
         }
       } catch {
@@ -45,7 +47,7 @@ const AuthentificationModal = ({isNewForm, handleModal, handleToken}) => {
   }
 
   return (
-    <Modal title='S’authentifier' onClose={handleModal}>
+    <Modal title='S’authentifier' onClose={handleModalClose}>
       <div>
         <p>Afin de vérifier vos droit en tant qu’administrateur, nous devons procéder à la vérification de votre jeton d’authentification.<br /><br />
           Une fois authentifié, vous serez en mesure d’accéder au formulaire de suivi du PCRS
@@ -55,25 +57,27 @@ const AuthentificationModal = ({isNewForm, handleModal, handleToken}) => {
         </div>
 
         <div className='fr-container fr-mt-6w fr-grid-row fr-grid-row--center'>
-          <div className='fr-col-12'>
-            <TextInput
-              label='Authentification'
-              errorMessage={errorMessage}
-              type='password'
-              value={token}
-              ariaLabel='Entrer le jeton d’authentification'
-              description='Entrez votre jeton d’authentification'
-              onValueChange={e => setToken(e.target.value)}
-            />
-          </div>
-          <div className='fr-col-12 fr-grid-row fr-grid-row--center fr-mt-3w'>
-            <Button
-              label='S’authentifier'
-              onClick={handleAuthentification}
-            >
-              S’authentifier
-            </Button>
-          </div>
+          <form onSubmit={handleAuthentification}>
+            <div className='fr-col-12'>
+              <TextInput
+                label='Authentification'
+                errorMessage={errorMessage}
+                type='password'
+                value={tokenInput}
+                ariaLabel='Entrer le jeton d’authentification'
+                description='Entrez votre jeton d’authentification'
+                onValueChange={e => setTokenInput(e.target.value)}
+              />
+            </div>
+            <div className='fr-col-12 fr-grid-row fr-grid-row--center fr-mt-3w'>
+              <Button
+                type='submit'
+                label='S’authentifier'
+              >
+                S’authentifier
+              </Button>
+            </div>
+          </form>
         </div>
         {validationMessage && (
           <p className='fr-grid-row fr-grid-row--center fr-valid-text fr-col-12 fr-mt-2w fr-mb-0'>
@@ -87,13 +91,11 @@ const AuthentificationModal = ({isNewForm, handleModal, handleToken}) => {
 
 AuthentificationModal.propTypes = {
   isNewForm: PropTypes.bool,
-  handleModal: PropTypes.func.isRequired,
-  handleToken: PropTypes.func
+  handleModalClose: PropTypes.func.isRequired
 }
 
 AuthentificationModal.defaultProps = {
-  isNewForm: false,
-  handleToken() {}
+  isNewForm: false
 }
 
 export default AuthentificationModal
