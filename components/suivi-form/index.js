@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import {useState, useContext, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import Image from 'next/image'
 import {useRouter} from 'next/router'
@@ -6,6 +6,8 @@ import {useRouter} from 'next/router'
 import {postSuivi, editProject} from '@/lib/suivi-pcrs.js'
 
 import {useInput} from '@/hooks/input.js'
+
+import AuthentificationContext from '@/contexts/authentification-token.js'
 
 import AuthentificationModal from '@/components/suivi-form/authentification-modal.js'
 import GeneralInfos from '@/components/suivi-form/general-infos.js'
@@ -18,11 +20,11 @@ import Button from '@/components/button.js'
 
 const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subventions, etapes, _id}) => {
   const router = useRouter()
+  const {token, isTokenRecovering} = useContext(AuthentificationContext)
 
   const [hasMissingItemsOnValidation, setHasMissingItemsOnValidation] = useState(false)
   const [validationMessage, setValidationMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
   const [isRequiredFormOpen, setIsRequiredFormOpen] = useState(false)
 
   const [suiviNom, setSuiviNom] = useInput({initialValue: nom})
@@ -34,14 +36,8 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
   const [projetPerimetres, setProjetPerimetres] = useState(perimetres)
   const [projetEtapes, setProjetEtapes] = useState(etapes)
   const [projetSubventions, setProjetSubventions] = useState(subventions || [])
-  const [token, setToken] = useState(null)
 
   const hasMissingData = projetLivrables.length === 0 || projetActeurs.length === 0 || projetPerimetres.length === 0
-
-  useEffect(() => {
-    setToken(localStorage.getItem('Token'))
-    setIsLoading(false)
-  }, [])
 
   useEffect(() => {
     if (!hasMissingData && !isRequiredFormOpen) {
@@ -49,7 +45,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
     }
   }, [hasMissingData, isRequiredFormOpen])
 
-  const handleModal = () => router.push('/suivi-pcrs')
+  const handleAuthentificationModal = () => router.push('/suivi-pcrs')
 
   const handleSubmit = async event => {
     event.preventDefault()
@@ -127,7 +123,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
         <h2 className='fr-mt-5w fr-mb-0'>Formulaire de suivi PCRS</h2>
       </div>
       <div className='fr-p-5w'>
-        {!isLoading && !token && <AuthentificationModal handleToken={setToken} handleModal={handleModal} />}
+        {(!token && !isTokenRecovering) && <AuthentificationModal handleModalClose={handleAuthentificationModal} />}
 
         <Button
           label='Retourner à la carte de suivi'
