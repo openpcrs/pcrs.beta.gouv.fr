@@ -130,13 +130,14 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
 
   return (
     <div className='fr-mt-4w'>
-      <div className='fr-grid-row fr-grid-row--bottom'>
+      <div className='fr-grid-row'>
         {/* Nom du livrable */}
-        <div className='fr-col-12 fr-col-lg-4 fr-pr-3w'>
+        <div className='fr-col-12 fr-col-lg-4 fr-mt-6w fr-mb-0 fr-pr-3w'>
           <TextInput
             isRequired
             label='Nom'
             ariaLabel='nom du livrable'
+            description='Nom du livrable'
             value={nom}
             placeholder='Nom du livrable'
             errorMessage={handleErrorMessage(nom)}
@@ -150,7 +151,7 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
         </div>
 
         {/* Nature du livrable - selecteur */}
-        <div className='fr-col-12 fr-col-lg-4 fr-pr-3w fr-mt-6w'>
+        <div className='fr-col-12 fr-mt-6w fr-col-md-4 fr-pr-3w'>
           <SelectInput
             isRequired
             label='Nature'
@@ -169,7 +170,7 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
         </div>
 
         {/* Mode de diffusion du livrable - selecteur */}
-        <div className='fr-col-12 fr-col-lg-4 fr-mt-6w fr-pr-3w'>
+        <div className='fr-col-12 fr-mt-6w fr-col-md-4 fr-pr-3w'>
           <SelectInput
             label='Diffusion'
             options={diffusionOptions}
