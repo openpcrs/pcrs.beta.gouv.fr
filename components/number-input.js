@@ -14,21 +14,16 @@ const NumberInput = ({
   isRequired,
   isDisabled,
   onValueChange,
-  handleInvalidInput,
+  setIsValueValid,
   onFocus,
   onBlur
 }) => {
-  const [inputError, setInputError] = useState(null)
+  const [inputError, setInputError] = useState(errorMessage)
 
   const inputState = inputError ? 'error' : ''
 
   useEffect(() => {
     setInputError(null)
-
-    if (errorMessage) {
-      setInputError(errorMessage)
-      handleInvalidInput(true)
-    }
 
     if (value) {
       let inputErrorMessage = null
@@ -53,15 +48,15 @@ const NumberInput = ({
 
       setInputError(inputErrorMessage)
     }
-  }, [value, min, max, errorMessage, handleInvalidInput])
+  }, [value, min, max, errorMessage])
 
   useEffect(() => {
     if (inputError) {
-      handleInvalidInput(true)
+      setIsValueValid(false)
     } else {
-      handleInvalidInput(false)
+      setIsValueValid(true)
     }
-  }, [inputError, handleInvalidInput])
+  }, [value, inputError, setIsValueValid])
 
   return (
     <div className={`fr-input-group fr-input-group--${inputState}`}>
@@ -112,7 +107,7 @@ NumberInput.propTypes = {
   isRequired: PropTypes.bool,
   isDisabled: PropTypes.bool,
   onValueChange: PropTypes.func,
-  handleInvalidInput: PropTypes.func,
+  setIsValueValid: PropTypes.func,
   onFocus: PropTypes.func,
   onBlur: PropTypes.func
 }
@@ -131,7 +126,7 @@ NumberInput.defaultProps = {
   isDisabled: false,
   onFocus: null,
   onBlur: null,
-  handleInvalidInput() {}
+  setIsValueValid() {}
 }
 
 export default NumberInput

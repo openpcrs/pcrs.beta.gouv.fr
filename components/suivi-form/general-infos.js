@@ -5,7 +5,7 @@ import SelectInput from '@/components/select-input.js'
 
 import {natureOptions, regimeOptions} from '@/components/suivi-form/utils/general-select-options.js'
 
-const GeneralInfos = ({inputValues, handleValues}) => {
+const GeneralInfos = ({inputValues, handleNom, handleRegime, handleNature}) => {
   const {nom, regime, nature} = inputValues
 
   return (
@@ -18,12 +18,7 @@ const GeneralInfos = ({inputValues, handleValues}) => {
             ariaLabel='nom du projet pcrs'
             value={nom}
             placeholder='Nom du projet'
-            onValueChange={e => {
-              handleValues({
-                ...inputValues,
-                nom: e.target.value
-              })
-            }}
+            onValueChange={e => handleNom(e.target.value)}
           />
         </div>
       </div>
@@ -37,12 +32,7 @@ const GeneralInfos = ({inputValues, handleValues}) => {
             description='Régime du projet'
             ariaLabel='régime du projet pcrs'
             options={regimeOptions}
-            onValueChange={e => {
-              handleValues({
-                ...inputValues,
-                regime: e.target.value
-              })
-            }}
+            onValueChange={e => handleRegime(e.target.value)}
           />
         </div>
 
@@ -54,12 +44,7 @@ const GeneralInfos = ({inputValues, handleValues}) => {
             description='Nature du projet'
             ariaLabel='nature du projet pcrs'
             options={natureOptions}
-            onValueChange={e => {
-              handleValues({
-                ...inputValues,
-                nature: e.target.value
-              })
-            }}
+            onValueChange={e => handleNature(e.target.value)}
           />
         </div>
       </div>
@@ -69,7 +54,9 @@ const GeneralInfos = ({inputValues, handleValues}) => {
 
 GeneralInfos.propTypes = {
   inputValues: PropTypes.object.isRequired,
-  handleValues: PropTypes.func.isRequired
+  handleNom: PropTypes.func.isRequired,
+  handleRegime: PropTypes.func.isRequired,
+  handleNature: PropTypes.func.isRequired
 }
 
 export default GeneralInfos

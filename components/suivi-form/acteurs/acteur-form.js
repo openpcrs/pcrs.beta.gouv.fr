@@ -3,10 +3,13 @@ import {useState, useCallback, useEffect, useMemo} from 'react'
 import PropTypes from 'prop-types'
 import {debounce, pick} from 'lodash-es'
 
+import {checkIsPhoneValid, checkIsEmailValid, checkIsSirenValid} from '@/components/suivi-form/acteurs/utils/error-handlers.js'
 import {getEntreprises} from '@/lib/entreprises-api.js'
 
 import {secteursActivites} from '@/components/suivi-form/acteurs/utils/actor-activites.js'
 import {roleOptions} from '@/components/suivi-form/acteurs/utils/select-options.js'
+
+import {useInput} from '@/hooks/input.js'
 
 import AutocompleteInput from '@/components/autocomplete-input.js'
 import AutocompleteRenderItem from '@/components/autocomplete-render-item.js'
@@ -34,70 +37,74 @@ const renderItem = (item, isHighlighted) => {
 }
 
 const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, handleActors, handleAdding, handleEditing, onRequiredFormOpen}) => {
-  const [acteur, setActeur] = useState({
-    nom: '',
-    siren: '',
-    phone: '',
-    mail: '',
-    finPerc: '',
-    finEuros: '',
-    role: ''
-  })
+  const [isFormComplete, setIsFormComplete] = useState(true)
+  const [isFormValid, setIsFormValid] = useState(true)
+  const [errorMessage, setErrorMessage] = useState(null)
+  const [searchErrorMessage, setSearchErrorMessage] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   const [foundEtablissements, setFoundEtablissements] = useState([])
   const [updatingActorSiren, setUpdatingActorSiren] = useState(null)
 
-  const [hasMissingInput, setHasMissingInput] = useState(false)
-  const [hasInvalidInput, setHasInvalidInput] = useState(false)
-  const [isSirenValid, setIsSirenValid] = useState(true)
-  const [isLoading, setIsLoading] = useState(false)
-  const [errorMessage, setErrorMessage] = useState(null)
-  const [searchErrorMessage, setSearchErrorMessage] = useState(null)
+  // Phone number conformity error handler
+  const handlePhoneError = useCallback(input => {
+    if (!checkIsPhoneValid(input) && !isFormValid) {
+      return 'Le numéro de téléphone doit être composé de 10 chiffres ou de 9 chiffres précédés du préfixe +33'
+    }
+  }, [isFormValid])
 
-  const {nom, siren, phone, mail, finPerc, finEuros, role} = acteur
+  // Mail conformity error handler
+  const handleMailError = useCallback(input => {
+    if (!checkIsEmailValid(input) && !isFormValid) {
+      return 'L’adresse mail entrée est invalide. Exemple : dupont@domaine.fr'
+    }
+  }, [isFormValid])
 
-  const isEmailValid = useMemo(() => {
-    const emailChecker = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([a-zA-Z\-\d]+\.)+[a-zA-Z]{2,}))$/
-    if (emailChecker.test(mail) || !mail) {
+  // Siren conformity error handler
+  const handleSirenError = useCallback(input => {
+    if (!checkIsSirenValid(input) && !isFormValid) {
+      return 'Le SIREN doit être composé de 9 chiffres'
+    }
+  }, [isFormValid])
+
+  const [nom, setNom, nomError] = useInput({isRequired: !isFormComplete})
+  const [siren, setSiren, sirenError] = useInput({checkValue: handleSirenError, isRequired: !isFormComplete})
+  const [phone, setPhone, phoneError] = useInput({checkValue: handlePhoneError})
+  const [mail, setMail, mailError] = useInput({checkValue: handleMailError})
+  const [finPerc, setFinPerc, finPercError, handleFinPercValidity, isFinPercInputValid] = useInput({})
+  const [finEuros, setFinEuros, finEurosError, handleFinEurosValidity, isFinEurosInputValid] = useInput({})
+  const [role, setRole, roleError] = useInput({isRequired: !isFormComplete})
+
+  const isCompleteOnSubmit = Boolean(nom && siren && role)
+  const isValidOnSubmit = useMemo(() => {
+    if (checkIsSirenValid(siren) && checkIsPhoneValid(phone) && checkIsEmailValid(mail) && isFinPercInputValid && isFinEurosInputValid) {
       return true
     }
 
     return false
-  }, [mail])
+  }, [siren, phone, mail, isFinPercInputValid, isFinEurosInputValid])
 
-  const isPhoneNumberValid = useMemo(() => {
-    if (/^(?:\+33|0)[1-9](?:\d{8}|\d{9})$/.test(phone) || !phone) {
-      return true
+  useEffect(() => {
+    if (isCompleteOnSubmit && isValidOnSubmit) {
+      setErrorMessage(null)
+    }
+  }, [isCompleteOnSubmit, isValidOnSubmit])
+
+  const isActorExisting = useMemo(() => {
+    if (isEditing) {
+      return acteurs.some(a => siren === a.siren.toString()) && siren !== updatingActorSiren.toString()
     }
 
-    return false
-  }, [phone])
-
-  const isFormComplete = useMemo(() => {
-    const isRequiredValueComplete = Boolean(nom && role)
-    if (isRequiredValueComplete && !hasInvalidInput && isEmailValid && isPhoneNumberValid) {
-      return true
-    }
-
-    return false
-  }, [hasInvalidInput, isEmailValid, isPhoneNumberValid, nom, role])
+    return acteurs.some(acteur => siren === acteur.siren.toString())
+  }, [acteurs, siren, isEditing, updatingActorSiren])
 
   const handleSubmit = () => {
-    if ((finPerc && finPerc < 0) || (finEuros && finEuros < 0)) {
-      return setErrorMessage('Veuillez entrer des valeurs supérieures à 0 dans les champs de financement')
-    }
+    setErrorMessage(null)
+    setIsFormValid(true)
 
-    if (isFormComplete) {
-      if (isSirenValid && isEmailValid && isPhoneNumberValid) {
-        const checkIsExisting = () => {
-          if (isEditing) {
-            return acteurs.some(a => siren === a.siren.toString()) && siren !== updatingActorSiren.toString()
-          }
-
-          return acteurs.some(acteur => siren === acteur.siren.toString())
-        }
-
-        if (checkIsExisting()) {
+    if (isCompleteOnSubmit) {
+      if (isValidOnSubmit) {
+        if (isActorExisting) {
           setErrorMessage('Cet acteur est déjà présent.')
         } else {
           const newActor = {
@@ -123,59 +130,51 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
           onReset()
         }
       } else {
-        setHasInvalidInput(true)
+        setErrorMessage('Veuillez modifier les champs invalides')
+        setIsFormValid(false)
       }
     } else {
-      if (!isEmailValid || !isPhoneNumberValid) {
-        setHasInvalidInput(true)
-      }
-
-      setHasMissingInput(true)
+      setIsFormComplete(false)
+      setIsFormValid(false)
+      setErrorMessage('Veuillez compléter les champs requis manquants')
     }
   }
 
   const onReset = useCallback(() => {
     handleAdding(false)
     onRequiredFormOpen(false)
-    setHasInvalidInput(false)
-    setActeur({
-      nom: '',
-      siren: '',
-      phone: '',
-      mail: '',
-      finPerc: '',
-      finEuros: '',
-      role: ''
-    })
+    setIsFormValid(true)
+    setIsFormComplete(true)
     handleActorIndex(null)
     handleEditing(false)
     setErrorMessage(null)
     setUpdatingActorSiren(null)
-    setHasMissingInput(false)
     setSearchErrorMessage(null)
-  }, [handleAdding, handleActorIndex, handleEditing, onRequiredFormOpen])
 
-  const handleErrors = (input, name) => {
-    if (!input && hasMissingInput && name !== 'phone' && name !== 'email' && !input) {
-      return 'Ce champs est requis'
-    }
-
-    if (input && name === 'email' && !isEmailValid && hasInvalidInput) {
-      return 'L’adresse mail entrée est invalide'
-    }
-
-    if (name === 'siren' && !isSirenValid) {
-      return 'Le SIREN doit être composé de 9 chiffres'
-    }
-
-    if (input && name === 'phone' && !isPhoneNumberValid && hasInvalidInput) {
-      return 'Le numéro de téléphone doit être composé de 10 chiffres ou de 9 chiffres précédés du préfixe +33'
-    }
-  }
+    setNom('')
+    setSiren('')
+    setPhone('')
+    setMail('')
+    setFinPerc('')
+    setFinEuros('')
+    setRole('')
+  }, [
+    handleAdding,
+    handleActorIndex,
+    handleEditing,
+    onRequiredFormOpen,
+    setFinEuros,
+    setSiren,
+    setPhone,
+    setMail,
+    setFinPerc,
+    setRole,
+    setNom
+  ])
 
   useEffect(() => {
     // Enable aplc/porteur selector choices for editing aplc/porteur actor...
-    if (acteur.role === 'aplc' || acteur.role === 'porteur') {
+    if (role === 'aplc' || role === 'porteur') {
       roleOptions.find(role => role.value === 'porteur').isDisabled = false
       roleOptions.find(role => role.value === 'aplc').isDisabled = false
     } else {
@@ -185,27 +184,24 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
       roleOptions.find(role => role.value === 'aplc').isDisabled = Boolean(hasAplc)
       roleOptions.find(role => role.value === 'porteur').isDisabled = Boolean(hasAplc)
     }
-  }, [acteur, acteurs])
+  }, [role, acteurs])
 
   useEffect(() => {
     // Switch to actor update form
     if (isEditing) {
       const foundActor = acteurs[updatingActorIndex]
-      setActeur(
-        {
-          nom: foundActor.nom,
-          siren: foundActor.siren?.toString(),
-          phone: foundActor.telephone || '',
-          mail: foundActor.mail || '',
-          finPerc: foundActor.finance_part_perc?.toString() || '',
-          finEuros: foundActor.finance_part_euro?.toString() || '',
-          role: foundActor.role || ''
-        }
-      )
+      setNom(foundActor.nom)
+      setSiren(foundActor.siren?.toString())
+      setPhone(foundActor.telephone || '')
+      setMail(foundActor.mail || '')
+      setFinPerc(foundActor.finance_part_perc?.toString() || '')
+      setFinEuros(foundActor.finance_part_euro?.toString() || '')
+      setRole(foundActor.role || '')
+
       setUpdatingActorSiren(foundActor.siren)
       onRequiredFormOpen(true)
     }
-  }, [isEditing, updatingActorIndex, acteurs, onRequiredFormOpen])
+  }, [isEditing, updatingActorIndex, acteurs, onRequiredFormOpen, setFinEuros, setSiren, setPhone, setMail, setFinPerc, setRole, setNom])
 
   const fetchActors = useCallback(debounce(async (nom, signal) => { // eslint-disable-line react-hooks/exhaustive-deps
     setIsLoading(true)
@@ -261,23 +257,14 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
             ariaLabel='nom de l’entreprise à rechercher'
             results={foundEtablissements}
             isLoading={isLoading}
-            errorMessage={searchErrorMessage ? searchErrorMessage : handleErrors(nom)}
+            errorMessage={searchErrorMessage ? searchErrorMessage : nomError}
             getItemValue={item => item.siren}
             customItem={renderItem}
-            onValueChange={e => {
-              setActeur({
-                ...acteur,
-                nom: e.target.value
-              })
-            }}
+            onValueChange={e => setNom(e.target.value)}
             onSelectValue={item => {
               const foundActorName = foundEtablissements.find(result => result.siren === item).nom_complet
-
-              setActeur({
-                ...acteur,
-                nom: foundActorName,
-                siren: item
-              })
+              setNom(foundActorName)
+              setSiren(item)
             }}
           />
         </div>
@@ -288,14 +275,8 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
             value={siren}
             ariaLabel='numéro siren de l’entreprise'
             description='SIREN de l’entreprise'
-            errorMessage={handleErrors(siren, 'siren')}
-            onValueChange={e => {
-              setActeur({
-                ...acteur,
-                siren: e.target.value
-              })
-              setIsSirenValid(/^\d{9}$/.test(e.target.value))
-            }}
+            errorMessage={sirenError}
+            onValueChange={e => setSiren(e.target.value)}
           />
         </div>
       </div>
@@ -307,14 +288,8 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
             value={phone}
             ariaLabel='numéro de téléphone de l’interlocuteur'
             description='Numéro de téléphone de l’interlocuteur'
-            errorMessage={handleErrors(phone, 'phone')}
-            onValueChange={e => {
-              setHasInvalidInput(false)
-              setActeur({
-                ...acteur,
-                phone: e.target.value
-              })
-            }}
+            errorMessage={phoneError}
+            onValueChange={e => setPhone(e.target.value.replace(/\s/g, ''))} // Delete white space
           />
         </div>
 
@@ -325,15 +300,9 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
             type='email'
             ariaLabel='Adresse e-mail de l’interlocuteur'
             description='Adresse e-mail de l’interlocuteur'
-            errorMessage={handleErrors(mail, 'email')}
+            errorMessage={mailError}
             placeholder='exemple@domaine.fr'
-            onValueChange={e => {
-              setHasInvalidInput(false)
-              setActeur({
-                ...acteur,
-                mail: e.target.value
-              })
-            }}
+            onValueChange={e => setMail(e.target.value)}
           />
         </div>
       </div>
@@ -347,13 +316,8 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
             value={role}
             description='Rôle de l’acteur dans le projet'
             ariaLabel='rôle de l’acteur dans le projet'
-            errorMessage={handleErrors(role)}
-            onValueChange={e => {
-              setActeur({
-                ...acteur,
-                role: e.target.value
-              })
-            }}
+            errorMessage={roleError}
+            onValueChange={e => setRole(e.target.value)}
           />
         </div>
         <div className='fr-col-12 fr-col-md-4 fr-mt-6w'>
@@ -363,17 +327,14 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
             ariaLabel='Part de financement en pourcentage du total'
             description='Part de financement en pourcentage du total'
             placeholder='Veuillez n’entrer que des valeurs numéraires'
+            setIsValueValid={handleFinPercValidity}
             min={0}
             max={100}
-            handleInvalidInput={setHasInvalidInput}
-            onValueChange={e => {
-              setActeur({
-                ...acteur,
-                finPerc: e.target.value
-              })
-            }}
+            errorMessage={finPercError}
+            onValueChange={e => setFinPerc(e.target.value)}
           />
         </div>
+
         <div className='fr-col-12 fr-col-md-4 fr-mt-6w fr-pl-md-3w'>
           <NumberInput
             label='Montant du financement'
@@ -382,13 +343,9 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
             description='Montant du financement en euros'
             placeholder='Veuillez n’entrer que des valeurs numéraires'
             min={0}
-            handleInvalidInput={setHasInvalidInput}
-            onValueChange={e => {
-              setActeur({
-                ...acteur,
-                finEuros: e.target.value
-              })
-            }}
+            setIsValueValid={handleFinEurosValidity}
+            errorMessage={finEurosError}
+            onValueChange={e => setFinEuros(e.target.value)}
           />
         </div>
       </div>

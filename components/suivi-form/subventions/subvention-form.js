@@ -1,5 +1,7 @@
-import {useState, useCallback, useEffect} from 'react'
+import {useState, useCallback, useEffect, useMemo} from 'react'
 import PropTypes from 'prop-types'
+
+import {useInput} from '@/hooks/input.js'
 
 import {natureOptions} from '@/components/suivi-form/subventions/utils/select-options.js'
 
@@ -10,94 +12,106 @@ import Button from '@/components/button.js'
 import NumberInput from '@/components/number-input.js'
 
 const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventions, handleEditing, handleAdding, handleUpdatingSubvIdx}) => {
-  const [hasMissingInput, setHasMissingInput] = useState(false)
-  const [hasInvalidInput, setHasInvalidInput] = useState(false)
+  const [isFormComplete, setIsFormComplete] = useState(true)
   const [errorMessage, setErrorMessage] = useState()
-
-  const [subvention, setSubvention] = useState({
-    nom: '',
-    nature: '',
-    montant: '',
-    echeance: ''
-  })
   const [updatingName, setUpdatingName] = useState()
 
-  const {nom, nature, montant, echeance} = subvention
+  const [nom, setNom, nomError] = useInput({isRequired: !isFormComplete})
+  const [nature, setNature, natureError] = useInput({isRequired: !isFormComplete})
+  const [montant, setMontant, montantError, handleMontantValidity, isMontantInputValid] = useInput({})
+  const [echeance, setEcheance] = useInput({})
+
+  const isCompleteOnSubmit = Boolean(nom && nature)
+
+  useEffect(() => {
+    if (isCompleteOnSubmit && isMontantInputValid) {
+      setErrorMessage(null)
+    }
+  }, [isCompleteOnSubmit, isMontantInputValid])
+
+  const isSubventionExisting = useMemo(() => {
+    if (isEditing) {
+      return subventions.some(subvention => subvention.nom === nom) && nom !== updatingName
+    }
+
+    return subventions.some(subvention => subvention.nom === nom)
+  }, [subventions, updatingName, nom, isEditing])
 
   const handleSubmit = () => {
     setErrorMessage(null)
 
-    if (!hasInvalidInput) {
-      const checkIsExisting = () => {
-        if (isEditing) {
-          return subventions.some(subvention => subvention.nom === nom) && nom !== updatingName
-        }
-
-        return subventions.some(subvention => subvention.nom === nom)
-      }
-
-      if (!nom || !nature) {
-        setHasMissingInput(true)
-      } else if (checkIsExisting()) {
-        setErrorMessage('Cette subvention existe déjà')
-      } else {
-        const newSubvention = {
-          nom,
-          nature,
-          montant: Number(montant) || null,
-          echeance: echeance ? echeance : null
-        }
-        if (isEditing) {
-          handleSubventions(prevSubventions => {
-            const subventionsCopy = [...prevSubventions]
-            subventionsCopy[updatingSubvIdx] = newSubvention
-            return subventionsCopy
-          })
+    if (isCompleteOnSubmit) {
+      if (isMontantInputValid) {
+        if (!nom || !nature) {
+          setIsFormComplete(false)
+        } else if (isSubventionExisting) {
+          setErrorMessage('Cette subvention existe déjà')
         } else {
-          handleSubventions([...subventions, newSubvention])
-        }
+          const newSubvention = {
+            nom,
+            nature,
+            montant: Number(montant) || null,
+            echeance: echeance ? echeance : null
+          }
+          if (isEditing) {
+            handleSubventions(prevSubventions => {
+              const subventionsCopy = [...prevSubventions]
+              subventionsCopy[updatingSubvIdx] = newSubvention
+              return subventionsCopy
+            })
+          } else {
+            handleSubventions([...subventions, newSubvention])
+          }
 
-        onReset()
+          onReset()
+        }
+      } else {
+        setErrorMessage('Veuillez modifier les champs invalides')
       }
+    } else {
+      setIsFormComplete(false)
+      setErrorMessage('Veuillez compléter les champs requis manquants')
     }
   }
 
-  const onReset = () => {
+  const onReset = useCallback(() => {
     handleAdding(false)
     handleEditing(false)
-    setHasMissingInput(false)
+    setIsFormComplete(true)
     handleUpdatingSubvIdx(null)
-    setSubvention({
-      nom: '',
-      nature: '',
-      montant: '',
-      echeance: ''
-    })
     setUpdatingName(null)
     setErrorMessage(null)
-  }
 
-  const handleErrors = useCallback(input => {
-    if (!input && hasMissingInput) {
-      return 'Ce champs est requis'
-    }
-  }, [hasMissingInput])
+    setNom('')
+    setNature('')
+    setEcheance('')
+    setMontant('')
+  }, [
+    handleAdding,
+    handleEditing,
+    setIsFormComplete,
+    handleUpdatingSubvIdx,
+    setNom,
+    setNature,
+    setEcheance,
+    setMontant,
+    setUpdatingName,
+    setErrorMessage
+  ])
 
   useEffect(() => {
     // Switch to subvention update form
     if (isEditing) {
       const subvToUpdate = subventions[updatingSubvIdx]
 
-      setSubvention({
-        nom: subvToUpdate.nom,
-        nature: subvToUpdate.nature,
-        montant: subvToUpdate.montant || '',
-        echeance: subvToUpdate.echeance || ''
-      })
+      setNom(subvToUpdate.nom)
+      setNature(subvToUpdate.nature)
+      setEcheance(subvToUpdate.echeance || '')
+      setMontant(subvToUpdate.montant || '')
 
       setUpdatingName(subvToUpdate.nom)
     }
-  }, [isEditing, subventions, updatingSubvIdx])
+  }, [isEditing, subventions, updatingSubvIdx, setNature, setNom, setEcheance, setMontant])
 
   return (
     <div>
@@ -110,13 +124,8 @@ const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventi
               value={nom}
               ariaLabel='nom de la subvention'
               description='Nom de la subvention'
-              errorMessage={handleErrors(nom)}
-              onValueChange={e => {
-                setSubvention({
-                  ...subvention,
-                  nom: e.target.value
-                })
-              }}
+              errorMessage={nomError}
+              onValueChange={e => setNom(e.target.value)}
             />
           </div>
         </div>
@@ -130,13 +139,8 @@ const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventi
               value={nature}
               ariaLabel='nature de la subvention'
               description='Nature de la subvention'
-              errorMessage={handleErrors(nature)}
-              onValueChange={e => {
-                setSubvention({
-                  ...subvention,
-                  nature: e.target.value
-                })
-              }}
+              errorMessage={natureError}
+              onValueChange={e => setNature(e.target.value)}
             />
           </div>
 
@@ -147,13 +151,9 @@ const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventi
               ariaLabel='montant de la subvention'
               description='Montant de la subvention'
               min={0}
-              handleInvalidInput={setHasInvalidInput}
-              onValueChange={e => {
-                setSubvention({
-                  ...subvention,
-                  montant: e.target.value
-                })
-              }}
+              errorMessage={montantError}
+              setIsValueValid={handleMontantValidity}
+              onValueChange={e => setMontant(e.target.value)}
             />
           </div>
 
@@ -163,12 +163,7 @@ const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventi
               value={echeance}
               ariaLabel='date d’expiration de la subvention'
               description='Date à laquelle la subvention expire'
-              onValueChange={e => {
-                setSubvention({
-                  ...subvention,
-                  echeance: e.target.value
-                })
-              }}
+              onValueChange={e => setEcheance(e.target.value)}
             />
           </div>
         </div>
