@@ -17,7 +17,7 @@ import mongo from './util/mongo.js'
 import errorHandler from './util/error-handler.js'
 import w from './util/w.js'
 
-import {getProjet, getProjets, createProjet, deleteProjet, updateProjet, getProjetsGeojson, expandProjet} from './projets.js'
+import {getProjet, getProjets, createProjet, deleteProjet, updateProjet, getProjetsGeojson, expandProjet, filterSensitiveFields, checkIsEditor} from './projets.js'
 import {exportLivrablesAsCSV, exportProjetsAsCSV, exportSubventionsAsCSV, exportToursDeTableAsCSV} from '../lib/export/csv.js'
 
 const port = process.env.PORT || 3000
@@ -90,7 +90,7 @@ async function ensureAdmin(req, res, next) {
 
 server.param('projetId', w(async (req, res, next) => {
   const {projetId} = req.params
-  const projet = await getProjet(projetId)
+  const projet = await getProjet(projetId, req)
 
   if (!projet) {
     throw createError(404, 'L’identifiant de projet demandé n’existe pas')
@@ -112,7 +112,13 @@ server.route('/projets/geojson')
 server.route('/projets/:projetId')
   .get(w(async (req, res) => {
     const expandedProjet = expandProjet(req.projet)
-    res.send(expandedProjet)
+    const token = req.get('Authorization')
+
+    if (checkIsEditor(expandedProjet, token)) {
+      res.send(expandedProjet)
+    } else {
+      res.send(filterSensitiveFields(expandedProjet))
+    }
   }))
   .delete(w(ensureAdmin), w(async (req, res) => {
     await deleteProjet(req.projet._id)
@@ -129,8 +135,10 @@ server.route('/projets')
   .get(w(async (req, res) => {
     const projets = await getProjets()
     const expandedProjets = projets.map(p => expandProjet(p))
+    const token = req.get('Authorization')
+    const filteredProjets = expandedProjets.map(p => checkIsEditor(p, token) ? p : filterSensitiveFields(p))
 
-    res.send(expandedProjets)
+    res.send(filteredProjets)
   }))
   .post(w(ensureAdmin), w(async (req, res) => {
     const projet = await createProjet(req.body)

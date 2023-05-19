@@ -1,4 +1,6 @@
 import createError from 'http-errors'
+import {omit} from 'lodash-es'
+import {nanoid} from 'nanoid'
 import {validateCreation, validateChanges} from '../lib/projets-validator.js'
 import {buildGeometryFromTerritoires, getTerritoiresProperties} from '../lib/territoires.js'
 import {findClosestEtape} from '../lib/suivi-pcrs.js'
@@ -11,6 +13,25 @@ export function expandProjet(projet) {
     ...projet,
     territoires
   }
+}
+
+export async function generateEditorKey(projetId) {
+  projetId = mongo.parseObjectId(projetId)
+
+  await mongo.db.collection('projets').updateOne(
+    {_id: projetId, editorKey: {$exists: false}},
+    {$set: {editorKey: nanoid()}}
+  )
+}
+
+export function checkIsEditor(projet, token) {
+  const isEditor = token === `Token ${projet?.editorKey}` || token === `Token ${process.env.ADMIN_TOKEN}`
+
+  return isEditor
+}
+
+export function filterSensitiveFields(projet) {
+  return omit(projet, 'editorKey')
 }
 
 export async function getProjets() {
