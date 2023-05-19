@@ -17,7 +17,7 @@ import mongo from './util/mongo.js'
 import errorHandler from './util/error-handler.js'
 import w from './util/w.js'
 
-import {getProjet, getProjets, createProjet, deleteProjet, updateProjet, getProjetsGeojson, expandProjet, filterSensitiveFields, checkEditorKey} from './projets.js'
+import {getProjet, getProjets, deleteProjet, updateProjet, getProjetsGeojson, expandProjet, filterSensitiveFields, checkEditorKey} from './projets.js'
 import {exportLivrablesAsCSV, exportProjetsAsCSV, exportSubventionsAsCSV, exportToursDeTableAsCSV} from '../lib/export/csv.js'
 import {sendPinCodeMail, checkPinCodeValidity} from './util/email/pin-code-strategie.js'
 
