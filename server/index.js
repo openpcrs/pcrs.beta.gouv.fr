@@ -19,7 +19,7 @@ import w from './util/w.js'
 
 import {getProjet, getProjets, deleteProjet, updateProjet, getProjetsGeojson, expandProjet, filterSensitiveFields, checkEditorKey} from './projets.js'
 import {exportLivrablesAsCSV, exportProjetsAsCSV, exportSubventionsAsCSV, exportToursDeTableAsCSV} from '../lib/export/csv.js'
-import {sendPinCodeMail, checkPinCodeValidity} from './util/email/pin-code-strategie.js'
+import {sendPinCodeMail, checkPinCodeValidity, isAuthorizedMail} from './util/email/pin-code-strategie.js'
 
 const port = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -193,6 +193,12 @@ server.route('/data/subventions.csv')
 
 server.route('/ask-code/:email')
   .post(w(async (req, res) => {
+    const authorizedEditorMail = await isAuthorizedMail(req.params.email)
+
+    if (!authorizedEditorMail) {
+      throw createError(401, 'Cette adresse n’est pas autorisée à créer un projet')
+    }
+
     await sendPinCodeMail(req.params.email)
 
     res.status(201).send('ok')
