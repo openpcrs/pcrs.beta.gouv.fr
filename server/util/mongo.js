@@ -1,4 +1,5 @@
 import process from 'node:process'
+import {nanoid} from 'nanoid'
 
 import {MongoClient, ObjectId} from 'mongodb'
 
@@ -45,6 +46,7 @@ class Mongo {
     projet._created = now
     projet._updated = now
     projet._id = new ObjectId()
+    projet.editorKey = nanoid()
   }
 
   decorateUpdate(projet) {
