@@ -48,12 +48,12 @@ async function checkRole(req) {
   }
 
   const token = req.get('Authorization').slice(6)
-  const creationToken = await mongo.db.collection('projetAdmin').findOne({token})
+  const creationToken = await mongo.db.collection('projets-admins').findOne({token})
   const editionToken = await mongo.db.collection('projets').findOne({editorKey: token})
 
   if (creationToken) {
     if (!creationToken.codeEdition) {
-      await mongo.db.collection('projetAdmin').updateOne(
+      await mongo.db.collection('projets-admins').updateOne(
         {_id: creationToken._id},
         {$set: {status: 'used'}}
       )

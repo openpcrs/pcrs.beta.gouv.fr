@@ -38,7 +38,7 @@ export async function sendPinCodeMail(email) {
     const expirationDate = new Date(now.getTime() + (10 * 60 * 1000))
     const _id = new ObjectId()
 
-    await mongo.db.collection('projetAdmin').insertOne({
+    await mongo.db.collection('projets-admins').insertOne({
       _id,
       creator: email,
       pinCode,
@@ -56,7 +56,7 @@ export async function sendPinCodeMail(email) {
 }
 
 export async function checkPinCodeValidity({email, pinCode}) {
-  const foundEmail = await mongo.db.collection('projetAdmin').findOne({creator: email, pinCode})
+  const foundEmail = await mongo.db.collection('projets-admins').findOne({creator: email, pinCode})
   const now = new Date()
 
   if (!foundEmail) {
@@ -68,7 +68,7 @@ export async function checkPinCodeValidity({email, pinCode}) {
   }
 
   if (foundEmail.expiresAt.getTime() <= now.getTime()) {
-    await mongo.db.collection('projetAdmin').updateOne(
+    await mongo.db.collection('projets-admins').updateOne(
       {_id: foundEmail._id},
       {$set: {
         status: 'expired'
@@ -80,7 +80,7 @@ export async function checkPinCodeValidity({email, pinCode}) {
 
   const token = nanoid()
 
-  await mongo.db.collection('projetAdmin').updateOne(
+  await mongo.db.collection('projets-admins').updateOne(
     {_id: foundEmail._id},
     {$set: {
       status: 'validated',
