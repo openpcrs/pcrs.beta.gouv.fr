@@ -4,32 +4,34 @@ import colors from '@/styles/colors.js'
 
 const HiddenInfos = ({theme, onClose, children}) => (
   <div className='hidden-infos-container fr-mt-1w'>
-    <button
-      type='button'
-      className='close-button'
-      title='Masquer l’information'
-      onClick={onClose}
-    >
-      <span className='fr-icon-close-line' aria-hidden='true' />
-    </button>
-    <div>
+    <div className='fr-grid-row fr-grid-row--right fr-pr-1w'>
+      <button
+        type='button'
+        className='close-button'
+        title='Masquer l’information'
+        onClick={onClose}
+      >
+        <span className='fr-icon-close-line' aria-hidden='true' />
+      </button>
+    </div>
+    <div className='content'>
       {children}
     </div>
 
     <style jsx>{`
-      .hidden-infos-container {
-        width: 100%;
+      .content {
         border: solid 2px ${theme === 'primary' ? colors.info425 : 'white'};
         padding: 10px;
-        position: relative;
         border-radius: 3px;
       }
 
+      .hidden-infos-container {
+        width: 100%;
+      }
+
       .close-button {
-        position: absolute;
-        top: -30px;
-        right: 10px;
         border: solid 2px ${theme === 'primary' ? colors.info425 : 'white'};
+        border-bottom-width: 0;
         border-radius: 3px 3px 0 0;
       }
 
