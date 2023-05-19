@@ -42,9 +42,13 @@ if (!ADMIN_TOKEN) {
 }
 
 async function checkRole(req) {
+  if (!req.get('Authorization') || !req.get('Authorization').startsWith('Token ')) {
+    throw createError(401, 'Cette action nécessite une authentification')
+  }
+
   const token = req.get('Authorization').slice(6)
   const creationToken = await mongo.db.collection('projetAdmin').findOne({token})
-  const editionToken = await mongo.db.collection('projetAdmin').findOne({codeEdition: token})
+  const editionToken = await mongo.db.collection('projets').findOne({editorKey: token})
 
   if (creationToken) {
     if (!creationToken.codeEdition) {
@@ -67,19 +71,17 @@ async function checkRole(req) {
 
   if (token === ADMIN_TOKEN) {
     req.role = 'admin'
+
+    return req
   }
 
   return false
 }
 
 async function ensureAdmin(req, res, next) {
-  if (!req.get('Authorization') || !req.get('Authorization').startsWith('Token ')) {
-    throw createError(401, 'Cette action nécessite une authentification')
-  }
+  const role = await checkRole(req)
 
-  const token = await checkRole(req.get('Authorization').slice(6))
-
-  if (!token) {
+  if (!role) {
     throw createError(403, 'Authentification refusée')
   }
 
@@ -167,7 +169,7 @@ server.route('/data/subventions.csv')
 
 server.route('/me')
   .get(w(ensureAdmin), w(async (req, res) => {
-    res.send({isAdmin: true})
+    res.send({role: req.role})
   }))
 
 server.use(errorHandler)
