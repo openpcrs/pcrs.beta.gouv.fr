@@ -17,8 +17,9 @@ import mongo from './util/mongo.js'
 import errorHandler from './util/error-handler.js'
 import w from './util/w.js'
 
-import {getProjet, getProjets, createProjet, deleteProjet, updateProjet, getProjetsGeojson, expandProjet, filterSensitiveFields, checkIsEditor} from './projets.js'
+import {getProjet, getProjets, createProjet, deleteProjet, updateProjet, getProjetsGeojson, expandProjet, filterSensitiveFields, checkEditorKey} from './projets.js'
 import {exportLivrablesAsCSV, exportProjetsAsCSV, exportSubventionsAsCSV, exportToursDeTableAsCSV} from '../lib/export/csv.js'
+import {sendPinCodeMail, checkPinCodeValidity} from './util/email/pin-code-strategie.js'
 
 const port = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -173,6 +174,24 @@ server.route('/data/subventions.csv')
     const subventionsCSVFile = await exportSubventionsAsCSV()
 
     res.attachment('subventions.csv').type('csv').send(subventionsCSVFile)
+  }))
+
+server.route('/ask-code/:email')
+  .post(w(async (req, res) => {
+    await sendPinCodeMail(req.params.email)
+
+    res.status(201).send('ok')
+  }))
+
+server.route('/check-code')
+  .post(w(async (req, res) => {
+    const validToken = await checkPinCodeValidity(req.body)
+
+    if (validToken) {
+      res.send({token: validToken})
+    } else {
+      res.status(401).send()
+    }
   }))
 
 server.route('/me')
