@@ -24,10 +24,14 @@ export async function generateEditorKey(projetId) {
   )
 }
 
-export function checkIsEditor(projet, token) {
-  const isEditor = token === `Token ${projet?.editorKey}` || token === `Token ${process.env.ADMIN_TOKEN}`
+export async function checkEditorKey(projetId, editorKey) {
+  const validEditor = await mongo.db.collection('projets').findOne({_id: projetId, editorKey})
 
-  return isEditor
+  if (validEditor || editorKey === process.env.ADMIN_TOKEN) {
+    return true
+  }
+
+  return false
 }
 
 export function filterSensitiveFields(projet) {
