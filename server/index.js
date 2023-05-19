@@ -47,7 +47,7 @@ async function checkRole(req) {
     throw createError(401, 'Cette action nécessite une authentification')
   }
 
-  const token = req.get('Authorization').slice(6)
+  const token = req.get('Authorization')?.slice(6) || null
   const creationToken = await mongo.db.collection('projets-admins').findOne({token})
   const editionToken = await mongo.db.collection('projets').findOne({editorKey: token})
 
@@ -113,7 +113,7 @@ server.route('/projets/geojson')
 server.route('/projets/:projetId')
   .get(w(async (req, res) => {
     const expandedProjet = expandProjet(req.projet)
-    const token = req.get('Authorization').slice(6)
+    const token = req.get('Authorization')?.slice(6) || null
     const isAuthorized = await checkEditorKey(expandedProjet._id, token)
 
     if (isAuthorized) {
@@ -127,7 +127,7 @@ server.route('/projets/:projetId')
     res.sendStatus(204)
   }))
   .put(w(ensureAdmin), w(async (req, res) => {
-    const token = req.get('Authorization').slice(6)
+    const token = req.get('Authorization')?.slice(6) || null
 
     if (!token) {
       throw createError(401, 'Code d’édition non valide')
@@ -149,7 +149,7 @@ server.route('/projets')
   .get(w(async (req, res) => {
     const projets = await getProjets()
     const expandedProjets = projets.map(p => expandProjet(p))
-    const token = req.get('Authorization').slice(6)
+    const token = req.get('Authorization')?.slice(6) || null
     const filteredProjets = await Promise.all(expandedProjets.map(async p => {
       const isAdmin = await checkEditorKey(p, token)
 
