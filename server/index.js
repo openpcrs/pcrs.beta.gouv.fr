@@ -17,7 +17,7 @@ import mongo from './util/mongo.js'
 import errorHandler from './util/error-handler.js'
 import w from './util/w.js'
 
-import {getProjet, getProjets, deleteProjet, updateProjet, getProjetsGeojson, expandProjet, filterSensitiveFields, checkEditorKey} from './projets.js'
+import {getProjet, getProjets, deleteProjet, updateProjet, getProjetsGeojson, expandProjet, filterSensitiveFields, checkEditorKey, createProjet} from './projets.js'
 import {exportLivrablesAsCSV, exportProjetsAsCSV, exportSubventionsAsCSV, exportToursDeTableAsCSV} from '../lib/export/csv.js'
 import {sendPinCodeMail, checkPinCodeValidity, isAuthorizedMail} from './util/email/pin-code-strategie.js'
 
@@ -161,6 +161,12 @@ server.route('/projets')
     }))
 
     res.send(filteredProjets)
+  }))
+  .post(w(ensureAdmin), w(async (req, res) => {
+    const projet = await createProjet(req.body)
+    const expandedProjet = expandProjet(projet)
+
+    res.status(201).send(expandedProjet)
   }))
 
 server.route('/data/projets.csv')
