@@ -9,6 +9,9 @@ import mongo, {ObjectId} from '../mongo.js'
 import {sendMail} from '../sendmail.js'
 import {formatMail} from './pin-code-template.js'
 
+const csvMailList = await readFile('./data/PCRS_mailing.csv', {encoding: 'utf8'})
+const parsedCsvFile = Papa.parse(csvMailList).data.flat()
+
 export function normalize(string) {
   return deburr(string).toLowerCase()
 }
@@ -24,9 +27,6 @@ export async function generatePinCode() {
 }
 
 export async function isAuthorizedMail(mail) {
-  const csvMailList = await readFile('./data/PCRS_mailing.csv', {encoding: 'utf8'})
-  const parsedCsvFile = Papa.parse(csvMailList).data.flat()
-
   return parsedCsvFile.find(row => row === mail)
 }
 
