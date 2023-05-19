@@ -113,9 +113,10 @@ server.route('/projets/geojson')
 server.route('/projets/:projetId')
   .get(w(async (req, res) => {
     const expandedProjet = expandProjet(req.projet)
-    const token = req.get('Authorization')
+    const token = req.get('Authorization').slice(6)
+    const isAuthorized = await checkEditorKey(expandedProjet._id, token)
 
-    if (checkIsEditor(expandedProjet, token)) {
+    if (isAuthorized) {
       res.send(expandedProjet)
     } else {
       res.send(filterSensitiveFields(expandedProjet))
@@ -126,6 +127,18 @@ server.route('/projets/:projetId')
     res.sendStatus(204)
   }))
   .put(w(ensureAdmin), w(async (req, res) => {
+    const token = req.get('Authorization').slice(6)
+
+    if (!token) {
+      throw createError(401, 'Code d’édition non valide')
+    }
+
+    const isEditor = await checkEditorKey(req.projet._id, token)
+
+    if (!isEditor) {
+      throw createError(401, 'Le code d’édition ne correspond pas au projet')
+    }
+
     const projet = await updateProjet(req.projet._id, req.body)
     const expandedProjet = expandProjet(projet)
 
@@ -136,16 +149,18 @@ server.route('/projets')
   .get(w(async (req, res) => {
     const projets = await getProjets()
     const expandedProjets = projets.map(p => expandProjet(p))
-    const token = req.get('Authorization')
-    const filteredProjets = expandedProjets.map(p => checkIsEditor(p, token) ? p : filterSensitiveFields(p))
+    const token = req.get('Authorization').slice(6)
+    const filteredProjets = await Promise.all(expandedProjets.map(async p => {
+      const isAdmin = await checkEditorKey(p, token)
+
+      if (isAdmin) {
+        return p
+      }
+
+      return filterSensitiveFields(p)
+    }))
 
     res.send(filteredProjets)
-  }))
-  .post(w(ensureAdmin), w(async (req, res) => {
-    const projet = await createProjet(req.body)
-    const expandedProjet = expandProjet(projet)
-
-    res.status(201).send(expandedProjet)
   }))
 
 server.route('/data/projets.csv')
