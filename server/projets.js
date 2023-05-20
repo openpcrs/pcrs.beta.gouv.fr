@@ -15,23 +15,15 @@ export function expandProjet(projet) {
   }
 }
 
-export async function generateEditorKey(projetId) {
-  projetId = mongo.parseObjectId(projetId)
-
-  await mongo.db.collection('projets').updateOne(
-    {_id: projetId, editorKey: {$exists: false}},
-    {$set: {editorKey: nanoid()}}
-  )
+function computeEditorKey() {
+  return nanoid()
 }
 
-export async function checkEditorKey(projetId, editorKey) {
-  const validEditor = await mongo.db.collection('projets').findOne({_id: projetId, editorKey})
-
-  if (validEditor || editorKey === process.env.ADMIN_TOKEN) {
-    return true
-  }
-
-  return false
+export async function renewEditorKey(projetId) {
+  await mongo.db.collection('projets').updateOne(
+    {_id: projetId},
+    {$set: {editorKey: computeEditorKey()}}
+  )
 }
 
 export function filterSensitiveFields(projet) {
@@ -42,6 +34,10 @@ export async function getProjets() {
   return mongo.db.collection('projets').find().toArray()
 }
 
+export async function getProjetByEditorKey(editorKey) {
+  return mongo.db.collection('projets').findOne({editorKey})
+}
+
 export async function getProjet(projetId) {
   projetId = mongo.parseObjectId(projetId)
 
@@ -50,8 +46,12 @@ export async function getProjet(projetId) {
   return projet
 }
 
-export async function createProjet(payload) {
+export async function createProjet(payload, options = {}) {
   const projet = validateCreation(payload)
+  const {creator} = options
+
+  projet.creator = creator || 'admin'
+  projet.editorKey = computeEditorKey()
 
   mongo.decorateCreation(projet)
 

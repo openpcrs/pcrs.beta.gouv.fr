@@ -13,17 +13,19 @@ import express from 'express'
 import createError from 'http-errors'
 import next from 'next'
 import morgan from 'morgan'
+
 import mongo from './util/mongo.js'
 import errorHandler from './util/error-handler.js'
 import w from './util/w.js'
 
-import {getProjet, getProjets, deleteProjet, updateProjet, getProjetsGeojson, expandProjet, filterSensitiveFields, checkEditorKey, createProjet} from './projets.js'
+import {handleAuth, ensureCreator, ensureProjectEditor} from './auth/middleware.js'
+import {sendPinCodeEmail, checkPinCodeValidity, isAuthorizedEmail} from './auth/pin-code/index.js'
+
+import {getProjet, getProjets, deleteProjet, updateProjet, getProjetsGeojson, expandProjet, filterSensitiveFields, createProjet} from './projets.js'
 import {exportLivrablesAsCSV, exportProjetsAsCSV, exportSubventionsAsCSV, exportToursDeTableAsCSV} from '../lib/export/csv.js'
-import {sendPinCodeMail, checkPinCodeValidity, isAuthorizedMail} from './util/email/pin-code-strategie.js'
 
 const port = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production'
-const {ADMIN_TOKEN} = process.env
 
 const server = express()
 const nextApp = next({dev})
@@ -36,57 +38,6 @@ server.use(express.json())
 
 if (dev) {
   server.use(morgan('dev'))
-}
-
-if (!ADMIN_TOKEN) {
-  throw new Error('Le serveur ne peut pas démarrer car ADMIN_TOKEN n\'est pas défini')
-}
-
-async function checkRole(req) {
-  if (!req.get('Authorization') || !req.get('Authorization').startsWith('Token ')) {
-    throw createError(401, 'Cette action nécessite une authentification')
-  }
-
-  const token = req.get('Authorization')?.slice(6) || null
-  const creationToken = await mongo.db.collection('projets-admins').findOne({token})
-  const editionToken = await mongo.db.collection('projets').findOne({editorKey: token})
-
-  if (creationToken) {
-    if (!creationToken.codeEdition) {
-      await mongo.db.collection('projets-admins').updateOne(
-        {_id: creationToken._id},
-        {$set: {status: 'used'}}
-      )
-    }
-
-    req.role = 'creator'
-
-    return req
-  }
-
-  if (editionToken) {
-    req.role = 'editor'
-
-    return req
-  }
-
-  if (token === ADMIN_TOKEN) {
-    req.role = 'admin'
-
-    return req
-  }
-
-  return false
-}
-
-async function ensureAdmin(req, res, next) {
-  const role = await checkRole(req)
-
-  if (!role) {
-    throw createError(403, 'Authentification refusée')
-  }
-
-  next()
 }
 
 server.param('projetId', w(async (req, res, next) => {
@@ -104,6 +55,8 @@ server.param('projetId', w(async (req, res, next) => {
 // Pre-warm underlying cache
 await getProjetsGeojson()
 
+server.use(w(handleAuth))
+
 server.route('/projets/geojson')
   .get(w(async (req, res) => {
     const projetsGeojson = await getProjetsGeojson()
@@ -112,33 +65,19 @@ server.route('/projets/geojson')
 
 server.route('/projets/:projetId')
   .get(w(async (req, res) => {
-    const expandedProjet = expandProjet(req.projet)
-    const token = req.get('Authorization')?.slice(6) || null
-    const isAuthorized = await checkEditorKey(expandedProjet._id, token)
+    const projet = expandProjet(req.projet)
 
-    if (isAuthorized) {
-      res.send(expandedProjet)
-    } else {
-      res.send(filterSensitiveFields(expandedProjet))
+    if (req.role === 'admin' || (req.role === 'editor' && req.projet._id.equals(req.canEditProjetId))) {
+      return res.send(projet)
     }
+
+    res.send(filterSensitiveFields(projet))
   }))
-  .delete(w(ensureAdmin), w(async (req, res) => {
+  .delete(w(ensureProjectEditor), w(async (req, res) => {
     await deleteProjet(req.projet._id)
     res.sendStatus(204)
   }))
-  .put(w(ensureAdmin), w(async (req, res) => {
-    const token = req.get('Authorization')?.slice(6) || null
-
-    if (!token) {
-      throw createError(401, 'Code d’édition non valide')
-    }
-
-    const isEditor = await checkEditorKey(req.projet._id, token)
-
-    if (!isEditor) {
-      throw createError(401, 'Le code d’édition ne correspond pas au projet')
-    }
-
+  .put(w(ensureProjectEditor), w(async (req, res) => {
     const projet = await updateProjet(req.projet._id, req.body)
     const expandedProjet = expandProjet(projet)
 
@@ -148,22 +87,13 @@ server.route('/projets/:projetId')
 server.route('/projets')
   .get(w(async (req, res) => {
     const projets = await getProjets()
-    const expandedProjets = projets.map(p => expandProjet(p))
-    const token = req.get('Authorization')?.slice(6) || null
-    const filteredProjets = await Promise.all(expandedProjets.map(async p => {
-      const isAdmin = await checkEditorKey(p, token)
 
-      if (isAdmin) {
-        return p
-      }
-
-      return filterSensitiveFields(p)
-    }))
-
-    res.send(filteredProjets)
+    res.send(projets.map(
+      projet => expandProjet(filterSensitiveFields(projet))
+    ))
   }))
-  .post(w(ensureAdmin), w(async (req, res) => {
-    const projet = await createProjet(req.body)
+  .post(w(ensureCreator), w(async (req, res) => {
+    const projet = await createProjet(req.body, {creator: req.creator})
     const expandedProjet = expandProjet(projet)
 
     res.status(201).send(expandedProjet)
@@ -199,30 +129,30 @@ server.route('/data/subventions.csv')
 
 server.route('/ask-code/:email')
   .post(w(async (req, res) => {
-    const authorizedEditorMail = await isAuthorizedMail(req.params.email)
+    const authorizedEditorEmail = await isAuthorizedEmail(req.params.email)
 
-    if (!authorizedEditorMail) {
+    if (!authorizedEditorEmail) {
       throw createError(401, 'Cette adresse n’est pas autorisée à créer un projet')
     }
 
-    await sendPinCodeMail(req.params.email)
+    await sendPinCodeEmail(req.params.email)
 
     res.status(201).send('ok')
   }))
 
 server.route('/check-code')
   .post(w(async (req, res) => {
-    const validToken = await checkPinCodeValidity(req.body)
-
-    if (validToken) {
-      res.send({token: validToken})
-    } else {
-      res.status(401).send()
-    }
+    const {email, pinCode} = req.body
+    const validToken = await checkPinCodeValidity({email, pinCode})
+    res.send({token: validToken})
   }))
 
 server.route('/me')
-  .get(w(ensureAdmin), w(async (req, res) => {
+  .get(w(async (req, res) => {
+    if (!req.role) {
+      throw createError(401, 'Jeton requis')
+    }
+
     res.send({role: req.role})
   }))
 

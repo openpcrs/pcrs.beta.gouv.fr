@@ -1,5 +1,4 @@
 import process from 'node:process'
-import {nanoid} from 'nanoid'
 
 import {MongoClient, ObjectId} from 'mongodb'
 
@@ -22,6 +21,8 @@ class Mongo {
 
   async createIndexes() {
     await this.db.collection('projets').createIndex({nom: 1}, {unique: true})
+    await this.db.collection('projets').createIndex({editorKey: 1}, {unique: true})
+    await this.db.collection('creators').createIndex({token: 1}, {unique: true})
   }
 
   disconnect(force) {
@@ -46,7 +47,6 @@ class Mongo {
     projet._created = now
     projet._updated = now
     projet._id = new ObjectId()
-    projet.editorKey = nanoid()
   }
 
   decorateUpdate(projet) {

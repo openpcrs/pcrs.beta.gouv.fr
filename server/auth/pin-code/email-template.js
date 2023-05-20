@@ -78,7 +78,7 @@ const bodyTemplate = template(`
   </html>
 `)
 
-export function formatMail(data) {
+export function formatEmail(data) {
   const {pinCode, userEmail} = data
 
   return {

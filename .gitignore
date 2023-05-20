@@ -40,4 +40,5 @@ reports
 
 /sources
 /.db
-/data
+
+/authorized-emails.csv
