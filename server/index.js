@@ -127,15 +127,15 @@ server.route('/data/subventions.csv')
     res.attachment('subventions.csv').type('csv').send(subventionsCSVFile)
   }))
 
-server.route('/ask-code/:email')
+server.route('/ask-code')
   .post(w(async (req, res) => {
-    const authorizedEditorEmail = await isAuthorizedEmail(req.params.email)
+    const authorizedEditorEmail = await isAuthorizedEmail(req.body.email)
 
     if (!authorizedEditorEmail) {
       throw createError(401, 'Cette adresse n’est pas autorisée à créer un projet')
     }
 
-    await sendPinCodeEmail(req.params.email)
+    await sendPinCodeEmail(req.body.email)
 
     res.status(201).send('ok')
   }))
