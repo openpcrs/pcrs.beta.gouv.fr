@@ -22,7 +22,7 @@ class Mongo {
   async createIndexes() {
     await this.db.collection('projets').createIndex({nom: 1}, {unique: true})
     await this.db.collection('projets').createIndex({editorKey: 1}, {unique: true})
-    await this.db.collection('creators').createIndex({token: 1}, {unique: true})
+    await this.db.collection('creators').createIndex({token: 1}, {unique: true, sparse: true})
   }
 
   disconnect(force) {

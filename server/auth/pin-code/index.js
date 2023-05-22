@@ -52,8 +52,7 @@ export async function sendPinCodeEmail(email) {
     pinCode,
     createdAt: now,
     expiresAt: expirationDate,
-    status: 'pending',
-    token: null
+    status: 'pending'
   })
 
   await sendMail(emailContent, email)
