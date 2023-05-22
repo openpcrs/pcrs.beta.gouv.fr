@@ -105,7 +105,10 @@ test.serial('update projet', async t => {
 
 test.serial('get all projets', async t => {
   await mongo.db.collection('projets').insertOne(validProjet)
-  await mongo.db.collection('projets').insertOne({nom: 'Un aurte projet PCRS non valide'})
+  await mongo.db.collection('projets').insertOne({
+    nom: 'Un autre projet PCRS non valide',
+    editorKey: 'coucoulaclé'
+  })
 
   const projets = await getProjets()
 
