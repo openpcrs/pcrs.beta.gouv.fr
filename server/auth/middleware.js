@@ -56,7 +56,7 @@ export async function handleAuth(req, res, next) {
   const auth = await authenticate(token)
 
   if (!auth) {
-    throw createError(403, 'Jeton invalide ')
+    throw createError(403, 'Jeton invalide')
   }
 
   Object.assign(req, auth)
