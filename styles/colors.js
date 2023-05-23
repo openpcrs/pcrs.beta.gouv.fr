@@ -17,6 +17,9 @@ export default ({
   info425: '#0063cb',
   blueHover: '#1212FF',
 
+  // Orange
+  warningMain525: '#d64d00',
+
   // Red
   error425: '#CE0500',
   redMarianne425: '#c9191e'
