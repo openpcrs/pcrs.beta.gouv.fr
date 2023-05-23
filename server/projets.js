@@ -97,7 +97,7 @@ export async function updateProjet(id, payload) {
     return value
   } catch (error) {
     if (error.codeName === 'DuplicateKey') {
-      throw createError(410, 'Un projet avec le même nom est déjà existant, merci de modifier le champ "nom"')
+      throw createError(409, 'Un projet avec le même nom est déjà existant, merci de modifier le champ "nom"')
     }
 
     throw error
