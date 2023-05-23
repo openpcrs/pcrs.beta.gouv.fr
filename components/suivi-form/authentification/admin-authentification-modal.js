@@ -2,7 +2,7 @@ import {useState, useContext} from 'react'
 import PropTypes from 'prop-types'
 import {useRouter} from 'next/router'
 
-import {authentification} from '@/lib/authentification.js'
+import {authentificationRole} from '@/lib/authentification.js'
 
 import AuthentificationContext from '@/contexts/authentification-token.js'
 
@@ -10,7 +10,7 @@ import TextInput from '@/components/text-input.js'
 import Modal from '@/components/modal.js'
 import Button from '@/components/button.js'
 
-const AdminAuthentificationModal = ({isNewForm, handleModalClose}) => {
+const AdminAuthentificationModal = ({handleModalClose}) => {
   const router = useRouter()
   const {storeToken} = useContext(AuthentificationContext)
 
@@ -24,19 +24,16 @@ const AdminAuthentificationModal = ({isNewForm, handleModalClose}) => {
 
     if (tokenInput) {
       try {
-        const checkIfIsAdmin = await authentification(tokenInput)
-        if (checkIfIsAdmin.isAdmin) {
+        const getUserRole = await authentificationRole(tokenInput)
+        if (getUserRole.role === 'admin') {
           storeToken(tokenInput)
+          setValidationMessage('Administrateur authentifié avec succès ! Vous allez être redirigé...')
 
-          if (isNewForm) {
-            setValidationMessage('Utilisateur authentifié avec succès ! ! Vous allez être redirigé...')
-
-            setTimeout(() => {
-              router.push('/formulaire-suivi')
-            }, 3000)
-          } else {
-            setValidationMessage('Utilisateur authentifié avec succès ! !')
-          }
+          setTimeout(() => {
+            router.push('/suivi-pcrs')
+          }, 3000)
+        } else {
+          setErrorMessage('Le jeton entré ne correspond pas à un jeton administrateur existant')
         }
       } catch {
         setErrorMessage('L’authentification a échouée. Veuillez entrer un jeton valide')
@@ -90,12 +87,7 @@ const AdminAuthentificationModal = ({isNewForm, handleModalClose}) => {
 }
 
 AdminAuthentificationModal.propTypes = {
-  isNewForm: PropTypes.bool,
   handleModalClose: PropTypes.func.isRequired
-}
-
-AdminAuthentificationModal.defaultProps = {
-  isNewForm: false
 }
 
 export default AdminAuthentificationModal

@@ -1,7 +1,7 @@
 import {createRoot} from 'react-dom/client' // eslint-disable-line n/file-extension-in-import
-import {useEffect, useRef, useContext} from 'react'
+import {useEffect, useRef, useState, useContext} from 'react'
 import PropTypes from 'prop-types'
-import Link from 'next/link'
+import {useRouter} from 'next/router'
 
 import maplibreGl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
@@ -15,9 +15,15 @@ import AuthentificationContext from '@/contexts/authentification-token.js'
 import Popup from '@/components/map/popup.js'
 import Loader from '@/components/loader.js'
 import Legend from '@/components/map/legend.js'
+import AuthentificationModal from '@/components/suivi-form/authentification/authentification-modal.js'
 
 const Map = ({handleClick, isMobile, geometry, projetId}) => {
-  const {isAdmin} = useContext(AuthentificationContext)
+  const {userRole} = useContext(AuthentificationContext)
+  const router = useRouter()
+
+  const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
+
+  const handleModal = () => setIsAuthentificationModalOpen(!isAuthentificationModalOpen)
 
   const mapNode = useRef()
   const mapRef = useRef()
@@ -167,21 +173,21 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
     <div style={{position: 'relative', height: '100%', width: '100%'}}>
       <div ref={mapNode} style={{width: '100%', height: '100%'}} />
       <Legend isMobile={isMobile === true} />
-      {isAdmin && (
-        <Link href='/formulaire-suivi'>
-          <button
-            type='button'
-            className='fr-btn fr-btn--icon-left fr-icon-add-circle-fill'
-            style={{
-              position: 'fixed',
-              right: 10,
-              bottom: `${isMobile ? '110px' : '45px'}`
-            }}
-          >
-            Ajouter un projet
-          </button>
-        </Link>
-      )}
+
+      <button
+        type='button'
+        className='fr-btn fr-btn--icon-left fr-icon-add-circle-fill'
+        style={{
+          position: 'fixed',
+          right: 10,
+          bottom: `${isMobile ? '110px' : '45px'}`
+        }}
+        onClick={() => userRole === 'admin' ? router.push('/formulaire-suivi') : handleModal()}
+      >
+        Ajouter un projet
+      </button>
+
+      {isAuthentificationModalOpen && userRole !== 'admin' && <AuthentificationModal isNewForm handleModalClose={handleModal} />}
     </div>
   )
 }
@@ -194,4 +200,3 @@ Map.propTypes = {
 }
 
 export default Map
-
