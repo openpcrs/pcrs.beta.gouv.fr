@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import Link from 'next/link'
 
-import AuthentificationModal from '@/components/suivi-form/authentification-modal.js'
+import AdminAuthentificationModal from '@/components/suivi-form/authentification/admin-authentification-modal.js'
 
 const Footer = () => {
   const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
@@ -104,7 +104,7 @@ const Footer = () => {
         </div>
       </footer>
 
-      {isAuthentificationModalOpen && <AuthentificationModal isNewForm handleModalClose={handleModal} />}
+      {isAuthentificationModalOpen && <AdminAuthentificationModal isNewForm handleModalClose={handleModal} />}
     </>
   )
 }
