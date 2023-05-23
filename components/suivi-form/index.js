@@ -288,6 +288,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
             color: ${colors.redMarianne425};
             font-weight: bold;
             border: 1px solid ${colors.redMarianne425};
+            padding: .25rem .75rem;
           }
         `}</style>
     </>
