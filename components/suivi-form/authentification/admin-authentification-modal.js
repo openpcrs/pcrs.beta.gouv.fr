@@ -10,7 +10,7 @@ import TextInput from '@/components/text-input.js'
 import Modal from '@/components/modal.js'
 import Button from '@/components/button.js'
 
-const AuthentificationModal = ({isNewForm, handleModalClose}) => {
+const AdminAuthentificationModal = ({isNewForm, handleModalClose}) => {
   const router = useRouter()
   const {storeToken} = useContext(AuthentificationContext)
 
@@ -89,13 +89,13 @@ const AuthentificationModal = ({isNewForm, handleModalClose}) => {
   )
 }
 
-AuthentificationModal.propTypes = {
+AdminAuthentificationModal.propTypes = {
   isNewForm: PropTypes.bool,
   handleModalClose: PropTypes.func.isRequired
 }
 
-AuthentificationModal.defaultProps = {
+AdminAuthentificationModal.defaultProps = {
   isNewForm: false
 }
 
-export default AuthentificationModal
+export default AdminAuthentificationModal
