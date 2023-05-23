@@ -11,7 +11,7 @@ import AuthentificationContext from '@/contexts/authentification-token.js'
 import HiddenInfos from '@/components/hidden-infos.js'
 import Button from '@/components/button.js'
 import Modal from '@/components/modal.js'
-import AuthentificationModal from '@/components/suivi-form/authentification-modal.js'
+import AdminAuthentificationModal from '@/components/suivi-form/authentification/admin-authentification-modal.js'
 
 const Header = ({projectId, projectName, territoires, projets, onProjetChange}) => {
   const router = useRouter()
@@ -104,7 +104,7 @@ const Header = ({projectId, projectName, territoires, projets, onProjetChange}) 
         </div>
       </div>
 
-      {isAuthentificationModalOpen && <AuthentificationModal isAdmin={isAdmin} handleModalClose={handleAuthentificationModal} />}
+      {isAuthentificationModalOpen && <AdminAuthentificationModal isAdmin={isAdmin} handleModalClose={handleAuthentificationModal} />}
 
       <div className='fr-text--lg fr-my-0'>Liste des territoires</div>
       {hasToMuchTerritoires ? (

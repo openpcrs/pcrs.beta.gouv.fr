@@ -9,7 +9,7 @@ import {useInput} from '@/hooks/input.js'
 
 import AuthentificationContext from '@/contexts/authentification-token.js'
 
-import AuthentificationModal from '@/components/suivi-form/authentification-modal.js'
+import AdminAuthentificationModal from '@/components/suivi-form/authentification/admin-authentification-modal.js'
 import GeneralInfos from '@/components/suivi-form/general-infos.js'
 import Livrables from '@/components/suivi-form/livrables/index.js'
 import Acteurs from '@/components/suivi-form/acteurs/index.js'
@@ -123,7 +123,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
         <h2 className='fr-mt-5w fr-mb-0'>Formulaire de suivi PCRS</h2>
       </div>
       <div className='fr-p-5w'>
-        {(!token && !isTokenRecovering) && <AuthentificationModal handleModalClose={handleAuthentificationModal} />}
+        {(!token && !isTokenRecovering) && <AdminAuthentificationModal handleModalClose={handleAuthentificationModal} />}
 
         <Button
           label='Retourner à la carte de suivi'
