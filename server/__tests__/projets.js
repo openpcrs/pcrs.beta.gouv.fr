@@ -1,9 +1,10 @@
 /* eslint-disable unicorn/numeric-separators-style */
 /* eslint-disable camelcase */
 import test from 'ava'
+import {nanoid} from 'nanoid'
 import {MongoMemoryServer} from 'mongodb-memory-server'
 import mongo from '../util/mongo.js'
-import {getProjets, createProjet, deleteProjet, updateProjet} from '../projets.js'
+import {getProjets, createProjet, deleteProjet, updateProjet, getProjetByEditorKey, filterSensitiveFields} from '../projets.js'
 
 let mongod
 
@@ -82,6 +83,8 @@ test.serial('create valid projet', async t => {
   t.is(createdProjet.etapes.length, 2)
   t.is(projet.nom, createdProjet.nom)
   t.is(createdProjet.regime, projet.regime)
+  t.is(createdProjet.editorKey.length, 21)
+  t.is(createdProjet.creator, 'admin')
 })
 
 test.serial('create invalid projet', async t => {
@@ -122,5 +125,34 @@ test.serial('delete projet', async t => {
 
   t.is(deletedCount, 1)
   t.is(deletedProjet, null)
+})
+
+test.serial('get projet by token', async t => {
+  const insertedProjet = await mongo.db.collection('projets').insertOne(validProjet)
+  const editorKey = nanoid()
+
+  await mongo.db.collection('projets').updateOne(
+    {_id: insertedProjet.insertedId},
+    {$set: {editorKey}}
+  )
+
+  const foundProjet = await getProjetByEditorKey(editorKey)
+
+  t.is(foundProjet.nom, 'Nom du pcrs')
+})
+
+test.serial('Filter sensitive fields', async t => {
+  const insertedProjet = await mongo.db.collection('projets').insertOne(validProjet)
+  const editorKey = nanoid()
+
+  await mongo.db.collection('projets').updateOne(
+    {_id: insertedProjet.insertedId},
+    {$set: {editorKey}}
+  )
+
+  const filteredProjet = filterSensitiveFields(insertedProjet)
+
+  t.is(filteredProjet.editorKey, undefined)
+  t.is(filteredProjet.createdAt, undefined)
 })
 
