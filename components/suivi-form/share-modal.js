@@ -42,7 +42,7 @@ const ShareModal = ({projectId, editCode, handleModal, validationMessage}) => {
       <div className='fr-grid-row fr-grid-row--center'>
         <b className='fr-grid-row fr-grid-row--center fr-col-12 fr-mb-5w'>Le lien suivant permet l’édition du projet et peut être partagé avec d’autres utilisateurs de confiance</b>
         <div className='fr-alert fr-alert--warning fr-alert--sm'>
-          <p>Veuillez impérativement conserver ce lien avant de quitter cette page. Un oubli de votre part nécessitera de contacter un administrateur afin de vous refournir ce lien</p>
+          <p>Veuillez <b>impérativement</b> conserver ce lien <b>avant de quitter cette page</b>. Un oubli de votre part nécessitera de <b>contacter un administrateur</b> afin de vous refournir ce lien</p>
         </div>
         <i className='link fr-grid-row fr-grid-row--center fr-col-12 fr-mt-4w fr-mb-2w fr-p-1w fr-text--sm'><b>{url}</b></i>
 
