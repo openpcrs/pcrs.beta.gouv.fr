@@ -20,6 +20,9 @@ export default ({
   // Green
   success425: '#18753C',
 
+  // Orange
+  warningMain525: '#d64d00',
+
   // Red
   error425: '#CE0500',
   redMarianne425: '#c9191e'

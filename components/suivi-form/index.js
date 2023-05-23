@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import Image from 'next/image'
 import {useRouter} from 'next/router'
 
+import colors from '@/styles/colors.js'
+
 import {postSuivi, editProject} from '@/lib/suivi-pcrs.js'
 
 import {useInput} from '@/hooks/input.js'
@@ -10,6 +12,7 @@ import {useInput} from '@/hooks/input.js'
 import AuthentificationContext from '@/contexts/authentification-token.js'
 
 import AuthentificationModal from '@/components/suivi-form/authentification-modal.js'
+import DeleteModal from '@/components/suivi-form/delete-modal.js'
 import GeneralInfos from '@/components/suivi-form/general-infos.js'
 import Livrables from '@/components/suivi-form/livrables/index.js'
 import Acteurs from '@/components/suivi-form/acteurs/index.js'
@@ -26,6 +29,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
   const [validationMessage, setValidationMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [isRequiredFormOpen, setIsRequiredFormOpen] = useState(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
   const [suiviNom, setSuiviNom] = useInput({initialValue: nom})
   const [suiviNature, setSuiviNature] = useInput({initialValue: nature})
@@ -38,6 +42,8 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
   const [projetSubventions, setProjetSubventions] = useState(subventions || [])
 
   const hasMissingData = projetLivrables.length === 0 || projetActeurs.length === 0 || projetPerimetres.length === 0
+
+  const handleDeleteModalOpen = () => setIsDeleteModalOpen(!isDeleteModalOpen)
 
   useEffect(() => {
     if (!hasMissingData && !isRequiredFormOpen) {
@@ -125,17 +131,35 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
       <div className='fr-p-5w'>
         {(!token && !isTokenRecovering) && <AuthentificationModal handleModalClose={handleAuthentificationModal} />}
 
-        <Button
-          label='Retourner à la carte de suivi'
-          iconSide='left'
-          buttonStyle='secondary'
-          icon='arrow-left-line'
-          type='button'
-          size='sm'
-          onClick={() => router.push('/suivi-pcrs')}
-        >
-          Retourner à la carte de suivi
-        </Button>
+        <div className='fr-grid-row fr-col-12'>
+          <div className='fr-grid-row fr-grid-row--left fr-col-12 fr-col-md-10'>
+            <Button
+              label='Retourner à la carte de suivi'
+              iconSide='left'
+              buttonStyle='secondary'
+              icon='arrow-left-line'
+              type='button'
+              size='sm'
+              onClick={() => router.push('/suivi-pcrs')}
+            >
+              Retourner à la carte de suivi
+            </Button>
+          </div>
+
+          {_id && (
+            <div className='fr-grid-row fr-grid-row--left fr-col-12 fr-col-md-2 fr-mt-3w fr-mt-md-0'>
+              <button
+                type='button'
+                aria-label='Supprimer le projet'
+                icon='delete-line'
+                className='delete-button'
+                onClick={handleDeleteModalOpen}
+              >
+                <span className='fr-icon-delete-fill fr-icon--sm fr-mr-1w' aria-hidden='true' />Supprimer le projet
+              </button>
+            </div>
+          )}
+        </div>
 
         <p className='required-disclaimer fr-mt-3w'>Les champs indiqués par une * sont obligatoires</p>
 
@@ -182,23 +206,39 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
 
           <Subventions subventions={projetSubventions} handleSubventions={setProjetSubventions} />
 
-          <div className='fr-grid-row fr-grid-row--center fr-grid-row--gutters fr-mt-12w'>
-            <div className='fr-grid-row fr-col-12 fr-grid-row--center'>
-              <div className='fr-grid-row fr-py-2w fr-px-1w fr-px-md-6w'>
-                <Button
-                  label='Retourner à la carte de suivi'
-                  iconSide='left'
-                  buttonStyle='secondary'
-                  icon='arrow-left-line'
-                  type='button'
-                  size='sm'
-                  onClick={() => router.push('/suivi-pcrs')}
-                >
-                  Retourner à la carte de suivi
-                </Button>
+          <div className='fr-grid-row fr-grid-row--center  fr-grid-row--gutters fr-mt-2w'>
+            <div className='fr-grid-row fr-mt-12w fr-col-12'>
+              <div className='fr-grid-row fr-col-12'>
+                <div className='fr-grid-row fr-grid-row--left fr-col-12 fr-col-md-10'>
+                  <Button
+                    label='Retourner à la carte de suivi'
+                    iconSide='left'
+                    buttonStyle='secondary'
+                    icon='arrow-left-line'
+                    type='button'
+                    size='sm'
+                    onClick={() => router.push('/suivi-pcrs')}
+                  >
+                    Retourner à la carte de suivi
+                  </Button>
+                </div>
+
+                {_id && (
+                  <div className='fr-grid-row fr-grid-row--left fr-col-12 fr-col-md-2 fr-mt-3w fr-mt-md-0'>
+                    <button
+                      type='button'
+                      aria-label='Supprimer le projet'
+                      icon='delete-line'
+                      className='delete-button'
+                      onClick={handleDeleteModalOpen}
+                    >
+                      <span className='fr-icon-delete-fill fr-icon--sm fr-mr-1w' aria-hidden='true' />Supprimer le projet
+                    </button>
+                  </div>
+                )}
               </div>
 
-              <div className='fr-grid-row fr-py-2w fr-px-1w fr-px-md-6w'>
+              <div className='fr-grid-row fr-grid-row--center fr-mt-10w fr-col-12'>
                 <Button
                   label='Valider le formulaire'
                   icon='checkbox-circle-fill'
@@ -210,6 +250,15 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
                 </Button>
               </div>
             </div>
+
+            {isDeleteModalOpen && (
+              <DeleteModal
+                nom={nom}
+                id={_id}
+                token={token}
+                handleDeleteModalOpen={handleDeleteModalOpen}
+              />
+            )}
 
             {validationMessage && (
               <p className='fr-grid-row fr-grid-row--center fr-valid-text fr-col-12 fr-col-md-6 fr-mb-0'>
@@ -227,14 +276,21 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
       </div>
 
       <style jsx>{`
-        .form-header {
-          text-align: center;
-        }
+          .form-header {
+            text-align: center;
+          }
 
-        .required-disclaimer {
-          font-style: italic;
-        }
-      `}</style>
+          .required-disclaimer {
+            font-style: italic;
+          }
+
+          .delete-button {
+            color: ${colors.redMarianne425};
+            font-weight: bold;
+            border: 1px solid ${colors.redMarianne425};
+            padding: .25rem .75rem;
+          }
+        `}</style>
     </>
   )
 }
