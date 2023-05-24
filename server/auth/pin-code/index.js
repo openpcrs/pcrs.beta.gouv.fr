@@ -1,19 +1,19 @@
-import {readFile} from 'node:fs/promises'
 import randomNumber from 'random-number-csprng'
 import Papa from 'papaparse'
 import {nanoid} from 'nanoid'
 import createError from 'http-errors'
+import got from 'got'
 
 import mongo from '../../util/mongo.js'
 import {sendMail} from '../../util/sendmail.js'
-
 import {formatEmail} from './email-template.js'
 
+const CSV_URL = process.env.AUTHORIZED_EMAILS_URL
+
 async function readAuthorizedEmails() {
-  const csvContent = await readFile('./authorized-emails.csv', {encoding: 'utf8'})
+  const csvContent = await got(CSV_URL).text()
   return new Set(
-    Papa.parse(csvContent).data.flat()
-      .map(email => normalizeEmail(email))
+    Papa.parse(csvContent).data.map(row => normalizeEmail(row[0]))
   )
 }
 
