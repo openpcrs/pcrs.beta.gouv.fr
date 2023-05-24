@@ -34,7 +34,7 @@ const ShareModal = ({projectId, editCode, handleModal, validationMessage}) => {
       <div className='fr-notice fr-notice--info fr-my-6w'>
         <div className='fr-mx-2w fr-notice__body'>
           <p>
-            Tout ce qu’il faut savoir sur le formulaire de suivi : <a href='https://docs.google.com/presentation/d/1OWCrAQNQpwfYCKgUb7HyUIHYUnapvxaQ/edit' target='_blank' rel='noreferrer'>consulter la documentation</a>
+            Tout ce qu’il faut savoir sur le formulaire de suivi : <a href='https://docs.pcrs.beta.gouv.fr/suivi-des-projets/edition-des-donnees' target='_blank' rel='noreferrer'>consulter la documentation</a>
           </p>
         </div>
       </div>
