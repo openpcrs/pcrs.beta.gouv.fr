@@ -40,7 +40,7 @@ const CodeStep = ({email, handleError, handleToken, handleValidation, handleStep
 
   return (
     <div>
-      <p>Vous avez reçu un code d’authentification par email. Si celui-ci n’apparait pas dans votre boite de réception, pensez à vérifier vos spam. <br />
+      <p>Vous avez reçu un code d’authentification par email. Si celui-ci n’apparait pas dans votre boite de réception, pensez à vérifier vos spams. <br />
         <b>Attention, ce code n’est valable que 10 minutes après envoi.</b>
       </p>
       <div className='fr-container fr-mt-6w fr-grid-row fr-grid-row--center'>

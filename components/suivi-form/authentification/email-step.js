@@ -30,7 +30,7 @@ const EmailStep = ({email, handleEmail, handleStep, handleError}) => {
       </p>
 
       <p>
-        Dans le cas où vous être un porteur de projet autorisé, veuillez entrer votre adresse e-mail. Vous recevrez alors par e-mail, le code d’authentification requis. <b>Attention, ce code n’est valable que 10 minutes après envoi.</b>
+        Dans le cas où vous êtes porteur de projet autorisé, veuillez entrer votre adresse e-mail. Vous recevrez alors par e-mail, le code d’authentification requis. <b>Attention, ce code n’est valable que 10 minutes après envoi.</b>
       </p>
 
       <div className='fr-container fr-mt-6w fr-grid-row fr-grid-row--center'>
