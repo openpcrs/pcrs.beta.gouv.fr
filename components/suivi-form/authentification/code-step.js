@@ -15,15 +15,12 @@ const CodeStep = ({email, handleError, handleToken, handleValidation, handleStep
   const handleAuthentification = async e => {
     e.preventDefault()
 
-    let error = null
-    let validation = null
-
     if (pinCode) {
       try {
         const editor = await checkCode(email, pinCode)
         if (editor.token) {
           handleToken(editor.token)
-          validation = 'Utilisateur authentifié avec succès ! Vous allez accéder au formulaire.'
+          handleValidation('Utilisateur authentifié avec succès ! Vous allez accéder au formulaire.')
 
           setTimeout(() => {
             router.push('/formulaire-suivi')
@@ -31,17 +28,14 @@ const CodeStep = ({email, handleError, handleToken, handleValidation, handleStep
 
           handleStep()
         } else {
-          error = editor.message
+          handleError(editor.message)
         }
       } catch {
-        error = 'L’authentification a échouée. Veuillez entrer un jeton valide'
+        handleError('L’authentification a échouée. Veuillez entrer un jeton valide')
       }
     } else {
-      error = 'Veuillez entrer un jeton'
+      handleError('Veuillez entrer un jeton')
     }
-
-    handleError(error)
-    handleValidation(validation)
   }
 
   return (
