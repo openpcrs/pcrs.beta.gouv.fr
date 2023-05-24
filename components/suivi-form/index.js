@@ -112,6 +112,8 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
             setTimeout(() => {
               router.push('/suivi-pcrs')
             }, 3000)
+          } else {
+            setIsShareModalOpen(true)
           }
         }
 
@@ -126,12 +128,6 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
       throw new Error(errorMessage)
     }
   }
-
-  useEffect(() => {
-    if (validationMessage && !_id) {
-      setIsShareModalOpen(true)
-    }
-  }, [validationMessage, _id])
 
   return (
     <>
