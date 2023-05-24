@@ -19,7 +19,7 @@ import DeleteModal from '@/components/suivi-form/delete-modal.js'
 import Button from '@/components/button.js'
 import colors from '@/styles/colors.js'
 
-const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subventions, etapes, _id, token, userRole, isTokenRecovering, clearToken}) => {
+const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subventions, etapes, _id, token, userRole, isTokenRecovering}) => {
   const router = useRouter()
 
   const [isShareModalOpen, setIsShareModalOpen] = useState(false)
@@ -115,10 +115,6 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
           } else {
             setIsShareModalOpen(true)
           }
-        }
-
-        if (userRole === 'editor' || userRole === 'creator') {
-          clearToken()
         }
       }
     } catch {
@@ -328,8 +324,7 @@ SuiviForm.propTypes = {
   subventions: PropTypes.array,
   _id: PropTypes.string,
   token: PropTypes.string,
-  isTokenRecovering: PropTypes.bool.isRequired,
-  clearToken: PropTypes.func.isRequired
+  isTokenRecovering: PropTypes.bool.isRequired
 }
 
 SuiviForm.defaultProps = {

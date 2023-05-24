@@ -13,7 +13,7 @@ import Button from '@/components/button.js'
 import SuiviForm from '@/components/suivi-form/index.js'
 
 const FormulaireSuivi = ({project, isNotFound, isForbidden, editionCode}) => {
-  const {token, userRole, isTokenRecovering, clearToken, storeToken} = useContext(AuthentificationContext)
+  const {token, userRole, isTokenRecovering, storeToken} = useContext(AuthentificationContext)
 
   useEffect(() => {
     if (editionCode) {
@@ -60,7 +60,6 @@ const FormulaireSuivi = ({project, isNotFound, isForbidden, editionCode}) => {
         userRole={userRole}
         token={token}
         isTokenRecovering={isTokenRecovering}
-        clearToken={clearToken}
         {...project}
       />
     </Page>

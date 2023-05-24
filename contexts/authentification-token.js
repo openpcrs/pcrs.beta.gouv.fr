@@ -25,9 +25,6 @@ export const AuthentificationContextProvider = props => {
     }
   }
 
-  // Clear token
-  const clearToken = () => localStorage.removeItem(TOKEN_KEY)
-
   const checkUserRole = useCallback(async () => {
     try {
       const getUserRole = await authentificationRole(token)
@@ -57,8 +54,7 @@ export const AuthentificationContextProvider = props => {
     userRole,
     token,
     isTokenRecovering,
-    storeToken,
-    clearToken
+    storeToken
   }), [userRole, token, isTokenRecovering, storeToken])
 
   return (
