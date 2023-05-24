@@ -1,62 +1,31 @@
-import {useState, useEffect} from 'react'
+import {useState, useContext} from 'react'
 import PropTypes from 'prop-types'
 import {useRouter} from 'next/router'
 
-import {deleteSuivi} from '@/lib/suivi-pcrs.js'
-
 import colors from '@/styles/colors.js'
 
+import AuthentificationContext from '@/contexts/authentification-token.js'
+
 import HiddenInfos from '@/components/hidden-infos.js'
-import Button from '@/components/button.js'
-import Modal from '@/components/modal.js'
-import AuthentificationModal from '@/components/suivi-form/authentification-modal.js'
+import DeleteModal from '@/components/suivi-form/delete-modal.js'
 
 const Header = ({projectId, projectName, territoires, projets, onProjetChange}) => {
   const router = useRouter()
+  const {isAdmin, token} = useContext(AuthentificationContext)
+
   const [isTerritoiresShow, setIsTerritoiresShow] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
-  const [deleteValidationMessage, setDeleteValidationMessage] = useState(null)
-  const [deleteErrorMessage, setDeleteErrorMessage] = useState(null)
-  const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
-  const [token, setToken] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
 
   const hasToMuchTerritoires = territoires.length >= 4
 
-  const handleAuthentificationModal = () => setIsAuthentificationModalOpen(!isAuthentificationModalOpen)
   const handleDeleteModalOpen = () => setIsDeleteModalOpen(!isDeleteModalOpen)
-
-  useEffect(() => {
-    setToken(localStorage.getItem('Token'))
-    setIsLoading(false)
-  }, [])
-
-  const onDelete = async () => {
-    setDeleteValidationMessage(null)
-    setDeleteErrorMessage(null)
-
-    try {
-      if (token) {
-        await deleteSuivi(projectId, token)
-
-        setDeleteValidationMessage('le projet a bien été supprimé')
-        setTimeout(() => {
-          router.reload(window.location.pathname)
-        }, 2000)
-      } else {
-        setIsAuthentificationModalOpen(true)
-      }
-    } catch {
-      setDeleteErrorMessage('Impossible de supprimer ce projet')
-    }
-  }
 
   return (
     <div className='header'>
       <div className='fr-grid-row fr-my-2w'>
         <h1 className='fr-h4 fr-m-0 fr-col-9'>{projectName}</h1>
         <div>
-          {token && (
+          {isAdmin && (
             <>
               <button
                 type='button'
@@ -64,7 +33,7 @@ const Header = ({projectId, projectName, territoires, projets, onProjetChange}) 
                 aria-label='Editer le projet'
                 onClick={() => router.push(`/formulaire-suivi?id=${projectId}`)}
               >
-                <span className='fr-icon-edit-line ' aria-hidden='true' />
+                <span className='fr-icon-edit-line' aria-hidden='true' />
               </button>
 
               <button
@@ -79,35 +48,16 @@ const Header = ({projectId, projectName, territoires, projets, onProjetChange}) 
           )}
 
           {isDeleteModalOpen && (
-            <Modal title='Confirmer la suppression du projet' onClose={handleDeleteModalOpen}>
-              <p className='modal-content fr-mb-0'>Êtes-vous bien sûr de vouloir supprimer le suivi de <b>{projectName}</b> ? </p><br />
-              <p className='irreversible'><b>Cette action est irréversible</b></p>
-              <div className='fr-grid-row fr-grid-row--center'>
-                <Button
-                  label='Confirmer la suppression'
-                  isDisabled={Boolean(deleteValidationMessage)}
-                  onClick={() => onDelete()}
-                >
-                  Supprimer le projet
-                </Button>
-              </div>
-              {deleteValidationMessage && (
-                <p className='fr-grid-row fr-grid-row--center fr-valid-text fr-col-12 fr-mt-2w fr-mb-0'>
-                  {deleteValidationMessage}
-                </p>
-              )}
-
-              {deleteErrorMessage && (
-                <p className='fr-grid-row fr-grid-row--center fr-error-text fr-col-12 fr-mt-2w fr-mb-0'>
-                  {deleteErrorMessage}
-                </p>
-              )}
-            </Modal>
+            <DeleteModal
+              isSidebar
+              nom={projectName}
+              id={projectId}
+              token={token}
+              handleDeleteModalOpen={handleDeleteModalOpen}
+            />
           )}
         </div>
       </div>
-
-      {isAuthentificationModalOpen && !isLoading && <AuthentificationModal handleToken={setToken} handleModal={handleAuthentificationModal} />}
 
       <div className='fr-text--lg fr-my-0'>Liste des territoires</div>
       {hasToMuchTerritoires ? (
@@ -146,6 +96,7 @@ const Header = ({projectId, projectName, territoires, projets, onProjetChange}) 
           </span>
         ))
       )}
+
       {projets && projets.length > 1 && (
         <div className='fr-select-group fr-p-3v fr-mt-3w' style={{borderTop: '1px solid white'}}>
           <label className='fr-label' style={{color: 'white'}}>Sélectionnez un autre projet</label>

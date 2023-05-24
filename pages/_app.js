@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import {DeviceContextProvider} from '@/contexts/device.js'
+import {AuthentificationContextProvider} from '@/contexts/authentification-token.js'
 
 import '@/styles/global.css'
 import '@gouvfr/dsfr/dist/dsfr/dsfr.min.css'
@@ -20,7 +21,9 @@ import '@gouvfr/dsfr/dist/utility/icons/icons-design/icons-design.min.css'
 const App = ({Component, pageProps}) => (
   <React.StrictMode>
     <DeviceContextProvider>
-      <Component {...pageProps} />
+      <AuthentificationContextProvider>
+        <Component {...pageProps} />
+      </AuthentificationContextProvider>
     </DeviceContextProvider>
   </React.StrictMode>
 )

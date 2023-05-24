@@ -8,7 +8,7 @@ const DateInput = ({label, value, ariaLabel, errorMessage, description, isRequir
       <label className='fr-label'>{label}</label>
       {description && <span className='fr-hint-text fr-mb-2w'>{description}</span>}
 
-      <div className='fr-input-wrap fr-fi-calendar-line'>
+      <div>
         <input
           className={`fr-input fr-input--${inputState}`}
           type='date'

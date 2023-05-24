@@ -1,13 +1,12 @@
 import {useState} from 'react'
 import Link from 'next/link'
 
-import AuthentificationModal from '@/components/suivi-form/authentification-modal.js'
+import AdminAuthentificationModal from '@/components/suivi-form/authentification/admin-authentification-modal.js'
 
 const Footer = () => {
   const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
 
   const handleModal = () => setIsAuthentificationModalOpen(!isAuthentificationModalOpen)
-
   return (
     <>
       <footer className='fr-footer' role='contentinfo' id='footer'>
@@ -72,7 +71,7 @@ const Footer = () => {
                   className='fr-footer__bottom-link'
                   type='button'
                   label='Accéder à au panneau d’authentification'
-                  onClick={handleModal}
+                  onClick={() => setIsAuthentificationModalOpen(true)}
                 >
                   Accès administrateur
                 </button>
@@ -105,7 +104,7 @@ const Footer = () => {
         </div>
       </footer>
 
-      {isAuthentificationModalOpen && <AuthentificationModal isNewForm handleModal={handleModal} />}
+      {isAuthentificationModalOpen && <AdminAuthentificationModal isNewForm handleModalClose={handleModal} />}
     </>
   )
 }
