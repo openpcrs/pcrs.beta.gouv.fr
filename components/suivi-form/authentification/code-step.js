@@ -7,7 +7,7 @@ import {checkCode} from '@/lib/authentification.js'
 import DigitCodeInput from '@/components/digit-code-input.js'
 import Button from '@/components/button.js'
 
-const CodeStep = ({email, handleError, handleToken, isNewForm, handleValidation, handleStep}) => {
+const CodeStep = ({email, handleError, handleToken, handleValidation, handleStep}) => {
   const router = useRouter()
 
   const [pinCode, setPinCode] = useState('')
@@ -23,7 +23,7 @@ const CodeStep = ({email, handleError, handleToken, isNewForm, handleValidation,
         const editor = await checkCode(email, pinCode)
         if (editor.token) {
           handleToken(editor.token)
-          validation = isNewForm ? 'Utilisateur authentifié avec succès ! Vous allez être redirigé...' : 'Utilisateur authentifié avec succès !'
+          validation = 'Utilisateur authentifié avec succès ! Vous allez accéder au formulaire.'
 
           setTimeout(() => {
             router.push('/formulaire-suivi')
@@ -78,13 +78,8 @@ CodeStep.propTypes = {
   email: PropTypes.string.isRequired,
   handleError: PropTypes.func.isRequired,
   handleToken: PropTypes.func.isRequired,
-  isNewForm: PropTypes.bool,
   handleValidation: PropTypes.func.isRequired,
   handleStep: PropTypes.func.isRequired
-}
-
-CodeStep.defaultProps = {
-  isNewForm: false
 }
 
 export default CodeStep

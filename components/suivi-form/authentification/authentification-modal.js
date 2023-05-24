@@ -9,7 +9,7 @@ import CodeStep from '@/components/suivi-form/authentification/code-step.js'
 import Modal from '@/components/modal.js'
 import Loader from '@/components/loader.js'
 
-const AuthentificationModal = ({isNewForm, handleModalClose}) => {
+const AuthentificationModal = ({handleModalClose}) => {
   const {storeToken} = useContext(AuthentificationContext)
 
   const [email, setEmail] = useState('')
@@ -38,7 +38,6 @@ const AuthentificationModal = ({isNewForm, handleModalClose}) => {
             handleValidation={setValidationMessage}
             handleToken={storeToken}
             handleStep={() => setStep(3)}
-            isNewForm={isNewForm}
           />
         )}
 
@@ -56,7 +55,7 @@ const AuthentificationModal = ({isNewForm, handleModalClose}) => {
           <p className='fr-grid-row fr-grid-row--center fr-valid-text fr-col-12 fr-mt-2w fr-mb-2w'>
             {validationMessage}
           </p>
-          {(step === 3 && isNewForm) && <Loader size='small' />}
+          {step === 3 && <Loader size='small' />}
         </div>
       )}
 
@@ -70,12 +69,7 @@ const AuthentificationModal = ({isNewForm, handleModalClose}) => {
 }
 
 AuthentificationModal.propTypes = {
-  isNewForm: PropTypes.bool,
   handleModalClose: PropTypes.func.isRequired
-}
-
-AuthentificationModal.defaultProps = {
-  isNewForm: false
 }
 
 export default AuthentificationModal

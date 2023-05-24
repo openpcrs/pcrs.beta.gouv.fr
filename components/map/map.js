@@ -187,7 +187,7 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
         Ajouter un projet
       </button>
 
-      {isAuthentificationModalOpen && userRole !== 'admin' && <AuthentificationModal isNewForm handleModalClose={handleModal} />}
+      {isAuthentificationModalOpen && userRole !== 'admin' && <AuthentificationModal handleModalClose={handleModal} />}
     </div>
   )
 }
