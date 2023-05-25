@@ -11,12 +11,13 @@ import DeleteModal from '@/components/suivi-form/delete-modal.js'
 
 const Header = ({projectId, projectName, territoires, projets, onProjetChange}) => {
   const router = useRouter()
-  const {isAdmin, token} = useContext(AuthentificationContext)
+  const {userRole, token} = useContext(AuthentificationContext)
 
   const [isTerritoiresShow, setIsTerritoiresShow] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
   const hasToMuchTerritoires = territoires.length >= 4
+  const isAdmin = userRole === 'admin'
 
   const handleDeleteModalOpen = () => setIsDeleteModalOpen(!isDeleteModalOpen)
 
@@ -31,7 +32,7 @@ const Header = ({projectId, projectName, territoires, projets, onProjetChange}) 
                 type='button'
                 className='fr-btn--tertiary-no-outline fr-px-1w'
                 aria-label='Editer le projet'
-                onClick={() => router.push(`/formulaire-suivi?id=${projectId}`)}
+                onClick={() => router.push(`/formulaire-suivi?id=${projectId}&editcode=${token}`)}
               >
                 <span className='fr-icon-edit-line' aria-hidden='true' />
               </button>
@@ -96,7 +97,6 @@ const Header = ({projectId, projectName, territoires, projets, onProjetChange}) 
           </span>
         ))
       )}
-
       {projets && projets.length > 1 && (
         <div className='fr-select-group fr-p-3v fr-mt-3w' style={{borderTop: '1px solid white'}}>
           <label className='fr-label' style={{color: 'white'}}>Sélectionnez un autre projet</label>
