@@ -1,6 +1,6 @@
 import {useState, useEffect, useCallback, useMemo, createContext} from 'react'
 
-import {authentification} from '@/lib/authentification.js'
+import {authentificationRole} from '@/lib/authentification.js'
 
 const AuthentificationContext = createContext()
 
@@ -8,7 +8,7 @@ const TOKEN_KEY = 'Token'
 
 export const AuthentificationContextProvider = props => {
   const [token, setToken] = useState(null)
-  const [isAdmin, setIsAdmin] = useState(false)
+  const [userRole, setUserRole] = useState(null)
   const [isTokenRecovering, setIsTokenRecovering] = useState(true)
 
   const storeToken = useCallback(value => {
@@ -25,15 +25,12 @@ export const AuthentificationContextProvider = props => {
     }
   }
 
-  const checkIsAdmin = useCallback(async () => {
+  const checkUserRole = useCallback(async () => {
     try {
-      const checkIfIsAdmin = await authentification(token)
-
-      if (checkIfIsAdmin.isAdmin) {
-        setIsAdmin(true)
-      }
+      const getUserRole = await authentificationRole(token)
+      setUserRole(getUserRole.role)
     } catch {
-      setIsAdmin(false)
+      setUserRole(null)
     }
   }, [token])
 
@@ -49,16 +46,16 @@ export const AuthentificationContextProvider = props => {
 
   useEffect(() => {
     if (token) {
-      checkIsAdmin()
+      checkUserRole()
     }
-  }, [token, checkIsAdmin])
+  }, [token, checkUserRole])
 
   const value = useMemo(() => ({
-    isAdmin,
+    userRole,
     token,
     isTokenRecovering,
     storeToken
-  }), [isAdmin, token, isTokenRecovering, storeToken])
+  }), [userRole, token, isTokenRecovering, storeToken])
 
   return (
     <AuthentificationContext.Provider

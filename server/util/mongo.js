@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/numeric-separators-style */
 import process from 'node:process'
 
 import {MongoClient, ObjectId} from 'mongodb'
@@ -21,6 +22,9 @@ class Mongo {
 
   async createIndexes() {
     await this.db.collection('projets').createIndex({nom: 1}, {unique: true})
+    await this.db.collection('projets').createIndex({editorKey: 1}, {unique: true})
+    await this.db.collection('creators').createIndex({token: 1}, {unique: true, sparse: true})
+    await this.db.collection('creators').createIndex({createdAt: 1}, {expireAfterSeconds: 86400}) // 24 heures
   }
 
   disconnect(force) {

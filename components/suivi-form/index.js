@@ -1,35 +1,36 @@
-import {useState, useContext, useEffect} from 'react'
+import {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import Image from 'next/image'
 import {useRouter} from 'next/router'
-
-import colors from '@/styles/colors.js'
 
 import {postSuivi, editProject} from '@/lib/suivi-pcrs.js'
 
 import {useInput} from '@/hooks/input.js'
 
-import AuthentificationContext from '@/contexts/authentification-token.js'
-
-import AdminAuthentificationModal from '@/components/suivi-form/authentification/admin-authentification-modal.js'
-import DeleteModal from '@/components/suivi-form/delete-modal.js'
+import AuthentificationModal from '@/components/suivi-form/authentification/authentification-modal.js'
 import GeneralInfos from '@/components/suivi-form/general-infos.js'
 import Livrables from '@/components/suivi-form/livrables/index.js'
 import Acteurs from '@/components/suivi-form/acteurs/index.js'
 import Perimetres from '@/components/suivi-form/perimetres/index.js'
 import Etapes from '@/components/suivi-form/etapes.js'
 import Subventions from '@/components/suivi-form/subventions/index.js'
+import ShareModal from '@/components/suivi-form/share-modal.js'
+import DeleteModal from '@/components/suivi-form/delete-modal.js'
 import Button from '@/components/button.js'
+import colors from '@/styles/colors.js'
 
-const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subventions, etapes, _id}) => {
+const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subventions, etapes, _id, token, userRole, isTokenRecovering}) => {
   const router = useRouter()
-  const {token, isTokenRecovering} = useContext(AuthentificationContext)
 
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false)
   const [hasMissingItemsOnValidation, setHasMissingItemsOnValidation] = useState(false)
   const [validationMessage, setValidationMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [isRequiredFormOpen, setIsRequiredFormOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+
+  const [editedProjectId, setEditedProjectId] = useState(null)
+  const [editCode, setEditCode] = useState(null)
 
   const [suiviNom, setSuiviNom] = useInput({initialValue: nom})
   const [suiviNature, setSuiviNature] = useInput({initialValue: nature})
@@ -42,7 +43,6 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
   const [projetSubventions, setProjetSubventions] = useState(subventions || [])
 
   const hasMissingData = projetLivrables.length === 0 || projetActeurs.length === 0 || projetPerimetres.length === 0
-
   const handleDeleteModalOpen = () => setIsDeleteModalOpen(!isDeleteModalOpen)
 
   useEffect(() => {
@@ -52,6 +52,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
   }, [hasMissingData, isRequiredFormOpen])
 
   const handleAuthentificationModal = () => router.push('/suivi-pcrs')
+  const handleModal = () => router.push('/suivi-pcrs')
 
   const handleSubmit = async event => {
     event.preventDefault()
@@ -94,6 +95,9 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
 
         const sendSuivi = _id ? await editProject(suivi, _id, token) : await postSuivi(suivi, token)
 
+        setEditedProjectId(sendSuivi._id)
+        setEditCode(sendSuivi.editorKey)
+
         if (sendSuivi.message) {
           if (sendSuivi.message === 'Invalid payload') {
             sendSuivi.message = 'Le projet n’a pas pu être pris en compte car il y a des erreurs'
@@ -103,9 +107,14 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
         } else {
           const validation = _id ? 'Le projet a bien été modifié, vous allez maintenant être redirigé vers la carte de suivi' : 'Le projet a bien été créé, vous allez maintenant être redirigé vers la carte de suivi'
           setValidationMessage(validation)
-          setTimeout(() => {
-            router.push('/suivi-pcrs')
-          }, 2000)
+
+          if (userRole === 'admin' || _id) {
+            setTimeout(() => {
+              router.push('/suivi-pcrs')
+            }, 3000)
+          } else {
+            setIsShareModalOpen(true)
+          }
         }
       }
     } catch {
@@ -129,7 +138,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
         <h2 className='fr-mt-5w fr-mb-0'>Formulaire de suivi PCRS</h2>
       </div>
       <div className='fr-p-5w'>
-        {(!token && !isTokenRecovering) && <AdminAuthentificationModal handleModalClose={handleAuthentificationModal} />}
+        {(!token && !isTokenRecovering) && <AuthentificationModal handleModalClose={handleAuthentificationModal} />}
 
         <div className='fr-grid-row fr-col-12'>
           <div className='fr-grid-row fr-grid-row--left fr-col-12 fr-col-md-10'>
@@ -275,27 +284,36 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
         </form>
       </div>
 
+      {isShareModalOpen && userRole !== 'admin' && (
+        <ShareModal
+          handleModal={handleModal}
+          validationMessage={validationMessage}
+          projectId={editedProjectId}
+          editCode={editCode}
+        />
+      )}
+
       <style jsx>{`
-          .form-header {
-            text-align: center;
-          }
+        .form-header {
+          text-align: center;
+        }
 
-          .required-disclaimer {
-            font-style: italic;
-          }
+        .required-disclaimer {
+          font-style: italic;
+        }
 
-          .delete-button {
-            color: ${colors.redMarianne425};
-            font-weight: bold;
-            border: 1px solid ${colors.redMarianne425};
-            padding: .25rem .75rem;
-          }
-        `}</style>
+        .delete-button {
+          color: ${colors.redMarianne425};
+          font-weight: bold;
+          border: 1px solid ${colors.redMarianne425};
+        }
+      `}</style>
     </>
   )
 }
 
 SuiviForm.propTypes = {
+  userRole: PropTypes.string,
   nom: PropTypes.string,
   nature: PropTypes.string,
   regime: PropTypes.string,
@@ -304,11 +322,13 @@ SuiviForm.propTypes = {
   perimetres: PropTypes.array,
   etapes: PropTypes.array,
   subventions: PropTypes.array,
-  _id: PropTypes.string
-
+  _id: PropTypes.string,
+  token: PropTypes.string,
+  isTokenRecovering: PropTypes.bool.isRequired
 }
 
 SuiviForm.defaultProps = {
+  userRole: null,
   nom: '',
   nature: '',
   regime: '',
@@ -317,7 +337,8 @@ SuiviForm.defaultProps = {
   perimetres: [],
   etapes: [{statut: 'investigation', date_debut: ''}], // eslint-disable-line camelcase
   subventions: [],
-  _id: null
+  _id: null,
+  token: null
 }
 
 export default SuiviForm

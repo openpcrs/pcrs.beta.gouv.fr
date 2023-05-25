@@ -104,7 +104,7 @@ const Footer = () => {
         </div>
       </footer>
 
-      {isAuthentificationModalOpen && <AdminAuthentificationModal isNewForm handleModalClose={handleModal} />}
+      {isAuthentificationModalOpen && <AdminAuthentificationModal handleModalClose={handleModal} />}
     </>
   )
 }
