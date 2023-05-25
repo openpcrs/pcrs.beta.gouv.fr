@@ -10,14 +10,48 @@ import {formatEmail} from './email-template.js'
 
 const CSV_URL = process.env.AUTHORIZED_EMAILS_URL
 
-async function readAuthorizedEmails() {
-  const csvContent = await got(CSV_URL).text()
+async function fetchAuthorizedEmails() {
+  // eslint-disable-next-line unicorn/numeric-separators-style
+  const csvContent = await got(CSV_URL, {timeout: {request: 30000}}).text()
+
   return new Set(
     Papa.parse(csvContent).data.map(row => normalizeEmail(row[0]))
   )
 }
 
-const authorizedEmails = await readAuthorizedEmails()
+let _authorizedEmailsCache = null
+let _authorizedEmailsCacheDate = null
+let _authorizedEmailsPromise = null
+
+async function getAuthorizedEmails() {
+  if (_authorizedEmailsPromise) {
+    return _authorizedEmailsPromise
+  }
+
+  if (_authorizedEmailsCache && (Date.now() - _authorizedEmailsCacheDate.getTime()) < 5 * 60 * 1000) {
+    return _authorizedEmailsCache
+  }
+
+  _authorizedEmailsPromise = fetchAuthorizedEmails()
+    .then(authorizedEmails => {
+      _authorizedEmailsPromise = null
+      _authorizedEmailsCache = authorizedEmails
+      _authorizedEmailsCacheDate = new Date()
+      return authorizedEmails
+    })
+    .catch(error => {
+      _authorizedEmailsPromise = null
+      console.error(error)
+
+      if (!_authorizedEmailsCache) {
+        throw new Error('Authorized emails not available')
+      }
+
+      return _authorizedEmailsCache
+    })
+
+  return _authorizedEmailsPromise
+}
 
 export function validateEmail(email) {
   return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([a-z\-\d]+\.)+[a-z]{2,}))$/i.test(email)
@@ -33,6 +67,8 @@ function normalizeEmail(email) {
 }
 
 export async function isAuthorizedEmail(email) {
+  const authorizedEmails = await getAuthorizedEmails()
+
   return authorizedEmails.has(normalizeEmail(email))
 }
 
