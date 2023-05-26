@@ -34,7 +34,7 @@ const DigitCodeInput = ({codeValue, handleCodeValue, codeLength, isRequired}) =>
         name='code'
         value={codeMask}
         placeholder='Entrez votre code ici'
-        className='fr-h2 fr-p-0'
+        className='fr-h2 fr-p-0 fr-col-12'
         onChange={handleCodeChange}
       />
 

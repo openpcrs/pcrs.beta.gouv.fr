@@ -1,4 +1,6 @@
 import createError from 'http-errors'
+import {omit} from 'lodash-es'
+import {nanoid} from 'nanoid'
 import {validateCreation, validateChanges} from '../lib/projets-validator.js'
 import {buildGeometryFromTerritoires, getTerritoiresProperties} from '../lib/territoires.js'
 import {findClosestEtape} from '../lib/suivi-pcrs.js'
@@ -13,8 +15,27 @@ export function expandProjet(projet) {
   }
 }
 
+function computeEditorKey() {
+  return nanoid()
+}
+
+export async function renewEditorKey(projetId) {
+  await mongo.db.collection('projets').updateOne(
+    {_id: projetId},
+    {$set: {editorKey: computeEditorKey()}}
+  )
+}
+
+export function filterSensitiveFields(projet) {
+  return omit(projet, 'editorKey')
+}
+
 export async function getProjets() {
   return mongo.db.collection('projets').find().toArray()
+}
+
+export async function getProjetByEditorKey(editorKey) {
+  return mongo.db.collection('projets').findOne({editorKey})
 }
 
 export async function getProjet(projetId) {
@@ -25,8 +46,12 @@ export async function getProjet(projetId) {
   return projet
 }
 
-export async function createProjet(payload) {
+export async function createProjet(payload, options = {}) {
   const projet = validateCreation(payload)
+  const {creator} = options
+
+  projet.creator = creator || 'admin'
+  projet.editorKey = computeEditorKey()
 
   mongo.decorateCreation(projet)
 
@@ -72,7 +97,7 @@ export async function updateProjet(id, payload) {
     return value
   } catch (error) {
     if (error.codeName === 'DuplicateKey') {
-      throw createError(410, 'Un projet avec le même nom est déjà existant, merci de modifier le champ "nom"')
+      throw createError(409, 'Un projet avec le même nom est déjà existant, merci de modifier le champ "nom"')
     }
 
     throw error

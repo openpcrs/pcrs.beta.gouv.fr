@@ -12,7 +12,7 @@
     "start": "NODE_ENV=production node server/index.js",
     "lint": "xo",
     "test": "ava",
-    "scalingo-postbuild": "yarn download-contours && next build"
+    "scalingo-postbuild": "yarn download-contours && node scripts/add-editor-key.js && next build"
   },
   "dependencies": {
     "@etalab/decoupage-administratif": "^2.3.1",
@@ -33,9 +33,12 @@
     "maplibre-gl": "^2.4.0",
     "mongodb": "^5.1.0",
     "morgan": "^1.10.0",
+    "nanoid": "^4.0.2",
     "next": "^13.0.3",
+    "nodemailer": "^6.9.1",
     "papaparse": "^5.4.1",
     "prop-types": "^15.8.1",
+    "random-number-csprng": "^1.0.2",
     "react": "^18.2.0",
     "react-autocomplete": "^1.8.1",
     "react-dom": "^18.2.0",
