@@ -18,11 +18,11 @@ import mongo from './util/mongo.js'
 import errorHandler from './util/error-handler.js'
 import w from './util/w.js'
 
-import {handleAuth, ensureCreator, ensureProjectEditor} from './auth/middleware.js'
+import {handleAuth, ensureCreator, ensureProjectEditor, ensureAdmin} from './auth/middleware.js'
 import {sendPinCodeEmail, checkPinCodeValidity, isAuthorizedEmail} from './auth/pin-code/index.js'
 
 import {getProjet, getProjets, deleteProjet, updateProjet, getProjetsGeojson, expandProjet, filterSensitiveFields, createProjet} from './projets.js'
-import {exportLivrablesAsCSV, exportProjetsAsCSV, exportSubventionsAsCSV, exportToursDeTableAsCSV} from '../lib/export/csv.js'
+import {exportEditorKeys, exportLivrablesAsCSV, exportProjetsAsCSV, exportSubventionsAsCSV, exportToursDeTableAsCSV} from '../lib/export/csv.js'
 
 const port = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -125,6 +125,13 @@ server.route('/data/subventions.csv')
     const subventionsCSVFile = await exportSubventionsAsCSV()
 
     res.attachment('subventions.csv').type('csv').send(subventionsCSVFile)
+  }))
+
+server.route('/data/editor-keys.csv')
+  .get(w(ensureAdmin), w(async (req, res) => {
+    const editorKeysCSVFile = await exportEditorKeys()
+
+    res.attachment('editor-keys.csv').type('csv').send(editorKeysCSVFile)
   }))
 
 server.route('/ask-code')

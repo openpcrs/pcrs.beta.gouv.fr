@@ -83,3 +83,11 @@ export function ensureCreator(req, res, next) {
 
   throw createError(403, 'Vous n’êtes pas autorisé à créer un projet')
 }
+
+export function ensureAdmin(req, res, next) {
+  if (req.role === 'admin') {
+    return next()
+  }
+
+  throw createError(403, 'Vous n’êtes pas autorisé à accéder à cette information')
+}
