@@ -13,16 +13,19 @@ import express from 'express'
 import createError from 'http-errors'
 import next from 'next'
 import morgan from 'morgan'
+
 import mongo from './util/mongo.js'
 import errorHandler from './util/error-handler.js'
 import w from './util/w.js'
 
-import {getProjet, getProjets, createProjet, deleteProjet, updateProjet, getProjetsGeojson, expandProjet} from './projets.js'
-import {exportLivrablesAsCSV, exportProjetsAsCSV, exportSubventionsAsCSV, exportToursDeTableAsCSV} from '../lib/export/csv.js'
+import {handleAuth, ensureCreator, ensureProjectEditor, ensureAdmin} from './auth/middleware.js'
+import {sendPinCodeEmail, checkPinCodeValidity, isAuthorizedEmail} from './auth/pin-code/index.js'
+
+import {getProjet, getProjets, deleteProjet, updateProjet, getProjetsGeojson, expandProjet, filterSensitiveFields, createProjet} from './projets.js'
+import {exportEditorKeys, exportLivrablesAsCSV, exportProjetsAsCSV, exportSubventionsAsCSV, exportToursDeTableAsCSV} from '../lib/export/csv.js'
 
 const port = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production'
-const {ADMIN_TOKEN} = process.env
 
 const server = express()
 const nextApp = next({dev})
@@ -37,25 +40,9 @@ if (dev) {
   server.use(morgan('dev'))
 }
 
-if (!ADMIN_TOKEN) {
-  throw new Error('Le serveur ne peut pas démarrer car ADMIN_TOKEN n\'est pas défini')
-}
-
-function ensureAdmin(req, res, next) {
-  if (!req.get('Authorization') || !req.get('Authorization').startsWith('Token ')) {
-    throw createError(401, 'Cette action nécessite une authentification')
-  }
-
-  if (req.get('Authorization').slice(6) !== ADMIN_TOKEN) {
-    throw createError(403, 'Authentification refusée')
-  }
-
-  next()
-}
-
 server.param('projetId', w(async (req, res, next) => {
   const {projetId} = req.params
-  const projet = await getProjet(projetId)
+  const projet = await getProjet(projetId, req)
 
   if (!projet) {
     throw createError(404, 'L’identifiant de projet demandé n’existe pas')
@@ -68,6 +55,8 @@ server.param('projetId', w(async (req, res, next) => {
 // Pre-warm underlying cache
 await getProjetsGeojson()
 
+server.use(w(handleAuth))
+
 server.route('/projets/geojson')
   .get(w(async (req, res) => {
     const projetsGeojson = await getProjetsGeojson()
@@ -76,14 +65,19 @@ server.route('/projets/geojson')
 
 server.route('/projets/:projetId')
   .get(w(async (req, res) => {
-    const expandedProjet = expandProjet(req.projet)
-    res.send(expandedProjet)
+    const projet = expandProjet(req.projet)
+
+    if (req.role === 'admin' || (req.role === 'editor' && req.projet._id.equals(req.canEditProjetId))) {
+      return res.send(projet)
+    }
+
+    res.send(filterSensitiveFields(projet))
   }))
-  .delete(w(ensureAdmin), w(async (req, res) => {
+  .delete(w(ensureProjectEditor), w(async (req, res) => {
     await deleteProjet(req.projet._id)
     res.sendStatus(204)
   }))
-  .put(w(ensureAdmin), w(async (req, res) => {
+  .put(w(ensureProjectEditor), w(async (req, res) => {
     const projet = await updateProjet(req.projet._id, req.body)
     const expandedProjet = expandProjet(projet)
 
@@ -93,12 +87,13 @@ server.route('/projets/:projetId')
 server.route('/projets')
   .get(w(async (req, res) => {
     const projets = await getProjets()
-    const expandedProjets = projets.map(p => expandProjet(p))
 
-    res.send(expandedProjets)
+    res.send(projets.map(
+      projet => expandProjet(filterSensitiveFields(projet))
+    ))
   }))
-  .post(w(ensureAdmin), w(async (req, res) => {
-    const projet = await createProjet(req.body)
+  .post(w(ensureCreator), w(async (req, res) => {
+    const projet = await createProjet(req.body, {creator: req.creator})
     const expandedProjet = expandProjet(projet)
 
     res.status(201).send(expandedProjet)
@@ -132,9 +127,40 @@ server.route('/data/subventions.csv')
     res.attachment('subventions.csv').type('csv').send(subventionsCSVFile)
   }))
 
-server.route('/me')
+server.route('/data/editor-keys.csv')
   .get(w(ensureAdmin), w(async (req, res) => {
-    res.send({isAdmin: true})
+    const editorKeysCSVFile = await exportEditorKeys()
+
+    res.attachment('editor-keys.csv').type('csv').send(editorKeysCSVFile)
+  }))
+
+server.route('/ask-code')
+  .post(w(async (req, res) => {
+    const authorizedEditorEmail = await isAuthorizedEmail(req.body.email)
+
+    if (!authorizedEditorEmail) {
+      throw createError(401, 'Cette adresse n’est pas autorisée à créer un projet')
+    }
+
+    await sendPinCodeEmail(req.body.email)
+
+    res.status(201).send('ok')
+  }))
+
+server.route('/check-code')
+  .post(w(async (req, res) => {
+    const {email, pinCode} = req.body
+    const validToken = await checkPinCodeValidity({email, pinCode})
+    res.send({token: validToken})
+  }))
+
+server.route('/me')
+  .get(w(async (req, res) => {
+    if (!req.role) {
+      throw createError(401, 'Jeton requis')
+    }
+
+    res.send({role: req.role})
   }))
 
 server.use(errorHandler)

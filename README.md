@@ -61,6 +61,9 @@ Puis compléter les champs suivants :
 - `MONGODB_URL` -> URL de la base de données MongoDB
 - `MONGODB_DBNAME` -> Nom de la collection MongoDB
 - `ADMIN_TOKEN` -> Jeton d’authentification des appels à l’API.
+>*Les champs suivants sont optionnels, ils permettent d’envoyer le code de vérification par mail.*
+- `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_SECURE`, `SMTP_FROM`, `SMTP_BCC` -> Paramètres du serveur de mail
+- `SHOW_EMAILS` (YES / NO) -> Permet d’afficher le mail envoyé dans la console.
 
 ### Routes de l’API des projets PCRS
 | Route | Type | Description |
@@ -75,6 +78,9 @@ Puis compléter les champs suivants :
 | `/data/livrables.csv`| **GET** | *Retourne un fichier CSV contenant l’ensemble des livrables des projets PCRS* |
 | `/data/tours-de-table.csv`| **GET** | *Retourne un fichier CSV contenant l’ensemble des tours de table des projets PCRS* |
 | `/data/subventions.csv`| **GET** | *Retourne un fichier CSV contenant l’ensemble des subventions des projets PCRS* |
+| `/data/editor-keys.csv`| **GET** | *Retourne l’ensemble des codes d’édition des projets (Cette route est réservée aux administrateurs)* |
+| `/ask-code`| **POST** | *Faire une demande de création de projet. Cette route attend un objet `{"email": email du demandeur}`* |
+| `/check-code`| **POST** | *Vérifie la validité du code envoyé par email. Cette route attend un objet `{"email": email du demandeur, "pinCode": code envoyé par mail}`* |
 
 Vous pouvez accéder au modèle de données à [cette adresse](https://docs.pcrs.beta.gouv.fr/suivi-des-projets/modele-de-donnees).
 
