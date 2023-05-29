@@ -19,7 +19,7 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
 
   const [nom, setNom, nomError] = useInput({isRequired: !isFormComplete})
   const [nature, setNature, natureError] = useInput({isRequired: !isFormComplete})
-  const [diffusion, setDiffusion, diffusionError] = useInput({isRequired: !isFormComplete})
+  const [diffusion, setDiffusion, diffusionError] = useInput({})
   const [licence, setLicence, licenceError] = useInput({isRequired: !isFormComplete})
   const [avancement, setAvancement, avancementError, setIsAvancementValid, isAvancementValid] = useInput({})
   const [crs, setCrs, crsError] = useInput({})

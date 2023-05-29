@@ -78,6 +78,7 @@ Puis compléter les champs suivants :
 | `/data/livrables.csv`| **GET** | *Retourne un fichier CSV contenant l’ensemble des livrables des projets PCRS* |
 | `/data/tours-de-table.csv`| **GET** | *Retourne un fichier CSV contenant l’ensemble des tours de table des projets PCRS* |
 | `/data/subventions.csv`| **GET** | *Retourne un fichier CSV contenant l’ensemble des subventions des projets PCRS* |
+| `/data/editor-keys.csv`| **GET** | *Retourne l’ensemble des codes d’édition des projets (Cette route est réservée aux administrateurs)* |
 | `/ask-code`| **POST** | *Faire une demande de création de projet. Cette route attend un objet `{"email": email du demandeur}`* |
 | `/check-code`| **POST** | *Vérifie la validité du code envoyé par email. Cette route attend un objet `{"email": email du demandeur, "pinCode": code envoyé par mail}`* |
 
