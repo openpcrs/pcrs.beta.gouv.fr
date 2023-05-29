@@ -3,11 +3,13 @@ import {useState} from 'react'
 import PropTypes from 'prop-types'
 import {uniqueId} from 'lodash-es'
 
-import LivrableForm from './livrable-form.js'
+import {shortDate} from '@/lib/date-utils.js'
+
 import colors from '@/styles/colors.js'
 
 import Button from '@/components/button.js'
 import LivrableCard from '@/components/suivi-form/livrables/livrable-card.js'
+import LivrableForm from '@/components/suivi-form/livrables/livrable-form.js'
 
 import {getNatures, getLicences, getDiffusions, getPublications} from '@/components/suivi-form/livrables/utils/select-options.js'
 
@@ -32,7 +34,7 @@ const Livrables = ({livrables, hasMissingData, handleLivrables, onRequiredFormOp
       )}
 
       {livrables.map((livrable, idx) => {
-        const {nom, nature, licence, crs, avancement, diffusion, publication} = livrable
+        const {nom, nature, licence, crs, avancement, diffusion, publication, compression, date_livraison} = livrable
 
         return (
           <div key={uniqueId()}>
@@ -43,6 +45,8 @@ const Livrables = ({livrables, hasMissingData, handleLivrables, onRequiredFormOp
               licence={getLicences()[licence]}
               diffusion={getDiffusions()[diffusion]}
               publication={getPublications()[publication]}
+              compression={compression}
+              dateLivraison={shortDate(date_livraison)}
               crs={crs}
               avancement={avancement}
               isFormOpen={isAdding || isEditing}
