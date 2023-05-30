@@ -18,7 +18,7 @@ import Legend from '@/components/map/legend.js'
 import AuthentificationModal from '@/components/suivi-form/authentification/authentification-modal.js'
 
 const Map = ({handleClick, isMobile, geometry, projetId}) => {
-  const {userRole} = useContext(AuthentificationContext)
+  const {userRole, token} = useContext(AuthentificationContext)
   const router = useRouter()
 
   const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
@@ -182,7 +182,7 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
           right: 10,
           bottom: `${isMobile ? '110px' : '45px'}`
         }}
-        onClick={() => userRole === 'admin' ? router.push('/formulaire-suivi') : handleModal()}
+        onClick={() => token ? router.push('/formulaire-suivi') : handleModal()}
       >
         Ajouter un projet
       </button>
