@@ -74,6 +74,8 @@ export async function createProjet(payload, options = {}) {
     throw error
   }
 
+  await copyProjetVersion(projet)
+
   return projet
 }
 
@@ -102,6 +104,8 @@ export async function updateProjet(id, payload) {
     if (!value) {
       throw createError(404, 'Le projet est introuvable')
     }
+
+    await copyProjetVersion(value)
 
     return value
   } catch (error) {
