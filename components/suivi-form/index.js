@@ -2,6 +2,9 @@ import {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import Image from 'next/image'
 import {useRouter} from 'next/router'
+import {uniq, sortBy} from 'lodash'
+
+import {PAYLOAD_ERRORS} from './utils/payload-errors.js'
 
 import {postSuivi, editProject} from '@/lib/suivi-pcrs.js'
 
@@ -26,6 +29,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
   const [hasMissingItemsOnValidation, setHasMissingItemsOnValidation] = useState(false)
   const [validationMessage, setValidationMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
+  const [errors, setErrors] = useState([])
   const [isRequiredFormOpen, setIsRequiredFormOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
@@ -101,7 +105,20 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
 
         if (sendSuivi.message) {
           if (sendSuivi.message === 'Invalid payload') {
-            sendSuivi.message = 'Le projet n’a pas pu être pris en compte car il y a des erreurs'
+            const payloadErrors = []
+            sendSuivi.message = ('Le projet n’a pas pu être pris en compte car il y a des erreurs :')
+
+            const sortedErrors = sortBy(sendSuivi.validationErrors, error => error.context.key)
+            sortedErrors.map(error => {
+              let message
+              if (PAYLOAD_ERRORS[error.context.key]) {
+                message = `Section ${error.path[0]} - ${PAYLOAD_ERRORS[error.context.key]} ${error.context.value ? `: ${error.context.value}` : ''}`
+              }
+
+              return payloadErrors.push(message)
+            })
+
+            setErrors(uniq(payloadErrors))
           }
 
           setErrorMessage(sendSuivi.message)
@@ -277,9 +294,15 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
             )}
 
             {errorMessage && (
-              <p className='fr-grid-row--center fr-error-text fr-col-12 fr-mt-2w fr-mb-0'>
-                {errorMessage}
-              </p>
+              <div>
+                <p className='fr-grid-row--center fr-error-text fr-text--sm fr-col-12 fr-mt-2w fr-mb-0'>
+                  {errorMessage}
+                </p>
+
+                <ul>
+                  {errors.map(error => <li key={error} className='fr-text--sm error-list'>{error}</li>)}
+                </ul>
+              </div>
             )}
           </div>
         </form>
@@ -307,6 +330,11 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
           color: ${colors.redMarianne425};
           font-weight: bold;
           border: 1px solid ${colors.redMarianne425};
+        }
+
+        .error-list {
+          color: ${colors.error425};
+          list-style-type: disc;
         }
       `}</style>
     </>
