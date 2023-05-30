@@ -4,7 +4,7 @@ import {nanoid} from 'nanoid'
 import {validateCreation, validateChanges} from '../lib/projets-validator.js'
 import {buildGeometryFromTerritoires, getTerritoiresProperties} from '../lib/territoires.js'
 import {findClosestEtape} from '../lib/suivi-pcrs.js'
-import mongo from './util/mongo.js'
+import mongo, {ObjectId} from './util/mongo.js'
 
 export function expandProjet(projet) {
   const territoires = projet?.perimetres?.map(p => getTerritoiresProperties(p)) || null
@@ -44,6 +44,15 @@ export async function getProjet(projetId) {
   const projet = await mongo.db.collection('projets').findOne({_id: projetId})
 
   return projet
+}
+
+async function copyProjetVersion(projet) {
+  await mongo.db.collection('versions').insertOne({
+    _id: new ObjectId(),
+    _projet: projet._id,
+    createdAt: new Date(),
+    content: projet
+  })
 }
 
 export async function createProjet(payload, options = {}) {
