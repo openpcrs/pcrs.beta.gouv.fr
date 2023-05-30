@@ -9,7 +9,7 @@ import AuthentificationContext from '@/contexts/authentification-token.js'
 import HiddenInfos from '@/components/hidden-infos.js'
 import DeleteModal from '@/components/suivi-form/delete-modal.js'
 
-const Header = ({projectId, projectName, territoires, projets, onProjetChange}) => {
+const Header = ({projectId, codeEditor, projectName, territoires, projets, onProjetChange}) => {
   const router = useRouter()
   const {userRole, token} = useContext(AuthentificationContext)
 
@@ -32,7 +32,7 @@ const Header = ({projectId, projectName, territoires, projets, onProjetChange}) 
                 type='button'
                 className='fr-btn--tertiary-no-outline fr-px-1w'
                 aria-label='Editer le projet'
-                onClick={() => router.push(`/formulaire-suivi?id=${projectId}&editcode=${token}`)}
+                onClick={() => router.push(`/formulaire-suivi?id=${projectId}&editcode=${codeEditor}`)}
               >
                 <span className='fr-icon-edit-line' aria-hidden='true' />
               </button>
@@ -150,6 +150,7 @@ const Header = ({projectId, projectName, territoires, projets, onProjetChange}) 
 }
 
 Header.defaultProps = {
+  codeEditor: null,
   territoires: [],
   projets: null,
   onProjetChange: null
@@ -158,6 +159,7 @@ Header.defaultProps = {
 Header.propTypes = {
   projectId: PropTypes.string.isRequired,
   projectName: PropTypes.string.isRequired,
+  codeEditor: PropTypes.string,
   territoires: PropTypes.array,
   projets: PropTypes.array,
   onProjetChange: PropTypes.func
