@@ -48,9 +48,8 @@ export async function getProjet(projetId) {
 
 async function copyProjetVersion(projet) {
   await mongo.db.collection('versions').insertOne({
-    _id: new ObjectId(),
     _projet: projet._id,
-    createdAt: new Date(),
+    _created: new Date(),
     content: projet
   })
 }
