@@ -46,6 +46,14 @@ export async function getProjet(projetId) {
   return projet
 }
 
+async function copyProjetVersion(projet) {
+  await mongo.db.collection('versions').insertOne({
+    _projet: projet._id,
+    _created: new Date(),
+    content: projet
+  })
+}
+
 export async function createProjet(payload, options = {}) {
   const projet = validateCreation(payload)
   const {creator} = options
@@ -64,6 +72,8 @@ export async function createProjet(payload, options = {}) {
 
     throw error
   }
+
+  await copyProjetVersion(projet)
 
   return projet
 }
@@ -93,6 +103,8 @@ export async function updateProjet(id, payload) {
     if (!value) {
       throw createError(404, 'Le projet est introuvable')
     }
+
+    await copyProjetVersion(value)
 
     return value
   } catch (error) {
