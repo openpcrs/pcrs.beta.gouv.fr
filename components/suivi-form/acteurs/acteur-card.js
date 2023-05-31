@@ -14,6 +14,7 @@ const ActeurCard = ({siren, nom, mail, telephone, role, finance_part_euro, finan
         {isAplc && <span className='fr-grid-row fr-grid-row--middle fr-col-12 fr-col-lg-1 fr-icon-user-star-fill fr-icon--lg' aria-hidden='true' />}
 
         <div className={`fr-grid-row fr-grid-row--middle fr-grid-row--gutters ${isAplc ? 'fr-col-lg-10' : 'fr-col-lg-11'}`}>
+          {/* ---------------------- Top ---------------------- */}
           <div className='fr-grid-row fr-grid-row--gutters fr-col-12 infos-row'>
             <div className='fr-grid-row fr-col-12 fr-col-md-3'>
               <div className='label fr-col-12'>Nom</div>
@@ -35,7 +36,8 @@ const ActeurCard = ({siren, nom, mail, telephone, role, finance_part_euro, finan
               <div className='fr-col-12 fr-text--sm fr-m-0'>{finance_part_euro || 'N/A'}</div>
             </div>
           </div>
-          {/* -------------------------------------- */}
+
+          {/* ---------------------- Bottom ---------------------- */}
           <div className='fr-grid-row fr-grid-row--gutters fr-col-12 fr-mt-0 infos-row'>
             <div className='fr-grid-row fr-col-12 fr-col-md-3'>
               <div className='label fr-col-12'>Rôle</div>

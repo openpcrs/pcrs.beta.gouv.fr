@@ -5,6 +5,7 @@ import colors from '@/styles/colors.js'
 const LivrableCard = ({nom, nature, licence, diffusion, crs, avancement, publication, compression, dateLivraison, isFormOpen, handleEdition, handleDelete}) => (
   <div className={`fr-grid-row fr-grid-row--middle fr-grid-row--gutters fr-col-lg-12 fr-p-2w card-container ${isFormOpen ? 'card-disable' : ''}`}>
     <div className='fr-grid-row fr-grid-row--middle fr-grid-row--gutters fr-col-lg-11'>
+      {/* ---------------------- Top ---------------------- */}
       <div className='fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-col-12 infos-row'>
         <div className='fr-grid-row fr-col-12 fr-col-md-3'>
           <div className='label fr-col-12'>Nom</div>
@@ -31,7 +32,8 @@ const LivrableCard = ({nom, nature, licence, diffusion, crs, avancement, publica
           <div className='fr-col-12 fr-text--sm fr-m-0'>{avancement || 'N/A'}</div>
         </div>
       </div>
-      {/* -------------------------------------- */}
+
+      {/* ---------------------- Bottom ---------------------- */}
       <div className='fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-col-12 infos-row'>
         <div className='fr-grid-row fr-col-12 fr-col-md-3'>
           <div className='label fr-col-12'>Publication</div>
