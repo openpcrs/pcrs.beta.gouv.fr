@@ -97,7 +97,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
           subventions: projetSubventions
         }
 
-        const authorisationCode = editionCode ? editionCode : token
+        const authorisationCode = editionCode || token
         const sendSuivi = _id ? await editProject(suivi, _id, authorisationCode) : await postSuivi(suivi, token)
 
         setEditedProjectId(sendSuivi._id)
