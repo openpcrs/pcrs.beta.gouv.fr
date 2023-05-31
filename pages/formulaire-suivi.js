@@ -1,4 +1,4 @@
-import {useEffect, useContext} from 'react'
+import {useContext} from 'react'
 import PropTypes from 'prop-types'
 import Image from 'next/image'
 
@@ -13,13 +13,7 @@ import Button from '@/components/button.js'
 import SuiviForm from '@/components/suivi-form/index.js'
 
 const FormulaireSuivi = ({project, isNotFound, isForbidden, editionCode}) => {
-  const {token, userRole, isTokenRecovering, storeToken} = useContext(AuthentificationContext)
-
-  useEffect(() => {
-    if (editionCode) {
-      storeToken(editionCode)
-    }
-  }, [storeToken, editionCode])
+  const {token, userRole, isTokenRecovering} = useContext(AuthentificationContext)
 
   if (isNotFound || isForbidden) {
     return (
@@ -59,6 +53,7 @@ const FormulaireSuivi = ({project, isNotFound, isForbidden, editionCode}) => {
       <SuiviForm
         userRole={userRole}
         token={token}
+        editionCode={editionCode}
         isTokenRecovering={isTokenRecovering}
         {...project}
       />

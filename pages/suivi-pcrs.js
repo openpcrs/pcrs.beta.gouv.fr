@@ -5,9 +5,12 @@ import {getProject} from '@/lib/suivi-pcrs.js'
 import {Desktop, Mobile} from '@/layouts/map.js'
 
 import DeviceContext from '@/contexts/device.js'
+import AuthentificationContext from '@/contexts/authentification-token.js'
 
 const PcrsMap = () => {
   const {isMobileDevice} = useContext(DeviceContext)
+  const {token} = useContext(AuthentificationContext)
+
   const Layout = useMemo(() => isMobileDevice ? Mobile : Desktop, [isMobileDevice])
   const [isOpen, setIsOpen] = useState(false)
   const [projet, setProjet] = useState()
@@ -17,15 +20,16 @@ const PcrsMap = () => {
   const handleClick = useCallback(async e => {
     try {
       setProjets([])
-      const promises = e.features.map(f => getProject(f.properties._id))
+      const promises = e.features.map(f => getProject(f.properties._id, token))
       const projets = await Promise.all(promises)
+
       setProjets(prevProjets => [...prevProjets, ...projets])
     } catch {
       throw new Error('Projet introuvable')
     }
 
     setIsOpen(true)
-  }, [])
+  }, [token])
 
   const handleTitleClick = () => {
     if (projet) {
