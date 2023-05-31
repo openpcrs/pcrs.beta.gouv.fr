@@ -9,72 +9,70 @@ const ActeurCard = ({siren, nom, mail, telephone, role, finance_part_euro, finan
   const isAplc = role === 'aplc' || role === 'porteur'
 
   return (
-    <div className={`fr-grid-row card-container fr-grid-row--middle ${isFormOpen ? 'card-disable' : ''} fr-p-0`}>
-      <div className='fr-grid-row fr-grid-row--middle fr-grid-row--gutters fr-col-lg-12 fr-p-3w'>
-        {isAplc && <span className='fr-grid-row fr-grid-row--middle fr-col-12 fr-col-lg-1 fr-icon-user-star-fill fr-icon--lg' aria-hidden='true' />}
+    <div className={`fr-grid-row card-container fr-grid-row--middle fr-grid-row--gutters ${isFormOpen ? 'card-disable' : ''} fr-p-2w fr-col-12`}>
+      {isAplc && <span className='fr-grid-row fr-grid-row--middle fr-col-12 fr-col-lg-1 fr-icon-user-star-fill fr-icon--lg' aria-hidden='true' />}
 
-        <div className={`fr-grid-row fr-grid-row--middle fr-grid-row--gutters ${isAplc ? 'fr-col-lg-10' : 'fr-col-lg-11'}`}>
-          {/* ---------------------- Top ---------------------- */}
-          <div className='fr-grid-row fr-grid-row--gutters fr-col-12 infos-row'>
-            <div className='fr-grid-row fr-col-12 fr-col-md-3'>
-              <div className='label fr-col-12'>Nom</div>
-              <div className='fr-col-12 fr-text--sm fr-m-0'>{nom}</div>
-            </div>
-
-            <div className='fr-grid-row fr-col-12 fr-col-md-3'>
-              <div className='label fr-col-12'>SIREN</div>
-              <div className='fr-col-12 fr-text--sm fr-m-0'>{siren}</div>
-            </div>
-
-            <div className='fr-grid-row fr-col-12 fr-col-md-3'>
-              <div className='label fr-col-12'>Financement (%)</div>
-              <div className='fr-col-12 fr-text--sm fr-m-0'>{finance_part_perc || 'N/A'}</div>
-            </div>
-
-            <div className='fr-grid-row fr-col-12 fr-col-md-3'>
-              <div className='label fr-col-12'>Financement (€)</div>
-              <div className='fr-col-12 fr-text--sm fr-m-0'>{finance_part_euro || 'N/A'}</div>
-            </div>
+      <div className={`fr-grid-row fr-grid-row--middle fr-grid-row--gutters ${isAplc ? 'fr-col-lg-10' : 'fr-col-lg-11'}`}>
+        {/* ---------------------- Top ---------------------- */}
+        <div className='fr-grid-row fr-grid-row--gutters fr-col-12 infos-row'>
+          <div className='fr-grid-row fr-col-12 fr-col-md-3'>
+            <div className='label fr-col-12'>Nom</div>
+            <div className='fr-col-12 fr-text--sm fr-m-0'>{nom}</div>
           </div>
 
-          {/* ---------------------- Bottom ---------------------- */}
-          <div className='fr-grid-row fr-grid-row--gutters fr-col-12 fr-mt-0 infos-row'>
-            <div className='fr-grid-row fr-col-12 fr-col-md-3'>
-              <div className='label fr-col-12'>Rôle</div>
-              <div className='fr-col-12 fr-text--sm fr-m-0'>{getRoles()[role]}</div>
-            </div>
+          <div className='fr-grid-row fr-col-12 fr-col-md-3'>
+            <div className='label fr-col-12'>SIREN</div>
+            <div className='fr-col-12 fr-text--sm fr-m-0'>{siren}</div>
+          </div>
 
-            <div className='fr-grid-row fr-col-12 fr-col-md-3'>
-              <div className='label fr-col-12'>Téléphone</div>
-              <div className='fr-col-12 fr-text--sm fr-m-0'>{telephone || 'N/A'}</div>
-            </div>
+          <div className='fr-grid-row fr-col-12 fr-col-md-3'>
+            <div className='label fr-col-12'>Financement (%)</div>
+            <div className='fr-col-12 fr-text--sm fr-m-0'>{finance_part_perc || 'N/A'}</div>
+          </div>
 
-            <div className='fr-grid-row fr-col-12 fr-col-md-3'>
-              <div className='label fr-col-12'>E-mail</div>
-              <div className='fr-col-12 fr-text--sm fr-m-0'>{mail || 'N/A'}</div>
-            </div>
+          <div className='fr-grid-row fr-col-12 fr-col-md-3'>
+            <div className='label fr-col-12'>Financement (€)</div>
+            <div className='fr-col-12 fr-text--sm fr-m-0'>{finance_part_euro || 'N/A'}</div>
           </div>
         </div>
 
-        <div className='fr-grid-row fr-grid-row--gutters fr-col-12 fr-col-lg-1 fr-p-0 fr-mt-1w buttons-container'>
-          <button
-            type='button'
-            className='fr-grid-row fr-col-lg-12 fr-grid-row--center fr-grid-row--middle fr-mr-2w update-button'
-            onClick={handleEdition}
-          >
-            <span className='fr-icon-edit-line fr-pr-1w fr-col-lg-12' aria-hidden='true' />
-            <div>Modifier</div>
-          </button>
+        {/* ---------------------- Bottom ---------------------- */}
+        <div className='fr-grid-row fr-grid-row--gutters fr-col-12 fr-mt-0 infos-row'>
+          <div className='fr-grid-row fr-col-12 fr-col-md-3'>
+            <div className='label fr-col-12'>Rôle</div>
+            <div className='fr-col-12 fr-text--sm fr-m-0'>{getRoles()[role]}</div>
+          </div>
 
-          <button
-            type='button'
-            className='fr-grid-row fr-col-lg-12 fr-grid-row--center fr-grid-row--middle delete-button'
-            onClick={handleDelete}
-          >
-            <span className='fr-icon-delete-line fr-pr-1w fr-col-lg-12' aria-hidden='true' />
-            <div>Supprimer</div>
-          </button>
+          <div className='fr-grid-row fr-col-12 fr-col-md-3'>
+            <div className='label fr-col-12'>Téléphone</div>
+            <div className='fr-col-12 fr-text--sm fr-m-0'>{telephone || 'N/A'}</div>
+          </div>
+
+          <div className='fr-grid-row fr-col-12 fr-col-md-3'>
+            <div className='label fr-col-12'>E-mail</div>
+            <div className='fr-col-12 fr-text--sm fr-m-0'>{mail || 'N/A'}</div>
+          </div>
         </div>
+      </div>
+
+      <div className='fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-col-12 fr-col-lg-1 fr-p-0 fr-mt-1w fr-mt-md-0 buttons-container'>
+        <button
+          type='button'
+          className='fr-grid-row fr-col-lg-12 fr-grid-row--center fr-grid-row--middle fr-mr-2w update-button'
+          onClick={handleEdition}
+        >
+          <span className='fr-icon-edit-line fr-pr-1w fr-col-lg-12' aria-hidden='true' />
+          <div>Modifier</div>
+        </button>
+
+        <button
+          type='button'
+          className='fr-grid-row fr-col-lg-12 fr-grid-row--center fr-grid-row--middle delete-button'
+          onClick={handleDelete}
+        >
+          <span className='fr-icon-delete-line fr-pr-1w fr-col-lg-12' aria-hidden='true' />
+          <div>Supprimer</div>
+        </button>
       </div>
 
       <style jsx>{`

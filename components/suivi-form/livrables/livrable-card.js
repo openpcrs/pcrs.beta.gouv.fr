@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import colors from '@/styles/colors.js'
 
 const LivrableCard = ({nom, nature, licence, diffusion, crs, avancement, publication, compression, dateLivraison, isFormOpen, handleEdition, handleDelete}) => (
-  <div className={`fr-grid-row fr-grid-row--middle fr-grid-row--gutters fr-col-lg-12 fr-p-2w card-container ${isFormOpen ? 'card-disable' : ''}`}>
+  <div className={`fr-grid-row card-container fr-grid-row--middle fr-grid-row--gutters ${isFormOpen ? 'card-disable' : ''} fr-p-2w fr-col-12`}>
     <div className='fr-grid-row fr-grid-row--middle fr-grid-row--gutters fr-col-lg-11'>
       {/* ---------------------- Top ---------------------- */}
       <div className='fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-col-12 infos-row'>

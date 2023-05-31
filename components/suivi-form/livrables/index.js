@@ -25,57 +25,59 @@ const Livrables = ({livrables, hasMissingData, handleLivrables, onRequiredFormOp
   }
 
   return (
-    <div className='fr-mt-8w'>
-      <h3 className='fr-h5 fr-m-0'>Livrables *</h3>
-      <hr className='fr-my-3w' />
+    <div className='fr-mt-8w fr-grid-row'>
+      <h3 className='fr-h5 fr-m-0 fr-col-12'>Livrables *</h3>
+      <hr className='fr-my-3w fr-col-12' />
 
       {(hasMissingData && livrables.length === 0) && (
-        <div className='fr-error-text fr-mt-1w'>Au moins un livrable doit être ajouté</div>
+        <div className='fr-error-text fr-mt-1w fr-col-12'>Au moins un livrable doit être ajouté</div>
       )}
 
-      {livrables.map((livrable, idx) => {
-        const {nom, nature, licence, crs, avancement, diffusion, publication, compression, date_livraison} = livrable
+      <div className='fr-grid-row fr-col-12'>
+        {livrables.map((livrable, idx) => {
+          const {nom, nature, licence, crs, avancement, diffusion, publication, compression, date_livraison} = livrable
 
-        return (
-          <div key={uniqueId()}>
-            <LivrableCard
-              index={idx}
-              nom={nom}
-              nature={getNatures()[nature]}
-              licence={getLicences()[licence]}
-              diffusion={getDiffusions()[diffusion]}
-              publication={getPublications()[publication]}
-              compression={compression}
-              dateLivraison={shortDate(date_livraison)}
-              crs={crs}
-              avancement={avancement}
-              isFormOpen={isAdding || isEditing}
-              handleEdition={() => {
-                setUpdatingLivrableIndex(idx)
-                setIsEditing(true)
-              }}
-              handleDelete={() => onDelete(idx)}
-            />
+          return (
+            <div key={uniqueId()} className='fr-col-12 fr-mb-7w fr-p-0'>
+              <LivrableCard
+                index={idx}
+                nom={nom}
+                nature={getNatures()[nature]}
+                licence={getLicences()[licence]}
+                diffusion={getDiffusions()[diffusion]}
+                publication={getPublications()[publication]}
+                compression={compression}
+                dateLivraison={shortDate(date_livraison)}
+                crs={crs}
+                avancement={avancement}
+                isFormOpen={isAdding || isEditing}
+                handleEdition={() => {
+                  setUpdatingLivrableIndex(idx)
+                  setIsEditing(true)
+                }}
+                handleDelete={() => onDelete(idx)}
+              />
 
-            {updatingLivrableIndex === idx && (
-              <div>
-                <LivrableForm
-                  livrables={livrables}
-                  updatingLivrableIdx={updatingLivrableIndex}
-                  isAdding={isAdding}
-                  isEditing={isEditing}
-                  handleUpdatingLivrableIdx={setUpdatingLivrableIndex}
-                  handleLivrables={handleLivrables}
-                  handleAdding={setIsAdding}
-                  handleEditing={setIsEditing}
-                  onRequiredFormOpen={onRequiredFormOpen}
-                />
-                <div className='edit-separator fr-my-3w' />
-              </div>
-            )}
-          </div>
-        )
-      })}
+              {updatingLivrableIndex === idx && (
+                <div>
+                  <LivrableForm
+                    livrables={livrables}
+                    updatingLivrableIdx={updatingLivrableIndex}
+                    isAdding={isAdding}
+                    isEditing={isEditing}
+                    handleUpdatingLivrableIdx={setUpdatingLivrableIndex}
+                    handleLivrables={handleLivrables}
+                    handleAdding={setIsAdding}
+                    handleEditing={setIsEditing}
+                    onRequiredFormOpen={onRequiredFormOpen}
+                  />
+                  <div className='edit-separator fr-my-3w' />
+                </div>
+              )}
+            </div>
+          )
+        })}
+      </div>
 
       {isAdding && (
         <LivrableForm
@@ -92,7 +94,7 @@ const Livrables = ({livrables, hasMissingData, handleLivrables, onRequiredFormOp
       )}
 
       {!isAdding && !isEditing && (
-        <div className='fr-mt-3w'>
+        <div className='fr-mt-3w fr-col-12'>
           <Button
             label='Ajouter un livrable'
             icon='add-circle-fill'
