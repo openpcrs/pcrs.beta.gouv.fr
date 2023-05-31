@@ -22,7 +22,7 @@ import DeleteModal from '@/components/suivi-form/delete-modal.js'
 import Button from '@/components/button.js'
 import colors from '@/styles/colors.js'
 
-const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subventions, etapes, _id, token, userRole, isTokenRecovering}) => {
+const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subventions, etapes, _id, token, userRole, editionCode, isTokenRecovering}) => {
   const router = useRouter()
 
   const [isShareModalOpen, setIsShareModalOpen] = useState(false)
@@ -97,7 +97,8 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
           subventions: projetSubventions
         }
 
-        const sendSuivi = _id ? await editProject(suivi, _id, token) : await postSuivi(suivi, token)
+        const authorisationCode = editionCode || token
+        const sendSuivi = _id ? await editProject(suivi, _id, authorisationCode) : await postSuivi(suivi, token)
 
         setEditedProjectId(sendSuivi._id)
         setEditCode(sendSuivi.editorKey)
@@ -155,7 +156,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
         <h2 className='fr-mt-5w fr-mb-0'>Formulaire de suivi PCRS</h2>
       </div>
       <div className='fr-p-5w'>
-        {(!token && !isTokenRecovering) && <AuthentificationModal handleModalClose={handleAuthentificationModal} />}
+        {(!token && !isTokenRecovering && !editionCode) && <AuthentificationModal handleModalClose={handleAuthentificationModal} />}
 
         <div className='fr-grid-row fr-col-12'>
           <div className='fr-grid-row fr-grid-row--left fr-col-12 fr-col-md-10'>
@@ -352,6 +353,7 @@ SuiviForm.propTypes = {
   subventions: PropTypes.array,
   _id: PropTypes.string,
   token: PropTypes.string,
+  editionCode: PropTypes.string,
   isTokenRecovering: PropTypes.bool.isRequired
 }
 
@@ -366,6 +368,7 @@ SuiviForm.defaultProps = {
   etapes: [{statut: 'investigation', date_debut: ''}], // eslint-disable-line camelcase
   subventions: [],
   _id: null,
+  editionCode: null,
   token: null
 }
 
