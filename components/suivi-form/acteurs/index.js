@@ -22,45 +22,47 @@ const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) =>
   const sortActorsByAplc = useMemo(() => orderBy(acteurs, a => a.role === 'porteur' || 'aplc', ['desc']), [acteurs])
 
   return (
-    <div className='fr-mt-8w'>
-      <h3 className='fr-h5 fr-m-0'>Acteurs *</h3>
-      <hr className='fr-my-3w' />
+    <div className='fr-mt-8w fr-grid-row'>
+      <h3 className='fr-h5 fr-m-0 fr-col-12'>Acteurs *</h3>
+      <hr className='fr-my-3w fr-col-12' />
 
       {(hasMissingData && acteurs.length === 0) && (
-        <div className='fr-error-text fr-mt-1w'>Au moins un acteur doit être ajouté</div>
+        <div className='fr-error-text fr-mt-1w fr-col-12'>Au moins un acteur doit être ajouté</div>
       )}
 
-      {sortActorsByAplc.map((actor, idx) => (
-        <div key={actor.siren}>
-          <ActeurCard
-            handleActors={handleActors}
-            isFormOpen={isAdding || isEditing}
-            handleEdition={() => {
-              setUpdatingActorIndex(idx)
-              setIsEditing(true)
-            }}
-            handleDelete={() => onDelete(actor.siren)}
-            {...actor}
-          />
+      <div className='fr-grid-row fr-col-12'>
+        {sortActorsByAplc.map((actor, idx) => (
+          <div key={actor.siren} className='fr-col-12 fr-mb-7w fr-p-0'>
+            <ActeurCard
+              handleActors={handleActors}
+              isFormOpen={isAdding || isEditing}
+              handleEdition={() => {
+                setUpdatingActorIndex(idx)
+                setIsEditing(true)
+              }}
+              handleDelete={() => onDelete(actor.siren)}
+              {...actor}
+            />
 
-          {updatingActorIndex === idx && (
-            <div>
-              <ActeurForm
-                acteurs={acteurs}
-                updatingActorIndex={updatingActorIndex}
-                isAdding={isAdding}
-                isEditing={isEditing}
-                handleActors={handleActors}
-                handleActorIndex={setUpdatingActorIndex}
-                handleAdding={setIsAdding}
-                handleEditing={setIsEditing}
-                onRequiredFormOpen={onRequiredFormOpen}
-              />
-              <hr className='edit-separator fr-my-3w' />
-            </div>
-          )}
-        </div>
-      ))}
+            {updatingActorIndex === idx && (
+              <div>
+                <ActeurForm
+                  acteurs={acteurs}
+                  updatingActorIndex={updatingActorIndex}
+                  isAdding={isAdding}
+                  isEditing={isEditing}
+                  handleActors={handleActors}
+                  handleActorIndex={setUpdatingActorIndex}
+                  handleAdding={setIsAdding}
+                  handleEditing={setIsEditing}
+                  onRequiredFormOpen={onRequiredFormOpen}
+                />
+                <hr className='edit-separator fr-my-3w' />
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
 
       {isAdding && (
         <ActeurForm
@@ -77,7 +79,7 @@ const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) =>
       )}
 
       {!isAdding && !isEditing && (
-        <div className='fr-mt-3w'>
+        <div className='fr-mt-3w fr-col-12'>
           <Button
             label='Ajouter un acteur'
             icon='add-circle-fill'
