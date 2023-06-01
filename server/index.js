@@ -23,6 +23,7 @@ import {sendPinCodeEmail, checkPinCodeValidity, isAuthorizedEmail} from './auth/
 
 import {getProjet, getProjets, deleteProjet, updateProjet, getProjetsGeojson, expandProjet, filterSensitiveFields, createProjet} from './projets.js'
 import {exportEditorKeys, exportLivrablesAsCSV, exportProjetsAsCSV, exportSubventionsAsCSV, exportToursDeTableAsCSV} from '../lib/export/csv.js'
+import {addCreator, deleteCreator, getCreatorById, getCreators, updateCreator, getCreatorByEmail} from './admin/creators-emails.js'
 
 const port = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -161,6 +162,35 @@ server.route('/me')
     }
 
     res.send({role: req.role})
+  }))
+
+server.route('/creator-email/:emailId')
+  .get(w(ensureAdmin), w(async (req, res) => {
+    const email = await getCreatorById(req.params.emailId)
+
+    res.send(email)
+  }))
+  .delete(w(ensureAdmin), w(async (req, res) => {
+    await deleteCreator(req.params.emailId)
+
+    res.sendStatus(204)
+  }))
+  .put(w(ensureAdmin), w(async (req, res) => {
+    const email = await updateCreator(req.params.emailId, req.body)
+
+    res.send(email)
+  }))
+
+server.route('/creator-emails')
+  .get(w(ensureAdmin), w(async (req, res) => {
+    const emails = await getCreators()
+
+    res.send(emails)
+  }))
+  .post(w(ensureAdmin), w(async (req, res) => {
+    const email = await addCreator(req.body)
+
+    res.send(email)
   }))
 
 server.use(errorHandler)
