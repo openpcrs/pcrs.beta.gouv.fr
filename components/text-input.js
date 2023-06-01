@@ -1,7 +1,7 @@
 import {useEffect} from 'react'
 import PropTypes from 'prop-types'
 
-const TextInput = ({label, value, type, ariaLabel, placeholder, errorMessage, description, isRequired, isDisabled, onValueChange, setIsValueValid, onFocus, onBlur}) => {
+const TextInput = ({label, value, type, ariaLabel, placeholder, errorMessage, description, isRequired, isDisabled, onValueChange, setIsValueValid, onFocus, onBlur, ...props}) => {
   const inputState = errorMessage ? 'error' : ''
 
   useEffect(() => {
@@ -20,6 +20,7 @@ const TextInput = ({label, value, type, ariaLabel, placeholder, errorMessage, de
       </label>
 
       <input
+        {...props}
         type={type}
         autoComplete='off'
         required={isRequired}
