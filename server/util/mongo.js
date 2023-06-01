@@ -27,6 +27,7 @@ class Mongo {
     await this.db.collection('creators').createIndex({createdAt: 1}, {expireAfterSeconds: 86400}) // 24 heures
     await this.db.collection('versions').createIndex({_projet: 1})
     await this.db.collection('versions').createIndex({_projet: 1, _created: 1}, {unique: true})
+    await this.db.collection('creators-emails').createIndex({email: 1}, {unique: true})
   }
 
   disconnect(force) {
@@ -45,16 +46,16 @@ class Mongo {
     }
   }
 
-  decorateCreation(projet) {
+  decorateCreation(obj) {
     const now = new Date()
 
-    projet._created = now
-    projet._updated = now
-    projet._id = new ObjectId()
+    obj._created = now
+    obj._updated = now
+    obj._id = new ObjectId()
   }
 
-  decorateUpdate(projet) {
-    projet._updated = new Date()
+  decorateUpdate(obj) {
+    obj._updated = new Date()
   }
 }
 
