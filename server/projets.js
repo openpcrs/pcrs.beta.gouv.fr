@@ -19,17 +19,14 @@ function computeEditorKey() {
   return nanoid()
 }
 
-export async function renewEditorKey(projetId) {
-  projetId = mongo.parseObjectId(projetId)
-
-  const {modifiedCount} = await mongo.db.collection('projets').updateOne(
-    {_id: projetId},
-    {$set: {editorKey: computeEditorKey()}}
+export async function renewEditorKey(projet) {
+  const {value} = await mongo.db.collection('projets').findOneAndUpdate(
+    {_id: projet._id},
+    {$set: {editorKey: computeEditorKey()}},
+    {returnDocument: 'after'}
   )
 
-  if (!modifiedCount) {
-    throw createError(304, 'Le code d’édition n’a pas été renouvellé')
-  }
+  return value
 }
 
 export function filterSensitiveFields(projet) {
