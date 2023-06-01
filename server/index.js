@@ -63,6 +63,13 @@ server.route('/projets/geojson')
     res.send(projetsGeojson)
   }))
 
+server.route('/projets/:projetId/renew-editor-key')
+  .post(w(ensureAdmin), w(async (req, res) => {
+    const updatedProjet = await renewEditorKey(req.projet)
+
+    res.status(200).send(updatedProjet)
+  }))
+
 server.route('/projets/:projetId')
   .get(w(async (req, res) => {
     const projet = expandProjet(req.projet)
@@ -161,13 +168,6 @@ server.route('/me')
     }
 
     res.send({role: req.role})
-  }))
-
-server.route('/renew-editor-key')
-  .post(w(ensureAdmin), w(async (req, res) => {
-    await renewEditorKey(req.body.projetId)
-
-    res.status(200).send()
   }))
 
 server.use(errorHandler)
