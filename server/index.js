@@ -19,7 +19,7 @@ import errorHandler from './util/error-handler.js'
 import w from './util/w.js'
 
 import {handleAuth, ensureCreator, ensureProjectEditor, ensureAdmin} from './auth/middleware.js'
-import {sendPinCodeEmail, checkPinCodeValidity, isAuthorizedEmail} from './auth/pin-code/index.js'
+import {sendPinCodeEmail, checkPinCodeValidity} from './auth/pin-code/index.js'
 
 import {getProjet, getProjets, deleteProjet, updateProjet, getProjetsGeojson, expandProjet, filterSensitiveFields, createProjet} from './projets.js'
 import {exportEditorKeys, exportLivrablesAsCSV, exportProjetsAsCSV, exportSubventionsAsCSV, exportToursDeTableAsCSV} from '../lib/export/csv.js'
@@ -137,7 +137,7 @@ server.route('/data/editor-keys.csv')
 
 server.route('/ask-code')
   .post(w(async (req, res) => {
-    const authorizedEditorEmail = await isAuthorizedEmail(req.body.email)
+    const authorizedEditorEmail = await getCreatorByEmail(req.body.email)
 
     if (!authorizedEditorEmail) {
       throw createError(401, 'Cette adresse n’est pas autorisée à créer un projet')
