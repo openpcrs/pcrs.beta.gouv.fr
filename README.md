@@ -81,6 +81,11 @@ Puis compléter les champs suivants :
 | `/data/editor-keys.csv`| **GET** | *Retourne l’ensemble des codes d’édition des projets (Cette route est réservée aux administrateurs)* |
 | `/ask-code`| **POST** | *Faire une demande de création de projet. Cette route attend un objet `{"email": email du demandeur}`* |
 | `/check-code`| **POST** | *Vérifie la validité du code envoyé par email. Cette route attend un objet `{"email": email du demandeur, "pinCode": code envoyé par mail}`* |
+| `/creator-emails`| **GET** | *Retourne l’ensemble des emails autorisés à créer un projet (Cette route est réservée aux administrateurs)* |
+| `/creator-emails`| **POST** | *Permet d’ajouter un email autorisé à créer un projet (Cette route est réservée aux administrateurs)* |
+| `/creator-emails/:id`| **GET** | *Retourne les informations d’un mail autorisé à créer un projet (Cette route est réservée aux administrateurs)* |
+| `/creator-emails/:id`| **DELETE** | *Supprime le mail (Cette route est réservée aux administrateurs)* |
+| `/creator-emails/:id`| **PUT** | *Permet de modifier le mail ou le nom (Cette route est réservée aux administrateurs)* |
 
 Vous pouvez accéder au modèle de données à [cette adresse](https://docs.pcrs.beta.gouv.fr/suivi-des-projets/modele-de-donnees).
 
