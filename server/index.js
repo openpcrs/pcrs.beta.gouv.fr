@@ -168,6 +168,10 @@ server.route('/creator-email/:emailId')
   .get(w(ensureAdmin), w(async (req, res) => {
     const email = await getCreatorById(req.params.emailId)
 
+    if (!email) {
+      throw createError(404, 'Email introuvable')
+    }
+
     res.send(email)
   }))
   .delete(w(ensureAdmin), w(async (req, res) => {
