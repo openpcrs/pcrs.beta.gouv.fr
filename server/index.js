@@ -21,7 +21,7 @@ import w from './util/w.js'
 import {handleAuth, ensureCreator, ensureProjectEditor, ensureAdmin} from './auth/middleware.js'
 import {sendPinCodeEmail, checkPinCodeValidity, isAuthorizedEmail} from './auth/pin-code/index.js'
 
-import {getProjet, getProjets, deleteProjet, updateProjet, getProjetsGeojson, expandProjet, filterSensitiveFields, createProjet} from './projets.js'
+import {getProjet, getProjets, deleteProjet, updateProjet, getProjetsGeojson, expandProjet, filterSensitiveFields, createProjet, renewEditorKey} from './projets.js'
 import {exportEditorKeys, exportLivrablesAsCSV, exportProjetsAsCSV, exportSubventionsAsCSV, exportToursDeTableAsCSV} from '../lib/export/csv.js'
 
 const port = process.env.PORT || 3000
@@ -61,6 +61,13 @@ server.route('/projets/geojson')
   .get(w(async (req, res) => {
     const projetsGeojson = await getProjetsGeojson()
     res.send(projetsGeojson)
+  }))
+
+server.route('/projets/:projetId/renew-editor-key')
+  .post(w(ensureAdmin), w(async (req, res) => {
+    const updatedProjet = await renewEditorKey(req.projet)
+
+    res.status(200).send(updatedProjet)
   }))
 
 server.route('/projets/:projetId')
