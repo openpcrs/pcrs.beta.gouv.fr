@@ -65,6 +65,6 @@ export async function deleteCreator(creatorId) {
 
   const deleted = await mongo.db.collection('creators-emails').deleteOne({_id: creatorId})
 
-  return deleted
+  return Boolean(deleted)
 }
 
