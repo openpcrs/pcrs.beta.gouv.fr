@@ -7,9 +7,7 @@ export async function getCreators() {
 }
 
 export async function getCreatorByEmail(email) {
-  const foundEmail = await mongo.db.collection('creators-emails').findOne({email})
-
-  return foundEmail
+  return mongo.db.collection('creators-emails').findOne({email})
 }
 
 export async function getCreatorById(creatorId) {
