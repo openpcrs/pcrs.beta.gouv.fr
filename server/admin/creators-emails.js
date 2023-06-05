@@ -1,4 +1,5 @@
 import createError from 'http-errors'
+import {pick} from 'lodash-es'
 import {validateEmail} from '../auth/pin-code/index.js'
 import mongo from '../util/mongo.js'
 
@@ -45,11 +46,13 @@ export async function addCreator(creator) {
 export async function updateCreator(creatorId, update) {
   creatorId = mongo.parseObjectId(creatorId)
 
-  mongo.decorateUpdate(update)
+  const changes = pick(update, ['email', 'nom'])
+
+  mongo.decorateUpdate(changes)
 
   const {value} = await mongo.db.collection('creators-emails').findOneAndUpdate(
     {_id: creatorId},
-    {$set: {...update}},
+    {$set: {...changes}},
     {returnDocument: 'after'}
   )
 
