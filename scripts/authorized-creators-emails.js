@@ -19,7 +19,7 @@ for (const email of emails) {
 
     mongo.decorateCreation(creator)
 
-    await mongo.db.collection('creators-emails').updateOne({email: creator.email}, {$setOnInsert: {...creator}}, {upsert: true})
+    await mongo.db.collection('creators-emails').updateOne({email: creator.email}, {$setOnInsert: creator}, {upsert: true})
   }
 }
 
