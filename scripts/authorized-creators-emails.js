@@ -1,5 +1,10 @@
 #!/usr/bin/env node
+/* eslint-disable import/first */
 /* eslint-disable no-await-in-loop */
+
+import * as dotenv from 'dotenv'
+
+dotenv.config()
 
 import mongo from '../server/util/mongo.js'
 import {getAuthorizedEmails, validateEmail} from '../server/auth/pin-code/index.js'
