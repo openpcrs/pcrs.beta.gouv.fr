@@ -19,10 +19,11 @@ import errorHandler from './util/error-handler.js'
 import w from './util/w.js'
 
 import {handleAuth, ensureCreator, ensureProjectEditor, ensureAdmin} from './auth/middleware.js'
-import {sendPinCodeEmail, checkPinCodeValidity, isAuthorizedEmail} from './auth/pin-code/index.js'
+import {sendPinCodeEmail, checkPinCodeValidity} from './auth/pin-code/index.js'
 
 import {getProjet, getProjets, deleteProjet, updateProjet, getProjetsGeojson, expandProjet, filterSensitiveFields, createProjet, renewEditorKey} from './projets.js'
 import {exportEditorKeys, exportLivrablesAsCSV, exportProjetsAsCSV, exportSubventionsAsCSV, exportToursDeTableAsCSV} from '../lib/export/csv.js'
+import {addCreator, deleteCreator, getCreatorById, getCreators, updateCreator, getCreatorByEmail} from './admin/creators-emails.js'
 
 const port = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -143,7 +144,7 @@ server.route('/data/editor-keys.csv')
 
 server.route('/ask-code')
   .post(w(async (req, res) => {
-    const authorizedEditorEmail = await isAuthorizedEmail(req.body.email)
+    const authorizedEditorEmail = await getCreatorByEmail(req.body.email)
 
     if (!authorizedEditorEmail) {
       throw createError(401, 'Cette adresse n’est pas autorisée à créer un projet')
@@ -168,6 +169,39 @@ server.route('/me')
     }
 
     res.send({role: req.role})
+  }))
+
+server.route('/creator-email/:emailId')
+  .get(w(ensureAdmin), w(async (req, res) => {
+    const email = await getCreatorById(req.params.emailId)
+
+    if (!email) {
+      throw createError(404, 'Email introuvable')
+    }
+
+    res.send(email)
+  }))
+  .delete(w(ensureAdmin), w(async (req, res) => {
+    await deleteCreator(req.params.emailId)
+
+    res.sendStatus(204)
+  }))
+  .put(w(ensureAdmin), w(async (req, res) => {
+    const email = await updateCreator(req.params.emailId, req.body)
+
+    res.send(email)
+  }))
+
+server.route('/creator-emails')
+  .get(w(ensureAdmin), w(async (req, res) => {
+    const emails = await getCreators()
+
+    res.send(emails)
+  }))
+  .post(w(ensureAdmin), w(async (req, res) => {
+    const email = await addCreator(req.body)
+
+    res.send(email)
   }))
 
 server.use(errorHandler)
