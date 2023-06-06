@@ -6,8 +6,12 @@ import colors from '@/styles/colors.js'
 
 import AuthentificationContext from '@/contexts/authentification-token.js'
 
-import HiddenInfos from '@/components/hidden-infos.js'
+import ResetModal from '@/components/map-sidebar/reset-modal.js'
 import DeleteModal from '@/components/suivi-form/delete-modal.js'
+import Tooltip from '@/components/tooltip.js'
+import HiddenInfos from '@/components/hidden-infos.js'
+
+const SHARE_URL = process.env.NEXT_PUBLIC_PROJECT_SHARE_URL || 'https://pcrs.beta.gouv.fr'
 
 const Header = ({projectId, codeEditor, projectName, territoires, projets, onProjetChange}) => {
   const router = useRouter()
@@ -15,28 +19,63 @@ const Header = ({projectId, codeEditor, projectName, territoires, projets, onPro
 
   const [isTerritoiresShow, setIsTerritoiresShow] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [isResetModalOpen, setIsResetModalOpen] = useState(false)
+
+  const handleResetModal = () => setIsResetModalOpen(!isResetModalOpen)
 
   const hasToMuchTerritoires = territoires.length >= 4
   const isAdmin = userRole === 'admin'
+  const editorFormUrl = `/formulaire-suivi?id=${projectId}&editcode=${codeEditor}`
 
   const handleDeleteModalOpen = () => setIsDeleteModalOpen(!isDeleteModalOpen)
 
   return (
     <div className='header'>
       <div className='fr-grid-row fr-my-2w'>
-        <h1 className='fr-h4 fr-m-0 fr-col-9'>{projectName}</h1>
-        <div>
-          {isAdmin && (
-            <>
+        <h1 className='fr-h4 fr-m-0 fr-col-8'>{projectName}</h1>
+        {isAdmin && (
+          <div className='fr-grid-row fr-grid-row--right fr-col-4'>
+            <Tooltip
+              tooltipContent={() => <p>Réinitialiser le lien de partage</p>}
+              position='center'
+            >
               <button
                 type='button'
-                className='fr-btn--tertiary-no-outline fr-px-1w'
-                aria-label='Editer le projet'
-                onClick={() => router.push(`/formulaire-suivi?id=${projectId}&editcode=${codeEditor}`)}
+                className='fr-btn--tertiary-no-outline'
+                aria-label='Réinitialiser le lien de partage'
+                onClick={handleResetModal}
+              >
+                <span className='fr-icon-refresh-line' aria-hidden='true' />
+              </button>
+            </Tooltip>
+
+            {isResetModalOpen && (
+              <ResetModal
+                projectId={projectId}
+                token={token}
+                currentEditUrl={`${SHARE_URL}${editorFormUrl}`}
+                onClose={handleResetModal}
+              />
+            )}
+
+            <Tooltip
+              tooltipContent={() => <p>Éditer le projet</p>}
+              position='left'
+            >
+              <button
+                type='button'
+                className='fr-btn--tertiary-no-outline fr-mx-1w'
+                aria-label='Éditer le projet'
+                onClick={() => router.push(editorFormUrl)}
               >
                 <span className='fr-icon-edit-line' aria-hidden='true' />
               </button>
+            </Tooltip>
 
+            <Tooltip
+              tooltipContent={() => <p>Supprimer le projet</p>}
+              position='left'
+            >
               <button
                 type='button'
                 className='fr-btn--tertiary-no-outline'
@@ -45,19 +84,19 @@ const Header = ({projectId, codeEditor, projectName, territoires, projets, onPro
               >
                 <span className='fr-icon-delete-line' aria-hidden='true' />
               </button>
-            </>
-          )}
+            </Tooltip>
 
-          {isDeleteModalOpen && (
-            <DeleteModal
-              isSidebar
-              nom={projectName}
-              id={projectId}
-              token={token}
-              handleDeleteModalOpen={handleDeleteModalOpen}
-            />
-          )}
-        </div>
+            {isDeleteModalOpen && (
+              <DeleteModal
+                isSidebar
+                nom={projectName}
+                id={projectId}
+                token={token}
+                handleDeleteModalOpen={handleDeleteModalOpen}
+              />
+            )}
+          </div>
+        )}
       </div>
 
       <div className='fr-text--lg fr-my-0'>Liste des territoires</div>

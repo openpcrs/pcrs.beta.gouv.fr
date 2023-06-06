@@ -44,6 +44,10 @@ const Tooltip = ({tooltipContent, position, children}) => {
         left: 0;
       }
 
+      .center {
+        transform: translateX(-50%);
+      }
+
       .tooltip-container:hover .tooltip-text {
         visibility: visible;
       }
@@ -56,7 +60,8 @@ Tooltip.propTypes = {
   tooltipContent: PropTypes.func.isRequired,
   position: PropTypes.oneOf([
     'left',
-    'right'
+    'right',
+    'center'
   ]),
   children: PropTypes.node
 }

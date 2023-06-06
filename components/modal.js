@@ -20,7 +20,7 @@ const Modal = ({children, title, onClose}) => (
             </div>
             <div className='fr-modal__content'>
               {title && (
-                <h1 className='fr-modal__title'>
+                <h1 className='fr-modal__title fr-mb-4w'>
                   <span className='fr-fi-arrow-right-line fr-fi--lg' />{title}
                 </h1>
               )}

@@ -1,4 +1,4 @@
-
+/* eslint-disable camelcase */
 import {useState} from 'react'
 import PropTypes from 'prop-types'
 import {uniqueId} from 'lodash-es'
