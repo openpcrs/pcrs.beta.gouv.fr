@@ -131,9 +131,6 @@ const ResetModal = ({projectId, token, currentEditUrl, onClose}) => {
 
         .link {
           background: ${colors.blueFrance975};
-        }
-
-        i {
           cursor: pointer;
         }
       `}</style>

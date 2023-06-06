@@ -45,7 +45,6 @@ const Tooltip = ({tooltipContent, position, children}) => {
       }
 
       .center {
-        left: 30%;
         transform: translateX(-50%);
       }
 

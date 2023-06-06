@@ -34,7 +34,7 @@ const Header = ({projectId, codeEditor, projectName, territoires, projets, onPro
       <div className='fr-grid-row fr-my-2w'>
         <h1 className='fr-h4 fr-m-0 fr-col-8'>{projectName}</h1>
         {isAdmin && (
-          <div className='fr-grid-row fr-grid-row--right fr-col-12 fr-col-sm-4'>
+          <div className='fr-grid-row fr-grid-row--right fr-col-4'>
             <Tooltip
               tooltipContent={() => <p>Réinitialiser le lien de partage</p>}
               position='center'
