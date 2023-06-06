@@ -30,7 +30,7 @@ const ResetModal = ({projectId, token, currentEditUrl, onClose}) => {
         router.reload(window.location.pathname)
       }, 3000)
     } catch {
-      setErrorMessage('Une erreur a été rencontrée. Le nouveau lien n’as pas pu être créé')
+      setErrorMessage('Une erreur a été rencontrée. Le nouveau lien n’a pas pu être créé')
     }
   }
 
@@ -87,12 +87,12 @@ const ResetModal = ({projectId, token, currentEditUrl, onClose}) => {
                 <Button
                   icon='arrow-left-line'
                   iconSide='left'
-                  label='Retourner sur la carte des suivi'
+                  label='Retourner sur la carte de suivi'
                   buttonStyle='secondary'
                   size='sm'
                   onClick={onClose}
                 >
-                  Retourner sur la carte des suivi
+                  Retourner sur la carte de suivi
                 </Button>
               </div>
 
