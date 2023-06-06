@@ -53,7 +53,7 @@ const Porteurs = () => {
 
   useEffect(() => {
     if (search) {
-      const filteredResults = porteurs.filter(porteur => porteur.email.toLowerCase().includes(search.toLowerCase()) || porteur.nom.toLowerCase().includes(search.toLowerCase()))
+      const filteredResults = porteurs.filter(porteur => porteur.email.toLowerCase().includes(search.toLowerCase()) || porteur?.nom?.toLowerCase()?.includes(search.toLowerCase()))
       setFilteredPorteurs(filteredResults)
     } else {
       setFilteredPorteurs(porteurs)

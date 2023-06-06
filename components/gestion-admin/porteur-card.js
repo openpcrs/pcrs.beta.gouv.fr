@@ -50,7 +50,7 @@ const PorteurCard = ({_id, email, nom, _created, token}) => {
       <div className='fr-grid-row fr-grid-row--gutters fr-col-12 fr-col-md-10 fr-mt-2w fr-mt-md-0'>
         <div className='fr-grid-row fr-col-12 fr-col-md-4'>
           <div className='label fr-col-12'>Nom</div>
-          <div className='fr-col-12 fr-text--sm fr-m-0'>{nom}</div>
+          <div className='fr-col-12 fr-text--sm fr-m-0'>{nom || 'N/A'}</div>
         </div>
 
         <div className='fr-grid-row fr-col-12 fr-col-md-4'>
@@ -160,7 +160,7 @@ const PorteurCard = ({_id, email, nom, _created, token}) => {
 PorteurCard.propTypes = {
   _id: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
-  nom: PropTypes.string.isRequired,
+  nom: PropTypes.string,
   _created: PropTypes.string.isRequired,
   token: PropTypes.string.isRequired
 }
