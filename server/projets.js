@@ -19,11 +19,14 @@ function computeEditorKey() {
   return nanoid()
 }
 
-export async function renewEditorKey(projetId) {
-  await mongo.db.collection('projets').updateOne(
-    {_id: projetId},
-    {$set: {editorKey: computeEditorKey()}}
+export async function renewEditorKey(projet) {
+  const {value} = await mongo.db.collection('projets').findOneAndUpdate(
+    {_id: projet._id},
+    {$set: {editorKey: computeEditorKey()}},
+    {returnDocument: 'after'}
   )
+
+  return value
 }
 
 export function filterSensitiveFields(projet) {
