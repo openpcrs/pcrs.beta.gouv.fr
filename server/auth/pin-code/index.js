@@ -23,7 +23,7 @@ let _authorizedEmailsCache = null
 let _authorizedEmailsCacheDate = null
 let _authorizedEmailsPromise = null
 
-async function getAuthorizedEmails() {
+export async function getAuthorizedEmails() {
   if (_authorizedEmailsPromise) {
     return _authorizedEmailsPromise
   }
