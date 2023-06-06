@@ -83,7 +83,7 @@ const ResetModal = ({projectId, token, currentEditUrl, onClose}) => {
             </div>
 
             <div className='fr-col-12 fr-grid-row fr-grid-row--middle fr-mt-5w'>
-              <div className='fr-col-md-5 fr-col-12'>
+              <div className='fr-col-md-4 fr-col-12'>
                 <Button
                   icon='arrow-left-line'
                   iconSide='left'
@@ -96,7 +96,7 @@ const ResetModal = ({projectId, token, currentEditUrl, onClose}) => {
                 </Button>
               </div>
 
-              <div className='fr-grid-row fr-col-md-7 fr-col-12 fr-mt-2w fr-mt-md-0 fr-grid-row fr-grid-row--left'>
+              <div className='fr-grid-row fr-col-md-7 fr-col-12 fr-ml-md-7w fr-mt-2w fr-mt-md-0 fr-grid-row fr-grid-row--left'>
                 <div className='fr-col-12'>
                   <Button
                     icon='refresh-line'
