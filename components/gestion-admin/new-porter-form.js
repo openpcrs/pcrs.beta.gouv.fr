@@ -31,8 +31,8 @@ const NewPorteurForm = ({token, onClose}) => {
       setTimeout(() => {
         router.reload(window.location.pathname)
       }, 1000)
-    } catch {
-      setErrorMessage('Le nouveau porteur n’a pas pu être ajouté.')
+    } catch (error) {
+      setErrorMessage('Le nouveau porteur n’a pas pu être ajouté : ' + error)
     }
   }
 
