@@ -70,7 +70,7 @@ const PorteurCard = ({_id, email, nom, _created, token}) => {
           className='fr-grid-row fr-col-md-12 fr-grid-row--center fr-grid-row--middle revoke-modal-button'
           onClick={handleConfirmationModal}
         >
-          <span className='fr-icon-close-circle-line fr-pr-1w' aria-hidden='true' />
+          <span className='fr-icon-close-circle-line fr-pr-1w fr-pr-md-0' aria-hidden='true' />
           <div>Révoquer</div>
         </button>
       </div>
