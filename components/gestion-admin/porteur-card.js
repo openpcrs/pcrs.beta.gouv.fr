@@ -37,7 +37,7 @@ const PorteurCard = ({_id, email, nom, _created, token}) => {
         router.reload(window.location.pathname)
       }, 2000)
     } catch {
-      setErrorMessage(`Les droits de création de ${nom} n’ont pas pu été révoqués`)
+      setErrorMessage(`Les droits de création de ${nom} n’ont pas été révoqués`)
     }
   }
 
