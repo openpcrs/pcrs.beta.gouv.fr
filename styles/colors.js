@@ -25,5 +25,6 @@ export default ({
 
   // Red
   error425: '#CE0500',
-  redMarianne425: '#c9191e'
+  redMarianne425: '#c9191e',
+  error950: '#ffe9e9'
 })
