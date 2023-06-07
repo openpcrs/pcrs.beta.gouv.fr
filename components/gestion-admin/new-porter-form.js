@@ -42,7 +42,7 @@ const NewPorteurForm = ({token, onClose}) => {
         <div className='fr-col-12 fr-col-md-4'>
           <TextInput
             isRequired
-            autoFocus='true'
+            autoFocus
             label='Nom du porteur'
             ariaLabel='nom du porteur'
             value={nom}
