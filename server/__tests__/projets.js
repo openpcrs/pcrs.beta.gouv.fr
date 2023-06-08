@@ -120,11 +120,12 @@ test.serial('get all projets', async t => {
 
 test.serial('delete projet', async t => {
   const projet = await mongo.db.collection('projets').insertOne(validProjet)
-  const {deletedCount} = await deleteProjet(projet.insertedId)
-  const deletedProjet = await mongo.db.collection('projets').findOne({nom: 'plop'})
+  t.falsy(projet._deleted)
 
-  t.is(deletedCount, 1)
-  t.is(deletedProjet, null)
+  await deleteProjet(projet.insertedId)
+  const deletedProjet = await mongo.db.collection('projets').findOne({_id: projet.insertedId})
+
+  t.truthy(deletedProjet._deleted)
 })
 
 test.serial('get projet by token', async t => {
