@@ -24,6 +24,7 @@ import {sendPinCodeEmail, checkPinCodeValidity} from './auth/pin-code/index.js'
 import {getProjet, getProjets, deleteProjet, updateProjet, getProjetsGeojson, expandProjet, filterSensitiveFields, createProjet, renewEditorKey} from './projets.js'
 import {exportEditorKeys, exportLivrablesAsCSV, exportProjetsAsCSV, exportSubventionsAsCSV, exportToursDeTableAsCSV} from '../lib/export/csv.js'
 import {addCreator, deleteCreator, getCreatorById, getCreators, updateCreator, getCreatorByEmail} from './admin/creators-emails.js'
+import {getLatestChanges} from './admin/reports.js'
 
 const port = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -202,6 +203,12 @@ server.route('/creator-emails')
     const email = await addCreator(req.body)
 
     res.send(email)
+  }))
+
+server.route('/report')
+  .get(w(ensureAdmin), w(async (req, res) => {
+    const report = await getLatestChanges()
+    res.send(report)
   }))
 
 server.use(errorHandler)
