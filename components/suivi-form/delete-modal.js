@@ -1,6 +1,7 @@
 import {useState} from 'react'
 import PropTypes from 'prop-types'
 import {useRouter} from 'next/router'
+import Link from 'next/link'
 
 import {deleteSuivi} from '@/lib/suivi-pcrs.js'
 
@@ -8,7 +9,6 @@ import colors from '@/styles/colors.js'
 
 import Button from '@/components/button.js'
 import Modal from '@/components/modal.js'
-import Link from 'next/link'
 
 const DeleteModal = ({nom, id, token, isSidebar, handleDeleteModalOpen}) => {
   const router = useRouter()
