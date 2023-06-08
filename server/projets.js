@@ -82,9 +82,12 @@ export async function createProjet(payload, options = {}) {
 }
 
 export async function deleteProjet(projetId) {
-  const deleted = await mongo.db.collection('projets').deleteOne({_id: projetId})
-
-  return deleted
+  await mongo.db.collection('projets').findOneAndUpdate(
+    {_id: mongo.parseObjectId(projetId)},
+    {$set: {
+      _deleted: new Date()
+    }}
+  )
 }
 
 export async function updateProjet(id, payload) {
