@@ -34,17 +34,17 @@ export function filterSensitiveFields(projet) {
 }
 
 export async function getProjets() {
-  return mongo.db.collection('projets').find().toArray()
+  return mongo.db.collection('projets').find({_deleted: {$exists: false}}).toArray()
 }
 
 export async function getProjetByEditorKey(editorKey) {
-  return mongo.db.collection('projets').findOne({editorKey})
+  return mongo.db.collection('projets').findOne({editorKey, _deleted: {$exists: false}})
 }
 
 export async function getProjet(projetId) {
   projetId = mongo.parseObjectId(projetId)
 
-  const projet = await mongo.db.collection('projets').findOne({_id: projetId})
+  const projet = await mongo.db.collection('projets').findOne({_id: projetId, _deleted: {$exists: false}})
 
   return projet
 }
@@ -123,7 +123,7 @@ export async function updateProjet(id, payload) {
 }
 
 export async function getProjetsGeojson() {
-  const projets = await mongo.db.collection('projets').find().toArray()
+  const projets = await mongo.db.collection('projets').find({_deleted: {$exists: false}}).toArray()
 
   const projetsFeatures = await Promise.all(projets.map(async projet => {
     const closestPostStep = findClosestEtape(projet.etapes)
