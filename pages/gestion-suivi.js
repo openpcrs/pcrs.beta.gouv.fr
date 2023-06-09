@@ -17,8 +17,8 @@ const Admin = () => {
 
   return (
     <Page>
-      {(userRole === 'creator' || (!isTokenRecovering && !token)) && (
-        <AdminAuthentificationModal handleModalClose={() => router.push('/suivi-pcrs')} />
+      {(userRole !== 'admin' || (!isTokenRecovering && !token)) && (
+        <AdminAuthentificationModal handleModalClose={() => router.push('/gestion-suivi')} />
       )}
 
       <div className='page-header fr-my-5w'>
