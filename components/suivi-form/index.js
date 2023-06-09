@@ -282,7 +282,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
               <DeleteModal
                 nom={nom}
                 id={_id}
-                token={token}
+                token={editionCode}
                 handleDeleteModalOpen={handleDeleteModalOpen}
               />
             )}
