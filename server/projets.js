@@ -83,7 +83,7 @@ export async function createProjet(payload, options = {}) {
 
 export async function deleteProjet(projetId) {
   await mongo.db.collection('projets').findOneAndUpdate(
-    {_id: mongo.parseObjectId(projetId)},
+    {_id: mongo.parseObjectId(projetId), _deleted: {$exists: false}},
     {$set: {
       _deleted: new Date()
     }}
@@ -101,7 +101,7 @@ export async function updateProjet(id, payload) {
 
   try {
     const {value} = await mongo.db.collection('projets').findOneAndUpdate(
-      {_id: mongo.parseObjectId(id)},
+      {_id: mongo.parseObjectId(id), _deleted: {$exists: false}},
       {$set: projet},
       {returnDocument: 'after'}
     )
