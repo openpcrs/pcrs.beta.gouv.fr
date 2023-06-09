@@ -8,6 +8,7 @@ import Page from '@/layouts/main.js'
 
 import AdminAuthentificationModal from '@/components/suivi-form/authentification/admin-authentification-modal.js'
 import Porteurs from '@/components/gestion-admin/porteurs.js'
+import Changes from '@/components/gestion-admin/changes.js'
 
 const Admin = () => {
   const router = useRouter()
@@ -59,6 +60,17 @@ const Admin = () => {
                 Administrateurs
               </button>
             </li>
+            <li role='presentation'>
+              <button
+                type='button'
+                className='fr-tabs__tab fr-icon-checkbox-line fr-tabs__tab--icon-left'
+                role='tab'
+                aria-selected={activeTab === 'changes' ? 'true' : 'false'}
+                onClick={() => setActiveTab('changes')}
+              >
+                Projets édités récemment
+              </button>
+            </li>
           </ul>
           {activeTab === 'porteurs' && (
             <div className='fr-tabs__panel fr-tabs__panel--selected' role='tabpanel'>
@@ -69,6 +81,12 @@ const Admin = () => {
           {activeTab === 'admin' && (
             <div className='fr-tabs__panel fr-tabs__panel--selected' role='tabpanel'>
               <i>Bientôt disponible</i>
+            </div>
+          )}
+
+          {activeTab === 'changes' && (
+            <div className='fr-tabs__panel fr-tabs__panel--selected' role='tabpanel'>
+              <Changes token={token} />
             </div>
           )}
         </div>
