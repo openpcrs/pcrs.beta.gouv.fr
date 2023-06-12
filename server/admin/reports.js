@@ -1,6 +1,6 @@
 import mongo from '../util/mongo.js'
 
-export async function getLatestChanges() {
+export async function getUpdatedProjets() {
   const twentyFourHoursAgo = new Date()
   twentyFourHoursAgo.setDate(twentyFourHoursAgo.getDate() - 1)
 
