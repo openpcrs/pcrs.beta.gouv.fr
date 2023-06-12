@@ -85,7 +85,8 @@ export async function deleteProjet(projetId) {
   await mongo.db.collection('projets').findOneAndUpdate(
     {_id: mongo.parseObjectId(projetId), _deleted: {$exists: false}},
     {$set: {
-      _deleted: new Date()
+      _deleted: new Date(),
+      _updated: new Date()
     }}
   )
 }
