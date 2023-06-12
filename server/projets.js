@@ -26,6 +26,8 @@ export async function renewEditorKey(projet) {
     {returnDocument: 'after'}
   )
 
+  console.log('Le ' + new Date() + ' | Remplacement du jeton d’édtion du projet ' + projet.nom + ', _id: ' + projet._id + ' | Ancien jeton : ' + projet.editorKey + ' | Nouveau jeton : ' + projet.editorKey)
+
   return value
 }
 
