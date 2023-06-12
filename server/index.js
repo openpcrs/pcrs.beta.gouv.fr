@@ -207,7 +207,8 @@ server.route('/creator-emails')
 
 server.route('/report')
   .get(w(ensureAdmin), w(async (req, res) => {
-    const report = await getUpdatedProjets()
+    const {since} = req.query
+    const report = await getUpdatedProjets(since)
     res.send(report)
   }))
 
