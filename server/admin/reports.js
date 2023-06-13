@@ -5,9 +5,7 @@ export async function getUpdatedProjets(since) {
   twentyFourHoursAgo.setDate(twentyFourHoursAgo.getDate() - 1)
   const sinceDate = since ? new Date(since) : twentyFourHoursAgo
 
-  return mongo.db.collection('projets').find({
-    $or: [
-      {_updated: {$gt: sinceDate}}
-    ]
-  }).sort({_updated: -1}).toArray()
+  return mongo.db.collection('projets').find(
+    {_updated: {$gt: sinceDate}}
+  ).sort({_updated: -1}).toArray()
 }
