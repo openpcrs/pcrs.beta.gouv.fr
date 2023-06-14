@@ -26,6 +26,8 @@ export async function renewEditorKey(projet) {
     {returnDocument: 'after'}
   )
 
+  console.log('Le ' + new Date() + ' | Remplacement du jeton d’édition du projet ' + projet.nom + ', _id: ' + projet._id + ' | Ancien jeton : ' + projet.editorKey + ' | Nouveau jeton : ' + projet.editorKey)
+
   return value
 }
 
@@ -85,7 +87,8 @@ export async function deleteProjet(projetId) {
   await mongo.db.collection('projets').findOneAndUpdate(
     {_id: mongo.parseObjectId(projetId), _deleted: {$exists: false}},
     {$set: {
-      _deleted: new Date()
+      _deleted: new Date(),
+      _updated: new Date()
     }}
   )
 }
