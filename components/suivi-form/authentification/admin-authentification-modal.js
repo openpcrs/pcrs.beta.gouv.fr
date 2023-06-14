@@ -1,6 +1,5 @@
 import {useState, useContext} from 'react'
 import PropTypes from 'prop-types'
-import {useRouter} from 'next/router'
 
 import {authentificationRole} from '@/lib/authentification.js'
 
@@ -11,7 +10,6 @@ import Modal from '@/components/modal.js'
 import Button from '@/components/button.js'
 
 const AdminAuthentificationModal = ({handleModalClose}) => {
-  const router = useRouter()
   const {storeToken} = useContext(AuthentificationContext)
 
   const [tokenInput, setTokenInput] = useState('')
@@ -30,7 +28,7 @@ const AdminAuthentificationModal = ({handleModalClose}) => {
           setValidationMessage('Administrateur authentifié avec succès ! Vous allez être redirigé...')
 
           setTimeout(() => {
-            router.push('/suivi-pcrs')
+            handleModalClose()
           }, 3000)
         } else {
           setErrorMessage('Le jeton entré ne correspond pas à un jeton administrateur existant')

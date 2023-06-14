@@ -26,6 +26,8 @@ export async function renewEditorKey(projet) {
     {returnDocument: 'after'}
   )
 
+  console.log('Le ' + new Date() + ' | Remplacement du jeton d’édition du projet ' + projet.nom + ', _id: ' + projet._id + ' | Ancien jeton : ' + projet.editorKey + ' | Nouveau jeton : ' + projet.editorKey)
+
   return value
 }
 
@@ -34,17 +36,17 @@ export function filterSensitiveFields(projet) {
 }
 
 export async function getProjets() {
-  return mongo.db.collection('projets').find().toArray()
+  return mongo.db.collection('projets').find({_deleted: {$exists: false}}).toArray()
 }
 
 export async function getProjetByEditorKey(editorKey) {
-  return mongo.db.collection('projets').findOne({editorKey})
+  return mongo.db.collection('projets').findOne({editorKey, _deleted: {$exists: false}})
 }
 
 export async function getProjet(projetId) {
   projetId = mongo.parseObjectId(projetId)
 
-  const projet = await mongo.db.collection('projets').findOne({_id: projetId})
+  const projet = await mongo.db.collection('projets').findOne({_id: projetId, _deleted: {$exists: false}})
 
   return projet
 }
@@ -82,9 +84,13 @@ export async function createProjet(payload, options = {}) {
 }
 
 export async function deleteProjet(projetId) {
-  const deleted = await mongo.db.collection('projets').deleteOne({_id: projetId})
-
-  return deleted
+  await mongo.db.collection('projets').findOneAndUpdate(
+    {_id: mongo.parseObjectId(projetId), _deleted: {$exists: false}},
+    {$set: {
+      _deleted: new Date(),
+      _updated: new Date()
+    }}
+  )
 }
 
 export async function updateProjet(id, payload) {
@@ -98,7 +104,7 @@ export async function updateProjet(id, payload) {
 
   try {
     const {value} = await mongo.db.collection('projets').findOneAndUpdate(
-      {_id: mongo.parseObjectId(id)},
+      {_id: mongo.parseObjectId(id), _deleted: {$exists: false}},
       {$set: projet},
       {returnDocument: 'after'}
     )
@@ -120,7 +126,7 @@ export async function updateProjet(id, payload) {
 }
 
 export async function getProjetsGeojson() {
-  const projets = await mongo.db.collection('projets').find().toArray()
+  const projets = await mongo.db.collection('projets').find({_deleted: {$exists: false}}).toArray()
 
   const projetsFeatures = await Promise.all(projets.map(async projet => {
     const closestPostStep = findClosestEtape(projet.etapes)
