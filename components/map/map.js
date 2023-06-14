@@ -7,6 +7,7 @@ import maplibreGl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
 import departementFillLayer from './layers/departement-fill.json'
+import departementFillNature from './layers/departement-fill-nature.json'
 import departementLayer from './layers/departement-layer.json'
 import vector from './styles/vector.json'
 
@@ -20,6 +21,7 @@ import AuthentificationModal from '@/components/suivi-form/authentification/auth
 const Map = ({handleClick, isMobile, geometry, projetId}) => {
   const {userRole, token} = useContext(AuthentificationContext)
   const router = useRouter()
+  const [layout, setLayout] = useState()
 
   const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
 
@@ -37,6 +39,18 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
   }))
   const popupNode = document.createElement('div')
   const popupRoot = createRoot(popupNode)
+
+  useEffect(() => {
+    if (mapRef?.current?.isStyleLoaded()) {
+      if (layout === 'nature') {
+        mapRef.current.setLayoutProperty('departements-fills-nature', 'visibility', 'visible')
+      }
+
+      if (layout === 'statut') {
+        mapRef.current.setLayoutProperty('departements-fills-nature', 'visibility', 'none')
+      }
+    }
+  }, [layout])
 
   useEffect(() => {
     const node = mapNode.current
@@ -142,6 +156,7 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
       }
 
       maplibreMap.addLayer(departementFillLayer)
+      maplibreMap.addLayer(departementFillNature)
       maplibreMap.addLayer(departementLayer)
     })
 
@@ -172,7 +187,10 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
   return (
     <div style={{position: 'relative', height: '100%', width: '100%'}}>
       <div ref={mapNode} style={{width: '100%', height: '100%'}} />
-      <Legend isMobile={isMobile === true} />
+      <Legend
+        isMobile={isMobile === true}
+        legend={layout}
+      />
 
       <button
         type='button'
@@ -185,6 +203,18 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
         onClick={() => token ? router.push('/formulaire-suivi') : handleModal()}
       >
         Ajouter un projet
+      </button>
+      <button
+        type='button'
+        className='fr-btn fr-btn--sm'
+        style={{
+          position: 'fixed',
+          right: 10,
+          bottom: '100px'
+        }}
+        onClick={() => setLayout(layout === 'nature' ? 'statut' : 'nature')}
+      >
+        Afficher par {layout === 'nature' ? 'statut' : 'nature'}
       </button>
 
       {isAuthentificationModalOpen && userRole !== 'admin' && <AuthentificationModal handleModalClose={handleModal} />}
