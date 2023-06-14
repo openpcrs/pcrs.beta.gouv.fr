@@ -33,7 +33,7 @@ const Admin = () => {
         <h2 className='fr-mt-5w fr-mb-0'>Gestion des suivis</h2>
       </div>
 
-      <div className='fr-px-4w'>
+      <div className='fr-px-md-1w'>
         <h3 className='fr-h6 fr-mb-6w'><span className='fr-icon-file-text-line' aria-hidden='true' /> Liste des administrateurs et porteurs de projets</h3>
 
         <div className='fr-tabs'>
