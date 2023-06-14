@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors.js'
 import Badge from '@/components/badge.js'
 
-const Legend = ({isMobile}) => {
-  const {status} = PCRS_DATA_COLORS
+const Legend = ({isMobile, legend}) => {
+  const {status, natures} = PCRS_DATA_COLORS
   const [isOpen, setIsOpen] = useState(!isMobile)
 
   return (
@@ -22,11 +22,22 @@ const Legend = ({isMobile}) => {
       {isOpen ? (
         <>
           <span><u>Légende :</u></span>
-          <Badge className='fr-pb-1v fr-pt-1v' size='small' background={status.investigation}>Investigation</Badge>
-          <Badge className='fr-pb-1v' size='small' background={status.production}>Production</Badge>
-          <Badge className='fr-pb-1v' size='small' background={status.produit}>Produit</Badge>
-          <Badge className='fr-pb-1v' size='small' background={status.livre} textColor='snow'>Livré</Badge>
-          <Badge className='fr-pb-2v' size='small' background={status.obsolete} textColor='snow'>Obsolète</Badge>
+          {(legend === 'statut' || !legend) && (
+            <>
+              <Badge className='fr-pb-1v fr-pt-1v' size='small' background={status.investigation}>Investigation</Badge>
+              <Badge className='fr-pb-1v' size='small' background={status.production}>Production</Badge>
+              <Badge className='fr-pb-1v' size='small' background={status.produit}>Produit</Badge>
+              <Badge className='fr-pb-1v' size='small' background={status.livre} textColor='snow'>Livré</Badge>
+              <Badge className='fr-pb-2v' size='small' background={status.obsolete} textColor='snow'>Obsolète</Badge>
+            </>
+          )}
+          {legend === 'nature' && (
+            <>
+              <Badge className='fr-pb-1v fr-pt-1v' size='small' background={natures.vecteur}>Vecteur</Badge>
+              <Badge className='fr-pb-1v' size='small' background={natures.raster}>Raster</Badge>
+              <Badge className='fr-pb-2v' size='small' background={natures.mixte}>Mixte</Badge>
+            </>
+          )}
           <hr className='fr-p-1v' />
           <span
             className='fr-icon--sm fr-icon-close-circle-line'
