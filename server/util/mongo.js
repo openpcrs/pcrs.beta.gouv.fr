@@ -23,6 +23,7 @@ class Mongo {
   async createIndexes() {
     await this.db.collection('projets').createIndex({nom: 1}, {unique: true})
     await this.db.collection('projets').createIndex({editorKey: 1}, {unique: true, sparse: true})
+    await this.db.collection('projets').createIndex({_updated: 1})
     await this.db.collection('creators').createIndex({token: 1}, {unique: true, sparse: true})
     await this.db.collection('creators').createIndex({createdAt: 1}, {expireAfterSeconds: 86400}) // 24 heures
     await this.db.collection('versions').createIndex({_projet: 1})
