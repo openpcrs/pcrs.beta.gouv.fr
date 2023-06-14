@@ -207,8 +207,10 @@ server.route('/creator-emails')
 
 server.route('/report')
   .get(w(ensureAdmin), w(async (req, res) => {
-    const {since} = req.query
-    const report = await getUpdatedProjets(since)
+    const since = new Date(req.query.since)
+    const validDate = Number.isNaN(since.valueOf()) ? new Date('2010-01-01') : since
+
+    const report = await getUpdatedProjets(validDate)
     res.send(report)
   }))
 
