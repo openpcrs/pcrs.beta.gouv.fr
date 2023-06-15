@@ -64,6 +64,9 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
     maplibreMap.on('click', 'departements-fills', e => {
       handleClick(e)
     })
+    maplibreMap.on('click', 'departements-fills-nature', e => {
+      handleClick(e)
+    })
 
     if (!isMobile) {
       maplibreMap.on('mousemove', 'departements-fills', e => {
