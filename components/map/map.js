@@ -21,7 +21,7 @@ import AuthentificationModal from '@/components/suivi-form/authentification/auth
 const Map = ({handleClick, isMobile, geometry, projetId}) => {
   const {userRole, token} = useContext(AuthentificationContext)
   const router = useRouter()
-  const [layout, setLayout] = useState()
+  const [layout, setLayout] = useState('departements-fills')
 
   const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
 
@@ -167,6 +167,18 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
+    if (mapRef?.current?.isStyleLoaded()) {
+      if (layout === 'departements-fills-nature') {
+        mapRef.current.setLayoutProperty('departements-fills-nature', 'visibility', 'visible')
+        mapRef.current.setLayoutProperty('departements-fills', 'visibility', 'none')
+      }
+
+      if (layout === 'departements-fills') {
+        mapRef.current.setLayoutProperty('departements-fills', 'visibility', 'visible')
+        mapRef.current.setLayoutProperty('departements-fills-nature', 'visibility', 'none')
+      }
+    }
+  }, [layout])
     if (mapRef?.current.isStyleLoaded() && projetId) {
       if (selectedCode?.current && selectedCode?.current !== projetId) {
         mapRef.current.setFeatureState(
@@ -212,9 +224,9 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
           right: 10,
           bottom: '100px'
         }}
-        onClick={() => setLayout(layout === 'nature' ? 'statut' : 'nature')}
+        onClick={() => setLayout(layout === 'departements-fills-nature' ? 'departements-fills' : 'departements-fills-nature')}
       >
-        Afficher par {layout === 'nature' ? 'statut' : 'nature'}
+        Afficher par {layout === 'departements-fills' ? 'nature' : 'statut'}
       </button>
 
       {isAuthentificationModalOpen && userRole !== 'admin' && <AuthentificationModal handleModalClose={handleModal} />}
