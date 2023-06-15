@@ -41,18 +41,6 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
   const popupRoot = createRoot(popupNode)
 
   useEffect(() => {
-    if (mapRef?.current?.isStyleLoaded()) {
-      if (layout === 'nature') {
-        mapRef.current.setLayoutProperty('departements-fills-nature', 'visibility', 'visible')
-      }
-
-      if (layout === 'statut') {
-        mapRef.current.setLayoutProperty('departements-fills-nature', 'visibility', 'none')
-      }
-    }
-  }, [layout])
-
-  useEffect(() => {
     const node = mapNode.current
     let hoveredCode = null
     let projet = null
@@ -109,24 +97,6 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
         }
       })
     }
-
-    maplibreMap.on('click', 'departements-fills', e => {
-      if (e.features.length > 0) {
-        if (selectedCode.current !== undefined) {
-          maplibreMap.setFeatureState(
-            {source: 'projetsData', id: selectedCode.current},
-            {hover: false}
-          )
-        }
-
-        selectedCode.current = e.features[0].id
-
-        maplibreMap.setFeatureState(
-          {source: 'projetsData', id: selectedCode.current},
-          {hover: true}
-        )
-      }
-    })
 
     maplibreMap.on('mouseleave', 'departements-fills', () => {
       if (hoveredCode !== null) {
