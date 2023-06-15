@@ -22,6 +22,7 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
   const {userRole, token} = useContext(AuthentificationContext)
   const router = useRouter()
   const [layout, setLayout] = useState('departements-fills')
+  const [porteur, setPorteur] = useState()
 
   const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
 
@@ -152,6 +153,20 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
       }
     }
   }, [layout])
+
+  useEffect(() => {
+    if (mapRef?.current.isStyleLoaded()) {
+      mapRef.current.setFilter(
+        'departements-fills',
+        ['in',
+          porteur.toLowerCase(),
+          ['string',
+            ['downcase', ['get', 'aplc']]]]
+      )
+    }
+  }, [porteur])
+
+  useEffect(() => {
     if (mapRef?.current.isStyleLoaded() && projetId) {
       if (selectedCode?.current && selectedCode?.current !== projetId) {
         mapRef.current.setFeatureState(
@@ -201,6 +216,17 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
       >
         Afficher par {layout === 'departements-fills' ? 'nature' : 'statut'}
       </button>
+      <input
+        type='text'
+        className='fr-input'
+        style={{
+          position: 'fixed',
+          right: 10,
+          bottom: '130px',
+          width: '150px'
+        }}
+        onChange={e => setPorteur(e.target.value)}
+      />
 
       {isAuthentificationModalOpen && userRole !== 'admin' && <AuthentificationModal handleModalClose={handleModal} />}
     </div>
