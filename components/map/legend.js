@@ -68,11 +68,13 @@ const Legend = ({isMobile, legend}) => {
 }
 
 Legend.defaultProps = {
-  isMobile: true
+  isMobile: true,
+  legend: 'departements-fills'
 }
 
 Legend.propTypes = {
-  isMobile: PropTypes.bool
+  isMobile: PropTypes.bool,
+  legend: PropTypes.string
 }
 
 export default Legend
