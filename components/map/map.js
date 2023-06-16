@@ -158,14 +158,14 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
   useEffect(() => {
     if (mapRef?.current.isStyleLoaded()) {
       mapRef.current.setFilter(
-        'departements-fills',
+        layout,
         ['in',
           porteur.toLowerCase(),
           ['string',
             ['downcase', ['get', 'aplc']]]]
       )
     }
-  }, [porteur])
+  }, [porteur, layout])
 
   useEffect(() => {
     if (mapRef?.current.isStyleLoaded() && projetId) {
