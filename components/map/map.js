@@ -1,5 +1,5 @@
 import {createRoot} from 'react-dom/client' // eslint-disable-line n/file-extension-in-import
-import {useEffect, useRef, useState, useContext} from 'react'
+import {useEffect, useRef, useState, useContext, useCallback} from 'react'
 import PropTypes from 'prop-types'
 import {useRouter} from 'next/router'
 
@@ -24,6 +24,7 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
   const router = useRouter()
   const [layout, setLayout] = useState('departements-fills')
   const [porteur, setPorteur] = useState()
+  const [hoveredCode, setHoveredCode] = useState(null)
 
   const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
 
@@ -42,11 +43,54 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
   const popupNode = document.createElement('div')
   const popupRoot = createRoot(popupNode)
 
-  useEffect(() => {
-    const node = mapNode.current
-    let hoveredCode = null
+  const handleMouseMove = useCallback(e => {
     let projet = null
 
+    if (e.features.length > 0) {
+      if (hoveredCode) {
+        mapRef.current.setFeatureState(
+          {source: 'projetsData', id: null}
+        )
+      }
+
+      setHoveredCode(e.features[0].id)
+
+      projet = e.features[0].properties
+
+      popupRoot.render(
+        <Popup
+          key={projet.nom}
+          projet={projet}
+          numberOfProjets={e.features.length}
+        />
+      )
+
+      popupRef.current
+        .setLngLat(e.lngLat)
+        .setDOMContent(popupNode)
+        .addTo(mapRef.current)
+
+      mapRef.current.setFeatureState(
+        {source: 'projetsData', id: hoveredCode}
+      )
+    }
+  }, [hoveredCode, popupNode, popupRoot])
+
+  const handleMouseLeave = useCallback(() => {
+    if (hoveredCode !== null) {
+      mapRef.current.setFeatureState(
+        {source: 'projetsData', id: hoveredCode}
+      )
+
+      popupRoot.render(<Loader size='small' />)
+    }
+
+    popupRef.current.remove()
+    setHoveredCode(null)
+  }, [hoveredCode, popupRoot])
+
+  useEffect(() => {
+    const node = mapNode.current
     const maplibreMap = new maplibreGl.Map({
       container: node,
       style: vector,
@@ -71,50 +115,12 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
     })
 
     if (!isMobile) {
-      maplibreMap.on('mousemove', 'departements-fills', e => {
-        if (e.features.length > 0) {
-          if (hoveredCode) {
-            maplibreMap.setFeatureState(
-              {source: 'projetsData', id: null}
-            )
-          }
-
-          hoveredCode = e.features[0].id
-
-          projet = e.features[0].properties
-
-          popupRoot.render(
-            <Popup
-              key={projet.nom}
-              projet={projet}
-              numberOfProjets={e.features.length}
-            />
-          )
-
-          popupRef.current
-            .setLngLat(e.lngLat)
-            .setDOMContent(popupNode)
-            .addTo(maplibreMap)
-
-          maplibreMap.setFeatureState(
-            {source: 'projetsData', id: hoveredCode}
-          )
-        }
-      })
+      maplibreMap.on('mousemove', 'departements-fills', e => handleMouseMove(e))
+      maplibreMap.on('mousemove', 'departements-fills-nature', e => handleMouseMove(e))
     }
 
-    maplibreMap.on('mouseleave', 'departements-fills', () => {
-      if (hoveredCode !== null) {
-        maplibreMap.setFeatureState(
-          {source: 'projetsData', id: hoveredCode}
-        )
-
-        popupRoot.render(<Loader size='small' />)
-      }
-
-      popupRef.current.remove()
-      hoveredCode = null
-    })
+    maplibreMap.on('mouseleave', 'departements-fills', () => handleMouseLeave())
+    maplibreMap.on('mouseleave', 'departements-fills-nature', () => handleMouseLeave())
 
     maplibreMap.on('load', () => {
       maplibreMap.addSource('projetsData', {
