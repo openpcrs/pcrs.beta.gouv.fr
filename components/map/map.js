@@ -16,6 +16,7 @@ import AuthentificationContext from '@/contexts/authentification-token.js'
 import Popup from '@/components/map/popup.js'
 import Loader from '@/components/loader.js'
 import Legend from '@/components/map/legend.js'
+import MapToolBox from '@/components/map/map-tool-box.js'
 import AuthentificationModal from '@/components/suivi-form/authentification/authentification-modal.js'
 
 const Map = ({handleClick, isMobile, geometry, projetId}) => {
@@ -192,6 +193,53 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
         legend={layout}
       />
 
+      <MapToolBox>
+        <div className='fr-grid-row fr-grid-row--gutters fr-p-2w'>
+          <div
+            style={{
+              backgroundColor: 'white'
+            }}
+          >
+            <label className='fr-label'>Filtrer par APLC :</label>
+            <div className='fr-grid-row'>
+              <input
+                type='text'
+                className='fr-input fr-col-10'
+                placeholder='Nom d’un APLC'
+                value={porteur || ''}
+                onChange={e => setPorteur(e.target.value)}
+              />
+              <button
+                type='button'
+                className='fr-btn fr-btn--sm fr-icon-close-circle-line fr-col-2 fr-m-auto'
+                onClick={() => setPorteur('')}
+              />
+            </div>
+          </div>
+          <div className='fr-p-1w fr-pt-3w'>
+            <div>Colorisation de la carte par :</div>
+            <div>
+              <button
+                type='button'
+                className='fr-btn fr-btn--sm fr-m-1w'
+                disabled={layout === 'departements-fills-nature'}
+                onClick={() => setLayout('departements-fills-nature')}
+              >
+                nature
+              </button>
+              <button
+                type='button'
+                className='fr-btn fr-btn--sm fr-m-1w'
+                disabled={layout === 'departements-fills'}
+                onClick={() => setLayout('departements-fills')}
+              >
+                statut
+              </button>
+            </div>
+          </div>
+        </div>
+      </MapToolBox>
+
       <button
         type='button'
         className='fr-btn fr-btn--icon-left fr-icon-add-circle-fill'
@@ -204,29 +252,6 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
       >
         Ajouter un projet
       </button>
-      <button
-        type='button'
-        className='fr-btn fr-btn--sm'
-        style={{
-          position: 'fixed',
-          right: 10,
-          bottom: '100px'
-        }}
-        onClick={() => setLayout(layout === 'departements-fills-nature' ? 'departements-fills' : 'departements-fills-nature')}
-      >
-        Afficher par {layout === 'departements-fills' ? 'nature' : 'statut'}
-      </button>
-      <input
-        type='text'
-        className='fr-input'
-        style={{
-          position: 'fixed',
-          right: 10,
-          bottom: '130px',
-          width: '150px'
-        }}
-        onChange={e => setPorteur(e.target.value)}
-      />
 
       {isAuthentificationModalOpen && userRole !== 'admin' && <AuthentificationModal handleModalClose={handleModal} />}
     </div>
