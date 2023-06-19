@@ -1,5 +1,4 @@
-import {useState, useContext} from 'react'
-import {useRouter} from 'next/router'
+import {useState, useContext, useEffect} from 'react'
 import Image from 'next/image'
 
 import AuthentificationContext from '@/contexts/authentification-token.js'
@@ -11,16 +10,22 @@ import Porteurs from '@/components/gestion-admin/porteurs.js'
 import Changes from '@/components/gestion-admin/changes.js'
 
 const Admin = () => {
-  const router = useRouter()
   const {userRole, token, isTokenRecovering} = useContext(AuthentificationContext)
 
   const [activeTab, setActiveTab] = useState('porteurs')
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const isUnauthentified = !isTokenRecovering && (!token || (token && userRole !== 'admin'))
+
+  useEffect(() => {
+    if (isUnauthentified) {
+      setIsModalOpen(true)
+    }
+  }, [isUnauthentified])
 
   return (
     <Page>
-      {(userRole !== 'admin' || (!isTokenRecovering && !token)) && (
-        <AdminAuthentificationModal handleModalClose={() => router.push('/gestion-suivi')} />
-      )}
+      {isModalOpen && <AdminAuthentificationModal handleModalOpen={setIsModalOpen} />}
 
       <div className='page-header fr-my-5w'>
         <Image
