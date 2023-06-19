@@ -27,8 +27,8 @@ const MapToolBox = ({children}) => {
               position: 'absolute',
               verticalAlign: 'middle',
               cursor: 'pointer',
-              right: '3px',
-              top: '3px'
+              right: '5px',
+              top: '5px'
             }}
             onClick={() => setIsOpen(false)}
           />
@@ -38,7 +38,7 @@ const MapToolBox = ({children}) => {
         </div>
       ) : (
         <span
-          className='fr-icon-add-circle-line'
+          className='fr-icon-filter-line'
           style={{
             cursor: 'pointer'
           }}
