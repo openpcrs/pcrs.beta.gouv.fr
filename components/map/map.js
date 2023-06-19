@@ -89,6 +89,16 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
     setHoveredCode(null)
   }, [hoveredCode, popupRoot])
 
+  const mapFilter = useCallback(() => {
+    mapRef.current.setFilter(
+      layout,
+      ['in',
+        porteur.toLowerCase(),
+        ['string',
+          ['downcase', ['get', 'aplc']]]]
+    )
+  }, [layout, porteur])
+
   useEffect(() => {
     const node = mapNode.current
     const maplibreMap = new maplibreGl.Map({
@@ -158,20 +168,16 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
         mapRef.current.setLayoutProperty('departements-fills', 'visibility', 'visible')
         mapRef.current.setLayoutProperty('departements-fills-nature', 'visibility', 'none')
       }
+
+      mapFilter(porteur)
     }
-  }, [layout])
+  }, [layout, porteur, mapFilter])
 
   useEffect(() => {
     if (mapRef?.current.isStyleLoaded()) {
-      mapRef.current.setFilter(
-        layout,
-        ['in',
-          porteur.toLowerCase(),
-          ['string',
-            ['downcase', ['get', 'aplc']]]]
-      )
+      mapFilter(porteur)
     }
-  }, [porteur, layout])
+  }, [porteur, layout, mapFilter])
 
   useEffect(() => {
     if (mapRef?.current.isStyleLoaded() && projetId) {
