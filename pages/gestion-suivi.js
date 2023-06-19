@@ -8,6 +8,7 @@ import Page from '@/layouts/main.js'
 
 import AdminAuthentificationModal from '@/components/suivi-form/authentification/admin-authentification-modal.js'
 import Porteurs from '@/components/gestion-admin/porteurs.js'
+import Changes from '@/components/gestion-admin/changes.js'
 
 const Admin = () => {
   const router = useRouter()
@@ -32,7 +33,7 @@ const Admin = () => {
         <h2 className='fr-mt-5w fr-mb-0'>Gestion des suivis</h2>
       </div>
 
-      <div className='fr-px-4w'>
+      <div className='fr-px-md-1w'>
         <h3 className='fr-h6 fr-mb-6w'><span className='fr-icon-file-text-line' aria-hidden='true' /> Liste des administrateurs et porteurs de projets</h3>
 
         <div className='fr-tabs'>
@@ -59,6 +60,17 @@ const Admin = () => {
                 Administrateurs
               </button>
             </li>
+            <li role='presentation'>
+              <button
+                type='button'
+                className='fr-tabs__tab fr-icon-checkbox-line fr-tabs__tab--icon-left'
+                role='tab'
+                aria-selected={activeTab === 'changes' ? 'true' : 'false'}
+                onClick={() => setActiveTab('changes')}
+              >
+                Projets édités récemment
+              </button>
+            </li>
           </ul>
           {activeTab === 'porteurs' && (
             <div className='fr-tabs__panel fr-tabs__panel--selected' role='tabpanel'>
@@ -69,6 +81,12 @@ const Admin = () => {
           {activeTab === 'admin' && (
             <div className='fr-tabs__panel fr-tabs__panel--selected' role='tabpanel'>
               <i>Bientôt disponible</i>
+            </div>
+          )}
+
+          {activeTab === 'changes' && (
+            <div className='fr-tabs__panel fr-tabs__panel--selected' role='tabpanel'>
+              <Changes token={token} />
             </div>
           )}
         </div>

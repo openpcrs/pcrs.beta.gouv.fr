@@ -1,6 +1,7 @@
 import {useState} from 'react'
 import PropTypes from 'prop-types'
 import {useRouter} from 'next/router'
+import Link from 'next/link'
 
 import {deleteSuivi} from '@/lib/suivi-pcrs.js'
 
@@ -39,6 +40,14 @@ const DeleteModal = ({nom, id, token, isSidebar, handleDeleteModalOpen}) => {
     <Modal title='Confirmer la suppression du projet' onClose={handleDeleteModalOpen}>
       <div className='modal-content fr-mt-5w'>
         <p className='fr-text--lg'>Êtes-vous bien sûr de vouloir supprimer le suivi de <b>{nom}</b> ?</p><br />
+        <div className='fr-alert fr-alert--info fr-alert--sm fr-mb-3w'>
+          <p>
+            Nous souhaitons <b>conserver les projets obsolètes</b> dans notre base de données. Etes-vous <b>certain</b> de supprimer un projet n’ayant jamais produit de livrables ou erronés ?
+          </p>
+          <p className='fr-pt-1w'>
+            <i>Apprenez-en plus sur les pratiques de description des projets dans <Link href='https://docs.pcrs.beta.gouv.fr/suivi-des-projets/edition-des-donnees'>la documentation !</Link></i>
+          </p>
+        </div>
         <div className='fr-alert fr-alert--warning fr-alert--sm fr-mb-3w'>
           <b className='irreversible-alert'>Cette action est irréversible</b>
         </div>
