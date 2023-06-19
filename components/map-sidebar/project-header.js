@@ -29,6 +29,8 @@ const Header = ({projectId, codeEditor, projectName, territoires, projets, onPro
 
   const handleDeleteModalOpen = () => setIsDeleteModalOpen(!isDeleteModalOpen)
 
+  const url = `${SHARE_URL}/formulaire-suivi?id=${projectId}&editcode=${codeEditor}`
+
   return (
     <div className='header'>
       <div className='fr-grid-row fr-my-2w'>
@@ -148,6 +150,21 @@ const Header = ({projectId, codeEditor, projectName, territoires, projets, onPro
               <option key={projet.nom} value={projet._id}>{projet.nom}</option>
             ))}
           </select>
+        </div>
+      )}
+      {userRole === 'admin' && (
+        <div className='fr-pt-2w'>
+          <hr />
+          <div>
+            <b>Lien d’édition :</b>
+            <span
+              className='fr-icon-clipboard-line fr-pl-1w'
+              aria-hidden='true'
+              style={{cursor: 'pointer'}}
+              onClick={() => navigator.clipboard.writeText(url)}
+            />
+          </div>
+          <i><a className='fr-text--sm' href={url}>{url}</a></i>
         </div>
       )}
       <style jsx>{`
