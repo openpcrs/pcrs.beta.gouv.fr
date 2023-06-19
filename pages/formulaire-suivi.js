@@ -12,7 +12,7 @@ import Page from '@/layouts/main.js'
 import Button from '@/components/button.js'
 import SuiviForm from '@/components/suivi-form/index.js'
 
-const FormulaireSuivi = ({project, isNotFound, isForbidden, editionCode}) => {
+const FormulaireSuivi = ({project, isNotFound, isForbidden, editCode}) => {
   const {token, userRole, isTokenRecovering} = useContext(AuthentificationContext)
 
   if (isNotFound || isForbidden) {
@@ -53,7 +53,7 @@ const FormulaireSuivi = ({project, isNotFound, isForbidden, editionCode}) => {
       <SuiviForm
         userRole={userRole}
         token={token}
-        editionCode={editionCode}
+        projectEditCode={editCode}
         isTokenRecovering={isTokenRecovering}
         {...project}
       />
@@ -74,7 +74,7 @@ FormulaireSuivi.getInitialProps = async ({query}) => {
     if (query.editcode) {
       return {
         project,
-        editionCode: query.editcode
+        editCode: query.editcode
       }
     }
 
@@ -89,13 +89,13 @@ FormulaireSuivi.getInitialProps = async ({query}) => {
 
 FormulaireSuivi.propTypes = {
   project: PropTypes.object,
-  editionCode: PropTypes.string,
+  editCode: PropTypes.string,
   isNotFound: PropTypes.bool,
   isForbidden: PropTypes.bool
 }
 
 FormulaireSuivi.defaultProps = {
-  editionCode: null,
+  editCode: null,
   isNotFound: false,
   isForbidden: false
 }
