@@ -23,7 +23,7 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
   const {userRole, token} = useContext(AuthentificationContext)
   const router = useRouter()
   const [layout, setLayout] = useState('departements-fills')
-  const [porteur, setPorteur] = useState()
+  const [porteur, setPorteur] = useState('')
   const [hoveredCode, setHoveredCode] = useState(null)
 
   const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
