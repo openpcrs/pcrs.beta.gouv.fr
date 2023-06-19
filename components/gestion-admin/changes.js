@@ -37,7 +37,7 @@ const Changes = ({token}) => {
 
   useEffect(() => {
     if (changes?.length > 0 && search) {
-      setFilteredChanges(changes.filter(p => p.nom.includes(search)))
+      setFilteredChanges(changes.filter(p => p.nom.toLowerCase().includes(search.toLowerCase())))
     } else {
       setFilteredChanges(changes)
     }
