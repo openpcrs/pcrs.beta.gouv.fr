@@ -4,25 +4,23 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import {fr} from 'date-fns/locale'
 
 import Loader from '../loader.js'
+import {getAllChanges} from '@/lib/suivi-pcrs.js'
+import colors from '@/styles/colors.js'
 
 const Changes = ({token}) => {
   const [changes, setChanges] = useState()
   const [search, setSearch] = useState()
+  const [error, setError] = useState()
   const [filteredChanges, setFilteredChanges] = useState()
 
-  const getAllChanges = useCallback(async () => {
-    const response = await fetch('/report', {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `Token ${token}`
-      }
-    })
+  const getChanges = useCallback(async () => {
+    const response = await getAllChanges(token)
 
-    const projetsChanges = await response.json()
-
-    setChanges(projetsChanges)
+    if (response.message) {
+      setError(response.message)
+    } else {
+      setChanges(response)
+    }
   }, [token])
 
   function returnLastChange(change) {
@@ -38,7 +36,7 @@ const Changes = ({token}) => {
   }
 
   useEffect(() => {
-    if (changes && search) {
+    if (changes?.length > 0 && search) {
       setFilteredChanges(changes.filter(p => p.nom.includes(search)))
     } else {
       setFilteredChanges(changes)
@@ -46,7 +44,7 @@ const Changes = ({token}) => {
   }, [changes, search])
 
   useEffect(() => {
-    getAllChanges()
+    getChanges()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -95,9 +93,13 @@ const Changes = ({token}) => {
               <div className='fr-p-2w'><i>Aucun résultat...</i></div>
             )}
           </>
+        ) : (error ? (
+          <div style={{color: colors.error425}}>
+            <i>Une erreur est survenue : {error}</i>
+          </div>
         ) : (
           <Loader />
-        )}
+        ))}
       </div>
     </div>
   )
