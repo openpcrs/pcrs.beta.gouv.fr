@@ -1,5 +1,5 @@
 import {createRoot} from 'react-dom/client' // eslint-disable-line n/file-extension-in-import
-import {useEffect, useRef, useState, useContext, useCallback} from 'react'
+import {useEffect, useRef, useState, useContext} from 'react'
 import PropTypes from 'prop-types'
 import {useRouter} from 'next/router'
 
@@ -7,7 +7,6 @@ import maplibreGl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
 import departementFillLayer from './layers/departement-fill.json'
-import departementFillNature from './layers/departement-fill-nature.json'
 import departementLayer from './layers/departement-layer.json'
 import vector from './styles/vector.json'
 
@@ -16,7 +15,6 @@ import AuthentificationContext from '@/contexts/authentification-token.js'
 import Popup from '@/components/map/popup.js'
 import Loader from '@/components/loader.js'
 import Legend from '@/components/map/legend.js'
-import MapToolBox from '@/components/map/map-tool-box.js'
 import AuthentificationModal from '@/components/suivi-form/authentification/authentification-modal.js'
 
 const Map = ({handleClick, isMobile, geometry, projetId}) => {
@@ -43,64 +41,11 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
   const popupNode = document.createElement('div')
   const popupRoot = createRoot(popupNode)
 
-  const handleMouseMove = useCallback(e => {
-    let projet = null
-
-    if (e.features.length > 0) {
-      if (hoveredCode) {
-        mapRef.current.setFeatureState(
-          {source: 'projetsData', id: null}
-        )
-      }
-
-      setHoveredCode(e.features[0].id)
-
-      projet = e.features[0].properties
-
-      popupRoot.render(
-        <Popup
-          key={projet.nom}
-          projet={projet}
-          numberOfProjets={e.features.length}
-        />
-      )
-
-      popupRef.current
-        .setLngLat(e.lngLat)
-        .setDOMContent(popupNode)
-        .addTo(mapRef.current)
-
-      mapRef.current.setFeatureState(
-        {source: 'projetsData', id: hoveredCode}
-      )
-    }
-  }, [hoveredCode, popupNode, popupRoot])
-
-  const handleMouseLeave = useCallback(() => {
-    if (hoveredCode !== null) {
-      mapRef.current.setFeatureState(
-        {source: 'projetsData', id: hoveredCode}
-      )
-
-      popupRoot.render(<Loader size='small' />)
-    }
-
-    popupRef.current.remove()
-    setHoveredCode(null)
-  }, [hoveredCode, popupRoot])
-
-  const mapFilter = useCallback(() => {
-    mapRef.current.setFilter(
-      layout,
-      ['in',
-        porteur.toLowerCase(),
-        ['string',
-          ['downcase', ['get', 'aplc']]]]
-    )
-  }, [layout, porteur])
-
   useEffect(() => {
     const node = mapNode.current
+    let hoveredCode = null
+    let projet = null
+
     const maplibreMap = new maplibreGl.Map({
       container: node,
       style: vector,
@@ -120,17 +65,70 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
     maplibreMap.on('click', 'departements-fills', e => {
       handleClick(e)
     })
-    maplibreMap.on('click', 'departements-fills-nature', e => {
-      handleClick(e)
-    })
 
     if (!isMobile) {
-      maplibreMap.on('mousemove', 'departements-fills', e => handleMouseMove(e))
-      maplibreMap.on('mousemove', 'departements-fills-nature', e => handleMouseMove(e))
+      maplibreMap.on('mousemove', 'departements-fills', e => {
+        if (e.features.length > 0) {
+          if (hoveredCode) {
+            maplibreMap.setFeatureState(
+              {source: 'projetsData', id: null}
+            )
+          }
+
+          hoveredCode = e.features[0].id
+
+          projet = e.features[0].properties
+
+          popupRoot.render(
+            <Popup
+              key={projet.nom}
+              projet={projet}
+              numberOfProjets={e.features.length}
+            />
+          )
+
+          popupRef.current
+            .setLngLat(e.lngLat)
+            .setDOMContent(popupNode)
+            .addTo(maplibreMap)
+
+          maplibreMap.setFeatureState(
+            {source: 'projetsData', id: hoveredCode}
+          )
+        }
+      })
     }
 
-    maplibreMap.on('mouseleave', 'departements-fills', () => handleMouseLeave())
-    maplibreMap.on('mouseleave', 'departements-fills-nature', () => handleMouseLeave())
+    maplibreMap.on('click', 'departements-fills', e => {
+      if (e.features.length > 0) {
+        if (selectedCode.current !== undefined) {
+          maplibreMap.setFeatureState(
+            {source: 'projetsData', id: selectedCode.current},
+            {hover: false}
+          )
+        }
+
+        selectedCode.current = e.features[0].id
+
+        maplibreMap.setFeatureState(
+          {source: 'projetsData', id: selectedCode.current},
+          {hover: true}
+        )
+      }
+    })
+
+    maplibreMap.on('mouseleave', 'departements-fills', () => {
+      if (hoveredCode !== null) {
+        maplibreMap.setFeatureState(
+          {source: 'projetsData', id: hoveredCode}
+        )
+
+        popupRoot.render(<Loader size='small' />)
+      }
+
+      popupRef.current.remove()
+      hoveredCode = null
+    })
 
     maplibreMap.on('load', () => {
       maplibreMap.addSource('projetsData', {
@@ -147,7 +145,6 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
       }
 
       maplibreMap.addLayer(departementFillLayer)
-      maplibreMap.addLayer(departementFillNature)
       maplibreMap.addLayer(departementLayer)
     })
 
@@ -156,28 +153,6 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
       maplibreMap.remove()
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    if (mapRef?.current?.isStyleLoaded()) {
-      if (layout === 'departements-fills-nature') {
-        mapRef.current.setLayoutProperty('departements-fills-nature', 'visibility', 'visible')
-        mapRef.current.setLayoutProperty('departements-fills', 'visibility', 'none')
-      }
-
-      if (layout === 'departements-fills') {
-        mapRef.current.setLayoutProperty('departements-fills', 'visibility', 'visible')
-        mapRef.current.setLayoutProperty('departements-fills-nature', 'visibility', 'none')
-      }
-
-      mapFilter(porteur)
-    }
-  }, [layout, porteur, mapFilter])
-
-  useEffect(() => {
-    if (mapRef?.current.isStyleLoaded()) {
-      mapFilter(porteur)
-    }
-  }, [porteur, layout, mapFilter])
 
   useEffect(() => {
     if (mapRef?.current.isStyleLoaded() && projetId) {
@@ -200,57 +175,7 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
   return (
     <div style={{position: 'relative', height: '100%', width: '100%'}}>
       <div ref={mapNode} style={{width: '100%', height: '100%'}} />
-      <Legend
-        isMobile={isMobile === true}
-        legend={layout}
-      />
-
-      <MapToolBox>
-        <div className='fr-grid-row fr-grid-row--gutters fr-p-2w'>
-          <div
-            style={{
-              backgroundColor: 'white'
-            }}
-          >
-            <label className='fr-label'>Filtrer par APLC :</label>
-            <div className='fr-grid-row'>
-              <input
-                type='text'
-                className='fr-input fr-col-10'
-                placeholder='Nom d’un APLC'
-                value={porteur || ''}
-                onChange={e => setPorteur(e.target.value)}
-              />
-              <button
-                type='button'
-                className='fr-btn fr-btn--sm fr-icon-close-circle-line fr-col-2 fr-m-auto'
-                onClick={() => setPorteur('')}
-              />
-            </div>
-          </div>
-          <div className='fr-p-1w fr-pt-3w'>
-            <div>Colorisation de la carte par :</div>
-            <div>
-              <button
-                type='button'
-                className='fr-btn fr-btn--sm fr-m-1w'
-                disabled={layout === 'departements-fills-nature'}
-                onClick={() => setLayout('departements-fills-nature')}
-              >
-                nature
-              </button>
-              <button
-                type='button'
-                className='fr-btn fr-btn--sm fr-m-1w'
-                disabled={layout === 'departements-fills'}
-                onClick={() => setLayout('departements-fills')}
-              >
-                statut
-              </button>
-            </div>
-          </div>
-        </div>
-      </MapToolBox>
+      <Legend isMobile={isMobile === true} />
 
       <button
         type='button'
