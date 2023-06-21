@@ -17,20 +17,22 @@ const Admin = () => {
   const [activeTab, setActiveTab] = useState('porteurs')
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const isUnauthentified = !isTokenRecovering && (!token || (token && userRole !== 'admin'))
+  const isAuthentified = Boolean(token && userRole === 'admin')
 
   useEffect(() => {
-    if (isUnauthentified) {
+    if (!isTokenRecovering && !isAuthentified) {
       setIsModalOpen(true)
+    } else {
+      setIsModalOpen(false)
     }
-  }, [isUnauthentified])
+  }, [isAuthentified, isTokenRecovering])
 
   return (
     <Page>
       {isModalOpen && (
         <AdminAuthentificationModal
           handleIsModalOpen={setIsModalOpen}
-          onModalClose={() => isUnauthentified ? router.push('/suivi-pcrs') : setIsModalOpen(false)}
+          onModalClose={() => isAuthentified ? setIsModalOpen(false) : router.push('/suivi-pcrs')}
         />
       )}
 
