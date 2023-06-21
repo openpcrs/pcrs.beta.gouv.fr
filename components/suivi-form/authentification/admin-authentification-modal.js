@@ -86,11 +86,7 @@ const AdminAuthentificationModal = ({handleIsModalOpen, onModalClose}) => {
 
 AdminAuthentificationModal.propTypes = {
   handleIsModalOpen: PropTypes.func.isRequired,
-  onModalClose: PropTypes.func
-}
-
-AdminAuthentificationModal.defaultProps = {
-  onModalClose() {}
+  onModalClose: PropTypes.func.isRequired
 }
 
 export default AdminAuthentificationModal
