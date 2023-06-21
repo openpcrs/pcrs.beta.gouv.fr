@@ -93,7 +93,7 @@ const Header = ({projectId, codeEditor, projectName, territoires, projets, onPro
                 isSidebar
                 nom={projectName}
                 id={projectId}
-                token={token}
+                authorizationCode={token}
                 handleDeleteModalOpen={handleDeleteModalOpen}
               />
             )}
