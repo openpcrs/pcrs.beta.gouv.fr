@@ -10,7 +10,7 @@ import colors from '@/styles/colors.js'
 import Button from '@/components/button.js'
 import Modal from '@/components/modal.js'
 
-const DeleteModal = ({nom, id, token, isSidebar, handleDeleteModalOpen}) => {
+const DeleteModal = ({nom, id, authorizationCode, isSidebar, handleDeleteModalOpen}) => {
   const router = useRouter()
 
   const [validationMessage, setValidationMessage] = useState(null)
@@ -21,7 +21,7 @@ const DeleteModal = ({nom, id, token, isSidebar, handleDeleteModalOpen}) => {
     setErrorMessage(null)
 
     try {
-      await deleteSuivi(id, token)
+      await deleteSuivi(id, authorizationCode)
 
       setValidationMessage('le projet a bien été supprimé')
       setTimeout(() => {
@@ -90,7 +90,7 @@ const DeleteModal = ({nom, id, token, isSidebar, handleDeleteModalOpen}) => {
 DeleteModal.propTypes = {
   nom: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  token: PropTypes.string.isRequired,
+  authorizationCode: PropTypes.string.isRequired,
   handleDeleteModalOpen: PropTypes.func.isRequired,
   isSidebar: PropTypes.bool
 }
