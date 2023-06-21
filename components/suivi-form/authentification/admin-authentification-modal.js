@@ -1,6 +1,5 @@
 import {useState, useContext} from 'react'
 import PropTypes from 'prop-types'
-import {useRouter} from 'next/router'
 
 import {authentificationRole} from '@/lib/authentification.js'
 
@@ -10,8 +9,7 @@ import TextInput from '@/components/text-input.js'
 import Modal from '@/components/modal.js'
 import Button from '@/components/button.js'
 
-const AdminAuthentificationModal = ({handleModalOpen}) => {
-  const router = useRouter()
+const AdminAuthentificationModal = ({handleIsModalOpen, onModalClose}) => {
   const {storeToken} = useContext(AuthentificationContext)
 
   const [tokenInput, setTokenInput] = useState('')
@@ -27,10 +25,10 @@ const AdminAuthentificationModal = ({handleModalOpen}) => {
         const getUserRole = await authentificationRole(tokenInput)
         if (getUserRole.role === 'admin') {
           storeToken(tokenInput)
-          setValidationMessage('Administrateur authentifié avec succès ! Vous allez être redirigé...')
+          setValidationMessage('Administrateur authentifié avec succès !')
 
           setTimeout(() => {
-            handleModalOpen(false)
+            handleIsModalOpen(false)
           }, 3000)
         } else {
           setErrorMessage('Le jeton entré ne correspond pas à un jeton administrateur existant')
@@ -44,7 +42,7 @@ const AdminAuthentificationModal = ({handleModalOpen}) => {
   }
 
   return (
-    <Modal title='S’authentifier' onClose={() => validationMessage ? handleModalOpen(false) : router.push('/suivi-pcrs')}>
+    <Modal title='S’authentifier' onClose={() => onModalClose() || handleIsModalOpen(false)}>
       <div>
         <p>Afin de vérifier vos droit en tant qu’administrateur, nous devons procéder à la vérification de votre jeton d’authentification.<br /><br />
           Une fois authentifié, vous serez en mesure d’accéder au formulaire de suivi du PCRS
@@ -87,7 +85,12 @@ const AdminAuthentificationModal = ({handleModalOpen}) => {
 }
 
 AdminAuthentificationModal.propTypes = {
-  handleModalOpen: PropTypes.func.isRequired
+  handleIsModalOpen: PropTypes.func.isRequired,
+  onModalClose: PropTypes.func
+}
+
+AdminAuthentificationModal.defaultProps = {
+  onModalClose() {}
 }
 
 export default AdminAuthentificationModal

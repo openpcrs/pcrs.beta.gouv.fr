@@ -1,5 +1,6 @@
 import {useState, useContext, useEffect} from 'react'
 import Image from 'next/image'
+import {useRouter} from 'next/router'
 
 import AuthentificationContext from '@/contexts/authentification-token.js'
 
@@ -10,6 +11,7 @@ import Porteurs from '@/components/gestion-admin/porteurs.js'
 import Changes from '@/components/gestion-admin/changes.js'
 
 const Admin = () => {
+  const router = useRouter()
   const {userRole, token, isTokenRecovering} = useContext(AuthentificationContext)
 
   const [activeTab, setActiveTab] = useState('porteurs')
@@ -25,7 +27,12 @@ const Admin = () => {
 
   return (
     <Page>
-      {isModalOpen && <AdminAuthentificationModal handleModalOpen={setIsModalOpen} />}
+      {isModalOpen && (
+        <AdminAuthentificationModal
+          handleIsModalOpen={setIsModalOpen}
+          onModalClose={() => isUnauthentified ? router.push('/suivi-pcrs') : setIsModalOpen(false)}
+        />
+      )}
 
       <div className='page-header fr-my-5w'>
         <Image
@@ -106,5 +113,4 @@ const Admin = () => {
   )
 }
 
-Admin.propTypes = {}
 export default Admin
