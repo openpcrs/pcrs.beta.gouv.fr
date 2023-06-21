@@ -6,7 +6,6 @@ import AdminAuthentificationModal from '@/components/suivi-form/authentification
 const Footer = () => {
   const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
 
-  const handleModal = () => setIsAuthentificationModalOpen(!isAuthentificationModalOpen)
   return (
     <>
       <footer className='fr-footer' role='contentinfo' id='footer'>
@@ -104,7 +103,7 @@ const Footer = () => {
         </div>
       </footer>
 
-      {isAuthentificationModalOpen && <AdminAuthentificationModal handleModalClose={handleModal} />}
+      {isAuthentificationModalOpen && <AdminAuthentificationModal handleIsModalOpen={setIsAuthentificationModalOpen} />}
     </>
   )
 }

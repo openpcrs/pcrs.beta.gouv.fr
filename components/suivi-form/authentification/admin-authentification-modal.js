@@ -9,7 +9,7 @@ import TextInput from '@/components/text-input.js'
 import Modal from '@/components/modal.js'
 import Button from '@/components/button.js'
 
-const AdminAuthentificationModal = ({handleModalClose}) => {
+const AdminAuthentificationModal = ({handleIsModalOpen, onModalClose}) => {
   const {storeToken} = useContext(AuthentificationContext)
 
   const [tokenInput, setTokenInput] = useState('')
@@ -25,10 +25,10 @@ const AdminAuthentificationModal = ({handleModalClose}) => {
         const getUserRole = await authentificationRole(tokenInput)
         if (getUserRole.role === 'admin') {
           storeToken(tokenInput)
-          setValidationMessage('Administrateur authentifié avec succès ! Vous allez être redirigé...')
+          setValidationMessage('Administrateur authentifié avec succès !')
 
           setTimeout(() => {
-            handleModalClose()
+            handleIsModalOpen(false)
           }, 3000)
         } else {
           setErrorMessage('Le jeton entré ne correspond pas à un jeton administrateur existant')
@@ -42,7 +42,7 @@ const AdminAuthentificationModal = ({handleModalClose}) => {
   }
 
   return (
-    <Modal title='S’authentifier' onClose={handleModalClose}>
+    <Modal title='S’authentifier' onClose={() => onModalClose() || handleIsModalOpen(false)}>
       <div>
         <p>Afin de vérifier vos droit en tant qu’administrateur, nous devons procéder à la vérification de votre jeton d’authentification.<br /><br />
           Une fois authentifié, vous serez en mesure d’accéder au formulaire de suivi du PCRS
@@ -85,7 +85,12 @@ const AdminAuthentificationModal = ({handleModalClose}) => {
 }
 
 AdminAuthentificationModal.propTypes = {
-  handleModalClose: PropTypes.func.isRequired
+  handleIsModalOpen: PropTypes.func.isRequired,
+  onModalClose: PropTypes.func
+}
+
+AdminAuthentificationModal.defaultProps = {
+  onModalClose() {}
 }
 
 export default AdminAuthentificationModal

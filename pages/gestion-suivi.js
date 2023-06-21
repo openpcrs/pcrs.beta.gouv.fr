@@ -1,6 +1,6 @@
-import {useState, useContext} from 'react'
-import {useRouter} from 'next/router'
+import {useState, useContext, useEffect} from 'react'
 import Image from 'next/image'
+import {useRouter} from 'next/router'
 
 import AuthentificationContext from '@/contexts/authentification-token.js'
 
@@ -15,11 +15,25 @@ const Admin = () => {
   const {userRole, token, isTokenRecovering} = useContext(AuthentificationContext)
 
   const [activeTab, setActiveTab] = useState('porteurs')
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const isAuthentified = Boolean(token && userRole === 'admin')
+
+  useEffect(() => {
+    if (!isTokenRecovering && !isAuthentified) {
+      setIsModalOpen(true)
+    } else {
+      setIsModalOpen(false)
+    }
+  }, [isAuthentified, isTokenRecovering])
 
   return (
     <Page>
-      {(userRole !== 'admin' || (!isTokenRecovering && !token)) && (
-        <AdminAuthentificationModal handleModalClose={() => router.push('/gestion-suivi')} />
+      {isModalOpen && (
+        <AdminAuthentificationModal
+          handleIsModalOpen={setIsModalOpen}
+          onModalClose={() => isAuthentified ? setIsModalOpen(false) : router.push('/suivi-pcrs')}
+        />
       )}
 
       <div className='page-header fr-my-5w'>
@@ -101,5 +115,4 @@ const Admin = () => {
   )
 }
 
-Admin.propTypes = {}
 export default Admin
