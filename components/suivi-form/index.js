@@ -97,8 +97,8 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
           subventions: projetSubventions
         }
 
-        const authorisationCode = editionCode || token
-        const sendSuivi = _id ? await editProject(suivi, _id, authorisationCode) : await postSuivi(suivi, token)
+        const authorizationCode = editionCode || token
+        const sendSuivi = _id ? await editProject(suivi, _id, authorizationCode) : await postSuivi(suivi, token)
 
         setEditedProjectId(sendSuivi._id)
         setEditCode(sendSuivi.editorKey)
@@ -282,7 +282,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
               <DeleteModal
                 nom={nom}
                 id={_id}
-                authorisationCode={editionCode}
+                authorizationCode={editionCode}
                 handleDeleteModalOpen={handleDeleteModalOpen}
               />
             )}
