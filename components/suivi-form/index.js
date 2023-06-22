@@ -46,14 +46,16 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
   const [projetEtapes, setProjetEtapes] = useState(etapes)
   const [projetSubventions, setProjetSubventions] = useState(subventions || [])
 
-  const hasMissingData = projetLivrables.length === 0 || projetActeurs.length === 0 || projetPerimetres.length === 0
+  const hasMissingRequiredItems = projetLivrables.length === 0 || projetActeurs.length === 0 || projetPerimetres.length === 0
+  const isPorteurMissing = Boolean(!projetActeurs.some(acteur => acteur.role === 'aplc' || acteur.role === 'porteur'))
+
   const handleDeleteModalOpen = () => setIsDeleteModalOpen(!isDeleteModalOpen)
 
   useEffect(() => {
-    if (!hasMissingData && !isRequiredFormOpen) {
+    if (!hasMissingRequiredItems && !isRequiredFormOpen) {
       setErrorMessage(null)
     }
-  }, [hasMissingData, isRequiredFormOpen])
+  }, [hasMissingRequiredItems, isRequiredFormOpen])
 
   const handleAuthentificationModal = () => router.push('/suivi-pcrs')
   const handleModal = () => router.push('/suivi-pcrs')
@@ -81,10 +83,13 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
         return setErrorMessage('Veuiller valider ou annuler le livrable, l’acteur ou le périmètre en cours d’ajout.')
       }
 
-      if (hasMissingData) {
+      if (hasMissingRequiredItems) {
         setHasMissingItemsOnValidation(true)
         handleScrollToError()
         setErrorMessage('Des données nécessaires à la validation du formulaires sont manquantes. Au moins un livrable, un acteur et un périmètre doivent être ajoutés.')
+      } else if (isPorteurMissing) {
+        setHasMissingItemsOnValidation(true)
+        setErrorMessage('Au moins un des acteurs doit avoir le rôle de porteur de projet.')
       } else {
         const suivi = {
           nom: suiviNom,
