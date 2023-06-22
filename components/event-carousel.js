@@ -1,4 +1,5 @@
 import {useState, useEffect} from 'react'
+import Link from 'next/link'
 
 import allEvents from '../events.json'
 
@@ -48,11 +49,13 @@ const EventCarousel = () => {
         <ul className='slider'>
           {events.map((event, idx) => (
             <li key={`${event.title}-${event.date}`} className={idx === index ? 'slide' : 'hidden'}>
-              <div className='fr-text--lg fr-m-0'>
-                {event.title}
-              </div>
+              <Link legacyBehavior href='/evenements'>
+                <a className='fr-text--lg fr-m-0'>
+                  {event.title}
+                </a>
+              </Link>
 
-              <div className='date'>le {dateWithDay(event.date)}</div>
+              <div className='date fr-mt-1w'>le {dateWithDay(event.date)}</div>
             </li>
           )
           )}
