@@ -61,7 +61,7 @@ const SectionImage = ({title, subtitle, background, imageLink, imageSide, panelB
 
       h2 {
         text-align: center;
-        color: ${background === 'color' || background === 'dark' ? 'white' : ''};
+        color: ${background === 'color' || background === 'dark' || background === 'blue' ? 'white' : ''};
       }
 
       .subtitle {

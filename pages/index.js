@@ -128,22 +128,13 @@ const Home = ({testimonies}) => (
         `}</style>
     </SectionImage>
 
-    <Section
+    <SectionImage
       title='Événements autour du PCRS'
       background='blue'
+      imageLink='/images/illustrations/calendar_illustration.png'
       id='evenements'
-      style={{
-        textAlign: 'center'
-      }}
     >
-      <Image
-        src='/images/illustrations/calendar_illustration.png'
-        height={250}
-        width={250}
-        alt=''
-        className='fr-my-5w'
-      />
-      <div className='fr-p-2w fr-p-lg-4w'>
+      <div className='fr-p-2w fr-p-lg-4w fr-grid-row fr-grid-row--center'>
         <p className='fr-py-1w'>
           Tenez-vous informé des prochains événements organisés par l’ANCT à propos du PCRS. Ateliers, conférences, annonces pour être toujours à jour.
         </p>
@@ -156,7 +147,7 @@ const Home = ({testimonies}) => (
           Événements à venir
         </Button>
       </div>
-    </Section>
+    </SectionImage>
 
     {testimonies.length > 0 && (
       <Section
