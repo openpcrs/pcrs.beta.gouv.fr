@@ -54,11 +54,24 @@ const DIFFUSIONS = {
   tms: 'Diffusion via un service TMS'
 }
 
-const PcrsInfos = ({nature, regime, livrables, licence, acteurs}) => {
+const SUBVENTIONS_NATURES = {
+  feder: 'Financement FEDER',
+  cepr: 'Contrat État-Région',
+  detr: 'Dotations de l’État aux Territoires Ruraux'
+}
+
+const PcrsInfos = ({nature, regime, livrables, licence, acteurs, subventions}) => {
   const [isActorsShow, setIsActorsShow] = useState(false)
 
   const nomAPLC = acteurs.find(acteur => acteur.role === 'aplc')?.nom
-  const {natures: naturesColors, regimes: regimesColors, licences: licencesColors, actors: actorsColors, livrablesNatures} = PCRS_DATA_COLORS
+  const {
+    natures: naturesColors,
+    regimes: regimesColors,
+    licences: licencesColors,
+    actors: actorsColors,
+    livrablesNatures,
+    subventionsNatures
+  } = PCRS_DATA_COLORS
 
   function uniq(items) {
     return [...new Set(items)]
@@ -73,6 +86,31 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs}) => {
       <div>Diffusion : <br /><span>{DIFFUSIONS[livrable.diffusion]}</span></div>
       <div>Type de publication : <br /><span>{livrable.publication ? PUBLICATIONS[livrable.publication] : 'N/A'}</span></div>
       <div>Livraison : <br /><span>{livrable.date_livraison ? `le ${formatDate(livrable.date_livraison)}` : 'N/A'}</span></div>
+
+      <style jsx>{`
+        .tooltip-container {
+          text-align: left;
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+        }
+
+        .tooltip-container div {
+          font-weight: bold
+        }
+
+        .tooltip-container span {
+          font-weight: normal;
+        }
+      `}</style>
+    </div>
+  )
+
+  const subventionTooltip = subvention => (
+    <div className='tooltip-container'>
+      <div>Nature : <br />{SUBVENTIONS_NATURES[subvention.nature]}</div>
+      <div>Montant : <br /><span>{`${subvention.montant ? `${subvention.montant}€` : 'N/A'}`}</span></div>
+      <div>Échance : <br />{formatDate(subvention.echeance) || 'N/A'}</div>
 
       <style jsx>{`
         .tooltip-container {
@@ -184,6 +222,18 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs}) => {
             </HiddenInfos>
           )}
         </div>
+
+        <div className='subventions-container'>
+          <LabeledWrapper label='Subvention'>
+            <div className='subventions-badges'>
+              {subventions.map(subvention => (
+                <Tooltip key={subvention.nom} tooltipContent={() => subventionTooltip(subvention)}>
+                  <Badge size='small' background={subventionsNatures[subvention.nature]}>{subvention.nom}</Badge>
+                </Tooltip>
+              ))}
+            </div>
+          </LabeledWrapper>
+        </div>
       </div>
 
       <style jsx>{`
@@ -215,11 +265,12 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs}) => {
 }
 
 PcrsInfos.propTypes = {
-  nature: PropTypes.string,
-  regime: PropTypes.string,
-  livrables: PropTypes.array,
+  nature: PropTypes.string.isRequired,
+  regime: PropTypes.string.isRequired,
+  livrables: PropTypes.array.isRequired,
   licence: PropTypes.string,
-  acteurs: PropTypes.array.isRequired
+  acteurs: PropTypes.array.isRequired,
+  subventions: PropTypes.array
 }
 
 export default PcrsInfos
