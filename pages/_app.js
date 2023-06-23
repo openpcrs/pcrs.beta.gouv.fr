@@ -17,6 +17,7 @@ import '@gouvfr/dsfr/dist/utility/icons/icons-map/icons-map.min.css'
 import '@gouvfr/dsfr/dist/utility/icons/icons-communication/icons-communication.min.css'
 import '@gouvfr/dsfr/dist/utility/icons/icons-buildings/icons-buildings.min.css'
 import '@gouvfr/dsfr/dist/utility/icons/icons-design/icons-design.min.css'
+import '@gouvfr/dsfr/dist/utility/icons/icons-logo/icons-logo.min.css'
 
 const App = ({Component, pageProps}) => (
   <React.StrictMode>

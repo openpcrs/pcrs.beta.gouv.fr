@@ -4,7 +4,7 @@ import Image from 'next/image'
 import colors from '@/styles/colors.js'
 
 const SectionImage = ({title, subtitle, background, imageLink, imageSide, panelBottom, children, ...props}) => (
-  <section className={`fr-py-4w ${background}`} {...props}>
+  <section className={`fr-py-12w ${background}`} {...props}>
     <div className={`content-wrapper ${imageLink ? 'illustrated' : ''}`}>
       <div className='illustration fr-m-auto'>
         <Image
@@ -61,7 +61,7 @@ const SectionImage = ({title, subtitle, background, imageLink, imageSide, panelB
 
       h2 {
         text-align: center;
-        color: ${background === 'color' || background === 'dark' ? 'white' : ''};
+        color: ${background === 'color' || background === 'dark' || background === 'blue' ? 'white' : ''};
       }
 
       .subtitle {
@@ -74,7 +74,6 @@ const SectionImage = ({title, subtitle, background, imageLink, imageSide, panelB
         justify-content: center;
         gap: 1em;
         width: 80%;
-        padding: 5em 0;
       }
 
       .illustrated {
