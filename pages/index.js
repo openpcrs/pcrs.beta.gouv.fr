@@ -11,7 +11,6 @@ import Hero from '@/components/hero.js'
 import SectionImage from '@/components/section-image.js'
 import Section from '@/components/section.js'
 import Button from '@/components/button.js'
-import Follow from '@/components/follow.js'
 import EventCarousel from '@/components/event-carousel.js'
 import PostCard from '@/components/post-card.js'
 
@@ -181,97 +180,89 @@ const Home = ({testimonies}) => (
         </div>
 
         <style jsx>{`
-            .card-container {
-              text-align: start;
-            }
-          `}</style>
+          .card-container {
+            text-align: start;
+          }
+      `}</style>
       </Section>
     )}
 
-    <Section
-      title='Contactez-nous'
-      subtitle='Vous ne trouvez pas les réponses à vos questions sur ce site ou dans la documentation ?'
-      id='contact'
-      style={{
-        textAlign: 'center'
-      }}
-    >
-      <>
-        <Image
-          src='/images/illustrations/contact_illustration.png'
-          height={250}
-          width={250}
-          alt=''
-          className='fr-my-5w'
-        />
-        <div className='fr-px-2w fr-px-lg-5w'>
-          <p className='fr-mb-1w fr-h5' style={{fontWeight: 'bold'}}>
-            Vous pouvez nous contacter !
-          </p>
-        </div>
-      </>
-      <div className='separator fr-mt-3w fr-mb-5w' />
-
-      <div className='fr-container--fluid'>
-        <div className=' fr-grid-row'>
-          <div className='communication-system fr-col-12 fr-col-md-6 fr-col-lg-5 fr-p-2w'>
-            <h3 className='fr-h6'>En rejoignant notre forum</h3>
-            <p>Un lieu d’échange entre <b>porteurs de projets</b>, <b>animateurs</b> et <b>utilisateurs des livrables</b> du PCRS. Venez nous rencontrer pour présenter <b>vos problématiques</b> et vous inspirer d’autres solutions dans les échanges existants</p>
-            <Button
-              isExternal
-              href='https://forum.pcrs.beta.gouv.fr/'
-              label='Rejoindre le forum'
-            >
-              <span className='fr-icon-question-answer-line' aria-hidden='true' />&nbsp;Rejoindre le forum
-            </Button>
+    <div>
+      <SectionImage
+        title='Contactez-nous'
+        subtitle='Vous ne trouvez pas les réponses à vos questions sur ce site ou dans la documentation ?'
+        id='contact'
+        imageLink='/images/illustrations/contact_illustration.png'
+      >
+        <div className='fr-grid-row'>
+          <div className='fr-col-12'>
+            <h3 className='fr-text--lg fr-mb-1w'>Envoyez nous un email</h3>
+            <p className='fr-text--sm'>Notre équipe fera le nécessaire pour vous répondre dans les plus brefs délais, dans la limite de sa disponibilité.</p>
+            <div className='fr-grid-row fr-grid-row--center'>
+              <Button
+                isExternal
+                href='mailto:contact@pcrs.beta.gouv.fr'
+                label='Contacter l’équipe'
+                size='sm'
+              >
+                <span className='fr-icon-mail-line' aria-hidden='true' />&nbsp;Contactez-nous
+              </Button>
+            </div>
           </div>
 
-          <div className='fr-col-lg-1 fr-col-xl-2' />
-
-          <div className='communication-system fr-col-12 fr-col-md-6 fr-col-lg-5 fr-mx-auto fr-p-2w'>
-            <h3 className='fr-h6'>En nous envoyant un email</h3>
-            <p>Notre équipe fera le nécessaire pour vous répondre dans les plus brefs délais, dans la limite de sa disponibilité.</p>
-            <Button
-              isExternal
-              href='mailto:contact@pcrs.beta.gouv.fr'
-              label='Contacter l’équipe'
-            >
-              <span className='fr-icon-mail-line' aria-hidden='true' />&nbsp;Contactez-nous
-            </Button>
+          <div className='fr-col-12 fr-py-7w'>
+            <h3 className='fr-text--lg fr-mb-1w'>Rejoignez notre forum</h3>
+            <p className='fr-text--sm'>Un lieu d’échange entre <b>porteurs de projets</b>, <b>animateurs</b> et <b>utilisateurs des livrables</b> du PCRS. Venez nous rencontrer pour présenter <b>vos problématiques</b> et vous inspirer d’autres solutions dans les échanges existants</p>
+            <div className='fr-grid-row fr-grid-row--center'>
+              <Button
+                isExternal
+                href='https://forum.pcrs.beta.gouv.fr/'
+                label='Rejoindre le forum'
+                size='sm'
+              >
+                <span className='fr-icon-question-answer-line' aria-hidden='true' />&nbsp;Rejoindre le forum
+              </Button>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <style jsx>{`
-          .separator {
-            width: 100%;
-            border: solid 1px ${colors.blueFrance925};
-          }
+          <div className='fr-col-12 fr-p-0'>
+            <h3 className='fr-text--lg'>Suivez-nous sur les réseaux sociaux</h3>
 
-          .communication-systems p {
-            text-align: left;
-          }
+            <div className='fr-grid-row fr-grid-row--center fr-grid-row--middle fr-grid-row--gutters fr-mt-3w'>
+              <div className='fr-grid-row fr-grid-row--center fr-col-12 fr-col-lg-5'>
+                <Button
+                  isExternal
+                  href='https://twitter.com/pcrsbeta'
+                  label='Nous suivre sur Twitter'
+                  size='sm'
+                  icon='twitter-fill'
+                  iconSide='left'
+                >
+                  <span className='fr-icon-twitter-fill' aria-hidden='true' />&nbsp;Nous suivre sur Twitter
+                </Button>
+              </div>
+              <div className='fr-grid-row fr-grid-row--center fr-col-12 fr-col-lg-5'>
+                <Button
+                  isExternal
+                  href='https://www.linkedin.com/company/pcrs-beta-gouv-fr/about/'
+                  label='Nous suivre sur Linkedin'
+                  size='sm'
+                  icon='linkedin-box-line'
+                >
+                  <span className='fr-icon-linkedin-box-fill' aria-hidden='true' />&nbsp;Nous suivre sur Linkedin
+                </Button>
+              </div>
+            </div>
+          </div>
 
-          .communication-system {
-            min-width: 300px;
-            display: grid;
-            grid-template-rows: auto 1fr auto;
-            justify-items: center;
+          <style jsx>{`
+          .social-media {
+            background: transparent;
           }
         `}</style>
-    </Section>
-
-    <Section
-      title='Suivez l’actualité'
-      subtitle='En vous inscrivant à la newsletter ou en nous suivant sur Twitter'
-      background='secondary'
-      id='newsletter'
-      style={{
-        textAlign: 'center'
-      }}
-    >
-      <Follow />
-    </Section>
+        </div>
+      </SectionImage>
+    </div>
   </Page>
 )
 

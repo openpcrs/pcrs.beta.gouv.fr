@@ -25,7 +25,7 @@ const Section = ({title, subtitle, background, children, ...props}) => (
       .subtitle {
         color: ${(background === 'dark' || background === 'blue') ? 'white' : colors.grey200}
       }
- 
+
       .primary {
         background-color: white;
       }
