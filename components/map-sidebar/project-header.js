@@ -33,17 +33,17 @@ const Header = ({projectId, codeEditor, projectName, territoires, projets, onPro
 
   return (
     <div className='header'>
-      <div className='fr-grid-row fr-my-2w'>
-        <h1 className='fr-h4 fr-m-0 fr-col-8'>{projectName}</h1>
+      <div className='fr-grid-row fr-my-2w fr-grid--middle'>
+        <h1 className='fr-h4 fr-m-0 fr-col-7'>{projectName}</h1>
         {isAdmin && (
-          <div className='fr-grid-row fr-grid-row--right fr-col-4'>
+          <div className='fr-grid-row fr-grid-row--right fr-grid-row--middle fr-grid-row--gutters fr-col-5'>
             <Tooltip
-              tooltipContent={() => <p>Réinitialiser le lien de partage</p>}
+              tooltipContent={() => <p className='fr-m-0'>Réinitialiser le lien de partage</p>}
               position='center'
             >
               <button
                 type='button'
-                className='fr-btn--tertiary-no-outline'
+                className='fr-btn--tertiary-no-outline fr-m-0'
                 aria-label='Réinitialiser le lien de partage'
                 onClick={handleResetModal}
               >
@@ -61,7 +61,7 @@ const Header = ({projectId, codeEditor, projectName, territoires, projets, onPro
             )}
 
             <Tooltip
-              tooltipContent={() => <p>Éditer le projet</p>}
+              tooltipContent={() => <p className='fr-m-0'>Éditer le projet</p>}
               position='left'
             >
               <button
@@ -75,12 +75,12 @@ const Header = ({projectId, codeEditor, projectName, territoires, projets, onPro
             </Tooltip>
 
             <Tooltip
-              tooltipContent={() => <p>Supprimer le projet</p>}
+              tooltipContent={() => <p className='fr-m-0'>Supprimer le projet</p>}
               position='left'
             >
               <button
                 type='button'
-                className='fr-btn--tertiary-no-outline'
+                className='fr-btn--tertiary-no-outline fr-m-0'
                 aria-label='Supprimer le projet'
                 onClick={handleDeleteModalOpen}
               >

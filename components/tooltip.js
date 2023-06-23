@@ -12,7 +12,7 @@ const Tooltip = ({tooltipContent, position, children}) => {
     >
       {children}
 
-      <div className={`tooltip-text ${position}`}>{tooltipContent()}</div>
+      <div className={`tooltip-text ${position} fr-p-1w`}>{tooltipContent()}</div>
 
       <style jsx>{`
       .tooltip-container {
