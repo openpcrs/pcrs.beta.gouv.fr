@@ -26,7 +26,7 @@ const Evenements = () => {
     <Page title='Événements autour du PCRS' description='Consultez les événements à venir.'>
       <div className='events-header fr-my-5w'>
         <Image
-          src='/images/illustrations/calendar_illustration-colored.png'
+          src='/images/illustrations/calendar_illustration-colored.svg'
           height={200}
           width={200}
           alt=''

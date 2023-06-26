@@ -26,7 +26,7 @@ const ShareModal = ({projectId, editCode, handleModal, validationMessage}) => {
   return (
     <Modal onClose={handleModal}>
       <div className='fr-grid-row fr-grid-row--center fr-grid-row--gutters'>
-        <Image src='/images/icons/check.png' height={80} width={80} />
+        <Image src='/images/icons/check.svg' height={80} width={80} />
         <b className='success fr-grid-row fr-grid-row--center fr-col-12 fr-text--lead'>
           {validationMessage}
         </b>

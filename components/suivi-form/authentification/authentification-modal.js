@@ -44,7 +44,7 @@ const AuthentificationModal = ({handleModalClose}) => {
         {(step === 3) && (
           <div className='fr-container'>
             <div className='fr-grid-row fr-grid-row--center'>
-              <Image src='/images/icons/unlock.png' height={110} width={100} />
+              <Image src='/images/icons/unlock.svg' height={200} width={200} alt='' />
             </div>
           </div>
         )}

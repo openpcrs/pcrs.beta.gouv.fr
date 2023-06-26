@@ -34,7 +34,7 @@ const Home = ({testimonies}) => (
 
     <SectionImage
       title='Documentation'
-      imageLink='/images/illustrations/doc_illustration.png'
+      imageLink='/images/illustrations/doc_illustration.svg'
       id='documentation'
     >
       <p>
@@ -97,7 +97,7 @@ const Home = ({testimonies}) => (
     <SectionImage
       title='Feuille de route'
       subtitle='Les étapes suivantes marqueront le développement de ce portail'
-      imageLink='/images/illustrations/progress_illustration.png'
+      imageLink='/images/illustrations/progress_illustration.svg'
       id='feuille-de-route'
       background='secondary'
       imageSide='right'
@@ -130,7 +130,7 @@ const Home = ({testimonies}) => (
     <SectionImage
       title='Événements autour du PCRS'
       background='blue'
-      imageLink='/images/illustrations/calendar_illustration.png'
+      imageLink='/images/illustrations/calendar_illustration.svg'
       id='evenements'
     >
       <div className='fr-p-2w fr-p-lg-4w fr-grid-row fr-grid-row--center'>
@@ -158,7 +158,7 @@ const Home = ({testimonies}) => (
         }}
       >
         <Image
-          src='/images/illustrations/testimony_illustration.png'
+          src='/images/illustrations/testimony_illustration.svg'
           height={250}
           width={250}
           alt=''
@@ -192,7 +192,7 @@ const Home = ({testimonies}) => (
         title='Contactez-nous'
         subtitle='Vous ne trouvez pas les réponses à vos questions sur ce site ou dans la documentation ?'
         id='contact'
-        imageLink='/images/illustrations/contact_illustration.png'
+        imageLink='/images/illustrations/contact_illustration.svg'
       >
         <div className='fr-grid-row'>
           <div className='fr-col-12'>

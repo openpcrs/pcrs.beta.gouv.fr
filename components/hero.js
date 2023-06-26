@@ -20,8 +20,8 @@ const Hero = () => (
           <a aria-label='Accéder à la section feuille de route' className='fr-link illustrated-link fr-text--sm'>
             <Image
               height={70}
-              width={51}
-              src='/images/icons/document.png'
+              width={70}
+              src='/images/illustrations/progress_illustration.svg'
               alt=''
             />
             <span className='fr-pt-2w'>Feuille de route</span>
@@ -33,16 +33,16 @@ const Hero = () => (
         <Link
           passHref
           legacyBehavior
-          href='/#contact'
+          href='/#evenements'
         >
-          <a aria-label='Accéder à la section prendre contact' className='fr-link illustrated-link fr-text--sm'>
+          <a aria-label='Accéder à la section événements' className='fr-link illustrated-link fr-text--sm'>
             <Image
               height={70}
-              width={72}
-              src='/images/icons/community.png'
+              width={70}
+              src='/images/illustrations/calendar_illustration-colored.svg'
               alt=''
             />
-            <span className='fr-pt-2w'>Prendre contact</span>
+            <span className='fr-pt-2w'>Événements</span>
           </a>
         </Link>
       </div>
@@ -53,14 +53,14 @@ const Hero = () => (
           legacyBehavior
           href='/#newsletter'
         >
-          <a aria-label='Accéder à la section suivez l’actualité' className='fr-link illustrated-link fr-text--sm'>
+          <a aria-label='Accéder à la section suivez de contact' className='fr-link illustrated-link fr-text--sm'>
             <Image
               height={70}
               width={70}
-              src='/images/icons/newsletter.png'
+              src='/images/illustrations/contact_illustration.svg'
               alt=''
             />
-            <span className='fr-pt-2w'>Suivez l’actualité</span>
+            <span className='fr-pt-2w'>Prendre contact</span>
           </a>
         </Link>
       </div>
