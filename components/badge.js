@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 
 const Badge = ({background, textColor, size, children, ...props}) => (
-  <div className='badge' {...props}>
+  <div className='badge fr-mr-1w fr-mb-1w' {...props}>
     <p className={`fr-badge badge-color ${size === 'small' ? 'fr-badge--sm' : ''}`}>
       {children}
     </p>
