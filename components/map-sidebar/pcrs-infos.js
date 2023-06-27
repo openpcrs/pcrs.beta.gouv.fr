@@ -187,7 +187,7 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs, subventions}) =
 
         <div className='fr-my-2w'>
           <LabeledWrapper label='Acteurs'>
-            <div className='actors-badges'>
+            <div className='fr-grid-row'>
               {rolesActeurs.map(role => (
                 <Badge
                   key={role}
@@ -224,14 +224,7 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs, subventions}) =
         </div>
 
         <div className='subventions-container'>
-          <LabeledWrapper label='Subvention'>
-            <div className='subventions-badges'>
-              {subventions.map(subvention => (
-                <Tooltip key={subvention.nom} tooltipContent={() => subventionTooltip(subvention)}>
-                  <Badge size='small' background={subventionsNatures[subvention.nature]}>{subvention.nom}</Badge>
-                </Tooltip>
-              ))}
-            </div>
+          <LabeledWrapper label='Subventions'>
           </LabeledWrapper>
         </div>
       </div>
@@ -242,12 +235,6 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs, subventions}) =
           justify-content: space-between;
           flex-wrap: wrap;
           gap: 2em 2em;
-        }
-
-        .actors-badges, .livrables-badges {
-          display: flex;
-          gap: 5px;
-          flex-wrap: wrap;
         }
 
         .livrable-container, .format-regime-container {
