@@ -40,6 +40,7 @@ const Header = ({projectId, codeEditor, projectName, territoires, projets, onPro
             <Tooltip
               tooltipContent={() => <p className='fr-m-0'>Réinitialiser le lien de partage</p>}
               position='center'
+              tooltipStyle='secondary'
             >
               <button
                 type='button'
@@ -63,6 +64,7 @@ const Header = ({projectId, codeEditor, projectName, territoires, projets, onPro
             <Tooltip
               tooltipContent={() => <p className='fr-m-0'>Éditer le projet</p>}
               position='left'
+              tooltipStyle='secondary'
             >
               <button
                 type='button'
@@ -77,6 +79,7 @@ const Header = ({projectId, codeEditor, projectName, territoires, projets, onPro
             <Tooltip
               tooltipContent={() => <p className='fr-m-0'>Supprimer le projet</p>}
               position='left'
+              tooltipStyle='secondary'
             >
               <button
                 type='button'
