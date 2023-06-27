@@ -51,7 +51,7 @@ const Hero = () => (
         <Link
           passHref
           legacyBehavior
-          href='/#newsletter'
+          href='/#contact'
         >
           <a aria-label='Accéder à la section suivez de contact' className='fr-link illustrated-link fr-text--sm'>
             <Image
