@@ -152,7 +152,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
     <>
       <div className='form-header fr-my-5w'>
         <Image
-          src='/images/illustrations/form_illustration.png'
+          src='/images/illustrations/form_illustration.svg'
           height={200}
           width={200}
           alt=''

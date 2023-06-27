@@ -38,7 +38,7 @@ const Admin = () => {
 
       <div className='page-header fr-my-5w'>
         <Image
-          src='/images/illustrations/admin-illustration.png'
+          src='/images/illustrations/admin-illustration.svg'
           height={200}
           width={200}
           alt=''

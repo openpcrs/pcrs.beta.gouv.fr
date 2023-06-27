@@ -11,26 +11,17 @@ import Button from '@/components/button.js'
 const Accessibilite = () => (
   <Page title='Déclaration d’accessibilité' description='Consultez la déclaration d’accessibilité de pcrs.beta.gouv'>
     <Section>
-      <div className='fr-container fr-pb-10w fr-pt-5w'>
-        <div className='fr-grid-row fr-grid-row--center'>
-          <div className='fr-col-12 fr-col-md-8'>
-            <Image
-              src='/images/illustrations/accessibilite.png'
-              height={100}
-              width={700}
-              alt=''
-              aria-hidden='true'
-              style={{
-                width: '100%',
-                maxWidth: '700px',
-                height: 'auto'
-              }}
-            />
-          </div>
-        </div>
+      <div className='access-header fr-my-5w'>
+        <Image
+          src='/images/illustrations/accessibilite.svg'
+          height={200}
+          width={200}
+          alt=''
+          aria-hidden='true'
+        />
+        <h2 className='fr-my-5w'>Déclaration d’accessibilité</h2>
       </div>
 
-      <h2>Déclaration d’accessibilité</h2>
       <p>
         <b>pcrs.beta.gouv</b> s’engage à rendre ses sites internet, intranet, extranet et ses progiciels <b>accessibles</b> (et ses applications mobiles et mobilier urbain numérique) conformément à <b>l’article 47 de la loi n°2005-102 du 11 février 2005</b>. À cette fin, elle met en œuvre la stratégie et les actions suivantes :
       </p>
@@ -98,6 +89,10 @@ const Accessibilite = () => (
     </Section>
 
     <style jsx>{`
+      .access-header {
+        text-align: center;
+      }
+
       .fr-alert--error {
         background: white;
       }

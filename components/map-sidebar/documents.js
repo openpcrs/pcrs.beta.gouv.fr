@@ -14,7 +14,7 @@ const Documents = ({source, documentation, contract}) => (
         <Image
           height={50}
           width={50}
-          src='/images/icons/link.png'
+          src='/images/icons/link.svg'
           alt=''
           aria-hidden='true'
         />
@@ -30,7 +30,7 @@ const Documents = ({source, documentation, contract}) => (
         <Image
           height={50}
           width={50}
-          src='/images/icons/book.png'
+          src='/images/icons/book.svg'
           alt=''
           aria-hidden='true'
         />
@@ -47,7 +47,7 @@ const Documents = ({source, documentation, contract}) => (
         <Image
           height={50}
           width={50}
-          src='/images/icons/contract.png'
+          src='/images/icons/contract.svg'
           alt=''
           aria-hidden='true'
         />
