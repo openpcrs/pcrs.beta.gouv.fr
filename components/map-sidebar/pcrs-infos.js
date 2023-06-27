@@ -260,4 +260,8 @@ PcrsInfos.propTypes = {
   subventions: PropTypes.array
 }
 
+PcrsInfos.defaultProps = {
+  subventions: []
+}
+
 export default PcrsInfos
