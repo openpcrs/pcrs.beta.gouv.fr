@@ -16,7 +16,7 @@ const Temoignages = ({testimonies, pagination}) => (
       <div>
         <div className='blog-header fr-my-5w'>
           <Image
-            src='/images/illustrations/testimony_illustration.png'
+            src='/images/illustrations/testimony_illustration.svg'
             height={200}
             width={200}
             alt=''
