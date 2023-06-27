@@ -225,6 +225,17 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs, subventions}) =
 
         <div className='subventions-container'>
           <LabeledWrapper label='Subventions'>
+            {subventions.length > 0 ? (
+              <div className='fr-grid-row'>
+                {subventions.map(subvention => (
+                  <Tooltip key={subvention.nom} tooltipContent={() => subventionTooltip(subvention)}>
+                    <Badge size='small' background={subventionsNatures[subvention.nature]}>{subvention.nom}</Badge>
+                  </Tooltip>
+                ))}
+              </div>
+            ) : (
+              <i>Aucune subvention renseignée</i>
+            )}
           </LabeledWrapper>
         </div>
       </div>
