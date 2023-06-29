@@ -268,11 +268,7 @@ PcrsInfos.propTypes = {
   livrables: PropTypes.array.isRequired,
   licence: PropTypes.string,
   acteurs: PropTypes.array.isRequired,
-  subventions: PropTypes.array
-}
-
-PcrsInfos.defaultProps = {
-  subventions: []
+  subventions: PropTypes.array.isRequired
 }
 
 export default PcrsInfos
