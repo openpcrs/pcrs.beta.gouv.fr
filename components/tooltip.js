@@ -1,20 +1,18 @@
 import {useState} from 'react'
 import PropTypes from 'prop-types'
 
-import colors from '@/styles/colors.js'
-
-const Tooltip = ({tooltipContent, position, children}) => {
+const Tooltip = ({tooltipContent, tooltipStyle, position, children}) => {
   const [isScreenPress, setIsScreenPress] = useState(false)
 
   return (
     <div
-      className='tooltip-container'
+      className={`tooltip-container ${tooltipStyle}`}
       onTouchStart={() => setIsScreenPress(true)}
       onTouchEnd={() => setIsScreenPress(false)}
     >
       {children}
 
-      <div className={`tooltip-text ${position}`}>{tooltipContent()}</div>
+      <div className={`tooltip-text ${position} fr-p-1w`}>{tooltipContent()}</div>
 
       <style jsx>{`
       .tooltip-container {
@@ -25,11 +23,9 @@ const Tooltip = ({tooltipContent, position, children}) => {
 
       .tooltip-container .tooltip-text {
         visibility: ${isScreenPress ? 'visible' : 'hidden'};
-        background-color: ${colors.info425};
+        background-color: ${tooltipStyle === 'primary' ? 'rgba(0, 99, 203, 0.97)' : 'rgba(0, 0, 0, 0.97)'};
         color: white;
         text-align: center;
-        border-radius: 6px;
-        padding: 5px 10px;
         position: absolute;
         z-index: 1;
         top: 110%;
@@ -63,12 +59,17 @@ Tooltip.propTypes = {
     'right',
     'center'
   ]),
+  tooltipStyle: PropTypes.oneOf([
+    'primary',
+    'secondary'
+  ]),
   children: PropTypes.node
 }
 
 Tooltip.defaultProps = {
   children: null,
-  position: 'right'
+  position: 'right',
+  tooltipStyle: 'primary'
 }
 
 export default Tooltip
