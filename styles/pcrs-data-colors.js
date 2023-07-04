@@ -37,6 +37,11 @@ export const PCRS_DATA_COLORS = {
     geotiff: '#f7b39e',
     jpeg2000: '#87bbed',
     gml: '#f9b8f5'
+  },
+  subventionsNatures: {
+    feder: '#e8edff',
+    cepr: '#dffdf7',
+    detr: '#feebd0'
   }
 }
 

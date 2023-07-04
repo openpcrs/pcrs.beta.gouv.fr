@@ -14,7 +14,22 @@ import Contact from '@/components/map-sidebar/contact.js'
 
 const MapSidebar = ({projet, onClose, onProjetChange, projets}) => {
   const {status} = PCRS_DATA_COLORS
-  const {nom, territoires, _id, etapes, source, documentation, contrat, acteurs, editorKey} = projet
+  const {
+    nom,
+    territoires,
+    _id,
+    etapes,
+    source,
+    subventions,
+    documentation,
+    contrat,
+    editorKey,
+    nature,
+    regime,
+    livrables,
+    licence,
+    acteurs
+  } = projet
 
   const contactAPLC = acteurs.find(acteur => acteur.role === 'aplc' || 'porteur')
   const {statut} = projet.etapes[projet.etapes.length - 1]
@@ -57,7 +72,14 @@ const MapSidebar = ({projet, onClose, onProjetChange, projets}) => {
         )}
 
         <h2 className='fr-text--lead fr-my-0'>Détails du projet</h2>
-        <PcrsInfos {...projet} />
+        <PcrsInfos
+          nature={nature}
+          regime={regime}
+          livrables={livrables}
+          licence={licence}
+          acteurs={acteurs}
+          subventions={subventions || []}
+        />
 
         <h2 className='fr-text--lead fr-mt-3w'>Sources et documentations</h2>
         <Documents
