@@ -1,0 +1,13 @@
+{
+  "id": "acteurs-fills",
+  "type": "fill",
+  "layout": {
+    "visibility": "none"
+  },
+  "source": "projetsData",
+  "paint": {
+    "fill-color": "#175c8b",
+    "fill-opacity": 1,
+    "fill-outline-color": "white"
+  }
+}
