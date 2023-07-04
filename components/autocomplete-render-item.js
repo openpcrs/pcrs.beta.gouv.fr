@@ -11,6 +11,10 @@ const AutocompleteRenderItem = ({children, isHighlighted}) => (
         background: ${isHighlighted ? colors.blueHover : 'white'};
         color: ${isHighlighted ? 'white' : colors.darkgrey};
       }
+
+      .item:hover {
+        cursor : ${isHighlighted ? 'pointer' : 'auto'}
+      }
     `}</style>
   </div>
 )
