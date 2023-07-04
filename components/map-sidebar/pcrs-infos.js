@@ -234,7 +234,7 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs, subventions}) =
                 ))}
               </div>
             ) : (
-              <i>Aucune subvention renseignée</i>
+              <i className='fr-text--sm'>Aucune subvention renseignée</i>
             )}
           </LabeledWrapper>
         </div>
