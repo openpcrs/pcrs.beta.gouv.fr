@@ -64,6 +64,8 @@ const AutocompleteInput = ({
       <style jsx>{`
         .menu {
           position: absolute;
+          left: 0;
+          right: 0;
           box-shadow: 2px 12px 23px 2px rgba(0,0,0,0.23);
           border-radius: 0 0 5px 5px;
           background: white;
@@ -77,17 +79,25 @@ const AutocompleteInput = ({
   ), [isLoading])
 
   return (
-    <Autocomplete
-      value={value}
-      getItemValue={getItemValue}
-      items={results}
-      renderItem={(item, isHighlighted) => customItem(item, isHighlighted)}
-      renderMenu={customMenu}
-      renderInput={customInput}
-      wrapperStyle={{width: '100%'}}
-      onChange={onValueChange}
-      onSelect={onSelectValue}
-    />
+    <div className='search-input-wrapper'>
+      <Autocomplete
+        value={value}
+        getItemValue={getItemValue}
+        items={results}
+        renderItem={(item, isHighlighted) => customItem(item, isHighlighted)}
+        renderMenu={customMenu}
+        renderInput={customInput}
+        wrapperStyle={{width: '100%'}}
+        onChange={onValueChange}
+        onSelect={onSelectValue}
+      />
+
+      <style jsx>{`
+        .search-input-wrapper {
+          position: relative;
+        }
+      `}</style>
+    </div>
   )
 }
 
