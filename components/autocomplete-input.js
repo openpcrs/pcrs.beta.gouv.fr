@@ -69,6 +69,7 @@ const AutocompleteInput = ({
           box-shadow: 2px 12px 23px 2px rgba(0,0,0,0.23);
           border-radius: 0 0 5px 5px;
           background: white;
+          z-index: 2;
         }
 
         .hidden {
