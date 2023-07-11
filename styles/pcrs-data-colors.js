@@ -27,6 +27,7 @@ export const PCRS_DATA_COLORS = {
   },
   actors: {
     aplc: '#fef7da',
+    porteur: '#FEDAE0',
     financeur: '#e6feda',
     diffuseur: '#dffdf7',
     presta_vol: '#c7f6fc',
