@@ -18,7 +18,7 @@ const AutocompleteInput = ({
   onInputChange,
   onSelectValue,
   results,
-  renderItem,
+  customItem,
   isLoading
 }) => {
   const inputState = errorMessage ? 'error' : ''
@@ -31,7 +31,7 @@ const AutocompleteInput = ({
   const onValueChange = e => {
     onInputChange(e.target.value)
 
-    setActiveSuggestion(0) // Reset focus item
+    setActiveSuggestion(0)
     setIsSuggestionsMenuOpen(true)
   }
 
@@ -62,7 +62,7 @@ const AutocompleteInput = ({
   }
 
   useEffect(() => {
-    // Close suggestions menu on click outside
+    // CLose suggestions menu on click outside
     function handleClickOutside(event) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
         setIsSuggestionsMenuOpen(false)
@@ -100,36 +100,39 @@ const AutocompleteInput = ({
         {errorMessage && <p id='text-input-error-desc-error' className='fr-error-text'>{errorMessage}</p>}
       </div>
 
-      {isSuggestionsMenuOpen && (
+      {(isSuggestionsMenuOpen && value) && (
         isLoading ? (
           <div className='fr-grid-row fr-grid-row--center fr-p-2w fr-mt-1w fr-p-0 menu'><Loader size='small' /></div>
         ) : (
-          <ul ref={wrapperRef} className='fr-mt-1w fr-p-0 menu' role='listbox'>
-            {results.map((item, index) => (
-              <li
-                key={uniqueId()}
-                className={`${index === activeSuggestion ? 'suggestion-active' : ''} fr-p-2w`}
-                tabIndex={0} // Allow keyboard focus
-                aria-selected={index === activeSuggestion} // Indicate selected item for screen readers
-                onClick={() => {
-                  setActiveSuggestion(0)
-                  setIsSuggestionsMenuOpen(false)
-                  onSelectValue(item)
-                }}
-                onKeyDown={event => {
-                  // Allow to select item with "enter" key if isFocused
-                  if (event.key === 'Enter') {
+          results.length > 0 && (
+            <ul ref={wrapperRef} className='fr-mt-1w fr-p-0 menu' role='listbox'>
+              {results.map((item, index) => (
+
+                <li
+                  key={uniqueId()}
+                  className={`${index === activeSuggestion ? 'suggestion-active' : ''} fr-p-2w`}
+                  tabIndex={0} // Allow keyboard focus
+                  aria-selected={index === activeSuggestion} // Indicate selected item for screen readers
+                  onClick={() => {
                     setActiveSuggestion(0)
                     setIsSuggestionsMenuOpen(false)
                     onSelectValue(item)
-                  }
-                }}
-              >
-                {renderItem(item)}
-              </li>
-            ))}
-          </ul>
-        )
+                  }}
+                  onKeyDown={event => {
+                  // Allow to select item with "enter" key if isFocused
+                    if (event.key === 'Enter') {
+                      setActiveSuggestion(0)
+                      setIsSuggestionsMenuOpen(false)
+                      onInputChange(event.target.textContent)
+                      onSelectValue(item)
+                    }
+                  }}
+                >
+                  {customItem(item)}
+                </li>
+              ))}
+            </ul>
+          ))
       )}
 
       <style jsx>{`
@@ -183,7 +186,7 @@ AutocompleteInput.propTypes = {
   isRequired: PropTypes.bool,
   isDisabled: PropTypes.bool,
   isLoading: PropTypes.bool.isRequired,
-  renderItem: PropTypes.func.isRequired,
+  customItem: PropTypes.func.isRequired,
   onInputChange: PropTypes.func.isRequired,
   onSelectValue: PropTypes.func.isRequired
 }
