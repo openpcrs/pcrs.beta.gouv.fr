@@ -173,7 +173,7 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
 
   useEffect(() => {
     // Search actors by name
-    if (acteurSearchInput.length > 1) {
+    if (acteurSearchInput.length >= 2) {
       setIsLoading(true)
       const fetchActeurs = debounce(() => {
         const flatActeurs = flatMap(geometry.features.map(f => f.properties), 'acteurs')
