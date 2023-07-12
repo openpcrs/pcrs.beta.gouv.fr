@@ -59,7 +59,7 @@ const validProjet = {
     },
     {
       statut: 'production',
-      date_debut: null
+      date_debut: '2024-02-08'
     }
   ],
   subventions: [
