@@ -26,11 +26,11 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
   const {userRole, token} = useContext(AuthentificationContext)
   const router = useRouter()
   const [layout, setLayout] = useState('departements-fills')
-  const [searchActeur, setSearchActeur] = useState('')
+  const [acteurSearchInput, setActeurSearchInput] = useState('')
   const [foundActeurs, setFoundActeurs] = useState([])
   const [hoveredCode, setHoveredCode] = useState(null)
   const [matchingIds, setMatchingIds] = useState([])
-  const [isFilter, setIsFilter] = useState(false)
+  const [isFiltered, setIsFiltered] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
   const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
@@ -167,31 +167,31 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
       }
 
       // Filter by actors when actor is selected
-      mapRef.current.setFilter(layout, isFilter ? ['in', ['get', '_id'], ['literal', matchingIds]] : null)
+      mapRef.current.setFilter(layout, isFiltered ? ['in', ['get', '_id'], ['literal', matchingIds]] : null)
     }
-  }, [layout, matchingIds, isFilter])
+  }, [layout, matchingIds, isFiltered])
 
   useEffect(() => {
     // Search actors by name
-    if (searchActeur.length > 1) {
+    if (acteurSearchInput.length > 1) {
       setIsLoading(true)
-      const fetchActors = debounce(() => {
-        const flatActors = flatMap(geometry.features.map(f => f.properties), 'acteurs')
-        const filteredActors = flatActors.filter(a => a.toLowerCase().includes(searchActeur.toLowerCase()))
-        setFoundActeurs(uniq(filteredActors))
+      const fetchActeurs = debounce(() => {
+        const flatActeurs = flatMap(geometry.features.map(f => f.properties), 'acteurs')
+        const filteredActeurs = flatActeurs.filter(a => a.toLowerCase().includes(acteurSearchInput.toLowerCase()))
+        setFoundActeurs(uniq(filteredActeurs))
       }, 300)
-      fetchActors()
+      fetchActeurs()
       setIsLoading(false)
     } else {
       setFoundActeurs([])
       setMatchingIds([])
     }
-  }, [searchActeur, geometry])
+  }, [acteurSearchInput, geometry])
 
-  const getProjectId = actor => {
-    const filteredItems = filter(geometry.features, item => some(item.properties.acteurs, a => a.toLowerCase() === actor.toLowerCase()))
-    const projectId = filteredItems.map(m => m.properties._id)
-    setMatchingIds(projectId)
+  const getProjectId = acteur => {
+    const filteredItems = filter(geometry.features, item => some(item.properties.acteurs, a => a.toLowerCase() === acteur.toLowerCase()))
+    const projectIds = filteredItems.map(m => m.properties._id)
+    setMatchingIds(projectIds)
   }
 
   useEffect(() => {
@@ -239,7 +239,7 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
               <div className='fr-col-10'>
                 <AutocompleteInput
                   label='Filtrer par acteurs'
-                  value={searchActeur}
+                  value={acteurSearchInput}
                   name='acteur'
                   description='Nom de l’acteur'
                   ariaLabel='nom de l’acteur à rechercher'
@@ -247,11 +247,11 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
                   getItemValue={item => item}
                   customItem={renderItem}
                   isLoading={isLoading}
-                  onValueChange={e => setSearchActeur(e.target.value)}
+                  onValueChange={e => setActeurSearchInput(e.target.value)}
                   onSelectValue={item => {
-                    setSearchActeur(item)
+                    setActeurSearchInput(item)
                     getProjectId(item)
-                    setIsFilter(true)
+                    setIsFiltered(true)
                   }}
                 />
               </div>
@@ -260,9 +260,9 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
                 className='fr-btn fr-icon-close-circle-line fr-col-2'
                 onClick={() => {
                   setMatchingIds([])
-                  setSearchActeur('')
+                  setActeurSearchInput('')
                   setFoundActeurs([])
-                  setIsFilter(false)
+                  setIsFiltered(false)
                 }}
               />
             </div>
