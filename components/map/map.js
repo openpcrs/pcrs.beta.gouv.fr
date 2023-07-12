@@ -167,9 +167,9 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
       }
 
       // Filter by actors when actor is selected
-      mapRef.current.setFilter(layout, isFiltered ? ['in', ['get', '_id'], ['literal', matchingIds]] : null)
+      mapRef.current.setFilter(layout, (isFiltered && foundActeurs.length > 0) ? ['in', ['get', '_id'], ['literal', matchingIds]] : null)
     }
-  }, [layout, matchingIds, isFiltered])
+  }, [layout, matchingIds, isFiltered, foundActeurs])
 
   useEffect(() => {
     // Search actors by name
