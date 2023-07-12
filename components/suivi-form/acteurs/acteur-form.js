@@ -12,35 +12,17 @@ import {roleOptions} from '@/components/suivi-form/acteurs/utils/select-options.
 import {useInput} from '@/hooks/input.js'
 
 import AutocompleteInput from '@/components/autocomplete-input.js'
-import AutocompleteRenderItem from '@/components/autocomplete-render-item.js'
 import TextInput from '@/components/text-input.js'
 import SelectInput from '@/components/select-input.js'
 import Button from '@/components/button.js'
 import NumberInput from '@/components/number-input.js'
-
-const renderItem = (item, isHighlighted) => {
-  const {nom_complet, section_activite_principale, siren} = item
-
-  return (
-    <div key={siren}>
-      <AutocompleteRenderItem isHighlighted={isHighlighted}>
-        {nom_complet} - <span className='ape'>{secteursActivites[section_activite_principale]}</span>
-      </AutocompleteRenderItem>
-
-      <style jsx>{`
-        .ape {
-          font-weight: bold;
-        }
-      `}</style>
-    </div>
-  )
-}
 
 const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, handleActors, handleAdding, handleEditing, onRequiredFormOpen}) => {
   const [isFormComplete, setIsFormComplete] = useState(true)
   const [isFormValid, setIsFormValid] = useState(true)
   const [errorMessage, setErrorMessage] = useState(null)
   const [searchErrorMessage, setSearchErrorMessage] = useState(null)
+
   const [isLoading, setIsLoading] = useState(false)
 
   const [foundEtablissements, setFoundEtablissements] = useState([])
@@ -227,6 +209,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
   useEffect(() => {
     if (!nom || nom.length < 3) {
       setSearchErrorMessage(null)
+      setFoundEtablissements([])
       return
     }
 
@@ -236,7 +219,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
     return () => {
       ac.abort()
     }
-  }, [nom, fetchActors, setSearchErrorMessage])
+  }, [nom, fetchActors])
 
   useEffect(() => {
     if (updatingActorIndex || updatingActorIndex === 0) {
@@ -252,19 +235,16 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
             isRequired
             label='Nom'
             value={nom}
-            name='nom'
             description='Nom de l’entreprise'
             ariaLabel='nom de l’entreprise à rechercher'
             results={foundEtablissements}
             isLoading={isLoading}
             errorMessage={searchErrorMessage ? searchErrorMessage : nomError}
-            getItemValue={item => item.siren}
-            customItem={renderItem}
-            onValueChange={e => setNom(e.target.value)}
+            renderItem={item => `${item.nom_complet} - ${secteursActivites[item.section_activite_principale]}`}
+            onInputChange={setNom}
             onSelectValue={item => {
-              const foundActorName = foundEtablissements.find(result => result.siren === item).nom_complet
-              setNom(foundActorName)
-              setSiren(item)
+              setNom(item.nom_complet)
+              setSiren(item.siren)
             }}
           />
         </div>

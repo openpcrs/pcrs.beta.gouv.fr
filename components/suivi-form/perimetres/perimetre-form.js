@@ -8,10 +8,9 @@ import {useInput} from '@/hooks/input.js'
 
 import {typeOptions} from '@/components/suivi-form/perimetres/utils/select-options.js'
 
-import AutocompleteInput from '@/components/autocomplete-input.js'
 import SelectInput from '@/components/select-input.js'
 import Button from '@/components/button.js'
-import AutocompleteRenderItem from '@/components/autocomplete-render-item.js'
+import AutocompleteInput from '@/components/autocomplete-input.js'
 
 const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObject, updatingPerimetreIdx, handleUpdatingPerimetreIdx, handleAdding, handleEditing, onRequiredFormOpen}) => {
   const [isFormComplete, setIsFormComplete] = useState(true)
@@ -94,19 +93,6 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
     }
   }
 
-  const renderItem = (item, isHighlighted) => {
-    const {nom, code} = item
-
-    return (
-      <div key={code}>
-        <AutocompleteRenderItem isHighlighted={isHighlighted}>
-          {nom} - {code}
-        </AutocompleteRenderItem>
-      </div>
-
-    )
-  }
-
   useEffect(() => {
     // Switch to perimetre update form
     if (isEditing) {
@@ -177,10 +163,10 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
     }
   }
 
-  const handleSelect = item => {
-    const foundPerimetreName = foundPerimetres.find(result => result.code === item).nom
+  const handleSelect = ({code}) => {
+    const foundPerimetreName = foundPerimetres.find(result => result.code === code).nom
 
-    setCode(item)
+    setCode(code)
     setSearchValue(foundPerimetreName)
   }
 
@@ -214,11 +200,12 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
               ariaLabel={`Rechercher par nom ${type === 'commune' ? 'ou code INSEE' : ''} du territoire`}
               errorMessage={searchValueError}
               results={foundPerimetres}
-              customItem={renderItem}
               isLoading={isLoading}
-              getItemValue={item => item.code}
-              onValueChange={e => setSearchValue(e.target.value)}
-              onSelectValue={item => handleSelect(item)}
+              renderItem={({nom, code}) => `${nom} - ${code}`}
+              onInputChange={setSearchValue}
+              onSelectValue={item => {
+                handleSelect(item)
+              }}
             />
           </div>
         )}
