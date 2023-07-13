@@ -2,7 +2,7 @@ import {createRoot} from 'react-dom/client' // eslint-disable-line n/file-extens
 import {useEffect, useRef, useState, useContext, useCallback} from 'react'
 import PropTypes from 'prop-types'
 import {useRouter} from 'next/router'
-import {filter, some, debounce, flatMap, uniq} from 'lodash'
+import {filter, some, debounce, flatMap, uniq, deburr} from 'lodash'
 
 import maplibreGl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
@@ -36,6 +36,7 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
   const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
 
   const handleModal = () => setIsAuthentificationModalOpen(!isAuthentificationModalOpen)
+  const normalize = string => deburr(string?.toLowerCase())
 
   const mapNode = useRef()
   const mapRef = useRef()
@@ -177,8 +178,8 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
       setIsLoading(true)
       const fetchActeurs = debounce(() => {
         const flatActeurs = flatMap(geometry.features.map(f => f.properties), 'acteurs')
+        const filteredActeurs = flatActeurs.filter(a => normalize(a)?.includes(normalize(acteurSearchInput)))
 
-        const filteredActeurs = flatActeurs.filter(a => a?.toLowerCase().includes(acteurSearchInput.toLowerCase()))
         setFoundActeurs(uniq(filteredActeurs))
       }, 300)
       fetchActeurs()
@@ -190,7 +191,7 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
   }, [acteurSearchInput, geometry])
 
   const getProjectId = acteur => {
-    const filteredItems = filter(geometry.features, item => some(item.properties.acteurs, a => a?.toLowerCase() === acteur.toLowerCase()))
+    const filteredItems = filter(geometry.features, item => some(item.properties.acteurs, a => a && (normalize(a) === normalize(acteur))))
     const projectIds = filteredItems.map(m => m.properties._id)
     setMatchingIds(projectIds)
   }
