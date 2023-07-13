@@ -178,7 +178,7 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
       setIsLoading(true)
       const fetchActeurs = debounce(() => {
         const flatActeurs = flatMap(geometry.features.map(f => f.properties), 'acteurs')
-        const filteredActeurs = flatActeurs.filter(a => normalize(a)?.includes(normalize(acteurSearchInput)))
+        const filteredActeurs = flatActeurs.filter(a => normalize(a)?.includes(normalize(acteurSearchInput))).slice(0, 4)
 
         setFoundActeurs(uniq(filteredActeurs))
       }, 300)
