@@ -13,5 +13,6 @@ export const PAYLOAD_ERRORS = {
   finance_part_euro: 'La part de financement suivante est invalide',
   finance_part_perc: 'Le montant du financement suivant est invalide',
   siren: 'Un numéro SIREN est manquant ou invalide',
-  role: 'Un rôle n’a pas été sélectionnée'
+  role: 'Un rôle n’a pas été sélectionnée',
+  etapes: 'Une incohérence a été détecté dans l’ordre des dates'
 }

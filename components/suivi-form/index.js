@@ -116,8 +116,10 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
             const sortedErrors = sortBy(sendSuivi.validationErrors, error => error.context.key)
             sortedErrors.map(error => {
               let message
+              const handleContextMessage = (error.context.value || Array.isArray(error.context.value)) ? '' : error.context.value
+
               if (PAYLOAD_ERRORS[error.context.key]) {
-                message = `Section ${error.path[0]} - ${PAYLOAD_ERRORS[error.context.key]} ${error.context.value ? `: ${error.context.value}` : ''}`
+                message = `Section ${error.path[0]} - ${PAYLOAD_ERRORS[error.context.key]} ${handleContextMessage}`
               }
 
               return payloadErrors.push(message)
