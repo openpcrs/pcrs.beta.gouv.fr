@@ -177,7 +177,8 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
       setIsLoading(true)
       const fetchActeurs = debounce(() => {
         const flatActeurs = flatMap(geometry.features.map(f => f.properties), 'acteurs')
-        const filteredActeurs = flatActeurs.filter(a => a.toLowerCase().includes(acteurSearchInput.toLowerCase()))
+
+        const filteredActeurs = flatActeurs.filter(a => a?.toLowerCase().includes(acteurSearchInput.toLowerCase()))
         setFoundActeurs(uniq(filteredActeurs))
       }, 300)
       fetchActeurs()
@@ -189,7 +190,7 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
   }, [acteurSearchInput, geometry])
 
   const getProjectId = acteur => {
-    const filteredItems = filter(geometry.features, item => some(item.properties.acteurs, a => a.toLowerCase() === acteur.toLowerCase()))
+    const filteredItems = filter(geometry.features, item => some(item.properties.acteurs, a => a?.toLowerCase() === acteur.toLowerCase()))
     const projectIds = filteredItems.map(m => m.properties._id)
     setMatchingIds(projectIds)
   }
