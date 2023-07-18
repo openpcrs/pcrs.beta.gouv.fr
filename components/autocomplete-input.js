@@ -86,7 +86,7 @@ const AutocompleteInput = ({
           <ul ref={wrapperRef} className='fr-mt-1w fr-p-0 menu' role='listbox'>
             {results.map(item => (
               <li
-                key={uniqueId()}
+                key={JSON.stringify(item)}
                 className='fr-p-2w'
                 tabIndex={0} // Allow keyboard focus
                 onClick={() => {
