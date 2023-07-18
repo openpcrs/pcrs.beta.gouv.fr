@@ -30,7 +30,6 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
   const [foundActeurs, setFoundActeurs] = useState([])
   const [hoveredCode, setHoveredCode] = useState(null)
   const [matchingIds, setMatchingIds] = useState([])
-  const [isFiltered, setIsFiltered] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
   const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
@@ -168,9 +167,9 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
       }
 
       // Filter by actors when actor is selected
-      mapRef.current.setFilter(layout, (isFiltered && foundActeurs.length > 0) ? ['in', ['get', '_id'], ['literal', matchingIds]] : null)
+      mapRef.current.setFilter(layout, (matchingIds.length > 0 && foundActeurs.length > 0) ? ['in', ['get', '_id'], ['literal', matchingIds]] : null)
     }
-  }, [layout, matchingIds, isFiltered, foundActeurs])
+  }, [layout, matchingIds, foundActeurs])
 
   useEffect(() => {
     // Search actors by name
@@ -253,7 +252,6 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
                   onSelectValue={item => {
                     setActeurSearchInput(item)
                     getProjectId(item)
-                    setIsFiltered(true)
                   }}
                 />
               </div>
@@ -264,7 +262,6 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
                   setMatchingIds([])
                   setActeurSearchInput('')
                   setFoundActeurs([])
-                  setIsFiltered(false)
                 }}
               />
             </div>
