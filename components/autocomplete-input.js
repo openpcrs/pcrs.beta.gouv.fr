@@ -30,14 +30,11 @@ const AutocompleteInput = ({
     setIsSuggestionsMenuOpen(true)
   }, [onInputChange])
 
-  const onLoseFocus = () => {
-    // Delay closing the suggestions menu to check if focus is on the list or input
-    setTimeout(() => {
-      if (!wrapperRef.current.contains(document.activeElement)) {
-        // Close the menu only if focus is not on the list or input
-        setIsSuggestionsMenuOpen(false)
-      }
-    }, 0)
+  const onLoseFocus = event => {
+    if (!wrapperRef.current.contains(event.relatedTarget)) {
+      // Close the menu only if focus is not on the list or input
+      setIsSuggestionsMenuOpen(false)
+    }
   }
 
   const onFocus = () => {
