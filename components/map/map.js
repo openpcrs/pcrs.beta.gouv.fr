@@ -30,7 +30,6 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
   const [foundActeurs, setFoundActeurs] = useState([])
   const [hoveredCode, setHoveredCode] = useState(null)
   const [matchingIds, setMatchingIds] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
 
   const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
 
@@ -174,7 +173,6 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
   useEffect(() => {
     // Search actors by name
     if (acteurSearchInput.length >= 2) {
-      setIsLoading(true)
       const fetchActeurs = debounce(() => {
         const flatActeurs = flatMap(geometry.features.map(f => f.properties), 'acteurs')
         const filteredActeurs = flatActeurs.filter(a => normalize(a)?.includes(normalize(acteurSearchInput))).slice(0, 4)
@@ -182,7 +180,6 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
         setFoundActeurs(uniq(filteredActeurs))
       }, 300)
       fetchActeurs()
-      setIsLoading(false)
     } else {
       setFoundActeurs([])
       setMatchingIds([])
@@ -247,7 +244,6 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
                   results={foundActeurs}
                   getItemValue={item => item}
                   customItem={renderItem}
-                  isLoading={isLoading}
                   onValueChange={e => setActeurSearchInput(e.target.value)}
                   onSelectValue={item => {
                     setActeurSearchInput(item)
