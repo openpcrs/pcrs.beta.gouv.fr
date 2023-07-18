@@ -1,6 +1,5 @@
 import {useState, useRef, useCallback} from 'react'
 import PropTypes from 'prop-types'
-import {uniqueId} from 'lodash'
 
 import colors from '@/styles/colors.js'
 
