@@ -107,7 +107,7 @@ const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventi
       setNom(subvToUpdate.nom)
       setNature(subvToUpdate.nature)
       setEcheance(subvToUpdate.echeance || '')
-      setMontant(subvToUpdate.montant || '')
+      setMontant(subvToUpdate.montant.toString() || '')
 
       setUpdatingName(subvToUpdate.nom)
     }

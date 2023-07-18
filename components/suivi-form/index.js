@@ -2,9 +2,7 @@ import {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import Image from 'next/image'
 import {useRouter} from 'next/router'
-import {uniq, sortBy} from 'lodash'
-
-import {PAYLOAD_ERRORS} from './utils/payload-errors.js'
+import {uniq} from 'lodash'
 
 import {postSuivi, editProject} from '@/lib/suivi-pcrs.js'
 
@@ -109,26 +107,29 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
         setEditCode(sendSuivi.editorKey)
 
         if (sendSuivi.message) {
-          if (sendSuivi.message === 'Invalid payload') {
-            const payloadErrors = []
-            sendSuivi.message = ('Le projet n’a pas pu être pris en compte car il y a des erreurs :')
+          const errorsMessages = sendSuivi.validationErrors.map(error => {
+            const {message, path, type, context} = error
+            const section = error.path[0]
 
-            const sortedErrors = sortBy(sendSuivi.validationErrors, error => error.context.key)
-            sortedErrors.map(error => {
-              let message
-              const handleContextMessage = (error.context.value || Array.isArray(error.context.value)) ? '' : error.context.value
-
-              if (PAYLOAD_ERRORS[error.context.key]) {
-                message = `Section ${error.path[0]} - ${PAYLOAD_ERRORS[error.context.key]} ${handleContextMessage}`
+            const handleErrorPath = () => {
+              // Handle key error
+              if (type === 'object.unknown') {
+                return `(clé invalide : ${context.key})`
               }
 
-              return payloadErrors.push(message)
-            })
+              // Handle value error
+              if (path.length > 1 && type !== 'string.empty') {
+                return `(valeur invalide : ${suivi[section][path[1]][path[2]]})`
+              }
 
-            setErrors(uniq(payloadErrors))
-          }
+              return ''
+            }
 
-          setErrorMessage(sendSuivi.message)
+            return `${section} - ${message} ${handleErrorPath()}`
+          })
+
+          setErrors(uniq(errorsMessages))
+          setErrorMessage('Le projet n’a pas pu être pris en compte car il y a des erreurs :')
         } else {
           const validation = _id ? 'Le projet a bien été modifié, vous allez maintenant être redirigé vers la carte de suivi' : 'Le projet a bien été créé, vous allez maintenant être redirigé vers la carte de suivi'
           setValidationMessage(validation)
@@ -306,8 +307,8 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
                   {errorMessage}
                 </p>
 
-                <ul>
-                  {errors.map(error => <li key={error} className='fr-text--sm error-list'>{error}</li>)}
+                <ul className='fr-mt-2w'>
+                  {errors.map(error => <li key={error} className='fr-text--sm error-list fr-m-0'>{error}</li>)}
                 </ul>
               </div>
             )}
