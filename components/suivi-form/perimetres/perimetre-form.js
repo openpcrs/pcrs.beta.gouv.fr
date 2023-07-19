@@ -160,7 +160,7 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
     }
 
     const ac = new AbortController()
-    fetchPerimetres(searchValue, type, ac.signal)
+    fetchPerimetres.current(searchValue, type, ac.signal)
 
     return () => {
       ac.abort()
