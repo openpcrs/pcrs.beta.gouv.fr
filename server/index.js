@@ -25,6 +25,7 @@ import {getProjet, getProjets, deleteProjet, updateProjet, getProjetsGeojson, ex
 import {exportEditorKeys, exportLivrablesAsCSV, exportProjetsAsCSV, exportSubventionsAsCSV, exportToursDeTableAsCSV} from '../lib/export/csv.js'
 import {addCreator, deleteCreator, getCreatorById, getCreators, updateCreator, getCreatorByEmail} from './admin/creators-emails.js'
 import {getUpdatedProjets} from './admin/reports.js'
+import {addAdministrator, getAdministrators, updateAdministrator, deleteAdministrator, getAdministratorById} from './admin/administrators.js'
 
 const port = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -203,6 +204,39 @@ server.route('/creator-emails')
     const email = await addCreator(req.body)
 
     res.send(email)
+  }))
+
+server.route('/administrator/:adminId')
+  .get(w(ensureAdmin), w(async (req, res) => {
+    const administrator = await getAdministratorById(req.params.adminId)
+
+    if (!administrator) {
+      throw createError(404, 'Jeton inconnu')
+    }
+
+    res.send(administrator)
+  }))
+  .delete(w(ensureAdmin), w(async (req, res) => {
+    await deleteAdministrator(req.params.adminId)
+
+    res.sendStatus(204)
+  }))
+  .put(w(ensureAdmin), w(async (req, res) => {
+    const administrator = await updateAdministrator(req.params.adminId, req.body)
+
+    res.send(administrator)
+  }))
+
+server.route('/administrators')
+  .get(w(ensureAdmin), w(async (req, res) => {
+    const administrators = await getAdministrators()
+
+    res.send(administrators)
+  }))
+  .post(w(ensureAdmin), w(async (req, res) => {
+    const administrator = await addAdministrator(req.body)
+
+    res.send(administrator)
   }))
 
 server.route('/report')
