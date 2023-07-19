@@ -2,6 +2,7 @@ import process from 'node:process'
 import createError from 'http-errors'
 
 import {getProjetByEditorKey} from '../projets.js'
+import {getAdministratorByToken} from '../admin/administrators.js'
 import {getCreatorByToken} from './pin-code/index.js'
 
 const {ADMIN_TOKEN} = process.env
@@ -22,6 +23,14 @@ function parseToken(req) {
 
 async function authenticate(token) {
   if (token === ADMIN_TOKEN) {
+    return {
+      role: 'admin'
+    }
+  }
+
+  const administrator = await getAdministratorByToken(token)
+
+  if (administrator) {
     return {
       role: 'admin'
     }
