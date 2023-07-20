@@ -140,6 +140,7 @@ export async function getProjetsGeojson() {
         statut: closestPostStep?.statut,
         dateStatut: closestPostStep?.date_debut,
         aplc: projet.acteurs.find(acteur => acteur.role === 'aplc' || acteur.role === 'porteur')?.nom || null,
+        acteurs: projet.acteurs.map(acteur => acteur.nom?.toLowerCase() || null),
         nature: projet.nature
       }
     }
@@ -147,4 +148,3 @@ export async function getProjetsGeojson() {
 
   return projetsFeatures
 }
-

@@ -54,7 +54,7 @@ const AutocompleteInput = ({
 
   // Custom suggestions dropdown menu
   const customMenu = useCallback((items, value) => (
-    <div className={value.length > 0 ? 'menu fr-mt-1w' : 'hidden'}>
+    <div className={value.length >= 2 ? 'menu fr-mt-1w' : 'hidden'}>
       {isLoading && items.length === 0 ? (
         <div className='fr-grid-row fr-grid-row--center fr-p-2w'><Loader size='small' /></div>
       ) : (items.length === 0 ? (
@@ -112,7 +112,7 @@ AutocompleteInput.propTypes = {
   results: PropTypes.array.isRequired,
   isRequired: PropTypes.bool,
   isDisabled: PropTypes.bool,
-  isLoading: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool,
   customItem: PropTypes.func.isRequired,
   getItemValue: PropTypes.func.isRequired,
   onValueChange: PropTypes.func.isRequired,
@@ -127,7 +127,8 @@ AutocompleteInput.defaultProps = {
   ariaLabel: null,
   errorMessage: null,
   isRequired: false,
-  isDisabled: false
+  isDisabled: false,
+  isLoading: false
 }
 
 export default AutocompleteInput
