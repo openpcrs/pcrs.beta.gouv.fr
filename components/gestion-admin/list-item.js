@@ -9,7 +9,7 @@ import {shortDate} from '@/lib/date-utils.js'
 
 import Modal from '@/components/modal.js'
 
-const PorteurCard = ({_id, email, nom, _created, token}) => {
+const ListItem = ({_id, email, nom, _created, token}) => {
   const router = useRouter()
 
   const [errorMessage, setErrorMessage] = useState(null)
@@ -157,7 +157,7 @@ const PorteurCard = ({_id, email, nom, _created, token}) => {
   )
 }
 
-PorteurCard.propTypes = {
+ListItem.propTypes = {
   _id: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
   nom: PropTypes.string,
@@ -165,4 +165,4 @@ PorteurCard.propTypes = {
   token: PropTypes.string.isRequired
 }
 
-export default PorteurCard
+export default ListItem
