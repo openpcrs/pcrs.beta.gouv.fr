@@ -26,12 +26,16 @@ const AutocompleteInput = ({
   const [isSuggestionsMenuOpen, setIsSuggestionsMenuOpen] = useState(false)
 
   const onValueChange = useCallback(e => {
+    if (value.length === 0) {
+      setIsSuggestionsMenuOpen(false)
+    }
+
     onInputChange(e.target.value)
     setIsSuggestionsMenuOpen(true)
-  }, [onInputChange])
+  }, [value, onInputChange])
 
   const onLoseFocus = event => {
-    if (!wrapperRef.current.contains(event.relatedTarget)) {
+    if (wrapperRef.current && !wrapperRef.current.contains(event.relatedTarget)) {
       // Close the menu only if focus is not on the list or input
       setIsSuggestionsMenuOpen(false)
     }
