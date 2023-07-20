@@ -2,7 +2,7 @@ import test from 'ava'
 import {nanoid} from 'nanoid'
 import {MongoMemoryServer} from 'mongodb-memory-server'
 import mongo from '../../util/mongo.js'
-import {addAdministrator, deleteAdministrator, getAdministratorById, getAdministrators, updateAdministrator} from '../administrators.js'
+import {addAdministrator, deleteAdministrator, getAdministratorById, getAdministrators, isDeletingHimself, updateAdministrator} from '../administrators.js'
 
 let mongod
 
@@ -106,4 +106,14 @@ test.serial('Delete administrator', async t => {
   t.falsy(allAdministrators.find(a => a.nom === 'Administrateur'))
   t.truthy(allAdministrators.find(a => a.nom === 'Administrateur2'))
   t.is(allAdministrators.length, 1)
+})
+
+test.serial('Administrator delete himself', async t => {
+  const admin = await mongo.db.collection('administrators').insertOne({
+    nom: 'Administrateur',
+    email: 'administrateur@mail.com',
+    token: 'monSuperJeton'
+  })
+
+  await t.throwsAsync(async () => isDeletingHimself(admin.insertedId, 'monSuperJeton'), {message: 'Vous ne pouvez pas supprimer votre propre accès administrateur'})
 })
