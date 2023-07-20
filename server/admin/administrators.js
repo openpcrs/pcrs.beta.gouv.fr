@@ -26,6 +26,14 @@ export async function getAdministratorById(adminId) {
   return administrator
 }
 
+export async function isDeletingHimself(adminId, token) {
+  const admin = await getAdministratorById(adminId)
+
+  if (admin.token === token) {
+    throw createError(403, 'Vous ne pouvez pas supprimer votre propre accès administrateur')
+  }
+}
+
 export async function addAdministrator(administrator) {
   if (!validateEmail(administrator.email)) {
     throw createError(400, 'Cette adresse courriel est invalide')

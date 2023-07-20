@@ -11,7 +11,7 @@ if (!ADMIN_TOKEN) {
   throw new Error('Le serveur ne peut pas démarrer car ADMIN_TOKEN n\'est pas défini')
 }
 
-function parseToken(req) {
+export function parseToken(req) {
   const headerValue = req.get('Authorization')
 
   if (!headerValue || !headerValue.startsWith('Token ')) {

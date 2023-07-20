@@ -18,14 +18,14 @@ import mongo from './util/mongo.js'
 import errorHandler from './util/error-handler.js'
 import w from './util/w.js'
 
-import {handleAuth, ensureCreator, ensureProjectEditor, ensureAdmin} from './auth/middleware.js'
+import {handleAuth, ensureCreator, ensureProjectEditor, ensureAdmin, parseToken} from './auth/middleware.js'
 import {sendPinCodeEmail, checkPinCodeValidity} from './auth/pin-code/index.js'
 
 import {getProjet, getProjets, deleteProjet, updateProjet, getProjetsGeojson, expandProjet, filterSensitiveFields, createProjet, renewEditorKey} from './projets.js'
 import {exportEditorKeys, exportLivrablesAsCSV, exportProjetsAsCSV, exportSubventionsAsCSV, exportToursDeTableAsCSV} from '../lib/export/csv.js'
 import {addCreator, deleteCreator, getCreatorById, getCreators, updateCreator, getCreatorByEmail} from './admin/creators-emails.js'
 import {getUpdatedProjets} from './admin/reports.js'
-import {addAdministrator, getAdministrators, updateAdministrator, deleteAdministrator, getAdministratorById} from './admin/administrators.js'
+import {addAdministrator, getAdministrators, updateAdministrator, deleteAdministrator, getAdministratorById, isDeletingHimself} from './admin/administrators.js'
 
 const port = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -217,6 +217,9 @@ server.route('/administrators/:adminId')
     res.send(administrator)
   }))
   .delete(w(ensureAdmin), w(async (req, res) => {
+    const token = await parseToken(req)
+
+    await isDeletingHimself(req.params.adminId, token)
     await deleteAdministrator(req.params.adminId)
 
     res.sendStatus(204)
