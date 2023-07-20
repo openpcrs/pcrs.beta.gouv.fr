@@ -34,7 +34,7 @@ export async function addCreator(creator) {
     await mongo.db.collection('creators-emails').insertOne(creator)
   } catch (error) {
     if (error.message.includes('E11000')) {
-      throw createError(409, 'Cet adresse est déjà dans la liste.')
+      throw createError(409, 'Cette adresse courriel est déjà dans la liste.')
     }
 
     throw error
