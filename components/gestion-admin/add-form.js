@@ -9,7 +9,7 @@ import colors from '@/styles/colors.js'
 import TextInput from '@/components/text-input.js'
 import Button from '@/components/button.js'
 
-const NewPorteurForm = ({token, onClose}) => {
+const AddForm = ({token, onClose}) => {
   const router = useRouter()
 
   const [validationMessage, setValidationMessage] = useState(null)
@@ -96,9 +96,9 @@ const NewPorteurForm = ({token, onClose}) => {
   )
 }
 
-NewPorteurForm.propTypes = {
+AddForm.propTypes = {
   token: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired
 }
 
-export default NewPorteurForm
+export default AddForm

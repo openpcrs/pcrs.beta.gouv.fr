@@ -4,7 +4,7 @@ import {orderBy} from 'lodash-es'
 import {getCreators} from '@/lib/suivi-pcrs.js'
 
 import PorteurCard from '@/components/gestion-admin/porteur-card.js'
-import NewPorteurForm from '@/components/gestion-admin/new-porter-form.js'
+import AddForm from '@/components/gestion-admin/add-form.js'
 import Loader from '@/components/loader.js'
 import Button from '@/components/button.js'
 import SelectInput from '@/components/select-input.js'
@@ -90,12 +90,7 @@ const Porteurs = () => {
         Autoriser un nouveau porteur
       </Button>
 
-      {isFormOpen && (
-        <NewPorteurForm
-          token={token}
-          onClose={handleFormOpen}
-        />
-      )}
+      {isFormOpen && <AddForm token={token} onClose={handleFormOpen} />}
 
       <div className='fr-grid-row fr-grid-row--middle fr-mt-8w'>
         <div className='fr-col-12 fr-col-md-4'>
