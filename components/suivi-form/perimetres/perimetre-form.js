@@ -1,4 +1,4 @@
-import {useState, useCallback, useEffect, useMemo} from 'react'
+import {useState, useCallback, useEffect, useMemo, useRef} from 'react'
 import PropTypes from 'prop-types'
 import {debounce} from 'lodash-es'
 
@@ -128,7 +128,7 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
     }
   }, [perimetres, isEditing, perimetreAsObject, updatingPerimetreIdx, onRequiredFormOpen, setSearchValue, setType])
 
-  const fetchPerimetres = useCallback(debounce(async (nom, type, signal) => { // eslint-disable-line react-hooks/exhaustive-deps
+  const fetchPerimetres = useRef(debounce(async (nom, type, signal) => {
     setIsLoading(true)
 
     const inputToNumber = Number.parseInt(nom, 10)
@@ -151,7 +151,7 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
     }
 
     setIsLoading(false)
-  }, 300), [setFoundPerimetres, setIsLoading])
+  }, 300))
 
   useEffect(() => {
     if (!searchValue || searchValue.length < 3) {
@@ -160,7 +160,7 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
     }
 
     const ac = new AbortController()
-    fetchPerimetres(searchValue, type, ac.signal)
+    fetchPerimetres.current(searchValue, type, ac.signal)
 
     return () => {
       ac.abort()
