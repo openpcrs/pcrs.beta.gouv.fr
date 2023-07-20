@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import {useState, useCallback, useEffect, useMemo} from 'react'
+import {useState, useCallback, useEffect, useMemo, useRef} from 'react'
 import PropTypes from 'prop-types'
 import {debounce, pick} from 'lodash-es'
 
@@ -185,7 +185,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
     }
   }, [isEditing, updatingActorIndex, acteurs, onRequiredFormOpen, setFinEuros, setSiren, setPhone, setMail, setFinPerc, setRole, setNom])
 
-  const fetchActors = useCallback(debounce(async (nom, signal) => { // eslint-disable-line react-hooks/exhaustive-deps
+  const fetchActors = useRef(debounce(async (nom, signal) => {
     setIsLoading(true)
     setSearchErrorMessage(null)
 
@@ -204,7 +204,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
     }
 
     setIsLoading(false)
-  }, 300), [setIsLoading, setFoundEtablissements])
+  }, 300))
 
   useEffect(() => {
     if (!nom || nom.length < 3) {
@@ -214,7 +214,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
     }
 
     const ac = new AbortController()
-    fetchActors(nom, ac.signal)
+    fetchActors.current(nom, ac.signal)
 
     return () => {
       ac.abort()
