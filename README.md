@@ -86,6 +86,11 @@ Puis compléter les champs suivants :
 | `/creator-emails/:id`| **GET** | *Retourne les informations d’un mail autorisé à créer un projet (Cette route est réservée aux administrateurs)* |
 | `/creator-emails/:id`| **DELETE** | *Supprime le mail (Cette route est réservée aux administrateurs)* |
 | `/creator-emails/:id`| **PUT** | *Permet de modifier le mail ou le nom (Cette route est réservée aux administrateurs)* |
+| `/administrators` | **GET** | *Retourne la liste des administrateurs du site (Cette route est réservée aux administrateurs)* |
+| `/administrators` | **POST** | *Permet d’ajouter un nouvel administrateur (Cette route est réservée aux administrateurs)* |
+| `/administrators/:id` | **GET** | *Retourne les informations d’un administrateur (Cette route est réservée aux administrateurs)* |
+| `/administrators/:id` | **DELETE** | *Supprime un administrateur (Cette route est réservée aux administrateurs)* |
+| `/administrators/:id` | **PUT** | *Permet de modifier le mail ou le nom d’un administrateur (Cette route est réservée aux administrateurs)* |
 
 Vous pouvez accéder au modèle de données à [cette adresse](https://docs.pcrs.beta.gouv.fr/suivi-des-projets/modele-de-donnees).
 
