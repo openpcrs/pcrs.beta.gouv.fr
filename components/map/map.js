@@ -20,7 +20,6 @@ import Legend from '@/components/map/legend.js'
 import MapToolBox from '@/components/map/map-tool-box.js'
 import AuthentificationModal from '@/components/suivi-form/authentification/authentification-modal.js'
 import AutocompleteInput from '@/components/autocomplete-input.js'
-import AutocompleteRenderItem from '@/components/autocomplete-render-item.js'
 
 const Map = ({handleClick, isMobile, geometry, projetId}) => {
   const {userRole, token} = useContext(AuthentificationContext)
@@ -210,14 +209,6 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
     }
   }, [projetId])
 
-  const renderItem = (item, isHighlighted) => (
-    <div key={item} >
-      <AutocompleteRenderItem isHighlighted={isHighlighted}>
-        {item}
-      </AutocompleteRenderItem>
-    </div>
-  )
-
   return (
     <div style={{position: 'relative', height: '100%', width: '100%'}}>
       <div ref={mapNode} style={{width: '100%', height: '100%'}} />
@@ -235,16 +226,14 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
           >
             <div className='fr-grid-row fr-grid-row--bottom'>
               <div className='fr-col-10'>
+
                 <AutocompleteInput
                   label='Filtrer par acteurs'
                   value={acteurSearchInput}
-                  name='acteur'
                   description='Nom de l’acteur'
-                  ariaLabel='nom de l’acteur à rechercher'
                   results={foundActeurs}
-                  getItemValue={item => item}
-                  customItem={renderItem}
-                  onValueChange={e => setActeurSearchInput(e.target.value)}
+                  renderItem={item => item}
+                  onInputChange={setActeurSearchInput}
                   onSelectValue={item => {
                     setActeurSearchInput(item)
                     getProjectId(item)
