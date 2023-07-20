@@ -206,7 +206,7 @@ server.route('/creator-emails')
     res.send(email)
   }))
 
-server.route('/administrator/:adminId')
+server.route('/administrators/:adminId')
   .get(w(ensureAdmin), w(async (req, res) => {
     const administrator = await getAdministratorById(req.params.adminId)
 
