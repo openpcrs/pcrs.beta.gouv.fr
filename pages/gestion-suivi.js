@@ -10,7 +10,7 @@ import AdminAuthentificationModal from '@/components/suivi-form/authentification
 import Porteurs from '@/components/gestion-admin/porteurs.js'
 import Changes from '@/components/gestion-admin/changes.js'
 
-const Admin = () => {
+const GestionSuivi = () => {
   const router = useRouter()
   const {userRole, token, isTokenRecovering} = useContext(AuthentificationContext)
 
@@ -115,4 +115,4 @@ const Admin = () => {
   )
 }
 
-export default Admin
+export default GestionSuivi
