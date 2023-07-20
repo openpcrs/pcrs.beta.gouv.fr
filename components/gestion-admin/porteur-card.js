@@ -1,6 +1,5 @@
 import {useState} from 'react'
 import PropTypes from 'prop-types'
-import {useRouter} from 'next/router'
 
 import colors from '@/styles/colors.js'
 
@@ -9,9 +8,7 @@ import {shortDate} from '@/lib/date-utils.js'
 
 import Modal from '@/components/modal.js'
 
-const PorteurCard = ({_id, email, nom, _created, token}) => {
-  const router = useRouter()
-
+const PorteurCard = ({_id, email, nom, _created, token, onRefetch}) => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [validationMessage, setValidationMessage] = useState(null)
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false)
@@ -20,10 +17,6 @@ const PorteurCard = ({_id, email, nom, _created, token}) => {
     setIsConfirmationModalOpen(!isConfirmationModalOpen)
     setErrorMessage(null)
     setValidationMessage(null)
-
-    if (validationMessage) {
-      router.reload(window.location.pathname)
-    }
   }
 
   const onRevoke = async () => {
@@ -34,7 +27,8 @@ const PorteurCard = ({_id, email, nom, _created, token}) => {
       setValidationMessage(`Les droits de création de ${nom} ont été révoqués`)
 
       setTimeout(() => {
-        router.reload(window.location.pathname)
+        onRefetch()
+        setIsConfirmationModalOpen(!isConfirmationModalOpen)
       }, 2000)
     } catch {
       setErrorMessage(`Les droits de création de ${nom} n’ont pas été révoqués`)
@@ -162,7 +156,8 @@ PorteurCard.propTypes = {
   email: PropTypes.string.isRequired,
   nom: PropTypes.string,
   _created: PropTypes.string.isRequired,
-  token: PropTypes.string.isRequired
+  token: PropTypes.string.isRequired,
+  onRefetch: PropTypes.func.isRequired
 }
 
 export default PorteurCard

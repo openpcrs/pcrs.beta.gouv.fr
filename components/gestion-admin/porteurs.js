@@ -94,6 +94,7 @@ const Porteurs = () => {
         <NewPorteurForm
           token={token}
           onClose={handleFormOpen}
+          onRefetch={getPorteurs}
         />
       )}
 
@@ -126,7 +127,13 @@ const Porteurs = () => {
       {filteredPorteurs.length > 0 ? (
         <ul className='fr-mt-2w fr-p-0'>
           {filteredPorteurs.map(porteur => (
-            <li key={porteur._id} className='fr-my-2w'><PorteurCard token={token} {...porteur} /></li>
+            <li key={porteur._id} className='fr-my-2w'>
+              <PorteurCard
+                token={token}
+                onRefetch={getPorteurs}
+                {...porteur}
+              />
+            </li>
           ))}
         </ul>
       ) : (
