@@ -3,8 +3,8 @@ import {orderBy} from 'lodash-es'
 
 import {getCreators} from '@/lib/suivi-pcrs.js'
 
-import PorteurCard from '@/components/gestion-admin/porteur-card.js'
-import NewPorteurForm from '@/components/gestion-admin/new-porter-form.js'
+import PorteurCard from '@/components/gestion-admin/list-item.js'
+import AddPorteurForm from '@/components/gestion-admin/add-form.js'
 import Loader from '@/components/loader.js'
 import Button from '@/components/button.js'
 import SelectInput from '@/components/select-input.js'
@@ -91,7 +91,7 @@ const Porteurs = () => {
       </Button>
 
       {isFormOpen && (
-        <NewPorteurForm
+        <AddPorteurForm
           token={token}
           onClose={handleFormOpen}
         />
