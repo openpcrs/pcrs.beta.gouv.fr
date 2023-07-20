@@ -98,6 +98,8 @@ const AutocompleteInput = ({
                 {renderItem(item)}
               </li>
             ))}
+
+            {results.length === 0 && value.length >= 3 && <li className='fr-p-2w'>Aucun résultat</li>}
           </ul>
         )
       )}
