@@ -4,30 +4,18 @@ import {orderBy} from 'lodash-es'
 import {getCreators} from '@/lib/suivi-pcrs.js'
 
 import PorteurList from '@/components/gestion-admin/porteur-list.js'
-import AddForm from '@/components/gestion-admin/add-form.js'
+import Header from '@/components/gestion-admin/header.js'
 import Loader from '@/components/loader.js'
-import Button from '@/components/button.js'
-import SelectInput from '@/components/select-input.js'
 
 import AuthentificationContext from '@/contexts/authentification-token.js'
-
-const orderOptions = [
-  {value: 'alpha', label: 'Ordre alphabétique'},
-  {value: 'asc', label: 'Date d’ajout croissante'},
-  {value: 'desc', label: 'Date d’ajout décroissante'}
-]
 
 const Porteurs = () => {
   const {token, isTokenRecovering} = useContext(AuthentificationContext)
 
   const [errorMessage, setErrorMessage] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
-  const [isFormOpen, setIsFormOpen] = useState(false)
-
   const [porteurs, setPorteurs] = useState([])
-  const [search, setSearch] = useState('')
   const [filteredPorteurs, setFilteredPorteurs] = useState([])
-  const [orderValue, setOrderValue] = useState('alpha')
 
   const getPorteurs = useCallback(async () => {
     try {
@@ -49,72 +37,15 @@ const Porteurs = () => {
     }
   }, [token, isTokenRecovering, getPorteurs])
 
-  useEffect(() => {
-    if (search) {
-      const filteredResults = porteurs.filter(porteur => porteur.email.toLowerCase().includes(search.toLowerCase()) || porteur?.nom?.toLowerCase()?.includes(search.toLowerCase()))
-      setFilteredPorteurs(filteredResults)
-    } else {
-      setFilteredPorteurs(porteurs)
-    }
-  }, [porteurs, search])
-
-  useEffect(() => {
-    if (orderValue === 'alpha') {
-      setFilteredPorteurs(orderBy(porteurs, ['nom'], ['asc']))
-    }
-
-    if (orderValue === 'asc') {
-      const ascOrder = orderBy(porteurs, ['_created'], ['asc'])
-      setFilteredPorteurs(ascOrder)
-    }
-
-    if (orderValue === 'desc') {
-      const descOrder = orderBy(porteurs, ['_created'], ['desc'])
-      setFilteredPorteurs(descOrder)
-    }
-  }, [orderValue, porteurs])
-
   return isLoading ? (
     <div className='fr-grid-row fr-col-12 fr-grid-row--center fr-my-3w'><Loader /></div>
   ) : (
     <div>
-      <Button
-        icon='user-add-line'
-        iconSide='right'
-        label='Autoriser un nouveau porteur'
-        isDisabled={isFormOpen}
-        onClick={handleFormOpen}
-      >
-        Autoriser un nouveau porteur
-      </Button>
-
-      {isFormOpen && <AddForm token={token} onClose={handleFormOpen} />}
-
-      <div className='fr-grid-row fr-grid-row--middle fr-mt-8w'>
-        <div className='fr-col-12 fr-col-md-4'>
-          <label className='fr-label fr-mb-1w'>
-            <b>Rechercher un porteur</b>
-          </label>
-          <div className='fr-search-bar' >
-            <input
-              className='fr-input'
-              placeholder='Rechercher par nom ou email'
-              type='search'
-              onChange={e => setSearch(e.target.value)}
-            />
-          </div>
-        </div>
-
-        <div className='fr-grid-row fr-grid-row--right fr-col-12 fr-col-md-8 fr-mt-6w fr-mt-md-0'>
-          <SelectInput
-            label='Trier par :'
-            ariaLabel='Ordonner les porteurs par date d’ajout ou par ordre alphabétique'
-            value={orderValue}
-            options={orderOptions}
-            onValueChange={e => setOrderValue(e.target.value)}
-          />
-        </div>
-      </div>
+      <Header
+        token={token}
+        items={porteurs}
+        handleFilteredItems={setFilteredPorteurs}
+      />
 
       {filteredPorteurs.length > 0 ? (
         <PorteurList token={token} porteurs={filteredPorteurs} />

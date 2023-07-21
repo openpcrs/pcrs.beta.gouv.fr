@@ -89,7 +89,7 @@ const Header = ({token, items, isAdmin, handleFilteredItems}) => {
 
 Header.propTypes = {
   token: PropTypes.string.isRequired,
-  items: PropTypes.string.isRequired,
+  items: PropTypes.array.isRequired,
   isAdmin: PropTypes.bool,
   handleFilteredItems: PropTypes.func.isRequired
 }
