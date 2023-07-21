@@ -22,9 +22,9 @@ import {handleAuth, ensureCreator, ensureProjectEditor, ensureAdmin} from './aut
 import {sendPinCodeEmail, checkPinCodeValidity} from './auth/pin-code/index.js'
 
 import {getProjet, getProjets, deleteProjet, updateProjet, getProjetsGeojson, expandProjet, filterSensitiveFields, createProjet, renewEditorKey} from './projets.js'
-import {exportEditorKeys, exportLivrablesAsCSV, exportProjetsAsCSV, exportSubventionsAsCSV, exportToursDeTableAsCSV} from '../lib/export/csv.js'
 import {addCreator, deleteCreator, getCreatorById, getCreators, updateCreator, getCreatorByEmail} from './admin/creators-emails.js'
 import {getUpdatedProjets} from './admin/reports.js'
+import exportCSVRouter from './routes/data.js'
 
 const port = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -58,6 +58,8 @@ server.param('projetId', w(async (req, res, next) => {
 await getProjetsGeojson()
 
 server.use(w(handleAuth))
+
+server.use('/', exportCSVRouter)
 
 server.route('/projets/geojson')
   .get(w(async (req, res) => {
@@ -106,41 +108,6 @@ server.route('/projets')
     const expandedProjet = expandProjet(projet)
 
     res.status(201).send(expandedProjet)
-  }))
-
-server.route('/data/projets.csv')
-  .get(w(async (req, res) => {
-    const projetsCSVFile = await exportProjetsAsCSV(req.query.includesWkt === '1')
-
-    res.attachment('projets.csv').type('csv').send(projetsCSVFile)
-  }))
-
-server.route('/data/livrables.csv')
-  .get(w(async (req, res) => {
-    const livrablesCSVFile = await exportLivrablesAsCSV()
-
-    res.attachment('livrables.csv').type('csv').send(livrablesCSVFile)
-  }))
-
-server.route('/data/tours-de-table.csv')
-  .get(w(async (req, res) => {
-    const toursDeTableCSVFile = await exportToursDeTableAsCSV()
-
-    res.attachment('tours-de-table.csv').type('csv').send(toursDeTableCSVFile)
-  }))
-
-server.route('/data/subventions.csv')
-  .get(w(async (req, res) => {
-    const subventionsCSVFile = await exportSubventionsAsCSV()
-
-    res.attachment('subventions.csv').type('csv').send(subventionsCSVFile)
-  }))
-
-server.route('/data/editor-keys.csv')
-  .get(w(ensureAdmin), w(async (req, res) => {
-    const editorKeysCSVFile = await exportEditorKeys()
-
-    res.attachment('editor-keys.csv').type('csv').send(editorKeysCSVFile)
   }))
 
 server.route('/ask-code')
