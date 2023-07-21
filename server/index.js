@@ -18,13 +18,14 @@ import mongo from './util/mongo.js'
 import errorHandler from './util/error-handler.js'
 import w from './util/w.js'
 
-import {handleAuth, ensureCreator, ensureProjectEditor, ensureAdmin} from './auth/middleware.js'
+import {handleAuth, ensureAdmin} from './auth/middleware.js'
 import {sendPinCodeEmail, checkPinCodeValidity} from './auth/pin-code/index.js'
 
-import {getProjet, getProjets, deleteProjet, updateProjet, getProjetsGeojson, expandProjet, filterSensitiveFields, createProjet, renewEditorKey} from './projets.js'
+import {getProjetsGeojson} from './projets.js'
 import {addCreator, deleteCreator, getCreatorById, getCreators, updateCreator, getCreatorByEmail} from './admin/creators-emails.js'
 import {getUpdatedProjets} from './admin/reports.js'
 import exportCSVRouter from './routes/data.js'
+import projetsRouter from './routes/projets.js'
 
 const port = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -42,73 +43,12 @@ if (dev) {
   server.use(morgan('dev'))
 }
 
-server.param('projetId', w(async (req, res, next) => {
-  const {projetId} = req.params
-  const projet = await getProjet(projetId, req)
-
-  if (!projet) {
-    throw createError(404, 'L’identifiant de projet demandé n’existe pas')
-  }
-
-  req.projet = projet
-  next()
-}))
-
 // Pre-warm underlying cache
 await getProjetsGeojson()
 
 server.use(w(handleAuth))
-
 server.use('/', exportCSVRouter)
-
-server.route('/projets/geojson')
-  .get(w(async (req, res) => {
-    const projetsGeojson = await getProjetsGeojson()
-    res.send(projetsGeojson)
-  }))
-
-server.route('/projets/:projetId/renew-editor-key')
-  .post(w(ensureAdmin), w(async (req, res) => {
-    const updatedProjet = await renewEditorKey(req.projet)
-
-    res.status(200).send(updatedProjet)
-  }))
-
-server.route('/projets/:projetId')
-  .get(w(async (req, res) => {
-    const projet = expandProjet(req.projet)
-
-    if (req.role === 'admin' || (req.role === 'editor' && req.projet._id.equals(req.canEditProjetId))) {
-      return res.send(projet)
-    }
-
-    res.send(filterSensitiveFields(projet))
-  }))
-  .delete(w(ensureProjectEditor), w(async (req, res) => {
-    await deleteProjet(req.projet._id)
-    res.sendStatus(204)
-  }))
-  .put(w(ensureProjectEditor), w(async (req, res) => {
-    const projet = await updateProjet(req.projet._id, req.body)
-    const expandedProjet = expandProjet(projet)
-
-    res.send(expandedProjet)
-  }))
-
-server.route('/projets')
-  .get(w(async (req, res) => {
-    const projets = await getProjets()
-
-    res.send(projets.map(
-      projet => expandProjet(filterSensitiveFields(projet))
-    ))
-  }))
-  .post(w(ensureCreator), w(async (req, res) => {
-    const projet = await createProjet(req.body, {creator: req.creator})
-    const expandedProjet = expandProjet(projet)
-
-    res.status(201).send(expandedProjet)
-  }))
+server.use('/', projetsRouter)
 
 server.route('/ask-code')
   .post(w(async (req, res) => {
