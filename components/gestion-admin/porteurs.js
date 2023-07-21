@@ -45,10 +45,15 @@ const Porteurs = () => {
         token={token}
         items={porteurs}
         handleFilteredItems={setFilteredPorteurs}
+        handleReloadData={getPorteurs}
       />
 
       {filteredPorteurs.length > 0 ? (
-        <PorteurList token={token} porteurs={filteredPorteurs} />
+        <PorteurList
+          token={token}
+          porteurs={filteredPorteurs}
+          handleReloadPorteurs={getPorteurs}
+        />
       ) : (
         <p className='fr-mt-4w'> <i>La liste des porteurs de projets autorisés est vide.</i></p>
       )}
