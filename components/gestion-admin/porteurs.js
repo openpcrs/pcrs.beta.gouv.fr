@@ -3,7 +3,7 @@ import {orderBy} from 'lodash-es'
 
 import {getCreators} from '@/lib/suivi-pcrs.js'
 
-import PorteurCard from '@/components/gestion-admin/porteur-card.js'
+import PorteurList from '@/components/gestion-admin/porteur-list.js'
 import AddForm from '@/components/gestion-admin/add-form.js'
 import Loader from '@/components/loader.js'
 import Button from '@/components/button.js'
@@ -42,8 +42,6 @@ const Porteurs = () => {
 
     setIsLoading(false)
   }, [token])
-
-  const handleFormOpen = () => setIsFormOpen(!isFormOpen)
 
   useEffect(() => {
     if (token && !isTokenRecovering) {
@@ -119,11 +117,7 @@ const Porteurs = () => {
       </div>
 
       {filteredPorteurs.length > 0 ? (
-        <ul className='fr-mt-2w fr-p-0'>
-          {filteredPorteurs.map(porteur => (
-            <li key={porteur._id} className='fr-my-2w'><PorteurCard token={token} {...porteur} /></li>
-          ))}
-        </ul>
+        <PorteurList token={token} porteurs={filteredPorteurs} />
       ) : (
         <p className='fr-mt-4w'> <i>La liste des porteurs de projets autorisés est vide.</i></p>
       )}

@@ -4,7 +4,7 @@ import colors from '@/styles/colors.js'
 
 import {shortDate} from '@/lib/date-utils.js'
 
-const Card = ({email, nom, creationDate, handleModal}) => (
+const ListItem = ({email, nom, creationDate, handleModal}) => (
   <div className='fr-grid-row fr-grid-row--middle fr-p-2w card-container'>
     <div className='fr-col-12 fr-col-md-1'>
       <span className='fr-icon-user-fill' style={{color: `${colors.blueFranceSun113}`}} aria-hidden='true' />
@@ -81,11 +81,11 @@ const Card = ({email, nom, creationDate, handleModal}) => (
   </div>
 )
 
-Card.propTypes = {
+ListItem.propTypes = {
   email: PropTypes.string.isRequired,
   nom: PropTypes.string,
   creationDate: PropTypes.string.isRequired,
   handleModal: PropTypes.func.isRequired
 }
 
-export default Card
+export default ListItem
