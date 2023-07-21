@@ -30,7 +30,7 @@ const Header = ({token, items, isAdmin, handleFilteredItems}) => {
 
   useEffect(() => {
     if (orderValue === 'alpha') {
-      handleFilteredItems(orderBy(items, ['nom'], ['asc']))
+      handleFilteredItems(orderBy(items, [item => item.nom ? item.nom.toLowerCase() : 'N/A'.toLowerCase()], ['asc']))
     }
 
     if (orderValue === 'asc') {
