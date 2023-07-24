@@ -32,7 +32,7 @@ const Header = ({token, items, isAdmin, handleFilteredItems}) => {
 
   useEffect(() => {
     if (orderValue === 'alpha') {
-      handleFilteredItems(orderBy(items, [item => item.nom ? normalizeSort(item.nom) : normalizeSort('N/A')], ['asc']))
+      handleFilteredItems(orderBy(items, [item => normalizeSort(normalizeSort(item.nom || 'N/A'))], ['asc']))
     }
 
     if (orderValue === 'asc') {

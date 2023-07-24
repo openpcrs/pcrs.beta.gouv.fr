@@ -22,7 +22,7 @@ const Porteurs = () => {
     try {
       const getPorteurs = await getCreators(token)
 
-      setPorteurs(orderBy(getPorteurs, [item => item.nom ? normalizeSort(item.nom) : normalizeSort('N/A')], ['asc']))
+      setPorteurs(orderBy(getPorteurs, [item => normalizeSort(item.nom || 'N/A')], ['asc']))
     } catch {
       setErrorMessage('La liste des porteurs de projets n’a pas pu être récupérée')
     }
