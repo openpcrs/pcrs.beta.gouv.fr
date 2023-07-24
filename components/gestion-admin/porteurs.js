@@ -2,7 +2,7 @@ import {useState, useEffect, useCallback, useContext} from 'react'
 import {orderBy} from 'lodash'
 
 import {getCreators} from '@/lib/suivi-pcrs.js'
-import {normalizeSort} from '@/components/gestion-admin/utils/index.js'
+import {normalizeSort} from '@/lib/string.js'
 
 import PorteurList from '@/components/gestion-admin/porteur-list.js'
 import Header from '@/components/gestion-admin/header.js'

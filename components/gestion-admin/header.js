@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react'
 import PropTypes from 'prop-types'
 import {orderBy} from 'lodash-es'
 
-import {normalizeSort} from '@/components/gestion-admin/utils/index.js'
+import {normalizeSort} from '@/lib/string.js'
 
 import Button from '@/components/button.js'
 import SelectInput from '@/components/select-input.js'
