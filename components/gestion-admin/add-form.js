@@ -1,41 +1,17 @@
 import {useState} from 'react'
 import PropTypes from 'prop-types'
 
-import {addCreator} from '@/lib/suivi-pcrs.js'
-
 import colors from '@/styles/colors.js'
 
 import TextInput from '@/components/text-input.js'
 import Button from '@/components/button.js'
 
-const AddForm = ({token, onClose, handleReloadData, handleFormOpen}) => {
-  const [validationMessage, setValidationMessage] = useState(null)
-  const [errorMessage, setErrorMessage] = useState(null)
-
+const AddForm = ({onClose, errorMessage, validationMessage, onAdd}) => {
   const [nom, setNom] = useState('')
   const [email, setEmail] = useState('')
 
-  const onAdd = async e => {
-    e.preventDefault()
-
-    setErrorMessage(null)
-    setValidationMessage(null)
-
-    try {
-      await addCreator(token, {nom, email})
-      setValidationMessage(`${nom} a été ajouté à la liste des porteurs autorisés`)
-
-      setTimeout(() => {
-        handleReloadData()
-        handleFormOpen()
-      }, 1000)
-    } catch (error) {
-      setErrorMessage('Le nouveau porteur n’a pas pu être ajouté : ' + error)
-    }
-  }
-
   return (
-    <form className='fr-grid-row fr-my-6w fr-pb-4w' onSubmit={onAdd}>
+    <form className='fr-grid-row fr-my-6w fr-pb-4w' onSubmit={e => onAdd(e, nom, email)}>
       <div className='fr-grid-row fr-grid-row--gutters fr-col-12 '>
         <div className='fr-col-12 fr-col-md-4'>
           <TextInput
@@ -95,10 +71,15 @@ const AddForm = ({token, onClose, handleReloadData, handleFormOpen}) => {
 }
 
 AddForm.propTypes = {
-  token: PropTypes.string.isRequired,
-  handleReloadData: PropTypes.func.isRequired,
+  errorMessage: PropTypes.string,
+  validationMessage: PropTypes.string,
   onClose: PropTypes.func.isRequired,
-  handleFormOpen: PropTypes.func.isRequired
+  onAdd: PropTypes.func.isRequired
+}
+
+AddForm.defaultProps = {
+  errorMessage: null,
+  validationMessage: null
 }
 
 export default AddForm

@@ -1,7 +1,7 @@
 import {useState, useEffect, useCallback, useContext} from 'react'
 import {orderBy} from 'lodash'
 
-import {getCreators} from '@/lib/suivi-pcrs.js'
+import {getCreators, addCreator} from '@/lib/suivi-pcrs.js'
 import {normalizeSort} from '@/lib/string.js'
 
 import PorteurList from '@/components/gestion-admin/porteur-list.js'
@@ -14,6 +14,8 @@ const Porteurs = () => {
   const {token, isTokenRecovering} = useContext(AuthentificationContext)
 
   const [errorMessage, setErrorMessage] = useState(null)
+  const [onAddError, setOnAddError] = useState(null)
+  const [onAddValidation, setOnAddValidation] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [porteurs, setPorteurs] = useState([])
   const [filteredPorteurs, setFilteredPorteurs] = useState([])
@@ -30,6 +32,24 @@ const Porteurs = () => {
     setIsLoading(false)
   }, [token])
 
+  const onAddCreators = async (e, nom, email) => {
+    e.preventDefault()
+
+    setOnAddValidation(null)
+    setOnAddError(null)
+
+    try {
+      await addCreator(token, {nom, email})
+      setOnAddValidation(`${nom} a été ajouté à la liste des porteurs autorisés`)
+
+      setTimeout(() => {
+        getPorteurs()
+      }, 1000)
+    } catch (error) {
+      setOnAddError(null)('Le nouveau porteur n’a pas pu être ajouté : ' + error)
+    }
+  }
+
   useEffect(() => {
     if (token && !isTokenRecovering) {
       getPorteurs()
@@ -45,6 +65,9 @@ const Porteurs = () => {
         items={porteurs}
         handleFilteredItems={setFilteredPorteurs}
         handleReloadData={getPorteurs}
+        errorMessage={onAddError}
+        validationMessage={onAddValidation}
+        onAdd={onAddCreators}
       />
 
       {filteredPorteurs.length > 0 ? (
