@@ -2,6 +2,8 @@ import {useEffect, useState} from 'react'
 import PropTypes from 'prop-types'
 import {orderBy} from 'lodash-es'
 
+import {normalizeSort} from '@/components/gestion-admin/utils/index.js'
+
 import Button from '@/components/button.js'
 import SelectInput from '@/components/select-input.js'
 import AddForm from '@/components/gestion-admin/add-form.js'
@@ -30,7 +32,7 @@ const Header = ({token, items, isAdmin, handleFilteredItems}) => {
 
   useEffect(() => {
     if (orderValue === 'alpha') {
-      handleFilteredItems(orderBy(items, [item => item.nom ? item.nom.toLowerCase() : 'N/A'.toLowerCase()], ['asc']))
+      handleFilteredItems(orderBy(items, [item => item.nom ? normalizeSort(item.nom) : normalizeSort('N/A')], ['asc']))
     }
 
     if (orderValue === 'asc') {

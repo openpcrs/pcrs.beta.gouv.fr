@@ -2,6 +2,7 @@ import {useState, useEffect, useCallback, useContext} from 'react'
 import {orderBy} from 'lodash'
 
 import {getCreators} from '@/lib/suivi-pcrs.js'
+import {normalizeSort} from '@/components/gestion-admin/utils/index.js'
 
 import PorteurList from '@/components/gestion-admin/porteur-list.js'
 import Header from '@/components/gestion-admin/header.js'
@@ -21,7 +22,7 @@ const Porteurs = () => {
     try {
       const getPorteurs = await getCreators(token)
 
-      setPorteurs(orderBy(getPorteurs, [item => item.nom ? item.nom.toLowerCase() : 'N/A'.toLowerCase()], ['asc']))
+      setPorteurs(orderBy(getPorteurs, [item => item.nom ? normalizeSort(item.nom) : normalizeSort('N/A')], ['asc']))
     } catch {
       setErrorMessage('La liste des porteurs de projets n’a pas pu être récupérée')
     }
