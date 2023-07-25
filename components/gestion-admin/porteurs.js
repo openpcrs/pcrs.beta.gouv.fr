@@ -14,8 +14,8 @@ const Porteurs = () => {
   const {token, isTokenRecovering} = useContext(AuthentificationContext)
 
   const [errorMessage, setErrorMessage] = useState(null)
-  const [onAddError, setOnAddError] = useState(null)
-  const [onAddValidation, setOnAddValidation] = useState(null)
+  const [addError, setAddError] = useState(null)
+  const [addValidation, setAddValidation] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [porteurs, setPorteurs] = useState([])
   const [filteredPorteurs, setFilteredPorteurs] = useState([])
@@ -35,18 +35,18 @@ const Porteurs = () => {
   const onAddCreators = async (e, nom, email) => {
     e.preventDefault()
 
-    setOnAddValidation(null)
-    setOnAddError(null)
+    setAddValidation(null)
+    setAddError(null)
 
     try {
       await addCreator(token, {nom, email})
-      setOnAddValidation(`${nom} a été ajouté à la liste des porteurs autorisés`)
+      setAddValidation(`${nom} a été ajouté à la liste des porteurs autorisés`)
 
       setTimeout(() => {
         getPorteurs()
       }, 1000)
     } catch (error) {
-      setOnAddError(null)('Le nouveau porteur n’a pas pu être ajouté : ' + error)
+      setAddError(null)('Le nouveau porteur n’a pas pu être ajouté : ' + error)
     }
   }
 
@@ -65,8 +65,8 @@ const Porteurs = () => {
         items={porteurs}
         handleFilteredItems={setFilteredPorteurs}
         handleReloadData={getPorteurs}
-        errorMessage={onAddError}
-        validationMessage={onAddValidation}
+        errorMessage={addError}
+        validationMessage={addValidation}
         onAdd={onAddCreators}
       />
 
