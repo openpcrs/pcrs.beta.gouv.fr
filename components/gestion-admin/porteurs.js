@@ -44,7 +44,7 @@ const Porteurs = () => {
         getPorteurs()
       }, 1000)
     } catch (error) {
-      setAddError(null)('Le nouveau porteur n’a pas pu être ajouté : ' + error)
+      setAddError('Le nouveau porteur n’a pas pu être ajouté : ' + error)
     }
   }
 
