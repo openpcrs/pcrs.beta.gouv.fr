@@ -6,12 +6,18 @@ import colors from '@/styles/colors.js'
 import TextInput from '@/components/text-input.js'
 import Button from '@/components/button.js'
 
-const AddForm = ({onClose, errorMessage, validationMessage, onAdd}) => {
+const AddForm = ({onClose, errorMessage, validationMessage, onSubmit}) => {
   const [nom, setNom] = useState('')
   const [email, setEmail] = useState('')
 
+  const handleSubmit = event => {
+    event.preventDefault()
+
+    onSubmit(nom, email)
+  }
+
   return (
-    <form className='fr-grid-row fr-my-6w fr-pb-4w' onSubmit={e => onAdd(e, nom, email)}>
+    <form className='fr-grid-row fr-my-6w fr-pb-4w' onSubmit={handleSubmit}>
       <div className='fr-grid-row fr-grid-row--gutters fr-col-12 '>
         <div className='fr-col-12 fr-col-md-4'>
           <TextInput
@@ -74,7 +80,7 @@ AddForm.propTypes = {
   errorMessage: PropTypes.string,
   validationMessage: PropTypes.string,
   onClose: PropTypes.func.isRequired,
-  onAdd: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired
 }
 
 AddForm.defaultProps = {

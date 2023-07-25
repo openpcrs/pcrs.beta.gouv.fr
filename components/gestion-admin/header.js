@@ -73,7 +73,7 @@ const Header = ({token, items, isAdmin, errorMessage, validationMessage, onAdd, 
           errorMessage={errorMessage}
           validationMessage={validationMessage}
           handleReloadData={handleReloadData}
-          onAdd={onAdd}
+          onSubmit={onAdd}
           onClose={handleFormOpen}
         />
       )}

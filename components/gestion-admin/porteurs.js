@@ -32,9 +32,7 @@ const Porteurs = () => {
     setIsLoading(false)
   }, [token])
 
-  const onAddCreators = async (e, nom, email) => {
-    e.preventDefault()
-
+  const onAddCreators = async (nom, email) => {
     setAddValidation(null)
     setAddError(null)
 
