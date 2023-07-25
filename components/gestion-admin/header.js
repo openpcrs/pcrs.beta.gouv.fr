@@ -59,11 +59,11 @@ const Header = ({token, items, isAdmin, errorMessage, validationMessage, onAdd, 
       <Button
         icon='user-add-line'
         iconSide='right'
-        label={`Autoriser un ${isAdmin ? 'nouvel admin' : 'nouveau porteur'}`}
+        label={`Autoriser un ${isAdmin ? 'nouvel administrateur' : 'nouveau porteur'}`}
         isDisabled={isFormOpen}
         onClick={handleFormOpen}
       >
-        Autoriser un {isAdmin ? 'nouvel admin' : 'nouveau porteur'}
+        Autoriser un {isAdmin ? 'nouvel administrateur' : 'nouveau porteur'}
       </Button>
 
       {isFormOpen && (
@@ -81,7 +81,7 @@ const Header = ({token, items, isAdmin, errorMessage, validationMessage, onAdd, 
       <div className='fr-grid-row fr-grid-row--middle fr-mt-8w'>
         <div className='fr-col-12 fr-col-md-4'>
           <label className='fr-label fr-mb-1w'>
-            <b>Rechercher un {isAdmin ? 'admin' : 'porteur'}</b>
+            <b>Rechercher un {isAdmin ? 'administrateur' : 'porteur'}</b>
           </label>
           <div className='fr-search-bar' >
             <input
@@ -96,7 +96,7 @@ const Header = ({token, items, isAdmin, errorMessage, validationMessage, onAdd, 
         <div className='fr-grid-row fr-grid-row--right fr-col-12 fr-col-md-8 fr-mt-6w fr-mt-md-0'>
           <SelectInput
             label='Trier par :'
-            ariaLabel={`Ordonner les ${isAdmin ? 'admin' : 'porteur'} par date d’ajout ou par ordre alphabétique`}
+            ariaLabel={`Ordonner les ${isAdmin ? 'administrateur' : 'porteur'} par date d’ajout ou par ordre alphabétique`}
             value={orderValue}
             options={orderOptions}
             onValueChange={e => setOrderValue(e.target.value)}
