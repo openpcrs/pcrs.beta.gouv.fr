@@ -1,6 +1,5 @@
 import {useState} from 'react'
 import PropTypes from 'prop-types'
-import {useRouter} from 'next/router'
 
 import {addCreator} from '@/lib/suivi-pcrs.js'
 
@@ -9,9 +8,7 @@ import colors from '@/styles/colors.js'
 import TextInput from '@/components/text-input.js'
 import Button from '@/components/button.js'
 
-const AddForm = ({token, onClose}) => {
-  const router = useRouter()
-
+const AddForm = ({token, onClose, handleReloadData, handleFormOpen}) => {
   const [validationMessage, setValidationMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
 
@@ -29,7 +26,8 @@ const AddForm = ({token, onClose}) => {
       setValidationMessage(`${nom} a été ajouté à la liste des porteurs autorisés`)
 
       setTimeout(() => {
-        router.reload(window.location.pathname)
+        handleReloadData()
+        handleFormOpen()
       }, 1000)
     } catch (error) {
       setErrorMessage('Le nouveau porteur n’a pas pu être ajouté : ' + error)
@@ -98,7 +96,9 @@ const AddForm = ({token, onClose}) => {
 
 AddForm.propTypes = {
   token: PropTypes.string.isRequired,
-  onClose: PropTypes.func.isRequired
+  handleReloadData: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+  handleFormOpen: PropTypes.func.isRequired
 }
 
 export default AddForm

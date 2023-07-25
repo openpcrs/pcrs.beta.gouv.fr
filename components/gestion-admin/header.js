@@ -14,7 +14,7 @@ const orderOptions = [
   {value: 'desc', label: 'Date d’ajout décroissante'}
 ]
 
-const Header = ({token, items, isAdmin, handleFilteredItems}) => {
+const Header = ({token, items, isAdmin, handleFilteredItems, handleReloadData}) => {
   const [orderValue, setOrderValue] = useState('alpha')
   const [searchValue, setSearchValue] = useState('')
   const [isFormOpen, setIsFormOpen] = useState(false)
@@ -58,7 +58,14 @@ const Header = ({token, items, isAdmin, handleFilteredItems}) => {
         Autoriser un {isAdmin ? 'nouvel admin' : 'nouveau porteur'}
       </Button>
 
-      {isFormOpen && <AddForm token={token} onClose={handleFormOpen} />}
+      {isFormOpen && (
+        <AddForm
+          token={token}
+          handleReloadData={handleReloadData}
+          handleFormOpen={() => setIsFormOpen(!isFormOpen)}
+          onClose={handleFormOpen}
+        />
+      )}
 
       <div className='fr-grid-row fr-grid-row--middle fr-mt-8w'>
         <div className='fr-col-12 fr-col-md-4'>
@@ -93,6 +100,7 @@ Header.propTypes = {
   token: PropTypes.string.isRequired,
   items: PropTypes.array.isRequired,
   isAdmin: PropTypes.bool,
+  handleReloadData: PropTypes.func.isRequired,
   handleFilteredItems: PropTypes.func.isRequired
 }
 
