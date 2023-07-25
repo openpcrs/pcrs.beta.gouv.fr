@@ -14,7 +14,7 @@ const orderOptions = [
   {value: 'desc', label: 'Date d’ajout décroissante'}
 ]
 
-const Header = ({token, items, isAdmin, handleFilteredItems, handleReloadData}) => {
+const Header = ({token, items, isAdmin, errorMessage, validationMessage, onAdd, handleFilteredItems, handleReloadData}) => {
   const [orderValue, setOrderValue] = useState('alpha')
   const [searchValue, setSearchValue] = useState('')
   const [isFormOpen, setIsFormOpen] = useState(false)
@@ -29,6 +29,14 @@ const Header = ({token, items, isAdmin, handleFilteredItems, handleReloadData}) 
       handleFilteredItems(items)
     }
   }, [items, searchValue, handleFilteredItems])
+
+  useEffect(() => {
+    if (validationMessage) {
+      setTimeout(() => {
+        setIsFormOpen(false)
+      }, 1000)
+    }
+  }, [validationMessage])
 
   useEffect(() => {
     if (orderValue === 'alpha') {
@@ -61,8 +69,11 @@ const Header = ({token, items, isAdmin, handleFilteredItems, handleReloadData}) 
       {isFormOpen && (
         <AddForm
           token={token}
-          handleReloadData={handleReloadData}
           handleFormOpen={() => setIsFormOpen(!isFormOpen)}
+          errorMessage={errorMessage}
+          validationMessage={validationMessage}
+          handleReloadData={handleReloadData}
+          onSubmit={onAdd}
           onClose={handleFormOpen}
         />
       )}
@@ -98,13 +109,18 @@ const Header = ({token, items, isAdmin, handleFilteredItems, handleReloadData}) 
 
 Header.propTypes = {
   token: PropTypes.string.isRequired,
+  errorMessage: PropTypes.string,
+  validationMessage: PropTypes.string,
   items: PropTypes.array.isRequired,
   isAdmin: PropTypes.bool,
-  handleReloadData: PropTypes.func.isRequired,
-  handleFilteredItems: PropTypes.func.isRequired
+  onAdd: PropTypes.func.isRequired,
+  handleFilteredItems: PropTypes.func.isRequired,
+  handleReloadData: PropTypes.func.isRequired
 }
 
 Header.defaultProps = {
+  errorMessage: null,
+  validationMessage: null,
   isAdmin: false
 }
 
