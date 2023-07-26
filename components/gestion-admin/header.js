@@ -23,7 +23,7 @@ const Header = ({token, items, isAdmin, errorMessage, validationMessage, onAdd, 
 
   useEffect(() => {
     if (searchValue) {
-      const filteredResults = items.filter(item => item.email.toLowerCase().includes(searchValue.toLowerCase()) || item?.nom?.toLowerCase()?.includes(searchValue.toLowerCase()))
+      const filteredResults = items.filter(item => normalizeSort(item.email).includes(normalizeSort(searchValue)) || normalizeSort(item.nom || '').includes(normalizeSort(searchValue)))
       handleFilteredItems(filteredResults)
     } else {
       handleFilteredItems(items)

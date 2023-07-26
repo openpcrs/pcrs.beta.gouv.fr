@@ -2,6 +2,7 @@ import {useState, useEffect, useCallback, useContext} from 'react'
 import {orderBy} from 'lodash'
 
 import {getAdministrators, addAdministator} from '@/lib/suivi-pcrs.js'
+import {normalizeSort} from '@/lib/string.js'
 
 import AuthentificationContext from '@/contexts/authentification-token.js'
 
@@ -25,7 +26,7 @@ const Administrateurs = () => {
     try {
       const administrators = await getAdministrators(token)
 
-      setAdmins(orderBy(administrators, [item => item.nom ? item.nom.toLowerCase() : 'N/A'.toLowerCase()], ['asc']))
+      setAdmins(orderBy(administrators, [item => normalizeSort(item.nom || 'N/A')], ['asc']))
     } catch {
       setErrorMessages(errorMessages => ({...errorMessages, fetchError: 'Une erreur a été rencontrée lors de la récupération des administrateurs'}))
     }
