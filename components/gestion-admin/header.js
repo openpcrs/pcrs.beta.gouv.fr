@@ -114,7 +114,7 @@ Header.propTypes = {
   token: PropTypes.string.isRequired,
   errorMessage: PropTypes.string,
   validationMessage: PropTypes.string,
-  items: PropTypes.array.isRequired,
+  items: PropTypes.array,
   isAdmin: PropTypes.bool,
   onAdd: PropTypes.func.isRequired,
   onReset: PropTypes.func.isRequired,
@@ -123,6 +123,7 @@ Header.propTypes = {
 }
 
 Header.defaultProps = {
+  items: [],
   errorMessage: null,
   validationMessage: null,
   isAdmin: false

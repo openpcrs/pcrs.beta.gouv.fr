@@ -15,7 +15,7 @@ import Loader from '@/components/loader.js'
 const Administrateurs = () => {
   const {token, isTokenRecovering} = useContext(AuthentificationContext)
 
-  const [admins, setAdmins] = useState([])
+  const [admins, setAdmins] = useState()
   const [filteredAdmins, setFilteredAdmins] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [validationMessage, setValidationMessage] = useState(null)
@@ -24,6 +24,7 @@ const Administrateurs = () => {
   const getAdmins = useCallback(async () => {
     setIsLoading(true)
     clearError('fetchError')
+    setIsLoading(true)
 
     try {
       const administrators = await getAdministrators(token)
