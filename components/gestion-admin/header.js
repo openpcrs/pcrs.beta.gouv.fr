@@ -14,7 +14,7 @@ const orderOptions = [
   {value: 'desc', label: 'Date d’ajout décroissante'}
 ]
 
-const Header = ({token, items, isAdmin, errorMessage, validationMessage, onAdd, handleFilteredItems, handleReloadData}) => {
+const Header = ({token, items, isAdmin, errorMessage, validationMessage, onAdd, onReset, handleFilteredItems, handleReloadData}) => {
   const [orderValue, setOrderValue] = useState('alpha')
   const [searchValue, setSearchValue] = useState('')
   const [isFormOpen, setIsFormOpen] = useState(false)
@@ -61,7 +61,10 @@ const Header = ({token, items, isAdmin, errorMessage, validationMessage, onAdd, 
         iconSide='right'
         label={`Autoriser un ${isAdmin ? 'nouvel administrateur' : 'nouveau porteur'}`}
         isDisabled={isFormOpen}
-        onClick={handleFormOpen}
+        onClick={() => {
+          onReset()
+          handleFormOpen()
+        }}
       >
         Autoriser un {isAdmin ? 'nouvel administrateur' : 'nouveau porteur'}
       </Button>
@@ -114,6 +117,7 @@ Header.propTypes = {
   items: PropTypes.array.isRequired,
   isAdmin: PropTypes.bool,
   onAdd: PropTypes.func.isRequired,
+  onReset: PropTypes.func.isRequired,
   handleFilteredItems: PropTypes.func.isRequired,
   handleReloadData: PropTypes.func.isRequired
 }

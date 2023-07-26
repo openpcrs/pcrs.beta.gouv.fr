@@ -6,6 +6,8 @@ import {normalizeSort} from '@/lib/string.js'
 
 import AuthentificationContext from '@/contexts/authentification-token.js'
 
+import useErrors from '@/hooks/errors.js'
+
 import AdministrateurList from '@/components/gestion-admin/administrateur-list.js'
 import Header from '@/components/gestion-admin/header.js'
 import Loader from '@/components/loader.js'
@@ -17,26 +19,26 @@ const Administrateurs = () => {
   const [filteredAdmins, setFilteredAdmins] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [validationMessage, setValidationMessage] = useState(null)
-  const [errorMessages, setErrorMessages] = useState({headerError: null, fetchError: null})
+  const [errors, setError, clearError] = useErrors({fetchError: null, headerError: null})
 
   const getAdmins = useCallback(async () => {
     setIsLoading(true)
-    setErrorMessages(errorMessages => ({...errorMessages, fetchError: null}))
+    clearError('fetchError')
 
     try {
       const administrators = await getAdministrators(token)
 
       setAdmins(orderBy(administrators, [item => normalizeSort(item.nom || 'N/A')], ['asc']))
     } catch {
-      setErrorMessages(errorMessages => ({...errorMessages, fetchError: 'Une erreur a été rencontrée lors de la récupération des administrateurs'}))
+      setError('fetchError', 'Une erreur a été rencontrée lors de la récupération des administrateurs')
     }
 
     setIsLoading(false)
-  }, [token])
+  }, [token, setError, clearError])
 
   const onAddAdmin = async (nom, email) => {
     setValidationMessage(null)
-    setErrorMessages(errorMessages => ({...errorMessages, headerError: null}))
+    clearError('headerError')
 
     try {
       await addAdministator(token, {nom, email})
@@ -47,7 +49,7 @@ const Administrateurs = () => {
         setValidationMessage(null)
       }, 1000)
     } catch {
-      setErrorMessages(errorMessages => ({...errorMessages, headerError: 'Le nouvel administrateur n’a pas pu être ajouté'}))
+      setError('headerError', 'Le nouvel administrateur n’a pas pu être ajouté')
     }
   }
 
@@ -67,8 +69,9 @@ const Administrateurs = () => {
         items={admins}
         handleFilteredItems={setFilteredAdmins}
         handleReloadData={getAdministrators}
-        errorMessage={errorMessages.headerError}
+        errorMessage={errors.headerError}
         validationMessage={validationMessage}
+        onReset={() => clearError('fetchError')}
         onAdd={onAddAdmin}
       />
 
@@ -82,7 +85,7 @@ const Administrateurs = () => {
         <p className='fr-mt-4w'> <i>La liste des administrateurs est vide.</i></p>
       )}
 
-      {errorMessages.fetchError && <p className='fr-error-text'>{errorMessages.fetchError}</p>}
+      {errors.fetchError && <p className='fr-error-text'>{errors.fetchError}</p>}
     </div>
   )
 }
