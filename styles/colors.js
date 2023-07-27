@@ -15,6 +15,7 @@ export default ({
   blueFrance975: '#f5f5fe',
   info200: '#273961',
   info425: '#0063cb',
+  info975: '#f4f6ff',
   blueHover: '#1212FF',
 
   // Green

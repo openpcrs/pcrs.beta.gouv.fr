@@ -1,6 +1,8 @@
 import {useContext} from 'react'
 import PropTypes from 'prop-types'
 
+import colors from '@/styles/colors.js'
+
 import DeviceContext from '@/contexts/device.js'
 
 import Map from '@/components/map/index.js'
@@ -17,10 +19,18 @@ export const Mobile = ({handleClick, handleTitleClick, projet, isOpen, setIsOpen
         contain: 'content'
       }}
     >
+      {!isOpen && (
+        <div className='fr-p-1w fr-text--sm fr-m-0 fr-grid-row fr-grid-row--middle fr-grid-row--center' style={{background: colors.info975, textAlign: 'center'}}>
+          <div>
+            Les données de cette carte sont disponibles publiquement sur le site&nbsp;<a rel='noreferrer' href='https://www.data.gouv.fr/fr/organizations/pcrs-beta-gouv-fr/' target='_blank' title='ouvre un onglet vers data gouv'>Data gouv</a>
+          </div>
+        </div>
+      )}
+
       {geometry && (
         <div
           style={{
-            height: isOpen ? 0 : viewHeight - 204,
+            height: isOpen ? 0 : viewHeight - 264,
             width: '100%'
           }}
         >
@@ -34,7 +44,7 @@ export const Mobile = ({handleClick, handleTitleClick, projet, isOpen, setIsOpen
       )}
       <div
         style={{
-          height: isOpen ? viewHeight - 147 : '46px',
+          height: isOpen ? viewHeight - 147 : '56px',
           overflowY: isOpen ? 'auto' : 'hidden',
           overflowX: 'hidden',
           padding: '2px',
@@ -121,6 +131,7 @@ Mobile.propTypes = {
 export const Desktop = ({handleClick, projet, isOpen, setIsOpen, geometry, onProjetChange, projets}) => (
   <div
     style={{
+      height: '100%',
       display: 'flex',
       contain: 'content'
     }}
@@ -150,7 +161,7 @@ export const Desktop = ({handleClick, projet, isOpen, setIsOpen, geometry, onPro
           className={`fr-icon-arrow-${isOpen ? 'left' : 'right'}-s-line`}
           style={{
             position: 'absolute',
-            top: '25px',
+            top: '45px',
             left: isOpen ? '460px' : '5px',
             backgroundColor: 'white',
             height: '50px',
@@ -169,13 +180,21 @@ export const Desktop = ({handleClick, projet, isOpen, setIsOpen, geometry, onPro
     )}
 
     {geometry && (
-      <div style={{width: '100%', height: 'calc(100vh - 117px)'}}>
-        <Map
-          style={{pointerEvents: 'all'}}
-          handleClick={handleClick}
-          geometry={geometry}
-          projetId={projet?._id}
-        />
+      <div style={{width: '100%'}}>
+        <div className='fr-p-1w fr-text--sm fr-m-0 fr-grid-row fr-grid-row--middle fr-grid-row--center' style={{background: colors.info975, textAlign: 'center'}}>
+          <div>
+            Les données de cette carte sont disponibles publiquement sur le site&nbsp;<a rel='noreferrer' href='https://www.data.gouv.fr/fr/organizations/pcrs-beta-gouv-fr/' target='_blank' title='ouvre un onglet vers data gouv'>Data gouv</a>
+          </div>
+        </div>
+
+        <div style={{width: '100%', height: 'calc(100vh - 157px)'}}>
+          <Map
+            style={{pointerEvents: 'all'}}
+            handleClick={handleClick}
+            geometry={geometry}
+            projetId={projet?._id}
+          />
+        </div>
       </div>
     )}
   </div>
