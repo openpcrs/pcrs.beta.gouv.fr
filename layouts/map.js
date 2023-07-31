@@ -20,7 +20,10 @@ export const Mobile = ({handleClick, handleTitleClick, projet, isOpen, setIsOpen
       }}
     >
       {!isOpen && (
-        <div className='fr-p-1w fr-text--sm fr-m-0 fr-grid-row fr-grid-row--middle fr-grid-row--center' style={{background: colors.info975, textAlign: 'center'}}>
+        <div
+          className='fr-p-1w fr-text--sm fr-m-0 fr-grid-row fr-grid-row--middle fr-grid-row--center'
+          style={{background: colors.info975, textAlign: 'center'}}
+        >
           <div>
             Les données de cette carte sont disponibles publiquement sur le site&nbsp;<a rel='noreferrer' href='https://www.data.gouv.fr/fr/organizations/pcrs-beta-gouv-fr/' target='_blank' title='ouvre un onglet vers data gouv'>Data gouv</a>
           </div>
@@ -181,7 +184,10 @@ export const Desktop = ({handleClick, projet, isOpen, setIsOpen, geometry, onPro
 
     {geometry && (
       <div style={{width: '100%'}}>
-        <div className='fr-p-1w fr-text--sm fr-m-0 fr-grid-row fr-grid-row--middle fr-grid-row--center' style={{background: colors.info975, textAlign: 'center'}}>
+        <div
+          className='fr-p-1w fr-text--sm fr-m-0 fr-grid-row fr-grid-row--middle fr-grid-row--center'
+          style={{background: colors.info975, textAlign: 'center'}}
+        >
           <div>
             Les données de cette carte sont disponibles publiquement sur le site&nbsp;<a rel='noreferrer' href='https://www.data.gouv.fr/fr/organizations/pcrs-beta-gouv-fr/' target='_blank' title='ouvre un onglet vers data gouv'>Data gouv</a>
           </div>
