@@ -1,32 +1,36 @@
-import {useEffect} from 'react'
+import {useEffect, useContext} from 'react'
 import PropTypes from 'prop-types'
 
-const Toast = ({type, title, isTriggered, children, onClear}) => {
+import ToasterContext from '@/contexts/toaster.js'
+
+const Toast = ({type, title}) => {
+  const {toastContent, setToastContent} = useContext(ToasterContext)
+
   useEffect(() => {
-    if (isTriggered) {
+    if (toastContent) {
       const interval = setInterval(() => {
-        onClear()
+        setToastContent(null)
       }, 3000)
 
       return () => {
         clearInterval(interval)
       }
     }
-  }, [isTriggered, onClear])
+  }, [toastContent, setToastContent])
 
   return (
-    <div className={`toast-wrapper fr-grid-row fr-grid-row--center ${isTriggered ? 'visible' : ''}`}>
+    <div className={`toast-wrapper fr-grid-row fr-grid-row--center ${toastContent ? 'visible' : ''}`}>
       <div className='shadow-wrapper'>
         <div className={`toast fr-pl-6w fr-alert fr-alert--${type}`} role='alert'>
           <button
             type='button'
             className='close-button'
-            onClick={onClear}
+            onClick={() => setToastContent(null)}
           >
             <span className='fr-icon-close-line' aria-hidden='true' />
           </button>
           {title && <h3 className='fr-alert__title'>{title}</h3>}
-          <p>{children}</p>
+          <p>{toastContent}</p>
         </div>
       </div>
 
@@ -83,17 +87,12 @@ Toast.propTypes = {
     'warning',
     'error'
   ]),
-  title: PropTypes.string,
-  isTriggered: PropTypes.bool,
-  onClear: PropTypes.func.isRequired,
-  children: PropTypes.node
+  title: PropTypes.string
 }
 
 Toast.defaultProps = {
-  isTriggered: false,
   type: 'info',
-  title: null,
-  children: null
+  title: null
 }
 
 export default Toast
