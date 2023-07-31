@@ -50,7 +50,7 @@ export const Mobile = ({handleClick, handleTitleClick, projet, isOpen, setIsOpen
           padding: '2px',
           border: '1px solid lightgrey',
           borderBottom: '0',
-          zIndex: 5
+          zIndex: isOpen ? 3 : 0
         }}
       >
         <div
