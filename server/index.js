@@ -19,13 +19,13 @@ import errorHandler from './util/error-handler.js'
 import w from './util/w.js'
 
 import {handleAuth, ensureAdmin} from './auth/middleware.js'
-import {sendPinCodeEmail, checkPinCodeValidity} from './auth/pin-code/index.js'
 
 import {getProjetsGeojson} from './projets.js'
-import {addCreator, deleteCreator, getCreatorById, getCreators, updateCreator, getCreatorByEmail} from './admin/creators-emails.js'
+import {addCreator, deleteCreator, getCreatorById, getCreators, updateCreator} from './admin/creators-emails.js'
 import {getUpdatedProjets} from './admin/reports.js'
 import exportCSVRouter from './routes/data.js'
 import projetsRouter from './routes/projets.js'
+import exportAuthRouter from './routes/auth.js'
 
 const port = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -49,35 +49,7 @@ await getProjetsGeojson()
 server.use(w(handleAuth))
 server.use('/', exportCSVRouter)
 server.use('/', projetsRouter)
-
-server.route('/ask-code')
-  .post(w(async (req, res) => {
-    const authorizedEditorEmail = await getCreatorByEmail(req.body.email)
-
-    if (!authorizedEditorEmail) {
-      throw createError(401, 'Cette adresse n’est pas autorisée à créer un projet')
-    }
-
-    await sendPinCodeEmail(req.body.email)
-
-    res.status(201).send('ok')
-  }))
-
-server.route('/check-code')
-  .post(w(async (req, res) => {
-    const {email, pinCode} = req.body
-    const validToken = await checkPinCodeValidity({email, pinCode})
-    res.send({token: validToken})
-  }))
-
-server.route('/me')
-  .get(w(async (req, res) => {
-    if (!req.role) {
-      throw createError(401, 'Jeton requis')
-    }
-
-    res.send({role: req.role})
-  }))
+server.use('/', exportAuthRouter)
 
 server.route('/creator-email/:emailId')
   .get(w(ensureAdmin), w(async (req, res) => {
