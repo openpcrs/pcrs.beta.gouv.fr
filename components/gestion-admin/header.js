@@ -2,6 +2,8 @@ import {useEffect, useState} from 'react'
 import PropTypes from 'prop-types'
 import {orderBy} from 'lodash-es'
 
+import {normalizeSort} from '@/lib/string.js'
+
 import Button from '@/components/button.js'
 import SelectInput from '@/components/select-input.js'
 import AddForm from '@/components/gestion-admin/add-form.js'
@@ -12,7 +14,7 @@ const orderOptions = [
   {value: 'desc', label: 'Date d’ajout décroissante'}
 ]
 
-const Header = ({token, items, isAdmin, handleFilteredItems}) => {
+const Header = ({token, items, isAdmin, errorMessage, validationMessage, onAdd, handleFilteredItems, handleReloadData}) => {
   const [orderValue, setOrderValue] = useState('alpha')
   const [searchValue, setSearchValue] = useState('')
   const [isFormOpen, setIsFormOpen] = useState(false)
@@ -29,8 +31,16 @@ const Header = ({token, items, isAdmin, handleFilteredItems}) => {
   }, [items, searchValue, handleFilteredItems])
 
   useEffect(() => {
+    if (validationMessage) {
+      setTimeout(() => {
+        setIsFormOpen(false)
+      }, 1000)
+    }
+  }, [validationMessage])
+
+  useEffect(() => {
     if (orderValue === 'alpha') {
-      handleFilteredItems(orderBy(items, ['nom'], ['asc']))
+      handleFilteredItems(orderBy(items, [item => normalizeSort(normalizeSort(item.nom || 'N/A'))], ['asc']))
     }
 
     if (orderValue === 'asc') {
@@ -56,7 +66,17 @@ const Header = ({token, items, isAdmin, handleFilteredItems}) => {
         Autoriser un {isAdmin ? 'nouvel admin' : 'nouveau porteur'}
       </Button>
 
-      {isFormOpen && <AddForm token={token} onClose={handleFormOpen} />}
+      {isFormOpen && (
+        <AddForm
+          token={token}
+          handleFormOpen={() => setIsFormOpen(!isFormOpen)}
+          errorMessage={errorMessage}
+          validationMessage={validationMessage}
+          handleReloadData={handleReloadData}
+          onSubmit={onAdd}
+          onClose={handleFormOpen}
+        />
+      )}
 
       <div className='fr-grid-row fr-grid-row--middle fr-mt-8w'>
         <div className='fr-col-12 fr-col-md-4'>
@@ -89,12 +109,18 @@ const Header = ({token, items, isAdmin, handleFilteredItems}) => {
 
 Header.propTypes = {
   token: PropTypes.string.isRequired,
+  errorMessage: PropTypes.string,
+  validationMessage: PropTypes.string,
   items: PropTypes.array.isRequired,
   isAdmin: PropTypes.bool,
-  handleFilteredItems: PropTypes.func.isRequired
+  onAdd: PropTypes.func.isRequired,
+  handleFilteredItems: PropTypes.func.isRequired,
+  handleReloadData: PropTypes.func.isRequired
 }
 
 Header.defaultProps = {
+  errorMessage: null,
+  validationMessage: null,
   isAdmin: false
 }
 

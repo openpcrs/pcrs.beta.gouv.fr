@@ -1,15 +1,12 @@
 import {useState} from 'react'
 import PropTypes from 'prop-types'
-import {useRouter} from 'next/router'
 
 import {deleteCreator} from '@/lib/suivi-pcrs.js'
 
 import ListItem from '@/components/gestion-admin/list-item.js'
 import Modal from '@/components/modal.js'
 
-const PorteurList = ({token, porteurs}) => {
-  const router = useRouter()
-
+const PorteurList = ({token, porteurs, handleReloadPorteurs}) => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [validationMessage, setValidationMessage] = useState(null)
   const [selectedPorteurId, setSelectedPorteurId] = useState(null)
@@ -32,7 +29,7 @@ const PorteurList = ({token, porteurs}) => {
       setValidationMessage(`Les droits de création de ${nom} ont été révoqués`)
 
       setTimeout(() => {
-        router.reload(window.location.pathname)
+        handleReloadPorteurs()
       }, 2000)
     } catch {
       setErrorMessage(`Les droits de création de ${nom} n’ont pas été révoqués`)
@@ -92,7 +89,8 @@ const PorteurList = ({token, porteurs}) => {
 
 PorteurList.propTypes = {
   token: PropTypes.string.isRequired,
-  porteurs: PropTypes.array.isRequired
+  porteurs: PropTypes.array.isRequired,
+  handleReloadPorteurs: PropTypes.func.isRequired
 }
 
 export default PorteurList

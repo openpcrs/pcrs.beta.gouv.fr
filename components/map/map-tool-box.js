@@ -13,7 +13,8 @@ const MapToolBox = ({children}) => {
         padding: '3px',
         borderRadius: '5px',
         width: isOpen ? '300px' : '',
-        border: '2px solid #dfdbd8'
+        border: '2px solid #dfdbd8',
+        zIndex: 2
       }}
     >
       {isOpen ? (

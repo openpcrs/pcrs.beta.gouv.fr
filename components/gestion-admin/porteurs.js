@@ -1,7 +1,8 @@
 import {useState, useEffect, useCallback, useContext} from 'react'
-import {orderBy} from 'lodash-es'
+import {orderBy} from 'lodash'
 
-import {getCreators} from '@/lib/suivi-pcrs.js'
+import {getCreators, addCreator} from '@/lib/suivi-pcrs.js'
+import {normalizeSort} from '@/lib/string.js'
 
 import PorteurList from '@/components/gestion-admin/porteur-list.js'
 import Header from '@/components/gestion-admin/header.js'
@@ -12,24 +13,41 @@ import AuthentificationContext from '@/contexts/authentification-token.js'
 const Porteurs = () => {
   const {token, isTokenRecovering} = useContext(AuthentificationContext)
 
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [errorMessages, setErrorMessages] = useState({headerError: null, fetchError: null})
+  const [validationMessage, setValidationMessage] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [porteurs, setPorteurs] = useState([])
   const [filteredPorteurs, setFilteredPorteurs] = useState([])
 
   const getPorteurs = useCallback(async () => {
+    setErrorMessages(errorMessages => ({...errorMessages, fetchError: null}))
+
     try {
       const getPorteurs = await getCreators(token)
-      const orderByName = orderBy(getPorteurs, ['nom'], ['asc'])
 
-      setPorteurs(orderByName)
-      setFilteredPorteurs(orderByName)
+      setPorteurs(orderBy(getPorteurs, [item => normalizeSort(item.nom || 'N/A')], ['asc']))
     } catch {
-      setErrorMessage('La liste des porteurs de projets n’a pas pu être récupérée')
+      setErrorMessages(errorMessages => ({...errorMessages, fetchError: 'La liste des porteurs de projets n’a pas pu être récupérée'}))
     }
 
     setIsLoading(false)
   }, [token])
+
+  const onAddCreators = async (nom, email) => {
+    setValidationMessage(null)
+    setErrorMessages(errorMessages => ({...errorMessages, headerError: null}))
+
+    try {
+      await addCreator(token, {nom, email})
+      setValidationMessage(`${nom} a été ajouté à la liste des porteurs autorisés`)
+
+      setTimeout(() => {
+        getPorteurs()
+      }, 1000)
+    } catch {
+      setErrorMessages(errorMessages => ({...errorMessages, headerError: 'Le nouveau porteur n’a pas pu être ajouté : '}))
+    }
+  }
 
   useEffect(() => {
     if (token && !isTokenRecovering) {
@@ -45,15 +63,23 @@ const Porteurs = () => {
         token={token}
         items={porteurs}
         handleFilteredItems={setFilteredPorteurs}
+        handleReloadData={getPorteurs}
+        errorMessage={errorMessages.headerError}
+        validationMessage={validationMessage}
+        onAdd={onAddCreators}
       />
 
       {filteredPorteurs.length > 0 ? (
-        <PorteurList token={token} porteurs={filteredPorteurs} />
+        <PorteurList
+          token={token}
+          porteurs={filteredPorteurs}
+          handleReloadPorteurs={getPorteurs}
+        />
       ) : (
         <p className='fr-mt-4w'> <i>La liste des porteurs de projets autorisés est vide.</i></p>
       )}
 
-      {errorMessage && <p className='fr-error-text'>{errorMessage}</p>}
+      {errorMessages.fetchError && <p className='fr-error-text'>{errorMessages.fetchError}</p>}
     </div>
   )
 }
