@@ -6,9 +6,9 @@ import {sendPinCodeEmail} from '../auth/index.js'
 import {checkPinCodeValidity} from '../auth/pin-code.js'
 import {getCreatorByEmail} from '../admin/creators-emails.js'
 
-const exportAuthRouter = new express.Router()
+const authRoutes = new express.Router()
 
-exportAuthRouter.post('/ask-code', w(async (req, res) => {
+authRoutes.post('/ask-code', w(async (req, res) => {
   const authorizedEditorEmail = await getCreatorByEmail(req.body.email)
 
   if (!authorizedEditorEmail) {
@@ -20,14 +20,14 @@ exportAuthRouter.post('/ask-code', w(async (req, res) => {
   res.status(201).send('ok')
 }))
 
-exportAuthRouter.post('/check-code', w(async (req, res) => {
+authRoutes.post('/check-code', w(async (req, res) => {
   const {email, pinCode} = req.body
   const validToken = await checkPinCodeValidity({email, pinCode})
 
   res.send({token: validToken})
 }))
 
-exportAuthRouter.get('/me', w(async (req, res) => {
+authRoutes.get('/me', w(async (req, res) => {
   if (!req.role) {
     throw createError(401, 'Jeton requis')
   }
@@ -35,4 +35,4 @@ exportAuthRouter.get('/me', w(async (req, res) => {
   res.send({role: req.role})
 }))
 
-export default exportAuthRouter
+export default authRoutes
