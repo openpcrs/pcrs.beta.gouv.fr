@@ -20,9 +20,9 @@ import w from './util/w.js'
 import {handleAuth} from './auth/middleware.js'
 
 import {getProjetsGeojson} from './projets.js'
-import projetsRouter from './routes/projets.js'
 import exportAuthRouter from './routes/auth.js'
 import dataRoutes from './routes/data.js'
+import projetsRoutes from './routes/projets.js'
 import adminRoutes from './routes/admin.js'
 
 const port = process.env.PORT || 3000
@@ -45,9 +45,9 @@ if (dev) {
 await getProjetsGeojson()
 
 server.use(w(handleAuth))
-server.use('/', projetsRouter)
 server.use('/', exportAuthRouter)
 server.use('/', dataRoutes)
+server.use('/', projetsRoutes)
 server.use('/', adminRoutes)
 
 server.use(errorHandler)
