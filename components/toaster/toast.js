@@ -1,47 +1,31 @@
-import {useEffect, useContext} from 'react'
 import PropTypes from 'prop-types'
 
-import ToasterContext from '@/contexts/toaster.js'
-
-const Toast = ({type, title}) => {
-  const {toastContent, setToastContent} = useContext(ToasterContext)
-
-  useEffect(() => {
-    if (toastContent) {
-      const interval = setInterval(() => {
-        setToastContent(null)
-      }, 3000)
-
-      return () => {
-        clearInterval(interval)
-      }
-    }
-  }, [toastContent, setToastContent])
-
-  return (
-    <div className={`toast-wrapper fr-grid-row fr-grid-row--center ${toastContent ? 'visible' : ''}`}>
-      <div className='shadow-wrapper'>
-        <div className={`toast fr-pl-6w fr-alert fr-alert--${type}`} role='alert'>
+const Toast = ({type, title, isClosable, children, removeToast}) => (
+  <div className='toast-wrapper fr-grid-row fr-grid-row--center fr-p-1w'>
+    <div className='shadow-wrapper'>
+      <div className={`toast fr-pl-6w fr-alert fr-alert--${type}`} role='alert'>
+        {isClosable && (
           <button
             type='button'
             className='close-button'
-            onClick={() => setToastContent(null)}
+            onClick={removeToast}
           >
             <span className='fr-icon-close-line' aria-hidden='true' />
           </button>
-          {title && <h3 className='fr-alert__title'>{title}</h3>}
-          <p>{toastContent}</p>
-        </div>
-      </div>
+        )}
 
-      <style jsx>{`
+        {title && <h3 className='fr-alert__title'>{title}</h3>}
+        <p>{children}</p>
+      </div>
+    </div>
+
+    <style jsx>{`
         .toast-wrapper {
           width: 100%;
-          visibility: hidden;
-          position: fixed;
           z-index: 5;
           bottom: 40px;
           white-space: nowrap;
+          animation: fadein 0.5s, fadeout 0.5s 2.8s;
         }
 
         .shadow-wrapper {
@@ -61,11 +45,6 @@ const Toast = ({type, title}) => {
           top: 10px;
         }
 
-        .visible {
-          visibility: visible;
-          animation: fadein 0.5s, fadeout 0.5s 2.8s;
-        }
-
         @keyframes fadein {
             from {bottom: 0; opacity: 0;}
             to {bottom: 40px; opacity: 1;}
@@ -76,9 +55,8 @@ const Toast = ({type, title}) => {
             to {bottom: 0; opacity: 0;}
         }
       `}</style>
-    </div>
-  )
-}
+  </div>
+)
 
 Toast.propTypes = {
   type: PropTypes.oneOf([
@@ -87,12 +65,17 @@ Toast.propTypes = {
     'warning',
     'error'
   ]),
-  title: PropTypes.string
+  title: PropTypes.string,
+  isClosable: PropTypes.bool,
+  children: PropTypes.node,
+  removeToast: PropTypes.func.isRequired
 }
 
 Toast.defaultProps = {
   type: 'info',
-  title: null
+  title: null,
+  isClosable: false,
+  children: null
 }
 
 export default Toast

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 import {DeviceContextProvider} from '@/contexts/device.js'
 import {AuthentificationContextProvider} from '@/contexts/authentification-token.js'
-import {ToasterContextProvider} from '@/contexts/toaster.js'
 
 import '@/styles/global.css'
 import '@gouvfr/dsfr/dist/dsfr/dsfr.min.css'
@@ -24,9 +23,7 @@ const App = ({Component, pageProps}) => (
   <React.StrictMode>
     <DeviceContextProvider>
       <AuthentificationContextProvider>
-        <ToasterContextProvider>
-          <Component {...pageProps} />
-        </ToasterContextProvider>
+        <Component {...pageProps} />
       </AuthentificationContextProvider>
     </DeviceContextProvider>
   </React.StrictMode>
