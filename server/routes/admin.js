@@ -20,7 +20,7 @@ adminRoutes.get('/creator-email/:emailId', w(ensureAdmin), w(async (req, res) =>
 adminRoutes.delete('/creator-email/:emailId', w(ensureAdmin), w(async (req, res) => {
   await deleteCreator(req.params.emailId)
 
-  res.status(204)
+  res.sendStatus(204)
 }))
 
 adminRoutes.put('/creator-email/:emailId', w(ensureAdmin), w(async (req, res) => {

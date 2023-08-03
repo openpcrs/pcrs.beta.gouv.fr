@@ -42,7 +42,7 @@ projetsRoutes.get('/projets/:projetId', w(async (req, res) => {
 
 projetsRoutes.delete('/projets/:projetId', w(ensureProjectEditor), w(async (req, res) => {
   await deleteProjet(req.projet._id)
-  res.status(204)
+  res.sendStatus(204)
 }))
 
 projetsRoutes.put('/projets/:projetId', w(ensureProjectEditor), w(async (req, res) => {
