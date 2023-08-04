@@ -200,7 +200,7 @@ AutocompleteInput.propTypes = {
   results: PropTypes.array.isRequired,
   isRequired: PropTypes.bool,
   isDisabled: PropTypes.bool,
-  isLoading: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool,
   renderItem: PropTypes.func.isRequired,
   onInputChange: PropTypes.func.isRequired,
   onSelectValue: PropTypes.func.isRequired
@@ -214,7 +214,8 @@ AutocompleteInput.defaultProps = {
   ariaLabel: null,
   errorMessage: null,
   isRequired: false,
-  isDisabled: false
+  isDisabled: false,
+  isLoading: false
 }
 
 export default AutocompleteInput
