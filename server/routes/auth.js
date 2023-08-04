@@ -2,8 +2,7 @@ import express from 'express'
 import createError from 'http-errors'
 import w from '../util/w.js'
 
-import {sendPinCodeEmail} from '../auth/index.js'
-import {checkPinCodeValidity} from '../auth/pin-code.js'
+import {checkPinCodeValidity, sendPinCodeEmail} from '../auth/pin-code.js'
 import {getCreatorByEmail} from '../admin/creators-emails.js'
 
 const authRoutes = new express.Router()
