@@ -17,9 +17,11 @@ export const useToaster = () => {
 
     setToasts(prevToasts => [...prevToasts, toast])
 
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       removeToast(toast.id)
     }, 3000)
+
+    return () => clearTimeout(timer)
   }, [removeToast])
 
   return [toasts, addToast, removeToast]
