@@ -23,6 +23,7 @@ const ToastsContainer = ({toasts, removeToast}) => (
     <style jsx>{`
       .toasts-wrapper {
         width: 100%;
+        z-index: 6;
         position: fixed;
         bottom: 40px;
       }
