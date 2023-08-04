@@ -1,5 +1,7 @@
 import {useState, useCallback} from 'react'
 
+let id = 0
+
 export const useToaster = () => {
   const [toasts, setToasts] = useState([])
 
@@ -9,7 +11,7 @@ export const useToaster = () => {
 
   const addToast = useCallback(toastData => {
     const toast = {
-      id: Date.now(),
+      id: id++,
       toastData
     }
 
