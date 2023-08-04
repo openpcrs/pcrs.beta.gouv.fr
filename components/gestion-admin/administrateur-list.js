@@ -21,22 +21,18 @@ const AdministrateurList = ({loggedUserToken, administrateurs, handleReloadAdmin
     }
   }
 
-  const onRevoke = async (_id, nom, token) => {
+  const onRevoke = async (_id, nom) => {
     setErrorMessage(null)
 
-    if (token === loggedUserToken) {
-      setErrorMessage('Il est impossible de révoquer ses propres droits administrateurs')
-    } else {
-      try {
-        await deleteAdministrator(_id, loggedUserToken)
-        setValidationMessage(`Les droits administrateurs de ${nom} ont été révoqués`)
+    try {
+      await deleteAdministrator(_id, loggedUserToken)
+      setValidationMessage(`Les droits administrateurs de ${nom} ont été révoqués`)
 
-        setTimeout(() => {
-          handleReloadAdmins()
-        }, 2000)
-      } catch {
-        setErrorMessage(`Les droits administrateurs de ${nom} n’ont pas pu être révoqués`)
-      }
+      setTimeout(() => {
+        handleReloadAdmins()
+      }, 2000)
+    } catch (error) {
+      setErrorMessage(error.message)
     }
   }
 

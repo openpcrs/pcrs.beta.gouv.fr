@@ -30,8 +30,8 @@ const Administrateurs = () => {
       const administrators = await getAdministrators(token)
 
       setAdmins(orderBy(administrators, [item => normalizeSort(item.nom || 'N/A')], ['asc']))
-    } catch {
-      setError('fetchError', 'Une erreur a été rencontrée lors de la récupération des administrateurs')
+    } catch (error) {
+      setError('fetchError', error.message)
     }
 
     setIsLoading(false)
@@ -49,8 +49,8 @@ const Administrateurs = () => {
         getAdmins()
         setValidationMessage(null)
       }, 1000)
-    } catch {
-      setError('headerError', 'Le nouvel administrateur n’a pas pu être ajouté')
+    } catch (error) {
+      setError('headerError', error.message)
     }
   }
 
@@ -72,7 +72,7 @@ const Administrateurs = () => {
         handleReloadData={getAdministrators}
         errorMessage={errors.headerError}
         validationMessage={validationMessage}
-        onReset={() => clearError('fetchError')}
+        onReset={() => clearError('headerError')}
         onAdd={onAddAdmin}
       />
 
@@ -82,7 +82,7 @@ const Administrateurs = () => {
           administrateurs={filteredAdmins}
           handleReloadAdmins={getAdmins}
         />
-      ) : (
+      ) : !errors.fetchError && (
         <p className='fr-mt-4w'> <i>La liste des administrateurs est vide.</i></p>
       )}
 
