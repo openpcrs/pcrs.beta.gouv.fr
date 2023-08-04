@@ -5,7 +5,7 @@ import Toast from '@/components/toaster/toast.js'
 const ToastsContainer = ({toasts, removeToast}) => (
   <div className='toasts-wrapper'>
     {toasts.map(t => {
-      const {title, type, content, isClosable} = t.toastData
+      const {title, type, content, duration, isClosable} = t.toastData
 
       return (
         <Toast
@@ -13,6 +13,7 @@ const ToastsContainer = ({toasts, removeToast}) => (
           title={title}
           type={type}
           isClosable={isClosable}
+          duration={duration}
           removeToast={() => removeToast(t.id)}
         >
           {content}

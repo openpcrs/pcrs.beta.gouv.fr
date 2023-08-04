@@ -19,7 +19,7 @@ export const useToaster = () => {
 
     const timer = setTimeout(() => {
       removeToast(toast.id)
-    }, 3000)
+    }, toastData.duration || 3000)
 
     return () => clearTimeout(timer)
   }, [removeToast])
