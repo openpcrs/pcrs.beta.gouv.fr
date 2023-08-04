@@ -23,6 +23,7 @@ const AutocompleteInput = ({
   const inputState = errorMessage ? 'error' : ''
   const wrapperRef = useRef(null)
 
+  const [activeSuggestion, setActiveSuggestion] = useState(0)
   const [isSuggestionsMenuOpen, setIsSuggestionsMenuOpen] = useState(false)
 
   const onValueChange = useCallback(e => {
@@ -31,11 +32,12 @@ const AutocompleteInput = ({
     }
 
     onInputChange(e.target.value)
+    setActiveSuggestion(0)
     setIsSuggestionsMenuOpen(true)
   }, [value, onInputChange])
 
   const onLoseFocus = event => {
-    if (wrapperRef.current && !wrapperRef.current.contains(event.relatedTarget)) {
+    if (wrapperRef?.current && !wrapperRef?.current.contains(event.relatedTarget)) {
       // Close the menu only if focus is not on the list or input
       setIsSuggestionsMenuOpen(false)
     }
@@ -47,12 +49,53 @@ const AutocompleteInput = ({
     }
   }
 
-  const onTabSelect = (event, item) => {
+  const onTabSelect = useCallback((event, item) => {
     if (event.key === 'Enter') {
+      event.preventDefault()
+
+      setActiveSuggestion(0)
       onSelectValue(item)
       setIsSuggestionsMenuOpen(false)
     }
-  }
+  }, [onSelectValue])
+
+  const onKeyDown = useCallback(event => {
+    if (event.key === 'Enter' && results.length === 0) {
+      event.preventDefault()
+
+      return
+    }
+
+    if (event.key === 'Enter' && results.length > 0) {
+      event.preventDefault()
+
+      setActiveSuggestion(0)
+      onSelectValue(results[activeSuggestion])
+      setIsSuggestionsMenuOpen(false)
+    }
+
+    if (event.key === 'ArrowUp') {
+      event.preventDefault()
+      if (activeSuggestion === 0) {
+        return
+      }
+
+      setActiveSuggestion(activeSuggestion - 1)
+    }
+
+    if (event.key === 'ArrowDown') {
+      event.preventDefault()
+      if (activeSuggestion === results.length - 1) {
+        return
+      }
+
+      setActiveSuggestion(activeSuggestion + 1)
+    }
+
+    if (event.key === 'Tab' && isSuggestionsMenuOpen) {
+      onTabSelect(event, results[activeSuggestion])
+    }
+  }, [activeSuggestion, results, isSuggestionsMenuOpen, onSelectValue, onTabSelect])
 
   return (
     <div className='search-wrapper'>
@@ -74,6 +117,7 @@ const AutocompleteInput = ({
           onChange={onValueChange}
           onFocus={onFocus}
           onBlur={onLoseFocus}
+          onKeyDown={onKeyDown}
         />
 
         {errorMessage && <p id='text-input-error-desc-error' className='fr-error-text'>{errorMessage}</p>}
@@ -84,12 +128,14 @@ const AutocompleteInput = ({
           <div className='fr-grid-row fr-grid-row--center fr-p-2w fr-mt-1w fr-p-0 menu'><Loader size='small' /></div>
         ) : (
           <ul ref={wrapperRef} className='fr-mt-1w fr-p-0 menu' role='listbox'>
-            {results.map(item => (
+            {results.map((item, index) => (
               <li
                 key={JSON.stringify(item)}
-                className='fr-p-2w'
+                className={`${index === activeSuggestion ? 'suggestion-active' : ''} fr-p-2w`}
                 tabIndex={0} // Allow keyboard focus
+                aria-selected={index === activeSuggestion} // Indicate selected item for screen readers
                 onClick={() => {
+                  setActiveSuggestion(0)
                   setIsSuggestionsMenuOpen(false)
                   onSelectValue(item)
                 }}
@@ -128,6 +174,7 @@ const AutocompleteInput = ({
           border-bottom: solid 2px ${colors.grey900};
         }
 
+        .suggestion-active,
         .menu li:hover {
           background-color: ${colors.info425};
           color: white;
