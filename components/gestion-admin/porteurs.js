@@ -4,17 +4,21 @@ import {orderBy} from 'lodash'
 import {getCreators, addCreator} from '@/lib/suivi-pcrs.js'
 import {normalizeSort} from '@/lib/string.js'
 
+import AuthentificationContext from '@/contexts/authentification-token.js'
+
+import useToaster from '@/hooks/toaster.js'
+
 import PorteurList from '@/components/gestion-admin/porteur-list.js'
+import ToastsContainer from '@/components/toaster/toasts-container.js'
 import Header from '@/components/gestion-admin/header.js'
 import Loader from '@/components/loader.js'
-
-import AuthentificationContext from '@/contexts/authentification-token.js'
 
 const Porteurs = () => {
   const {token, isTokenRecovering} = useContext(AuthentificationContext)
 
+  const [toasts, addToast, removeToast] = useToaster()
+
   const [errorMessages, setErrorMessages] = useState({headerError: null, fetchError: null})
-  const [validationMessage, setValidationMessage] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [porteurs, setPorteurs] = useState([])
   const [filteredPorteurs, setFilteredPorteurs] = useState([])
@@ -34,12 +38,11 @@ const Porteurs = () => {
   }, [token])
 
   const onAddCreators = async (nom, email) => {
-    setValidationMessage(null)
     setErrorMessages(errorMessages => ({...errorMessages, headerError: null}))
 
     try {
       await addCreator(token, {nom, email})
-      setValidationMessage(`${nom} a été ajouté à la liste des porteurs autorisés`)
+      addToast({type: 'success', isClosable: true, content: `${nom} a été ajouté à la liste des porteurs autorisés`})
 
       setTimeout(() => {
         getPorteurs()
@@ -62,10 +65,10 @@ const Porteurs = () => {
       <Header
         token={token}
         items={porteurs}
+        errorMessage={errorMessages.headerError}
         handleFilteredItems={setFilteredPorteurs}
         handleReloadData={getPorteurs}
-        errorMessage={errorMessages.headerError}
-        validationMessage={validationMessage}
+        isValid={toasts.length > 0}
         onAdd={onAddCreators}
       />
 
@@ -74,12 +77,15 @@ const Porteurs = () => {
           token={token}
           porteurs={filteredPorteurs}
           handleReloadPorteurs={getPorteurs}
+          addValidationMessage={addToast}
         />
       ) : (
         <p className='fr-mt-4w'> <i>La liste des porteurs de projets autorisés est vide.</i></p>
       )}
 
       {errorMessages.fetchError && <p className='fr-error-text'>{errorMessages.fetchError}</p>}
+
+      <ToastsContainer toasts={toasts} removeToast={removeToast} />
     </div>
   )
 }

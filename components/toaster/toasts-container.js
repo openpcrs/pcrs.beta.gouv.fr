@@ -13,7 +13,7 @@ const ToastsContainer = ({toasts, removeToast}) => (
           title={title}
           type={type}
           isClosable={isClosable}
-          duration={duration}
+          duration={duration || 3000}
           removeToast={() => removeToast(t.id)}
         >
           {content}

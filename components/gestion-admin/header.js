@@ -14,7 +14,7 @@ const orderOptions = [
   {value: 'desc', label: 'Date d’ajout décroissante'}
 ]
 
-const Header = ({token, items, isAdmin, errorMessage, validationMessage, onAdd, handleFilteredItems, handleReloadData}) => {
+const Header = ({token, items, isAdmin, errorMessage, validationMessage, isValid, onAdd, handleFilteredItems, handleReloadData}) => {
   const [orderValue, setOrderValue] = useState('alpha')
   const [searchValue, setSearchValue] = useState('')
   const [isFormOpen, setIsFormOpen] = useState(false)
@@ -31,12 +31,10 @@ const Header = ({token, items, isAdmin, errorMessage, validationMessage, onAdd, 
   }, [items, searchValue, handleFilteredItems])
 
   useEffect(() => {
-    if (validationMessage) {
-      setTimeout(() => {
-        setIsFormOpen(false)
-      }, 1000)
+    if (isValid) {
+      setIsFormOpen(false)
     }
-  }, [validationMessage])
+  }, [isValid])
 
   useEffect(() => {
     if (orderValue === 'alpha') {
@@ -113,6 +111,7 @@ Header.propTypes = {
   validationMessage: PropTypes.string,
   items: PropTypes.array.isRequired,
   isAdmin: PropTypes.bool,
+  isValid: PropTypes.bool,
   onAdd: PropTypes.func.isRequired,
   handleFilteredItems: PropTypes.func.isRequired,
   handleReloadData: PropTypes.func.isRequired

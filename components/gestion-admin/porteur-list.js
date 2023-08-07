@@ -6,14 +6,13 @@ import {deleteCreator} from '@/lib/suivi-pcrs.js'
 import ListItem from '@/components/gestion-admin/list-item.js'
 import Modal from '@/components/modal.js'
 
-const PorteurList = ({token, porteurs, handleReloadPorteurs}) => {
+const PorteurList = ({token, porteurs, addValidationMessage, handleReloadPorteurs}) => {
   const [errorMessage, setErrorMessage] = useState(null)
-  const [validationMessage, setValidationMessage] = useState(null)
   const [selectedPorteurId, setSelectedPorteurId] = useState(null)
 
   const handleConfirmationModal = id => {
     setErrorMessage(null)
-    setValidationMessage(null)
+
     if (selectedPorteurId) {
       setSelectedPorteurId(null)
     } else {
@@ -26,11 +25,9 @@ const PorteurList = ({token, porteurs, handleReloadPorteurs}) => {
 
     try {
       await deleteCreator(_id, token)
-      setValidationMessage(`Les droits de création de ${nom} ont été révoqués`)
+      handleReloadPorteurs()
 
-      setTimeout(() => {
-        handleReloadPorteurs()
-      }, 2000)
+      addValidationMessage({type: 'success', isClosable: true, content: `Les droits de création de ${nom} ont été révoqués`})
     } catch {
       setErrorMessage(`Les droits de création de ${nom} n’ont pas été révoqués`)
     }
@@ -58,7 +55,6 @@ const PorteurList = ({token, porteurs, handleReloadPorteurs}) => {
 
                 <div className='fr-grid-row fr-grid-row--center'>
                   <button
-                    disabled={Boolean(validationMessage)}
                     type='button'
                     aria-label='Révoquer le porteur'
                     className='fr-btn revoke-button fr-py-1w fr-px-1w'
@@ -66,11 +62,6 @@ const PorteurList = ({token, porteurs, handleReloadPorteurs}) => {
                   >
                     <span className='fr-icon-close-circle-line fr-pr-1w' aria-hidden='true' />Révoquer {nom}
                   </button>
-                  {validationMessage && (
-                    <p className='fr-grid-row fr-grid-row--center fr-valid-text fr-col-12 fr-mt-2w fr-mb-0'>
-                      {validationMessage}
-                    </p>
-                  )}
 
                   {errorMessage && (
                     <p className='fr-grid-row fr-grid-row--center fr-error-text fr-col-12 fr-mt-2w fr-mb-0'>
@@ -90,6 +81,7 @@ const PorteurList = ({token, porteurs, handleReloadPorteurs}) => {
 PorteurList.propTypes = {
   token: PropTypes.string.isRequired,
   porteurs: PropTypes.array.isRequired,
+  addValidationMessage: PropTypes.func.isRequired,
   handleReloadPorteurs: PropTypes.func.isRequired
 }
 
