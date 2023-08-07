@@ -57,6 +57,10 @@ export async function updateAdministrator(adminId, update) {
   const changes = pick(update, ['email', 'nom'])
   adminId = mongo.parseObjectId(adminId)
 
+  if (changes.email && !validateEmail(changes.email)) {
+    throw createError(400, 'Cette adresse courriel est invalide')
+  }
+
   mongo.decorateUpdate(changes)
 
   const {value} = await mongo.db.collection('administrators').findOneAndUpdate(
