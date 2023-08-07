@@ -4,50 +4,49 @@ import {orderBy} from 'lodash'
 import {getCreators, addCreator} from '@/lib/suivi-pcrs.js'
 import {normalizeSort} from '@/lib/string.js'
 
-import useErrors from '@/hooks/errors.js'
+import AuthentificationContext from '@/contexts/authentification-token.js'
+
+import useToaster from '@/hooks/toaster.js'
 
 import PorteurList from '@/components/gestion-admin/porteur-list.js'
+import ToastsContainer from '@/components/toaster/toasts-container.js'
 import Header from '@/components/gestion-admin/header.js'
 import Loader from '@/components/loader.js'
-
-import AuthentificationContext from '@/contexts/authentification-token.js'
 
 const Porteurs = () => {
   const {token, isTokenRecovering} = useContext(AuthentificationContext)
 
-  const [errors, setError, clearError] = useErrors({fetchError: null, headerError: null, revokeError: null})
-  const [validationMessage, setValidationMessage] = useState(null)
+  const [toasts, addToast, removeToast] = useToaster()
+
+  const [errorMessages, setErrorMessages] = useState({headerError: null, fetchError: null})
   const [isLoading, setIsLoading] = useState(true)
   const [porteurs, setPorteurs] = useState([])
   const [filteredPorteurs, setFilteredPorteurs] = useState([])
 
   const getPorteurs = useCallback(async () => {
-    clearError('fetchError')
+    setErrorMessages(errorMessages => ({...errorMessages, fetchError: null}))
 
     try {
       const getPorteurs = await getCreators(token)
 
       setPorteurs(orderBy(getPorteurs, [item => normalizeSort(item.nom || 'N/A')], ['asc']))
     } catch {
-      setError('fetchError', 'La liste des porteurs de projets n’a pas pu être récupérée')
+      setErrorMessages(errorMessages => ({...errorMessages, fetchError: 'La liste des porteurs de projets n’a pas pu être récupérée'}))
     }
 
     setIsLoading(false)
-  }, [token, clearError, setError])
+  }, [token])
 
   const onAddCreators = async (nom, email) => {
-    setValidationMessage(null)
-    clearError('headerError')
+    setErrorMessages(errorMessages => ({...errorMessages, headerError: null}))
 
     try {
       await addCreator(token, {nom, email})
-      setValidationMessage(`${nom} a été ajouté à la liste des porteurs autorisés`)
 
-      setTimeout(() => {
-        getPorteurs()
-      }, 1000)
+      addToast({type: 'success', isClosable: true, content: `${nom} a été ajouté à la liste des porteurs autorisés`})
+      getPorteurs()
     } catch {
-      setError('headerError', 'Le nouveau porteur n’a pas pu être ajouté')
+      setErrorMessages(errorMessages => ({...errorMessages, headerError: 'Le nouveau porteur n’a pas pu être ajouté : '}))
     }
   }
 
@@ -64,11 +63,10 @@ const Porteurs = () => {
       <Header
         token={token}
         items={porteurs}
+        errorMessage={errorMessages.headerError}
         handleFilteredItems={setFilteredPorteurs}
         handleReloadData={getPorteurs}
-        errorMessage={errors.headerError}
-        validationMessage={validationMessage}
-        onReset={() => clearError('headerError')}
+        isValid={toasts.length > 0}
         onAdd={onAddCreators}
       />
 
@@ -76,16 +74,16 @@ const Porteurs = () => {
         <PorteurList
           token={token}
           porteurs={filteredPorteurs}
-          error={errors.revokeError}
           handleReloadPorteurs={getPorteurs}
-          addError={setError}
-          clearError={clearError}
+          addValidationMessage={addToast}
         />
       ) : (
         <p className='fr-mt-4w'> <i>La liste des porteurs de projets autorisés est vide.</i></p>
       )}
 
-      {errors.fetchError && <p className='fr-error-text'>{errors.fetchError}</p>}
+      {errorMessages.fetchError && <p className='fr-error-text'>{errorMessages.fetchError}</p>}
+
+      <ToastsContainer toasts={toasts} removeToast={removeToast} />
     </div>
   )
 }
