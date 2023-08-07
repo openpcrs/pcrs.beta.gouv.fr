@@ -15,7 +15,7 @@ import AuthentificationContext from '@/contexts/authentification-token.js'
 const Porteurs = () => {
   const {token, isTokenRecovering} = useContext(AuthentificationContext)
 
-  const [errors, setError, clearError] = useErrors({fetchError: null, headerError: null})
+  const [errors, setError, clearError] = useErrors({fetchError: null, headerError: null, revokeError: null})
   const [validationMessage, setValidationMessage] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [porteurs, setPorteurs] = useState([])
@@ -76,7 +76,10 @@ const Porteurs = () => {
         <PorteurList
           token={token}
           porteurs={filteredPorteurs}
+          error={errors.revokeError}
           handleReloadPorteurs={getPorteurs}
+          addError={setError}
+          clearError={clearError}
         />
       ) : (
         <p className='fr-mt-4w'> <i>La liste des porteurs de projets autorisés est vide.</i></p>

@@ -6,14 +6,14 @@ import {deleteCreator} from '@/lib/suivi-pcrs.js'
 import ListItem from '@/components/gestion-admin/list-item.js'
 import Modal from '@/components/modal.js'
 
-const PorteurList = ({token, porteurs, handleReloadPorteurs}) => {
-  const [errorMessage, setErrorMessage] = useState(null)
+const PorteurList = ({token, porteurs, error, addError, clearError, handleReloadPorteurs}) => {
   const [validationMessage, setValidationMessage] = useState(null)
   const [selectedPorteurId, setSelectedPorteurId] = useState(null)
 
   const handleConfirmationModal = id => {
-    setErrorMessage(null)
+    clearError('revokeError')
     setValidationMessage(null)
+
     if (selectedPorteurId) {
       setSelectedPorteurId(null)
     } else {
@@ -22,7 +22,7 @@ const PorteurList = ({token, porteurs, handleReloadPorteurs}) => {
   }
 
   const onRevoke = async (_id, nom) => {
-    setErrorMessage(null)
+    clearError('revokeError')
 
     try {
       await deleteCreator(_id, token)
@@ -32,7 +32,7 @@ const PorteurList = ({token, porteurs, handleReloadPorteurs}) => {
         handleReloadPorteurs()
       }, 2000)
     } catch {
-      setErrorMessage(`Les droits de création de ${nom} n’ont pas été révoqués`)
+      addError('revokeError', `Les droits de création de ${nom} n’ont pas été révoqués`)
     }
   }
 
@@ -72,9 +72,9 @@ const PorteurList = ({token, porteurs, handleReloadPorteurs}) => {
                     </p>
                   )}
 
-                  {errorMessage && (
+                  {error && (
                     <p className='fr-grid-row fr-grid-row--center fr-error-text fr-col-12 fr-mt-2w fr-mb-0'>
-                      {errorMessage}
+                      {error}
                     </p>
                   )}
                 </div>
@@ -90,7 +90,14 @@ const PorteurList = ({token, porteurs, handleReloadPorteurs}) => {
 PorteurList.propTypes = {
   token: PropTypes.string.isRequired,
   porteurs: PropTypes.array.isRequired,
+  error: PropTypes.string,
+  addError: PropTypes.func.isRequired,
+  clearError: PropTypes.func.isRequired,
   handleReloadPorteurs: PropTypes.func.isRequired
+}
+
+PorteurList.defaultProps = {
+  error: null
 }
 
 export default PorteurList
