@@ -211,7 +211,7 @@ server.route('/administrators/:adminId')
     const administrator = await getAdministratorById(req.params.adminId)
 
     if (!administrator) {
-      throw createError(404, 'Jeton inconnu')
+      throw createError(404, 'Administrateur inconnu')
     }
 
     res.send(administrator)
