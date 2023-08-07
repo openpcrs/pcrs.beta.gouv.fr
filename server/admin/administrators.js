@@ -17,13 +17,7 @@ export async function getAdministratorByToken(token) {
 export async function getAdministratorById(adminId) {
   adminId = mongo.parseObjectId(adminId)
 
-  const administrator = await mongo.db.collection('administrators').findOne({_id: adminId})
-
-  if (!administrator) {
-    throw createError(404, 'Cet identifiant est introuvable')
-  }
-
-  return administrator
+  return mongo.db.collection('administrators').findOne({_id: adminId})
 }
 
 export async function isDeletingHimself(adminId, token) {
