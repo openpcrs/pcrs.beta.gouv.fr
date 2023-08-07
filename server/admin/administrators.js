@@ -7,7 +7,7 @@ import {sendMail} from '../util/sendmail.js'
 import {formatEmail} from './email-template.js'
 
 export async function getAdministrators() {
-  return mongo.db.collection('administrators').find().toArray()
+  return mongo.db.collection('administrators').find().project({token: 0}).toArray()
 }
 
 export async function getAdministratorByToken(token) {
