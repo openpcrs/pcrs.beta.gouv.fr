@@ -20,7 +20,7 @@ export async function getAdministratorById(adminId) {
   return mongo.db.collection('administrators').findOne({_id: adminId})
 }
 
-export async function isDeletingHimself(adminId, token) {
+export async function isSelfDeleting(adminId, token) {
   const admin = await getAdministratorById(adminId)
 
   if (admin.token === token) {

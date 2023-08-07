@@ -25,7 +25,7 @@ import {getProjet, getProjets, deleteProjet, updateProjet, getProjetsGeojson, ex
 import {exportEditorKeys, exportLivrablesAsCSV, exportProjetsAsCSV, exportSubventionsAsCSV, exportToursDeTableAsCSV} from '../lib/export/csv.js'
 import {addCreator, deleteCreator, getCreatorById, getCreators, updateCreator, getCreatorByEmail} from './admin/creators-emails.js'
 import {getUpdatedProjets} from './admin/reports.js'
-import {addAdministrator, getAdministrators, updateAdministrator, deleteAdministrator, getAdministratorById, isDeletingHimself} from './admin/administrators.js'
+import {addAdministrator, getAdministrators, updateAdministrator, deleteAdministrator, getAdministratorById, isSelfDeleting} from './admin/administrators.js'
 
 const port = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -219,7 +219,7 @@ server.route('/administrators/:adminId')
   .delete(w(ensureAdmin), w(async (req, res) => {
     const token = await parseToken(req)
 
-    await isDeletingHimself(req.params.adminId, token)
+    await isSelfDeleting(req.params.adminId, token)
     await deleteAdministrator(req.params.adminId)
 
     res.sendStatus(204)
