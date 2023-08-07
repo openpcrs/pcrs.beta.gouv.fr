@@ -174,7 +174,8 @@ server.route('/me')
   }))
 
 server.route('/creator-email/:emailId')
-  .get(w(ensureAdmin), w(async (req, res) => {
+  .all(w(ensureAdmin))
+  .get(w(async (req, res) => {
     const email = await getCreatorById(req.params.emailId)
 
     if (!email) {
@@ -183,31 +184,33 @@ server.route('/creator-email/:emailId')
 
     res.send(email)
   }))
-  .delete(w(ensureAdmin), w(async (req, res) => {
+  .delete(w(async (req, res) => {
     await deleteCreator(req.params.emailId)
 
     res.sendStatus(204)
   }))
-  .put(w(ensureAdmin), w(async (req, res) => {
+  .put(w(async (req, res) => {
     const email = await updateCreator(req.params.emailId, req.body)
 
     res.send(email)
   }))
 
 server.route('/creator-emails')
-  .get(w(ensureAdmin), w(async (req, res) => {
+  .all(w(ensureAdmin))
+  .get(w(async (req, res) => {
     const emails = await getCreators()
 
     res.send(emails)
   }))
-  .post(w(ensureAdmin), w(async (req, res) => {
+  .post(w(async (req, res) => {
     const email = await addCreator(req.body)
 
     res.send(email)
   }))
 
 server.route('/administrators/:adminId')
-  .get(w(ensureAdmin), w(async (req, res) => {
+  .all(w(ensureAdmin))
+  .get(w(async (req, res) => {
     const administrator = await getAdministratorById(req.params.adminId)
 
     if (!administrator) {
@@ -216,7 +219,7 @@ server.route('/administrators/:adminId')
 
     res.send(administrator)
   }))
-  .delete(w(ensureAdmin), w(async (req, res) => {
+  .delete(w(async (req, res) => {
     const token = await parseToken(req)
 
     await isSelfDeleting(req.params.adminId, token)
@@ -224,19 +227,20 @@ server.route('/administrators/:adminId')
 
     res.sendStatus(204)
   }))
-  .put(w(ensureAdmin), w(async (req, res) => {
+  .put(w(async (req, res) => {
     const administrator = await updateAdministrator(req.params.adminId, req.body)
 
     res.send(administrator)
   }))
 
 server.route('/administrators')
-  .get(w(ensureAdmin), w(async (req, res) => {
+  .all(w(ensureAdmin))
+  .get(w(async (req, res) => {
     const administrators = await getAdministrators()
 
     res.send(administrators)
   }))
-  .post(w(ensureAdmin), w(async (req, res) => {
+  .post(w(async (req, res) => {
     const administrator = await addAdministrator(req.body)
 
     res.send(administrator)
