@@ -79,12 +79,14 @@ const AddForm = ({onClose, errorMessage, validationMessage, isAdmin, onSubmit}) 
 AddForm.propTypes = {
   errorMessage: PropTypes.string,
   validationMessage: PropTypes.string,
+  isAdmin: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired
 }
 
 AddForm.defaultProps = {
   errorMessage: null,
+  isAdmin: false,
   validationMessage: null
 }
 
