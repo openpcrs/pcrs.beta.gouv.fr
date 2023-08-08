@@ -2,6 +2,7 @@ import process from 'node:process'
 import createError from 'http-errors'
 
 import {getProjetByEditorKey} from '../projets.js'
+import {getAdministratorByToken} from '../admin/administrators.js'
 import {getCreatorByToken} from './pin-code/index.js'
 
 const {ADMIN_TOKEN} = process.env
@@ -10,7 +11,7 @@ if (!ADMIN_TOKEN) {
   throw new Error('Le serveur ne peut pas démarrer car ADMIN_TOKEN n\'est pas défini')
 }
 
-function parseToken(req) {
+export function parseToken(req) {
   const headerValue = req.get('Authorization')
 
   if (!headerValue || !headerValue.startsWith('Token ')) {
@@ -22,6 +23,14 @@ function parseToken(req) {
 
 async function authenticate(token) {
   if (token === ADMIN_TOKEN) {
+    return {
+      role: 'admin'
+    }
+  }
+
+  const administrator = await getAdministratorByToken(token)
+
+  if (administrator) {
     return {
       role: 'admin'
     }
