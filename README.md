@@ -61,9 +61,14 @@ Puis compléter les champs suivants :
 - `MONGODB_URL` -> URL de la base de données MongoDB
 - `MONGODB_DBNAME` -> Nom de la collection MongoDB
 - `ADMIN_TOKEN` -> Jeton d’authentification des appels à l’API.
+>__Le jeton d’administration `ADMIN_TOKEN` est nécessaire afin d’initialiser le premier administrateur__   
+>__Il est préférable de ne plus l’utiliser par la suite et de préférer les accès personnalisés.__   
+
 >*Les champs suivants sont optionnels, ils permettent d’envoyer le code de vérification par mail.*
 - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_SECURE`, `SMTP_FROM`, `SMTP_BCC` -> Paramètres du serveur de mail
 - `SHOW_EMAILS` (YES / NO) -> Permet d’afficher le mail envoyé dans la console.
+
+---
 
 ### Routes de l’API des projets PCRS
 | Route | Type | Description |
