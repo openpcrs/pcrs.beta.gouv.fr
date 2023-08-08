@@ -55,6 +55,18 @@ server.param('projetId', w(async (req, res, next) => {
   next()
 }))
 
+server.param('adminId', w(async (req, res, next) => {
+  const {adminId} = req.params
+  const administrator = await getAdministratorById(adminId, req)
+
+  if (!administrator) {
+    throw createError(404, 'Cet administrateur n’existe pas')
+  }
+
+  req.administrator = administrator
+  next()
+}))
+
 // Pre-warm underlying cache
 await getProjetsGeojson()
 
@@ -211,13 +223,7 @@ server.route('/creator-emails')
 server.route('/administrators/:adminId')
   .all(w(ensureAdmin))
   .get(w(async (req, res) => {
-    const administrator = await getAdministratorById(req.params.adminId)
-
-    if (!administrator) {
-      throw createError(404, 'Administrateur inconnu')
-    }
-
-    res.send(administrator)
+    res.send(req.administrator)
   }))
   .delete(w(async (req, res) => {
     const token = await parseToken(req)
