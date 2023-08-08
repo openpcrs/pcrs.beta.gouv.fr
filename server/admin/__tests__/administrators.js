@@ -55,7 +55,7 @@ test.serial('Get administrators', async t => {
   const administrators = await getAdministrators()
 
   t.is(administrators.length, 2)
-  t.not(administrators[0].token, administrators[1].token)
+  t.falsy(administrators[0].token)
 })
 
 test.serial('Get administrator', async t => {
@@ -68,6 +68,7 @@ test.serial('Get administrator', async t => {
   const foundAdministrator = await getAdministratorById(administrator.insertedId)
 
   t.is(foundAdministrator.nom, 'Administrateur')
+  t.truthy(foundAdministrator.token)
 })
 
 test.serial('Update administrator', async t => {
@@ -84,6 +85,16 @@ test.serial('Update administrator', async t => {
 
   t.is(updatedAdministrator.nom, 'Administratrice')
   t.truthy(updatedAdministrator._updated)
+})
+
+test.serial('Update administrator / invalid mail', async t => {
+  const administrator = await mongo.db.collection('administrators').insertOne({
+    nom: 'Administrateur',
+    email: 'administrateur@mail.com',
+    token: nanoid()
+  })
+
+  await t.throwsAsync(async () => updateAdministrator(administrator.insertedId, {email: 'mailPasValide'}))
 })
 
 test.serial('Delete administrator', async t => {
