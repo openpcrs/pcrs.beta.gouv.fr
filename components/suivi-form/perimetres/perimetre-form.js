@@ -1,4 +1,4 @@
-import {useState, useCallback, useEffect, useMemo} from 'react'
+import {useState, useCallback, useEffect, useMemo, useRef} from 'react'
 import PropTypes from 'prop-types'
 import {debounce} from 'lodash-es'
 
@@ -8,10 +8,9 @@ import {useInput} from '@/hooks/input.js'
 
 import {typeOptions} from '@/components/suivi-form/perimetres/utils/select-options.js'
 
-import AutocompleteInput from '@/components/autocomplete-input.js'
 import SelectInput from '@/components/select-input.js'
 import Button from '@/components/button.js'
-import AutocompleteRenderItem from '@/components/autocomplete-render-item.js'
+import AutocompleteInput from '@/components/autocomplete-input.js'
 
 const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObject, updatingPerimetreIdx, handleUpdatingPerimetreIdx, handleAdding, handleEditing, onRequiredFormOpen}) => {
   const [isFormComplete, setIsFormComplete] = useState(true)
@@ -94,19 +93,6 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
     }
   }
 
-  const renderItem = (item, isHighlighted) => {
-    const {nom, code} = item
-
-    return (
-      <div key={code}>
-        <AutocompleteRenderItem isHighlighted={isHighlighted}>
-          {nom} - {code}
-        </AutocompleteRenderItem>
-      </div>
-
-    )
-  }
-
   useEffect(() => {
     // Switch to perimetre update form
     if (isEditing) {
@@ -128,7 +114,7 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
     }
   }, [perimetres, isEditing, perimetreAsObject, updatingPerimetreIdx, onRequiredFormOpen, setSearchValue, setType])
 
-  const fetchPerimetres = useCallback(debounce(async (nom, type, signal) => { // eslint-disable-line react-hooks/exhaustive-deps
+  const fetchPerimetres = useRef(debounce(async (nom, type, signal) => {
     setIsLoading(true)
 
     const inputToNumber = Number.parseInt(nom, 10)
@@ -151,7 +137,7 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
     }
 
     setIsLoading(false)
-  }, 300), [setFoundPerimetres, setIsLoading])
+  }, 300))
 
   useEffect(() => {
     if (!searchValue || searchValue.length < 3) {
@@ -160,7 +146,7 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
     }
 
     const ac = new AbortController()
-    fetchPerimetres(searchValue, type, ac.signal)
+    fetchPerimetres.current(searchValue, type, ac.signal)
 
     return () => {
       ac.abort()
@@ -177,10 +163,10 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
     }
   }
 
-  const handleSelect = item => {
-    const foundPerimetreName = foundPerimetres.find(result => result.code === item).nom
+  const handleSelect = ({code}) => {
+    const foundPerimetreName = foundPerimetres.find(result => result.code === code).nom
 
-    setCode(item)
+    setCode(code)
     setSearchValue(foundPerimetreName)
   }
 
@@ -214,11 +200,12 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
               ariaLabel={`Rechercher par nom ${type === 'commune' ? 'ou code INSEE' : ''} du territoire`}
               errorMessage={searchValueError}
               results={foundPerimetres}
-              customItem={renderItem}
               isLoading={isLoading}
-              getItemValue={item => item.code}
-              onValueChange={e => setSearchValue(e.target.value)}
-              onSelectValue={item => handleSelect(item)}
+              renderItem={({nom, code}) => `${nom} - ${code}`}
+              onInputChange={setSearchValue}
+              onSelectValue={item => {
+                handleSelect(item)
+              }}
             />
           </div>
         )}

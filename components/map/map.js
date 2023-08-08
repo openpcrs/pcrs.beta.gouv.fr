@@ -2,6 +2,7 @@ import {createRoot} from 'react-dom/client' // eslint-disable-line n/file-extens
 import {useEffect, useRef, useState, useContext, useCallback} from 'react'
 import PropTypes from 'prop-types'
 import {useRouter} from 'next/router'
+import {filter, some, debounce, flatMap, uniq, deburr} from 'lodash'
 
 import maplibreGl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
@@ -18,17 +19,21 @@ import Loader from '@/components/loader.js'
 import Legend from '@/components/map/legend.js'
 import MapToolBox from '@/components/map/map-tool-box.js'
 import AuthentificationModal from '@/components/suivi-form/authentification/authentification-modal.js'
+import AutocompleteInput from '@/components/autocomplete-input.js'
 
 const Map = ({handleClick, isMobile, geometry, projetId}) => {
   const {userRole, token} = useContext(AuthentificationContext)
   const router = useRouter()
   const [layout, setLayout] = useState('departements-fills')
-  const [porteur, setPorteur] = useState('')
+  const [acteurSearchInput, setActeurSearchInput] = useState('')
+  const [foundActeurs, setFoundActeurs] = useState([])
   const [hoveredCode, setHoveredCode] = useState(null)
+  const [matchingIds, setMatchingIds] = useState([])
 
   const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
 
   const handleModal = () => setIsAuthentificationModalOpen(!isAuthentificationModalOpen)
+  const normalize = string => deburr(string?.toLowerCase())
 
   const mapNode = useRef()
   const mapRef = useRef()
@@ -88,16 +93,6 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
     popupRef.current.remove()
     setHoveredCode(null)
   }, [hoveredCode, popupRoot])
-
-  const mapFilter = useCallback(() => {
-    mapRef.current.setFilter(
-      layout,
-      ['in',
-        porteur.toLowerCase(),
-        ['string',
-          ['downcase', ['get', 'aplc']]]]
-    )
-  }, [layout, porteur])
 
   useEffect(() => {
     const node = mapNode.current
@@ -169,15 +164,32 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
         mapRef.current.setLayoutProperty('departements-fills-nature', 'visibility', 'none')
       }
 
-      mapFilter(porteur)
+      // Filter by actors when actor is selected
+      mapRef.current.setFilter(layout, (matchingIds.length > 0 && foundActeurs.length > 0) ? ['in', ['get', '_id'], ['literal', matchingIds]] : null)
     }
-  }, [layout, porteur, mapFilter])
+  }, [layout, matchingIds, foundActeurs])
 
   useEffect(() => {
-    if (mapRef?.current.isStyleLoaded()) {
-      mapFilter(porteur)
+    // Search actors by name
+    if (acteurSearchInput.length >= 2) {
+      const fetchActeurs = debounce(() => {
+        const flatActeurs = flatMap(geometry.features.map(f => f.properties), 'acteurs')
+        const filteredActeurs = flatActeurs.filter(a => normalize(a)?.includes(normalize(acteurSearchInput))).slice(0, 4)
+
+        setFoundActeurs(uniq(filteredActeurs))
+      }, 300)
+      fetchActeurs()
+    } else {
+      setFoundActeurs([])
+      setMatchingIds([])
     }
-  }, [porteur, layout, mapFilter])
+  }, [acteurSearchInput, geometry])
+
+  const getProjectId = acteur => {
+    const filteredItems = filter(geometry.features, item => some(item.properties.acteurs, a => a && (normalize(a) === normalize(acteur))))
+    const projectIds = filteredItems.map(m => m.properties._id)
+    setMatchingIds(projectIds)
+  }
 
   useEffect(() => {
     if (mapRef?.current.isStyleLoaded() && projetId) {
@@ -212,19 +224,30 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
               backgroundColor: 'white'
             }}
           >
-            <label className='fr-label'>Filtrer par APLC :</label>
-            <div className='fr-grid-row'>
-              <input
-                type='text'
-                className='fr-input fr-col-10'
-                placeholder='Nom d’un APLC'
-                value={porteur || ''}
-                onChange={e => setPorteur(e.target.value)}
-              />
+            <div className='fr-grid-row fr-grid-row--bottom'>
+              <div className='fr-col-10'>
+
+                <AutocompleteInput
+                  label='Filtrer par acteurs'
+                  value={acteurSearchInput}
+                  description='Nom de l’acteur'
+                  results={foundActeurs}
+                  renderItem={item => item}
+                  onInputChange={setActeurSearchInput}
+                  onSelectValue={item => {
+                    setActeurSearchInput(item)
+                    getProjectId(item)
+                  }}
+                />
+              </div>
               <button
                 type='button'
-                className='fr-btn fr-btn--sm fr-icon-close-circle-line fr-col-2 fr-m-auto'
-                onClick={() => setPorteur('')}
+                className='fr-btn fr-icon-close-circle-line fr-col-2'
+                onClick={() => {
+                  setMatchingIds([])
+                  setActeurSearchInput('')
+                  setFoundActeurs([])
+                }}
               />
             </div>
           </div>

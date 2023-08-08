@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import {useState, useCallback, useEffect, useMemo} from 'react'
+import {useState, useCallback, useEffect, useMemo, useRef} from 'react'
 import PropTypes from 'prop-types'
 import {debounce, pick} from 'lodash-es'
 
@@ -12,35 +12,17 @@ import {roleOptions} from '@/components/suivi-form/acteurs/utils/select-options.
 import {useInput} from '@/hooks/input.js'
 
 import AutocompleteInput from '@/components/autocomplete-input.js'
-import AutocompleteRenderItem from '@/components/autocomplete-render-item.js'
 import TextInput from '@/components/text-input.js'
 import SelectInput from '@/components/select-input.js'
 import Button from '@/components/button.js'
 import NumberInput from '@/components/number-input.js'
-
-const renderItem = (item, isHighlighted) => {
-  const {nom_complet, section_activite_principale, siren} = item
-
-  return (
-    <div key={siren}>
-      <AutocompleteRenderItem isHighlighted={isHighlighted}>
-        {nom_complet} - <span className='ape'>{secteursActivites[section_activite_principale]}</span>
-      </AutocompleteRenderItem>
-
-      <style jsx>{`
-        .ape {
-          font-weight: bold;
-        }
-      `}</style>
-    </div>
-  )
-}
 
 const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, handleActors, handleAdding, handleEditing, onRequiredFormOpen}) => {
   const [isFormComplete, setIsFormComplete] = useState(true)
   const [isFormValid, setIsFormValid] = useState(true)
   const [errorMessage, setErrorMessage] = useState(null)
   const [searchErrorMessage, setSearchErrorMessage] = useState(null)
+
   const [isLoading, setIsLoading] = useState(false)
 
   const [foundEtablissements, setFoundEtablissements] = useState([])
@@ -203,7 +185,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
     }
   }, [isEditing, updatingActorIndex, acteurs, onRequiredFormOpen, setFinEuros, setSiren, setPhone, setMail, setFinPerc, setRole, setNom])
 
-  const fetchActors = useCallback(debounce(async (nom, signal) => { // eslint-disable-line react-hooks/exhaustive-deps
+  const fetchActors = useRef(debounce(async (nom, signal) => {
     setIsLoading(true)
     setSearchErrorMessage(null)
 
@@ -222,21 +204,22 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
     }
 
     setIsLoading(false)
-  }, 300), [setIsLoading, setFoundEtablissements])
+  }, 300))
 
   useEffect(() => {
     if (!nom || nom.length < 3) {
       setSearchErrorMessage(null)
+      setFoundEtablissements([])
       return
     }
 
     const ac = new AbortController()
-    fetchActors(nom, ac.signal)
+    fetchActors.current(nom, ac.signal)
 
     return () => {
       ac.abort()
     }
-  }, [nom, fetchActors, setSearchErrorMessage])
+  }, [nom, fetchActors])
 
   useEffect(() => {
     if (updatingActorIndex || updatingActorIndex === 0) {
@@ -252,19 +235,16 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
             isRequired
             label='Nom'
             value={nom}
-            name='nom'
             description='Nom de l’entreprise'
             ariaLabel='nom de l’entreprise à rechercher'
             results={foundEtablissements}
             isLoading={isLoading}
             errorMessage={searchErrorMessage ? searchErrorMessage : nomError}
-            getItemValue={item => item.siren}
-            customItem={renderItem}
-            onValueChange={e => setNom(e.target.value)}
+            renderItem={item => `${item.nom_complet} - ${secteursActivites[item.section_activite_principale]}`}
+            onInputChange={setNom}
             onSelectValue={item => {
-              const foundActorName = foundEtablissements.find(result => result.siren === item).nom_complet
-              setNom(foundActorName)
-              setSiren(item)
+              setNom(item.nom_complet)
+              setSiren(item.siren)
             }}
           />
         </div>
