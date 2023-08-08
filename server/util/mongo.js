@@ -29,6 +29,8 @@ class Mongo {
     await this.db.collection('versions').createIndex({_projet: 1})
     await this.db.collection('versions').createIndex({_projet: 1, _created: 1}, {unique: true})
     await this.db.collection('creators-emails').createIndex({email: 1}, {unique: true})
+    await this.db.collection('administrators').createIndex({email: 1}, {unique: true})
+    await this.db.collection('administrators').createIndex({token: 1}, {unique: true})
   }
 
   disconnect(force) {

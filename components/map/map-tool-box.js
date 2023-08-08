@@ -9,11 +9,12 @@ const MapToolBox = ({children}) => {
         position: 'absolute',
         right: '8px',
         top: '110px',
-        backgroundColor: 'rgba(255, 255, 255, .9)',
+        backgroundColor: 'white',
         padding: '3px',
         borderRadius: '5px',
         width: isOpen ? '300px' : '',
-        border: '2px solid #dfdbd8'
+        border: '2px solid #dfdbd8',
+        zIndex: 2
       }}
     >
       {isOpen ? (
