@@ -62,7 +62,9 @@ Puis compléter les champs suivants :
 - `MONGODB_DBNAME` -> Nom de la collection MongoDB
 - `ADMIN_TOKEN` -> Jeton d’authentification des appels à l’API.
 >__Le jeton d’administration `ADMIN_TOKEN` est nécessaire afin d’initialiser le premier administrateur__   
->__Il est préférable de ne plus l’utiliser par la suite et de préférer les accès personnalisés.__   
+>__Lorsqu’un ou plusieurs accès administrateurs ont été créé, il est préférable de ne plus utiliser le jeton du `.env` et de prioriser les comptes créés__   
+>   
+>__Il est obligatoire de le conserver dans le fichier `.env` afin de lancer l’application__   
 
 >*Les champs suivants sont optionnels, ils permettent d’envoyer le code de vérification par mail.*
 - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_SECURE`, `SMTP_FROM`, `SMTP_BCC` -> Paramètres du serveur de mail
