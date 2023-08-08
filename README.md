@@ -52,7 +52,7 @@ cp .env.sample .env
 
 Puis compléter les champs suivants :
 - `PORT` -> Port d’écoute du serveur, 3000 par défaut.
->*Les champs suivants sont optionnels, mais vous ne pourez pas accéder à la page `/blog` du site.*
+>*Les champs suivants sont optionnels, mais vous ne pourrez pas accéder à la page `/blog` du site.*
 - `NEXT_PUBLIC_GHOST_URL` -> URL complète du blog Ghost (optionnel)
 - `GHOST_KEY` -> Jeton permettant l’accès aux articles du Blog Ghost (optionnel)
 >*Pour utiliser l’API, vous devez compléter ce champ.*   
