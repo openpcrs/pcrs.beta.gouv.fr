@@ -24,7 +24,7 @@ import {getProjetsGeojson} from './projets.js'
 import dataRoutes from './routes/data.js'
 import projetsRoutes from './routes/projets.js'
 import authRoutes from './routes/auth.js'
-import adminRoutes from './routes/admin.js'
+import creatorsEmailsRoutes from './routes/creators-emails.js'
 import {addAdministrator, getAdministrators, updateAdministrator, deleteAdministrator, getAdministratorById, isSelfDeleting} from './admin/administrators.js'
 
 const port = process.env.PORT || 3000
@@ -62,7 +62,7 @@ server.use(w(handleAuth))
 server.use('/', dataRoutes)
 server.use('/', projetsRoutes)
 server.use('/', authRoutes)
-server.use('/', adminRoutes)
+server.use('/', creatorsEmailsRoutes)
 
 server.route('/administrators/:adminId')
   .all(w(ensureAdmin))

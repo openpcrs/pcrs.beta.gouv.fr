@@ -5,9 +5,9 @@ import {addCreator, deleteCreator, getCreatorById, getCreators, updateCreator} f
 import {ensureAdmin} from '../auth/middleware.js'
 import {getUpdatedProjets} from '../admin/reports.js'
 
-const adminRoutes = new express.Router()
+const creatorsEmailsRoutes = new express.Router()
 
-adminRoutes.get('/creator-email/:emailId', w(ensureAdmin), w(async (req, res) => {
+creatorsEmailsRoutes.get('/creator-email/:emailId', w(ensureAdmin), w(async (req, res) => {
   const email = await getCreatorById(req.params.emailId)
 
   if (!email) {
@@ -17,31 +17,31 @@ adminRoutes.get('/creator-email/:emailId', w(ensureAdmin), w(async (req, res) =>
   res.send(email)
 }))
 
-adminRoutes.delete('/creator-email/:emailId', w(ensureAdmin), w(async (req, res) => {
+creatorsEmailsRoutes.delete('/creator-email/:emailId', w(ensureAdmin), w(async (req, res) => {
   await deleteCreator(req.params.emailId)
 
   res.sendStatus(204)
 }))
 
-adminRoutes.put('/creator-email/:emailId', w(ensureAdmin), w(async (req, res) => {
+creatorsEmailsRoutes.put('/creator-email/:emailId', w(ensureAdmin), w(async (req, res) => {
   const email = await updateCreator(req.params.emailId, req.body)
 
   res.send(email)
 }))
 
-adminRoutes.get('/creator-emails', w(ensureAdmin), w(async (req, res) => {
+creatorsEmailsRoutes.get('/creator-emails', w(ensureAdmin), w(async (req, res) => {
   const emails = await getCreators()
 
   res.send(emails)
 }))
 
-adminRoutes.post('/creator-emails', w(ensureAdmin), w(async (req, res) => {
+creatorsEmailsRoutes.post('/creator-emails', w(ensureAdmin), w(async (req, res) => {
   const email = await addCreator(req.body)
 
   res.send(email)
 }))
 
-adminRoutes.get('/report', w(ensureAdmin), w(async (req, res) => {
+creatorsEmailsRoutes.get('/report', w(ensureAdmin), w(async (req, res) => {
   const since = new Date(req.query.since)
   const validDate = Number.isNaN(since.valueOf()) ? new Date('2010-01-01') : since
 
@@ -49,4 +49,4 @@ adminRoutes.get('/report', w(ensureAdmin), w(async (req, res) => {
   res.send(report)
 }))
 
-export default adminRoutes
+export default creatorsEmailsRoutes
