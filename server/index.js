@@ -17,9 +17,10 @@ import mongo from './util/mongo.js'
 import errorHandler from './util/error-handler.js'
 import w from './util/w.js'
 
-import {handleAuth} from './auth/middleware.js'
+import {handleAuth, ensureAdmin} from './auth/middleware.js'
 
 import {getProjetsGeojson} from './projets.js'
+import {getUpdatedProjets} from './admin/reports.js'
 import dataRoutes from './routes/data.js'
 import projetsRoutes from './routes/projets.js'
 import authRoutes from './routes/auth.js'
@@ -51,6 +52,14 @@ server.use('/projets', projetsRoutes)
 server.use('/', authRoutes)
 server.use('/creators-emails', creatorsEmailsRoutes)
 server.use('/administrators', administratorsRoutes)
+
+creatorsEmailsRoutes.get('/report', w(ensureAdmin), w(async (req, res) => {
+  const since = new Date(req.query.since)
+  const validDate = Number.isNaN(since.valueOf()) ? new Date('2010-01-01') : since
+
+  const report = await getUpdatedProjets(validDate)
+  res.send(report)
+}))
 
 server.use(errorHandler)
 

@@ -3,7 +3,6 @@ import createError from 'http-errors'
 import w from '../util/w.js'
 import {addCreator, deleteCreator, getCreatorById, getCreators, updateCreator} from '../admin/creators-emails.js'
 import {ensureAdmin} from '../auth/middleware.js'
-import {getUpdatedProjets} from '../admin/reports.js'
 
 const creatorsEmailsRoutes = new express.Router()
 
@@ -41,13 +40,5 @@ creatorsEmailsRoutes.route('/')
 
     res.send(email)
   }))
-
-creatorsEmailsRoutes.get('/report', w(ensureAdmin), w(async (req, res) => {
-  const since = new Date(req.query.since)
-  const validDate = Number.isNaN(since.valueOf()) ? new Date('2010-01-01') : since
-
-  const report = await getUpdatedProjets(validDate)
-  res.send(report)
-}))
 
 export default creatorsEmailsRoutes
