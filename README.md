@@ -52,7 +52,7 @@ cp .env.sample .env
 
 Puis compléter les champs suivants :
 - `PORT` -> Port d’écoute du serveur, 3000 par défaut.
->*Les champs suivants sont optionnels, mais vous ne pourez pas accéder à la page `/blog` du site.*
+>*Les champs suivants sont optionnels, mais vous ne pourrez pas accéder à la page `/blog` du site.*
 - `NEXT_PUBLIC_GHOST_URL` -> URL complète du blog Ghost (optionnel)
 - `GHOST_KEY` -> Jeton permettant l’accès aux articles du Blog Ghost (optionnel)
 >*Pour utiliser l’API, vous devez compléter ce champ.*   
@@ -61,9 +61,16 @@ Puis compléter les champs suivants :
 - `MONGODB_URL` -> URL de la base de données MongoDB
 - `MONGODB_DBNAME` -> Nom de la collection MongoDB
 - `ADMIN_TOKEN` -> Jeton d’authentification des appels à l’API.
+>__Le jeton d’administration `ADMIN_TOKEN` est nécessaire afin d’initialiser le premier administrateur__   
+>__Lorsqu’un ou plusieurs accès administrateurs ont été créé, il est préférable de ne plus utiliser le jeton du `.env` et de prioriser les comptes créés__   
+>   
+>__Il est obligatoire de le conserver dans le fichier `.env` afin de lancer l’application__   
+
 >*Les champs suivants sont optionnels, ils permettent d’envoyer le code de vérification par mail.*
 - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_SECURE`, `SMTP_FROM`, `SMTP_BCC` -> Paramètres du serveur de mail
 - `SHOW_EMAILS` (YES / NO) -> Permet d’afficher le mail envoyé dans la console.
+
+---
 
 ### Routes de l’API des projets PCRS
 | Route | Type | Description |
@@ -86,6 +93,11 @@ Puis compléter les champs suivants :
 | `/creator-emails/:id`| **GET** | *Retourne les informations d’un mail autorisé à créer un projet (Cette route est réservée aux administrateurs)* |
 | `/creator-emails/:id`| **DELETE** | *Supprime le mail (Cette route est réservée aux administrateurs)* |
 | `/creator-emails/:id`| **PUT** | *Permet de modifier le mail ou le nom (Cette route est réservée aux administrateurs)* |
+| `/administrators` | **GET** | *Retourne la liste des administrateurs du site (Cette route est réservée aux administrateurs)* |
+| `/administrators` | **POST** | *Permet d’ajouter un nouvel administrateur (Cette route est réservée aux administrateurs)* |
+| `/administrators/:id` | **GET** | *Retourne les informations d’un administrateur (Cette route est réservée aux administrateurs)* |
+| `/administrators/:id` | **DELETE** | *Supprime un administrateur (Cette route est réservée aux administrateurs)* |
+| `/administrators/:id` | **PUT** | *Permet de modifier le mail ou le nom d’un administrateur (Cette route est réservée aux administrateurs)* |
 
 Vous pouvez accéder au modèle de données à [cette adresse](https://docs.pcrs.beta.gouv.fr/suivi-des-projets/modele-de-donnees).
 

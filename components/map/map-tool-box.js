@@ -9,7 +9,7 @@ const MapToolBox = ({children}) => {
         position: 'absolute',
         right: '8px',
         top: '110px',
-        backgroundColor: 'rgba(255, 255, 255, .9)',
+        backgroundColor: 'white',
         padding: '3px',
         borderRadius: '5px',
         width: isOpen ? '300px' : '',
