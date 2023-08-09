@@ -47,7 +47,7 @@ await getProjetsGeojson()
 
 server.use(w(handleAuth))
 server.use('/data', dataRoutes)
-server.use('/', projetsRoutes)
+server.use('/projets', projetsRoutes)
 server.use('/', authRoutes)
 server.use('/', creatorsEmailsRoutes)
 server.use('/administrators', administratorsRoutes)
