@@ -49,7 +49,7 @@ server.use(w(handleAuth))
 server.use('/data', dataRoutes)
 server.use('/projets', projetsRoutes)
 server.use('/', authRoutes)
-server.use('/', creatorsEmailsRoutes)
+server.use('/creators-emails', creatorsEmailsRoutes)
 server.use('/administrators', administratorsRoutes)
 
 server.use(errorHandler)

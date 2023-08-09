@@ -7,39 +7,40 @@ import {getUpdatedProjets} from '../admin/reports.js'
 
 const creatorsEmailsRoutes = new express.Router()
 
-creatorsEmailsRoutes.get('/creator-email/:emailId', w(ensureAdmin), w(async (req, res) => {
-  const email = await getCreatorById(req.params.emailId)
+creatorsEmailsRoutes.route('/:emailId')
+  .all(w(ensureAdmin))
+  .get(w(async (req, res) => {
+    const email = await getCreatorById(req.params.emailId)
 
-  if (!email) {
-    throw createError(404, 'Email introuvable')
-  }
+    if (!email) {
+      throw createError(404, 'Email introuvable')
+    }
 
-  res.send(email)
-}))
+    res.send(email)
+  }))
+  .delete(w(async (req, res) => {
+    await deleteCreator(req.params.emailId)
 
-creatorsEmailsRoutes.delete('/creator-email/:emailId', w(ensureAdmin), w(async (req, res) => {
-  await deleteCreator(req.params.emailId)
+    res.sendStatus(204)
+  }))
+  .put(w(async (req, res) => {
+    const email = await updateCreator(req.params.emailId, req.body)
 
-  res.sendStatus(204)
-}))
+    res.send(email)
+  }))
 
-creatorsEmailsRoutes.put('/creator-email/:emailId', w(ensureAdmin), w(async (req, res) => {
-  const email = await updateCreator(req.params.emailId, req.body)
+creatorsEmailsRoutes.route('/')
+  .all(w(ensureAdmin))
+  .get(w(async (req, res) => {
+    const emails = await getCreators()
 
-  res.send(email)
-}))
+    res.send(emails)
+  }))
+  .post(w(async (req, res) => {
+    const email = await addCreator(req.body)
 
-creatorsEmailsRoutes.get('/creator-emails', w(ensureAdmin), w(async (req, res) => {
-  const emails = await getCreators()
-
-  res.send(emails)
-}))
-
-creatorsEmailsRoutes.post('/creator-emails', w(ensureAdmin), w(async (req, res) => {
-  const email = await addCreator(req.body)
-
-  res.send(email)
-}))
+    res.send(email)
+  }))
 
 creatorsEmailsRoutes.get('/report', w(ensureAdmin), w(async (req, res) => {
   const since = new Date(req.query.since)
