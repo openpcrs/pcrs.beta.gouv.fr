@@ -46,7 +46,7 @@ if (dev) {
 await getProjetsGeojson()
 
 server.use(w(handleAuth))
-server.use('/', dataRoutes)
+server.use('/data', dataRoutes)
 server.use('/', projetsRoutes)
 server.use('/', authRoutes)
 server.use('/', creatorsEmailsRoutes)
