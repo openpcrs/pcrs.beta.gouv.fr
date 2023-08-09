@@ -45,7 +45,6 @@ const AdministrateurList = ({loggedUserToken, administrateurs, handleReloadAdmin
               email={email}
               nom={nom}
               creationDate={_created}
-              isAdmin={loggedUserToken === token}
               handleModal={() => handleConfirmationModal(_id)}
             />
           </li>

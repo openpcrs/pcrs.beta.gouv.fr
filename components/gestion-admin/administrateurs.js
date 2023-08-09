@@ -69,7 +69,6 @@ const Administrateurs = () => {
         token={token}
         items={admins}
         handleFilteredItems={setFilteredAdmins}
-        handleReloadData={getAdministrators}
         errorMessage={errors.headerError}
         validationMessage={validationMessage}
         onReset={() => clearError('headerError')}

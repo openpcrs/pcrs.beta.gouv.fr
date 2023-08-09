@@ -4,12 +4,12 @@ import colors from '@/styles/colors.js'
 
 import {shortDate} from '@/lib/date-utils.js'
 
-const ListItem = ({email, nom, creationDate, isAdmin, handleModal}) => (
+const ListItem = ({email, nom, creationDate, handleModal}) => (
   <div className='fr-grid-row fr-grid-row--middle fr-p-2w card-container'>
     <div className='fr-col-12 fr-col-md-1'>
       <span
-        className={isAdmin ? 'fr-icon-user-star-fill' : 'fr-icon-user-fill'}
-        style={{color: `${isAdmin ? colors.info425 : colors.darkgrey}`}}
+        className='fr-icon-user-fill'
+        style={{color: colors.darkgrey}}
         aria-hidden='true'
       />
     </div>
@@ -89,12 +89,7 @@ ListItem.propTypes = {
   email: PropTypes.string.isRequired,
   nom: PropTypes.string,
   creationDate: PropTypes.string.isRequired,
-  isAdmin: PropTypes.bool,
   handleModal: PropTypes.func.isRequired
-}
-
-ListItem.defaultProps = {
-  isAdmin: false
 }
 
 export default ListItem

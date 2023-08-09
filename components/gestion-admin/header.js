@@ -14,7 +14,7 @@ const orderOptions = [
   {value: 'desc', label: 'Date d’ajout décroissante'}
 ]
 
-const Header = ({token, items, isAdmin, errorMessage, validationMessage, onAdd, onReset, handleFilteredItems, handleReloadData}) => {
+const Header = ({token, items, isAdmin, errorMessage, validationMessage, onAdd, onReset, handleFilteredItems}) => {
   const [orderValue, setOrderValue] = useState('alpha')
   const [searchValue, setSearchValue] = useState('')
   const [isFormOpen, setIsFormOpen] = useState(false)
@@ -76,7 +76,6 @@ const Header = ({token, items, isAdmin, errorMessage, validationMessage, onAdd, 
           errorMessage={errorMessage}
           validationMessage={validationMessage}
           isAdmin={isAdmin}
-          handleReloadData={handleReloadData}
           onSubmit={onAdd}
           onClose={() => {
             onReset()
@@ -122,8 +121,7 @@ Header.propTypes = {
   isAdmin: PropTypes.bool,
   onAdd: PropTypes.func.isRequired,
   onReset: PropTypes.func.isRequired,
-  handleFilteredItems: PropTypes.func.isRequired,
-  handleReloadData: PropTypes.func.isRequired
+  handleFilteredItems: PropTypes.func.isRequired
 }
 
 Header.defaultProps = {
