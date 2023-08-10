@@ -22,7 +22,6 @@ const Administrateurs = () => {
   const [errors, setError, clearError] = useErrors({fetchError: null, headerError: null})
 
   const getAdmins = useCallback(async () => {
-    setIsLoading(true)
     clearError('fetchError')
     setIsLoading(true)
 
