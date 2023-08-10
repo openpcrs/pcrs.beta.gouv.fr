@@ -53,7 +53,7 @@ server.use('/', authRoutes)
 server.use('/creators-emails', creatorsEmailsRoutes)
 server.use('/administrators', administratorsRoutes)
 
-creatorsEmailsRoutes.get('/report', w(ensureAdmin), w(async (req, res) => {
+server.get('/report', w(ensureAdmin), w(async (req, res) => {
   const since = new Date(req.query.since)
   const validDate = Number.isNaN(since.valueOf()) ? new Date('2010-01-01') : since
 
