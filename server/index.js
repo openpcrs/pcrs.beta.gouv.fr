@@ -17,15 +17,15 @@ import mongo from './util/mongo.js'
 import errorHandler from './util/error-handler.js'
 import w from './util/w.js'
 
-import {handleAuth, ensureAdmin} from './auth/middleware.js'
+import {handleAuth} from './auth/middleware.js'
 
 import {getProjetsGeojson} from './projets.js'
-import {getUpdatedProjets} from './admin/reports.js'
 import dataRoutes from './routes/data.js'
 import projetsRoutes from './routes/projets.js'
 import authRoutes from './routes/auth.js'
 import creatorsEmailsRoutes from './routes/creators-emails.js'
 import administratorsRoutes from './routes/administrators.js'
+import reportRoutes from './routes/report.js'
 
 const port = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -52,14 +52,7 @@ server.use('/projets', projetsRoutes)
 server.use('/', authRoutes)
 server.use('/creators-emails', creatorsEmailsRoutes)
 server.use('/administrators', administratorsRoutes)
-
-server.get('/report', w(ensureAdmin), w(async (req, res) => {
-  const since = new Date(req.query.since)
-  const validDate = Number.isNaN(since.valueOf()) ? new Date('2010-01-01') : since
-
-  const report = await getUpdatedProjets(validDate)
-  res.send(report)
-}))
+server.use('/report', reportRoutes)
 
 server.use(errorHandler)
 
