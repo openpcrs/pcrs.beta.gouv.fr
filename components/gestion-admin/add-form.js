@@ -6,7 +6,7 @@ import colors from '@/styles/colors.js'
 import TextInput from '@/components/text-input.js'
 import Button from '@/components/button.js'
 
-const AddForm = ({onClose, errorMessage, validationMessage, onSubmit}) => {
+const AddForm = ({onClose, errorMessage, validationMessage, isAdmin, onSubmit}) => {
   const [nom, setNom] = useState('')
   const [email, setEmail] = useState('')
 
@@ -23,10 +23,10 @@ const AddForm = ({onClose, errorMessage, validationMessage, onSubmit}) => {
           <TextInput
             isRequired
             autoFocus
-            label='Nom du porteur'
-            ariaLabel='nom du porteur'
+            label={`Nom ${isAdmin ? 'de l’administrateur' : 'du porteur'}`}
+            ariaLabel={`Nom ${isAdmin ? 'de l’administrateur' : 'du porteur'}`}
             value={nom}
-            placeholder='Nom du porteur'
+            placeholder={`Nom ${isAdmin ? 'de l’administrateur' : 'du porteur'}`}
             onValueChange={e => setNom(e.target.value)}
           />
         </div>
@@ -34,10 +34,10 @@ const AddForm = ({onClose, errorMessage, validationMessage, onSubmit}) => {
           <TextInput
             isRequired
             type='email'
-            label='Email du porteur'
-            ariaLabel='email du porteur'
+            label={`Email ${isAdmin ? 'de l’administrateur' : 'du porteur'}`}
+            ariaLabel={`Email ${isAdmin ? 'de l’administrateur' : 'du porteur'}`}
             value={email}
-            placeholder='Email du porteur'
+            placeholder={`Email ${isAdmin ? 'de l’administrateur' : 'du porteur'}`}
             onValueChange={e => setEmail(e.target.value)}
           />
         </div>
@@ -48,7 +48,7 @@ const AddForm = ({onClose, errorMessage, validationMessage, onSubmit}) => {
 
           <div className='fr-pr-3w'>
             <Button
-              label='Annuler l’ajout du livrable'
+              label={`Annuler l’ajout ${isAdmin ? 'de l’administrateur' : 'du porteur'}`}
               buttonStyle='tertiary'
               onClick={onClose}
             >
@@ -57,7 +57,7 @@ const AddForm = ({onClose, errorMessage, validationMessage, onSubmit}) => {
           </div>
           <Button
             type='submit'
-            label='Valider l’ajout du porteur'
+            label={`Valider l’ajout ${isAdmin ? 'de l’administrateur' : 'du porteur'}`}
             icon='checkbox-circle-fill'
           >
             Valider
@@ -79,12 +79,14 @@ const AddForm = ({onClose, errorMessage, validationMessage, onSubmit}) => {
 AddForm.propTypes = {
   errorMessage: PropTypes.string,
   validationMessage: PropTypes.string,
+  isAdmin: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired
 }
 
 AddForm.defaultProps = {
   errorMessage: null,
+  isAdmin: false,
   validationMessage: null
 }
 
