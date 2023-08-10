@@ -23,7 +23,11 @@ const Header = ({token, items, isAdmin, errorMessage, validationMessage, onAdd, 
 
   useEffect(() => {
     if (searchValue) {
-      const filteredResults = items.filter(item => normalizeSort(item.email).includes(normalizeSort(searchValue)) || normalizeSort(item.nom || '').includes(normalizeSort(searchValue)))
+      // Filter items based on whether email or name contains search value. Those elements are converted to lowercase and diacritics are removed.
+      const filteredResults = items.filter(item =>
+        normalizeSort(item.email).includes(normalizeSort(searchValue)) || normalizeSort(item.nom || '').includes(normalizeSort(searchValue))
+      )
+
       handleFilteredItems(filteredResults)
     } else {
       handleFilteredItems(items)
