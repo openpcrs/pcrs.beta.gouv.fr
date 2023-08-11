@@ -77,7 +77,6 @@ const Hero = () => (
         height: 'auto',
         display: 'flex',
         position: 'relative',
-        bottom: 0,
         left: '-1px'
       }}
     />
