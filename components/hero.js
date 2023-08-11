@@ -66,20 +66,21 @@ const Hero = () => (
       </div>
     </div>
 
-    <div style={{width: '100%', backgroundColor: 'black'}}>
-      <Image
-        src='/images/illustrations/banner.svg'
-        alt=''
-        height={700}
-        width={4000}
-        aria-hidden='true'
-        style={{
-          width: '100%',
-          height: 'auto',
-          marginBottom: '-1em'
-        }}
-      />
-    </div>
+    <Image
+      src='/images/illustrations/banner.svg'
+      alt=''
+      height={900}
+      width={5560}
+      aria-hidden='true'
+      style={{
+        width: '100%',
+        height: 'auto',
+        display: 'flex',
+        position: 'relative',
+        bottom: 0,
+        left: '-1px'
+      }}
+    />
 
     <style jsx>{`
       .hero-component {
