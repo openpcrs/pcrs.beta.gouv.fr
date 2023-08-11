@@ -70,8 +70,8 @@ const Hero = () => (
       <Image
         src='/images/illustrations/banner.svg'
         alt=''
-        height={900}
-        width={5560}
+        height={292}
+        width={1800}
         aria-hidden='true'
         style={{
           width: '100%',
