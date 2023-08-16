@@ -10,6 +10,7 @@ import {handleAuth} from '../auth/middleware.js'
 import errorHandler from '../util/error-handler.js'
 
 import projetsRoutes from '../routes/projets.js'
+import authRoutes from '../routes/auth.js'
 
 import validProjet from '../mock/mock-valid-projet.js'
 import invalidProjet from '../mock/mock-invalid-projet.js'
@@ -39,6 +40,7 @@ const app = express()
 app.use(express.json())
 app.use(w(handleAuth))
 app.use('/projets', projetsRoutes)
+app.use('/', authRoutes)
 app.use(errorHandler)
 
 // Projets routes
@@ -104,4 +106,12 @@ test.serial('Update a projet', async t => {
 
   t.is(status, 200)
   t.is(body.nom, 'Nouveau nom')
+})
+
+// Auth routes
+test.serial('Get role / admin', async t => {
+  const {body} = await request(app).get('/me')
+    .set({Authorization: `Token ${token}`})
+
+  t.is(body.role, 'admin')
 })
