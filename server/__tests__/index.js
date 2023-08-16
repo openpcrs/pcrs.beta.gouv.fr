@@ -13,6 +13,7 @@ import projetsRoutes from '../routes/projets.js'
 import authRoutes from '../routes/auth.js'
 import creatorsEmailsRoutes from '../routes/creators-emails.js'
 import administratorsRoutes from '../routes/administrators.js'
+import reportRoutes from '../routes/report.js'
 
 import validProjet from '../mock/mock-valid-projet.js'
 import invalidProjet from '../mock/mock-invalid-projet.js'
@@ -47,6 +48,7 @@ app.use('/projets', projetsRoutes)
 app.use('/', authRoutes)
 app.use('/creators-emails', creatorsEmailsRoutes)
 app.use('/administrators', administratorsRoutes)
+app.use('/report', reportRoutes)
 app.use(errorHandler)
 
 // Projets routes
@@ -251,4 +253,17 @@ test.serial('Delete an administrator', async t => {
 
   t.is(status, 204)
   t.is(body.length, 0)
+})
+
+// Report route
+test.serial('Get admin report', async t => {
+  await request(app).post('/projets')
+    .set({Authorization: `Token ${token}`})
+    .send({...validProjet})
+
+  const {body} = await request(app).get('/report')
+    .set({Authorization: `Token ${token}`})
+
+  t.is(body.length, 1)
+  t.is(body._created, body._updated)
 })
