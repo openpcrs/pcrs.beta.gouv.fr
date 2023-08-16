@@ -12,6 +12,7 @@ import errorHandler from '../util/error-handler.js'
 import projetsRoutes from '../routes/projets.js'
 import authRoutes from '../routes/auth.js'
 import creatorsEmailsRoutes from '../routes/creators-emails.js'
+import administratorsRoutes from '../routes/administrators.js'
 
 import validProjet from '../mock/mock-valid-projet.js'
 import invalidProjet from '../mock/mock-invalid-projet.js'
@@ -35,6 +36,7 @@ test.after.always('Cleanup', async () => {
 test.beforeEach('Clean database', async () => {
   await mongo.db.collection('projets').deleteMany({})
   await mongo.db.collection('creators-emails').deleteMany({})
+  await mongo.db.collection('administrators').deleteMany({})
 })
 
 const app = express()
@@ -44,6 +46,7 @@ app.use(w(handleAuth))
 app.use('/projets', projetsRoutes)
 app.use('/', authRoutes)
 app.use('/creators-emails', creatorsEmailsRoutes)
+app.use('/administrators', administratorsRoutes)
 app.use(errorHandler)
 
 // Projets routes
@@ -190,6 +193,60 @@ test.serial('Delete a creator', async t => {
     .set({Authorization: `Token ${token}`})
 
   const {body} = await request(app).get('/creators-emails')
+    .set({Authorization: `Token ${token}`})
+
+  t.is(status, 204)
+  t.is(body.length, 0)
+})
+
+// Administrators routes
+test.serial('Get all administrators', async t => {
+  await mongo.db.collection('administrators').insertMany([
+    {nom: 'Premier Administrateur', email: 'admin1@mail.com', token: '1'},
+    {nom: 'Deuxieme Administrateur', email: 'admin2@mail.com', token: '2'}
+  ])
+
+  const {body, status} = await request(app).get('/administrators')
+    .set({Authorization: `Token ${token}`})
+
+  t.is(status, 200)
+  t.is(body.length, 2)
+  t.is(body[0].nom, 'Premier Administrateur')
+})
+
+test.serial('Add administrator / invalid email', async t => {
+  const {body, status} = await request(app).post('/administrators')
+    .set({Authorization: `Token ${token}`})
+    .send({nom: 'Nouvel Admin', email: 'admin<at>mail.com'})
+
+  t.is(status, 400)
+  t.is(body.code, 400)
+  t.is(body.message, 'Cette adresse courriel est invalide')
+})
+
+test.serial('Modify an administrator', async t => {
+  const administrator = await mongo.db.collection('administrators').insertOne(
+    {nom: 'Nouvel Admin', email: 'admin@mail.com'}
+  )
+
+  const {body, status} = await request(app).put(`/administrators/${administrator.insertedId}`)
+    .set({Authorization: `Token ${token}`})
+    .send({nom: 'Ancien Admin'})
+
+  t.is(status, 200)
+  t.is(body.nom, 'Ancien Admin')
+  t.truthy(body._updated)
+})
+
+test.serial('Delete an administrator', async t => {
+  const administrator = await mongo.db.collection('administrators').insertOne(
+    {nom: 'Nouvel Admin', email: 'admin@mail.com'}
+  )
+
+  const {status} = await request(app).delete(`/administrators/${administrator.insertedId}`)
+    .set({Authorization: `Token ${token}`})
+
+  const {body} = await request(app).get('/administrators')
     .set({Authorization: `Token ${token}`})
 
   t.is(status, 204)
