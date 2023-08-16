@@ -11,6 +11,7 @@ import errorHandler from '../util/error-handler.js'
 
 import projetsRoutes from '../routes/projets.js'
 import authRoutes from '../routes/auth.js'
+import creatorsEmailsRoutes from '../routes/creators-emails.js'
 
 import validProjet from '../mock/mock-valid-projet.js'
 import invalidProjet from '../mock/mock-invalid-projet.js'
@@ -33,6 +34,7 @@ test.after.always('Cleanup', async () => {
 
 test.beforeEach('Clean database', async () => {
   await mongo.db.collection('projets').deleteMany({})
+  await mongo.db.collection('creators-emails').deleteMany({})
 })
 
 const app = express()
@@ -41,6 +43,7 @@ app.use(express.json())
 app.use(w(handleAuth))
 app.use('/projets', projetsRoutes)
 app.use('/', authRoutes)
+app.use('/creators-emails', creatorsEmailsRoutes)
 app.use(errorHandler)
 
 // Projets routes
@@ -114,4 +117,81 @@ test.serial('Get role / admin', async t => {
     .set({Authorization: `Token ${token}`})
 
   t.is(body.role, 'admin')
+})
+
+// Creators-emails routes
+test.serial('Get creator by id', async t => {
+  const email = await mongo.db.collection('creators-emails').insertOne({nom: 'Michel', email: 'michel@mail.com'})
+
+  const {body, status} = await request(app).get(`/creators-emails/${email.insertedId}`)
+    .set({Authorization: `Token ${token}`})
+
+  t.is(body.nom, 'Michel')
+  t.deepEqual(body._id, email.insertedId.toString())
+  t.is(status, 200)
+})
+
+test.serial('Get all creators', async t => {
+  await mongo.db.collection('creators-emails').insertMany([
+    {nom: 'Michel', email: 'michel@mail.com'},
+    {nom: 'Boris', email: 'boris@mail.com'}
+  ])
+
+  const {body, status} = await request(app).get('/creators-emails')
+    .set({Authorization: `Token ${token}`})
+
+  t.is(body.length, 2)
+  t.is(body[0].nom, 'Michel')
+  t.is(status, 200)
+})
+
+test.serial('Add a creator', async t => {
+  const {body, status} = await request(app).post('/creators-emails')
+    .set({Authorization: `Token ${token}`})
+    .send({nom: 'Patrick', email: 'patrick@mail.com'})
+
+  t.is(body.nom, 'Patrick')
+  t.truthy(body._id)
+  t.truthy(body._created)
+  t.truthy(body._updated)
+  t.is(status, 200)
+})
+
+test.serial('Add a creator / invalid email', async t => {
+  const {body, status} = await request(app).post('/creators-emails')
+    .set({Authorization: `Token ${token}`})
+    .send({nom: 'Michel', email: 'michel<at>mail.com'})
+
+  t.is(status, 400)
+  t.is(body.code, 400)
+  t.is(body.message, 'Cette adresse courriel est invalide')
+})
+
+test.serial('Modify a creator', async t => {
+  const creator = await mongo.db.collection('creators-emails').insertOne(
+    {nom: 'Michel', email: 'michel@mail.com'}
+  )
+
+  const {body, status} = await request(app).put(`/creators-emails/${creator.insertedId}`)
+    .set({Authorization: `Token ${token}`})
+    .send({email: 'lemichel@mail.com'})
+
+  t.is(status, 200)
+  t.is(body.email, 'lemichel@mail.com')
+  t.truthy(body._updated)
+})
+
+test.serial('Delete a creator', async t => {
+  const creator = await mongo.db.collection('creators-emails').insertOne(
+    {nom: 'Michel', email: 'michel@mail.com'}
+  )
+
+  const {status} = await request(app).delete(`/creators-emails/${creator.insertedId}`)
+    .set({Authorization: `Token ${token}`})
+
+  const {body} = await request(app).get('/creators-emails')
+    .set({Authorization: `Token ${token}`})
+
+  t.is(status, 204)
+  t.is(body.length, 0)
 })
