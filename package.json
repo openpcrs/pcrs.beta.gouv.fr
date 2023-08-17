@@ -83,7 +83,10 @@
     }
   },
   "ava": {
-    "workerThreads": false
+    "workerThreads": false,
+    "environmentVariables" : {
+      "ADMIN_TOKEN": "toto"
+    }
   },
   "engines": {
     "node": ">= 18"
