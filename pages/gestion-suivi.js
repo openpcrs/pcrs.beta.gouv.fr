@@ -9,6 +9,7 @@ import Page from '@/layouts/main.js'
 import AdminAuthentificationModal from '@/components/suivi-form/authentification/admin-authentification-modal.js'
 import Porteurs from '@/components/gestion-admin/porteurs.js'
 import Changes from '@/components/gestion-admin/changes.js'
+import Administrateurs from '@/components/gestion-admin/administrateurs.js'
 
 const Admin = () => {
   const router = useRouter()
@@ -94,7 +95,7 @@ const Admin = () => {
 
           {activeTab === 'admin' && (
             <div className='fr-tabs__panel fr-tabs__panel--selected' role='tabpanel'>
-              <i>Bientôt disponible</i>
+              <Administrateurs />
             </div>
           )}
 
