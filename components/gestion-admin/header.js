@@ -57,11 +57,11 @@ const Header = ({token, items, isAdmin, errorMessage, validationMessage, isValid
       <Button
         icon='user-add-line'
         iconSide='right'
-        label={`Autoriser un ${isAdmin ? 'nouvel admin' : 'nouveau porteur'}`}
+        label={`Autoriser un ${isAdmin ? 'nouvel administrateur' : 'nouveau porteur'}`}
         isDisabled={isFormOpen}
         onClick={handleFormOpen}
       >
-        Autoriser un {isAdmin ? 'nouvel admin' : 'nouveau porteur'}
+        Autoriser un {isAdmin ? 'nouvel administrateur' : 'nouveau porteur'}
       </Button>
 
       {isFormOpen && (
@@ -79,7 +79,7 @@ const Header = ({token, items, isAdmin, errorMessage, validationMessage, isValid
       <div className='fr-grid-row fr-grid-row--middle fr-mt-8w'>
         <div className='fr-col-12 fr-col-md-4'>
           <label className='fr-label fr-mb-1w'>
-            <b>Rechercher un {isAdmin ? 'admin' : 'porteur'}</b>
+            <b>Rechercher un {isAdmin ? 'administrateur' : 'porteur'}</b>
           </label>
           <div className='fr-search-bar' >
             <input
