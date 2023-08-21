@@ -45,8 +45,8 @@ const Porteurs = () => {
 
       addToast({type: 'success', isClosable: true, content: `${nom} a été ajouté à la liste des porteurs autorisés`})
       getPorteurs()
-    } catch {
-      setErrorMessages(errorMessages => ({...errorMessages, headerError: 'Le nouveau porteur n’a pas pu être ajouté : '}))
+    } catch (error) {
+      setErrorMessages(errorMessages => ({...errorMessages, headerError: error.message}))
     }
   }
 
