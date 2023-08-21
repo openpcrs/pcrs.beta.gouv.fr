@@ -78,7 +78,8 @@ const Hero = () => (
           height: 'auto',
           display: 'flex',
           position: 'relative',
-          left: '-1px'
+          left: '-1px',
+          bottom: '-1px'
         }}
       /></div>
     <style jsx>{`
