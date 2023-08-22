@@ -66,19 +66,22 @@ const Hero = () => (
       </div>
     </div>
 
-    <Image
-      src='/images/illustrations/banner.webp'
-      alt=''
-      height={700}
-      width={4000}
-      aria-hidden='true'
-      style={{
-        width: '100%',
-        height: 'auto',
-        marginBottom: '-1em'
-      }}
-    />
-
+    <div className='banner'>
+      <Image
+        src='/images/illustrations/banner.svg'
+        alt=''
+        height={292}
+        width={1800}
+        aria-hidden='true'
+        style={{
+          width: '100%',
+          height: 'auto',
+          display: 'flex',
+          position: 'relative',
+          left: '-1px',
+          bottom: '-1px'
+        }}
+      /></div>
     <style jsx>{`
       .hero-component {
         text-align: center;
@@ -104,15 +107,6 @@ const Hero = () => (
         justify-items: center;
       }
 
-      .banner {
-        width: 100%;
-        margin-bottom: -1em;
-      }
-
-      .banner img {
-        width: 100%;
-      }
-
       h3 {
         color: white;
       }
@@ -120,7 +114,13 @@ const Hero = () => (
       .fr-link--icon-right {
         color: white;
       }
-    `}</style>
+
+      @media screen and (max-width: 767px) {
+      .banner {
+        display: none;
+      }
+    }
+  `}</style>
   </div>
 )
 
