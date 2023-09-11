@@ -10,6 +10,10 @@ import {getCommuneByCode, getPerimetersByName} from '@/lib/decoupage-administrat
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_URL || 'https://pcrs.beta.gouv.fr'
 
+function formatNumber(number, maximumFractionDigits = 0) {
+  return number.toLocaleString('fr', {maximumFractionDigits})
+}
+
 const Calculatrice = () => {
   const [showCalculator, setShowCalculator] = useState()
   const [foundPerimetres, setFoundPerimetres] = useState([])
@@ -245,7 +249,7 @@ const Calculatrice = () => {
                       </div>
                       <div className='fr-col-lg-6 fr-col-12' style={{display: 'flex', justifyContent: 'space-between'}}>
                         <span> → </span>
-                        <span>Surface: <b>{area.surface.toFixed(2)}</b> km2</span>
+                        <span>Surface: <b>{area.surface.toLocaleString('fr', {maximumFractionDigits: 1})}</b> km2</span>
                         <button
                           type='button'
                           className='fr-btn fr-btn--sm fr-btn--secondary fr-icon-delete-line fr-mx-2w'
@@ -265,12 +269,12 @@ const Calculatrice = () => {
                     <div>
                       <small>
                         <i>
-                          <div>Superficie totale: {totalSurface.toFixed(2)}km2</div>
+                          <div>Superficie totale: {formatNumber(totalSurface)}km2</div>
                           <div>Marge de construction du tuilage: {marge}</div>
-                          <div>Nombre de pixels: {(sizeInGigas.numberOfPixels / 1_000_000).toFixed(2)} millions</div>
-                          <div>Nombre de pixels en incluant la marge: {(sizeInGigas.numberOfPixelsWithMarge / 1_000_000).toFixed(2)} millions</div>
+                          <div>Nombre de pixels: {formatNumber(sizeInGigas.numberOfPixels / 1_000_000)} millions</div>
+                          <div>Nombre de pixels en incluant la marge: {formatNumber(sizeInGigas.numberOfPixelsWithMarge / 1_000_000)} millions</div>
                           <div>Format sélectionné: {compression}</div>
-                          <div>Résultat: {(sizeInGigas.sizeCompressed * 0.01).toFixed(3)} € HT / mois</div>
+                          <div>Résultat: {formatNumber(sizeInGigas.sizeCompressed * 0.01)} € HT / mois</div>
                         </i>
                       </small>
                     </div>
@@ -289,7 +293,7 @@ const Calculatrice = () => {
                   </i>
                 </p>
                 <p>
-                  <span>Les territoires renseignés ont une superficie totale de <b>{totalSurface.toFixed(2)} km2</b>.</span>
+                  <span>Les territoires renseignés ont une superficie totale de <b>{formatNumber(totalSurface)} km2</b>.</span>
                 </p>
                 <p>
                   <span>En intégrant une marge de </span>
@@ -304,7 +308,7 @@ const Calculatrice = () => {
                     <option value='15%'>15%</option>
                     <option value='20%'>20%</option>
                   </select>
-                  <span>, une orthophotographie de résolution </span>
+                  <span> (liée au dallage des prises de vue), une orthophotographie de résolution </span>
                   <select
                     className='editable-text'
                     onChange={e => setPixelDensity(e.target.value)}
@@ -313,10 +317,10 @@ const Calculatrice = () => {
                     <option value={10}>10</option>
                     <option value={15}>15</option>
                   </select>
-                  <span>cm comportera environ <b>{(sizeInGigas.numberOfPixelsWithMarge / 1_000_000).toFixed(2)}</b> millions de pixels.</span>
+                  <span>cm comportera environ <b>{formatNumber(sizeInGigas.numberOfPixelsWithMarge / 1_000_000)}</b> millions de pixels.</span>
                 </p>
                 <p>
-                  <b>{(sizeInGigas.numberOfPixelsWithMarge / 1_000_000).toFixed(2)}</b> millions de pixels non compressés sur 3 canaux de couleurs 8 bits ont un poids total de <b>{(sizeInGigas.sizeUncompressed).toFixed(2)} Go</b>
+                  <b>{formatNumber(sizeInGigas.numberOfPixelsWithMarge / 1_000_000)}</b> millions de pixels non compressés sur 3 canaux de couleurs 8 bits ont un poids total de <b>{formatNumber(sizeInGigas.sizeUncompressed)} Go</b>
                 </p>
                 <p>
                   <span>En appliquant une compression </span>
@@ -330,9 +334,9 @@ const Calculatrice = () => {
                     <option value='GeoTIFF/LZW'>GeoTIFF/LZW</option>
                     <option value='GeoTIFF/Deflate'>GeoTIFF/Deflate</option>
                   </select>
-                  <span>, on obtient des fichiers d’un poids total de <b>{(sizeInGigas.sizeCompressed).toFixed(2)} Go</b>.</span>
+                  <span>, on obtient des fichiers d’un poids total de <b>{formatNumber(sizeInGigas.sizeCompressed)} Go</b>.</span>
                 </p>
-                <p>L’hébergement de ce volume de fichier chez un hébergeur moyen (0,01€/Go/mois) revient à <b>{(sizeInGigas.sizeCompressed * 0.01).toFixed(2)}</b> euros HT par mois.</p>
+                <p>L’hébergement de ce volume de fichier chez un hébergeur moyen (0,01€/Go/mois) revient à <b>{formatNumber(sizeInGigas.sizeCompressed * 0.01)}</b> euros HT par mois.</p>
                 <div>
                   <i><small><a href='https://it.nc.gov/documents/files/understanding-compression-geospatial-raster-imagery/download?attachment'>Source des taux de compression</a></small></i>
                 </div>
