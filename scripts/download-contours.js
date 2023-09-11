@@ -45,7 +45,7 @@ async function storeLayer(layerName, getKey) {
   await Promise.all(features.map(async feature => {
     const superficie = {
       territory: feature.properties.code,
-      area: area(feature.geometry)
+      area: area(feature.geometry) / 1_000_000
     }
 
     superficies.push(superficie)

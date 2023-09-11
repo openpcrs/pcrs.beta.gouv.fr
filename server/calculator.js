@@ -3,10 +3,8 @@ function computePixelDensityPerKm2(resolutionInCm) {
   return numPixelsPerKm * numPixelsPerKm
 }
 
-export function areaToPixels(areaInMm, pixelDensity) {
-  const areaInKm2 = areaInMm / 1_000_000
-
-  return pixelDensity * areaInKm2
+export function areaToPixels(area, pixelDensity) {
+  return pixelDensity * area
 }
 
 export function pixelToGigaOctets(numberOfPixels) {
