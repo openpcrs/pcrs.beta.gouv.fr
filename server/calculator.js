@@ -3,10 +3,10 @@ function computePixelDensityPerKm2(resolutionInCm) {
   return numPixelsPerKm * numPixelsPerKm
 }
 
-export function surfaceToPixels(surface, pixelDensity) {
-  const surfaceInKm2 = surface / 1_000_000
+export function areaToPixels(areaInMm, pixelDensity) {
+  const areaInKm2 = areaInMm / 1_000_000
 
-  return pixelDensity * surfaceInKm2
+  return pixelDensity * areaInKm2
 }
 
 export function pixelToGigaOctets(numberOfPixels) {
@@ -20,7 +20,7 @@ function addPercent(value, percent) {
 
 export function areaWeigthInGigas(area, compression, resolution, marge) {
   const pxDensity = computePixelDensityPerKm2(resolution)
-  const nbPixels = surfaceToPixels(area, pxDensity)
+  const nbPixels = areaToPixels(area, pxDensity)
   const nbPixelsWithMarge = addPercent(nbPixels, marge)
   const sizeInGigas = pixelToGigaOctets(nbPixelsWithMarge)
   const compressedSize = sizeInGigas * (compression || 1)
