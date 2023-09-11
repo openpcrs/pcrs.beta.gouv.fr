@@ -44,7 +44,7 @@ async function storeLayer(layerName, getKey) {
   // Storing features in key/value database
   await Promise.all(features.map(async feature => {
     const superficie = {
-      territory: feature.properties.code,
+      territory: `${layerName}:${feature.properties.code}`,
       area: area(feature.geometry) / 1_000_000
     }
 
