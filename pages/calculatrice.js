@@ -156,7 +156,7 @@ const Calculatrice = () => {
       <h1 className='fr-m-4w'>Calculateur de frais d’hébergement des données</h1>
       <Section>
         <div className='fr-m-3v fr-grid-row--left'>
-          <span className='fr-col-lg-3 fr-col-12 fr-m-1v'>Éstimation à partir: </span>
+          <span className='fr-col-lg-3 fr-col-12 fr-m-1v'>Estimation à partir : </span>
           <button
             type='button'
             className={`fr-btn fr-btn${showCalculator === 'file' && '--secondary'} fr-btn--sm fr-m-1v fr-col-lg-3 fr-col-12`}
