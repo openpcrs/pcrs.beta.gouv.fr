@@ -249,7 +249,7 @@ const Calculatrice = () => {
                       </div>
                       <div className='fr-col-lg-6 fr-col-12' style={{display: 'flex', justifyContent: 'space-between'}}>
                         <span> → </span>
-                        <span>Surface: <b>{area.surface.toLocaleString('fr', {maximumFractionDigits: 1})}</b> km2</span>
+                        <span>Surface: <b>{formatNumber(area.surface)}</b> km2</span>
                         <button
                           type='button'
                           className='fr-btn fr-btn--sm fr-btn--secondary fr-icon-delete-line fr-mx-2w'
@@ -269,7 +269,7 @@ const Calculatrice = () => {
                     <div>
                       <small>
                         <i>
-                          <div>Superficie totale: {formatNumber(totalSurface)}km2</div>
+                          <div>Superficie totale: {formatNumber(totalSurface)} km2</div>
                           <div>Marge de construction du tuilage: {marge}</div>
                           <div>Nombre de pixels: {formatNumber(sizeInGigas.numberOfPixels / 1_000_000)} millions</div>
                           <div>Nombre de pixels en incluant la marge: {formatNumber(sizeInGigas.numberOfPixelsWithMarge / 1_000_000)} millions</div>
