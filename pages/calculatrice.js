@@ -8,7 +8,7 @@ import SelectInput from '@/components/select-input.js'
 import AutocompleteInput from '@/components/autocomplete-input.js'
 import {getCommuneByCode, getPerimetersByName} from '@/lib/decoupage-administratif-api.js'
 
-const URL = process.env.NEXT_PUBLIC_URL || 'https://pcrs.beta.gouv.fr'
+const API_BASE_URL = process.env.NEXT_PUBLIC_URL || 'https://pcrs.beta.gouv.fr'
 
 const Calculatrice = () => {
   const [showCalculator, setShowCalculator] = useState()
@@ -63,7 +63,7 @@ const Calculatrice = () => {
     const foundPerimetreName = foundPerimetres.find(result => result.code === code).nom
 
     try {
-      const response = await fetch(`${URL}/calculator/territory-area/${territoryType}s:${code}`)
+      const response = await fetch(`${API_BASE_URL}/calculator/territory-area/${territoryType}s:${code}`)
       const area = await response.json()
 
       if (!areas.some(area => area.code === code)) {
@@ -97,7 +97,7 @@ const Calculatrice = () => {
     ]
 
     try {
-      const response = await fetch(`${URL}/calculator/area`, {
+      const response = await fetch(`${API_BASE_URL}/calculator/area`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
