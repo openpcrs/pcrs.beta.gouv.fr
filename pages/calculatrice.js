@@ -53,6 +53,12 @@ const Calculatrice = () => {
     }
   }, 300))
 
+  const handleCalculatorChange = tab => {
+    setShowCalculator(tab)
+    setSizeInGigas()
+    setAreas([])
+  }
+
   const handleSelect = debounce(async ({code}) => {
     const foundPerimetreName = foundPerimetres.find(result => result.code === code).nom
 
@@ -154,14 +160,14 @@ const Calculatrice = () => {
           <button
             type='button'
             className={`fr-btn fr-btn${showCalculator === 'file' && '--secondary'} fr-btn--sm fr-m-1v`}
-            onClick={() => setShowCalculator('territory')}
+            onClick={() => handleCalculatorChange('territory')}
           >
             d’un territoire
           </button>
           <button
             type='button'
             className={`fr-btn fr-btn${showCalculator === 'territory' && '--secondary'} fr-btn--sm fr-m-1v`}
-            onClick={() => setShowCalculator('file')}
+            onClick={() => handleCalculatorChange('file')}
           >
             de la taille d’un fichier
           </button>
