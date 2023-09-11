@@ -155,18 +155,18 @@ const Calculatrice = () => {
     <Page title='Calculateur de coups' description='Calculez les coups d’hébergement de votre livrable'>
       <h1 className='fr-m-4w'>Calculateur de frais d’hébergement des données</h1>
       <Section>
-        <div className='fr-m-3v fr-grid-row'>
-          <span className='fr-m-1v'>Éstimation à partir: </span>
+        <div className='fr-m-3v fr-grid-row--left'>
+          <span className='fr-col-lg-3 fr-col-12 fr-m-1v'>Éstimation à partir: </span>
           <button
             type='button'
-            className={`fr-btn fr-btn${showCalculator === 'file' && '--secondary'} fr-btn--sm fr-m-1v`}
+            className={`fr-btn fr-btn${showCalculator === 'file' && '--secondary'} fr-btn--sm fr-m-1v fr-col-lg-3 fr-col-12`}
             onClick={() => handleCalculatorChange('territory')}
           >
             d’un territoire
           </button>
           <button
             type='button'
-            className={`fr-btn fr-btn${showCalculator === 'territory' && '--secondary'} fr-btn--sm fr-m-1v`}
+            className={`fr-btn fr-btn${showCalculator === 'territory' && '--secondary'} fr-btn--sm fr-m-1v fr-col-lg-3 fr-col-12`}
             onClick={() => handleCalculatorChange('file')}
           >
             de la taille d’un fichier
@@ -238,17 +238,13 @@ const Calculatrice = () => {
                   {areas.map(area => (
                     <li
                       key={area.code}
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center'
-                      }}
+                      className='fr-grid-row fr-pb-2v'
                     >
-                      <div>
+                      <div className='fr-col-lg-6 fr-col-12'>
                         <span>{area.nom} ({area.code})</span>
                       </div>
-                      <span> → </span>
-                      <div>
+                      <div className='fr-col-lg-6 fr-col-12' style={{display: 'flex', justifyContent: 'space-between'}}>
+                        <span> → </span>
                         <span>Surface: <b>{(area.surface / 1_000_000).toFixed(2)}</b> km2</span>
                         <button
                           type='button'
