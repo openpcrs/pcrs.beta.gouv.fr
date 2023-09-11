@@ -245,7 +245,7 @@ const Calculatrice = () => {
                       </div>
                       <div className='fr-col-lg-6 fr-col-12' style={{display: 'flex', justifyContent: 'space-between'}}>
                         <span> → </span>
-                        <span>Surface: <b>{(area.surface / 1_000_000).toFixed(2)}</b> km2</span>
+                        <span>Surface: <b>{area.surface.toFixed(2)}</b> km2</span>
                         <button
                           type='button'
                           className='fr-btn fr-btn--sm fr-btn--secondary fr-icon-delete-line fr-mx-2w'
@@ -265,7 +265,7 @@ const Calculatrice = () => {
                     <div>
                       <small>
                         <i>
-                          <div>Superficie totale: {(totalSurface / 1_000_000).toFixed(2)}km2</div>
+                          <div>Superficie totale: {totalSurface.toFixed(2)}km2</div>
                           <div>Marge de construction du tuilage: {marge}</div>
                           <div>Nombre de pixels: {(sizeInGigas.numberOfPixels / 1_000_000).toFixed(2)} millions</div>
                           <div>Nombre de pixels en incluant la marge: {(sizeInGigas.numberOfPixelsWithMarge / 1_000_000).toFixed(2)} millions</div>
@@ -289,7 +289,7 @@ const Calculatrice = () => {
                   </i>
                 </p>
                 <p>
-                  <span>Les territoires renseignés ont une superficie totale de <b>{(totalSurface / 1_000_000).toFixed(2)} km2</b>.</span>
+                  <span>Les territoires renseignés ont une superficie totale de <b>{totalSurface.toFixed(2)} km2</b>.</span>
                 </p>
                 <p>
                   <span>En intégrant une marge de </span>
