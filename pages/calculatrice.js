@@ -97,7 +97,7 @@ const Calculatrice = () => {
     ]
 
     try {
-      const response = await fetch('http://localhost:3000/calculator/area', {
+      const response = await fetch(`${URL}/calculator/area`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
