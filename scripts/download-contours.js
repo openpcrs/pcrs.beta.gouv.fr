@@ -8,6 +8,7 @@ import {mkdir, writeFile} from 'node:fs/promises'
 import zlib from 'node:zlib'
 import Keyv from 'keyv'
 import got from 'got'
+import area from '@turf/area'
 
 const gunzip = promisify(zlib.gunzip)
 
@@ -30,6 +31,8 @@ const keyv = new Keyv('sqlite://.db/contours.sqlite')
 
 await keyv.clear()
 
+const superficies = []
+
 async function storeLayer(layerName, getKey) {
   // Downloading dataset
   const url = `http://etalab-datasets.geo.data.gouv.fr/contours-administratifs/${MILLESIME}/geojson/${layerName}-${RESOLUTION}.geojson.gz`
@@ -40,6 +43,13 @@ async function storeLayer(layerName, getKey) {
 
   // Storing features in key/value database
   await Promise.all(features.map(async feature => {
+    const superficie = {
+      territory: `${layerName}:${feature.properties.code}`,
+      area: area(feature.geometry) / 1_000_000
+    }
+
+    superficies.push(superficie)
+
     const key = getKey(feature)
     await keyv.set(key, feature)
   }))
@@ -56,3 +66,6 @@ await storeLayer('departements', f => `departement:${f.properties.code}`)
 
 console.log('  * Téléchargement des contours des régions')
 await storeLayer('regions', f => `region:${f.properties.code}`)
+
+console.log('  * Écriture des superficies')
+await writeFile('./.db/superficies.json', JSON.stringify(superficies))
