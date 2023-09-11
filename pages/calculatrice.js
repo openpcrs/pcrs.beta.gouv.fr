@@ -4,7 +4,6 @@ import {debounce} from 'lodash-es'
 import Page from '@/layouts/main.js'
 
 import Section from '@/components/section.js'
-import NumberInput from '@/components/number-input.js'
 import SelectInput from '@/components/select-input.js'
 import AutocompleteInput from '@/components/autocomplete-input.js'
 import {getCommuneByCode, getPerimetersByName} from '@/lib/decoupage-administratif-api.js'
@@ -13,7 +12,6 @@ const URL = process.env.NEXT_PUBLIC_URL || 'https://pcrs.beta.gouv.fr'
 
 const Calculatrice = () => {
   const [showCalculator, setShowCalculator] = useState()
-  const [fileSize, setFileSize] = useState()
   const [foundPerimetres, setFoundPerimetres] = useState([])
   const [searchValue, setSearchValue] = useState()
   const [territoryType, setTerritoryType] = useState()
@@ -214,11 +212,7 @@ const Calculatrice = () => {
 
           {showCalculator === 'file' && (
             <div className='fr-col-12 fr-p-3w'>
-              <NumberInput
-                label='Taille du fichier en gigaoctets: '
-                value={fileSize}
-                onValueChange={e => setFileSize(e.target.value)}
-              />
+              <i>Ce calculateur arrivera prochainement</i>
             </div>
           )}
 
