@@ -15,13 +15,20 @@ const gunzip = promisify(zlib.gunzip)
 const MILLESIME = '2022'
 const RESOLUTION = '100m'
 
-await mkdir('./.db')
+await mkdir('./.db', {recursive: true})
 
-if (process.env.DOWNLOAD_CONTOURS_FROM) {
+if (process.env.GEODATA_CACHE_URL) {
   console.log(' * Téléchargement des contours à partir de l’adresse indiquée')
 
-  const buffer = await got(process.env.DOWNLOAD_CONTOURS_FROM).buffer()
-  await writeFile('./.db/contours.sqlite', buffer)
+  await writeFile(
+    './.db/contours.sqlite',
+    await got(`${process.env.GEODATA_CACHE_URL}/contours.sqlite`).buffer()
+  )
+
+  await writeFile(
+    './.db/superficies.json',
+    await got(`${process.env.GEODATA_CACHE_URL}/superficies.json`).buffer()
+  )
 
   console.log(' * Terminé !')
   process.exit(0)
