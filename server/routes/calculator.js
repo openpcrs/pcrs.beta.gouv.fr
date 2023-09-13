@@ -2,7 +2,7 @@ import express from 'express'
 import w from '../util/w.js'
 
 import {getAreaFromTerritory} from '../../lib/territoires.js'
-import {areaWeigthInGigas} from '../calculator.js'
+import {areaSizeToGigas} from '../calculator.js'
 
 const calculatorRoutes = new express.Router()
 
@@ -13,8 +13,8 @@ calculatorRoutes.get('/territory-area/:code', w(async (req, res) => {
 }))
 
 calculatorRoutes.post('/area', w(async (req, res) => {
-  const {area, compression, resolution, marge} = req.body
-  const areaSizeInGigas = areaWeigthInGigas(area, compression, resolution, marge)
+  const {area, compression, resolution, margin} = req.body
+  const areaSizeInGigas = areaSizeToGigas(area, compression, resolution, margin)
 
   res.send(areaSizeInGigas)
 }))
