@@ -15,26 +15,26 @@ function formatNumber(number, maximumFractionDigits = 0) {
 }
 
 const Calculatrice = () => {
-  const [showCalculator, setShowCalculator] = useState()
+  const [calculatorType, setCalculatorType] = useState()
   const [foundPerimetres, setFoundPerimetres] = useState([])
   const [searchValue, setSearchValue] = useState()
   const [territoryType, setTerritoryType] = useState()
   const [areas, setAreas] = useState([])
-  const [totalSurface, setTotalSurface] = useState()
+  const [areasTotalSize, setAreasTotalSize] = useState()
   const [sizeInGigas, setSizeInGigas] = useState()
   const [compression, setCompression] = useState('GeoTIFF/Non-compressé')
-  const [marge, setMarge] = useState('10%')
-  const [margeValue, setMargeValue] = useState(0.1)
+  const [margin, setMargin] = useState('10%')
+  const [marginValue, setMarginValue] = useState(0.1)
   const [pixelDensity, setPixelDensity] = useState(5)
 
-  function getMargeValue(label) {
-    const margeValues = [
+  function getMarginValue(label) {
+    const marginValues = [
       {label: '10%', value: 0.1},
       {label: '15%', value: 0.15},
       {label: '20%', value: 0.2}
     ]
 
-    return margeValues.find(v => v.label === label).value
+    return marginValues.find(v => v.label === label).value
   }
 
   const fetchPerimetres = useRef(debounce(async (nom, type, signal) => {
@@ -57,8 +57,8 @@ const Calculatrice = () => {
     }
   }, 300))
 
-  const handleCalculatorChange = tab => {
-    setShowCalculator(tab)
+  const handleCalculatorTypeChange = type => {
+    setCalculatorType(type)
     setSizeInGigas()
     setAreas([])
   }
@@ -87,11 +87,11 @@ const Calculatrice = () => {
 
     if (updatedArray.length === 0) {
       setSizeInGigas(null)
-      setTotalSurface(null)
+      setAreasTotalSize(null)
     }
   }, [areas])
 
-  const handleSurfaceToSize = useCallback(async totalSurface => {
+  const handleAreaToSize = useCallback(async areasTotalSize => {
     const formatCompression = [
       {label: 'GeoTIFF/Non-compressé', value: 1},
       {label: 'GeoTIFF/LZW ', value: 0.6},
@@ -108,9 +108,9 @@ const Calculatrice = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          area: totalSurface,
+          area: areasTotalSize,
           compression: formatCompression.find(f => f.label === compression).value,
-          marge: margeValue,
+          margin: marginValue,
           resolution: Number.parseInt(pixelDensity, 10)
         })
       })
@@ -121,13 +121,13 @@ const Calculatrice = () => {
     } catch (error) {
       throw new Error(error)
     }
-  }, [compression, pixelDensity, margeValue])
+  }, [compression, pixelDensity, marginValue])
 
   useEffect(() => {
-    if (totalSurface) {
-      handleSurfaceToSize(totalSurface)
+    if (areasTotalSize) {
+      handleAreaToSize(areasTotalSize)
     }
-  }, [totalSurface, handleSurfaceToSize])
+  }, [areasTotalSize, handleAreaToSize])
 
   useEffect(() => {
     if (!searchValue || searchValue.length < 2) {
@@ -151,7 +151,7 @@ const Calculatrice = () => {
         result += Number.parseFloat(area.surface)
       }
 
-      setTotalSurface(result)
+      setAreasTotalSize(result)
     }
   }, [areas])
 
@@ -163,29 +163,22 @@ const Calculatrice = () => {
           <span className='fr-col-lg-3 fr-col-12 fr-m-1v'>Estimation à partir : </span>
           <button
             type='button'
-            className={`fr-btn fr-btn${showCalculator === 'file' && '--secondary'} fr-btn--sm fr-m-1v fr-col-lg-3 fr-col-12`}
-            onClick={() => handleCalculatorChange('territory')}
+            className={`fr-btn fr-btn${calculatorType === 'file' && '--secondary'} fr-btn--sm fr-m-1v fr-col-lg-3 fr-col-12`}
+            onClick={() => handleCalculatorTypeChange('territory')}
           >
             d’un territoire
           </button>
           <button
             type='button'
-            className={`fr-btn fr-btn${showCalculator === 'territory' && '--secondary'} fr-btn--sm fr-m-1v fr-col-lg-3 fr-col-12`}
-            onClick={() => handleCalculatorChange('file')}
+            className={`fr-btn fr-btn${calculatorType === 'territory' && '--secondary'} fr-btn--sm fr-m-1v fr-col-lg-3 fr-col-12`}
+            onClick={() => handleCalculatorTypeChange('file')}
           >
             de la taille d’un fichier
           </button>
         </div>
-        <div
-          className='fr-container--fluid'
-          style={{
-            border: '1px solid grey',
-            borderRadius: '10px',
-            minHeight: '500px'
-          }}
-        >
+        <div className='fr-container--fluid'>
 
-          {showCalculator === 'territory' && (
+          {calculatorType === 'territory' && (
             <div className='fr-grid-row'>
               <div className='fr-col-lg-6 fr-col-12 fr-p-3w'>
                 <SelectInput
@@ -220,7 +213,7 @@ const Calculatrice = () => {
             </div>
           )}
 
-          {showCalculator === 'file' && (
+          {calculatorType === 'file' && (
             <div className='fr-col-12 fr-p-3w'>
               <i>Ce calculateur arrivera prochainement</i>
             </div>
@@ -269,10 +262,10 @@ const Calculatrice = () => {
                     <div>
                       <small>
                         <i>
-                          <div>Superficie totale: {formatNumber(totalSurface)} km2</div>
-                          <div>Marge de construction du tuilage: {marge}</div>
+                          <div>Superficie totale: {formatNumber(areasTotalSize)} km2</div>
+                          <div>Marge de construction du tuilage: {margin}</div>
                           <div>Nombre de pixels: {formatNumber(sizeInGigas.numberOfPixels / 1_000_000)} millions</div>
-                          <div>Nombre de pixels en incluant la marge: {formatNumber(sizeInGigas.numberOfPixelsWithMarge / 1_000_000)} millions</div>
+                          <div>Nombre de pixels en incluant la marge: {formatNumber(sizeInGigas.numberOfPixelsWithMargin / 1_000_000)} millions</div>
                           <div>Format sélectionné: {compression}</div>
                           <div>Résultat: {formatNumber(sizeInGigas.sizeCompressed * 0.01)} € HT / mois</div>
                         </i>
@@ -284,7 +277,7 @@ const Calculatrice = () => {
             )}
           </div>
           <div className='fr-p-5v'>
-            {totalSurface && sizeInGigas && (
+            {areasTotalSize && sizeInGigas && (
               <>
                 <hr />
                 <p>
@@ -293,15 +286,15 @@ const Calculatrice = () => {
                   </i>
                 </p>
                 <p>
-                  <span>Les territoires renseignés ont une superficie totale de <b>{formatNumber(totalSurface)} km2</b>.</span>
+                  <span>Les territoires renseignés ont une superficie totale de <b>{formatNumber(areasTotalSize)} km2</b>.</span>
                 </p>
                 <p>
                   <span>En intégrant une marge de </span>
                   <select
                     className='editable-text'
                     onChange={e => {
-                      setMarge(e.target.value)
-                      setMargeValue(getMargeValue(e.target.value))
+                      setMargin(e.target.value)
+                      setMarginValue(getMarginValue(e.target.value))
                     }}
                   >
                     <option value='10%'>10%</option>
@@ -317,10 +310,10 @@ const Calculatrice = () => {
                     <option value={10}>10</option>
                     <option value={15}>15</option>
                   </select>
-                  <span>cm comportera environ <b>{formatNumber(sizeInGigas.numberOfPixelsWithMarge / 1_000_000)}</b> millions de pixels.</span>
+                  <span>cm comportera environ <b>{formatNumber(sizeInGigas.numberOfPixelsWithMargin / 1_000_000)}</b> millions de pixels.</span>
                 </p>
                 <p>
-                  <b>{formatNumber(sizeInGigas.numberOfPixelsWithMarge / 1_000_000)}</b> millions de pixels non compressés sur 3 canaux de couleurs 8 bits ont un poids total de <b>{formatNumber(sizeInGigas.sizeUncompressed)} Go</b>
+                  <b>{formatNumber(sizeInGigas.numberOfPixelsWithMargin / 1_000_000)}</b> millions de pixels non compressés sur 3 canaux de couleurs 8 bits ont un poids total de <b>{formatNumber(sizeInGigas.sizeUncompressed)} Go</b>
                 </p>
                 <p>
                   <span>En appliquant une compression </span>
