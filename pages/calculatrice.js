@@ -267,7 +267,7 @@ const Calculatrice = () => {
                           <div>Nombre de pixels: {formatNumber(sizeInGigas.numberOfPixels / 1_000_000)} millions</div>
                           <div>Nombre de pixels en incluant la marge: {formatNumber(sizeInGigas.numberOfPixelsWithMargin / 1_000_000)} millions</div>
                           <div>Format sélectionné: {compression}</div>
-                          <div>Résultat: {formatNumber(sizeInGigas.sizeCompressed * 0.01)} € HT / mois</div>
+                          <div>Résultat: {formatNumber(sizeInGigas.sizeCompressed * 0.01) > 1 ? `${formatNumber(sizeInGigas.sizeCompressed * 0.01)} € HT / mois` : 'Moins d’un euro HT par mois'}</div>
                         </i>
                       </small>
                     </div>
@@ -329,7 +329,7 @@ const Calculatrice = () => {
                   </select>
                   <span>, on obtient des fichiers d’un poids total de <b>{formatNumber(sizeInGigas.sizeCompressed)} Go</b>.</span>
                 </p>
-                <p>L’hébergement de ce volume de fichier chez un hébergeur moyen (0,01€/Go/mois) revient à <b>{formatNumber(sizeInGigas.sizeCompressed * 0.01)}</b> euros HT par mois.</p>
+                <p>L’hébergement de ce volume de fichier chez un hébergeur moyen (0,01€/Go/mois) revient à <b>{formatNumber(sizeInGigas.sizeCompressed * 0.01) > 1 ? `${formatNumber(sizeInGigas.sizeCompressed * 0.01)} € HT / mois` : 'moins d’un euro HT par mois'}</b>.</p>
                 <div>
                   <i><small><a href='https://it.nc.gov/documents/files/understanding-compression-geospatial-raster-imagery/download?attachment'>Source des taux de compression</a></small></i>
                 </div>
