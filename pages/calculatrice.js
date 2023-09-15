@@ -2,6 +2,7 @@ import {useState, useEffect, useRef, useCallback} from 'react'
 
 import {debounce} from 'lodash-es'
 import Page from '@/layouts/main.js'
+import colors from '@/styles/colors.js'
 
 import Section from '@/components/section.js'
 import SelectInput from '@/components/select-input.js'
@@ -245,6 +246,10 @@ const Calculatrice = () => {
                         <span>Surface: <b>{formatNumber(area.surface)}</b> km2</span>
                         <button
                           type='button'
+                          style={{
+                            color: `${colors.error425}`,
+                            boxShadow: `0 0 0 1px ${colors.error425}`
+                          }}
                           className='fr-btn fr-btn--sm fr-btn--secondary fr-icon-delete-line fr-mx-2w'
                           onClick={() => handleRemoveTerritory(area.nom)}
                         >
