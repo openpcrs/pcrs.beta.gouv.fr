@@ -176,7 +176,7 @@ const Calculatrice = () => {
             de la taille d’un fichier
           </button>
         </div>
-        <div className='fr-container--fluid'>
+        <div className='fr-container--fluid' style={{minHeight: '450px'}}>
 
           {calculatorType === 'territory' && (
             <div className='fr-grid-row'>
