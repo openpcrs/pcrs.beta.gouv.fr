@@ -260,7 +260,7 @@ const Calculatrice = () => {
                   ))}
                 </div>
                 {sizeInGigas && (
-                  <div className='fr-col-lg-6 fr-col-12 fr-p-6v'>
+                  <div className='fr-col-lg-6 fr-col-12 fr-p-6v' style={{borderRadius: '3px', backgroundColor: 'whitesmoke'}}>
                     <div className='fr-pb-3v'>
                       <b>Résumé:</b>
                     </div>
