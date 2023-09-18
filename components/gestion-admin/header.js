@@ -14,7 +14,7 @@ const orderOptions = [
   {value: 'desc', label: 'Date d’ajout décroissante'}
 ]
 
-const Header = ({token, items, isAdmin, errorMessage, validationMessage, onAdd, onReset, handleFilteredItems}) => {
+const Header = ({token, items, isAdmin, errorMessage, validationMessage, isValid, onAdd, handleFilteredItems, handleReloadData}) => {
   const [orderValue, setOrderValue] = useState('alpha')
   const [searchValue, setSearchValue] = useState('')
   const [isFormOpen, setIsFormOpen] = useState(false)
@@ -23,11 +23,7 @@ const Header = ({token, items, isAdmin, errorMessage, validationMessage, onAdd, 
 
   useEffect(() => {
     if (searchValue) {
-      // Filter items based on whether email or name contains search value. Those elements are converted to lowercase and diacritics are removed.
-      const filteredResults = items.filter(item =>
-        normalizeSort(item.email).includes(normalizeSort(searchValue)) || normalizeSort(item.nom || '').includes(normalizeSort(searchValue))
-      )
-
+      const filteredResults = items.filter(item => item.email.toLowerCase().includes(searchValue.toLowerCase()) || item?.nom?.toLowerCase()?.includes(searchValue.toLowerCase()))
       handleFilteredItems(filteredResults)
     } else {
       handleFilteredItems(items)
@@ -35,12 +31,10 @@ const Header = ({token, items, isAdmin, errorMessage, validationMessage, onAdd, 
   }, [items, searchValue, handleFilteredItems])
 
   useEffect(() => {
-    if (validationMessage) {
-      setTimeout(() => {
-        setIsFormOpen(false)
-      }, 1000)
+    if (isValid) {
+      setIsFormOpen(false)
     }
-  }, [validationMessage])
+  }, [isValid])
 
   useEffect(() => {
     if (orderValue === 'alpha') {
@@ -65,10 +59,7 @@ const Header = ({token, items, isAdmin, errorMessage, validationMessage, onAdd, 
         iconSide='right'
         label={`Autoriser un ${isAdmin ? 'nouvel administrateur' : 'nouveau porteur'}`}
         isDisabled={isFormOpen}
-        onClick={() => {
-          onReset()
-          handleFormOpen()
-        }}
+        onClick={handleFormOpen}
       >
         Autoriser un {isAdmin ? 'nouvel administrateur' : 'nouveau porteur'}
       </Button>
@@ -76,15 +67,13 @@ const Header = ({token, items, isAdmin, errorMessage, validationMessage, onAdd, 
       {isFormOpen && (
         <AddForm
           token={token}
+          isAdmin={isAdmin}
           handleFormOpen={() => setIsFormOpen(!isFormOpen)}
           errorMessage={errorMessage}
           validationMessage={validationMessage}
-          isAdmin={isAdmin}
+          handleReloadData={handleReloadData}
           onSubmit={onAdd}
-          onClose={() => {
-            onReset()
-            handleFormOpen()
-          }}
+          onClose={handleFormOpen}
         />
       )}
 
@@ -106,7 +95,7 @@ const Header = ({token, items, isAdmin, errorMessage, validationMessage, onAdd, 
         <div className='fr-grid-row fr-grid-row--right fr-col-12 fr-col-md-8 fr-mt-6w fr-mt-md-0'>
           <SelectInput
             label='Trier par :'
-            ariaLabel={`Ordonner les ${isAdmin ? 'administrateur' : 'porteur'} par date d’ajout ou par ordre alphabétique`}
+            ariaLabel={`Ordonner les ${isAdmin ? 'admin' : 'porteur'} par date d’ajout ou par ordre alphabétique`}
             value={orderValue}
             options={orderOptions}
             onValueChange={e => setOrderValue(e.target.value)}
@@ -123,14 +112,15 @@ Header.propTypes = {
   validationMessage: PropTypes.string,
   items: PropTypes.array,
   isAdmin: PropTypes.bool,
+  isValid: PropTypes.bool,
   onAdd: PropTypes.func.isRequired,
-  onReset: PropTypes.func.isRequired,
-  handleFilteredItems: PropTypes.func.isRequired
+  handleFilteredItems: PropTypes.func.isRequired,
+  handleReloadData: PropTypes.func.isRequired
 }
 
 Header.defaultProps = {
-  items: [],
   errorMessage: null,
+  items: [],
   validationMessage: null,
   isAdmin: false
 }

@@ -7,23 +7,24 @@ import {normalizeSort} from '@/lib/string.js'
 import AuthentificationContext from '@/contexts/authentification-token.js'
 
 import useErrors from '@/hooks/errors.js'
+import useToaster from '@/hooks/toaster.js'
 
 import AdministrateurList from '@/components/gestion-admin/administrateur-list.js'
+import ToastsContainer from '@/components/toaster/toasts-container.js'
 import Header from '@/components/gestion-admin/header.js'
 import Loader from '@/components/loader.js'
 
 const Administrateurs = () => {
   const {token, isTokenRecovering} = useContext(AuthentificationContext)
+  const [toasts, addToast, removeToast] = useToaster()
 
   const [admins, setAdmins] = useState()
   const [filteredAdmins, setFilteredAdmins] = useState([])
   const [isLoading, setIsLoading] = useState(false)
-  const [validationMessage, setValidationMessage] = useState(null)
   const [errors, setError, clearError] = useErrors({fetchError: null, headerError: null})
 
   const getAdmins = useCallback(async () => {
     clearError('fetchError')
-    setIsLoading(true)
 
     try {
       const administrators = await getAdministrators(token)
@@ -37,17 +38,13 @@ const Administrateurs = () => {
   }, [token, setError, clearError])
 
   const onAddAdmin = async (nom, email) => {
-    setValidationMessage(null)
     clearError('headerError')
 
     try {
       await addAdministator(token, {nom, email})
-      setValidationMessage(`${nom} a été ajouté à la liste des administrateurs`)
+      addToast({type: 'success', isClosable: true, content: `${nom} a été ajouté à la liste des administrateurs`})
 
-      setTimeout(() => {
-        getAdmins()
-        setValidationMessage(null)
-      }, 1000)
+      getAdmins()
     } catch (error) {
       setError('headerError', error.message)
     }
@@ -68,8 +65,9 @@ const Administrateurs = () => {
         token={token}
         items={admins}
         handleFilteredItems={setFilteredAdmins}
+        handleReloadData={getAdministrators}
         errorMessage={errors.headerError}
-        validationMessage={validationMessage}
+        isValid={toasts.length > 0}
         onReset={() => clearError('headerError')}
         onAdd={onAddAdmin}
       />
@@ -79,12 +77,14 @@ const Administrateurs = () => {
           loggedUserToken={token}
           administrateurs={filteredAdmins}
           handleReloadAdmins={getAdmins}
+          addValidationMessage={addToast}
         />
       ) : !errors.fetchError && (
         <p className='fr-mt-4w'> <i>La liste des administrateurs est vide.</i></p>
       )}
 
       {errors.fetchError && <p className='fr-error-text'>{errors.fetchError}</p>}
+      <ToastsContainer toasts={toasts} removeToast={removeToast} />
     </div>
   )
 }
