@@ -6,14 +6,14 @@ import colors from '@/styles/colors.js'
 import TextInput from '@/components/text-input.js'
 import Button from '@/components/button.js'
 
-const AddForm = ({onClose, errorMessage, validationMessage, isAdmin, onSubmit}) => {
-  const [nom, setNom] = useState('')
-  const [email, setEmail] = useState('')
+const AddForm = ({initialValues, editingItemId, onClose, errorMessage, isAdmin, onSubmit}) => {
+  const [nom, setNom] = useState(initialValues?.nom || '')
+  const [email, setEmail] = useState(initialValues?.email || '')
 
   const handleSubmit = event => {
     event.preventDefault()
 
-    onSubmit(nom, email)
+    onSubmit(nom, email, editingItemId)
   }
 
   return (
@@ -63,7 +63,7 @@ const AddForm = ({onClose, errorMessage, validationMessage, isAdmin, onSubmit}) 
             Valider
           </Button>
         </div>
-        {validationMessage && <p className='fr-valid-text fr-col-12 fr-mt-2w'>{validationMessage}</p>}
+
         {errorMessage && <p className='fr-error-text fr-col-12 fr-mt-2w'>{errorMessage}</p>}
       </div>
 
@@ -77,17 +77,19 @@ const AddForm = ({onClose, errorMessage, validationMessage, isAdmin, onSubmit}) 
 }
 
 AddForm.propTypes = {
+  editingItemId: PropTypes.string,
   errorMessage: PropTypes.string,
-  validationMessage: PropTypes.string,
+  initialValues: PropTypes.object,
   isAdmin: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired
 }
 
 AddForm.defaultProps = {
+  editingItemId: null,
   errorMessage: null,
-  isAdmin: false,
-  validationMessage: null
+  initialValues: {},
+  isAdmin: false
 }
 
 export default AddForm
