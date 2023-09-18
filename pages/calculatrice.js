@@ -232,13 +232,7 @@ const Calculatrice = () => {
 
           <div>
             {areas.length > 0 && (
-              <div
-                className='fr-grid-row'
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-around'
-                }}
-              >
+              <div className='fr-grid-row'>
                 <div className='fr-col-lg-6 fr-col-12 fr-p-6v'>
                   <div className='fr-pb-3v'>
                     <b>Liste des territoires :</b>
@@ -248,19 +242,19 @@ const Calculatrice = () => {
                       key={area.code}
                       className='fr-grid-row fr-pb-2v'
                     >
-                      <div className='fr-col-lg-6 fr-col-12'>
+                      <div className='fr-col-9'>
                         <span>{area.nom} ({area.code})</span>
-                      </div>
-                      <div className='fr-col-lg-6 fr-col-12' style={{display: 'flex', justifyContent: 'space-between'}}>
                         <span> → </span>
                         <span>Surface: <b>{formatNumber(area.surface)}</b> km2</span>
+                      </div>
+                      <div className='fr-col-3' style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                         <button
                           type='button'
                           style={{
                             color: `${colors.error425}`,
                             boxShadow: `0 0 0 1px ${colors.error425}`
                           }}
-                          className='fr-btn fr-btn--sm fr-btn--secondary fr-icon-delete-line fr-mx-2w'
+                          className='fr-btn fr-btn--sm fr-btn--secondary fr-icon-delete-line'
                           onClick={() => handleRemoveTerritory(area.nom)}
                         >
                           Supprimer
@@ -270,21 +264,23 @@ const Calculatrice = () => {
                   ))}
                 </div>
                 {sizeInGigas && (
-                  <div className='fr-col-lg-6 fr-col-12 fr-p-6v' style={{borderRadius: '3px', backgroundColor: 'whitesmoke'}}>
-                    <div className='fr-pb-3v'>
-                      <b>Résumé:</b>
-                    </div>
-                    <div>
-                      <small>
-                        <i>
-                          <div>Superficie totale: {formatNumber(areasTotalSize)} km2</div>
-                          <div>Marge de construction du tuilage: {margin}</div>
-                          <div>Nombre de pixels: {formatNumber(sizeInGigas.numberOfPixels / 1_000_000)} millions</div>
-                          <div>Nombre de pixels en incluant la marge: {formatNumber(sizeInGigas.numberOfPixelsWithMargin / 1_000_000)} millions</div>
-                          <div>Format sélectionné: {compression}</div>
-                          <div>Résultat: {formatNumber(sizeInGigas.sizeCompressed * 0.01) > 1 ? `${formatNumber(sizeInGigas.sizeCompressed * 0.01)} € HT / mois` : 'Moins d’un euro HT par mois'}</div>
-                        </i>
-                      </small>
+                  <div className='fr-col-lg-6 fr-col-12'>
+                    <div className='fr-m-6v fr-p-6v' style={{borderRadius: '3px', backgroundColor: 'whitesmoke'}}>
+                      <div className='fr-pb-3v'>
+                        <b>Résumé:</b>
+                      </div>
+                      <div>
+                        <small>
+                          <i>
+                            <div>Superficie totale: {formatNumber(areasTotalSize)} km2</div>
+                            <div>Marge de construction du tuilage: {margin}</div>
+                            <div>Nombre de pixels: {formatNumber(sizeInGigas.numberOfPixels / 1_000_000)} millions</div>
+                            <div>Nombre de pixels en incluant la marge: {formatNumber(sizeInGigas.numberOfPixelsWithMargin / 1_000_000)} millions</div>
+                            <div>Format sélectionné: {compression}</div>
+                            <div>Résultat: {formatNumber(sizeInGigas.sizeCompressed * 0.01) > 1 ? `${formatNumber(sizeInGigas.sizeCompressed * 0.01)} € HT / mois` : 'Moins d’un euro HT par mois'}</div>
+                          </i>
+                        </small>
+                      </div>
                     </div>
                   </div>
                 )}
