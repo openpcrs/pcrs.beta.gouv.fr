@@ -21,7 +21,7 @@ const SelectInput = ({label, value, ariaLabel, options, errorMessage, descriptio
           hidden
           value=''
         >
-          Selectionnez une option
+          Sélectionnez une option
         </option>
 
         {options.map(({value, label, isDisabled}) => (
