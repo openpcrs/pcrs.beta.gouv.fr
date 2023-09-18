@@ -50,17 +50,25 @@ export async function updateCreator(creatorId, update) {
 
   mongo.decorateUpdate(changes)
 
-  const {value} = await mongo.db.collection('creators-emails').findOneAndUpdate(
-    {_id: creatorId},
-    {$set: {...changes}},
-    {returnDocument: 'after'}
-  )
+  try {
+    const {value} = await mongo.db.collection('creators-emails').findOneAndUpdate(
+      {_id: creatorId},
+      {$set: {...changes}},
+      {returnDocument: 'after'}
+    )
 
-  if (!value) {
-    throw createError(404, 'Cette adresse est introuvable')
+    if (!value) {
+      throw createError(404, 'Cette adresse est introuvable')
+    }
+
+    return value
+  } catch (error) {
+    if (error.message.includes('E11000')) {
+      throw createError(409, 'Cette adresse courriel est déjà dans la liste.')
+    }
+
+    throw error
   }
-
-  return value
 }
 
 export async function deleteCreator(creatorId) {
