@@ -7,6 +7,7 @@ import colors from '@/styles/colors.js'
 import Section from '@/components/section.js'
 import SelectInput from '@/components/select-input.js'
 import AutocompleteInput from '@/components/autocomplete-input.js'
+import NumberInput from '@/components/number-input.js'
 import {getCommuneByCode, getPerimetersByName} from '@/lib/decoupage-administratif-api.js'
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_URL || 'https://pcrs.beta.gouv.fr'
@@ -27,6 +28,7 @@ function formatSize(size) {
 
 const Calculatrice = () => {
   const [calculatorType, setCalculatorType] = useState()
+  const [fileSize, setFileSize] = useState()
   const [foundPerimetres, setFoundPerimetres] = useState([])
   const [searchValue, setSearchValue] = useState()
   const [territoryType, setTerritoryType] = useState()
@@ -226,7 +228,20 @@ const Calculatrice = () => {
 
           {calculatorType === 'file' && (
             <div className='fr-col-12 fr-p-3w'>
-              <i>Ce calculateur arrivera prochainement</i>
+              <NumberInput
+                label='Taille du fichier'
+                description='Taille de votre fichier en gigaoctets'
+                value={fileSize}
+                onValueChange={e => setFileSize(e.target.value)}
+              />
+              {fileSize && (
+                <>
+                  <p>
+                    L’hébergement de ce volume de fichier chez un hébergeur moyen (0,01€/Go/mois) revient à <b>{(fileSize * 0.01) > 1 ? `${fileSize * 0.01} € HT / mois` : 'moins d’un euro HT par mois'}</b>.
+                  </p>
+                  <hr />
+                </>
+              )}
             </div>
           )}
 
