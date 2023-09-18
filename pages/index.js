@@ -19,7 +19,7 @@ const Home = ({testimonies}) => (
     <EventCarousel />
     <Hero />
     <>
-      <p className='intro fr-p-4w fr-p-md-9w fr-text--xl'>
+      <p className='intro fr-p-3w fr-p-md-7w fr-text--lg'>
         Vous êtes sur le site construit par et pour les territoires. Il expose les différents projets PCRS en cours, leurs acteurs et résultats produits. C’est le support de l’animation nationale associé à la documentation à produire.
       </p>
 

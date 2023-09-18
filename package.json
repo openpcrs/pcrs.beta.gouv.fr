@@ -19,6 +19,7 @@
     "@gouvfr/dsfr": "^1.9.2",
     "@keyv/sqlite": "^3.6.5",
     "@next/bundle-analyzer": "^13.0.7",
+    "@turf/area": "^6.5.0",
     "@turf/union": "^6.5.0",
     "date-fns": "^2.29.3",
     "dotenv": "^16.0.3",
