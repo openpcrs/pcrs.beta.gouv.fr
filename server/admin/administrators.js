@@ -63,17 +63,25 @@ export async function updateAdministrator(adminId, update) {
 
   mongo.decorateUpdate(changes)
 
-  const {value} = await mongo.db.collection('administrators').findOneAndUpdate(
-    {_id: adminId},
-    {$set: {...changes}},
-    {returnDocument: 'after'}
-  )
+  try {
+    const {value} = await mongo.db.collection('administrators').findOneAndUpdate(
+      {_id: adminId},
+      {$set: {...changes}},
+      {returnDocument: 'after'}
+    )
 
-  if (!value) {
-    throw createError(404, 'Cet identifiant est introuvable')
+    if (!value) {
+      throw createError(404, 'Cet identifiant est introuvable')
+    }
+
+    return value
+  } catch (error) {
+    if (error.message.includes('E11000')) {
+      throw createError(409, 'Cette adresse courriel est déjà dans la liste.')
+    }
+
+    throw error
   }
-
-  return value
 }
 
 export async function deleteAdministrator(adminId) {
