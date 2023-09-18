@@ -67,6 +67,7 @@ const Header = ({token, items, isAdmin, errorMessage, validationMessage, isValid
       {isFormOpen && (
         <AddForm
           token={token}
+          isAdmin={isAdmin}
           handleFormOpen={() => setIsFormOpen(!isFormOpen)}
           errorMessage={errorMessage}
           validationMessage={validationMessage}
