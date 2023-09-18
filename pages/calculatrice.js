@@ -15,6 +15,16 @@ function formatNumber(number, maximumFractionDigits = 0) {
   return number.toLocaleString('fr', {maximumFractionDigits})
 }
 
+function formatSize(size) {
+  const formatedSize = formatNumber(size)
+
+  if (formatedSize.length >= 4) {
+    return formatNumber(size / 1000) + ' To'
+  }
+
+  return formatedSize + ' Go'
+}
+
 const Calculatrice = () => {
   const [calculatorType, setCalculatorType] = useState()
   const [foundPerimetres, setFoundPerimetres] = useState([])
@@ -318,7 +328,7 @@ const Calculatrice = () => {
                   <span>cm comportera environ <b>{formatNumber(sizeInGigas.numberOfPixelsWithMargin / 1_000_000)}</b> millions de pixels.</span>
                 </p>
                 <p>
-                  <b>{formatNumber(sizeInGigas.numberOfPixelsWithMargin / 1_000_000)}</b> millions de pixels non compressés sur 3 canaux de couleurs 8 bits ont un poids total de <b>{formatNumber(sizeInGigas.sizeUncompressed)} Go</b>
+                  <b>{formatNumber(sizeInGigas.numberOfPixelsWithMargin / 1_000_000)}</b> millions de pixels non compressés sur 3 canaux de couleurs 8 bits ont un poids total de <b>{formatSize(sizeInGigas.sizeUncompressed)}</b>.
                 </p>
                 <p>
                   <span>En appliquant une compression </span>
@@ -332,7 +342,7 @@ const Calculatrice = () => {
                     <option value='GeoTIFF/LZW'>GeoTIFF/LZW</option>
                     <option value='GeoTIFF/Deflate'>GeoTIFF/Deflate</option>
                   </select>
-                  <span>, on obtient des fichiers d’un poids total de <b>{formatNumber(sizeInGigas.sizeCompressed)} Go</b>.</span>
+                  <span>, on obtient des fichiers d’un poids total de <b>{formatSize(sizeInGigas.sizeCompressed)}</b>.</span>
                 </p>
                 <p>L’hébergement de ce volume de fichier chez un hébergeur moyen (0,01€/Go/mois) revient à <b>{formatNumber(sizeInGigas.sizeCompressed * 0.01) > 1 ? `${formatNumber(sizeInGigas.sizeCompressed * 0.01)} € HT / mois` : 'moins d’un euro HT par mois'}</b>.</p>
                 <div>
