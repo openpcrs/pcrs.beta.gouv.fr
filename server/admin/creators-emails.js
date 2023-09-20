@@ -44,9 +44,12 @@ export async function addCreator(creator) {
 }
 
 export async function updateCreator(creatorId, update) {
+  const changes = pick(update, ['email', 'nom'])
   creatorId = mongo.parseObjectId(creatorId)
 
-  const changes = pick(update, ['email', 'nom'])
+  if (changes.email && !validateEmail(changes.email)) {
+    throw createError(400, 'Cette adresse courriel est invalide')
+  }
 
   mongo.decorateUpdate(changes)
 
