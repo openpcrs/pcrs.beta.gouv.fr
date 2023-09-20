@@ -178,7 +178,7 @@ const Calculatrice = () => {
   }, [searchValue])
 
   return (
-    <Page title='Calculateur de coups' description='Calculez les coups d’hébergement de votre livrable'>
+    <Page title='Calculateur de coûts' description='Calculez les coûts d’hébergement de votre livrable'>
       <h1 className='fr-m-4w'>Calculateur de frais d’hébergement des données</h1>
       <Section>
         <div className='fr-m-3v fr-grid-row--left'>
