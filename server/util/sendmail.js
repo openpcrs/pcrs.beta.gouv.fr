@@ -1,9 +1,3 @@
-/* eslint-disable import/first */
-
-import * as dotenv from 'dotenv'
-
-dotenv.config()
-
 import nodemailer from 'nodemailer'
 import {pick} from 'lodash-es'
 

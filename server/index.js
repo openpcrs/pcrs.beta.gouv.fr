@@ -1,11 +1,6 @@
 #!/usr/bin/env node
-
-/* eslint-disable import/first */
-/* eslint-disable import/order */
-
-import * as dotenv from 'dotenv'
-
-dotenv.config()
+/* eslint-disable import/no-unassigned-import */
+import 'dotenv/config.js'
 
 import process from 'node:process'
 

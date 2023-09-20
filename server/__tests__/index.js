@@ -2,7 +2,6 @@ import test from 'ava'
 import {MongoMemoryServer} from 'mongodb-memory-server'
 import express from 'express'
 import request from 'supertest'
-import dotenv from 'dotenv'
 import mongo from '../util/mongo.js'
 import w from '../util/w.js'
 
@@ -17,8 +16,6 @@ import reportRoutes from '../routes/report.js'
 
 import validProjet from '../mock/mock-valid-projet.js'
 import invalidProjet from '../mock/mock-invalid-projet.js'
-
-dotenv.config()
 
 const token = process.env.ADMIN_TOKEN
 
