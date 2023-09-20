@@ -39,6 +39,7 @@ const Calculatrice = () => {
   const [margin, setMargin] = useState('10%')
   const [marginValue, setMarginValue] = useState(0.1)
   const [pixelDensity, setPixelDensity] = useState(5)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   function getMarginValue(label) {
     const marginValues = [
@@ -83,7 +84,9 @@ const Calculatrice = () => {
       const response = await fetch(`${API_BASE_URL}/calculator/territory-area/${territoryType}s:${code}`)
       const area = await response.json()
 
-      if (!areas.some(area => area.code === code)) {
+      if (areas.some(area => area.code === code)) {
+        setErrorMessage('Ce territoire est déjà dans la liste !')
+      } else {
         setAreas([...areas, {surface: area.surface, nom: foundPerimetreName, code}])
       }
     } catch (error) {
@@ -168,6 +171,12 @@ const Calculatrice = () => {
     }
   }, [areas])
 
+  useEffect(() => {
+    if (searchValue) {
+      setErrorMessage(null)
+    }
+  }, [searchValue])
+
   return (
     <Page title='Calculateur de coups' description='Calculez les coups d’hébergement de votre livrable'>
       <h1 className='fr-m-4w'>Calculateur de frais d’hébergement des données</h1>
@@ -223,6 +232,7 @@ const Calculatrice = () => {
                   />
                 )}
               </div>
+              <div className='error-message'>{errorMessage}</div>
             </div>
           )}
 
@@ -372,6 +382,16 @@ const Calculatrice = () => {
           padding: 0 5px;
           margin: 0 5px;
           border-radius: 3px;
+        }
+
+        .error-message {
+          width: 100%;
+          min-height: 25px;
+          padding: 0 1em;
+          text-align: end;
+          color: ${colors.error425};
+          font-size: .8em;
+          font-style: italic;
         }
       `}</style>
     </Page>
