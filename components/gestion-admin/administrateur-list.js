@@ -6,14 +6,13 @@ import {deleteAdministrator} from '@/lib/suivi-pcrs.js'
 import ListItem from '@/components/gestion-admin/list-item.js'
 import Modal from '@/components/modal.js'
 
-const AdministrateurList = ({loggedUserToken, administrateurs, handleReloadAdmins}) => {
+const AdministrateurList = ({loggedUserToken, administrateurs, addValidationMessage, handleReloadAdmins}) => {
   const [errorMessage, setErrorMessage] = useState(null)
-  const [validationMessage, setValidationMessage] = useState(null)
   const [selectedAdminId, setSelectedAdminId] = useState(null)
 
   const handleConfirmationModal = id => {
     setErrorMessage(null)
-    setValidationMessage(null)
+
     if (selectedAdminId) {
       setSelectedAdminId(null)
     } else {
@@ -26,11 +25,9 @@ const AdministrateurList = ({loggedUserToken, administrateurs, handleReloadAdmin
 
     try {
       await deleteAdministrator(_id, loggedUserToken)
-      setValidationMessage(`Les droits administrateurs de ${nom} ont été révoqués`)
 
-      setTimeout(() => {
-        handleReloadAdmins()
-      }, 2000)
+      addValidationMessage({type: 'success', isClosable: true, content: `Les droits administrateurs de ${nom} ont été révoqués`})
+      handleReloadAdmins()
     } catch (error) {
       setErrorMessage(error.message)
     }
@@ -58,7 +55,6 @@ const AdministrateurList = ({loggedUserToken, administrateurs, handleReloadAdmin
 
                 <div className='fr-grid-row fr-grid-row--center'>
                   <button
-                    disabled={Boolean(validationMessage)}
                     type='button'
                     aria-label='Révoquer le porteur'
                     className='fr-btn revoke-button fr-py-1w fr-px-1w'
@@ -66,11 +62,6 @@ const AdministrateurList = ({loggedUserToken, administrateurs, handleReloadAdmin
                   >
                     <span className='fr-icon-close-circle-line fr-pr-1w' aria-hidden='true' />Révoquer {nom}
                   </button>
-                  {validationMessage && (
-                    <p className='fr-grid-row fr-grid-row--center fr-valid-text fr-col-12 fr-mt-2w fr-mb-0'>
-                      {validationMessage}
-                    </p>
-                  )}
 
                   {errorMessage && (
                     <p className='fr-grid-row fr-grid-row--center fr-error-text fr-col-12 fr-mt-2w fr-mb-0'>
@@ -90,6 +81,7 @@ const AdministrateurList = ({loggedUserToken, administrateurs, handleReloadAdmin
 AdministrateurList.propTypes = {
   loggedUserToken: PropTypes.string.isRequired,
   administrateurs: PropTypes.array.isRequired,
+  addValidationMessage: PropTypes.func.isRequired,
   handleReloadAdmins: PropTypes.func.isRequired
 }
 

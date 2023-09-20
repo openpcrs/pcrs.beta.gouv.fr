@@ -6,13 +6,12 @@ import {deleteCreator} from '@/lib/suivi-pcrs.js'
 import ListItem from '@/components/gestion-admin/list-item.js'
 import Modal from '@/components/modal.js'
 
-const PorteurList = ({token, porteurs, error, addError, clearError, handleReloadPorteurs}) => {
-  const [validationMessage, setValidationMessage] = useState(null)
+const PorteurList = ({token, porteurs, addValidationMessage, handleReloadPorteurs}) => {
+  const [errorMessage, setErrorMessage] = useState(null)
   const [selectedPorteurId, setSelectedPorteurId] = useState(null)
 
   const handleConfirmationModal = id => {
-    clearError('revokeError')
-    setValidationMessage(null)
+    setErrorMessage(null)
 
     if (selectedPorteurId) {
       setSelectedPorteurId(null)
@@ -22,17 +21,15 @@ const PorteurList = ({token, porteurs, error, addError, clearError, handleReload
   }
 
   const onRevoke = async (_id, nom) => {
-    clearError('revokeError')
+    setErrorMessage(null)
 
     try {
       await deleteCreator(_id, token)
-      setValidationMessage(`Les droits de création de ${nom} ont été révoqués`)
+      handleReloadPorteurs()
 
-      setTimeout(() => {
-        handleReloadPorteurs()
-      }, 2000)
+      addValidationMessage({type: 'success', isClosable: true, content: `Les droits de création de ${nom} ont été révoqués`})
     } catch {
-      addError('revokeError', `Les droits de création de ${nom} n’ont pas été révoqués`)
+      setErrorMessage(`Les droits de création de ${nom} n’ont pas été révoqués`)
     }
   }
 
@@ -58,7 +55,6 @@ const PorteurList = ({token, porteurs, error, addError, clearError, handleReload
 
                 <div className='fr-grid-row fr-grid-row--center'>
                   <button
-                    disabled={Boolean(validationMessage)}
                     type='button'
                     aria-label='Révoquer le porteur'
                     className='fr-btn revoke-button fr-py-1w fr-px-1w'
@@ -66,15 +62,10 @@ const PorteurList = ({token, porteurs, error, addError, clearError, handleReload
                   >
                     <span className='fr-icon-close-circle-line fr-pr-1w' aria-hidden='true' />Révoquer {nom}
                   </button>
-                  {validationMessage && (
-                    <p className='fr-grid-row fr-grid-row--center fr-valid-text fr-col-12 fr-mt-2w fr-mb-0'>
-                      {validationMessage}
-                    </p>
-                  )}
 
-                  {error && (
+                  {errorMessage && (
                     <p className='fr-grid-row fr-grid-row--center fr-error-text fr-col-12 fr-mt-2w fr-mb-0'>
-                      {error}
+                      {errorMessage}
                     </p>
                   )}
                 </div>
@@ -90,14 +81,8 @@ const PorteurList = ({token, porteurs, error, addError, clearError, handleReload
 PorteurList.propTypes = {
   token: PropTypes.string.isRequired,
   porteurs: PropTypes.array.isRequired,
-  error: PropTypes.string,
-  addError: PropTypes.func.isRequired,
-  clearError: PropTypes.func.isRequired,
+  addValidationMessage: PropTypes.func.isRequired,
   handleReloadPorteurs: PropTypes.func.isRequired
-}
-
-PorteurList.defaultProps = {
-  error: null
 }
 
 export default PorteurList
