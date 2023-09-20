@@ -47,7 +47,7 @@ export async function updateCreator(creatorId, update) {
   const changes = pick(update, ['email', 'nom'])
   creatorId = mongo.parseObjectId(creatorId)
 
-  if (changes.email && !validateEmail(changes.email)) {
+  if (changes.email !== undefined && !validateEmail(changes.email)) {
     throw createError(400, 'Cette adresse courriel est invalide')
   }
 
