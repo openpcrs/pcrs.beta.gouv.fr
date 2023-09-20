@@ -97,6 +97,16 @@ test.serial('Update administrator / invalid mail', async t => {
   await t.throwsAsync(async () => updateAdministrator(administrator.insertedId, {email: 'mailPasValide'}))
 })
 
+test.serial('Update administrator / empty mail', async t => {
+  const administrator = await mongo.db.collection('administrators').insertOne({
+    nom: 'Administrateur',
+    email: 'administrateur@mail.com',
+    token: nanoid()
+  })
+
+  await t.throwsAsync(async () => updateAdministrator(administrator.insertedId, {email: ''}))
+})
+
 test.serial('Delete administrator', async t => {
   const admin1 = await mongo.db.collection('administrators').insertOne({
     nom: 'Administrateur',
