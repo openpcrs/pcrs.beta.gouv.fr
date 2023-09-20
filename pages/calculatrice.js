@@ -107,7 +107,7 @@ const Calculatrice = () => {
   const handleAreaToSize = useCallback(async areasTotalSize => {
     const formatCompression = [
       {label: 'GeoTIFF/Non-compressé', value: 1},
-      {label: 'GeoTIFF/LZW ', value: 0.6},
+      {label: 'GeoTIFF/LZW', value: 0.6},
       {label: 'GeoTIFF/Deflate', value: 0.55},
       {label: 'JPEG2000/Lossless', value: 0.55},
       {label: 'JPEG2000/Lossy', value: 0.25}
