@@ -87,6 +87,15 @@ test.serial('Update creator / empty mail', async t => {
   await t.throwsAsync(async () => updateCreator(creator.insertedId, {email: ''}))
 })
 
+test.serial('Update creator / email null', async t => {
+  const creator = await mongo.db.collection('creators-emails').insertOne({
+    nom: 'Créateur',
+    email: 'createur@mail.com'
+  })
+
+  await t.throwsAsync(async () => updateCreator(creator.insertedId, {email: null}))
+})
+
 test.serial('Delete creator', async t => {
   const creator = await mongo.db.collection('creators-emails').insertOne({
     nom: 'Créateur',
