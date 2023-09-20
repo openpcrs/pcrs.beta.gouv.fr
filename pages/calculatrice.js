@@ -67,7 +67,7 @@ const Calculatrice = () => {
     const foundPerimetreName = foundPerimetres.find(result => result.code === code).nom
 
     try {
-      const response = await fetch(`${API_BASE_URL}/calculator/territory-area/${territoryType}s:${code}`)
+      const response = await fetch(`${API_BASE_URL}/calculator/territory-area/${territoryType}${territoryType === 'epci' ? '' : 's'}:${code}`)
       const area = await response.json()
 
       if (!areas.some(area => area.code === code)) {
