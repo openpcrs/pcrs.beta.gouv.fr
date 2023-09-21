@@ -1,13 +1,13 @@
 function computePixelDensityPerKm2(resolutionInCm) {
-  const numPixelsPerKm = 100_000 / resolutionInCm
-  return numPixelsPerKm * numPixelsPerKm
+  const numberOfPixelsPerKm = 100_000 / resolutionInCm
+  return numberOfPixelsPerKm * numberOfPixelsPerKm
 }
 
-export function areaToPixels(area, pixelDensity) {
+function areaToPixels(area, pixelDensity) {
   return pixelDensity * area
 }
 
-export function pixelToGigaOctets(numberOfPixels) {
+function pixelsToGigaOctets(numberOfPixels) {
   // Number of pixels * 3 colors divided to get gigas
   return (numberOfPixels * 3) / 1_000_000_000
 }
@@ -16,18 +16,18 @@ function addPercent(value, percent) {
   return value + (value * percent)
 }
 
-export function areaWeigthInGigas(area, compression, resolution, marge) {
-  const pxDensity = computePixelDensityPerKm2(resolution)
-  const nbPixels = areaToPixels(area, pxDensity)
-  const nbPixelsWithMarge = addPercent(nbPixels, marge)
-  const sizeInGigas = pixelToGigaOctets(nbPixelsWithMarge)
-  const compressedSize = sizeInGigas * (compression || 1)
+export function areaSizeToGigas(area, compression, resolution, margin) {
+  const pixelDensity = computePixelDensityPerKm2(resolution)
+  const numberOfPixels = areaToPixels(area, pixelDensity)
+  const numberOfPixelsWithMargin = addPercent(numberOfPixels, margin)
+  const sizeUncompressed = pixelsToGigaOctets(numberOfPixelsWithMargin)
+  const sizeCompressed = sizeUncompressed * (compression || 1)
 
   return {
-    numberOfPixels: nbPixels,
-    numberOfPixelsWithMarge: nbPixelsWithMarge,
-    sizeUncompressed: sizeInGigas,
-    sizeCompressed: compressedSize
+    numberOfPixels,
+    numberOfPixelsWithMargin,
+    sizeUncompressed,
+    sizeCompressed
   }
 }
 
