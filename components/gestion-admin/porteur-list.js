@@ -1,14 +1,16 @@
 import {useState} from 'react'
 import PropTypes from 'prop-types'
 
-import {deleteCreator} from '@/lib/suivi-pcrs.js'
+import {deleteCreator, editCreator} from '@/lib/suivi-pcrs.js'
 
 import ListItem from '@/components/gestion-admin/list-item.js'
+import AddForm from '@/components/gestion-admin/add-form.js'
 import Modal from '@/components/modal.js'
 
 const PorteurList = ({token, porteurs, addValidationMessage, handleReloadPorteurs}) => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [selectedPorteurId, setSelectedPorteurId] = useState(null)
+  const [editingPorteur, setEditingPorteur] = useState(null)
 
   const handleConfirmationModal = id => {
     setErrorMessage(null)
@@ -17,6 +19,16 @@ const PorteurList = ({token, porteurs, addValidationMessage, handleReloadPorteur
       setSelectedPorteurId(null)
     } else {
       setSelectedPorteurId(id)
+    }
+  }
+
+  const handleEditForm = id => {
+    setErrorMessage(null)
+
+    if (editingPorteur) {
+      setEditingPorteur(null)
+    } else {
+      setEditingPorteur(id)
     }
   }
 
@@ -33,6 +45,20 @@ const PorteurList = ({token, porteurs, addValidationMessage, handleReloadPorteur
     }
   }
 
+  const onEdit = async (nom, email, id) => {
+    setErrorMessage(null)
+
+    try {
+      await editCreator(token, id, {nom, email})
+
+      addValidationMessage({type: 'success', isClosable: true, content: 'Le porteur a été modifié'})
+      handleReloadPorteurs()
+      setEditingPorteur(null)
+    } catch (error) {
+      setErrorMessage(error.message)
+    }
+  }
+
   return (
     <ul className='fr-mt-2w fr-p-0'>
       {porteurs.map(({_id, email, nom, _created}) => (
@@ -43,8 +69,19 @@ const PorteurList = ({token, porteurs, addValidationMessage, handleReloadPorteur
               nom={nom}
               creationDate={_created}
               handleModal={() => handleConfirmationModal(_id)}
+              handleEdit={() => handleEditForm(_id)}
             />
           </li>
+
+          {editingPorteur === _id && (
+            <AddForm
+              initialValues={{nom, email}}
+              editingItemId={_id}
+              errorMessage={errorMessage}
+              onClose={() => handleEditForm(null)}
+              onSubmit={onEdit}
+            />
+          )}
 
           {selectedPorteurId === _id && (
             <Modal title='Êtes-vous sûr de révoquer les droits de ce porteur ?' onClose={handleConfirmationModal}>
