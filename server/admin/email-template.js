@@ -1,9 +1,3 @@
-/* eslint-disable import/first */
-
-import * as dotenv from 'dotenv'
-
-dotenv.config()
-
 import {template} from 'lodash-es'
 
 const bodyTemplate = template(`
