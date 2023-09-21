@@ -5,6 +5,7 @@ import Link from 'next/link'
 import DeviceContext from '@/contexts/device.js'
 
 const Header = () => {
+  const [isToolsOpen, setIsToolsOpen] = useState(false)
   const {isMobileDevice} = useContext(DeviceContext)
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -66,6 +67,28 @@ const Header = () => {
                         Espace documentaire
                       </a>
                     </li>
+                    <li>
+                      <div
+                        className='drop-button'
+                        onMouseEnter={() => setIsToolsOpen(true)}
+                        onMouseLeave={() => setIsToolsOpen(false)}
+                      >
+                        <div className='fr-btn fr-icon-arrow-down-s-line'>
+                          Outils
+                        </div>
+                        {isToolsOpen && (
+                          <div className='drop-item'>
+                            <Link
+                              legacyBehavior href='/calculatrice'
+                            >
+                              <a className='fr-btn fr-icon-money-euro-circle-line'>
+                                Calculatrice de coûts
+                              </a>
+                            </Link>
+                          </div>
+                        )}
+                      </div>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -107,6 +130,25 @@ const Header = () => {
                     Espace documentaire
                   </a>
                 </li>
+                <li>
+                  <div
+                    className='drop-button fr-py-1w fr-px-2w'
+                    onClick={() => setIsToolsOpen(!isToolsOpen)}
+                  >
+                    <div className='fr-btn fr-icon-arrow-down-s-line'>
+                      Outils
+                    </div>
+                    {isToolsOpen && (
+                      <div className='drop-item-mobile'>
+                        <Link legacyBehavior href='/calculatrice'>
+                          <a className='fr-btn fr-icon-money-euro-circle-line'>
+                            Calculatrice de coûts
+                          </a>
+                        </Link>
+                      </div>
+                    )}
+                  </div>
+                </li>
               </ul>
             </div>
           </div>
@@ -137,6 +179,26 @@ const Header = () => {
           width: fit-content;
         }
 
+        .drop-item, .drop-item-mobile {
+          background-color: #f6f6f6;
+          position: absolute;
+          top: 75px;
+          right: 20px;
+          border-bottom: 1px solid lightgrey;
+          padding-top: 15px;
+        }
+
+        .drop-item-mobile {
+          top: 250px;
+          left: 8px;
+          width: fit-content;
+          padding: 15px;
+          border-bottom: 0;
+        }
+
+        .drop-button:hover, .drop-button:active {
+          background-color: #f6f6f6;
+        }
       `}</style>
     </div>
   )
