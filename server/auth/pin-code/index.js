@@ -1,3 +1,5 @@
+import process from 'node:process'
+
 import randomNumber from 'random-number-csprng'
 import Papa from 'papaparse'
 import {nanoid} from 'nanoid'
