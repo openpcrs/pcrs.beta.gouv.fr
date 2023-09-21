@@ -17,36 +17,36 @@ const AddForm = ({initialValues, editingItemId, onClose, errorMessage, isAdmin, 
   }
 
   return (
-    <form className='fr-grid-row fr-my-6w fr-pb-4w' onSubmit={handleSubmit}>
-      <div className='fr-grid-row fr-grid-row--gutters fr-col-12 '>
-        <div className='fr-col-12 fr-col-md-4'>
-          <TextInput
-            isRequired
-            autoFocus
-            label={`Nom ${isAdmin ? 'de l’administrateur' : 'du porteur'}`}
-            ariaLabel={`Nom ${isAdmin ? 'de l’administrateur' : 'du porteur'}`}
-            value={nom}
-            placeholder={`Nom ${isAdmin ? 'de l’administrateur' : 'du porteur'}`}
-            onValueChange={e => setNom(e.target.value)}
-          />
-        </div>
-        <div className='fr-col-12 fr-col-md-4'>
-          <TextInput
-            isRequired
-            type='email'
-            label={`Email ${isAdmin ? 'de l’administrateur' : 'du porteur'}`}
-            ariaLabel={`Email ${isAdmin ? 'de l’administrateur' : 'du porteur'}`}
-            value={email}
-            placeholder={`Email ${isAdmin ? 'de l’administrateur' : 'du porteur'}`}
-            onValueChange={e => setEmail(e.target.value)}
-          />
+    <form className='fr-grid-row fr-grid-row--gutters fr-my-6w fr-pb-4w fr-col-12' onSubmit={handleSubmit}>
+      <div className='fr-grid-row fr-col-12 fr-col-md-8 fr-pr-0'>
+        <div className='fr-grid-row fr-grid-row--gutters fr-col-12'>
+          <div className='fr-col-12 fr-col-md-6'>
+            <TextInput
+              isRequired
+              autoFocus
+              label={`Nom ${isAdmin ? 'de l’administrateur' : 'du porteur'}`}
+              ariaLabel={`Nom ${isAdmin ? 'de l’administrateur' : 'du porteur'}`}
+              value={nom}
+              placeholder={`Nom ${isAdmin ? 'de l’administrateur' : 'du porteur'}`}
+              onValueChange={e => setNom(e.target.value)}
+            />
+          </div>
+          <div className='fr-col-12 fr-col-md-6'>
+            <TextInput
+              isRequired
+              type='email'
+              label={`Email ${isAdmin ? 'de l’administrateur' : 'du porteur'}`}
+              ariaLabel={`Email ${isAdmin ? 'de l’administrateur' : 'du porteur'}`}
+              value={email}
+              placeholder={`Email ${isAdmin ? 'de l’administrateur' : 'du porteur'}`}
+              onValueChange={e => setEmail(e.target.value)}
+            />
+          </div>
         </div>
       </div>
-
-      <div className='fr-grid-row fr-mt-3w'>
-        <div className='fr-grid-row fr-col-12'>
-
-          <div className='fr-pr-3w'>
+      <div className='fr-grid-row fr-col-md-4 fr-col-12 fr-mt-2w fr-mt-md-0'>
+        <div className='fr-grid-row fr-grid-row--gutters fr-grid-row--right fr-col-12 fr-pb-1w'>
+          <div className='fr-grid-row fr-grid-row--bottom fr-pr-1w'>
             <Button
               label={`Annuler l’ajout ${isAdmin ? 'de l’administrateur' : 'du porteur'}`}
               buttonStyle='tertiary'
@@ -55,17 +55,18 @@ const AddForm = ({initialValues, editingItemId, onClose, errorMessage, isAdmin, 
               Annuler
             </Button>
           </div>
-          <Button
-            type='submit'
-            label={`Valider l’ajout ${isAdmin ? 'de l’administrateur' : 'du porteur'}`}
-            icon='checkbox-circle-fill'
-          >
-            Valider
-          </Button>
+          <div className='fr-grid-row fr-grid-row--bottom'>
+            <Button
+              type='submit'
+              label={`Valider l’ajout ${isAdmin ? 'de l’administrateur' : 'du porteur'}`}
+              icon='checkbox-circle-fill'
+            >
+              Valider
+            </Button>
+          </div>
         </div>
-
-        {errorMessage && <p className='fr-error-text fr-col-12 fr-mt-2w'>{errorMessage}</p>}
       </div>
+      {errorMessage && <p className='fr-error-text fr-col-12 fr-mt-0'>{errorMessage}</p>}
 
       <style jsx>{`
         form {
