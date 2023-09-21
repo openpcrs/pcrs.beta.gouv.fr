@@ -1,14 +1,16 @@
 import {useState} from 'react'
 import PropTypes from 'prop-types'
 
-import {deleteAdministrator} from '@/lib/suivi-pcrs.js'
+import {deleteAdministrator, editAdministator} from '@/lib/suivi-pcrs.js'
 
 import ListItem from '@/components/gestion-admin/list-item.js'
 import Modal from '@/components/modal.js'
+import AddForm from '@/components/gestion-admin/add-form.js'
 
 const AdministrateurList = ({loggedUserToken, administrateurs, addValidationMessage, handleReloadAdmins}) => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [selectedAdminId, setSelectedAdminId] = useState(null)
+  const [editingAdmin, setEditingAdmin] = useState(null)
 
   const handleConfirmationModal = id => {
     setErrorMessage(null)
@@ -17,6 +19,16 @@ const AdministrateurList = ({loggedUserToken, administrateurs, addValidationMess
       setSelectedAdminId(null)
     } else {
       setSelectedAdminId(id)
+    }
+  }
+
+  const handleEditForm = id => {
+    setErrorMessage(null)
+
+    if (editingAdmin) {
+      setEditingAdmin(null)
+    } else {
+      setEditingAdmin(id)
     }
   }
 
@@ -33,6 +45,20 @@ const AdministrateurList = ({loggedUserToken, administrateurs, addValidationMess
     }
   }
 
+  const onEdit = async (nom, email, id) => {
+    setErrorMessage(null)
+
+    try {
+      await editAdministator(loggedUserToken, id, {nom, email})
+
+      addValidationMessage({type: 'success', isClosable: true, content: 'L’administrateur a été modifié'})
+      handleReloadAdmins()
+      setEditingAdmin(null)
+    } catch (error) {
+      setErrorMessage(error.message)
+    }
+  }
+
   return (
     <ul className='fr-mt-2w fr-p-0'>
       {administrateurs.map(({_id, email, nom, _created, token}) => (
@@ -43,8 +69,20 @@ const AdministrateurList = ({loggedUserToken, administrateurs, addValidationMess
               nom={nom}
               creationDate={_created}
               handleModal={() => handleConfirmationModal(_id)}
+              handleEdit={() => handleEditForm(_id)}
             />
           </li>
+
+          {editingAdmin === _id && (
+            <AddForm
+              isAdmin
+              initialValues={{nom, email}}
+              editingItemId={_id}
+              errorMessage={errorMessage}
+              onClose={() => handleEditForm(null)}
+              onSubmit={onEdit}
+            />
+          )}
 
           {selectedAdminId === _id && (
             <Modal title='Êtes-vous sûr de révoquer les droits de cet administrateur ?' onClose={handleConfirmationModal}>

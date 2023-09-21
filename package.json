@@ -69,7 +69,10 @@
         "error",
         "never"
       ],
-      "n/prefer-global/process": "off",
+      "n/prefer-global/process": [
+        "error",
+        "always"
+      ],
       "unicorn/no-array-for-each": "off",
       "unicorn/prefer-switch": "off",
       "react/no-unknown-property": [
@@ -81,11 +84,25 @@
           ]
         }
       ]
-    }
+    },
+    "overrides": [
+      {
+        "files": [
+          "server/**/*.js",
+          "scripts/**/*.js"
+        ],
+        "rules": {
+          "n/prefer-global/process": [
+            "error",
+            "never"
+          ]
+        }
+      }
+    ]
   },
   "ava": {
     "workerThreads": false,
-    "environmentVariables" : {
+    "environmentVariables": {
       "ADMIN_TOKEN": "toto"
     }
   },
