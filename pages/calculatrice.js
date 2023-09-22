@@ -218,43 +218,65 @@ const Calculatrice = () => {
             </li>
           </ul>
         </div>
-        <div className='fr-container--fluid' style={{minHeight: '450px'}}>
+        <div className='border'>
+          <div className='fr-container--fluid' style={{minHeight: '600px'}}>
 
-          {calculatorType === 'territory' && (
-            <div className='fr-grid-row'>
-              <div className='fr-col-lg-6 fr-col-12 fr-p-3w'>
-                <SelectInput
-                  label='Type'
-                  value={territoryType}
-                  description='Le type de territoire à ajouter'
-                  options={[
-                    {label: 'EPCI', value: 'epci'},
-                    {label: 'Commune', value: 'commune'},
-                    {label: 'Département', value: 'departement'}
-                  ]}
-                  onValueChange={e => setTerritoryType(e.target.value)}
+            {activeTab === 'territoire' && (
+              <>
+                <div className='fr-notice fr-notice--info fr-my-3w'>
+                  <div className='fr-container'>
+                    <div className='fr-notice__body'>
+                      <p className='fr-notice__title'>Constituer une liste de territoires afin de déterminer les frais d’hébergement des données</p>
+                    </div>
+                  </div>
+                </div>
+                <div className='fr-grid-row'>
+                  <div className='fr-col-lg-6 fr-col-12 fr-p-3w'>
+                    <SelectInput
+                      label='Type'
+                      value={territoryType}
+                      description='Le type de territoire à ajouter'
+                      options={[
+                        {label: 'EPCI', value: 'epci'},
+                        {label: 'Commune', value: 'commune'},
+                        {label: 'Département', value: 'departement'}
+                      ]}
+                      onValueChange={e => setTerritoryType(e.target.value)}
+                    />
+                  </div>
+                  <div className='fr-col-lg-6 fr-col-12 fr-p-3w'>
+                    {territoryType && (
+                      <AutocompleteInput
+                        isRequired
+                        label={`Nom ${territoryType === 'commune' ? 'ou code' : ''}`}
+                        value={searchValue}
+                        description={`Recherche par nom ${territoryType === 'commune' ? ' ou code INSEE' : ''} du territoire`}
+                        ariaLabel={`Rechercher par nom ${territoryType === 'commune' ? 'ou code INSEE' : ''} du territoire`}
+                        results={foundPerimetres}
+                        renderItem={({nom, code}) => `${nom} - ${code}`}
+                        onInputChange={setSearchValue}
+                        onSelectValue={item => {
+                          handleSelect(item)
+                        }}
+                      />
+                    )}
+                  </div>
+                  <div className='error-message'>{errorMessage}</div>
+                  <div className='fat-hr' />
+                </div>
+              </>
+            )}
+
+            {activeTab === 'fichier' && (
+              <div className='fr-col-12 fr-p-3w'>
+                <NumberInput
+                  label='Taille du fichier'
+                  description='Taille de votre fichier en gigaoctets'
+                  value={fileSize}
+                  onValueChange={e => setFileSize(e.target.value)}
                 />
-              </div>
-              <div className='fr-col-lg-6 fr-col-12 fr-p-3w'>
-                {territoryType && (
-                  <AutocompleteInput
-                    isRequired
-                    label={`Nom ${territoryType === 'commune' ? 'ou code' : ''}`}
-                    value={searchValue}
-                    description={`Recherche par nom ${territoryType === 'commune' ? ' ou code INSEE' : ''} du territoire`}
-                    ariaLabel={`Rechercher par nom ${territoryType === 'commune' ? 'ou code INSEE' : ''} du territoire`}
-                    results={foundPerimetres}
-                    renderItem={({nom, code}) => `${nom} - ${code}`}
-                    onInputChange={setSearchValue}
-                    onSelectValue={item => {
-                      handleSelect(item)
-                    }}
-                  />
                 )}
               </div>
-              <div className='error-message'>{errorMessage}</div>
-            </div>
-          )}
 
           {calculatorType === 'file' && (
             <div className='fr-col-12 fr-p-3w'>
@@ -275,24 +297,23 @@ const Calculatrice = () => {
             </div>
           )}
 
-          <div>
-            {areas.length > 0 && (
-              <div className='fr-grid-row'>
-                <div className='fr-col-lg-6 fr-col-12 fr-p-6v'>
-                  <div className='fr-pb-3v'>
-                    <b>Liste des territoires :</b>
-                  </div>
-                  {areas.map(area => (
-                    <li
-                      key={area.code}
-                      className='fr-grid-row fr-pb-2v'
-                    >
-                      <div className='fr-col-9'>
-                        <span>{area.nom} ({area.code})</span>
-                        <span> → </span>
-                        <span>Surface: <b>{formatNumber(area.surface)}</b> km2</span>
-                      </div>
-                      <div className='fr-col-3' style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <div>
+              {areas.length > 0 && (
+                <div className='fr-grid-row'>
+                  <div className='fr-col-lg-6 fr-col-12 fr-p-2v fr-p-md-6v'>
+                    <div className='fr-pb-3v'>
+                      <b>Liste des territoires</b>
+                    </div>
+                    {areas.map(area => (
+                      <li
+                        key={area.code}
+                        className='list-item'
+                      >
+                        <div className='list-item-content'>
+                          <span className='fr-px-2v'><b>{area.nom}</b> - {area.code}</span>
+                          <span className='fr-px-2v'> → </span>
+                          <span className='fr-px-2v'>Surface: <b>{formatNumber(area.surface)}</b> km2</span>
+                        </div>
                         <button
                           type='button'
                           style={{
@@ -304,100 +325,131 @@ const Calculatrice = () => {
                         >
                           Supprimer
                         </button>
-                      </div>
-                    </li>
-                  ))}
-                </div>
-                {sizeInGigas && (
-                  <div className='fr-col-lg-6 fr-col-12'>
-                    <div className='fr-m-6v fr-p-6v' style={{borderRadius: '3px', backgroundColor: 'whitesmoke'}}>
+                      </li>
+                    ))}
+                  </div>
+                  {sizeInGigas && (
+                    <div className='fr-col-lg-6 fr-col-12 fr-p-2v fr-p-md-6v'>
                       <div className='fr-pb-3v'>
-                        <b>Résumé:</b>
+                        <b>Résumé</b>
                       </div>
-                      <div>
-                        <small>
-                          <i>
-                            <div>Superficie totale: {formatNumber(areasTotalSize)} km2</div>
-                            <div>Marge de construction du tuilage: {margin}</div>
-                            <div>Nombre de pixels: {formatNumber(sizeInGigas.numberOfPixels / 1_000_000)} millions</div>
-                            <div>Nombre de pixels en incluant la marge: {formatNumber(sizeInGigas.numberOfPixelsWithMargin / 1_000_000)} millions</div>
-                            <div>Format sélectionné: {compression}</div>
-                            <div>Résultat: {formatNumber(sizeInGigas.sizeCompressed * 0.01) > 1 ? `${formatNumber(sizeInGigas.sizeCompressed * 0.01)} € HT / mois` : 'Moins d’un euro HT par mois'}</div>
-                          </i>
-                        </small>
+                      <div className='resume'>
+                        <div><b>• Superficie totale</b> → <i>{formatNumber(areasTotalSize)} km2</i></div>
+                        <div><b>• Marge de construction du tuilage</b> →  <i>{margin}</i></div>
+                        <div><b>• Nombre de pixels</b> → <i>{formatNumber(sizeInGigas.numberOfPixels / 1_000_000)} millions</i></div>
+                        <div><b>• Nombre de pixels en incluant la marge</b> → <i>{formatNumber(sizeInGigas.numberOfPixelsWithMargin / 1_000_000)} millions</i></div>
+                        <div><b>• Format sélectionné</b> → <i>{compression}</i></div>
+                        <div><b>• Résultat</b> → <i>{formatNumber(sizeInGigas.sizeCompressed * 0.01) > 1 ? `${formatNumber(sizeInGigas.sizeCompressed * 0.01)} € HT / mois` : 'Moins d’un euro HT par mois'}</i></div>
                       </div>
                     </div>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-          <div className='fr-p-5v'>
-            {areasTotalSize && sizeInGigas && (
-              <>
-                <hr />
-                <p>
-                  <i className='fr-px-2v' style={{backgroundColor: '#cacafb', borderRadius: '3px'}}>
-                    <small>(Les champs sur fond bleu sont éditables)</small>
-                  </i>
-                </p>
-                <p>
-                  <span>Les territoires renseignés ont une superficie totale de <b>{formatNumber(areasTotalSize)} km2</b>.</span>
-                </p>
-                <p>
-                  <span>En intégrant une marge de </span>
-                  <select
-                    className='editable-text'
-                    onChange={e => {
-                      setMargin(e.target.value)
-                      setMarginValue(getMarginValue(e.target.value))
-                    }}
-                  >
-                    <option value='10%'>10%</option>
-                    <option value='15%'>15%</option>
-                    <option value='20%'>20%</option>
-                  </select>
-                  <span> (liée au dallage des prises de vue), une orthophotographie de résolution </span>
-                  <select
-                    className='editable-text'
-                    onChange={e => setPixelDensity(e.target.value)}
-                  >
-                    <option value={5}>5</option>
-                    <option value={10}>10</option>
-                    <option value={15}>15</option>
-                  </select>
-                  <span>cm comportera environ <b>{formatNumber(sizeInGigas.numberOfPixelsWithMargin / 1_000_000)}</b> millions de pixels.</span>
-                </p>
-                <p>
-                  <b>{formatNumber(sizeInGigas.numberOfPixelsWithMargin / 1_000_000)}</b> millions de pixels non compressés sur 3 canaux de couleurs 8 bits ont un poids total de <b>{formatSize(sizeInGigas.sizeUncompressed)}</b>.
-                </p>
-                <p>
-                  <span>En appliquant une compression </span>
-                  <select
-                    className='editable-text'
-                    onChange={e => setCompression(e.target.value)}
-                  >
-                    <option value='GeoTIFF/Non-compressé'>GeoTIFF/Non-compressé</option>
-                    <option value='JPEG2000/Lossy'>JPEG2000/Lossy</option>
-                    <option value='JPEG2000/Lossless'>JPEG2000/Lossless</option>
-                    <option value='GeoTIFF/LZW'>GeoTIFF/LZW</option>
-                    <option value='GeoTIFF/Deflate'>GeoTIFF/Deflate</option>
-                  </select>
-                  <span>, on obtient des fichiers d’un poids total de <b>{formatSize(sizeInGigas.sizeCompressed)}</b>.</span>
-                </p>
-                <p>L’hébergement de ce volume de fichier chez un hébergeur moyen (0,01€/Go/mois) revient à <b>{formatNumber(sizeInGigas.sizeCompressed * 0.01) > 1 ? `${formatNumber(sizeInGigas.sizeCompressed * 0.01)} € HT / mois` : 'moins d’un euro HT par mois'}</b>.</p>
-                <div>
-                  <i><small><a href='https://it.nc.gov/documents/files/understanding-compression-geospatial-raster-imagery/download?attachment'>Source des taux de compression</a></small></i>
+                  )}
                 </div>
-              </>
+              )}
+            </div>
+            {areasTotalSize && sizeInGigas && (
+              <div>
+                <div className='fr-notice fr-notice--info fr-my-3w'>
+                  <div className='fr-container'>
+                    <div className='fr-notice__body'>
+                      <p className='fr-notice__title'>Les champs sur fond bleu sont éditables (marge, résolution et compression)</p>
+                    </div>
+                  </div>
+                </div>
+                <div className='fr-p-5v'>
+                  <p>
+                    <span>Les territoires renseignés ont une superficie totale de <b>{formatNumber(areasTotalSize)} km2</b>.</span>
+                  </p>
+                  <p>
+                    <span>En intégrant une marge de </span>
+                    <select
+                      className='editable-text'
+                      onChange={e => {
+                        setMargin(e.target.value)
+                        setMarginValue(getMarginValue(e.target.value))
+                      }}
+                    >
+                      <option value='10%'>10%</option>
+                      <option value='15%'>15%</option>
+                      <option value='20%'>20%</option>
+                    </select>
+                    <span> (liée au dallage des prises de vue), une orthophotographie de résolution </span>
+                    <select
+                      className='editable-text'
+                      onChange={e => setPixelDensity(e.target.value)}
+                    >
+                      <option value={5}>5</option>
+                      <option value={10}>10</option>
+                      <option value={15}>15</option>
+                    </select>
+                    <span>cm comportera environ <b>{formatNumber(sizeInGigas.numberOfPixelsWithMargin / 1_000_000)}</b> millions de pixels.</span>
+                  </p>
+                  <p>
+                    <b>{formatNumber(sizeInGigas.numberOfPixelsWithMargin / 1_000_000)}</b> millions de pixels non compressés sur 3 canaux de couleurs 8 bits ont un poids total de <b>{formatSize(sizeInGigas.sizeUncompressed)}</b>.
+                  </p>
+                  <p>
+                    <span>En appliquant une compression </span>
+                    <select
+                      className='editable-text'
+                      onChange={e => setCompression(e.target.value)}
+                    >
+                      <option value='GeoTIFF/Non-compressé'>GeoTIFF/Non-compressé</option>
+                      <option value='JPEG2000/Lossy'>JPEG2000/Lossy</option>
+                      <option value='JPEG2000/Lossless'>JPEG2000/Lossless</option>
+                      <option value='GeoTIFF/LZW'>GeoTIFF/LZW</option>
+                      <option value='GeoTIFF/Deflate'>GeoTIFF/Deflate</option>
+                    </select>
+                    <span>, on obtient des fichiers d’un poids total de <b>{formatSize(sizeInGigas.sizeCompressed)}</b>.</span>
+                  </p>
+                  <p>L’hébergement de ce volume de fichier chez un hébergeur moyen (0,01€/Go/mois) revient à <b>{formatNumber(sizeInGigas.sizeCompressed * 0.01) > 1 ? `${formatNumber(sizeInGigas.sizeCompressed * 0.01)} € HT / mois` : 'moins d’un euro HT par mois'}</b>.</p>
+                  <div>
+                    <small><b><a href='https://it.nc.gov/documents/files/understanding-compression-geospatial-raster-imagery/download?attachment' target='_blank' rel='noreferrer'>Source des taux de compression</a></b></small>
+                    <span className='fr-icon-external-link-line fr-px-2v' />
+                  </div>
+                </div>
+              </div>
             )}
           </div>
         </div>
 
       </Section>
       <style jsx>{`
+        .border {
+          border: 1px solid #dddddd;
+          border-top: 0;
+        }
+
+        .fat-hr {
+          border: 2px solid #ddd;
+          margin: 0 1.5em;
+          width: 100%;
+        }
+
+        .list-item {
+          background-color: #f5f5f5;
+          padding: .5em;
+          margin-bottom: 10px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .list-item-content {
+          color: #000091;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .resume {
+          color: #fff;
+          background-color: #0063cb;
+          padding: 1em;
+          border-radius: 2px;
+        }
+
         .editable-text {
-          background-color: #cacafb;
+          color: #fff;
+          background-color: #0063cb;
           text-align: center;
           padding: 0 5px;
           margin: 0 5px;
