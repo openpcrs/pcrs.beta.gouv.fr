@@ -1,4 +1,5 @@
 import {useState, useEffect, useRef, useCallback} from 'react'
+import Image from 'next/image'
 
 import {debounce} from 'lodash-es'
 import Page from '@/layouts/main.js'
@@ -179,7 +180,16 @@ const Calculatrice = () => {
 
   return (
     <Page title='Calculateur de coûts' description='Calculez les coûts d’hébergement de votre livrable'>
-      <h1 className='fr-m-4w'>Calculateur de frais d’hébergement des données</h1>
+      <div className='fr-my-5w' style={{textAlign: 'center'}}>
+        <Image
+          src='/images/illustrations/calculator.png'
+          height={200}
+          width={200}
+          alt=''
+          aria-hidden='true'
+        />
+        <h2 className='fr-my-5w'>Calculateur de frais d’hébergement des données</h2>
+      </div>
       <Section>
         <div className='fr-m-3v fr-grid-row--left'>
           <span className='fr-col-lg-3 fr-col-12 fr-m-1v'>Estimation à partir : </span>
