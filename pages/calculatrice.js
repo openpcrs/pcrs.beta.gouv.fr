@@ -28,7 +28,6 @@ function formatSize(size) {
 }
 
 const Calculatrice = () => {
-  const [calculatorType, setCalculatorType] = useState()
   const [fileSize, setFileSize] = useState()
   const [foundPerimetres, setFoundPerimetres] = useState([])
   const [searchValue, setSearchValue] = useState()
@@ -41,6 +40,7 @@ const Calculatrice = () => {
   const [marginValue, setMarginValue] = useState(0.1)
   const [pixelDensity, setPixelDensity] = useState(5)
   const [errorMessage, setErrorMessage] = useState(null)
+  const [activeTab, setActiveTab] = useState('territoire')
 
   function getMarginValue(label) {
     const marginValues = [
@@ -73,9 +73,10 @@ const Calculatrice = () => {
   }, 300))
 
   const handleCalculatorTypeChange = type => {
-    setCalculatorType(type)
+    setActiveTab(type)
     setSizeInGigas()
     setAreas([])
+    setFileSize()
   }
 
   const handleSelect = debounce(async ({code}) => {
@@ -191,22 +192,31 @@ const Calculatrice = () => {
         <h2 className='fr-my-5w'>Calculateur de frais d’hébergement des données</h2>
       </div>
       <Section>
-        <div className='fr-m-3v fr-grid-row--left'>
-          <span className='fr-col-lg-3 fr-col-12 fr-m-1v'>Estimation à partir : </span>
-          <button
-            type='button'
-            className={`fr-btn fr-btn${calculatorType === 'file' && '--secondary'} fr-btn--sm fr-m-1v fr-col-lg-3 fr-col-12`}
-            onClick={() => handleCalculatorTypeChange('territory')}
-          >
-            d’un territoire
-          </button>
-          <button
-            type='button'
-            className={`fr-btn fr-btn${calculatorType === 'territory' && '--secondary'} fr-btn--sm fr-m-1v fr-col-lg-3 fr-col-12`}
-            onClick={() => handleCalculatorTypeChange('file')}
-          >
-            de la taille d’un fichier
-          </button>
+        <div className='fr-tabs'>
+          <ul className='fr-tabs__list' role='tablist' aria-label='Choix du type d’utilisateurs'>
+            <li role='presentation'>
+              <button
+                type='button'
+                className='fr-tabs__tab fr-icon-checkbox-line fr-tabs__tab--icon-left'
+                role='tab'
+                aria-selected={activeTab === 'territoire' ? 'true' : 'false'}
+                onClick={() => handleCalculatorTypeChange('territoire')}
+              >
+                Estimation à partir d’un territoire
+              </button>
+            </li>
+            <li role='presentation'>
+              <button
+                type='button'
+                className='fr-tabs__tab fr-icon-checkbox-line fr-tabs__tab--icon-left'
+                role='tab'
+                aria-selected={activeTab === 'fichier' ? 'true' : 'false'}
+                onClick={() => handleCalculatorTypeChange('fichier')}
+              >
+                Estimation à partir de la taille d’un fichier
+              </button>
+            </li>
+          </ul>
         </div>
         <div className='fr-container--fluid' style={{minHeight: '450px'}}>
 
