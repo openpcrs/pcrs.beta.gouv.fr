@@ -1,4 +1,5 @@
 import {useState, useEffect, useRef, useCallback} from 'react'
+import Image from 'next/image'
 
 import {debounce} from 'lodash-es'
 import Page from '@/layouts/main.js'
@@ -27,7 +28,6 @@ function formatSize(size) {
 }
 
 const Calculatrice = () => {
-  const [calculatorType, setCalculatorType] = useState()
   const [fileSize, setFileSize] = useState()
   const [foundPerimetres, setFoundPerimetres] = useState([])
   const [searchValue, setSearchValue] = useState()
@@ -40,6 +40,7 @@ const Calculatrice = () => {
   const [marginValue, setMarginValue] = useState(0.1)
   const [pixelDensity, setPixelDensity] = useState(5)
   const [errorMessage, setErrorMessage] = useState(null)
+  const [activeTab, setActiveTab] = useState('territoire')
 
   function getMarginValue(label) {
     const marginValues = [
@@ -72,9 +73,10 @@ const Calculatrice = () => {
   }, 300))
 
   const handleCalculatorTypeChange = type => {
-    setCalculatorType(type)
+    setActiveTab(type)
     setSizeInGigas()
     setAreas([])
+    setFileSize()
   }
 
   const handleSelect = debounce(async ({code}) => {
@@ -179,64 +181,93 @@ const Calculatrice = () => {
 
   return (
     <Page title='Calculateur de coûts' description='Calculez les coûts d’hébergement de votre livrable'>
-      <h1 className='fr-m-4w'>Calculateur de frais d’hébergement des données</h1>
+      <div className='fr-my-5w' style={{textAlign: 'center'}}>
+        <Image
+          src='/images/illustrations/calculator.png'
+          height={200}
+          width={200}
+          alt=''
+          aria-hidden='true'
+        />
+        <h2 className='fr-my-5w'>Calculateur de frais d’hébergement des données</h2>
+      </div>
       <Section>
-        <div className='fr-m-3v fr-grid-row--left'>
-          <span className='fr-col-lg-3 fr-col-12 fr-m-1v'>Estimation à partir : </span>
-          <button
-            type='button'
-            className={`fr-btn fr-btn${calculatorType === 'file' && '--secondary'} fr-btn--sm fr-m-1v fr-col-lg-3 fr-col-12`}
-            onClick={() => handleCalculatorTypeChange('territory')}
-          >
-            d’un territoire
-          </button>
-          <button
-            type='button'
-            className={`fr-btn fr-btn${calculatorType === 'territory' && '--secondary'} fr-btn--sm fr-m-1v fr-col-lg-3 fr-col-12`}
-            onClick={() => handleCalculatorTypeChange('file')}
-          >
-            de la taille d’un fichier
-          </button>
+        <div className='fr-tabs'>
+          <ul className='fr-tabs__list' role='tablist' aria-label='Choix du type d’utilisateurs'>
+            <li role='presentation'>
+              <button
+                type='button'
+                className='fr-tabs__tab fr-icon-checkbox-line fr-tabs__tab--icon-left'
+                role='tab'
+                aria-selected={activeTab === 'territoire' ? 'true' : 'false'}
+                onClick={() => handleCalculatorTypeChange('territoire')}
+              >
+                Estimation à partir d’un territoire
+              </button>
+            </li>
+            <li role='presentation'>
+              <button
+                type='button'
+                className='fr-tabs__tab fr-icon-checkbox-line fr-tabs__tab--icon-left'
+                role='tab'
+                aria-selected={activeTab === 'fichier' ? 'true' : 'false'}
+                onClick={() => handleCalculatorTypeChange('fichier')}
+              >
+                Estimation à partir de la taille d’un fichier
+              </button>
+            </li>
+          </ul>
         </div>
-        <div className='fr-container--fluid' style={{minHeight: '450px'}}>
+        <div className='border'>
 
-          {calculatorType === 'territory' && (
-            <div className='fr-grid-row'>
-              <div className='fr-col-lg-6 fr-col-12 fr-p-3w'>
-                <SelectInput
-                  label='Type'
-                  value={territoryType}
-                  description='Le type de territoire à ajouter'
-                  options={[
-                    {label: 'EPCI', value: 'epci'},
-                    {label: 'Commune', value: 'commune'},
-                    {label: 'Département', value: 'departement'}
-                  ]}
-                  onValueChange={e => setTerritoryType(e.target.value)}
-                />
+          {activeTab === 'territoire' && (
+            <>
+              <div className='fr-pt-1v'>
+                <div className='fr-notice fr-notice--info fr-my-3w'>
+                  <div className='fr-container'>
+                    <div className='fr-notice__body'>
+                      <p className='fr-notice__title'>Constituer une liste de territoires afin de déterminer les frais d’hébergement des données</p>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className='fr-col-lg-6 fr-col-12 fr-p-3w'>
-                {territoryType && (
-                  <AutocompleteInput
-                    isRequired
-                    label={`Nom ${territoryType === 'commune' ? 'ou code' : ''}`}
-                    value={searchValue}
-                    description={`Recherche par nom ${territoryType === 'commune' ? ' ou code INSEE' : ''} du territoire`}
-                    ariaLabel={`Rechercher par nom ${territoryType === 'commune' ? 'ou code INSEE' : ''} du territoire`}
-                    results={foundPerimetres}
-                    renderItem={({nom, code}) => `${nom} - ${code}`}
-                    onInputChange={setSearchValue}
-                    onSelectValue={item => {
-                      handleSelect(item)
-                    }}
+              <div className='fr-grid-row'>
+                <div className='fr-col-lg-6 fr-col-12 fr-p-3w'>
+                  <SelectInput
+                    label='Type'
+                    value={territoryType}
+                    description='Le type de territoire à ajouter'
+                    options={[
+                      {label: 'EPCI', value: 'epci'},
+                      {label: 'Commune', value: 'commune'},
+                      {label: 'Département', value: 'departement'}
+                    ]}
+                    onValueChange={e => setTerritoryType(e.target.value)}
                   />
-                )}
+                </div>
+                <div className='fr-col-lg-6 fr-col-12 fr-p-3w'>
+                  {territoryType && (
+                    <AutocompleteInput
+                      isRequired
+                      label={`Nom ${territoryType === 'commune' ? 'ou code' : ''}`}
+                      value={searchValue}
+                      description={`Recherche par nom ${territoryType === 'commune' ? ' ou code INSEE' : ''} du territoire`}
+                      ariaLabel={`Rechercher par nom ${territoryType === 'commune' ? 'ou code INSEE' : ''} du territoire`}
+                      results={foundPerimetres}
+                      renderItem={({nom, code}) => `${nom} - ${code}`}
+                      onInputChange={setSearchValue}
+                      onSelectValue={item => {
+                        handleSelect(item)
+                      }}
+                    />
+                  )}
+                </div>
+                <div className='error-message'>{errorMessage}</div>
               </div>
-              <div className='error-message'>{errorMessage}</div>
-            </div>
+            </>
           )}
 
-          {calculatorType === 'file' && (
+          {activeTab === 'fichier' && (
             <div className='fr-col-12 fr-p-3w'>
               <NumberInput
                 label='Taille du fichier'
@@ -245,12 +276,9 @@ const Calculatrice = () => {
                 onValueChange={e => setFileSize(e.target.value)}
               />
               {fileSize && (
-                <>
-                  <p>
-                    L’hébergement de ce volume de fichier chez un hébergeur moyen (0,01€/Go/mois) revient à <b>{(fileSize * 0.01) > 1 ? `${fileSize * 0.01} € HT / mois` : 'moins d’un euro HT par mois'}</b>.
-                  </p>
-                  <hr />
-                </>
+                <p>
+                  L’hébergement de ce volume de fichier chez un hébergeur moyen (0,01€/Go/mois) revient à <b>{(fileSize * 0.01) > 1 ? `${fileSize * 0.01} € HT / mois` : 'moins d’un euro HT par mois'}</b>.
+                </p>
               )}
             </div>
           )}
@@ -258,21 +286,22 @@ const Calculatrice = () => {
           <div>
             {areas.length > 0 && (
               <div className='fr-grid-row'>
-                <div className='fr-col-lg-6 fr-col-12 fr-p-6v'>
+                <div className='fat-hr' />
+                <div className='fr-col-lg-6 fr-col-12 fr-p-2v fr-p-md-6v'>
                   <div className='fr-pb-3v'>
-                    <b>Liste des territoires :</b>
+                    <b>Liste des territoires</b>
                   </div>
                   {areas.map(area => (
                     <li
                       key={area.code}
-                      className='fr-grid-row fr-pb-2v'
+                      className='list-item'
                     >
-                      <div className='fr-col-9'>
-                        <span>{area.nom} ({area.code})</span>
-                        <span> → </span>
-                        <span>Surface: <b>{formatNumber(area.surface)}</b> km2</span>
+                      <div className='list-item-content'>
+                        <span className='fr-px-2v'><b>{area.nom}</b> - {area.code}</span>
                       </div>
-                      <div className='fr-col-3' style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                      <div className='list-item-content'>
+                        <span className='fr-px-2v'> → </span>
+                        <span className='fr-px-2v'>Surface: <b>{formatNumber(area.surface)}</b> km2</span>
                         <button
                           type='button'
                           style={{
@@ -289,38 +318,33 @@ const Calculatrice = () => {
                   ))}
                 </div>
                 {sizeInGigas && (
-                  <div className='fr-col-lg-6 fr-col-12'>
-                    <div className='fr-m-6v fr-p-6v' style={{borderRadius: '3px', backgroundColor: 'whitesmoke'}}>
-                      <div className='fr-pb-3v'>
-                        <b>Résumé:</b>
-                      </div>
-                      <div>
-                        <small>
-                          <i>
-                            <div>Superficie totale: {formatNumber(areasTotalSize)} km2</div>
-                            <div>Marge de construction du tuilage: {margin}</div>
-                            <div>Nombre de pixels: {formatNumber(sizeInGigas.numberOfPixels / 1_000_000)} millions</div>
-                            <div>Nombre de pixels en incluant la marge: {formatNumber(sizeInGigas.numberOfPixelsWithMargin / 1_000_000)} millions</div>
-                            <div>Format sélectionné: {compression}</div>
-                            <div>Résultat: {formatNumber(sizeInGigas.sizeCompressed * 0.01) > 1 ? `${formatNumber(sizeInGigas.sizeCompressed * 0.01)} € HT / mois` : 'Moins d’un euro HT par mois'}</div>
-                          </i>
-                        </small>
-                      </div>
+                  <div className='fr-col-lg-6 fr-col-12 fr-p-2v fr-p-md-6v'>
+                    <div className='fr-pb-3v'>
+                      <b>Résumé</b>
+                    </div>
+                    <div className='resume'>
+                      <div><b>• Superficie totale</b> → <i>{formatNumber(areasTotalSize)} km2</i></div>
+                      <div><b>• Marge de construction du tuilage</b> →  <i>{margin}</i></div>
+                      <div><b>• Nombre de pixels</b> → <i>{formatNumber(sizeInGigas.numberOfPixels / 1_000_000)} millions</i></div>
+                      <div><b>• Nombre de pixels en incluant la marge</b> → <i>{formatNumber(sizeInGigas.numberOfPixelsWithMargin / 1_000_000)} millions</i></div>
+                      <div><b>• Format sélectionné</b> → <i>{compression}</i></div>
+                      <div><b>• Résultat</b> → <i>{formatNumber(sizeInGigas.sizeCompressed * 0.01) > 1 ? `${formatNumber(sizeInGigas.sizeCompressed * 0.01)} € HT / mois` : 'Moins d’un euro HT par mois'}</i></div>
                     </div>
                   </div>
                 )}
               </div>
             )}
           </div>
-          <div className='fr-p-5v'>
-            {areasTotalSize && sizeInGigas && (
-              <>
-                <hr />
-                <p>
-                  <i className='fr-px-2v' style={{backgroundColor: '#cacafb', borderRadius: '3px'}}>
-                    <small>(Les champs sur fond bleu sont éditables)</small>
-                  </i>
-                </p>
+          {areasTotalSize && sizeInGigas && (
+            <div>
+              <div className='fr-notice fr-notice--info fr-my-3w'>
+                <div className='fr-container'>
+                  <div className='fr-notice__body'>
+                    <p className='fr-notice__title'>Les champs sur fond bleu sont éditables (marge, résolution et compression)</p>
+                  </div>
+                </div>
+              </div>
+              <div className='fr-p-5v'>
                 <p>
                   <span>Les territoires renseignés ont une superficie totale de <b>{formatNumber(areasTotalSize)} km2</b>.</span>
                 </p>
@@ -367,17 +391,52 @@ const Calculatrice = () => {
                 </p>
                 <p>L’hébergement de ce volume de fichier chez un hébergeur moyen (0,01€/Go/mois) revient à <b>{formatNumber(sizeInGigas.sizeCompressed * 0.01) > 1 ? `${formatNumber(sizeInGigas.sizeCompressed * 0.01)} € HT / mois` : 'moins d’un euro HT par mois'}</b>.</p>
                 <div>
-                  <i><small><a href='https://it.nc.gov/documents/files/understanding-compression-geospatial-raster-imagery/download?attachment'>Source des taux de compression</a></small></i>
+                  <small><b><a href='https://it.nc.gov/documents/files/understanding-compression-geospatial-raster-imagery/download?attachment' target='_blank' rel='noreferrer'>Source des taux de compression</a></b></small>
                 </div>
-              </>
-            )}
-          </div>
+              </div>
+            </div>
+          )}
         </div>
 
       </Section>
       <style jsx>{`
+        .border {
+          border: 1px solid #dddddd;
+          border-top: 0;
+        }
+
+        .fat-hr {
+          border: 2px solid #ddd;
+          margin: 0 1.5em;
+          width: 100%;
+        }
+
+        .list-item {
+          background-color: #f5f5f5;
+          padding: .5em;
+          margin-bottom: 10px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .list-item-content {
+          color: #000091;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .resume {
+          color: #fff;
+          background-color: #0063cb;
+          padding: 1em;
+          border-radius: 2px;
+        }
+
         .editable-text {
-          background-color: #cacafb;
+          color: #fff;
+          background-color: #0063cb;
           text-align: center;
           padding: 0 5px;
           margin: 0 5px;
