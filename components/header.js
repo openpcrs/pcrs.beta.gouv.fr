@@ -179,21 +179,24 @@ const Header = () => {
           width: fit-content;
         }
 
-        .drop-item, .drop-item-mobile {
+        .drop-button {
+          display: flex;
+          flex-direction: column;
+          position: relative;
+        }
+
+        .drop-item {
           background-color: #f6f6f6;
           position: absolute;
-          top: 75px;
-          right: 20px;
-          border-bottom: 1px solid lightgrey;
+          right: 0;
           padding-top: 15px;
+          margin-top: 45px;
         }
 
         .drop-item-mobile {
-          top: 250px;
           left: 8px;
           width: fit-content;
           padding: 15px;
-          border-bottom: 0;
         }
 
         .drop-button:hover, .drop-button:active {
