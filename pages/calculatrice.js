@@ -294,12 +294,14 @@ const Calculatrice = () => {
                   {areas.map(area => (
                     <li
                       key={area.code}
-                      className='list-item'
+                      className='list-item fr-grid-row'
                     >
-                      <div className='list-item-content'>
-                        <span className='fr-px-2v'><b>{area.nom}</b> - {area.code}</span>
-                        <span className='fr-px-2v'> → </span>
-                        <span className='fr-px-2v'>Surface: <b>{formatNumber(area.surface)}</b> km2</span>
+                      <div className='list-item-content fr-grid-row fr-col-11 fr-grid-row--middle'>
+                        <div className='fr-px-2v fr-col-6'><b>{area.nom}</b> - {area.code}</div>
+                        <div className='fr-grid-row fr-col-6 fr-grid-row--middle'>
+                          <span className='fr-px-2v'> → </span>
+                          <span className='fr-px-2v'>Surface: <b>{formatNumber(area.surface)}</b> km2</span>
+                        </div>
                       </div>
                       <button
                         type='button'
@@ -307,7 +309,7 @@ const Calculatrice = () => {
                           color: `${colors.error425}`,
                           boxShadow: `0 0 0 1px ${colors.error425}`
                         }}
-                        className='fr-btn fr-btn--sm fr-btn--secondary fr-icon-delete-line'
+                        className='fr-btn fr-btn--sm fr-btn--secondary fr-icon-delete-line fr-col-1'
                         onClick={() => handleRemoveTerritory(area.nom)}
                       >
                         Supprimer
