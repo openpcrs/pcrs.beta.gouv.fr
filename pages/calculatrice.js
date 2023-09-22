@@ -275,27 +275,16 @@ const Calculatrice = () => {
                   value={fileSize}
                   onValueChange={e => setFileSize(e.target.value)}
                 />
+                {fileSize && (
+                  <>
+                    <p>
+                      L’hébergement de ce volume de fichier chez un hébergeur moyen (0,01€/Go/mois) revient à <b>{(fileSize * 0.01) > 1 ? `${fileSize * 0.01} € HT / mois` : 'moins d’un euro HT par mois'}</b>.
+                    </p>
+                    <hr />
+                  </>
                 )}
               </div>
-
-          {calculatorType === 'file' && (
-            <div className='fr-col-12 fr-p-3w'>
-              <NumberInput
-                label='Taille du fichier'
-                description='Taille de votre fichier en gigaoctets'
-                value={fileSize}
-                onValueChange={e => setFileSize(e.target.value)}
-              />
-              {fileSize && (
-                <>
-                  <p>
-                    L’hébergement de ce volume de fichier chez un hébergeur moyen (0,01€/Go/mois) revient à <b>{(fileSize * 0.01) > 1 ? `${fileSize * 0.01} € HT / mois` : 'moins d’un euro HT par mois'}</b>.
-                  </p>
-                  <hr />
-                </>
-              )}
-            </div>
-          )}
+            )}
 
             <div>
               {areas.length > 0 && (
