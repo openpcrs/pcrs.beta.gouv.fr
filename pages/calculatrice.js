@@ -392,7 +392,6 @@ const Calculatrice = () => {
                   <p>L’hébergement de ce volume de fichier chez un hébergeur moyen (0,01€/Go/mois) revient à <b>{formatNumber(sizeInGigas.sizeCompressed * 0.01) > 1 ? `${formatNumber(sizeInGigas.sizeCompressed * 0.01)} € HT / mois` : 'moins d’un euro HT par mois'}</b>.</p>
                   <div>
                     <small><b><a href='https://it.nc.gov/documents/files/understanding-compression-geospatial-raster-imagery/download?attachment' target='_blank' rel='noreferrer'>Source des taux de compression</a></b></small>
-                    <span className='fr-icon-external-link-line fr-px-2v' />
                   </div>
                 </div>
               </div>
