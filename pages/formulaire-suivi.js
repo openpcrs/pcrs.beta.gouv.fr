@@ -26,7 +26,7 @@ const FormulaireSuivi = () => {
     async function getProjectData() {
       setIsLoading(true)
       try {
-        const project = await getProject(id)
+        const project = await getProject(id, editcode)
         setProject(project)
       } catch {
         setErrorCode(404)
