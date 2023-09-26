@@ -1,5 +1,4 @@
 import {useContext, useEffect, useState} from 'react'
-import PropTypes from 'prop-types'
 import {useRouter} from 'next/router'
 import Image from 'next/image'
 
@@ -15,11 +14,12 @@ import SuiviForm from '@/components/suivi-form/index.js'
 import Loader from '@/components/loader.js'
 
 const FormulaireSuivi = () => {
-  const router = useRouter()
   const {token, userRole, isTokenRecovering} = useContext(AuthentificationContext)
   const [project, setProject] = useState()
   const [errorCode, setErrorCode] = useState()
   const [isLoading, setIsLoading] = useState(true)
+
+  const router = useRouter()
   const {id, editcode} = router.query
 
   useEffect(() => {
@@ -105,19 +105,6 @@ const FormulaireSuivi = () => {
         `}</style>
     </Page>
   )
-}
-
-FormulaireSuivi.propTypes = {
-  project: PropTypes.object,
-  editCode: PropTypes.string,
-  isNotFound: PropTypes.bool,
-  isForbidden: PropTypes.bool
-}
-
-FormulaireSuivi.defaultProps = {
-  editCode: null,
-  isNotFound: false,
-  isForbidden: false
 }
 
 export default FormulaireSuivi
