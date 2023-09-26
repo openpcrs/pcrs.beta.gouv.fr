@@ -1,5 +1,6 @@
-import {useContext} from 'react'
+import {useContext, useEffect, useState} from 'react'
 import PropTypes from 'prop-types'
+import {useRouter} from 'next/router'
 import Image from 'next/image'
 
 import colors from '@/styles/colors.js'
@@ -12,15 +13,38 @@ import Page from '@/layouts/main.js'
 import Button from '@/components/button.js'
 import SuiviForm from '@/components/suivi-form/index.js'
 
-const FormulaireSuivi = ({project, isNotFound, isForbidden, editCode}) => {
+const FormulaireSuivi = () => {
+  const router = useRouter()
   const {token, userRole, isTokenRecovering} = useContext(AuthentificationContext)
+  const [project, setProject] = useState()
+  const [errorCode, setErrorCode] = useState()
+  const {id, editcode} = router.query
 
-  if (isNotFound || isForbidden) {
+  useEffect(() => {
+    async function getProjectData() {
+      try {
+        const project = await getProject(id)
+        setProject(project)
+      } catch {
+        setErrorCode(404)
+      }
+    }
+
+    if (id) {
+      if (!editcode) {
+        setErrorCode(403)
+      }
+
+      getProjectData()
+    }
+  }, [id, editcode])
+
+  if (errorCode) {
     return (
       <Page>
         <div className='not-found-wrapper fr-p-5w'>
           <Image
-            src={`/images/illustrations/${isForbidden ? '403' : 'pcrs-beta_illustration'}.png`}
+            src={`/images/illustrations/${editcode ? 'pcrs-beta_illustration' : '403'}.png`}
             height={456}
             width={986}
             alt=''
@@ -32,7 +56,7 @@ const FormulaireSuivi = ({project, isNotFound, isForbidden, editCode}) => {
           />
 
           <div className='not-found-explain fr-pt-8w'>
-            <h1 className='fr-my-1w'>{isForbidden ? 403 : 404}</h1>
+            <h1 className='fr-my-1w'>{errorCode}</h1>
             <p><b className='fr-mt-3w'>Vous n’avez pas les droits pour éditer ce projet. Veuillez demander un lien d’édition à un administrateur</b></p>
             <Button label='Retour à la page d’accueil' href='/'><span className='fr-icon-home-4-line' aria-hidden='true' />&nbsp;Retour au début de la rue</Button>
           </div>
@@ -48,42 +72,18 @@ const FormulaireSuivi = ({project, isNotFound, isForbidden, editCode}) => {
     )
   }
 
-  return (
-    <Page>
-      <SuiviForm
-        userRole={userRole}
-        token={token}
-        projectEditCode={editCode}
-        isTokenRecovering={isTokenRecovering}
-        {...project}
-      />
-    </Page>
-  )
-}
-
-FormulaireSuivi.getInitialProps = async ({query}) => {
-  let project
-
-  if (query.id) {
-    project = await getProject(query.id)
-    // If the project is not found (code 404), return {isNotFound: true}
-    if (!project) {
-      return {isNotFound: true}
-    }
-
-    if (query.editcode) {
-      return {
-        project,
-        editCode: query.editcode
-      }
-    }
-
-    // If edit code is not provided, return {isForbidden: true}
-    return {isForbidden: true}
-  }
-
-  return {
-    project
+  if (project) {
+    return (
+      <Page>
+        <SuiviForm
+          userRole={userRole}
+          token={token}
+          projectEditCode={editcode}
+          isTokenRecovering={isTokenRecovering}
+          {...project}
+        />
+      </Page>
+    )
   }
 }
 
