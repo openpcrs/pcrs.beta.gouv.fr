@@ -12,22 +12,27 @@ import Page from '@/layouts/main.js'
 
 import Button from '@/components/button.js'
 import SuiviForm from '@/components/suivi-form/index.js'
+import Loader from '@/components/loader.js'
 
 const FormulaireSuivi = () => {
   const router = useRouter()
   const {token, userRole, isTokenRecovering} = useContext(AuthentificationContext)
   const [project, setProject] = useState()
   const [errorCode, setErrorCode] = useState()
+  const [isLoading, setIsLoading] = useState(true)
   const {id, editcode} = router.query
 
   useEffect(() => {
     async function getProjectData() {
+      setIsLoading(true)
       try {
         const project = await getProject(id)
         setProject(project)
       } catch {
         setErrorCode(404)
       }
+
+      setIsLoading(false)
     }
 
     if (id) {
@@ -36,6 +41,8 @@ const FormulaireSuivi = () => {
       }
 
       getProjectData()
+    } else {
+      setIsLoading(false)
     }
   }, [id, editcode])
 
@@ -72,9 +79,13 @@ const FormulaireSuivi = () => {
     )
   }
 
-  if (project) {
-    return (
-      <Page>
+  return (
+    <Page>
+      {isLoading ? (
+        <div className='loading-container'>
+          <Loader />
+        </div>
+      ) : (
         <SuiviForm
           userRole={userRole}
           token={token}
@@ -82,9 +93,18 @@ const FormulaireSuivi = () => {
           isTokenRecovering={isTokenRecovering}
           {...project}
         />
-      </Page>
-    )
-  }
+      )}
+
+      <style jsx>{`
+        .loading-container {
+          display: flex;
+          height: 100%;
+          justify-content: center;
+          align-items: center;
+        }
+        `}</style>
+    </Page>
+  )
 }
 
 FormulaireSuivi.propTypes = {
