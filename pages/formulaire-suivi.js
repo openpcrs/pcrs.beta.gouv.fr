@@ -16,7 +16,7 @@ import Loader from '@/components/loader.js'
 const FormulaireSuivi = () => {
   const {token, userRole, isTokenRecovering} = useContext(AuthentificationContext)
   const [project, setProject] = useState()
-  const [errorCode, setErrorCode] = useState()
+  const [errorMessage, setErrorMessage] = useState()
   const [isLoading, setIsLoading] = useState(true)
 
   const router = useRouter()
@@ -28,8 +28,8 @@ const FormulaireSuivi = () => {
       try {
         const project = await getProject(id, editcode)
         setProject(project)
-      } catch {
-        setErrorCode(404)
+      } catch (error) {
+        setErrorMessage(error.message)
       }
 
       setIsLoading(false)
@@ -37,7 +37,7 @@ const FormulaireSuivi = () => {
 
     if (id) {
       if (!editcode) {
-        setErrorCode(403)
+        setErrorMessage('Jeton manquant')
       }
 
       getProjectData()
@@ -46,12 +46,12 @@ const FormulaireSuivi = () => {
     }
   }, [id, editcode])
 
-  if (errorCode) {
+  if (errorMessage) {
     return (
       <Page>
         <div className='not-found-wrapper fr-p-5w'>
           <Image
-            src={`/images/illustrations/${editcode ? 'pcrs-beta_illustration' : '403'}.png`}
+            src='/images/illustrations/403.png'
             height={456}
             width={986}
             alt=''
@@ -63,8 +63,7 @@ const FormulaireSuivi = () => {
           />
 
           <div className='not-found-explain fr-pt-8w'>
-            <h1 className='fr-my-1w'>{errorCode}</h1>
-            <p><b className='fr-mt-3w'>Vous n’avez pas les droits pour éditer ce projet. Veuillez demander un lien d’édition à un administrateur</b></p>
+            <p><b className='fr-mt-3w fr-text--xl'>{errorMessage}</b></p>
             <Button label='Retour à la page d’accueil' href='/'><span className='fr-icon-home-4-line' aria-hidden='true' />&nbsp;Retour au début de la rue</Button>
           </div>
         </div>
