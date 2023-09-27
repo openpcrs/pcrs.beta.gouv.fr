@@ -2,7 +2,6 @@
   "id": "departements-fills",
   "type": "fill",
   "source": "projetsData",
-  "layout": {},
   "paint": {
     "fill-color": [
       "match",

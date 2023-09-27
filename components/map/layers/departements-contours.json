@@ -3,7 +3,6 @@
   "type": "line",
   "source": "departements",
   "source-layer": "departements",
-  "layout": {},
   "paint": {
     "line-color": "grey",
     "line-width": 0.3
