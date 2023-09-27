@@ -10,6 +10,7 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 import departementFillLayer from './layers/departement-fill.json'
 import departementFillNature from './layers/departement-fill-nature.json'
 import departementLayer from './layers/departement-layer.json'
+import departementsContours from './layers/departements-contours.json'
 import vector from './styles/vector.json'
 
 import AuthentificationContext from '@/contexts/authentification-token.js'
@@ -144,6 +145,7 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
       maplibreMap.addLayer(departementFillLayer)
       maplibreMap.addLayer(departementFillNature)
       maplibreMap.addLayer(departementLayer)
+      maplibreMap.addLayer(departementsContours)
     })
 
     return () => {
