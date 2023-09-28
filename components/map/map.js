@@ -24,7 +24,6 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
   const [layout, setLayout] = useState('projets-fills')
   const [acteurSearchInput, setActeurSearchInput] = useState('')
   const [foundActeurs, setFoundActeurs] = useState([])
-  const [hoveredCode, setHoveredCode] = useState(null)
   const [matchingIds, setMatchingIds] = useState([])
 
   const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
@@ -35,6 +34,7 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
   const mapNode = useRef()
   const mapRef = useRef()
   const selectedCode = useRef()
+  const hoveredId = useRef(null)
 
   const popupRef = useRef(new maplibreGl.Popup({
     offset: 50,
@@ -49,13 +49,13 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
     let projet = null
 
     if (e.features.length > 0) {
-      if (hoveredCode) {
+      if (hoveredId.current) {
         mapRef.current.setFeatureState(
           {source: 'projetsData', id: null}
         )
       }
 
-      setHoveredCode(e.features[0].id)
+      hoveredId.current = e.features[0].id
 
       projet = e.features[0].properties
 
@@ -73,23 +73,23 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
         .addTo(mapRef.current)
 
       mapRef.current.setFeatureState(
-        {source: 'projetsData', id: hoveredCode}
+        {source: 'projetsData', id: hoveredId.current}
       )
     }
-  }, [hoveredCode, popupNode, popupRoot])
+  }, [hoveredId, popupNode, popupRoot])
 
   const handleMouseLeave = useCallback(() => {
-    if (hoveredCode !== null) {
+    if (hoveredId.current !== null) {
       mapRef.current.setFeatureState(
-        {source: 'projetsData', id: hoveredCode}
+        {source: 'projetsData', id: hoveredId.current}
       )
 
       popupRoot.render(<Loader size='small' />)
     }
 
     popupRef.current.remove()
-    setHoveredCode(null)
-  }, [hoveredCode, popupRoot])
+    hoveredId.current = null
+  }, [hoveredId, popupRoot])
 
   useEffect(() => {
     const node = mapNode.current
