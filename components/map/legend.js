@@ -22,7 +22,7 @@ const Legend = ({isMobile, legend}) => {
       {isOpen ? (
         <>
           <span><u>Légende :</u></span>
-          {(legend === 'departements-fills' || !legend) && (
+          {(legend === 'projets-fills' || !legend) && (
             <>
               <Badge className='fr-pb-1v fr-pt-1v' size='small' background={status.investigation}>Investigation</Badge>
               <Badge className='fr-pb-1v' size='small' background={status.production}>Production</Badge>
@@ -31,7 +31,7 @@ const Legend = ({isMobile, legend}) => {
               <Badge className='fr-pb-2v' size='small' background={status.obsolete} textColor='snow'>Obsolète</Badge>
             </>
           )}
-          {legend === 'departements-fills-nature' && (
+          {legend === 'projets-fills-nature' && (
             <>
               <Badge className='fr-pb-1v fr-pt-1v' size='small' background={natures.vecteur}>Vecteur</Badge>
               <Badge className='fr-pb-1v' size='small' background={natures.raster}>Raster</Badge>
@@ -69,7 +69,7 @@ const Legend = ({isMobile, legend}) => {
 
 Legend.defaultProps = {
   isMobile: true,
-  legend: 'departements-fills'
+  legend: 'projets-fills'
 }
 
 Legend.propTypes = {

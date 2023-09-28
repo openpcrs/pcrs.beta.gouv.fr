@@ -21,7 +21,7 @@ import AutocompleteInput from '@/components/autocomplete-input.js'
 const Map = ({handleClick, isMobile, geometry, projetId}) => {
   const {userRole, token} = useContext(AuthentificationContext)
   const router = useRouter()
-  const [layout, setLayout] = useState('departements-fills')
+  const [layout, setLayout] = useState('projets-fills')
   const [acteurSearchInput, setActeurSearchInput] = useState('')
   const [foundActeurs, setFoundActeurs] = useState([])
   const [hoveredCode, setHoveredCode] = useState(null)
@@ -109,20 +109,20 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
     maplibreMap.addControl(new maplibreGl.NavigationControl())
     maplibreMap.addControl(new maplibreGl.AttributionControl({compact: true}), 'bottom-right')
 
-    maplibreMap.on('click', 'departements-fills', e => {
+    maplibreMap.on('click', 'projets-fills', e => {
       handleClick(e)
     })
-    maplibreMap.on('click', 'departements-fills-nature', e => {
+    maplibreMap.on('click', 'projets-fills-nature', e => {
       handleClick(e)
     })
 
     if (!isMobile) {
-      maplibreMap.on('mousemove', 'departements-fills', e => handleMouseMove(e))
-      maplibreMap.on('mousemove', 'departements-fills-nature', e => handleMouseMove(e))
+      maplibreMap.on('mousemove', 'projets-fills', e => handleMouseMove(e))
+      maplibreMap.on('mousemove', 'projets-fills-nature', e => handleMouseMove(e))
     }
 
-    maplibreMap.on('mouseleave', 'departements-fills', () => handleMouseLeave())
-    maplibreMap.on('mouseleave', 'departements-fills-nature', () => handleMouseLeave())
+    maplibreMap.on('mouseleave', 'projets-fills', () => handleMouseLeave())
+    maplibreMap.on('mouseleave', 'projets-fills-nature', () => handleMouseLeave())
 
     maplibreMap.on('load', () => {
       maplibreMap.getSource('projetsData').setData(geometry)
@@ -143,14 +143,14 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
 
   useEffect(() => {
     if (mapRef?.current?.isStyleLoaded()) {
-      if (layout === 'departements-fills-nature') {
-        mapRef.current.setLayoutProperty('departements-fills-nature', 'visibility', 'visible')
-        mapRef.current.setLayoutProperty('departements-fills', 'visibility', 'none')
+      if (layout === 'projets-fills-nature') {
+        mapRef.current.setLayoutProperty('projets-fills-nature', 'visibility', 'visible')
+        mapRef.current.setLayoutProperty('projets-fills', 'visibility', 'none')
       }
 
-      if (layout === 'departements-fills') {
-        mapRef.current.setLayoutProperty('departements-fills', 'visibility', 'visible')
-        mapRef.current.setLayoutProperty('departements-fills-nature', 'visibility', 'none')
+      if (layout === 'projets-fills') {
+        mapRef.current.setLayoutProperty('projets-fills', 'visibility', 'visible')
+        mapRef.current.setLayoutProperty('projets-fills-nature', 'visibility', 'none')
       }
 
       // Filter by actors when actor is selected
@@ -246,16 +246,16 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
               <button
                 type='button'
                 className='fr-btn fr-btn--sm fr-m-1w'
-                disabled={layout === 'departements-fills-nature'}
-                onClick={() => setLayout('departements-fills-nature')}
+                disabled={layout === 'projets-fills-nature'}
+                onClick={() => setLayout('projets-fills-nature')}
               >
                 nature
               </button>
               <button
                 type='button'
                 className='fr-btn fr-btn--sm fr-m-1w'
-                disabled={layout === 'departements-fills'}
-                onClick={() => setLayout('departements-fills')}
+                disabled={layout === 'projets-fills'}
+                onClick={() => setLayout('projets-fills')}
               >
                 statut
               </button>
