@@ -7,10 +7,6 @@ import {filter, some, debounce, flatMap, uniq, deburr} from 'lodash'
 import maplibreGl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
-import departementFillLayer from './layers/departement-fill.json'
-import departementFillNature from './layers/departement-fill-nature.json'
-import departementLayer from './layers/departement-layer.json'
-import departementsContours from './layers/departements-contours.json'
 import vector from './styles/vector.json'
 
 import AuthentificationContext from '@/contexts/authentification-token.js'
@@ -129,11 +125,7 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
     maplibreMap.on('mouseleave', 'departements-fills-nature', () => handleMouseLeave())
 
     maplibreMap.on('load', () => {
-      maplibreMap.addSource('projetsData', {
-        type: 'geojson',
-        data: geometry,
-        promoteId: '_id'
-      })
+      maplibreMap.getSource('projetsData').setData(geometry)
 
       if (projetId) {
         maplibreMap.setFeatureState(
@@ -141,11 +133,6 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
           {hover: true}
         )
       }
-
-      maplibreMap.addLayer(departementFillLayer)
-      maplibreMap.addLayer(departementFillNature)
-      maplibreMap.addLayer(departementLayer)
-      maplibreMap.addLayer(departementsContours)
     })
 
     return () => {

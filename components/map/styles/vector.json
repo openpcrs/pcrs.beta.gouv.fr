@@ -54,6 +54,11 @@
     "departements": {
       "type": "vector",
       "url": "https://openmaptiles.geo.data.gouv.fr/data/decoupage-administratif.json"
+    },
+    "projetsData": {
+      "type": "geojson",
+      "data": null,
+      "promoteId": "_id"
     }
   },
   "sprite": "https://openmaptiles.github.io/osm-bright-gl-style/sprite",
@@ -2797,6 +2802,73 @@
             ]
           ]
         }
+      }
+    },
+    {
+      "id": "departements-fills",
+      "type": "fill",
+      "source": "projetsData",
+      "paint": {
+        "fill-color": [
+          "match",
+          ["get", "statut"],
+          "investigation", "#ffe386",
+          "production", "#a7f192",
+          "produit", "#87c1ea",
+          "livre", "#175c8b",
+          "#0063cb"
+        ],
+        "fill-opacity": [
+          "case",
+          ["boolean", ["feature-state", "hover"], false],
+          1,
+          0.5
+        ],
+        "fill-outline-color": "grey"
+      }
+    },
+    {
+      "id": "departements-fills-nature",
+      "type": "fill",
+      "source": "projetsData",
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "fill-color": [
+          "match",
+          ["get", "nature"],
+          "raster", "#fc916f",
+          "vecteur", "#86b6d8",
+          "mixte", "#cf7bb9",
+          "white"
+        ],
+        "fill-opacity": [
+          "case",
+          ["boolean", ["feature-state", "hover"], false],
+          1,
+          0.5
+        ],
+        "fill-outline-color": "grey"
+      }
+    },
+    {
+      "id": "projets.geojson",
+      "type": "line",
+      "source": "projetsData",
+      "paint": {
+        "line-color": "black",
+        "line-width": 0.8
+      }
+    },
+    {
+      "id": "contours",
+      "type": "line",
+      "source": "departements",
+      "source-layer": "departements",
+      "paint": {
+        "line-color": "grey",
+        "line-width": 0.3
       }
     }
   ],

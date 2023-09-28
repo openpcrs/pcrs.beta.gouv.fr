@@ -1,9 +1,0 @@
-{
-  "id": "projets.geojson",
-  "type": "line",
-  "source": "projetsData",
-  "paint": {
-    "line-color": "black",
-    "line-width": 0.8
-  }
-}
