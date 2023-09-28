@@ -37,11 +37,11 @@ const PcrsMap = () => {
       setProjet(projet)
       setProjets(prevProjets => [...prevProjets, projet, ...projets])
     } catch {
-      throw new Error('Projet introuvable')
+      router.push('/404')
     }
 
     setIsOpen(true)
-  }, [token])
+  }, [token, router])
 
   const handleTitleClick = () => {
     if (projet) {
