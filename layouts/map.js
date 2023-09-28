@@ -30,22 +30,21 @@ export const Mobile = ({selectProjets, handleTitleClick, handleNewProject, proje
         </div>
       )}
 
-      {geometry && (
-        <div
-          style={{
-            height: isOpen ? 0 : viewHeight - 264,
-            width: '100%'
-          }}
-        >
-          <Map
-            isMobile
-            handleSelectProjets={selectProjets}
-            geometry={geometry}
-            projetId={projet?._id}
-            handleNewProject={handleNewProject}
-          />
-        </div>
-      )}
+      <div
+        style={{
+          height: isOpen ? 0 : viewHeight - 264,
+          width: '100%'
+        }}
+      >
+        <Map
+          isMobile
+          handleSelectProjets={selectProjets}
+          geometry={geometry}
+          projetId={projet?._id}
+          handleNewProject={handleNewProject}
+        />
+      </div>
+
       <div
         style={{
           height: isOpen ? viewHeight - 147 : '56px',
@@ -184,28 +183,26 @@ export const Desktop = ({selectProjets, projet, isOpen, setIsOpen, geometry, onP
       </>
     )}
 
-    {geometry && (
-      <div style={{width: '100%'}}>
-        <div
-          className='fr-p-1w fr-text--sm fr-m-0 fr-grid-row fr-grid-row--middle fr-grid-row--center'
-          style={{background: colors.info975, textAlign: 'center'}}
-        >
-          <div>
-            Les données de cette carte sont disponibles publiquement sur le site&nbsp;<a rel='noreferrer' href='https://www.data.gouv.fr/fr/organizations/pcrs-beta-gouv-fr/' target='_blank' title='ouvre un onglet vers data gouv'>Data gouv</a>
-          </div>
-        </div>
-
-        <div style={{width: '100%', height: 'calc(100vh - 157px)'}}>
-          <Map
-            style={{pointerEvents: 'all'}}
-            handleSelectProjets={selectProjets}
-            geometry={geometry}
-            projetId={projet?._id}
-            handleNewProject={handleNewProject}
-          />
+    <div style={{width: '100%'}}>
+      <div
+        className='fr-p-1w fr-text--sm fr-m-0 fr-grid-row fr-grid-row--middle fr-grid-row--center'
+        style={{background: colors.info975, textAlign: 'center'}}
+      >
+        <div>
+          Les données de cette carte sont disponibles publiquement sur le site&nbsp;<a rel='noreferrer' href='https://www.data.gouv.fr/fr/organizations/pcrs-beta-gouv-fr/' target='_blank' title='ouvre un onglet vers data gouv'>Data gouv</a>
         </div>
       </div>
-    )}
+
+      <div style={{width: '100%', height: 'calc(100vh - 157px)'}}>
+        <Map
+          style={{pointerEvents: 'all'}}
+          handleSelectProjets={selectProjets}
+          geometry={geometry}
+          projetId={projet?._id}
+          handleNewProject={handleNewProject}
+        />
+      </div>
+    </div>
   </div>
 )
 

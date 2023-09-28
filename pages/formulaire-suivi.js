@@ -11,7 +11,7 @@ import Page from '@/layouts/main.js'
 
 import Button from '@/components/button.js'
 import SuiviForm from '@/components/suivi-form/index.js'
-import Loader from '@/components/loader.js'
+import CenteredSpinnder from '@/components/centered-spinner.js'
 
 const FormulaireSuivi = () => {
   const {token, userRole, isTokenRecovering} = useContext(AuthentificationContext)
@@ -81,9 +81,7 @@ const FormulaireSuivi = () => {
   return (
     <Page>
       {isLoading ? (
-        <div className='loading-container'>
-          <Loader />
-        </div>
+        <CenteredSpinnder />
       ) : (
         <SuiviForm
           userRole={userRole}
@@ -93,15 +91,6 @@ const FormulaireSuivi = () => {
           {...project}
         />
       )}
-
-      <style jsx>{`
-        .loading-container {
-          display: flex;
-          height: 100%;
-          justify-content: center;
-          align-items: center;
-        }
-        `}</style>
     </Page>
   )
 }

@@ -8,6 +8,7 @@ import {Desktop, Mobile} from '@/layouts/map.js'
 import DeviceContext from '@/contexts/device.js'
 import AuthentificationContext from '@/contexts/authentification-token.js'
 import AuthentificationModal from '@/components/suivi-form/authentification/authentification-modal.js'
+import CenteredSpinnder from '@/components/centered-spinner.js'
 
 const PcrsMap = () => {
   const router = useRouter()
@@ -72,17 +73,21 @@ const PcrsMap = () => {
       description='Carte de déploiement des PCRS'
       hasFooter={false}
     >
-      <Layout
-        selectProjets={selectProjets}
-        handleTitleClick={handleTitleClick}
-        projet={projet}
-        projets={projets}
-        geometry={geometry}
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        handleNewProject={handleNewProject}
-        onProjetChange={handleProjet}
-      />
+      {geometry ? (
+        <Layout
+          selectProjets={selectProjets}
+          handleTitleClick={handleTitleClick}
+          projet={projet}
+          projets={projets}
+          geometry={geometry}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          handleNewProject={handleNewProject}
+          onProjetChange={handleProjet}
+        />
+      ) : (
+        <CenteredSpinnder />
+      )}
 
       {isAuthentificationModalOpen && userRole !== 'admin' && (
         <AuthentificationModal handleModalClose={handleModal} />
