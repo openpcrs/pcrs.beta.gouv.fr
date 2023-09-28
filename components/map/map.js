@@ -13,7 +13,7 @@ import Legend from '@/components/map/legend.js'
 import MapToolBox from '@/components/map/map-tool-box.js'
 import AutocompleteInput from '@/components/autocomplete-input.js'
 
-const Map = ({isMobile, geometry, projetId, handleSelectProjet, handleNewProject}) => {
+const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjets}) => {
   const [layout, setLayout] = useState('projets-fills')
   const [acteurSearchInput, setActeurSearchInput] = useState('')
   const [foundActeurs, setFoundActeurs] = useState([])
@@ -33,6 +33,11 @@ const Map = ({isMobile, geometry, projetId, handleSelectProjet, handleNewProject
   }))
   const popupNode = document.createElement('div')
   const popupRoot = createRoot(popupNode)
+
+  const onClick = e => {
+    const projetsIds = e.features.map(f => f.properties._id)
+    handleSelectProjets(projetsIds)
+  }
 
   const handleMouseMove = useCallback(e => {
     let projet = null
@@ -79,12 +84,8 @@ const Map = ({isMobile, geometry, projetId, handleSelectProjet, handleNewProject
     maplibreMap.addControl(new maplibreGl.NavigationControl())
     maplibreMap.addControl(new maplibreGl.AttributionControl({compact: true}), 'bottom-right')
 
-    maplibreMap.on('click', 'projets-fills', e => {
-      handleSelectProjet(e)
-    })
-    maplibreMap.on('click', 'projets-fills-nature', e => {
-      handleSelectProjet(e)
-    })
+    maplibreMap.on('click', 'projets-fills', e => onClick(e))
+    maplibreMap.on('click', 'projets-fills-nature', e => onClick(e))
 
     if (!isMobile) {
       maplibreMap.on('mousemove', 'projets-fills', e => handleMouseMove(e))
@@ -254,7 +255,7 @@ Map.propTypes = {
   isMobile: PropTypes.bool,
   geometry: PropTypes.object,
   projetId: PropTypes.string,
-  handleSelectProjet: PropTypes.func,
+  handleSelectProjets: PropTypes.func,
   handleNewProject: PropTypes.func
 }
 

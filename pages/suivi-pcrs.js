@@ -26,13 +26,16 @@ const PcrsMap = () => {
   const handleModal = () => setIsAuthentificationModalOpen(!isAuthentificationModalOpen)
   const handleNewProject = () => token ? router.push('/formulaire-suivi') : handleModal()
 
-  const handleSelectProjet = useCallback(async e => {
-    try {
-      setProjets([])
-      const promises = e.features.map(f => getProject(f.properties._id, token))
-      const projets = await Promise.all(promises)
+  const selectProjets = useCallback(async projetsIds => {
+    setProjet(null)
+    setProjets([])
 
-      setProjets(prevProjets => [...prevProjets, ...projets])
+    try {
+      const promises = projetsIds.map(id => getProject(id, token))
+      const [projet, ...projets] = await Promise.all(promises)
+
+      setProjet(projet)
+      setProjets(prevProjets => [...prevProjets, projet, ...projets])
     } catch {
       throw new Error('Projet introuvable')
     }
@@ -50,12 +53,6 @@ const PcrsMap = () => {
     const selectedProjet = projets.find(p => p._id === e.target.value)
     setProjet(selectedProjet)
   }
-
-  useEffect(() => {
-    if (projets && projets.length > 0) {
-      setProjet(projets[0])
-    }
-  }, [projets])
 
   useEffect(() => {
     async function getGeometry() {
@@ -76,7 +73,7 @@ const PcrsMap = () => {
       hasFooter={false}
     >
       <Layout
-        handleSelectProjet={handleSelectProjet}
+        selectProjets={selectProjets}
         handleTitleClick={handleTitleClick}
         projet={projet}
         projets={projets}

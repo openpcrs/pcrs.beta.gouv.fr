@@ -8,7 +8,7 @@ import DeviceContext from '@/contexts/device.js'
 import Map from '@/components/map/index.js'
 import MapSidebar from '@/components/map-sidebar/index.js'
 
-export const Mobile = ({handleSelectProjet, handleTitleClick, handleNewProject, projet, isOpen, setIsOpen, geometry, projets, onProjetChange}) => {
+export const Mobile = ({selectProjets, handleTitleClick, handleNewProject, projet, isOpen, setIsOpen, geometry, projets, onProjetChange}) => {
   const {viewHeight} = useContext(DeviceContext)
 
   return (
@@ -39,7 +39,7 @@ export const Mobile = ({handleSelectProjet, handleTitleClick, handleNewProject, 
         >
           <Map
             isMobile
-            handleSelectProjet={handleSelectProjet}
+            handleSelectProjets={selectProjets}
             geometry={geometry}
             projetId={projet?._id}
             handleNewProject={handleNewProject}
@@ -122,7 +122,7 @@ Mobile.defaultProps = {
 }
 
 Mobile.propTypes = {
-  handleSelectProjet: PropTypes.func.isRequired,
+  selectProjets: PropTypes.func.isRequired,
   setIsOpen: PropTypes.func.isRequired,
   handleTitleClick: PropTypes.func,
   projet: PropTypes.object,
@@ -133,7 +133,7 @@ Mobile.propTypes = {
   handleNewProject: PropTypes.func
 }
 
-export const Desktop = ({handleSelectProjet, projet, isOpen, setIsOpen, geometry, onProjetChange, projets, handleNewProject}) => (
+export const Desktop = ({selectProjets, projet, isOpen, setIsOpen, geometry, onProjetChange, projets, handleNewProject}) => (
   <div
     style={{
       height: '100%',
@@ -198,7 +198,7 @@ export const Desktop = ({handleSelectProjet, projet, isOpen, setIsOpen, geometry
         <div style={{width: '100%', height: 'calc(100vh - 157px)'}}>
           <Map
             style={{pointerEvents: 'all'}}
-            handleSelectProjet={handleSelectProjet}
+            handleSelectProjets={selectProjets}
             geometry={geometry}
             projetId={projet?._id}
             handleNewProject={handleNewProject}
@@ -217,7 +217,7 @@ Desktop.defaultProps = {
 }
 
 Desktop.propTypes = {
-  handleSelectProjet: PropTypes.func.isRequired,
+  selectProjets: PropTypes.func.isRequired,
   setIsOpen: PropTypes.func,
   projet: PropTypes.object,
   isOpen: PropTypes.bool,
