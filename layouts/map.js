@@ -8,7 +8,7 @@ import DeviceContext from '@/contexts/device.js'
 import Map from '@/components/map/index.js'
 import MapSidebar from '@/components/map-sidebar/index.js'
 
-export const Mobile = ({handleClick, handleTitleClick, projet, isOpen, setIsOpen, geometry, projets, onProjetChange}) => {
+export const Mobile = ({handleSelectProjet, handleTitleClick, projet, isOpen, setIsOpen, geometry, projets, onProjetChange}) => {
   const {viewHeight} = useContext(DeviceContext)
 
   return (
@@ -39,7 +39,7 @@ export const Mobile = ({handleClick, handleTitleClick, projet, isOpen, setIsOpen
         >
           <Map
             isMobile
-            handleClick={handleClick}
+            handleSelectProjet={handleSelectProjet}
             geometry={geometry}
             projetId={projet?._id}
           />
@@ -121,7 +121,7 @@ Mobile.defaultProps = {
 }
 
 Mobile.propTypes = {
-  handleClick: PropTypes.func.isRequired,
+  handleSelectProjet: PropTypes.func.isRequired,
   setIsOpen: PropTypes.func.isRequired,
   handleTitleClick: PropTypes.func,
   projet: PropTypes.object,
@@ -131,7 +131,7 @@ Mobile.propTypes = {
   onProjetChange: PropTypes.func
 }
 
-export const Desktop = ({handleClick, projet, isOpen, setIsOpen, geometry, onProjetChange, projets}) => (
+export const Desktop = ({handleSelectProjet, projet, isOpen, setIsOpen, geometry, onProjetChange, projets}) => (
   <div
     style={{
       height: '100%',
@@ -196,7 +196,7 @@ export const Desktop = ({handleClick, projet, isOpen, setIsOpen, geometry, onPro
         <div style={{width: '100%', height: 'calc(100vh - 157px)'}}>
           <Map
             style={{pointerEvents: 'all'}}
-            handleClick={handleClick}
+            handleSelectProjet={handleSelectProjet}
             geometry={geometry}
             projetId={projet?._id}
           />
@@ -214,7 +214,7 @@ Desktop.defaultProps = {
 }
 
 Desktop.propTypes = {
-  handleClick: PropTypes.func.isRequired,
+  handleSelectProjet: PropTypes.func.isRequired,
   setIsOpen: PropTypes.func,
   projet: PropTypes.object,
   isOpen: PropTypes.bool,

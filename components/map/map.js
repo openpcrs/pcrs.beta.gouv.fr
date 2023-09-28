@@ -18,7 +18,7 @@ import MapToolBox from '@/components/map/map-tool-box.js'
 import AuthentificationModal from '@/components/suivi-form/authentification/authentification-modal.js'
 import AutocompleteInput from '@/components/autocomplete-input.js'
 
-const Map = ({handleClick, isMobile, geometry, projetId}) => {
+const Map = ({handleSelectProjet, isMobile, geometry, projetId}) => {
   const {userRole, token} = useContext(AuthentificationContext)
   const router = useRouter()
   const [layout, setLayout] = useState('projets-fills')
@@ -110,10 +110,10 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
     maplibreMap.addControl(new maplibreGl.AttributionControl({compact: true}), 'bottom-right')
 
     maplibreMap.on('click', 'projets-fills', e => {
-      handleClick(e)
+      handleSelectProjet(e)
     })
     maplibreMap.on('click', 'projets-fills-nature', e => {
-      handleClick(e)
+      handleSelectProjet(e)
     })
 
     if (!isMobile) {
@@ -283,7 +283,7 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
 }
 
 Map.propTypes = {
-  handleClick: PropTypes.func,
+  handleSelectProjet: PropTypes.func,
   isMobile: PropTypes.bool,
   geometry: PropTypes.object,
   projetId: PropTypes.string

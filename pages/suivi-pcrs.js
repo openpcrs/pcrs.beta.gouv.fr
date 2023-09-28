@@ -17,7 +17,7 @@ const PcrsMap = () => {
   const [projets, setProjets] = useState()
   const [geometry, setGeometry] = useState()
 
-  const handleClick = useCallback(async e => {
+  const handleSelectProjet = useCallback(async e => {
     try {
       setProjets([])
       const promises = e.features.map(f => getProject(f.properties._id, token))
@@ -67,7 +67,7 @@ const PcrsMap = () => {
       hasFooter={false}
     >
       <Layout
-        handleClick={handleClick}
+        handleSelectProjet={handleSelectProjet}
         handleTitleClick={handleTitleClick}
         projet={projet}
         projets={projets}
