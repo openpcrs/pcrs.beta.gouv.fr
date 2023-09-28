@@ -188,6 +188,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
       <div className='fr-grid-row'>
         <div className='fr-col-12 fr-mt-6w fr-col-md-6'>
           <ActorsAutocompleteInput
+            isRequired
             inputValue={nom}
             inputError={nomError}
             onValueChange={setNom}

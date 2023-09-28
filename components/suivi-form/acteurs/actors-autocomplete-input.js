@@ -7,7 +7,7 @@ import {secteursActivites} from '@/components/suivi-form/acteurs/utils/actor-act
 
 import AutocompleteInput from '@/components/autocomplete-input.js'
 
-const ActorsAutocompleteInput = ({inputValue, inputError, onValueChange, onSelectValue}) => {
+const ActorsAutocompleteInput = ({isRequired, inputValue, inputError, onValueChange, onSelectValue}) => {
   const [isLoading, setIsLoading] = useState(false)
   const [foundEtablissements, setFoundEtablissements] = useState([])
   const [errorMessage, setErrorMessage] = useState()
@@ -56,7 +56,7 @@ const ActorsAutocompleteInput = ({inputValue, inputError, onValueChange, onSelec
 
   return (
     <AutocompleteInput
-      isRequired
+      isRequired={isRequired}
       label='Nom'
       value={inputValue}
       description='Nom de l’entreprise'
@@ -72,6 +72,7 @@ const ActorsAutocompleteInput = ({inputValue, inputError, onValueChange, onSelec
 }
 
 ActorsAutocompleteInput.propTypes = {
+  isRequired: PropTypes.bool,
   inputValue: PropTypes.string.isRequired,
   inputError: PropTypes.string,
   onValueChange: PropTypes.func.isRequired,
@@ -79,7 +80,8 @@ ActorsAutocompleteInput.propTypes = {
 }
 
 ActorsAutocompleteInput.defaultProps = {
-  inputError: null
+  inputError: null,
+  isRequired: false
 }
 
 export default ActorsAutocompleteInput
