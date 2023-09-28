@@ -98,7 +98,9 @@ const Map = ({handleSelectProjet, isMobile, geometry, projetId}) => {
       style: vector,
       center: [1.7, 46.9],
       zoom: isMobile ? 4 : 5,
-      attributionControl: false
+      attributionControl: false,
+      maxZoom: 10,
+      minZoom: 4
     })
 
     mapRef.current = maplibreMap
