@@ -33,7 +33,7 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
 
   const mapNode = useRef()
   const mapRef = useRef()
-  const selectedCode = useRef()
+  const selectedId = useRef()
   const hoveredId = useRef(null)
 
   const popupRef = useRef(new maplibreGl.Popup({
@@ -182,14 +182,14 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
 
   useEffect(() => {
     if (mapRef?.current.isStyleLoaded() && projetId) {
-      if (selectedCode?.current && selectedCode?.current !== projetId) {
+      if (selectedId?.current && selectedId?.current !== projetId) {
         mapRef.current.setFeatureState(
-          {source: 'projetsData', id: selectedCode.current},
+          {source: 'projetsData', id: selectedId.current},
           {hover: false}
         )
       }
 
-      selectedCode.current = projetId
+      selectedId.current = projetId
 
       mapRef.current.setFeatureState(
         {source: 'projetsData', id: projetId},
