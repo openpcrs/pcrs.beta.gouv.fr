@@ -1,7 +1,6 @@
 import {createRoot} from 'react-dom/client' // eslint-disable-line n/file-extension-in-import
-import {useEffect, useRef, useState, useContext, useCallback} from 'react'
+import {useEffect, useRef, useState, useCallback} from 'react'
 import PropTypes from 'prop-types'
-import {useRouter} from 'next/router'
 import {filter, some, debounce, flatMap, uniq, deburr} from 'lodash'
 
 import maplibreGl from 'maplibre-gl'
@@ -9,25 +8,17 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 
 import vector from './styles/vector.json'
 
-import AuthentificationContext from '@/contexts/authentification-token.js'
-
 import Popup from '@/components/map/popup.js'
 import Legend from '@/components/map/legend.js'
 import MapToolBox from '@/components/map/map-tool-box.js'
-import AuthentificationModal from '@/components/suivi-form/authentification/authentification-modal.js'
 import AutocompleteInput from '@/components/autocomplete-input.js'
 
-const Map = ({handleSelectProjet, isMobile, geometry, projetId}) => {
-  const {userRole, token} = useContext(AuthentificationContext)
-  const router = useRouter()
+const Map = ({isMobile, geometry, projetId, handleSelectProjet, handleNewProject}) => {
   const [layout, setLayout] = useState('projets-fills')
   const [acteurSearchInput, setActeurSearchInput] = useState('')
   const [foundActeurs, setFoundActeurs] = useState([])
   const [matchingIds, setMatchingIds] = useState([])
 
-  const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
-
-  const handleModal = () => setIsAuthentificationModalOpen(!isAuthentificationModalOpen)
   const normalize = string => deburr(string?.toLowerCase())
 
   const mapNode = useRef()
@@ -251,21 +242,20 @@ const Map = ({handleSelectProjet, isMobile, geometry, projetId}) => {
           right: 10,
           bottom: `${isMobile ? '110px' : '45px'}`
         }}
-        onClick={() => token ? router.push('/formulaire-suivi') : handleModal()}
+        onClick={handleNewProject}
       >
         Ajouter un projet
       </button>
-
-      {isAuthentificationModalOpen && userRole !== 'admin' && <AuthentificationModal handleModalClose={handleModal} />}
     </div>
   )
 }
 
 Map.propTypes = {
-  handleSelectProjet: PropTypes.func,
   isMobile: PropTypes.bool,
   geometry: PropTypes.object,
-  projetId: PropTypes.string
+  projetId: PropTypes.string,
+  handleSelectProjet: PropTypes.func,
+  handleNewProject: PropTypes.func
 }
 
 export default Map

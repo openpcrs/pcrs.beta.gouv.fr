@@ -8,7 +8,7 @@ import DeviceContext from '@/contexts/device.js'
 import Map from '@/components/map/index.js'
 import MapSidebar from '@/components/map-sidebar/index.js'
 
-export const Mobile = ({handleSelectProjet, handleTitleClick, projet, isOpen, setIsOpen, geometry, projets, onProjetChange}) => {
+export const Mobile = ({handleSelectProjet, handleTitleClick, handleNewProject, projet, isOpen, setIsOpen, geometry, projets, onProjetChange}) => {
   const {viewHeight} = useContext(DeviceContext)
 
   return (
@@ -42,6 +42,7 @@ export const Mobile = ({handleSelectProjet, handleTitleClick, projet, isOpen, se
             handleSelectProjet={handleSelectProjet}
             geometry={geometry}
             projetId={projet?._id}
+            handleNewProject={handleNewProject}
           />
         </div>
       )}
@@ -128,10 +129,11 @@ Mobile.propTypes = {
   isOpen: PropTypes.bool,
   geometry: PropTypes.object,
   projets: PropTypes.array,
-  onProjetChange: PropTypes.func
+  onProjetChange: PropTypes.func,
+  handleNewProject: PropTypes.func
 }
 
-export const Desktop = ({handleSelectProjet, projet, isOpen, setIsOpen, geometry, onProjetChange, projets}) => (
+export const Desktop = ({handleSelectProjet, projet, isOpen, setIsOpen, geometry, onProjetChange, projets, handleNewProject}) => (
   <div
     style={{
       height: '100%',
@@ -199,6 +201,7 @@ export const Desktop = ({handleSelectProjet, projet, isOpen, setIsOpen, geometry
             handleSelectProjet={handleSelectProjet}
             geometry={geometry}
             projetId={projet?._id}
+            handleNewProject={handleNewProject}
           />
         </div>
       </div>
@@ -220,6 +223,7 @@ Desktop.propTypes = {
   isOpen: PropTypes.bool,
   geometry: PropTypes.object,
   projets: PropTypes.array,
-  onProjetChange: PropTypes.func
+  onProjetChange: PropTypes.func,
+  handleNewProject: PropTypes.func
 }
 
