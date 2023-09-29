@@ -1,10 +1,25 @@
 import createError from 'http-errors'
-import {omit} from 'lodash-es'
+import {omit, maxBy} from 'lodash-es'
 import {nanoid} from 'nanoid'
-import {validateCreation, validateChanges} from '../lib/projets-validator.js'
-import {buildGeometryFromTerritoires, getTerritoiresProperties} from '../lib/territoires.js'
-import {findClosestEtape} from '../lib/suivi-pcrs.js'
+import {validateCreation, validateChanges} from './projets-validator.js'
+import {buildGeometryFromTerritoires, getTerritoiresProperties} from './territoires.js'
 import mongo from './util/mongo.js'
+
+export function findClosestEtape(etapes) {
+  if (etapes.some(etape => etape.date_debut)) {
+    const now = new Date()
+
+    const filteredLaterSteps = etapes.filter(etape => new Date(etape.date_debut) <= now)
+    if (filteredLaterSteps.length > 0) {
+      return maxBy(filteredLaterSteps, etape => new Date(etape.date_debut))
+    }
+
+    return etapes[0]
+  }
+
+  // When "Etapes" has no date, use last one
+  return etapes[etapes.length - 1]
+}
 
 export function expandProjet(projet) {
   const territoires = projet?.perimetres?.map(p => getTerritoiresProperties(p)) || null
