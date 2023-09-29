@@ -12,7 +12,6 @@ import vector from './styles/vector.json'
 import AuthentificationContext from '@/contexts/authentification-token.js'
 
 import Popup from '@/components/map/popup.js'
-import Loader from '@/components/loader.js'
 import Legend from '@/components/map/legend.js'
 import MapToolBox from '@/components/map/map-tool-box.js'
 import AuthentificationModal from '@/components/suivi-form/authentification/authentification-modal.js'
@@ -65,11 +64,9 @@ const Map = ({handleSelectProjet, isMobile, geometry, projetId}) => {
     }
   }, [popupNode, popupRoot])
 
-  const handleMouseLeave = useCallback(() => {
-    popupRoot.render(<Loader size='small' />)
-
+  const handleMouseLeave = () => {
     popupRef.current.remove()
-  }, [popupRoot])
+  }
 
   useEffect(() => {
     const node = mapNode.current
