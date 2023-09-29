@@ -8,38 +8,40 @@ import Button from '@/components/button.js'
 import ActeurCard from '@/components/suivi-form/acteurs/acteur-card.js'
 import ActeurForm from '@/components/suivi-form/acteurs/acteur-form.js'
 
-const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) => {
+const Acteurs = ({acteurs, handleActors}) => {
   const [isAdding, setIsAdding] = useState(false)
-  const [isEditing, setIsEditing] = useState(false)
   const [updatingActorIndex, setUpdatingActorIndex] = useState(null)
+
+  const sortActorsByAplc = useMemo(() => orderBy(acteurs, a => a.role === 'porteur' || 'aplc', ['desc']), [acteurs])
 
   const onDelete = siren => {
     handleActors(current => current.filter(c => c.siren !== siren))
     setIsAdding(false)
-    setIsEditing(false)
   }
 
-  const sortActorsByAplc = useMemo(() => orderBy(acteurs, a => a.role === 'porteur' || 'aplc', ['desc']), [acteurs])
+  const handleActor = actor => {
+    if (updatingActorIndex || updatingActorIndex === 0) {
+      handleActors(prevActeurs => {
+        const acteursCopy = [...prevActeurs]
+        acteursCopy[updatingActorIndex] = actor
+        return acteursCopy
+      })
+    } else {
+      handleActors([...acteurs, actor])
+    }
+  }
 
   return (
     <div className='fr-mt-8w fr-grid-row'>
       <h3 className='fr-h5 fr-m-0 fr-col-12'>Acteurs *</h3>
       <hr className='fr-my-3w fr-col-12' />
 
-      {(hasMissingData && acteurs.length === 0) && (
-        <div className='fr-error-text fr-mt-1w fr-col-12'>Au moins un acteur doit être ajouté</div>
-      )}
-
       <div className='fr-grid-row fr-col-12'>
         {sortActorsByAplc.map((actor, idx) => (
           <div key={actor.siren} className='fr-col-12 fr-mb-7w fr-p-0'>
             <ActeurCard
-              handleActors={handleActors}
-              isFormOpen={isAdding || isEditing}
-              handleEdition={() => {
-                setUpdatingActorIndex(idx)
-                setIsEditing(true)
-              }}
+              isFormOpen={isAdding || updatingActorIndex === idx}
+              handleEdition={() => setUpdatingActorIndex(idx)}
               handleDelete={() => onDelete(actor.siren)}
               {...actor}
             />
@@ -49,13 +51,9 @@ const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) =>
                 <ActeurForm
                   acteurs={acteurs}
                   updatingActorIndex={updatingActorIndex}
-                  isAdding={isAdding}
-                  isEditing={isEditing}
-                  handleActors={handleActors}
+                  handleActor={handleActor}
                   handleActorIndex={setUpdatingActorIndex}
                   handleAdding={setIsAdding}
-                  handleEditing={setIsEditing}
-                  onRequiredFormOpen={onRequiredFormOpen}
                 />
                 <hr className='edit-separator fr-my-3w' />
               </div>
@@ -68,26 +66,19 @@ const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) =>
         <ActeurForm
           acteurs={acteurs}
           updatingActorIndex={updatingActorIndex}
-          isAdding={isAdding}
-          isEditing={isEditing}
-          handleActors={handleActors}
+          handleActor={handleActor}
           handleActorIndex={setUpdatingActorIndex}
           handleAdding={setIsAdding}
-          handleEditing={setIsEditing}
-          onRequiredFormOpen={onRequiredFormOpen}
         />
       )}
 
-      {!isAdding && !isEditing && (
+      {!isAdding && !updatingActorIndex && (
         <div className='fr-mt-3w fr-col-12'>
           <Button
             label='Ajouter un acteur'
             icon='add-circle-fill'
             iconSide='left'
-            onClick={() => {
-              setIsAdding(true)
-              onRequiredFormOpen(true)
-            }}
+            onClick={() => setIsAdding(true)}
           >
             Ajouter un acteur
           </Button>
@@ -109,13 +100,7 @@ const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) =>
 
 Acteurs.propTypes = {
   acteurs: PropTypes.array.isRequired,
-  hasMissingData: PropTypes.bool,
-  handleActors: PropTypes.func.isRequired,
-  onRequiredFormOpen: PropTypes.func.isRequired
-}
-
-Acteurs.defaultProps = {
-  hasMissingData: false
+  handleActors: PropTypes.func.isRequired
 }
 
 export default Acteurs

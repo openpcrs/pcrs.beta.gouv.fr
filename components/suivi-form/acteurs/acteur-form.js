@@ -14,8 +14,7 @@ import SelectInput from '@/components/select-input.js'
 import Button from '@/components/button.js'
 import NumberInput from '@/components/number-input.js'
 
-const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, handleActors, handleAdding, handleEditing, onRequiredFormOpen}) => {
-  const [isFormComplete, setIsFormComplete] = useState(true)
+const ActeurForm = ({acteurs, updatingActorIndex, handleActorIndex, handleActor, handleAdding}) => {
   const [isFormValid, setIsFormValid] = useState(true)
   const [errorMessage, setErrorMessage] = useState(null)
 
@@ -30,77 +29,60 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
   const [role, setRole, roleError] = useInput({isRequired: !isFormValid})
 
   const isValidOnSubmit = useMemo(() => {
-    if (checkIsSirenValid(siren) && checkIsPhoneValid(phone) && checkIsEmailValid(mail) && isFinPercInputValid && isFinEurosInputValid) {
+    if (checkIsSirenValid(siren) && checkIsPhoneValid(phone) && checkIsEmailValid(mail) && isFinPercInputValid && isFinEurosInputValid && nom && role && siren) {
       return true
     }
 
     return false
-  }, [siren, phone, mail, isFinPercInputValid, isFinEurosInputValid])
+  }, [siren, phone, mail, isFinPercInputValid, isFinEurosInputValid, nom, role])
 
   useEffect(() => {
-    if (isCompleteOnSubmit && isValidOnSubmit) {
+    if (isValidOnSubmit) {
       setErrorMessage(null)
     }
-  }, [isCompleteOnSubmit, isValidOnSubmit])
+  }, [isValidOnSubmit])
 
   const isActorExisting = useMemo(() => {
-    if (isEditing) {
+    if (updatingActorIndex || updatingActorIndex === 0) {
       return acteurs.some(a => siren === a.siren.toString()) && siren !== updatingActorSiren.toString()
     }
 
     return acteurs.some(acteur => siren === acteur.siren.toString())
-  }, [acteurs, siren, isEditing, updatingActorSiren])
+  }, [acteurs, siren, updatingActorIndex, updatingActorSiren])
 
   const handleSubmit = () => {
     setErrorMessage(null)
     setIsFormValid(true)
 
-    if (isCompleteOnSubmit) {
-      if (isValidOnSubmit) {
-        if (isActorExisting) {
-          setErrorMessage('Cet acteur est déjà présent.')
-        } else {
-          const newActor = {
-            nom,
-            siren: Number(siren),
-            role,
-            mail: mail || null,
-            telephone: phone || null,
-            finance_part_perc: Number(finPerc) || null,
-            finance_part_euro: Number(finEuros) || null
-          }
-
-          if (isEditing) {
-            handleActors(prevActeurs => {
-              const acteursCopy = [...prevActeurs]
-              acteursCopy[updatingActorIndex] = newActor
-              return acteursCopy
-            })
-          } else {
-            handleActors([...acteurs, newActor])
-          }
-
-          onReset()
-        }
+    if (isValidOnSubmit) {
+      if (isActorExisting) {
+        setErrorMessage('Cet acteur est déjà présent.')
       } else {
-        setErrorMessage('Veuillez modifier les champs invalides')
-        setIsFormValid(false)
+        const newActor = {
+          nom,
+          siren: Number(siren),
+          role,
+          mail: mail || null,
+          telephone: phone || null,
+          finance_part_perc: Number(finPerc) || null,
+          finance_part_euro: Number(finEuros) || null
+        }
+
+        handleActor(newActor)
+
+        onReset()
       }
     } else {
-      setIsFormComplete(false)
+      setErrorMessage('Veuillez modifier les champs invalides')
       setIsFormValid(false)
-      setErrorMessage('Veuillez compléter les champs requis manquants')
     }
   }
 
   const onReset = useCallback(() => {
-    handleAdding(false)
-    onRequiredFormOpen(false)
     setIsFormValid(true)
-    setIsFormComplete(true)
     handleActorIndex(null)
-    handleEditing(false)
     setErrorMessage(null)
+    handleAdding(false)
     setUpdatingActorSiren(null)
 
     setNom('')
@@ -111,10 +93,8 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
     setFinEuros('')
     setRole('')
   }, [
-    handleAdding,
     handleActorIndex,
-    handleEditing,
-    onRequiredFormOpen,
+    handleAdding,
     setFinEuros,
     setSiren,
     setPhone,
@@ -140,7 +120,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
 
   useEffect(() => {
     // Switch to actor update form
-    if (isEditing) {
+    if (updatingActorIndex || updatingActorIndex === 0) {
       const foundActor = acteurs[updatingActorIndex]
       setNom(foundActor.nom)
       setSiren(foundActor.siren?.toString())
@@ -149,17 +129,9 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
       setFinPerc(foundActor.finance_part_perc?.toString() || '')
       setFinEuros(foundActor.finance_part_euro?.toString() || '')
       setRole(foundActor.role || '')
-
       setUpdatingActorSiren(foundActor.siren)
-      onRequiredFormOpen(true)
     }
-  }, [isEditing, updatingActorIndex, acteurs, onRequiredFormOpen, setFinEuros, setSiren, setPhone, setMail, setFinPerc, setRole, setNom])
-
-  useEffect(() => {
-    if (updatingActorIndex || updatingActorIndex === 0) {
-      handleEditing(true)
-    }
-  }, [updatingActorIndex, handleEditing])
+  }, [updatingActorIndex, acteurs, setFinEuros, setSiren, setPhone, setMail, setFinPerc, setRole, setNom])
 
   return (
     <div className='fr-mt-4w'>
@@ -285,11 +257,8 @@ ActeurForm.propTypes = {
   acteurs: PropTypes.array.isRequired,
   updatingActorIndex: PropTypes.number,
   handleActorIndex: PropTypes.func.isRequired,
-  handleActors: PropTypes.func.isRequired,
-  isEditing: PropTypes.bool.isRequired,
-  handleAdding: PropTypes.func.isRequired,
-  handleEditing: PropTypes.func.isRequired,
-  onRequiredFormOpen: PropTypes.func.isRequired
+  handleActor: PropTypes.func.isRequired,
+  handleAdding: PropTypes.func.isRequired
 }
 
 ActeurForm.defaultProps = {

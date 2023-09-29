@@ -219,8 +219,6 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
             <Acteurs
               acteurs={projetActeurs}
               handleActors={setProjetActeurs}
-              hasMissingData={hasMissingItemsOnValidation}
-              onRequiredFormOpen={setIsRequiredFormOpen}
             />
           </div>
 
