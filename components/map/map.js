@@ -161,7 +161,7 @@ const Map = ({handleSelectProjet, isMobile, geometry, projetId}) => {
 
   useEffect(() => {
     if (mapRef?.current.isStyleLoaded() && projetId) {
-      if (selectedId?.current && selectedId?.current !== projetId) {
+      if (selectedId.current && selectedId.current !== projetId) {
         mapRef.current.setFeatureState(
           {source: 'projetsData', id: selectedId.current},
           {hover: false}
