@@ -24,3 +24,21 @@ export const checkIsSirenValid = siren => {
 
   return false
 }
+
+export function handlePhoneError(input) {
+  if (!checkIsPhoneValid(input)) {
+    return 'Le numéro de téléphone doit être composé de 10 chiffres ou de 9 chiffres précédés du préfixe +33'
+  }
+}
+
+export function handleMailError(input) {
+  if (!checkIsEmailValid(input)) {
+    return 'L’adresse mail entrée est invalide. Exemple : dupont@domaine.fr'
+  }
+}
+
+export function handleSirenError(input) {
+  if (!checkIsSirenValid(input)) {
+    return 'Le SIREN doit être composé de 9 chiffres'
+  }
+}

@@ -3,7 +3,7 @@ import {useState, useCallback, useEffect, useMemo} from 'react'
 import PropTypes from 'prop-types'
 
 import ActorsAutocompleteInput from './actors-autocomplete-input.js'
-import {checkIsPhoneValid, checkIsEmailValid, checkIsSirenValid} from '@/components/suivi-form/acteurs/utils/error-handlers.js'
+import {handlePhoneError, handleMailError, handleSirenError, checkIsPhoneValid, checkIsEmailValid, checkIsSirenValid} from '@/components/suivi-form/acteurs/utils/error-handlers.js'
 
 import {roleOptions} from '@/components/suivi-form/acteurs/utils/select-options.js'
 
@@ -21,36 +21,14 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
 
   const [updatingActorSiren, setUpdatingActorSiren] = useState(null)
 
-  // Phone number conformity error handler
-  const handlePhoneError = useCallback(input => {
-    if (!checkIsPhoneValid(input) && !isFormValid) {
-      return 'Le numéro de téléphone doit être composé de 10 chiffres ou de 9 chiffres précédés du préfixe +33'
-    }
-  }, [isFormValid])
-
-  // Mail conformity error handler
-  const handleMailError = useCallback(input => {
-    if (!checkIsEmailValid(input) && !isFormValid) {
-      return 'L’adresse mail entrée est invalide. Exemple : dupont@domaine.fr'
-    }
-  }, [isFormValid])
-
-  // Siren conformity error handler
-  const handleSirenError = useCallback(input => {
-    if (!checkIsSirenValid(input) && !isFormValid) {
-      return 'Le SIREN doit être composé de 9 chiffres'
-    }
-  }, [isFormValid])
-
-  const [nom, setNom, nomError] = useInput({isRequired: !isFormComplete})
-  const [siren, setSiren, sirenError] = useInput({checkValue: handleSirenError, isRequired: !isFormComplete})
-  const [phone, setPhone, phoneError] = useInput({checkValue: handlePhoneError})
-  const [mail, setMail, mailError] = useInput({checkValue: handleMailError})
+  const [nom, setNom, nomError] = useInput({isRequired: !isFormValid})
+  const [siren, setSiren, sirenError] = useInput({checkValue: !isFormValid && handleSirenError, isRequired: !isFormValid})
+  const [phone, setPhone, phoneError] = useInput({checkValue: !isFormValid && handlePhoneError})
+  const [mail, setMail, mailError] = useInput({checkValue: !isFormValid && handleMailError})
   const [finPerc, setFinPerc, finPercError, handleFinPercValidity, isFinPercInputValid] = useInput({})
   const [finEuros, setFinEuros, finEurosError, handleFinEurosValidity, isFinEurosInputValid] = useInput({})
-  const [role, setRole, roleError] = useInput({isRequired: !isFormComplete})
+  const [role, setRole, roleError] = useInput({isRequired: !isFormValid})
 
-  const isCompleteOnSubmit = Boolean(nom && siren && role)
   const isValidOnSubmit = useMemo(() => {
     if (checkIsSirenValid(siren) && checkIsPhoneValid(phone) && checkIsEmailValid(mail) && isFinPercInputValid && isFinEurosInputValid) {
       return true
