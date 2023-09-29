@@ -34,7 +34,6 @@ const Map = ({handleSelectProjet, isMobile, geometry, projetId}) => {
   const mapNode = useRef()
   const mapRef = useRef()
   const selectedId = useRef()
-  const hoveredId = useRef(null)
 
   const popupRef = useRef(new maplibreGl.Popup({
     offset: 50,
@@ -67,17 +66,10 @@ const Map = ({handleSelectProjet, isMobile, geometry, projetId}) => {
   }, [popupNode, popupRoot])
 
   const handleMouseLeave = useCallback(() => {
-    if (hoveredId.current !== null) {
-      mapRef.current.setFeatureState(
-        {source: 'projetsData', id: hoveredId.current}
-      )
-
-      popupRoot.render(<Loader size='small' />)
-    }
+    popupRoot.render(<Loader size='small' />)
 
     popupRef.current.remove()
-    hoveredId.current = null
-  }, [hoveredId, popupRoot])
+  }, [popupRoot])
 
   useEffect(() => {
     const node = mapNode.current
