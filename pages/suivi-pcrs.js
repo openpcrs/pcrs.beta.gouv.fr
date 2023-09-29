@@ -28,20 +28,16 @@ const PcrsMap = () => {
   const handleNewProject = () => token ? router.push('/formulaire-suivi') : handleModal()
 
   const selectProjets = useCallback(async projetsIds => {
-    setProjet(null)
-    setProjets([])
-
     try {
       const promises = projetsIds.map(id => getProject(id, token))
       const [projet, ...projets] = await Promise.all(promises)
 
       setProjet(projet)
-      setProjets(prevProjets => [...prevProjets, projet, ...projets])
+      setProjets([projet, ...projets])
+      setIsOpen(true)
     } catch {
       router.push('/404')
     }
-
-    setIsOpen(true)
   }, [token, router])
 
   const handleTitleClick = () => {
