@@ -30,10 +30,10 @@ const PcrsMap = () => {
   const selectProjets = useCallback(async projetsIds => {
     try {
       const promises = projetsIds.map(id => getProject(id, token))
-      const [projet, ...projets] = await Promise.all(promises)
+      const projets = await Promise.all(promises)
 
-      setProjet(projet)
-      setProjets([projet, ...projets])
+      setProjet(projets[0])
+      setProjets(projets)
       setIsOpen(true)
     } catch {
       router.push('/404')
