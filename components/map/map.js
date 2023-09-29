@@ -107,6 +107,7 @@ const Map = ({handleSelectProjet, isMobile, geometry, projetId}) => {
       maplibreMap.getSource('projetsData').setData(geometry)
 
       if (projetId) {
+        selectedId.current = projetId
         maplibreMap.setFeatureState(
           {source: 'projetsData', id: projetId},
           {hover: true}
