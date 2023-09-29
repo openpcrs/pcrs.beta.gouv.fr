@@ -2,7 +2,7 @@
 
 import Joi from 'joi'
 import {validatePayload} from '../server/util/payload.js'
-import {ensureTerritoireExists} from '../lib/territoires.js'
+import {ensureTerritoireExists} from './territoires.js'
 
 function validatePerimetre(perimetre) {
   const fields = perimetre.split(':')
