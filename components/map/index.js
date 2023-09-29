@@ -14,7 +14,7 @@ import MapToolBox from '@/components/map/map-tool-box.js'
 import AutocompleteInput from '@/components/autocomplete-input.js'
 
 const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjets}) => {
-  const [layout, setLayout] = useState('projects-fills')
+  const [layout, setLayout] = useState('projets-fills')
   const [acteurSearchInput, setActeurSearchInput] = useState('')
   const [foundActeurs, setFoundActeurs] = useState([])
   const [matchingIds, setMatchingIds] = useState([])
@@ -84,16 +84,16 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
     maplibreMap.addControl(new maplibreGl.NavigationControl())
     maplibreMap.addControl(new maplibreGl.AttributionControl({compact: true}), 'bottom-right')
 
-    maplibreMap.on('click', 'projects-fills', e => onClick(e))
-    maplibreMap.on('click', 'projects-fills-nature', e => onClick(e))
+    maplibreMap.on('click', 'projets-fills', e => onClick(e))
+    maplibreMap.on('click', 'projets-fills-nature', e => onClick(e))
 
     if (!isMobile) {
-      maplibreMap.on('mousemove', 'projects-fills', e => handleMouseMove(e))
-      maplibreMap.on('mousemove', 'projects-fills-nature', e => handleMouseMove(e))
+      maplibreMap.on('mousemove', 'projets-fills', e => handleMouseMove(e))
+      maplibreMap.on('mousemove', 'projets-fills-nature', e => handleMouseMove(e))
     }
 
-    maplibreMap.on('mouseleave', 'projects-fills', () => handleMouseLeave())
-    maplibreMap.on('mouseleave', 'projects-fills-nature', () => handleMouseLeave())
+    maplibreMap.on('mouseleave', 'projets-fills', () => handleMouseLeave())
+    maplibreMap.on('mouseleave', 'projets-fills-nature', () => handleMouseLeave())
 
     maplibreMap.on('load', () => {
       maplibreMap.getSource('projetsData').setData(geometry)
@@ -114,14 +114,14 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
 
   useEffect(() => {
     if (mapRef?.current?.isStyleLoaded()) {
-      if (layout === 'projects-fills-nature') {
-        mapRef.current.setLayoutProperty('projects-fills-nature', 'visibility', 'visible')
-        mapRef.current.setLayoutProperty('projects-fills', 'visibility', 'none')
+      if (layout === 'projets-fills-nature') {
+        mapRef.current.setLayoutProperty('projets-fills-nature', 'visibility', 'visible')
+        mapRef.current.setLayoutProperty('projets-fills', 'visibility', 'none')
       }
 
-      if (layout === 'projects-fills') {
-        mapRef.current.setLayoutProperty('projects-fills', 'visibility', 'visible')
-        mapRef.current.setLayoutProperty('projects-fills-nature', 'visibility', 'none')
+      if (layout === 'projets-fills') {
+        mapRef.current.setLayoutProperty('projets-fills', 'visibility', 'visible')
+        mapRef.current.setLayoutProperty('projets-fills-nature', 'visibility', 'none')
       }
 
       // Filter by actors when actor is selected
@@ -147,8 +147,8 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
 
   const getProjectId = acteur => {
     const filteredItems = filter(geometry.features, item => some(item.properties.acteurs, a => a && (normalize(a) === normalize(acteur))))
-    const projectIds = filteredItems.map(m => m.properties._id)
-    setMatchingIds(projectIds)
+    const projetsIds = filteredItems.map(m => m.properties._id)
+    setMatchingIds(projetsIds)
   }
 
   useEffect(() => {
@@ -217,16 +217,16 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
               <button
                 type='button'
                 className='fr-btn fr-btn--sm fr-m-1w'
-                disabled={layout === 'projects-fills-nature'}
-                onClick={() => setLayout('projects-fills-nature')}
+                disabled={layout === 'projets-fills-nature'}
+                onClick={() => setLayout('projets-fills-nature')}
               >
                 nature
               </button>
               <button
                 type='button'
                 className='fr-btn fr-btn--sm fr-m-1w'
-                disabled={layout === 'projects-fills'}
-                onClick={() => setLayout('projects-fills')}
+                disabled={layout === 'projets-fills'}
+                onClick={() => setLayout('projets-fills')}
               >
                 statut
               </button>
