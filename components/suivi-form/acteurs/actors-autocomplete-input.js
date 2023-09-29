@@ -16,7 +16,7 @@ const ActorsAutocompleteInput = ({isRequired, inputValue, inputError, onValueCha
     if (inputError) {
       setErrorMessage(inputError)
     }
-  }, [inputError, errorMessage])
+  }, [inputError])
 
   const fetchActors = useRef(debounce(async (nom, signal) => {
     setIsLoading(true)
