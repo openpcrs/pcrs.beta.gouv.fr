@@ -58,7 +58,7 @@ const ActorsAutocompleteInput = ({isRequired, inputValue, inputError, onValueCha
       results={foundEtablissements}
       isLoading={isLoading}
       errorMessage={errorMessage || inputError}
-      renderItem={item => `${item.nom_complet} - ${secteursActivites[item.section_activite_principale]}`}
+      renderItem={item => `${item.nom_complet} - ${secteursActivites[item.section_activite_principale] || 'N/A'}`}
       onInputChange={onValueChange}
       onSelectValue={onSelectValue}
     />
