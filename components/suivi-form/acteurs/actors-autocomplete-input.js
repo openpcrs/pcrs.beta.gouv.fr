@@ -12,12 +12,6 @@ const ActorsAutocompleteInput = ({isRequired, inputValue, inputError, onValueCha
   const [foundEtablissements, setFoundEtablissements] = useState([])
   const [errorMessage, setErrorMessage] = useState()
 
-  useEffect(() => {
-    if (inputError) {
-      setErrorMessage(inputError)
-    }
-  }, [inputError])
-
   const fetchActors = useRef(debounce(async (nom, signal) => {
     setIsLoading(true)
     setErrorMessage(null)
@@ -63,7 +57,7 @@ const ActorsAutocompleteInput = ({isRequired, inputValue, inputError, onValueCha
       ariaLabel='nom de l’entreprise à rechercher'
       results={foundEtablissements}
       isLoading={isLoading}
-      errorMessage={errorMessage}
+      errorMessage={errorMessage || inputError}
       renderItem={item => `${item.nom_complet} - ${secteursActivites[item.section_activite_principale]}`}
       onInputChange={onValueChange}
       onSelectValue={onSelectValue}
