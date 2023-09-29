@@ -7,27 +7,22 @@ import {filter, some, debounce, flatMap, uniq, deburr} from 'lodash'
 import maplibreGl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
-import departementFillLayer from './layers/departement-fill.json'
-import departementFillNature from './layers/departement-fill-nature.json'
-import departementLayer from './layers/departement-layer.json'
 import vector from './styles/vector.json'
 
 import AuthentificationContext from '@/contexts/authentification-token.js'
 
 import Popup from '@/components/map/popup.js'
-import Loader from '@/components/loader.js'
 import Legend from '@/components/map/legend.js'
 import MapToolBox from '@/components/map/map-tool-box.js'
 import AuthentificationModal from '@/components/suivi-form/authentification/authentification-modal.js'
 import AutocompleteInput from '@/components/autocomplete-input.js'
 
-const Map = ({handleClick, isMobile, geometry, projetId}) => {
+const Map = ({handleSelectProjet, isMobile, geometry, projetId}) => {
   const {userRole, token} = useContext(AuthentificationContext)
   const router = useRouter()
-  const [layout, setLayout] = useState('departements-fills')
+  const [layout, setLayout] = useState('projets-fills')
   const [acteurSearchInput, setActeurSearchInput] = useState('')
   const [foundActeurs, setFoundActeurs] = useState([])
-  const [hoveredCode, setHoveredCode] = useState(null)
   const [matchingIds, setMatchingIds] = useState([])
 
   const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
@@ -37,7 +32,7 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
 
   const mapNode = useRef()
   const mapRef = useRef()
-  const selectedCode = useRef()
+  const selectedId = useRef()
 
   const popupRef = useRef(new maplibreGl.Popup({
     offset: 50,
@@ -52,14 +47,6 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
     let projet = null
 
     if (e.features.length > 0) {
-      if (hoveredCode) {
-        mapRef.current.setFeatureState(
-          {source: 'projetsData', id: null}
-        )
-      }
-
-      setHoveredCode(e.features[0].id)
-
       projet = e.features[0].properties
 
       popupRoot.render(
@@ -74,25 +61,12 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
         .setLngLat(e.lngLat)
         .setDOMContent(popupNode)
         .addTo(mapRef.current)
-
-      mapRef.current.setFeatureState(
-        {source: 'projetsData', id: hoveredCode}
-      )
     }
-  }, [hoveredCode, popupNode, popupRoot])
+  }, [popupNode, popupRoot])
 
-  const handleMouseLeave = useCallback(() => {
-    if (hoveredCode !== null) {
-      mapRef.current.setFeatureState(
-        {source: 'projetsData', id: hoveredCode}
-      )
-
-      popupRoot.render(<Loader size='small' />)
-    }
-
+  const handleMouseLeave = () => {
     popupRef.current.remove()
-    setHoveredCode(null)
-  }, [hoveredCode, popupRoot])
+  }
 
   useEffect(() => {
     const node = mapNode.current
@@ -101,7 +75,9 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
       style: vector,
       center: [1.7, 46.9],
       zoom: isMobile ? 4 : 5,
-      attributionControl: false
+      attributionControl: false,
+      maxZoom: 10,
+      minZoom: 4
     })
 
     mapRef.current = maplibreMap
@@ -112,27 +88,23 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
     maplibreMap.addControl(new maplibreGl.NavigationControl())
     maplibreMap.addControl(new maplibreGl.AttributionControl({compact: true}), 'bottom-right')
 
-    maplibreMap.on('click', 'departements-fills', e => {
-      handleClick(e)
+    maplibreMap.on('click', 'projets-fills', e => {
+      handleSelectProjet(e)
     })
-    maplibreMap.on('click', 'departements-fills-nature', e => {
-      handleClick(e)
+    maplibreMap.on('click', 'projets-fills-nature', e => {
+      handleSelectProjet(e)
     })
 
     if (!isMobile) {
-      maplibreMap.on('mousemove', 'departements-fills', e => handleMouseMove(e))
-      maplibreMap.on('mousemove', 'departements-fills-nature', e => handleMouseMove(e))
+      maplibreMap.on('mousemove', 'projets-fills', e => handleMouseMove(e))
+      maplibreMap.on('mousemove', 'projets-fills-nature', e => handleMouseMove(e))
     }
 
-    maplibreMap.on('mouseleave', 'departements-fills', () => handleMouseLeave())
-    maplibreMap.on('mouseleave', 'departements-fills-nature', () => handleMouseLeave())
+    maplibreMap.on('mouseleave', 'projets-fills', () => handleMouseLeave())
+    maplibreMap.on('mouseleave', 'projets-fills-nature', () => handleMouseLeave())
 
     maplibreMap.on('load', () => {
-      maplibreMap.addSource('projetsData', {
-        type: 'geojson',
-        data: geometry,
-        promoteId: '_id'
-      })
+      maplibreMap.getSource('projetsData').setData(geometry)
 
       if (projetId) {
         maplibreMap.setFeatureState(
@@ -140,10 +112,6 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
           {hover: true}
         )
       }
-
-      maplibreMap.addLayer(departementFillLayer)
-      maplibreMap.addLayer(departementFillNature)
-      maplibreMap.addLayer(departementLayer)
     })
 
     return () => {
@@ -154,14 +122,14 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
 
   useEffect(() => {
     if (mapRef?.current?.isStyleLoaded()) {
-      if (layout === 'departements-fills-nature') {
-        mapRef.current.setLayoutProperty('departements-fills-nature', 'visibility', 'visible')
-        mapRef.current.setLayoutProperty('departements-fills', 'visibility', 'none')
+      if (layout === 'projets-fills-nature') {
+        mapRef.current.setLayoutProperty('projets-fills-nature', 'visibility', 'visible')
+        mapRef.current.setLayoutProperty('projets-fills', 'visibility', 'none')
       }
 
-      if (layout === 'departements-fills') {
-        mapRef.current.setLayoutProperty('departements-fills', 'visibility', 'visible')
-        mapRef.current.setLayoutProperty('departements-fills-nature', 'visibility', 'none')
+      if (layout === 'projets-fills') {
+        mapRef.current.setLayoutProperty('projets-fills', 'visibility', 'visible')
+        mapRef.current.setLayoutProperty('projets-fills-nature', 'visibility', 'none')
       }
 
       // Filter by actors when actor is selected
@@ -193,14 +161,14 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
 
   useEffect(() => {
     if (mapRef?.current.isStyleLoaded() && projetId) {
-      if (selectedCode?.current && selectedCode?.current !== projetId) {
+      if (selectedId.current && selectedId.current !== projetId) {
         mapRef.current.setFeatureState(
-          {source: 'projetsData', id: selectedCode.current},
+          {source: 'projetsData', id: selectedId.current},
           {hover: false}
         )
       }
 
-      selectedCode.current = projetId
+      selectedId.current = projetId
 
       mapRef.current.setFeatureState(
         {source: 'projetsData', id: projetId},
@@ -257,16 +225,16 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
               <button
                 type='button'
                 className='fr-btn fr-btn--sm fr-m-1w'
-                disabled={layout === 'departements-fills-nature'}
-                onClick={() => setLayout('departements-fills-nature')}
+                disabled={layout === 'projets-fills-nature'}
+                onClick={() => setLayout('projets-fills-nature')}
               >
                 nature
               </button>
               <button
                 type='button'
                 className='fr-btn fr-btn--sm fr-m-1w'
-                disabled={layout === 'departements-fills'}
-                onClick={() => setLayout('departements-fills')}
+                disabled={layout === 'projets-fills'}
+                onClick={() => setLayout('projets-fills')}
               >
                 statut
               </button>
@@ -294,7 +262,7 @@ const Map = ({handleClick, isMobile, geometry, projetId}) => {
 }
 
 Map.propTypes = {
-  handleClick: PropTypes.func,
+  handleSelectProjet: PropTypes.func,
   isMobile: PropTypes.bool,
   geometry: PropTypes.object,
   projetId: PropTypes.string
