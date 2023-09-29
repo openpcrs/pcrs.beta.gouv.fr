@@ -49,14 +49,6 @@ const Map = ({handleSelectProjet, isMobile, geometry, projetId}) => {
     let projet = null
 
     if (e.features.length > 0) {
-      if (hoveredId.current) {
-        mapRef.current.setFeatureState(
-          {source: 'projetsData', id: null}
-        )
-      }
-
-      hoveredId.current = e.features[0].id
-
       projet = e.features[0].properties
 
       popupRoot.render(
@@ -71,12 +63,8 @@ const Map = ({handleSelectProjet, isMobile, geometry, projetId}) => {
         .setLngLat(e.lngLat)
         .setDOMContent(popupNode)
         .addTo(mapRef.current)
-
-      mapRef.current.setFeatureState(
-        {source: 'projetsData', id: hoveredId.current}
-      )
     }
-  }, [hoveredId, popupNode, popupRoot])
+  }, [popupNode, popupRoot])
 
   const handleMouseLeave = useCallback(() => {
     if (hoveredId.current !== null) {
