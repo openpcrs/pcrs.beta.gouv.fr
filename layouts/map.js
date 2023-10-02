@@ -1,4 +1,4 @@
-import {useContext} from 'react'
+import {useContext, useMemo} from 'react'
 import PropTypes from 'prop-types'
 
 import colors from '@/styles/colors.js'
@@ -224,3 +224,11 @@ Desktop.propTypes = {
   handleNewProject: PropTypes.func
 }
 
+const SuiviPCRSMapLayout = props => {
+  const {isMobileDevice} = useContext(DeviceContext)
+  const Layout = useMemo(() => isMobileDevice ? Mobile : Desktop, [isMobileDevice])
+
+  return <Layout {...props} />
+}
+
+export default SuiviPCRSMapLayout
