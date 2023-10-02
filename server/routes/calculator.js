@@ -1,7 +1,7 @@
 import express from 'express'
 import w from '../util/w.js'
 
-import {getAreaFromTerritory} from '../territoires.js'
+import {getAreaFromTerritory} from '../../lib/territoires.js'
 import {areaSizeToGigas} from '../calculator.js'
 
 const calculatorRoutes = new express.Router()
