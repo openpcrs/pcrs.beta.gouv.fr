@@ -1,17 +1,14 @@
 /* eslint-disable camelcase */
-import {useState, useCallback, useEffect, useMemo, useRef} from 'react'
+import {useState, useCallback, useEffect, useMemo} from 'react'
 import PropTypes from 'prop-types'
-import {debounce, pick} from 'lodash-es'
 
+import ActorsAutocompleteInput from './actors-autocomplete-input.js'
 import {checkIsPhoneValid, checkIsEmailValid, checkIsSirenValid} from '@/components/suivi-form/acteurs/utils/error-handlers.js'
-import {getEntreprises} from '@/lib/entreprises-api.js'
 
-import {secteursActivites} from '@/components/suivi-form/acteurs/utils/actor-activites.js'
 import {roleOptions} from '@/components/suivi-form/acteurs/utils/select-options.js'
 
 import {useInput} from '@/hooks/input.js'
 
-import AutocompleteInput from '@/components/autocomplete-input.js'
 import TextInput from '@/components/text-input.js'
 import SelectInput from '@/components/select-input.js'
 import Button from '@/components/button.js'
@@ -21,11 +18,7 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
   const [isFormComplete, setIsFormComplete] = useState(true)
   const [isFormValid, setIsFormValid] = useState(true)
   const [errorMessage, setErrorMessage] = useState(null)
-  const [searchErrorMessage, setSearchErrorMessage] = useState(null)
 
-  const [isLoading, setIsLoading] = useState(false)
-
-  const [foundEtablissements, setFoundEtablissements] = useState([])
   const [updatingActorSiren, setUpdatingActorSiren] = useState(null)
 
   // Phone number conformity error handler
@@ -131,7 +124,6 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
     handleEditing(false)
     setErrorMessage(null)
     setUpdatingActorSiren(null)
-    setSearchErrorMessage(null)
 
     setNom('')
     setSiren('')
@@ -185,42 +177,6 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
     }
   }, [isEditing, updatingActorIndex, acteurs, onRequiredFormOpen, setFinEuros, setSiren, setPhone, setMail, setFinPerc, setRole, setNom])
 
-  const fetchActors = useRef(debounce(async (nom, signal) => {
-    setIsLoading(true)
-    setSearchErrorMessage(null)
-
-    try {
-      const foundActors = await getEntreprises(nom, {signal})
-      const firstResults = foundActors.results.slice(0, 5)
-
-      const sanitizedResults = firstResults.map(result => pick(result, ['nom_complet', 'siren', 'section_activite_principale', 'tranche_effectif_salarie']))
-
-      setFoundEtablissements(sanitizedResults)
-    } catch {
-      if (!signal.aborted) {
-        setSearchErrorMessage('Aucun acteur n’a été trouvé')
-        setFoundEtablissements([])
-      }
-    }
-
-    setIsLoading(false)
-  }, 300))
-
-  useEffect(() => {
-    if (!nom || nom.length < 3) {
-      setSearchErrorMessage(null)
-      setFoundEtablissements([])
-      return
-    }
-
-    const ac = new AbortController()
-    fetchActors.current(nom, ac.signal)
-
-    return () => {
-      ac.abort()
-    }
-  }, [nom, fetchActors])
-
   useEffect(() => {
     if (updatingActorIndex || updatingActorIndex === 0) {
       handleEditing(true)
@@ -231,17 +187,11 @@ const ActeurForm = ({acteurs, updatingActorIndex, isEditing, handleActorIndex, h
     <div className='fr-mt-4w'>
       <div className='fr-grid-row'>
         <div className='fr-col-12 fr-mt-6w fr-col-md-6'>
-          <AutocompleteInput
+          <ActorsAutocompleteInput
             isRequired
-            label='Nom'
-            value={nom}
-            description='Nom de l’entreprise'
-            ariaLabel='nom de l’entreprise à rechercher'
-            results={foundEtablissements}
-            isLoading={isLoading}
-            errorMessage={searchErrorMessage ? searchErrorMessage : nomError}
-            renderItem={item => `${item.nom_complet} - ${secteursActivites[item.section_activite_principale]}`}
-            onInputChange={setNom}
+            inputValue={nom}
+            inputError={nomError}
+            onValueChange={setNom}
             onSelectValue={item => {
               setNom(item.nom_complet)
               setSiren(item.siren)
