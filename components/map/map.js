@@ -32,7 +32,7 @@ const Map = ({handleSelectProjet, isMobile, geometry, projetId}) => {
 
   const mapNode = useRef()
   const mapRef = useRef()
-  const selectedId = useRef()
+  const selectedId = useRef(projetId)
 
   const popupRef = useRef(new maplibreGl.Popup({
     offset: 50,
@@ -107,7 +107,6 @@ const Map = ({handleSelectProjet, isMobile, geometry, projetId}) => {
       maplibreMap.getSource('projetsData').setData(geometry)
 
       if (projetId) {
-        selectedId.current = projetId
         maplibreMap.setFeatureState(
           {source: 'projetsData', id: projetId},
           {hover: true}
