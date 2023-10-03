@@ -8,7 +8,18 @@ import DeviceContext from '@/contexts/device.js'
 import Map from '@/components/map/index.js'
 import MapSidebar from '@/components/map-sidebar/index.js'
 
-export const Mobile = ({selectProjets, handleTitleClick, handleNewProject, projet, isOpen, setIsOpen, geometry, projets, onProjetChange}) => {
+const OpenDataInformationMessage = () => (
+  <div
+    className='fr-p-1w fr-text--sm fr-m-0 fr-grid-row fr-grid-row--middle fr-grid-row--center'
+    style={{background: colors.info975, textAlign: 'center'}}
+  >
+    <div>
+      Les données de cette carte sont disponibles publiquement sur le site&nbsp;<a rel='noreferrer' href='https://www.data.gouv.fr/fr/organizations/pcrs-beta-gouv-fr/' target='_blank' title='ouvre un onglet vers data gouv'>Data gouv</a>
+    </div>
+  </div>
+)
+
+export const Mobile = ({handleTitleClick, projet, isOpen, sidebar, map}) => {
   const {viewHeight} = useContext(DeviceContext)
 
   return (
@@ -20,14 +31,7 @@ export const Mobile = ({selectProjets, handleTitleClick, handleNewProject, proje
       }}
     >
       {!isOpen && (
-        <div
-          className='fr-p-1w fr-text--sm fr-m-0 fr-grid-row fr-grid-row--middle fr-grid-row--center'
-          style={{background: colors.info975, textAlign: 'center'}}
-        >
-          <div>
-            Les données de cette carte sont disponibles publiquement sur le site&nbsp;<a rel='noreferrer' href='https://www.data.gouv.fr/fr/organizations/pcrs-beta-gouv-fr/' target='_blank' title='ouvre un onglet vers data gouv'>Data gouv</a>
-          </div>
-        </div>
+        <OpenDataInformationMessage />
       )}
 
       <div
@@ -36,13 +40,7 @@ export const Mobile = ({selectProjets, handleTitleClick, handleNewProject, proje
           width: '100%'
         }}
       >
-        <Map
-          isMobile
-          handleSelectProjets={selectProjets}
-          geometry={geometry}
-          projetId={projet?._id}
-          handleNewProject={handleNewProject}
-        />
+        {map}
       </div>
 
       <div
@@ -99,14 +97,8 @@ export const Mobile = ({selectProjets, handleTitleClick, handleNewProject, proje
             )
           )}
         </div>
-        {isOpen && projet && (
-          <MapSidebar
-            projet={projet}
-            projets={projets}
-            onProjetChange={onProjetChange}
-            onClose={() => setIsOpen(false)}
-          />
-        )}
+
+        {sidebar}
       </div>
     </div>
   )
@@ -114,25 +106,18 @@ export const Mobile = ({selectProjets, handleTitleClick, handleNewProject, proje
 
 Mobile.defaultProps = {
   handleTitleClick: null,
-  projet: null,
-  isOpen: false,
-  projets: null,
-  onProjetChange: null
+  projet: null
 }
 
 Mobile.propTypes = {
-  selectProjets: PropTypes.func.isRequired,
-  setIsOpen: PropTypes.func.isRequired,
+  map: PropTypes.node.isRequired,
+  sidebar: PropTypes.node.isRequired,
   handleTitleClick: PropTypes.func,
   projet: PropTypes.object,
-  isOpen: PropTypes.bool,
-  geometry: PropTypes.object,
-  projets: PropTypes.array,
-  onProjetChange: PropTypes.func,
-  handleNewProject: PropTypes.func
+  isOpen: PropTypes.bool.isRequired
 }
 
-export const Desktop = ({selectProjets, projet, isOpen, setIsOpen, geometry, onProjetChange, projets, handleNewProject}) => (
+export const Desktop = ({projet, isOpen, setIsOpen, sidebar, map}) => (
   <div
     style={{
       height: '100%',
@@ -152,13 +137,7 @@ export const Desktop = ({selectProjets, projet, isOpen, setIsOpen, geometry, onP
             overflowX: 'hidden'
           }}
         >
-          {isOpen && (
-            <MapSidebar
-              projet={projet}
-              projets={projets}
-              onProjetChange={onProjetChange}
-              onClose={() => setIsOpen(false)} />
-          )}
+          {isOpen ? sidebar : null}
         </div>
         <button
           type='button'
@@ -184,51 +163,72 @@ export const Desktop = ({selectProjets, projet, isOpen, setIsOpen, geometry, onP
     )}
 
     <div style={{width: '100%'}}>
-      <div
-        className='fr-p-1w fr-text--sm fr-m-0 fr-grid-row fr-grid-row--middle fr-grid-row--center'
-        style={{background: colors.info975, textAlign: 'center'}}
-      >
-        <div>
-          Les données de cette carte sont disponibles publiquement sur le site&nbsp;<a rel='noreferrer' href='https://www.data.gouv.fr/fr/organizations/pcrs-beta-gouv-fr/' target='_blank' title='ouvre un onglet vers data gouv'>Data gouv</a>
-        </div>
-      </div>
+      <OpenDataInformationMessage />
 
       <div style={{width: '100%', height: 'calc(100vh - 157px)'}}>
-        <Map
-          style={{pointerEvents: 'all'}}
-          handleSelectProjets={selectProjets}
-          geometry={geometry}
-          projetId={projet?._id}
-          handleNewProject={handleNewProject}
-        />
+        {map}
       </div>
     </div>
   </div>
 )
 
 Desktop.defaultProps = {
-  projet: null,
-  isOpen: false,
-  projets: null,
-  onProjetChange: null
+  projet: null
 }
 
 Desktop.propTypes = {
-  selectProjets: PropTypes.func.isRequired,
+  map: PropTypes.node.isRequired,
+  sidebar: PropTypes.node,
   setIsOpen: PropTypes.func,
   projet: PropTypes.object,
-  isOpen: PropTypes.bool,
-  geometry: PropTypes.object,
-  projets: PropTypes.array,
-  onProjetChange: PropTypes.func,
-  handleNewProject: PropTypes.func
+  isOpen: PropTypes.bool.isRequired
 }
 
 const SuiviPCRSMapLayout = props => {
+  const {projet, projets, onProjetChange, setIsOpen, selectProjets, geometry} = props
   const {isMobileDevice} = useContext(DeviceContext)
+
   const Layout = useMemo(() => isMobileDevice ? Mobile : Desktop, [isMobileDevice])
 
-  return <Layout {...props} />
+  const sidebar = projet ? (
+    <MapSidebar
+      projet={projet}
+      projets={projets}
+      onProjetChange={onProjetChange}
+      onClose={() => setIsOpen(false)}
+    />
+  ) : null
+
+  const map = (
+    <Map
+      isMobile={isMobileDevice}
+      projetId={projet?._id}
+      geometry={geometry}
+      handleSelectProjets={selectProjets}
+    />
+  )
+
+  return (
+    <Layout
+      {...props}
+      sidebar={sidebar}
+      map={map}
+    />
+  )
+}
+
+SuiviPCRSMapLayout.defaultProps = {
+  projet: null
+}
+
+SuiviPCRSMapLayout.propTypes = {
+  geometry: PropTypes.object.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  projet: PropTypes.object,
+  projets: PropTypes.array,
+  setIsOpen: PropTypes.func,
+  onProjetChange: PropTypes.func.isRequired,
+  selectProjets: PropTypes.func.isRequired
 }
 
 export default SuiviPCRSMapLayout
