@@ -19,6 +19,78 @@ const OpenDataInformationMessage = () => (
   </div>
 )
 
+const MobileSidebarWrapper = ({projetNom, isOpen, viewHeight, toggleSidebar, children}) => (
+  <div
+    style={{
+      height: isOpen ? viewHeight - 147 : '56px',
+      overflowY: isOpen ? 'auto' : 'hidden',
+      overflowX: 'hidden',
+      padding: '2px',
+      border: '1px solid lightgrey',
+      borderBottom: '0',
+      zIndex: isOpen ? 3 : 0
+    }}
+  >
+    <div
+      className='fr-p-3v'
+      style={{
+        float: isOpen ? 'right' : 'left',
+        width: '100%',
+        display: 'flex',
+        justifyContent: projetNom && isOpen ? 'end' : 'space-between'
+      }}
+    >
+      {isOpen && projetNom ? (
+        <span
+          className='fr-icon--lg fr-icon-close-circle-line'
+          style={{
+            color: 'white',
+            cursor: 'pointer'
+          }}
+          onClick={toggleSidebar}
+        />
+      ) : (
+        (!isOpen && projetNom) ? (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              width: '100%'
+            }}
+          >
+            <span>{projetNom}</span>
+            <span
+              className='fr-icon--lg fr-icon-arrow-up-s-line'
+              aria-hidden='true'
+              style={{
+                cursor: 'pointer'
+              }}
+              onClick={toggleSidebar}
+            />
+          </div>
+        ) : (
+          <small>Sélectionnez un PCRS sur la carte</small>
+        )
+      )}
+    </div>
+
+    {children}
+  </div>
+)
+
+MobileSidebarWrapper.defaultProps = {
+  projetNom: null
+}
+
+MobileSidebarWrapper.propTypes = {
+  projetNom: PropTypes.string,
+  isOpen: PropTypes.bool.isRequired,
+  viewHeight: PropTypes.number.isRequired,
+  toggleSidebar: PropTypes.func.isRequired,
+  children: PropTypes.node
+}
+
 export const Mobile = ({handleTitleClick, projet, isOpen, sidebar, map}) => {
   const {viewHeight} = useContext(DeviceContext)
 
@@ -43,63 +115,14 @@ export const Mobile = ({handleTitleClick, projet, isOpen, sidebar, map}) => {
         {map}
       </div>
 
-      <div
-        style={{
-          height: isOpen ? viewHeight - 147 : '56px',
-          overflowY: isOpen ? 'auto' : 'hidden',
-          overflowX: 'hidden',
-          padding: '2px',
-          border: '1px solid lightgrey',
-          borderBottom: '0',
-          zIndex: isOpen ? 3 : 0
-        }}
+      <MobileSidebarWrapper
+        projetNom={projet?.nom}
+        isOpen={isOpen}
+        viewHeight={viewHeight}
+        toggleSidebar={handleTitleClick}
       >
-        <div
-          className='fr-p-3v'
-          style={{
-            float: isOpen ? 'right' : 'left',
-            width: '100%',
-            display: 'flex',
-            justifyContent: projet && isOpen ? 'end' : 'space-between'
-          }}
-        >
-          {isOpen && projet ? (
-            <span
-              className='fr-icon--lg fr-icon-close-circle-line'
-              style={{
-                color: 'white',
-                cursor: 'pointer'
-              }}
-              onClick={handleTitleClick}
-            />
-          ) : (
-            (!isOpen && projet) ? (
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  width: '100%'
-                }}
-              >
-                <span>{projet?.nom}</span>
-                <span
-                  className='fr-icon--lg fr-icon-arrow-up-s-line'
-                  aria-hidden='true'
-                  style={{
-                    cursor: 'pointer'
-                  }}
-                  onClick={handleTitleClick}
-                />
-              </div>
-            ) : (
-              <small>Sélectionnez un PCRS sur la carte</small>
-            )
-          )}
-        </div>
-
         {sidebar}
-      </div>
+      </MobileSidebarWrapper>
     </div>
   )
 }
@@ -111,7 +134,7 @@ Mobile.defaultProps = {
 
 Mobile.propTypes = {
   map: PropTypes.node.isRequired,
-  sidebar: PropTypes.node.isRequired,
+  sidebar: PropTypes.node,
   handleTitleClick: PropTypes.func,
   projet: PropTypes.object,
   isOpen: PropTypes.bool.isRequired
@@ -139,6 +162,7 @@ export const Desktop = ({projet, isOpen, setIsOpen, sidebar, map}) => (
         >
           {isOpen ? sidebar : null}
         </div>
+
         <button
           type='button'
           className={`fr-icon-arrow-${isOpen ? 'left' : 'right'}-s-line`}
