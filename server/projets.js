@@ -1,9 +1,9 @@
 import createError from 'http-errors'
 import {omit} from 'lodash-es'
 import {nanoid} from 'nanoid'
-import {validateCreation, validateChanges} from '../lib/projets-validator.js'
 import {buildGeometryFromTerritoires, getTerritoiresProperties} from '../lib/territoires.js'
 import {findClosestEtape} from '../shared/find-closest-etape.js'
+import {validateCreation, validateChanges} from './projets-validator.js'
 import mongo from './util/mongo.js'
 
 export function expandProjet(projet) {
