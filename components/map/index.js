@@ -23,7 +23,7 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
 
   const mapNode = useRef()
   const mapRef = useRef()
-  const selectedId = useRef()
+  const selectedId = useRef(projetId)
 
   const popupRef = useRef(new maplibreGl.Popup({
     offset: 50,
