@@ -1,15 +1,20 @@
 import {useState, useContext, useCallback, useMemo, useEffect} from 'react'
 
+import {useRouter} from 'next/router'
 import Page from '@/layouts/main.js'
 import {getProject} from '@/lib/suivi-pcrs.js'
 import {Desktop, Mobile} from '@/layouts/map.js'
 
 import DeviceContext from '@/contexts/device.js'
 import AuthentificationContext from '@/contexts/authentification-token.js'
+import AuthentificationModal from '@/components/suivi-form/authentification/authentification-modal.js'
+import CenteredSpinnder from '@/components/centered-spinner.js'
 
 const PcrsMap = () => {
+  const router = useRouter()
+
   const {isMobileDevice} = useContext(DeviceContext)
-  const {token} = useContext(AuthentificationContext)
+  const {userRole, token} = useContext(AuthentificationContext)
 
   const Layout = useMemo(() => isMobileDevice ? Mobile : Desktop, [isMobileDevice])
   const [isOpen, setIsOpen] = useState(false)
@@ -17,19 +22,23 @@ const PcrsMap = () => {
   const [projets, setProjets] = useState()
   const [geometry, setGeometry] = useState()
 
-  const handleSelectProjet = useCallback(async e => {
+  const [isAuthentificationModalOpen, setIsAuthentificationModalOpen] = useState(false)
+
+  const handleModal = () => setIsAuthentificationModalOpen(!isAuthentificationModalOpen)
+  const handleNewProject = () => token ? router.push('/formulaire-suivi') : handleModal()
+
+  const selectProjets = useCallback(async projetsIds => {
     try {
-      setProjets([])
-      const promises = e.features.map(f => getProject(f.properties._id, token))
+      const promises = projetsIds.map(id => getProject(id, token))
       const projets = await Promise.all(promises)
 
-      setProjets(prevProjets => [...prevProjets, ...projets])
+      setProjet(projets[0])
+      setProjets(projets)
+      setIsOpen(true)
     } catch {
-      throw new Error('Projet introuvable')
+      router.push('/404')
     }
-
-    setIsOpen(true)
-  }, [token])
+  }, [token, router])
 
   const handleTitleClick = () => {
     if (projet) {
@@ -41,12 +50,6 @@ const PcrsMap = () => {
     const selectedProjet = projets.find(p => p._id === e.target.value)
     setProjet(selectedProjet)
   }
-
-  useEffect(() => {
-    if (projets && projets.length > 0) {
-      setProjet(projets[0])
-    }
-  }, [projets])
 
   useEffect(() => {
     async function getGeometry() {
@@ -66,16 +69,25 @@ const PcrsMap = () => {
       description='Carte de déploiement des PCRS'
       hasFooter={false}
     >
-      <Layout
-        handleSelectProjet={handleSelectProjet}
-        handleTitleClick={handleTitleClick}
-        projet={projet}
-        projets={projets}
-        geometry={geometry}
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        onProjetChange={handleProjet}
-      />
+      {geometry ? (
+        <Layout
+          selectProjets={selectProjets}
+          handleTitleClick={handleTitleClick}
+          projet={projet}
+          projets={projets}
+          geometry={geometry}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          handleNewProject={handleNewProject}
+          onProjetChange={handleProjet}
+        />
+      ) : (
+        <CenteredSpinnder />
+      )}
+
+      {isAuthentificationModalOpen && userRole !== 'admin' && (
+        <AuthentificationModal handleModalClose={handleModal} />
+      )}
     </Page>
   )
 }

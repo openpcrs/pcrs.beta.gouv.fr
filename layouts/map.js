@@ -8,7 +8,7 @@ import DeviceContext from '@/contexts/device.js'
 import Map from '@/components/map/index.js'
 import MapSidebar from '@/components/map-sidebar/index.js'
 
-export const Mobile = ({handleSelectProjet, handleTitleClick, projet, isOpen, setIsOpen, geometry, projets, onProjetChange}) => {
+export const Mobile = ({selectProjets, handleTitleClick, handleNewProject, projet, isOpen, setIsOpen, geometry, projets, onProjetChange}) => {
   const {viewHeight} = useContext(DeviceContext)
 
   return (
@@ -30,21 +30,21 @@ export const Mobile = ({handleSelectProjet, handleTitleClick, projet, isOpen, se
         </div>
       )}
 
-      {geometry && (
-        <div
-          style={{
-            height: isOpen ? 0 : viewHeight - 264,
-            width: '100%'
-          }}
-        >
-          <Map
-            isMobile
-            handleSelectProjet={handleSelectProjet}
-            geometry={geometry}
-            projetId={projet?._id}
-          />
-        </div>
-      )}
+      <div
+        style={{
+          height: isOpen ? 0 : viewHeight - 264,
+          width: '100%'
+        }}
+      >
+        <Map
+          isMobile
+          handleSelectProjets={selectProjets}
+          geometry={geometry}
+          projetId={projet?._id}
+          handleNewProject={handleNewProject}
+        />
+      </div>
+
       <div
         style={{
           height: isOpen ? viewHeight - 147 : '56px',
@@ -121,17 +121,18 @@ Mobile.defaultProps = {
 }
 
 Mobile.propTypes = {
-  handleSelectProjet: PropTypes.func.isRequired,
+  selectProjets: PropTypes.func.isRequired,
   setIsOpen: PropTypes.func.isRequired,
   handleTitleClick: PropTypes.func,
   projet: PropTypes.object,
   isOpen: PropTypes.bool,
   geometry: PropTypes.object,
   projets: PropTypes.array,
-  onProjetChange: PropTypes.func
+  onProjetChange: PropTypes.func,
+  handleNewProject: PropTypes.func
 }
 
-export const Desktop = ({handleSelectProjet, projet, isOpen, setIsOpen, geometry, onProjetChange, projets}) => (
+export const Desktop = ({selectProjets, projet, isOpen, setIsOpen, geometry, onProjetChange, projets, handleNewProject}) => (
   <div
     style={{
       height: '100%',
@@ -182,27 +183,26 @@ export const Desktop = ({handleSelectProjet, projet, isOpen, setIsOpen, geometry
       </>
     )}
 
-    {geometry && (
-      <div style={{width: '100%'}}>
-        <div
-          className='fr-p-1w fr-text--sm fr-m-0 fr-grid-row fr-grid-row--middle fr-grid-row--center'
-          style={{background: colors.info975, textAlign: 'center'}}
-        >
-          <div>
-            Les données de cette carte sont disponibles publiquement sur le site&nbsp;<a rel='noreferrer' href='https://www.data.gouv.fr/fr/organizations/pcrs-beta-gouv-fr/' target='_blank' title='ouvre un onglet vers data gouv'>Data gouv</a>
-          </div>
-        </div>
-
-        <div style={{width: '100%', height: 'calc(100vh - 157px)'}}>
-          <Map
-            style={{pointerEvents: 'all'}}
-            handleSelectProjet={handleSelectProjet}
-            geometry={geometry}
-            projetId={projet?._id}
-          />
+    <div style={{width: '100%'}}>
+      <div
+        className='fr-p-1w fr-text--sm fr-m-0 fr-grid-row fr-grid-row--middle fr-grid-row--center'
+        style={{background: colors.info975, textAlign: 'center'}}
+      >
+        <div>
+          Les données de cette carte sont disponibles publiquement sur le site&nbsp;<a rel='noreferrer' href='https://www.data.gouv.fr/fr/organizations/pcrs-beta-gouv-fr/' target='_blank' title='ouvre un onglet vers data gouv'>Data gouv</a>
         </div>
       </div>
-    )}
+
+      <div style={{width: '100%', height: 'calc(100vh - 157px)'}}>
+        <Map
+          style={{pointerEvents: 'all'}}
+          handleSelectProjets={selectProjets}
+          geometry={geometry}
+          projetId={projet?._id}
+          handleNewProject={handleNewProject}
+        />
+      </div>
+    </div>
   </div>
 )
 
@@ -214,12 +214,13 @@ Desktop.defaultProps = {
 }
 
 Desktop.propTypes = {
-  handleSelectProjet: PropTypes.func.isRequired,
+  selectProjets: PropTypes.func.isRequired,
   setIsOpen: PropTypes.func,
   projet: PropTypes.object,
   isOpen: PropTypes.bool,
   geometry: PropTypes.object,
   projets: PropTypes.array,
-  onProjetChange: PropTypes.func
+  onProjetChange: PropTypes.func,
+  handleNewProject: PropTypes.func
 }
 
