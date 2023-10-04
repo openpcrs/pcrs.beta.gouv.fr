@@ -8,64 +8,38 @@ import DeviceContext from '@/contexts/device.js'
 import Map from '@/components/map/index.js'
 import MapSidebar from '@/components/map-sidebar/index.js'
 
-const OpenDataInformationMessage = () => (
+const OpenDataMessage = () => (
   <div
     className='fr-p-1w fr-text--sm fr-m-0 fr-grid-row fr-grid-row--middle fr-grid-row--center'
-    style={{background: colors.info975, textAlign: 'center'}}
   >
     <div>
       Les données de cette carte sont disponibles publiquement sur le site&nbsp;<a rel='noreferrer' href='https://www.data.gouv.fr/fr/organizations/pcrs-beta-gouv-fr/' target='_blank' title='ouvre un onglet vers data gouv'>Data gouv</a>
     </div>
+
+    <style jsx>{`
+      .open-data-message {
+        background: ${colors.info975};
+        text-align: center:
+      }
+      `}</style>
   </div>
 )
 
 const MobileSidebarWrapper = ({projetNom, isOpen, viewHeight, toggleSidebar, children}) => (
-  <div
-    style={{
-      height: isOpen ? viewHeight - 147 : '56px',
-      overflowY: isOpen ? 'auto' : 'hidden',
-      overflowX: 'hidden',
-      padding: '2px',
-      border: '1px solid lightgrey',
-      borderBottom: '0',
-      zIndex: isOpen ? 3 : 0
-    }}
-  >
-    <div
-      className='fr-p-3v'
-      style={{
-        float: isOpen ? 'right' : 'left',
-        width: '100%',
-        display: 'flex',
-        justifyContent: projetNom && isOpen ? 'end' : 'space-between'
-      }}
-    >
+  <div className='mobile-sidebar-wrapper'>
+    <div className='fr-p-3v sidebar-header'>
       {isOpen && projetNom ? (
         <span
-          className='fr-icon--lg fr-icon-close-circle-line'
-          style={{
-            color: 'white',
-            cursor: 'pointer'
-          }}
+          className='fr-icon--lg fr-icon-close-circle-line sidebar-icon'
           onClick={toggleSidebar}
         />
       ) : (
         (!isOpen && projetNom) ? (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              width: '100%'
-            }}
-          >
+          <div className='sidebar-wrapped-header'>
             <span>{projetNom}</span>
             <span
-              className='fr-icon--lg fr-icon-arrow-up-s-line'
+              className='fr-icon--lg fr-icon-arrow-up-s-line sidebar-icon'
               aria-hidden='true'
-              style={{
-                cursor: 'pointer'
-              }}
               onClick={toggleSidebar}
             />
           </div>
@@ -76,6 +50,36 @@ const MobileSidebarWrapper = ({projetNom, isOpen, viewHeight, toggleSidebar, chi
     </div>
 
     {children}
+
+    <style jsx>{`
+      .mobile-sidebar-wrapper {
+        height: ${isOpen ? viewHeight - 147 : '56px'};
+        overflow-y: ${isOpen ? 'auto' : 'hidden'};
+        overflow-x: hidden;
+        border-bottom: 0;
+        z-index: ${isOpen ? 3 : 0};
+      }
+
+      .sidebar-header {
+        float: ${isOpen ? 'right' : 'left'};
+        display: flex;
+        width: 100%;
+        justify-content: ${projetNom && isOpen ? 'end' : 'space-between'};
+        color: ${!projetNom && !isOpen ? 'initial' : '#fff'};
+      }
+
+      .sidebar-wrapped-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+      }
+
+      .sidebar-icon {
+        color: #fff;
+        cursor: pointer;
+      }
+      `}</style>
   </div>
 )
 
@@ -95,23 +99,12 @@ export const Mobile = ({handleTitleClick, projet, isOpen, sidebar, map}) => {
   const {viewHeight} = useContext(DeviceContext)
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        contain: 'content'
-      }}
-    >
+    <div className='mobile-layout-container'>
       {!isOpen && (
-        <OpenDataInformationMessage />
+        <OpenDataMessage />
       )}
 
-      <div
-        style={{
-          height: isOpen ? 0 : viewHeight - 264,
-          width: '100%'
-        }}
-      >
+      <div className='mobile-map-container'>
         {map}
       </div>
 
@@ -123,6 +116,19 @@ export const Mobile = ({handleTitleClick, projet, isOpen, sidebar, map}) => {
       >
         {sidebar}
       </MobileSidebarWrapper>
+
+      <style jsx>{`
+        .mobile-layout-container {
+          display: flex;
+          flex-direction: column;
+          contain: content;
+        }
+
+        .mobile-map-container {
+          height: ${isOpen ? 0 : viewHeight - 264}px;
+          width: 100%;
+        }
+        `}</style>
     </div>
   )
 }
@@ -141,58 +147,63 @@ Mobile.propTypes = {
 }
 
 export const Desktop = ({projet, isOpen, setIsOpen, sidebar, map}) => (
-  <div
-    style={{
-      height: '100%',
-      display: 'flex',
-      contain: 'content'
-    }}
-  >
+  <div className='desktop-layout-container'>
     {projet && (
       <>
-        <div
-          style={{
-            minWidth: isOpen ? '460px' : '5px',
-            maxWidth: '460px',
-            boxShadow: '0px 0px 5px grey',
-            height: 'calc(100vh - 117px)',
-            overflow: 'auto',
-            overflowX: 'hidden'
-          }}
-        >
+        <div className='desktop-sidebar-container'>
           {isOpen ? sidebar : null}
         </div>
 
         <button
           type='button'
-          className={`fr-icon-arrow-${isOpen ? 'left' : 'right'}-s-line`}
-          style={{
-            position: 'absolute',
-            top: '45px',
-            left: isOpen ? '460px' : '5px',
-            backgroundColor: 'white',
-            height: '50px',
-            width: '30px',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: '0 5px 5px 0',
-            boxShadow: '2px 2px 5px grey',
-            zIndex: 3
-          }}
+          className={`fr-icon-arrow-${isOpen ? 'left' : 'right'}-s-line sidebar-toggle-button`}
           onClick={() => setIsOpen(!isOpen)}
         />
       </>
     )}
 
-    <div style={{width: '100%'}}>
-      <OpenDataInformationMessage />
-
-      <div style={{width: '100%', height: 'calc(100vh - 157px)'}}>
-        {map}
-      </div>
+    <div className='map-container'>
+      <OpenDataMessage />
+      {map}
     </div>
+
+    <style jsx>{`
+      .desktop-layout-container {
+        display: flex;
+        height: 100%;
+        contain: content;
+      }
+
+      .desktop-sidebar-container {
+        min-width: ${isOpen ? '460px' : '5px'};
+        max-width: 460px;
+        box-shadow: 0px 0px 5px grey;
+        height: calc(100vh - 117px);
+        overflow: auto;
+        overflow-x: hidden;
+      }
+
+      .sidebar-toggle-button {
+        position: absolute;
+        top: 45px;
+        left: ${isOpen ? '460px' : '5px'};
+        background-color: white;
+        height: 50px;
+        width: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 0 5px 5px 0;
+        box-shadow: 2px 2px 5px grey;
+        z-index: 3;
+      }
+
+      .map-container {
+        flex: auto;
+        height: calc(100vh - 158px);
+      }
+      `}</style>
   </div>
 )
 
