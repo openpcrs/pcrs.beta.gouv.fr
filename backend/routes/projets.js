@@ -3,7 +3,7 @@ import createError from 'http-errors'
 import w from '../util/w.js'
 
 import {ensureCreator, ensureAdmin, ensureProjectEditor} from '../auth/middleware.js'
-import {getProjets, expandProjet, filterSensitiveFields, createProjet, getProjet, getProjetsGeojson, renewEditorKey, deleteProjet, updateProjet} from '../projets.js'
+import {getProjets, expandProjet, filterSensitiveFields, createProjet, getProjet, getProjetsGeojson, renewEditorKey, deleteProjet, updateProjet} from '../lib/projets.js'
 
 const projetsRoutes = new express.Router()
 

@@ -3,7 +3,7 @@
 
 import test from 'ava'
 import Joi from 'joi'
-import {validateCreation, validateChanges, validateJoiDate, validatePerimetre, validateEtapesDates} from '../projets-validator.js'
+import {validateCreation, validateChanges, validateJoiDate, validatePerimetre, validateEtapesDates} from '../lib/projets-validator.js'
 
 const validProjet = {
   nom: 'Projet Valide',
