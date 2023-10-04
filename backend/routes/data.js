@@ -2,7 +2,7 @@ import express from 'express'
 import {ensureAdmin} from '../auth/middleware.js'
 import w from '../util/w.js'
 
-import {exportProjetsAsCSV, exportLivrablesAsCSV, exportToursDeTableAsCSV, exportSubventionsAsCSV, exportEditorKeys} from '../../lib/export/csv.js'
+import {exportProjetsAsCSV, exportLivrablesAsCSV, exportToursDeTableAsCSV, exportSubventionsAsCSV, exportEditorKeys} from '../export/csv.js'
 
 const dataRoutes = new express.Router()
 

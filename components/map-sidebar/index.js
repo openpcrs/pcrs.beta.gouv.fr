@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import {find} from 'lodash'
 
 import {formatDate} from '@/lib/date-utils.js'
-import {findClosestEtape} from '@/lib/suivi-pcrs.js'
+import {findClosestEtape} from '@/shared/find-closest-etape.js'
 import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors.js'
 
 import Header from '@/components/map-sidebar/project-header.js'

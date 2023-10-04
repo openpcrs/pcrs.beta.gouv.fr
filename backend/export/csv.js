@@ -2,8 +2,8 @@
 import Papa from 'papaparse'
 import Wellknown from 'wellknown'
 
-import {getProjets} from '../../server/projets.js'
-import {buildGeometryFromTerritoires} from '../../lib/territoires.js'
+import {getProjets} from '../lib/models/projets.js'
+import {buildGeometryFromTerritoires} from '../lib/territoires.js'
 
 async function computeWtk(perimetres) {
   const perimetresGeojson = await buildGeometryFromTerritoires(perimetres)

@@ -4,7 +4,7 @@ import test from 'ava'
 import {nanoid} from 'nanoid'
 import {MongoMemoryServer} from 'mongodb-memory-server'
 import mongo from '../util/mongo.js'
-import {getProjets, createProjet, deleteProjet, updateProjet, getProjetByEditorKey, filterSensitiveFields} from '../projets.js'
+import {getProjets, createProjet, deleteProjet, updateProjet, getProjetByEditorKey, filterSensitiveFields} from '../lib/models/projets.js'
 
 let mongod
 
