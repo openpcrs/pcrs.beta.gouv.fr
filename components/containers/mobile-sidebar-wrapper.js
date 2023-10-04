@@ -5,7 +5,7 @@ const MobileSidebarWrapper = ({projetNom, isOpen, viewHeight, toggleSidebar, chi
     <div className='fr-p-3v sidebar-header'>
       {isOpen && projetNom ? (
         <span
-          className='fr-icon--lg fr-icon-close-circle-line sidebar-icon'
+          className='fr-icon--lg fr-icon-arrow-down-s-line sidebar-icon'
           onClick={toggleSidebar}
         />
       ) : (
