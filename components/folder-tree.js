@@ -139,9 +139,12 @@ const FolderTree = ({data, onItemSelect}) => {
 
   // Create a folder tree of undetermined depth of nodes using recursion
   const renderTree = (items, depth = 0) => {
-    const treeOrderByFiles = orderBy(items, ['isDirectory'], ['asc'])
+    const orderedTree = orderBy(items, [
+      item => item.isDirectory, // Order by folder first...
+      item => item.name.toLowerCase() // ... then order by alphabetic order
+    ], ['desc', 'asc'])
 
-    return treeOrderByFiles.map(item => {
+    return orderedTree.map(item => {
       const fileSize = sizeFormat(item.size)
       const folderSize = item.isDirectory && sum(flatMap(item.children, child => getNodeSize(child)))
 
