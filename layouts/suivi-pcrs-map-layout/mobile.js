@@ -28,18 +28,18 @@ const Mobile = ({handleTitleClick, projet, isOpen, sidebar, map}) => {
       </MobileSidebarWrapper>
 
       <style jsx>{`
-          .mobile-layout-container {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-          }
-  
-          .mobile-map-container {
-            flex: 1;
-            width: 100%;
-          }
-          `}</style>
+        .mobile-layout-container {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+        }
+
+        .mobile-map-container {
+          flex: 1;
+          width: 100%;
+        }
+      `}</style>
     </div>
   )
 }

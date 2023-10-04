@@ -27,34 +27,34 @@ const MobileSidebarWrapper = ({projetNom, isOpen, viewHeight, toggleSidebar, chi
     {children}
 
     <style jsx>{`
-        .mobile-sidebar-wrapper {
-          height: ${isOpen ? viewHeight - 147 : '56px'};
-          overflow-y: ${isOpen ? 'auto' : 'hidden'};
-          overflow-x: hidden;
-          border-bottom: 0;
-          z-index: ${isOpen ? 3 : 0};
-        }
-  
-        .sidebar-header {
-          float: ${isOpen ? 'right' : 'left'};
-          display: flex;
-          width: 100%;
-          justify-content: ${projetNom && isOpen ? 'end' : 'space-between'};
-          color: ${!projetNom && !isOpen ? 'initial' : '#fff'};
-        }
-  
-        .sidebar-wrapped-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          width: 100%;
-        }
-  
-        .sidebar-icon {
-          color: #fff;
-          cursor: pointer;
-        }
-        `}</style>
+      .mobile-sidebar-wrapper {
+        height: ${isOpen ? viewHeight - 147 : '56px'};
+        overflow-y: ${isOpen ? 'auto' : 'hidden'};
+        overflow-x: hidden;
+        border-bottom: 0;
+        z-index: ${isOpen ? 3 : 0};
+      }
+
+      .sidebar-header {
+        float: ${isOpen ? 'right' : 'left'};
+        display: flex;
+        width: 100%;
+        justify-content: ${projetNom && isOpen ? 'end' : 'space-between'};
+        color: ${!projetNom && !isOpen ? 'initial' : '#fff'};
+      }
+
+      .sidebar-wrapped-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+      }
+
+      .sidebar-icon {
+        color: #fff;
+        cursor: pointer;
+      }
+    `}</style>
   </div>
 )
 
