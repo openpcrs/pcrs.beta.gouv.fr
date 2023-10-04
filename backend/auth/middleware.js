@@ -1,7 +1,7 @@
 import process from 'node:process'
 import createError from 'http-errors'
 
-import {getProjetByEditorKey} from '../lib/projets.js'
+import {getProjetByEditorKey} from '../lib/models/projets.js'
 import {getAdministratorByToken} from '../admin/administrators.js'
 import {getCreatorByToken} from './pin-code/index.js'
 
