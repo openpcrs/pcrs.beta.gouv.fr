@@ -3,7 +3,7 @@ import {useState, useContext, useCallback, useEffect} from 'react'
 import {useRouter} from 'next/router'
 import Page from '@/layouts/main.js'
 import {getProject} from '@/lib/suivi-pcrs.js'
-import SuiviPCRSMapLayout from '@/layouts/suivi-pcrs-map-layout.js'
+import SuiviPCRSMapLayout from '@/layouts/suivi-pcrs-map-layout/index.js'
 
 import AuthentificationContext from '@/contexts/authentification-token.js'
 import AuthentificationModal from '@/components/suivi-form/authentification/authentification-modal.js'
