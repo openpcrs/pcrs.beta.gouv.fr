@@ -159,7 +159,7 @@ const livrablesSchemaCreation = Joi.object().keys({
   ).allow(null).messages({
     'any.only': 'Ce type de publication n’est pas valide'
   }),
-  stockageId: Joi.string(),
+  stockageId: Joi.string().allow(null),
   stockage: Joi.valid(
     'http',
     'ftp'
@@ -170,19 +170,17 @@ const livrablesSchemaCreation = Joi.object().keys({
     is: 'http',
     // eslint-disable-next-line unicorn/no-thenable
     then: Joi.object({
-      url: Joi.string().uri().required().messages({
-        'string.uri': 'Cette URL n’est pas valide'
-      }),
+      url: Joi.string().required(),
       authorization: Joi.string()
     }).messages({
       'object.unknown': 'Un clé est invalide en mode http'
     }),
     otherwise: Joi.object({
-      host: Joi.string().uri().required(),
+      host: Joi.string().required(),
       port: Joi.number(),
       user: Joi.string(),
       password: Joi.string(),
-      path: Joi.string().uri(),
+      path: Joi.string(),
       sercure: Joi.bool()
     })
   })
@@ -366,7 +364,7 @@ const livrablesSchemaUpdate = Joi.object().keys({
   ).allow(null).messages({
     'any.only': 'La publication n’est pas valide'
   }),
-  stockageId: Joi.string(),
+  stockageId: Joi.string().allow(null),
   stockage: Joi.valid(
     'http',
     'ftp'
@@ -377,17 +375,15 @@ const livrablesSchemaUpdate = Joi.object().keys({
     is: 'http',
     // eslint-disable-next-line unicorn/no-thenable
     then: Joi.object({
-      url: Joi.string().uri().required().messages({
-        'string.uri': 'Cette URL n’est pas valide'
-      }),
+      url: Joi.string(),
       authorization: Joi.string()
     }),
     otherwise: Joi.object({
-      host: Joi.string().uri(),
+      host: Joi.string(),
       port: Joi.number(),
       user: Joi.string(),
       password: Joi.string(),
-      path: Joi.string().uri(),
+      path: Joi.string(),
       sercure: Joi.bool()
     })
   })

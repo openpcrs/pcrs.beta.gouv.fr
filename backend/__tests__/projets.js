@@ -58,7 +58,7 @@ const validProjet = {
       date_debut: '2023-02-06'
     },
     {
-      statut: 'production',
+      statut: 'prod_en_cours',
       date_debut: '2024-02-08'
     }
   ],

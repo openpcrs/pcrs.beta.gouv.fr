@@ -16,6 +16,10 @@ const validProjet = {
       diffusion: 'wms',
       licence: 'ouvert_lo',
       avancement: 18,
+      stockage: 'ftp',
+      stockage_params: {
+        host: 'ftp://moi@serveur.fr'
+      },
       crs: 'ok',
       compression: null,
       date_livraison: '2020-11-28',
@@ -34,8 +38,8 @@ const validProjet = {
   perimetres: ['departement:08'],
   etapes: [
     {statut: 'investigation', date_debut: '1999-01-11'},
-    {statut: 'production', date_debut: '1999-02-11'},
-    {statut: 'livre', date_debut: '2010-10-12'}
+    {statut: 'prod_en_cours', date_debut: '1999-02-11'},
+    {statut: 'disponible', date_debut: '2010-10-12'}
   ],
   subventions: [{nom: 'Participation feder', nature: 'feder'}]
 }
@@ -65,8 +69,8 @@ const invalidProjet = {
   perimetres: ['departement:00'],
   etapes: [
     {statut: 'investigation', date_debut: null},
-    {statut: 'production', date_debut: '1999-02-11'},
-    {statut: 'livre', date_debut: '2010-13-12'}
+    {statut: 'prod_en_cours', date_debut: '1999-02-11'},
+    {statut: 'disponible', date_debut: '2010-13-12'}
   ],
   subventions: [{nom: 'Participation feder', ntr: 'feder'}]
 }
