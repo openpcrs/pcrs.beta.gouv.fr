@@ -29,13 +29,14 @@ const Mobile = ({handleTitleClick, projet, isOpen, sidebar, map}) => {
 
       <style jsx>{`
           .mobile-layout-container {
+            position: relative;
             display: flex;
             flex-direction: column;
-            contain: content;
+            height: 100%;
           }
   
           .mobile-map-container {
-            height: ${isOpen ? 0 : viewHeight - 264}px;
+            flex: 1;
             width: 100%;
           }
           `}</style>
