@@ -93,9 +93,11 @@ const acteursSchemaCreation = Joi.object().keys({
 const etapesSchemaCreation = Joi.object().keys({
   statut: Joi.valid(
     'investigation',
-    'production',
-    'produit',
-    'livre',
+    'convention_signee',
+    'marche_public_en_cours',
+    'prod_en_cours',
+    'controle_en_cours',
+    'disponible',
     'obsolete'
   ).required().messages({
     'any.only': 'Cette étape n’existe pas',
@@ -156,6 +158,33 @@ const livrablesSchemaCreation = Joi.object().keys({
     'inexistante'
   ).allow(null).messages({
     'any.only': 'Ce type de publication n’est pas valide'
+  }),
+  stockageId: Joi.string(),
+  stockage: Joi.valid(
+    'http',
+    'ftp'
+  ).allow(null).messages({
+    'any.only': 'Ce type de stockage n’est pas valide'
+  }),
+  stockage_params: Joi.object().when('stockage', {
+    is: 'http',
+    // eslint-disable-next-line unicorn/no-thenable
+    then: Joi.object({
+      url: Joi.string().uri().required().messages({
+        'string.uri': 'Cette URL n’est pas valide'
+      }),
+      authorization: Joi.string()
+    }).messages({
+      'object.unknown': 'Un clé est invalide en mode http'
+    }),
+    otherwise: Joi.object({
+      host: Joi.string().uri().required(),
+      port: Joi.number(),
+      user: Joi.string(),
+      password: Joi.string(),
+      path: Joi.string().uri(),
+      sercure: Joi.bool()
+    })
   })
 }).messages({
   'object.unknown': 'Une clé de l’objet est invalide'
@@ -275,9 +304,11 @@ const acteursSchemaUpdate = Joi.object().keys({
 const etapesSchemaUpdate = Joi.object().keys({
   statut: Joi.valid(
     'investigation',
-    'production',
-    'produit',
-    'livre',
+    'convention_signee',
+    'marche_public_en_cours',
+    'prod_en_cours',
+    'controle_en_cours',
+    'disponible',
     'obsolete'
   ).messages({
     'any.only': 'Ce statut n’est pas valide'
@@ -334,6 +365,31 @@ const livrablesSchemaUpdate = Joi.object().keys({
     'inexistante'
   ).allow(null).messages({
     'any.only': 'La publication n’est pas valide'
+  }),
+  stockageId: Joi.string(),
+  stockage: Joi.valid(
+    'http',
+    'ftp'
+  ).allow(null).messages({
+    'any.only': 'Ce type de stockage n’est pas valide'
+  }),
+  stockage_params: Joi.object().when('stockage', {
+    is: 'http',
+    // eslint-disable-next-line unicorn/no-thenable
+    then: Joi.object({
+      url: Joi.string().uri().required().messages({
+        'string.uri': 'Cette URL n’est pas valide'
+      }),
+      authorization: Joi.string()
+    }),
+    otherwise: Joi.object({
+      host: Joi.string().uri(),
+      port: Joi.number(),
+      user: Joi.string(),
+      password: Joi.string(),
+      path: Joi.string().uri(),
+      sercure: Joi.bool()
+    })
   })
 }).messages({
   'object.unknown': 'Une clé de l’objet est invalide'
