@@ -24,13 +24,12 @@ export default function formReducer(state, action) {
       const {fieldName, value} = action.payload
       const field = state.fields[fieldName]
       const sanitizedValue = field.sanitize ? field.sanitize(value) : value
+      const isValid = validateField(sanitizedValue, field)
 
-      let {isValid} = field // Default to previous validity
       let {validationMessage} = field // Default to previous validation message
 
       // If sanitizedValue is empty, or if the field is marked for validation during a change, then it is validated
       if (sanitizedValue === '' || field.validateOnChange) {
-        isValid = validateField(sanitizedValue, field)
         validationMessage = getValidationMessageForField(sanitizedValue, field, isValid)
       }
 

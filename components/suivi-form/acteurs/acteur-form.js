@@ -33,7 +33,7 @@ const initState = ({initialValues, fieldsValidations}) => {
     telephone: {
       value: initialValues.phone || '',
       isRequired: false,
-      isValid: Boolean(initialValues.telephone),
+      isValid: initialValues.phone ? checkIsPhoneValid(initialValues.telephone) : true,
       validateOnChange: false,
       sanitize: phone => phone.replace(/\D/g, ''),
       getValidationMessage: handlePhoneError,
@@ -42,22 +42,20 @@ const initState = ({initialValues, fieldsValidations}) => {
     mail: {
       value: initialValues.mail || '',
       isRequired: false,
-      isValid: Boolean(initialValues.mail),
+      isValid: initialValues.mail ? checkIsEmailValid(initialValues.mail) : true,
       validate: checkIsEmailValid,
       getValidationMessage: handleMailError
     },
     finPerc: {
       value: initialValues.finPerc || '',
       isRequired: false,
-      isValid: Boolean(initialValues.finPerc),
-      getValidationMessage: '',
+      isValid: true,
       validate: null
     },
     finEuros: {
       value: initialValues.finEuros || '',
       isRequired: false,
-      isValid: Boolean(initialValues.finEuros),
-      validationMessage: '',
+      isValid: true,
       validate: null
     },
     role: {
