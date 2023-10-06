@@ -201,7 +201,7 @@ const Map = ({handleSelectProjet, isMobile, geometry, projetId}) => {
                   description='Nom de l’acteur'
                   results={foundActeurs}
                   renderItem={item => item}
-                  onInputChange={setActeurSearchInput}
+                  onInputChange={e => setActeurSearchInput(e.target.value)}
                   onSelectValue={item => {
                     setActeurSearchInput(item)
                     getProjectId(item)
