@@ -31,9 +31,9 @@ const initState = ({initialValues, fieldsValidations}) => {
       }
     },
     telephone: {
-      value: initialValues.phone || '',
+      value: initialValues.telephone || '',
       isRequired: false,
-      isValid: initialValues.phone ? checkIsPhoneValid(initialValues.telephone) : true,
+      isValid: initialValues.telephone ? checkIsPhoneValid(initialValues.telephone) : true,
       validateOnChange: false,
       sanitize: phone => phone.replace(/\D/g, ''),
       getValidationMessage: handlePhoneError,
@@ -47,13 +47,13 @@ const initState = ({initialValues, fieldsValidations}) => {
       getValidationMessage: handleMailError
     },
     finPerc: {
-      value: initialValues.finPerc || '',
+      value: initialValues.finance_part_perc || '',
       isRequired: false,
       isValid: true,
       validate: null
     },
     finEuros: {
-      value: initialValues.finEuros || '',
+      value: initialValues.finance_part_euro || '',
       isRequired: false,
       isValid: true,
       validate: null
