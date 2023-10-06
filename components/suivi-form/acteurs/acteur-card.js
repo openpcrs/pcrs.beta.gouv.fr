@@ -5,11 +5,11 @@ import {getRoles} from '@/components/suivi-form/acteurs/utils/select-options.js'
 
 import colors from '@/styles/colors.js'
 
-const ActeurCard = ({siren, nom, mail, telephone, role, finance_part_euro, finance_part_perc, isFormOpen, handleDelete, handleEdition}) => {
+const ActeurCard = ({siren, nom, mail, telephone, role, finance_part_euro, finance_part_perc, isDisabled, handleDelete, handleEdition}) => {
   const isAplc = role === 'aplc' || role === 'porteur'
 
   return (
-    <div className={`fr-grid-row card-container fr-grid-row--middle fr-grid-row--gutters ${isFormOpen ? 'card-disable' : ''} fr-p-2w fr-col-12`}>
+    <div className={`fr-grid-row card-container fr-grid-row--middle fr-grid-row--gutters ${isDisabled ? 'card-disable' : ''} fr-p-2w fr-col-12`}>
       {isAplc && <span className='fr-grid-row fr-grid-row--middle fr-col-12 fr-col-lg-1 fr-icon-user-star-fill fr-icon--lg' aria-hidden='true' />}
 
       <div className={`fr-grid-row fr-grid-row--middle fr-grid-row--gutters ${isAplc ? 'fr-col-lg-10' : 'fr-col-lg-11'}`}>
@@ -55,25 +55,27 @@ const ActeurCard = ({siren, nom, mail, telephone, role, finance_part_euro, finan
         </div>
       </div>
 
-      <div className='fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-col-12 fr-col-lg-1 fr-p-0 fr-mt-1w fr-mt-md-0 buttons-container'>
-        <button
-          type='button'
-          className='fr-grid-row fr-col-lg-12 fr-grid-row--center fr-grid-row--middle fr-mr-2w update-button'
-          onClick={handleEdition}
-        >
-          <span className='fr-icon-edit-line fr-pr-1w fr-col-lg-12' aria-hidden='true' />
-          <div>Modifier</div>
-        </button>
+      {!isDisabled && (
+        <div className='fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-col-12 fr-col-lg-1 fr-p-0 fr-mt-1w fr-mt-md-0 buttons-container'>
+          <button
+            type='button'
+            className='fr-grid-row fr-col-lg-12 fr-grid-row--center fr-grid-row--middle fr-mr-2w update-button'
+            onClick={handleEdition}
+          >
+            <span className='fr-icon-edit-line fr-pr-1w fr-col-lg-12' aria-hidden='true' />
+            <div>Modifier</div>
+          </button>
 
-        <button
-          type='button'
-          className='fr-grid-row fr-col-lg-12 fr-grid-row--center fr-grid-row--middle delete-button'
-          onClick={handleDelete}
-        >
-          <span className='fr-icon-delete-line fr-pr-1w fr-col-lg-12' aria-hidden='true' />
-          <div>Supprimer</div>
-        </button>
-      </div>
+          <button
+            type='button'
+            className='fr-grid-row fr-col-lg-12 fr-grid-row--center fr-grid-row--middle delete-button'
+            onClick={handleDelete}
+          >
+            <span className='fr-icon-delete-line fr-pr-1w fr-col-lg-12' aria-hidden='true' />
+            <div>Supprimer</div>
+          </button>
+        </div>
+      )}
 
       <style jsx>{`
         .card-container {
@@ -124,7 +126,7 @@ ActeurCard.propTypes = {
   mail: PropTypes.string,
   finance_part_euro: PropTypes.number,
   finance_part_perc: PropTypes.number,
-  isFormOpen: PropTypes.bool.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
   handleDelete: PropTypes.func.isRequired,
   handleEdition: PropTypes.func.isRequired
 }

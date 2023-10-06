@@ -1,137 +1,128 @@
 /* eslint-disable camelcase */
-import {useState, useCallback, useEffect, useMemo} from 'react'
+import {useEffect, useReducer, useRef} from 'react'
 import PropTypes from 'prop-types'
 
+import formReducer, {checkFormValidity} from 'reducers/form-reducer.js'
+import {debounce} from 'lodash-es'
 import ActorsAutocompleteInput from './actors-autocomplete-input.js'
 import {handlePhoneError, handleMailError, handleSirenError, checkIsPhoneValid, checkIsEmailValid, checkIsSirenValid} from '@/components/suivi-form/acteurs/utils/error-handlers.js'
 
 import {roleOptions} from '@/components/suivi-form/acteurs/utils/select-options.js'
-
-import {useInput} from '@/hooks/input.js'
 
 import TextInput from '@/components/text-input.js'
 import SelectInput from '@/components/select-input.js'
 import Button from '@/components/button.js'
 import NumberInput from '@/components/number-input.js'
 
-const ActeurForm = ({acteurs, updatingActorIndex, handleActorIndex, handleActor, handleAdding}) => {
-  const [isFormValid, setIsFormValid] = useState(true)
-  const [errorMessage, setErrorMessage] = useState(null)
-
-  const [updatingActorSiren, setUpdatingActorSiren] = useState(null)
-
-  const [nom, setNom, nomError] = useInput({isRequired: !isFormValid})
-  const [siren, setSiren, sirenError] = useInput({checkValue: !isFormValid && handleSirenError, isRequired: !isFormValid})
-  const [phone, setPhone, phoneError] = useInput({checkValue: !isFormValid && handlePhoneError})
-  const [mail, setMail, mailError] = useInput({checkValue: !isFormValid && handleMailError})
-  const [finPerc, setFinPerc, finPercError, handleFinPercValidity, isFinPercInputValid] = useInput({})
-  const [finEuros, setFinEuros, finEurosError, handleFinEurosValidity, isFinEurosInputValid] = useInput({})
-  const [role, setRole, roleError] = useInput({isRequired: !isFormValid})
-
-  const isValidOnSubmit = useMemo(() => {
-    if (checkIsSirenValid(siren) && checkIsPhoneValid(phone) && checkIsEmailValid(mail) && isFinPercInputValid && isFinEurosInputValid && nom && role && siren) {
-      return true
-    }
-
-    return false
-  }, [siren, phone, mail, isFinPercInputValid, isFinEurosInputValid, nom, role])
-
-  useEffect(() => {
-    if (isValidOnSubmit) {
-      setErrorMessage(null)
-    }
-  }, [isValidOnSubmit])
-
-  const isActorExisting = useMemo(() => {
-    if (updatingActorIndex || updatingActorIndex === 0) {
-      return acteurs.some(a => siren === a.siren.toString()) && siren !== updatingActorSiren.toString()
-    }
-
-    return acteurs.some(acteur => siren === acteur.siren.toString())
-  }, [acteurs, siren, updatingActorIndex, updatingActorSiren])
-
-  const handleSubmit = () => {
-    setErrorMessage(null)
-    setIsFormValid(true)
-
-    if (isValidOnSubmit) {
-      if (isActorExisting) {
-        setErrorMessage('Cet acteur est déjà présent.')
-      } else {
-        const newActor = {
-          nom,
-          siren: Number(siren),
-          role,
-          mail: mail || null,
-          telephone: phone || null,
-          finance_part_perc: Number(finPerc) || null,
-          finance_part_euro: Number(finEuros) || null
-        }
-
-        handleActor(newActor)
-
-        onReset()
+const initState = ({initialValues, fieldsValidations}) => {
+  const fields = {
+    nom: {
+      value: initialValues.nom || '',
+      isRequired: true,
+      isValid: Boolean(initialValues.nom)
+    },
+    siren: {
+      value: initialValues.siren || '',
+      isRequired: true,
+      isValid: Boolean(initialValues.siren),
+      getValidationMessage: siren => handleSirenError(siren, fieldsValidations.siren),
+      validate(siren) {
+        return checkIsSirenValid(siren) && !fieldsValidations.siren(siren)
       }
-    } else {
-      setErrorMessage('Veuillez modifier les champs invalides')
-      setIsFormValid(false)
+    },
+    telephone: {
+      value: initialValues.phone || '',
+      isRequired: false,
+      isValid: Boolean(initialValues.telephone),
+      validateOnChange: false,
+      sanitize: phone => phone.replace(/\D/g, ''),
+      getValidationMessage: handlePhoneError,
+      validate: checkIsPhoneValid
+    },
+    mail: {
+      value: initialValues.mail || '',
+      isRequired: false,
+      isValid: Boolean(initialValues.mail),
+      validate: checkIsEmailValid,
+      getValidationMessage: handleMailError
+    },
+    finPerc: {
+      value: initialValues.finPerc || '',
+      isRequired: false,
+      isValid: Boolean(initialValues.finPerc),
+      getValidationMessage: '',
+      validate: null
+    },
+    finEuros: {
+      value: initialValues.finEuros || '',
+      isRequired: false,
+      isValid: Boolean(initialValues.finEuros),
+      validationMessage: '',
+      validate: null
+    },
+    role: {
+      value: initialValues.role || '',
+      isRequired: true,
+      isValid: Boolean(initialValues.role)
     }
   }
 
-  const onReset = useCallback(() => {
-    setIsFormValid(true)
-    handleActorIndex(null)
-    setErrorMessage(null)
-    handleAdding(false)
-    setUpdatingActorSiren(null)
+  return {fields, isFormValid: checkFormValidity(fields)}
+}
 
-    setNom('')
-    setSiren('')
-    setPhone('')
-    setMail('')
-    setFinPerc('')
-    setFinEuros('')
-    setRole('')
-  }, [
-    handleActorIndex,
-    handleAdding,
-    setFinEuros,
-    setSiren,
-    setPhone,
-    setMail,
-    setFinPerc,
-    setRole,
-    setNom
-  ])
+const ActeurForm = ({initialValues, isSirenAlreadyUsed, isAplcDisabled, onCancel, onSubmit}) => {
+  const [form, dispatch] = useReducer(formReducer, initState({initialValues, fieldsValidations: {siren: isSirenAlreadyUsed}}))
+
+  const debouncedValidation = useRef(debounce(name => {
+    dispatch({type: 'VALIDATE_FIELD', fieldName: name})
+  }, 800))
+
+  const handleInputChange = event => {
+    const {name, value} = event.target
+    dispatch({
+      type: 'SET_FIELD_VALUE',
+      payload: {fieldName: name, value}
+    })
+
+    debouncedValidation.current(name)
+  }
+
+  const handleSelectValue = ({name, value}) => {
+    dispatch({
+      type: 'SET_FIELD_VALUE',
+      payload: {fieldName: name, value}
+    })
+  }
+
+  const handleInputBlur = event => {
+    const {name} = event.target
+    dispatch({
+      type: 'ON_BLUR',
+      payload: {fieldName: name}
+    })
+  }
+
+  const handleSubmit = () => {
+    const {nom, siren, role, mail, telephone, finPerc, finEuros} = form.fields
+
+    const newActor = {
+      nom: nom.value,
+      siren: Number(siren.value),
+      role: role.value,
+      mail: mail.value || null,
+      telephone: telephone.value || null,
+      finance_part_perc: finPerc.value ? Number(finPerc.value) : null,
+      finance_part_euro: finEuros.value ? Number(finEuros.value) : null
+    }
+
+    onSubmit(newActor)
+  }
 
   useEffect(() => {
-    // Enable aplc/porteur selector choices for editing aplc/porteur actor...
-    if (role === 'aplc' || role === 'porteur') {
-      roleOptions.find(role => role.value === 'porteur').isDisabled = false
-      roleOptions.find(role => role.value === 'aplc').isDisabled = false
-    } else {
-      const hasAplc = acteurs.some(actor => actor.role === 'aplc' || actor.role === 'porteur')
-
-      // ... disable aplc/porteur selector choices when actor with this role already exist
-      roleOptions.find(role => role.value === 'aplc').isDisabled = Boolean(hasAplc)
-      roleOptions.find(role => role.value === 'porteur').isDisabled = Boolean(hasAplc)
-    }
-  }, [role, acteurs])
-
-  useEffect(() => {
-    // Switch to actor update form
-    if (updatingActorIndex || updatingActorIndex === 0) {
-      const foundActor = acteurs[updatingActorIndex]
-      setNom(foundActor.nom)
-      setSiren(foundActor.siren?.toString())
-      setPhone(foundActor.telephone || '')
-      setMail(foundActor.mail || '')
-      setFinPerc(foundActor.finance_part_perc?.toString() || '')
-      setFinEuros(foundActor.finance_part_euro?.toString() || '')
-      setRole(foundActor.role || '')
-      setUpdatingActorSiren(foundActor.siren)
-    }
-  }, [updatingActorIndex, acteurs, setFinEuros, setSiren, setPhone, setMail, setFinPerc, setRole, setNom])
+    // ... disable aplc/porteur selector choices when actor with this role already exist
+    roleOptions.find(role => role.value === 'aplc').isDisabled = isAplcDisabled
+    roleOptions.find(role => role.value === 'porteur').isDisabled = isAplcDisabled
+  }, [isAplcDisabled])
 
   return (
     <div className='fr-mt-4w'>
@@ -139,24 +130,26 @@ const ActeurForm = ({acteurs, updatingActorIndex, handleActorIndex, handleActor,
         <div className='fr-col-12 fr-mt-6w fr-col-md-6'>
           <ActorsAutocompleteInput
             isRequired
-            inputValue={nom}
-            inputError={nomError}
-            onValueChange={setNom}
+            inputValue={form.fields.nom.value}
+            inputError={form.fields.nom.validationMessage}
+            onValueChange={handleInputChange}
             onSelectValue={item => {
-              setNom(item.nom_complet)
-              setSiren(item.siren)
+              handleSelectValue({name: 'nom', value: item.nom_complet})
+              handleSelectValue({name: 'siren', value: item.siren})
             }}
           />
         </div>
         <div className='fr-col-12 fr-mt-6w fr-col-md-6 fr-pl-md-3w'>
           <TextInput
             isRequired
+            name='siren'
             label='SIREN'
-            value={siren}
+            value={form.fields.siren.value}
             ariaLabel='numéro siren de l’entreprise'
             description='SIREN de l’entreprise'
-            errorMessage={sirenError}
-            onValueChange={e => setSiren(e.target.value)}
+            errorMessage={form.fields.siren.validationMessage}
+            onValueChange={handleInputChange}
+            onBlur={handleInputBlur}
           />
         </div>
       </div>
@@ -164,25 +157,28 @@ const ActeurForm = ({acteurs, updatingActorIndex, handleActorIndex, handleActor,
       <div className='fr-grid-row'>
         <div className='fr-col-12 fr-mt-6w fr-col-md-6'>
           <TextInput
+            name='telephone'
             label='Téléphone'
-            value={phone}
+            value={form.fields.telephone.value}
             ariaLabel='numéro de téléphone de l’interlocuteur'
             description='Numéro de téléphone de l’interlocuteur'
-            errorMessage={phoneError}
-            onValueChange={e => setPhone(e.target.value.replace(/\s/g, ''))} // Delete white space
+            errorMessage={form.fields.telephone.validationMessage}
+            onValueChange={handleInputChange}
+            onBlur={handleInputBlur}
           />
         </div>
 
         <div className='fr-col-12 fr-mt-6w fr-col-md-6 fr-pl-md-3w'>
           <TextInput
+            name='mail'
             label='Adresse e-mail'
-            value={mail}
+            value={form.fields.mail.value}
             type='email'
             ariaLabel='Adresse e-mail de l’interlocuteur'
             description='Adresse e-mail de l’interlocuteur'
-            errorMessage={mailError}
+            errorMessage={form.fields.mail.validationMessage}
             placeholder='exemple@domaine.fr'
-            onValueChange={e => setMail(e.target.value)}
+            onValueChange={handleInputChange}
           />
         </div>
       </div>
@@ -191,41 +187,42 @@ const ActeurForm = ({acteurs, updatingActorIndex, handleActorIndex, handleActor,
         <div className='fr-col-12 fr-mt-6w fr-col-md-4 fr-pr-md-3w'>
           <SelectInput
             isRequired
+            name='role'
             label='Rôle'
             options={roleOptions}
-            value={role}
+            value={form.fields.role.value}
             description='Rôle de l’acteur dans le projet'
             ariaLabel='rôle de l’acteur dans le projet'
-            errorMessage={roleError}
-            onValueChange={e => setRole(e.target.value)}
+            errorMessage={form.fields.role.validationMessage}
+            onValueChange={handleInputChange}
           />
         </div>
         <div className='fr-col-12 fr-col-md-4 fr-mt-6w'>
           <NumberInput
+            name='finPerc'
             label='Part de financement'
-            value={finPerc}
+            value={form.fields.finPerc.value}
             ariaLabel='Part de financement en pourcentage du total'
             description='Part de financement en pourcentage du total'
             placeholder='Veuillez n’entrer que des valeurs numéraires'
-            setIsValueValid={handleFinPercValidity}
             min={0}
             max={100}
-            errorMessage={finPercError}
-            onValueChange={e => setFinPerc(e.target.value)}
+            errorMessage={form.fields.finPerc.validationMessage}
+            onValueChange={handleInputChange}
           />
         </div>
 
         <div className='fr-col-12 fr-col-md-4 fr-mt-6w fr-pl-md-3w'>
           <NumberInput
+            name='finEuros'
             label='Montant du financement'
-            value={finEuros}
+            value={form.fields.finEuros.value}
             ariaLabel='montant du financement'
             description='Montant du financement en euros'
             placeholder='Veuillez n’entrer que des valeurs numéraires'
             min={0}
-            setIsValueValid={handleFinEurosValidity}
-            errorMessage={finEurosError}
-            onValueChange={e => setFinEuros(e.target.value)}
+            errorMessage={form.fields.finEuros.validationMessage}
+            onValueChange={handleInputChange}
           />
         </div>
       </div>
@@ -234,35 +231,53 @@ const ActeurForm = ({acteurs, updatingActorIndex, handleActorIndex, handleActor,
         <Button
           label='Valider l’ajout de l’acteur'
           icon='checkbox-circle-fill'
+          isDisabled={!form.isFormValid}
           onClick={handleSubmit}
         >
           Valider
         </Button>
-        <div className='fr-pl-3w'>
-          <Button
-            label='Annuler l’ajout de l’acteur'
-            buttonStyle='tertiary'
-            onClick={onReset}
-          >
-            Annuler
-          </Button>
-        </div>
+        {onCancel && (
+          <div className='fr-pl-3w'>
+            <Button
+              label='Annuler l’ajout de l’acteur'
+              buttonStyle='tertiary'
+              onClick={onCancel}
+            >
+              Annuler
+            </Button>
+          </div>
+        )}
       </div>
-      {errorMessage && <p id='text-input-error-desc-error' className='fr-error-text'>{errorMessage}</p>}
     </div>
   )
 }
 
 ActeurForm.propTypes = {
-  acteurs: PropTypes.array.isRequired,
-  updatingActorIndex: PropTypes.number,
-  handleActorIndex: PropTypes.func.isRequired,
-  handleActor: PropTypes.func.isRequired,
-  handleAdding: PropTypes.func.isRequired
+  initialValues: PropTypes.shape({
+    nom: PropTypes.string,
+    siren: PropTypes.number,
+    phone: PropTypes.string,
+    mail: PropTypes.string,
+    finPerc: PropTypes.number,
+    finEuros: PropTypes.number,
+    role: PropTypes.string
+  }),
+  isAplcDisabled: PropTypes.bool.isRequired,
+  isSirenAlreadyUsed: PropTypes.func.isRequired,
+  onCancel: PropTypes.func,
+  onSubmit: PropTypes.func.isRequired
 }
 
 ActeurForm.defaultProps = {
-  updatingActorIndex: null
+  initialValues: {
+    nom: '',
+    siren: '',
+    phone: '',
+    mail: '',
+    finPerc: '',
+    finEuros: '',
+    role: ''
+  }
 }
 
 export default ActeurForm

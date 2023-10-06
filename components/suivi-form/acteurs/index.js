@@ -1,4 +1,4 @@
-import {useState, useMemo} from 'react'
+import {useState, useMemo, useCallback} from 'react'
 import PropTypes from 'prop-types'
 import {orderBy} from 'lodash-es'
 
@@ -9,27 +9,37 @@ import ActeurCard from '@/components/suivi-form/acteurs/acteur-card.js'
 import ActeurForm from '@/components/suivi-form/acteurs/acteur-form.js'
 
 const Acteurs = ({acteurs, handleActors}) => {
-  const [isAdding, setIsAdding] = useState(false)
-  const [updatingActorIndex, setUpdatingActorIndex] = useState(null)
+  const [editedActor, setEditedActor] = useState(acteurs?.length > 0 ? null : {})
 
   const sortActorsByAplc = useMemo(() => orderBy(acteurs, a => a.role === 'porteur' || 'aplc', ['desc']), [acteurs])
+  const hasAplc = useMemo(() => acteurs.some(actor => actor.role === 'aplc' || actor.role === 'porteur'), [acteurs])
 
   const onDelete = siren => {
     handleActors(current => current.filter(c => c.siren !== siren))
-    setIsAdding(false)
+    setEditedActor(null)
   }
 
-  const handleActor = actor => {
-    if (updatingActorIndex || updatingActorIndex === 0) {
+  const handleActor = useCallback(actor => {
+    const {index} = editedActor
+    if (index >= 0) {
       handleActors(prevActeurs => {
         const acteursCopy = [...prevActeurs]
-        acteursCopy[updatingActorIndex] = actor
+        acteursCopy[index] = actor
         return acteursCopy
       })
     } else {
       handleActors([...acteurs, actor])
     }
-  }
+
+    setEditedActor(null)
+  }, [editedActor, acteurs, handleActors])
+
+  const isSirenAlreadyUsed = useCallback(siren => {
+    const actors = editedActor?.index
+      ? acteurs.filter((a, idx) => idx !== editedActor.index) // Filter actor being edited
+      : acteurs
+    return actors.some(acteur => siren === acteur.siren.toString())
+  }, [editedActor, acteurs])
 
   return (
     <div className='fr-mt-8w fr-grid-row'>
@@ -37,48 +47,35 @@ const Acteurs = ({acteurs, handleActors}) => {
       <hr className='fr-my-3w fr-col-12' />
 
       <div className='fr-grid-row fr-col-12'>
-        {sortActorsByAplc.map((actor, idx) => (
+        {sortActorsByAplc.map((actor, index) => (
           <div key={actor.siren} className='fr-col-12 fr-mb-7w fr-p-0'>
             <ActeurCard
-              isFormOpen={isAdding || updatingActorIndex === idx}
-              handleEdition={() => setUpdatingActorIndex(idx)}
+              isDisabled={Boolean(editedActor)}
+              handleEdition={() => setEditedActor({actor, index})}
               handleDelete={() => onDelete(actor.siren)}
               {...actor}
             />
-
-            {updatingActorIndex === idx && (
-              <div>
-                <ActeurForm
-                  acteurs={acteurs}
-                  updatingActorIndex={updatingActorIndex}
-                  handleActor={handleActor}
-                  handleActorIndex={setUpdatingActorIndex}
-                  handleAdding={setIsAdding}
-                />
-                <hr className='edit-separator fr-my-3w' />
-              </div>
-            )}
           </div>
         ))}
       </div>
 
-      {isAdding && (
+      {(acteurs.length === 0 || editedActor) && (
         <ActeurForm
-          acteurs={acteurs}
-          updatingActorIndex={updatingActorIndex}
-          handleActor={handleActor}
-          handleActorIndex={setUpdatingActorIndex}
-          handleAdding={setIsAdding}
+          initialValues={editedActor.actor || {}}
+          isAplcDisabled={hasAplc}
+          isSirenAlreadyUsed={isSirenAlreadyUsed}
+          onCancel={acteurs.length > 0 ? () => setEditedActor(null) : null}
+          onSubmit={handleActor}
         />
       )}
 
-      {!isAdding && !updatingActorIndex && (
+      {!editedActor && (
         <div className='fr-mt-3w fr-col-12'>
           <Button
             label='Ajouter un acteur'
             icon='add-circle-fill'
             iconSide='left'
-            onClick={() => setIsAdding(true)}
+            onClick={() => setEditedActor({actor: {}})}
           >
             Ajouter un acteur
           </Button>
