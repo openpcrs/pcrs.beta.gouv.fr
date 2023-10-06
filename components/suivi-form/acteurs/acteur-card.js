@@ -5,7 +5,8 @@ import {getRoles} from '@/components/suivi-form/acteurs/utils/select-options.js'
 
 import colors from '@/styles/colors.js'
 
-const ActeurCard = ({siren, nom, mail, telephone, role, finance_part_euro, finance_part_perc, isDisabled, handleDelete, handleEdition}) => {
+const ActeurCard = ({actor, isDisabled, handleDelete, handleEdition}) => {
+  const {siren, nom, mail, telephone, role, finance_part_euro, finance_part_perc} = actor
   const isAplc = role === 'aplc' || role === 'porteur'
 
   return (
@@ -119,23 +120,18 @@ const ActeurCard = ({siren, nom, mail, telephone, role, finance_part_euro, finan
 }
 
 ActeurCard.propTypes = {
-  siren: PropTypes.number.isRequired,
-  nom: PropTypes.string.isRequired,
-  role: PropTypes.string.isRequired,
-  telephone: PropTypes.string,
-  mail: PropTypes.string,
-  finance_part_euro: PropTypes.number,
-  finance_part_perc: PropTypes.number,
+  actor: PropTypes.shape({
+    siren: PropTypes.number.isRequired,
+    nom: PropTypes.string.isRequired,
+    role: PropTypes.string.isRequired,
+    telephone: PropTypes.string,
+    mail: PropTypes.string,
+    finance_part_euro: PropTypes.number,
+    finance_part_perc: PropTypes.number
+  }).isRequired,
   isDisabled: PropTypes.bool.isRequired,
   handleDelete: PropTypes.func.isRequired,
   handleEdition: PropTypes.func.isRequired
-}
-
-ActeurCard.defaultProps = {
-  telephone: null,
-  finance_part_euro: null,
-  finance_part_perc: null,
-  mail: null
 }
 
 export default ActeurCard

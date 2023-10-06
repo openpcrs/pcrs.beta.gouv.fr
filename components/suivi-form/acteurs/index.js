@@ -50,10 +50,10 @@ const Acteurs = ({acteurs, handleActors}) => {
         {sortActorsByAplc.map((actor, index) => (
           <div key={actor.siren} className='fr-col-12 fr-mb-7w fr-p-0'>
             <ActeurCard
+              actor={actor}
               isDisabled={Boolean(editedActor)}
               handleEdition={() => setEditedActor({actor, index})}
               handleDelete={() => onDelete(actor.siren)}
-              {...actor}
             />
           </div>
         ))}
