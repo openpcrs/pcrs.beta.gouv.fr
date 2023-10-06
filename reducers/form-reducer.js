@@ -50,34 +50,9 @@ export default function formReducer(state, action) {
       }
     }
 
-    case 'ON_BLUR': {
-      const {fieldName} = action.payload
-      const field = state.fields[fieldName]
-      const isValid = validateField(field.value, field)
-      const validationMessage = getValidationMessageForField(field.value, field, isValid)
-
-      return {
-        ...state,
-        fields: {
-          ...state.fields,
-          [fieldName]: {
-            ...field,
-            isValid,
-            validationMessage
-          }
-        },
-        isFormValid: checkFormValidity(state.fields)
-      }
-    }
-
     case 'VALIDATE_FIELD': {
       const {fieldName} = action
       const field = state.fields[fieldName]
-
-      if (field.validateOnChange) {
-        // Skip validation for fields with validateOnChange set to true
-        return state
-      }
 
       const isValid = validateField(field.value, field)
       const validationMessage = getValidationMessageForField(field.value, field, isValid)

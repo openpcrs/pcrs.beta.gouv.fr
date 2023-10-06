@@ -13,6 +13,7 @@ import TextInput from '@/components/text-input.js'
 import SelectInput from '@/components/select-input.js'
 import Button from '@/components/button.js'
 import NumberInput from '@/components/number-input.js'
+import {stripNonNumericCharacters} from '@/lib/string.js'
 
 const initState = ({initialValues, fieldsValidations}) => {
   const fields = {
@@ -34,27 +35,30 @@ const initState = ({initialValues, fieldsValidations}) => {
       value: initialValues.telephone || '',
       isRequired: false,
       isValid: initialValues.telephone ? checkIsPhoneValid(initialValues.telephone) : true,
-      validateOnChange: false,
-      sanitize: phone => phone.replace(/\D/g, ''),
+      sanitize: stripNonNumericCharacters,
       getValidationMessage: handlePhoneError,
-      validate: checkIsPhoneValid
+      validate: checkIsPhoneValid,
+      noAutoValidation: true
     },
     mail: {
       value: initialValues.mail || '',
       isRequired: false,
       isValid: initialValues.mail ? checkIsEmailValid(initialValues.mail) : true,
       validate: checkIsEmailValid,
-      getValidationMessage: handleMailError
+      getValidationMessage: handleMailError,
+      noAutoValidation: true
     },
     finPerc: {
       value: initialValues.finance_part_perc || '',
       isRequired: false,
+      sanitize: stripNonNumericCharacters,
       isValid: true,
       validate: null
     },
     finEuros: {
       value: initialValues.finance_part_euro || '',
       isRequired: false,
+      sanitize: stripNonNumericCharacters,
       isValid: true,
       validate: null
     },
@@ -88,7 +92,9 @@ const ActeurForm = ({initialValues, isSirenAlreadyUsed, isAplcDisabled, onCancel
       payload: {fieldName: name, value}
     })
 
-    debouncedValidation.current(name)
+    if (!form.fields[name].noAutoValidation) {
+      debouncedValidation.current(name)
+    }
   }
 
   const handleSelectValue = ({name, value}) => {
@@ -101,8 +107,8 @@ const ActeurForm = ({initialValues, isSirenAlreadyUsed, isAplcDisabled, onCancel
   const handleInputBlur = event => {
     const {name} = event.target
     dispatch({
-      type: 'ON_BLUR',
-      payload: {fieldName: name}
+      type: 'VALIDATE_FIELD',
+      fieldName: name
     })
   }
 
@@ -177,6 +183,7 @@ const ActeurForm = ({initialValues, isSirenAlreadyUsed, isAplcDisabled, onCancel
             errorMessage={form.fields.mail.validationMessage}
             placeholder='exemple@domaine.fr'
             onValueChange={handleInputChange}
+            onBlur={handleInputBlur}
           />
         </div>
       </div>
@@ -207,6 +214,7 @@ const ActeurForm = ({initialValues, isSirenAlreadyUsed, isAplcDisabled, onCancel
             max={100}
             errorMessage={form.fields.finPerc.validationMessage}
             onValueChange={handleInputChange}
+            onBlur={handleInputBlur}
           />
         </div>
 
