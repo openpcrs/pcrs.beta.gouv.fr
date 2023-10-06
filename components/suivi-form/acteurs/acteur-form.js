@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import {useEffect, useReducer, useRef} from 'react'
+import {useMemo, useReducer, useRef} from 'react'
 import PropTypes from 'prop-types'
 
 import formReducer, {checkFormValidity} from 'reducers/form-reducer.js'
@@ -71,6 +71,12 @@ const initState = ({initialValues, fieldsValidations}) => {
 const ActeurForm = ({initialValues, isSirenAlreadyUsed, isAplcDisabled, onCancel, onSubmit}) => {
   const [form, dispatch] = useReducer(formReducer, initState({initialValues, fieldsValidations: {siren: isSirenAlreadyUsed}}))
 
+  const availableRoles = useMemo(() => roleOptions.map(({value, ...props}) => ({
+    ...props,
+    value,
+    isDisabled: ['aplc', 'porteur'].includes(value) ? isAplcDisabled : false
+  })), [isAplcDisabled])
+
   const debouncedValidation = useRef(debounce(name => {
     dispatch({type: 'VALIDATE_FIELD', fieldName: name})
   }, 800))
@@ -115,12 +121,6 @@ const ActeurForm = ({initialValues, isSirenAlreadyUsed, isAplcDisabled, onCancel
 
     onSubmit(newActor)
   }
-
-  useEffect(() => {
-    // ... disable aplc/porteur selector choices when actor with this role already exist
-    roleOptions.find(role => role.value === 'aplc').isDisabled = isAplcDisabled
-    roleOptions.find(role => role.value === 'porteur').isDisabled = isAplcDisabled
-  }, [isAplcDisabled])
 
   return (
     <div className='fr-mt-4w'>
@@ -187,7 +187,7 @@ const ActeurForm = ({initialValues, isSirenAlreadyUsed, isAplcDisabled, onCancel
             isRequired
             name='role'
             label='Rôle'
-            options={roleOptions}
+            options={availableRoles}
             value={form.fields.role.value}
             description='Rôle de l’acteur dans le projet'
             ariaLabel='rôle de l’acteur dans le projet'
