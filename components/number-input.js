@@ -16,7 +16,8 @@ const NumberInput = ({
   onValueChange,
   setIsValueValid,
   onFocus,
-  onBlur
+  onBlur,
+  ...props
 }) => {
   const [inputError, setInputError] = useState(errorMessage)
 
@@ -66,6 +67,7 @@ const NumberInput = ({
       </label>
 
       <input
+        {...props}
         type={type}
         required={isRequired}
         className={`fr-input fr-input--${inputState}`}

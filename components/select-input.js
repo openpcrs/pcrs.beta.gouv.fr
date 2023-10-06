@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-const SelectInput = ({label, value, ariaLabel, options, errorMessage, description, isRequired, isDisabled, onValueChange}) => {
+const SelectInput = ({label, value, ariaLabel, options, errorMessage, description, isRequired, isDisabled, onValueChange, ...props}) => {
   const inputState = errorMessage ? 'error' : ''
 
   return (
@@ -9,6 +9,7 @@ const SelectInput = ({label, value, ariaLabel, options, errorMessage, descriptio
       {description && <span className='fr-hint-text fr-mb-2w'>{description}</span>}
 
       <select
+        {...props}
         value={value}
         aria-label={ariaLabel}
         className={`fr-select fr-select--${inputState}`}

@@ -18,7 +18,8 @@ const AutocompleteInput = ({
   onSelectValue,
   results,
   renderItem,
-  isLoading
+  isLoading,
+  ...props
 }) => {
   const inputState = errorMessage ? 'error' : ''
   const wrapperRef = useRef(null)
@@ -31,7 +32,7 @@ const AutocompleteInput = ({
       setIsSuggestionsMenuOpen(false)
     }
 
-    onInputChange(e.target.value)
+    onInputChange(e)
     setActiveSuggestion(0)
     setIsSuggestionsMenuOpen(true)
   }, [value, onInputChange])
@@ -107,6 +108,7 @@ const AutocompleteInput = ({
         </label>
 
         <input
+          {...props}
           type='search'
           aria-label={ariaLabel}
           required={isRequired}
