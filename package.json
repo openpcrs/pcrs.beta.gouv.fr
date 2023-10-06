@@ -8,8 +8,8 @@
   "scripts": {
     "download-contours": "node scripts/download-contours",
     "build": "next build",
-    "dev": "node server/index.js",
-    "start": "NODE_ENV=production node server/index.js",
+    "dev": "node backend/index.js",
+    "start": "NODE_ENV=production node backend/index.js",
     "lint": "xo",
     "test": "ava",
     "scalingo-postbuild": "yarn download-contours && next build"
@@ -88,7 +88,7 @@
     "overrides": [
       {
         "files": [
-          "server/**/*.js",
+          "backend/**/*.js",
           "scripts/**/*.js"
         ],
         "rules": {

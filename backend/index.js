@@ -14,7 +14,7 @@ import w from './util/w.js'
 
 import {handleAuth} from './auth/middleware.js'
 
-import {getProjetsGeojson} from './projets.js'
+import {getProjetsGeojson} from './lib/models/projets.js'
 import dataRoutes from './routes/data.js'
 import projetsRoutes from './routes/projets.js'
 import authRoutes from './routes/auth.js'
