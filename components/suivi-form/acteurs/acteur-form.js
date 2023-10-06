@@ -5,14 +5,13 @@ import PropTypes from 'prop-types'
 import formReducer, {checkFormValidity} from 'reducers/form-reducer.js'
 import {debounce} from 'lodash-es'
 import ActorsAutocompleteInput from './actors-autocomplete-input.js'
-import {handlePhoneError, handleMailError, handleSirenError, checkIsPhoneValid, checkIsEmailValid, checkIsSirenValid} from '@/components/suivi-form/acteurs/utils/error-handlers.js'
+import {handlePhoneError, handleMailError, handleSirenError, checkIsPhoneValid, checkIsEmailValid, checkIsSirenValid, isInRange, handleRangeError} from '@/components/suivi-form/acteurs/utils/error-handlers.js'
 
 import {roleOptions} from '@/components/suivi-form/acteurs/utils/select-options.js'
 
 import TextInput from '@/components/text-input.js'
 import SelectInput from '@/components/select-input.js'
 import Button from '@/components/button.js'
-import NumberInput from '@/components/number-input.js'
 import {stripNonNumericCharacters} from '@/lib/string.js'
 
 const initState = ({initialValues, fieldsValidations}) => {
@@ -53,14 +52,18 @@ const initState = ({initialValues, fieldsValidations}) => {
       isRequired: false,
       sanitize: stripNonNumericCharacters,
       isValid: true,
-      validate: null
+      validateOnChange: true,
+      validate: value => isInRange(value, 0, 100),
+      getValidationMessage: value => handleRangeError(value, 0, 100)
     },
     finEuros: {
       value: initialValues.finance_part_euro || '',
       isRequired: false,
       sanitize: stripNonNumericCharacters,
       isValid: true,
-      validate: null
+      validateOnChange: true,
+      validate: value => isInRange(value, 0),
+      getValidationMessage: value => handleRangeError(value, 0)
     },
     role: {
       value: initialValues.role || '',
@@ -92,7 +95,8 @@ const ActeurForm = ({initialValues, isSirenAlreadyUsed, isAplcDisabled, onCancel
       payload: {fieldName: name, value}
     })
 
-    if (!form.fields[name].noAutoValidation) {
+    const {noAutoValidation, validateOnChange} = form.fields[name]
+    if (!noAutoValidation && !validateOnChange) {
       debouncedValidation.current(name)
     }
   }
@@ -203,15 +207,13 @@ const ActeurForm = ({initialValues, isSirenAlreadyUsed, isAplcDisabled, onCancel
           />
         </div>
         <div className='fr-col-12 fr-col-md-4 fr-mt-6w'>
-          <NumberInput
+          <TextInput
             name='finPerc'
             label='Part de financement'
             value={form.fields.finPerc.value}
             ariaLabel='Part de financement en pourcentage du total'
             description='Part de financement en pourcentage du total'
             placeholder='Veuillez n’entrer que des valeurs numéraires'
-            min={0}
-            max={100}
             errorMessage={form.fields.finPerc.validationMessage}
             onValueChange={handleInputChange}
             onBlur={handleInputBlur}
@@ -219,14 +221,13 @@ const ActeurForm = ({initialValues, isSirenAlreadyUsed, isAplcDisabled, onCancel
         </div>
 
         <div className='fr-col-12 fr-col-md-4 fr-mt-6w fr-pl-md-3w'>
-          <NumberInput
+          <TextInput
             name='finEuros'
             label='Montant du financement'
             value={form.fields.finEuros.value}
             ariaLabel='montant du financement'
             description='Montant du financement en euros'
             placeholder='Veuillez n’entrer que des valeurs numéraires'
-            min={0}
             errorMessage={form.fields.finEuros.validationMessage}
             onValueChange={handleInputChange}
           />

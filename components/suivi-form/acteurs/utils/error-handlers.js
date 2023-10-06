@@ -14,6 +14,40 @@ export const checkIsEmailValid = mail => {
   return false
 }
 
+export const isInRange = (value, min, max) => {
+  if (min !== undefined && value < min) {
+    return false
+  }
+
+  if (max !== undefined && value > max) {
+    return false
+  }
+
+  return true
+}
+
+export const handleRangeError = (value, min, max) => {
+  const numericValue = Number(value)
+
+  if (numericValue !== 0 && Number.isNaN(numericValue)) {
+    return 'Veuillez entrer uniquement des nombres'
+  }
+
+  if (min !== undefined && max === undefined && numericValue < min) {
+    return `La valeur est inférieure à ${min}`
+  }
+
+  if (min === undefined && max !== undefined && numericValue > max) {
+    return `La valeur est supérieure à ${max}`
+  }
+
+  if (min !== undefined && max !== undefined && (numericValue < min || numericValue > max)) {
+    return `La valeur doit être comprise entre ${min} et ${max}`
+  }
+
+  return null
+}
+
 export const checkIsSirenValid = siren => {
   const sirenChecker = /^\d{9}$/
   return sirenChecker.test(siren)
