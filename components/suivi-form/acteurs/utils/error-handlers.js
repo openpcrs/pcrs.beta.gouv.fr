@@ -1,10 +1,8 @@
 export const checkIsPhoneValid = phone => {
-  const phoneChecker = /^$|^(?:\+33|0)[1-9](?:\d{8}|\d{9})$/
-  if (phoneChecker.test(phone)) {
-    return true
-  }
+  const nationalPattern = /^0[1-9]\d{8}$/
+  const internationalPattern = /^\+?33[1-9]\d{8}$/
 
-  return false
+  return nationalPattern.test(phone) || internationalPattern.test(phone)
 }
 
 export const checkIsEmailValid = mail => {
@@ -37,8 +35,12 @@ export function handleMailError(input) {
   }
 }
 
-export function handleSirenError(input) {
+export function handleSirenError(input, checkIsSirenAlreadyUsed) {
   if (!checkIsSirenValid(input)) {
     return 'Le SIREN doit être composé de 9 chiffres'
+  }
+
+  if (checkIsSirenAlreadyUsed && checkIsSirenAlreadyUsed(input)) {
+    return 'Cet acteur est déjà présent.'
   }
 }
