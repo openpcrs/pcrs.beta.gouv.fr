@@ -61,7 +61,7 @@ const Acteurs = ({acteurs, handleActors}) => {
 
       {(acteurs.length === 0 || editedActor) && (
         <ActeurForm
-          initialValues={editedActor.actor || {}}
+          initialValues={editedActor?.actor || {}}
           isAplcDisabled={hasAplc}
           isSirenAlreadyUsed={isSirenAlreadyUsed}
           onCancel={acteurs.length > 0 ? () => setEditedActor(null) : null}
@@ -69,7 +69,7 @@ const Acteurs = ({acteurs, handleActors}) => {
         />
       )}
 
-      {!editedActor && (
+      {(!editedActor && acteurs.length > 0) && (
         <div className='fr-mt-3w fr-col-12'>
           <Button
             label='Ajouter un acteur'
