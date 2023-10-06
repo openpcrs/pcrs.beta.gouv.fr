@@ -15,12 +15,8 @@ export const checkIsEmailValid = mail => {
 }
 
 export const checkIsSirenValid = siren => {
-  const sirenChecker = /^$|^\d{9}$/
-  if (sirenChecker.test(siren)) {
-    return true
-  }
-
-  return false
+  const sirenChecker = /^\d{9}$/
+  return sirenChecker.test(siren)
 }
 
 export function handlePhoneError(input) {
