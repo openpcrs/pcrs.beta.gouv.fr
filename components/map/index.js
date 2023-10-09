@@ -193,7 +193,7 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
                   description='Nom de l’acteur'
                   results={foundActeurs}
                   renderItem={item => item}
-                  onInputChange={setActeurSearchInput}
+                  onInputChange={e => setActeurSearchInput(e.target.value)}
                   onSelectValue={item => {
                     setActeurSearchInput(item)
                     getProjectId(item)
@@ -251,12 +251,16 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
   )
 }
 
+Map.defaultProps = {
+  isMobile: false
+}
+
 Map.propTypes = {
   isMobile: PropTypes.bool,
-  geometry: PropTypes.object,
   projetId: PropTypes.string,
-  handleSelectProjets: PropTypes.func,
-  handleNewProject: PropTypes.func
+  geometry: PropTypes.object.isRequired,
+  handleSelectProjets: PropTypes.func.isRequired,
+  handleNewProject: PropTypes.func.isRequired
 }
 
 export default Map

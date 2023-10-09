@@ -1,4 +1,4 @@
-import {useState, useMemo} from 'react'
+import {useState, useMemo, useCallback} from 'react'
 import PropTypes from 'prop-types'
 import {orderBy} from 'lodash-es'
 
@@ -8,86 +8,84 @@ import Button from '@/components/button.js'
 import ActeurCard from '@/components/suivi-form/acteurs/acteur-card.js'
 import ActeurForm from '@/components/suivi-form/acteurs/acteur-form.js'
 
-const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) => {
-  const [isAdding, setIsAdding] = useState(false)
-  const [isEditing, setIsEditing] = useState(false)
-  const [updatingActorIndex, setUpdatingActorIndex] = useState(null)
+const Acteurs = ({acteurs, handleActors}) => {
+  const [editedActor, setEditedActor] = useState(acteurs?.length > 0 ? null : {})
+
+  const sortActorsByAplc = useMemo(() => orderBy(acteurs, a => a.role === 'porteur' || 'aplc', ['desc']), [acteurs])
+  const hasAplc = useMemo(() => acteurs.some(actor => actor.role === 'aplc' || actor.role === 'porteur'), [acteurs])
 
   const onDelete = siren => {
     handleActors(current => current.filter(c => c.siren !== siren))
-    setIsAdding(false)
-    setIsEditing(false)
+    setEditedActor(null)
   }
 
-  const sortActorsByAplc = useMemo(() => orderBy(acteurs, a => a.role === 'porteur' || 'aplc', ['desc']), [acteurs])
+  const handleActor = useCallback(actor => {
+    if (editedActor && editedActor.index >= 0) {
+      handleActors(prevActeurs => {
+        const acteursCopy = [...prevActeurs]
+        acteursCopy[editedActor.index] = actor
+        return acteursCopy
+      })
+    } else {
+      handleActors([...acteurs, actor])
+    }
+
+    setEditedActor(null)
+  }, [editedActor, acteurs, handleActors])
+
+  const isSirenAlreadyUsed = useCallback(siren => {
+    const actors = editedActor?.index
+      ? acteurs.filter((a, idx) => idx !== editedActor.index) // Filter actor being edited
+      : acteurs
+    return actors.some(acteur => siren === acteur.siren.toString())
+  }, [editedActor, acteurs])
 
   return (
     <div className='fr-mt-8w fr-grid-row'>
       <h3 className='fr-h5 fr-m-0 fr-col-12'>Acteurs *</h3>
       <hr className='fr-my-3w fr-col-12' />
 
-      {(hasMissingData && acteurs.length === 0) && (
-        <div className='fr-error-text fr-mt-1w fr-col-12'>Au moins un acteur doit être ajouté</div>
-      )}
-
       <div className='fr-grid-row fr-col-12'>
-        {sortActorsByAplc.map((actor, idx) => (
+        {sortActorsByAplc.map((actor, index) => (
           <div key={actor.siren} className='fr-col-12 fr-mb-7w fr-p-0'>
-            <ActeurCard
-              handleActors={handleActors}
-              isFormOpen={isAdding || isEditing}
-              handleEdition={() => {
-                setUpdatingActorIndex(idx)
-                setIsEditing(true)
-              }}
-              handleDelete={() => onDelete(actor.siren)}
-              {...actor}
-            />
 
-            {updatingActorIndex === idx && (
-              <div>
-                <ActeurForm
-                  acteurs={acteurs}
-                  updatingActorIndex={updatingActorIndex}
-                  isAdding={isAdding}
-                  isEditing={isEditing}
-                  handleActors={handleActors}
-                  handleActorIndex={setUpdatingActorIndex}
-                  handleAdding={setIsAdding}
-                  handleEditing={setIsEditing}
-                  onRequiredFormOpen={onRequiredFormOpen}
-                />
-                <hr className='edit-separator fr-my-3w' />
-              </div>
+            {editedActor && editedActor.index === index ? (
+              <ActeurForm
+                initialValues={editedActor.actor}
+                isAplcDisabled={hasAplc}
+                isSirenAlreadyUsed={isSirenAlreadyUsed}
+                onCancel={acteurs.length > 0 ? () => setEditedActor(null) : null}
+                onSubmit={handleActor}
+              />
+            ) : (
+              <ActeurCard
+                actor={actor}
+                isDisabled={Boolean(editedActor)}
+                handleEdition={() => setEditedActor({actor, index})}
+                handleDelete={() => onDelete(actor.siren)}
+              />
             )}
           </div>
         ))}
       </div>
 
-      {isAdding && (
+      {(acteurs.length === 0 || (editedActor && editedActor.index === undefined)) && (
         <ActeurForm
-          acteurs={acteurs}
-          updatingActorIndex={updatingActorIndex}
-          isAdding={isAdding}
-          isEditing={isEditing}
-          handleActors={handleActors}
-          handleActorIndex={setUpdatingActorIndex}
-          handleAdding={setIsAdding}
-          handleEditing={setIsEditing}
-          onRequiredFormOpen={onRequiredFormOpen}
+          initialValues={{}}
+          isAplcDisabled={hasAplc}
+          isSirenAlreadyUsed={isSirenAlreadyUsed}
+          onCancel={acteurs.length > 0 ? () => setEditedActor(null) : null}
+          onSubmit={handleActor}
         />
       )}
 
-      {!isAdding && !isEditing && (
+      {(!editedActor && acteurs.length > 0) && (
         <div className='fr-mt-3w fr-col-12'>
           <Button
             label='Ajouter un acteur'
             icon='add-circle-fill'
             iconSide='left'
-            onClick={() => {
-              setIsAdding(true)
-              onRequiredFormOpen(true)
-            }}
+            onClick={() => setEditedActor({actor: {}})}
           >
             Ajouter un acteur
           </Button>
@@ -109,13 +107,7 @@ const Acteurs = ({acteurs, handleActors, hasMissingData, onRequiredFormOpen}) =>
 
 Acteurs.propTypes = {
   acteurs: PropTypes.array.isRequired,
-  hasMissingData: PropTypes.bool,
-  handleActors: PropTypes.func.isRequired,
-  onRequiredFormOpen: PropTypes.func.isRequired
-}
-
-Acteurs.defaultProps = {
-  hasMissingData: false
+  handleActors: PropTypes.func.isRequired
 }
 
 export default Acteurs
