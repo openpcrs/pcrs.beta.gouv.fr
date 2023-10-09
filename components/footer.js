@@ -1,7 +1,7 @@
 import {useContext} from 'react'
 import {useRouter} from 'next/router'
-
 import Link from 'next/link'
+
 import AuthentificationContext from '@/contexts/authentification-token.js'
 
 const Footer = () => {
