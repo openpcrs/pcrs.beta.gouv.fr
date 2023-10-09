@@ -54,7 +54,7 @@ const Acteurs = ({acteurs, handleActors}) => {
                 initialValues={editedActor.actor}
                 isAplcDisabled={hasAplc}
                 isSirenAlreadyUsed={isSirenAlreadyUsed}
-                onCancel={acteurs.length > 0 ? () => setEditedActor(null) : null}
+                onCancel={() => setEditedActor(null)}
                 onSubmit={handleActor}
               />
             ) : (

@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import {useState, useCallback, useEffect, useMemo} from 'react'
+import {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 
 import {natureOptions, diffusionOptions, licenceOptions, publicationOptions, systRefSpatialOptions} from '@/components/suivi-form/livrables/utils/select-options.js'
@@ -12,20 +12,19 @@ import Button from '@/components/button.js'
 import DateInput from '@/components/date-input.js'
 import NumberInput from '@/components/number-input.js'
 
-const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdatingLivrableIdx, handleLivrables, handleAdding, handleEditing, onRequiredFormOpen}) => {
+const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmit}) => {
   const [isFormComplete, setIsFormComplete] = useState(true)
-  const [updatingLivrableName, setUpdatingLivrableName] = useState()
   const [errorMessage, setErrorMessage] = useState()
 
-  const [nom, setNom, nomError] = useInput({isRequired: !isFormComplete})
-  const [nature, setNature, natureError] = useInput({isRequired: !isFormComplete})
-  const [diffusion, setDiffusion, diffusionError] = useInput({})
-  const [licence, setLicence, licenceError] = useInput({isRequired: !isFormComplete})
-  const [avancement, setAvancement, avancementError, setIsAvancementValid, isAvancementValid] = useInput({})
-  const [crs, setCrs, crsError] = useInput({})
-  const [compression, setCompression, compressionError] = useInput({})
-  const [publication, setPublication, publicationError] = useInput({})
-  const [dateLivraison, setDateLivraison, dateLivraisonError] = useInput({})
+  const [nom, setNom, nomError] = useInput({initialValue: initialValues.nom, isRequired: !isFormComplete})
+  const [nature, setNature, natureError] = useInput({initialValue: initialValues.nature, isRequired: !isFormComplete})
+  const [diffusion, setDiffusion, diffusionError] = useInput({initialValue: initialValues.diffusion})
+  const [licence, setLicence, licenceError] = useInput({initialValue: initialValues.licence, isRequired: !isFormComplete})
+  const [avancement, setAvancement, avancementError, setIsAvancementValid, isAvancementValid] = useInput({initialValue: initialValues.avancement})
+  const [crs, setCrs, crsError] = useInput({initialValue: initialValues.crs})
+  const [compression, setCompression, compressionError] = useInput({initialValue: initialValues.compression})
+  const [publication, setPublication, publicationError] = useInput({initialValue: initialValues.publication})
+  const [dateLivraison, setDateLivraison, dateLivraisonError] = useInput({initialValue: initialValues.dateLivraison})
 
   const isCompleteOnSubmit = Boolean(nom && nature && licence)
 
@@ -35,23 +34,13 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
     }
   }, [isCompleteOnSubmit, isAvancementValid])
 
-  const isLivrableExisting = useMemo(() => {
-    if (isEditing) {
-      return livrables.some(livrable => livrable.nom === nom) && nom !== updatingLivrableName
-    }
-
-    return livrables.some(livrable => livrable.nom === nom)
-  }, [isEditing, livrables, nom, updatingLivrableName])
-
   const handleSubmit = () => {
     setErrorMessage(null)
 
     if (isCompleteOnSubmit) {
       if (isAvancementValid) {
-        if (isLivrableExisting) {
-          setErrorMessage('Un livrable avec un nom identique est déjà présent.')
-        } else {
-          const newLivrable = {
+        if (isLivrableNameAvailable(nom)) {
+          onSubmit({
             nom,
             nature,
             diffusion: diffusion || null,
@@ -61,19 +50,9 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
             compression: compression || null,
             publication: publication || null,
             date_livraison: dateLivraison || null
-          }
-
-          if (isEditing) {
-            handleLivrables(prevLivrables => {
-              const livrablesCopy = [...prevLivrables]
-              livrablesCopy[updatingLivrableIdx] = newLivrable
-              return livrablesCopy
-            })
-          } else {
-            handleLivrables([...livrables, newLivrable])
-          }
-
-          onReset()
+          })
+        } else {
+          setErrorMessage('Un livrable avec un nom identique est déjà présent.')
         }
       } else {
         setErrorMessage('Veuillez modifier les champs invalides')
@@ -83,73 +62,6 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
       setErrorMessage('Veuillez compléter les champs requis manquants')
     }
   }
-
-  const onReset = useCallback(() => {
-    handleAdding(false)
-    handleEditing(false)
-    onRequiredFormOpen(false)
-    setIsFormComplete(true)
-    handleUpdatingLivrableIdx(null)
-    setErrorMessage(null)
-    setUpdatingLivrableName(null)
-
-    setNom('')
-    setNature('')
-    setDiffusion('')
-    setLicence('')
-    setAvancement('')
-    setCrs('')
-    setCompression('')
-    setPublication('')
-    setDateLivraison('')
-  }, [
-    handleAdding,
-    handleEditing,
-    handleUpdatingLivrableIdx,
-    onRequiredFormOpen,
-    setNom,
-    setNature,
-    setDiffusion,
-    setLicence,
-    setAvancement,
-    setCrs,
-    setCompression,
-    setPublication,
-    setDateLivraison
-  ])
-
-  useEffect(() => {
-    // Switch to livrable update form
-    if (isEditing) {
-      const foundLivrable = livrables[updatingLivrableIdx]
-      setNom(foundLivrable.nom)
-      setNature(foundLivrable.nature)
-      setDiffusion(foundLivrable.diffusion)
-      setLicence(foundLivrable.licence)
-      setAvancement(foundLivrable.avancement?.toString() || '')
-      setCrs(foundLivrable.crs || '')
-      setCompression(foundLivrable.compression || '')
-      setPublication(foundLivrable.publication || '')
-      setDateLivraison(foundLivrable.date_livraison || '')
-
-      setUpdatingLivrableName(foundLivrable.nom)
-      onRequiredFormOpen(false)
-    }
-  }, [
-    updatingLivrableIdx,
-    livrables,
-    isEditing,
-    onRequiredFormOpen,
-    setNom,
-    setNature,
-    setDiffusion,
-    setLicence,
-    setAvancement,
-    setCrs,
-    setCompression,
-    setPublication,
-    setDateLivraison
-  ])
 
   return (
     <div className='fr-mt-4w'>
@@ -288,15 +200,17 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
           Valider
         </Button>
 
-        <div className='fr-pl-3w'>
-          <Button
-            label='Annuler l’ajout du livrable'
-            buttonStyle='tertiary'
-            onClick={onReset}
-          >
-            Annuler
-          </Button>
-        </div>
+        {onCancel && (
+          <div className='fr-pl-3w'>
+            <Button
+              label='Annuler l’ajout du livrable'
+              buttonStyle='tertiary'
+              onClick={onCancel}
+            >
+              Annuler
+            </Button>
+          </div>
+        )}
       </div>
       {errorMessage && <p id='text-input-error-desc-error' className='fr-error-text'>{errorMessage}</p>}
     </div>
@@ -304,18 +218,20 @@ const LivrableForm = ({livrables, updatingLivrableIdx, isEditing, handleUpdating
 }
 
 LivrableForm.propTypes = {
-  updatingLivrableIdx: PropTypes.number,
-  handleUpdatingLivrableIdx: PropTypes.func.isRequired,
-  livrables: PropTypes.array.isRequired,
-  isEditing: PropTypes.bool.isRequired,
-  handleLivrables: PropTypes.func.isRequired,
-  handleAdding: PropTypes.func.isRequired,
-  handleEditing: PropTypes.func.isRequired,
-  onRequiredFormOpen: PropTypes.func.isRequired
-}
-
-LivrableForm.defaultProps = {
-  updatingLivrableIdx: null
+  initialValues: PropTypes.shape({
+    nom: PropTypes.string,
+    nature: PropTypes.string,
+    diffusion: PropTypes.string,
+    licence: PropTypes.string,
+    avancement: PropTypes.string,
+    crs: PropTypes.string,
+    compression: PropTypes.string,
+    publication: PropTypes.string,
+    dateLivraison: PropTypes.string
+  }),
+  isLivrableNameAvailable: PropTypes.func.isRequired,
+  onCancel: PropTypes.func,
+  onSubmit: PropTypes.func.isRequired
 }
 
 export default LivrableForm

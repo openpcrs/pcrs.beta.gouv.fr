@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useCallback, useState} from 'react'
 import PropTypes from 'prop-types'
 import {uniqueId} from 'lodash-es'
 
@@ -8,16 +8,34 @@ import Button from '@/components/button.js'
 import LivrableCard from '@/components/suivi-form/livrables/livrable-card.js'
 import LivrableForm from '@/components/suivi-form/livrables/livrable-form.js'
 
-const Livrables = ({livrables, hasMissingData, handleLivrables, onRequiredFormOpen}) => {
-  const [isAdding, setIsAdding] = useState(false)
-  const [isEditing, setIsEditing] = useState(false)
-  const [updatingLivrableIndex, setUpdatingLivrableIndex] = useState()
+const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
+  const [editedLivrable, setEditedLivrable] = useState(livrables?.length > 0 ? null : {})
 
   const onDelete = index => {
     handleLivrables(current => current.filter((_, i) => index !== i))
-    setIsAdding(false)
-    setIsEditing(false)
+    setEditedLivrable(null)
   }
+
+  const handleLivrable = useCallback(livrable => {
+    if (editedLivrable && editedLivrable.index >= 0) {
+      handleLivrables(prevLivrables => {
+        const livrablesCopy = [...prevLivrables]
+        livrablesCopy[editedLivrable.index] = livrable
+        return livrablesCopy
+      })
+    } else {
+      handleLivrables([...livrables, livrable])
+    }
+
+    setEditedLivrable(null)
+  }, [editedLivrable, livrables, handleLivrables])
+
+  const isLivrableNameAvailable = useCallback(nom => {
+    const _livrables = editedLivrable?.index
+      ? livrables.filter((a, idx) => idx !== editedLivrable.index) // Filter livrable being edited
+      : livrables
+    return _livrables.some(livrable => nom === livrable.nom)
+  }, [editedLivrable, livrables])
 
   return (
     <div className='fr-mt-8w fr-grid-row'>
@@ -29,62 +47,46 @@ const Livrables = ({livrables, hasMissingData, handleLivrables, onRequiredFormOp
       )}
 
       <div className='fr-grid-row fr-col-12'>
-        {livrables.map((livrable, idx) => (
+        {livrables.map((livrable, index) => (
           <div key={uniqueId()} className='fr-col-12 fr-mb-7w fr-p-0'>
-            <LivrableCard
-              {...livrable}
-              isDisabled={isAdding || isEditing}
-              handleEdition={() => {
-                setUpdatingLivrableIndex(idx)
-                setIsEditing(true)
-              }}
-              handleDelete={() => onDelete(idx)}
-            />
-
-            {updatingLivrableIndex === idx && (
-              <div>
+            {editedLivrable && editedLivrable.index === index ? (
+              <>
                 <LivrableForm
-                  livrables={livrables}
-                  updatingLivrableIdx={updatingLivrableIndex}
-                  isAdding={isAdding}
-                  isEditing={isEditing}
-                  handleUpdatingLivrableIdx={setUpdatingLivrableIndex}
-                  handleLivrables={handleLivrables}
-                  handleAdding={setIsAdding}
-                  handleEditing={setIsEditing}
-                  onRequiredFormOpen={onRequiredFormOpen}
+                  initialValues={livrable}
+                  isLivrableNameAvailable={isLivrableNameAvailable}
+                  onCancel={() => setEditedLivrable(null)}
+                  onSubmit={handleLivrable}
                 />
                 <div className='edit-separator fr-my-3w' />
-              </div>
+              </>
+            ) : (
+              <LivrableCard
+                livrable={livrable}
+                isDisabled={Boolean(editedLivrable)}
+                handleEdition={() => setEditedLivrable({livrable, index})}
+                handleDelete={() => onDelete(index)}
+              />
             )}
           </div>
         ))}
       </div>
 
-      {isAdding && (
+      {(livrables.length === 0 || (editedLivrable && editedLivrable.index === undefined)) && (
         <LivrableForm
-          livrables={livrables}
-          updatingLivrableIdx={updatingLivrableIndex}
-          isAdding={isAdding}
-          isEditing={isEditing}
-          handleUpdatingLivrableIdx={setUpdatingLivrableIndex}
-          handleLivrables={handleLivrables}
-          handleAdding={setIsAdding}
-          handleEditing={setIsEditing}
-          onRequiredFormOpen={onRequiredFormOpen}
+          initialValues={livrables}
+          isLivrableNameAvailable={isLivrableNameAvailable}
+          onCancel={livrables.length > 0 ? () => setEditedLivrable(null) : null}
+          onSubmit={handleLivrable}
         />
       )}
 
-      {!isAdding && !isEditing && (
+      {(!editedLivrable && livrables.length > 0) && (
         <div className='fr-mt-3w fr-col-12'>
           <Button
             label='Ajouter un livrable'
             icon='add-circle-fill'
             iconSide='left'
-            onClick={() => {
-              onRequiredFormOpen(true)
-              setIsAdding(true)
-            }}
+            onClick={() => setEditedLivrable({actor: {}})}
           >
             Ajouter un livrable
           </Button>
@@ -107,8 +109,7 @@ const Livrables = ({livrables, hasMissingData, handleLivrables, onRequiredFormOp
 Livrables.propTypes = {
   livrables: PropTypes.array.isRequired,
   hasMissingData: PropTypes.bool,
-  handleLivrables: PropTypes.func.isRequired,
-  onRequiredFormOpen: PropTypes.func.isRequired
+  handleLivrables: PropTypes.func.isRequired
 }
 
 Livrables.defaultProps = {
