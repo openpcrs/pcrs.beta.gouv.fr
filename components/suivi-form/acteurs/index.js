@@ -48,19 +48,30 @@ const Acteurs = ({acteurs, handleActors}) => {
       <div className='fr-grid-row fr-col-12'>
         {sortActorsByAplc.map((actor, index) => (
           <div key={actor.siren} className='fr-col-12 fr-mb-7w fr-p-0'>
-            <ActeurCard
-              actor={actor}
-              isDisabled={Boolean(editedActor)}
-              handleEdition={() => setEditedActor({actor, index})}
-              handleDelete={() => onDelete(actor.siren)}
-            />
+
+            {editedActor && editedActor.index === index ? (
+              <ActeurForm
+                initialValues={editedActor.actor}
+                isAplcDisabled={hasAplc}
+                isSirenAlreadyUsed={isSirenAlreadyUsed}
+                onCancel={acteurs.length > 0 ? () => setEditedActor(null) : null}
+                onSubmit={handleActor}
+              />
+            ) : (
+              <ActeurCard
+                actor={actor}
+                isDisabled={Boolean(editedActor)}
+                handleEdition={() => setEditedActor({actor, index})}
+                handleDelete={() => onDelete(actor.siren)}
+              />
+            )}
           </div>
         ))}
       </div>
 
-      {(acteurs.length === 0 || editedActor) && (
+      {(acteurs.length === 0 || (editedActor && editedActor.index === undefined)) && (
         <ActeurForm
-          initialValues={editedActor?.actor || {}}
+          initialValues={{}}
           isAplcDisabled={hasAplc}
           isSirenAlreadyUsed={isSirenAlreadyUsed}
           onCancel={acteurs.length > 0 ? () => setEditedActor(null) : null}
