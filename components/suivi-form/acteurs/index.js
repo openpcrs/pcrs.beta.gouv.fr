@@ -20,11 +20,10 @@ const Acteurs = ({acteurs, handleActors}) => {
   }
 
   const handleActor = useCallback(actor => {
-    const {index} = editedActor
-    if (index >= 0) {
+    if (editedActor && editedActor.index >= 0) {
       handleActors(prevActeurs => {
         const acteursCopy = [...prevActeurs]
-        acteursCopy[index] = actor
+        acteursCopy[editedActor.index] = actor
         return acteursCopy
       })
     } else {
