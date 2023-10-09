@@ -78,11 +78,14 @@ const initState = ({initialValues, fieldsValidations}) => {
 const ActeurForm = ({initialValues, isSirenAlreadyUsed, isAplcDisabled, onCancel, onSubmit}) => {
   const [form, dispatch] = useReducer(formReducer, initState({initialValues, fieldsValidations: {siren: isSirenAlreadyUsed}}))
 
-  const availableRoles = useMemo(() => roleOptions.map(({value, ...props}) => ({
-    ...props,
-    value,
-    isDisabled: ['aplc', 'porteur'].includes(value) ? isAplcDisabled : false
-  })), [isAplcDisabled])
+  const availableRoles = useMemo(() => roleOptions.map(({value, ...props}) => {
+    const actorIsAplc = ['aplc', 'porteur'].includes(initialValues?.role)
+    return {
+      ...props,
+      value,
+      isDisabled: ['aplc', 'porteur'].includes(value) ? isAplcDisabled && !actorIsAplc : !isAplcDisabled
+    }
+  }), [isAplcDisabled, initialValues])
 
   const debouncedValidation = useRef(debounce(name => {
     dispatch({type: 'VALIDATE_FIELD', fieldName: name})
