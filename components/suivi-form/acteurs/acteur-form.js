@@ -12,7 +12,7 @@ import {roleOptions} from '@/components/suivi-form/acteurs/utils/select-options.
 import TextInput from '@/components/text-input.js'
 import SelectInput from '@/components/select-input.js'
 import Button from '@/components/button.js'
-import {stripNonNumericCharacters} from '@/lib/string.js'
+import {stripNonNumericCharacters, formatInternationalPhone} from '@/lib/string.js'
 
 const initState = ({initialValues, fieldsValidations}) => {
   const fields = {
@@ -34,7 +34,7 @@ const initState = ({initialValues, fieldsValidations}) => {
       value: initialValues.telephone || '',
       isRequired: false,
       isValid: initialValues.telephone ? checkIsPhoneValid(initialValues.telephone) : true,
-      sanitize: stripNonNumericCharacters,
+      sanitize: formatInternationalPhone,
       getValidationMessage: handlePhoneError,
       validate: checkIsPhoneValid,
       noAutoValidation: true
