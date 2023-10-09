@@ -31,6 +31,8 @@ export default function formReducer(state, action) {
       // If sanitizedValue is empty, or if the field is marked for validation during a change, then it is validated
       if (sanitizedValue === '' || field.validateOnChange) {
         validationMessage = getValidationMessageForField(sanitizedValue, field, isValid)
+      } else if (sanitizedValue.length > 0 && isValid) { // Clear error on change
+        validationMessage = null
       }
 
       const updatedFields = {
