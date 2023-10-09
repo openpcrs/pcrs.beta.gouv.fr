@@ -28,8 +28,16 @@ export const AuthentificationContextProvider = props => {
   const checkUserRole = useCallback(async () => {
     try {
       const getUserRole = await authentificationRole(token)
-      setUserRole(getUserRole.role)
-      setIsAuthDataRecovering(false)
+
+      if (getUserRole.code === 403) {
+        localStorage.clear()
+        setToken(null)
+        setUserRole(null)
+        setIsAuthDataRecovering(false)
+      } else {
+        setUserRole(getUserRole.role)
+        setIsAuthDataRecovering(false)
+      }
     } catch {
       setUserRole(null)
     }
