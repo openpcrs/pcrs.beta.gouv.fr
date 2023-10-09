@@ -25,6 +25,12 @@ export const AuthentificationContextProvider = props => {
     }
   }
 
+  const disconnectUser = useCallback(() => {
+    localStorage.removeItem(TOKEN_KEY)
+    setUserRole(null)
+    setToken(null)
+  }, [])
+
   const checkUserRole = useCallback(async () => {
     try {
       const getUserRole = await authentificationRole(token)
@@ -55,8 +61,9 @@ export const AuthentificationContextProvider = props => {
     userRole,
     token,
     isTokenRecovering: isAuthDataRecovering,
-    storeToken
-  }), [userRole, token, isAuthDataRecovering, storeToken])
+    storeToken,
+    disconnectUser
+  }), [userRole, token, isAuthDataRecovering, storeToken, disconnectUser])
 
   return (
     <AuthentificationContext.Provider

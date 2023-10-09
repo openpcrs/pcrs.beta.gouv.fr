@@ -1,17 +1,10 @@
 import {useContext} from 'react'
-import {useRouter} from 'next/router'
 import Link from 'next/link'
 
 import AuthentificationContext from '@/contexts/authentification-token.js'
 
 const Footer = () => {
-  const {userRole} = useContext(AuthentificationContext)
-  const router = useRouter()
-
-  function handleDeconnection() {
-    localStorage.clear()
-    router.reload()
-  }
+  const {userRole, disconnectUser} = useContext(AuthentificationContext)
 
   return (
     <footer className='fr-footer' role='contentinfo' id='footer'>
@@ -77,7 +70,7 @@ const Footer = () => {
                   className='fr-footer__bottom-link'
                   type='button'
                   label='Se deconnecter'
-                  onClick={() => handleDeconnection()}
+                  onClick={disconnectUser}
                 >
                   Déconnexion
                 </button>
