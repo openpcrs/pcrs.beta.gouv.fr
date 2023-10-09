@@ -255,7 +255,7 @@ const Calculatrice = () => {
                       ariaLabel={`Rechercher par nom ${territoryType === 'commune' ? 'ou code INSEE' : ''} du territoire`}
                       results={foundPerimetres}
                       renderItem={({nom, code}) => `${nom} - ${code}`}
-                      onInputChange={setSearchValue}
+                      onInputChange={e => setSearchValue(e.target.value)}
                       onSelectValue={item => {
                         handleSelect(item)
                       }}

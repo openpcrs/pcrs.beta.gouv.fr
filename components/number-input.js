@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
+import {handleRangeError} from './suivi-form/acteurs/utils/error-handlers.js'
 
 const NumberInput = ({
   label,
@@ -16,38 +17,16 @@ const NumberInput = ({
   onValueChange,
   setIsValueValid,
   onFocus,
-  onBlur
+  onBlur,
+  ...props
 }) => {
   const [inputError, setInputError] = useState(errorMessage)
 
   const inputState = inputError ? 'error' : ''
 
   useEffect(() => {
-    setInputError(null)
-
-    if (value) {
-      let inputErrorMessage = null
-      const hasMin = min === 0 || min
-      const hasMax = max === 0 || max
-
-      if (Number(value) !== 0 && !Number(value)) {
-        inputErrorMessage = 'Veuillez entrer uniquement des nombres'
-      }
-
-      if ((hasMin && !hasMax) && value < min) {
-        inputErrorMessage = `La valeur est inférieure à ${min}`
-      }
-
-      if ((!hasMin && hasMax) && value > max) {
-        inputErrorMessage = `La valeur est supérieure à ${max}`
-      }
-
-      if ((hasMin && hasMax) && (value < min || value > max)) {
-        inputErrorMessage = `La valeur doit être comprise entre ${min} et ${max}`
-      }
-
-      setInputError(inputErrorMessage)
-    }
+    const inputErrorMessage = handleRangeError(value, min, max)
+    setInputError(inputErrorMessage)
   }, [value, min, max, errorMessage])
 
   useEffect(() => {
@@ -66,6 +45,7 @@ const NumberInput = ({
       </label>
 
       <input
+        {...props}
         type={type}
         required={isRequired}
         className={`fr-input fr-input--${inputState}`}
