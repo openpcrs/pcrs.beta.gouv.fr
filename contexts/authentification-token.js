@@ -36,9 +36,7 @@ export const AuthentificationContextProvider = props => {
       const getUserRole = await authentificationRole(token)
 
       if (getUserRole.code === 403) {
-        localStorage.clear()
-        setToken(null)
-        setUserRole(null)
+        disconnectUser()
         setIsAuthDataRecovering(false)
       } else {
         setUserRole(getUserRole.role)
@@ -47,7 +45,7 @@ export const AuthentificationContextProvider = props => {
     } catch {
       setUserRole(null)
     }
-  }, [token])
+  }, [token, disconnectUser])
 
   // Initializes with data already stored if none is provided
   useEffect(() => {
