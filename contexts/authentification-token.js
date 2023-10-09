@@ -37,11 +37,11 @@ export const AuthentificationContextProvider = props => {
 
       if (getUserRole.code === 403) {
         disconnectUser()
-        setIsAuthDataRecovering(false)
       } else {
         setUserRole(getUserRole.role)
-        setIsAuthDataRecovering(false)
       }
+
+      setIsAuthDataRecovering(false)
     } catch {
       setUserRole(null)
     }
