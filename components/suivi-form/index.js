@@ -44,7 +44,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
   const [projetEtapes, setProjetEtapes] = useState(etapes)
   const [projetSubventions, setProjetSubventions] = useState(subventions || [])
 
-  const hasMissingRequiredItems = projetLivrables.length === 0 || projetActeurs.length === 0 || projetPerimetres.length === 0
+  const hasMissingRequiredItems = projetLivrables.length === 0 || projetPerimetres.length === 0
   const isPorteurMissing = Boolean(!projetActeurs.some(acteur => acteur.role === 'aplc' || acteur.role === 'porteur'))
 
   const handleDeleteModalOpen = () => setIsDeleteModalOpen(!isDeleteModalOpen)
@@ -87,7 +87,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
         setErrorMessage('Des données nécessaires à la validation du formulaires sont manquantes. Au moins un livrable, un acteur et un périmètre doivent être ajoutés.')
       } else if (isPorteurMissing) {
         setHasMissingItemsOnValidation(true)
-        setErrorMessage('Au moins un des acteurs doit avoir le rôle de porteur de projet.')
+        setErrorMessage('Au moins un acteurs doit être ajouté et avoir le rôle de porteur de projet.')
       } else {
         const suivi = {
           nom: suiviNom,
@@ -219,8 +219,6 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
             <Acteurs
               acteurs={projetActeurs}
               handleActors={setProjetActeurs}
-              hasMissingData={hasMissingItemsOnValidation}
-              onRequiredFormOpen={setIsRequiredFormOpen}
             />
           </div>
 

@@ -202,7 +202,7 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
               results={foundPerimetres}
               isLoading={isLoading}
               renderItem={({nom, code}) => `${nom} - ${code}`}
-              onInputChange={setSearchValue}
+              onInputChange={e => setSearchValue(e.target.value)}
               onSelectValue={item => {
                 handleSelect(item)
               }}
