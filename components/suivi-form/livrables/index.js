@@ -1,17 +1,12 @@
-/* eslint-disable camelcase */
 import {useState} from 'react'
 import PropTypes from 'prop-types'
 import {uniqueId} from 'lodash-es'
-
-import {shortDate} from '@/lib/date-utils.js'
 
 import colors from '@/styles/colors.js'
 
 import Button from '@/components/button.js'
 import LivrableCard from '@/components/suivi-form/livrables/livrable-card.js'
 import LivrableForm from '@/components/suivi-form/livrables/livrable-form.js'
-
-import {getNatures, getLicences, getDiffusions, getPublications} from '@/components/suivi-form/livrables/utils/select-options.js'
 
 const Livrables = ({livrables, hasMissingData, handleLivrables, onRequiredFormOpen}) => {
   const [isAdding, setIsAdding] = useState(false)
@@ -34,49 +29,36 @@ const Livrables = ({livrables, hasMissingData, handleLivrables, onRequiredFormOp
       )}
 
       <div className='fr-grid-row fr-col-12'>
-        {livrables.map((livrable, idx) => {
-          const {nom, nature, licence, crs, avancement, diffusion, publication, compression, date_livraison} = livrable
+        {livrables.map((livrable, idx) => (
+          <div key={uniqueId()} className='fr-col-12 fr-mb-7w fr-p-0'>
+            <LivrableCard
+              {...livrable}
+              isDisabled={isAdding || isEditing}
+              handleEdition={() => {
+                setUpdatingLivrableIndex(idx)
+                setIsEditing(true)
+              }}
+              handleDelete={() => onDelete(idx)}
+            />
 
-          return (
-            <div key={uniqueId()} className='fr-col-12 fr-mb-7w fr-p-0'>
-              <LivrableCard
-                index={idx}
-                nom={nom}
-                nature={getNatures()[nature]}
-                licence={getLicences()[licence]}
-                diffusion={getDiffusions()[diffusion]}
-                publication={getPublications()[publication]}
-                compression={compression}
-                dateLivraison={shortDate(date_livraison)}
-                crs={crs}
-                avancement={avancement}
-                isFormOpen={isAdding || isEditing}
-                handleEdition={() => {
-                  setUpdatingLivrableIndex(idx)
-                  setIsEditing(true)
-                }}
-                handleDelete={() => onDelete(idx)}
-              />
-
-              {updatingLivrableIndex === idx && (
-                <div>
-                  <LivrableForm
-                    livrables={livrables}
-                    updatingLivrableIdx={updatingLivrableIndex}
-                    isAdding={isAdding}
-                    isEditing={isEditing}
-                    handleUpdatingLivrableIdx={setUpdatingLivrableIndex}
-                    handleLivrables={handleLivrables}
-                    handleAdding={setIsAdding}
-                    handleEditing={setIsEditing}
-                    onRequiredFormOpen={onRequiredFormOpen}
-                  />
-                  <div className='edit-separator fr-my-3w' />
-                </div>
-              )}
-            </div>
-          )
-        })}
+            {updatingLivrableIndex === idx && (
+              <div>
+                <LivrableForm
+                  livrables={livrables}
+                  updatingLivrableIdx={updatingLivrableIndex}
+                  isAdding={isAdding}
+                  isEditing={isEditing}
+                  handleUpdatingLivrableIdx={setUpdatingLivrableIndex}
+                  handleLivrables={handleLivrables}
+                  handleAdding={setIsAdding}
+                  handleEditing={setIsEditing}
+                  onRequiredFormOpen={onRequiredFormOpen}
+                />
+                <div className='edit-separator fr-my-3w' />
+              </div>
+            )}
+          </div>
+        ))}
       </div>
 
       {isAdding && (
