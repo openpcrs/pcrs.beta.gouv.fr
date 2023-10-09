@@ -33,12 +33,12 @@ export const AuthentificationContextProvider = props => {
 
   const checkUserRole = useCallback(async () => {
     try {
-      const getUserRole = await authentificationRole(token)
+      const response = await authentificationRole(token)
 
-      if (getUserRole.code === 403) {
+      if (response.code === 403) {
         disconnectUser()
       } else {
-        setUserRole(getUserRole.role)
+        setUserRole(response.role)
       }
 
       setIsAuthDataRecovering(false)
