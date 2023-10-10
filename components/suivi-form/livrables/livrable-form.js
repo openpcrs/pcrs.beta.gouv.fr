@@ -101,7 +101,7 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
       nom: nom.value.trim(),
       nature: nature.value,
       licence: licence.value,
-      diffusion: diffusion.value,
+      diffusion: diffusion.value || null,
       avancement: avancement.value ? Number(avancement.value) : null,
       crs: crs.value || null,
       compression: compression.value || null,
