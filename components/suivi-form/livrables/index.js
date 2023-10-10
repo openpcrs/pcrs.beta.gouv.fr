@@ -73,7 +73,7 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
 
       {(livrables.length === 0 || (editedLivrable && editedLivrable.index === undefined)) && (
         <LivrableForm
-          initialValues={livrables}
+          initialValues={{}}
           isLivrableNameAvailable={isLivrableNameAvailable}
           onCancel={livrables.length > 0 ? () => setEditedLivrable(null) : null}
           onSubmit={handleLivrable}
