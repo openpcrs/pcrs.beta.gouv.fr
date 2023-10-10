@@ -70,5 +70,17 @@
     "eventHref": "https://webinaire.numerique.gouv.fr//meeting/signin/18748/creator/9716/hash/6f480261c7bc30703ead4447395de598ad6aa0ae",
     "description": "Bien que le PCRS reste dédié au dispositif anti-endommagement des réseaux, de nombreux usages opportunistes apparaissent du fait de sa disponiilité. Nous tenterons d'en présenter le panorama le plus large basé sur des exemples et aussi des perspectives à venir.",
     "type": "Webinaire"
+  },
+  {
+    "title": "Atelier thématique : publication et diffusion du PCRS",
+    "date": "2023-10-12",
+    "start": "10:00",
+    "end": "12:00",
+    "isOnSite": false,
+    "isOnline": true,
+    "address": "",
+    "eventHref": "https://webinaire.numerique.gouv.fr//meeting/signin/18748/creator/9716/hash/6f480261c7bc30703ead4447395de598ad6aa0ae",
+    "description": "La publication puis la diffusion des livrables PCRS sont des pré-requis important pour favoriser son utilisation la plus large. Nous vous proposons un passage en revue des solutions offertes pour y parvenir.",
+    "type": "Webinaire"
   }
 ]
