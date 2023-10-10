@@ -1,11 +1,10 @@
-import {useState, useContext, useCallback, useMemo, useEffect} from 'react'
+import {useState, useContext, useCallback, useEffect} from 'react'
 
 import {useRouter} from 'next/router'
 import Page from '@/layouts/main.js'
 import {getProject} from '@/lib/suivi-pcrs.js'
-import {Desktop, Mobile} from '@/layouts/map.js'
+import SuiviPCRSMapLayout from '@/layouts/suivi-pcrs-map-layout/index.js'
 
-import DeviceContext from '@/contexts/device.js'
 import AuthentificationContext from '@/contexts/authentification-token.js'
 import AuthentificationModal from '@/components/suivi-form/authentification/authentification-modal.js'
 import CenteredSpinnder from '@/components/centered-spinner.js'
@@ -13,10 +12,8 @@ import CenteredSpinnder from '@/components/centered-spinner.js'
 const PcrsMap = () => {
   const router = useRouter()
 
-  const {isMobileDevice} = useContext(DeviceContext)
   const {userRole, token} = useContext(AuthentificationContext)
 
-  const Layout = useMemo(() => isMobileDevice ? Mobile : Desktop, [isMobileDevice])
   const [isOpen, setIsOpen] = useState(false)
   const [projet, setProjet] = useState()
   const [projets, setProjets] = useState()
@@ -70,7 +67,7 @@ const PcrsMap = () => {
       hasFooter={false}
     >
       {geometry ? (
-        <Layout
+        <SuiviPCRSMapLayout
           selectProjets={selectProjets}
           handleTitleClick={handleTitleClick}
           projet={projet}
