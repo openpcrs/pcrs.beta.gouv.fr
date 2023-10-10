@@ -1,3 +1,4 @@
+import process from 'node:process'
 import createError from 'http-errors'
 import {omit} from 'lodash-es'
 import {nanoid} from 'nanoid'
@@ -5,6 +6,8 @@ import mongo from '../../util/mongo.js'
 import {findClosestEtape} from '../../../shared/find-closest-etape.js'
 import {buildGeometryFromTerritoires, getTerritoiresProperties} from '../territoires.js'
 import {validateCreation, validateChanges} from '../projets-validator.js'
+
+const {SCANNER_URL} = process.env
 
 export function expandProjet(projet) {
   const territoires = projet?.perimetres?.map(p => getTerritoiresProperties(p)) || null
@@ -59,12 +62,45 @@ async function copyProjetVersion(projet) {
   })
 }
 
+async function updateLivrableStockage(livrables) {
+  if (SCANNER_URL) {
+    const updatedLivrables = await Promise.all(livrables.map(async livrable => {
+      const type = livrable.stockage
+      const params = livrable.stockage_params
+
+      const response = await fetch(SCANNER_URL, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({type, params})
+      })
+
+      const {_id} = await response.json()
+
+      return {
+        ...livrable,
+        stockageId: _id
+      }
+    }))
+
+    return updatedLivrables
+  }
+
+  return livrables
+}
+
 export async function createProjet(payload, options = {}) {
   const projet = validateCreation(payload)
   const {creator} = options
 
   projet.creator = creator || 'admin'
   projet.editorKey = computeEditorKey()
+
+  const livrablesWithStockageId = await updateLivrableStockage(projet.livrables)
+
+  projet.livrables = livrablesWithStockageId
 
   mongo.decorateCreation(projet)
 
@@ -95,6 +131,12 @@ export async function deleteProjet(projetId) {
 
 export async function updateProjet(id, payload) {
   const projet = validateChanges(payload)
+
+  if (projet.livrables) {
+    const livrablesWithStockageId = await updateLivrableStockage(projet.livrables)
+
+    projet.livrables = livrablesWithStockageId
+  }
 
   mongo.decorateUpdate(projet)
 
