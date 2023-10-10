@@ -5,13 +5,13 @@ import {debounce} from 'lodash-es'
 
 import formReducer, {checkFormValidity} from 'reducers/form-reducer'
 import {handleRangeError, isInRange} from '../acteurs/utils/error-handlers.js'
-import {natureOptions, diffusionOptions, licenceOptions, publicationOptions, systRefSpatialOptions} from '@/components/suivi-form/livrables/utils/select-options.js'
+import {stripNonNumericCharacters} from '@/lib/string.js'
 
+import {natureOptions, diffusionOptions, licenceOptions, publicationOptions, systRefSpatialOptions} from '@/components/suivi-form/livrables/utils/select-options.js'
 import SelectInput from '@/components/select-input.js'
 import TextInput from '@/components/text-input.js'
 import Button from '@/components/button.js'
 import DateInput from '@/components/date-input.js'
-import {stripNonNumericCharacters} from '@/lib/string.js'
 
 const initState = ({initialValues, fieldsValidations}) => {
   const fields = {
