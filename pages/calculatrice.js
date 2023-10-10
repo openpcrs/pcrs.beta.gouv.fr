@@ -196,12 +196,10 @@ const Calculatrice = () => {
       <Section>
         <Tab
           activeTab={activeTab}
-          tabs={
-            [
-              {value: 'territoire', label: 'Estimation à partir d’un territoire'},
-              {value: 'fichier', label: 'Estimation à partir de la taille d’un fichier'}
-            ]
-          }
+          tabs={[
+            {value: 'territoire', label: 'Estimation à partir d’un territoire'},
+            {value: 'fichier', label: 'Estimation à partir de la taille d’un fichier'}
+          ]}
           handleActiveTab={handleCalculatorTypeChange}
         >
           <>

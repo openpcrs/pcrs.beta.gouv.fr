@@ -54,7 +54,11 @@ const Admin = () => {
         <Tab
           handleActiveTab={setActiveTab}
           activeTab={activeTab}
-          tabs={[{value: 'porteurs', label: 'Porteur de projets'}, {value: 'admin', label: 'Administrateurs'}, {value: 'changes', label: 'Projets édités récemment'}]}
+          tabs={[
+            {value: 'porteurs', label: 'Porteur de projets'},
+            {value: 'admin', label: 'Administrateurs'},
+            {value: 'changes', label: 'Projets édités récemment'}
+          ]}
         >
           <>
             {activeTab === 'porteurs' && <Porteurs />}
