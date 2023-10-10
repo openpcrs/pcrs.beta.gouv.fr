@@ -1,31 +1,13 @@
-import {useState} from 'react'
 import PropTypes from 'prop-types'
 
 import colors from '@/styles/colors.js'
 
 import Perimetre from '@/components/suivi-form/perimetres/perimetre.js'
 import PerimetreForm from '@/components/suivi-form/perimetres/perimetre-form.js'
-import Button from '@/components/button.js'
 
 const Perimetres = ({perimetres, hasMissingData, handlePerimetres, onRequiredFormOpen}) => {
-  const [isAdding, setIsAdding] = useState(false)
-  const [isEditing, setIsEditing] = useState(false)
-  const [updatingPerimetreIndex, setUpdatingPerimetreIndex] = useState()
-
-  const isFormOpen = isAdding || isEditing
-
   const onDelete = index => {
     handlePerimetres(current => current.filter((_, i) => index !== i))
-    setIsAdding(false)
-    setIsEditing(false)
-  }
-
-  const perimetreAsObject = perimetre => {
-    const perimetreAsArray = perimetre.split(':')
-    const perimetreType = perimetreAsArray[0]
-    const perimetreCode = perimetreAsArray[1]
-
-    return {perimetreType, perimetreCode}
   }
 
   return (
@@ -43,81 +25,34 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres, onRequiredFor
         </div>
       </div>
 
+      <PerimetreForm
+        perimetres={perimetres}
+        handlePerimetres={handlePerimetres}
+        onRequiredFormOpen={onRequiredFormOpen}
+      />
+
+      {perimetres.length > 0 && (
+        <hr className='edit-separator fr-my-3w' />
+      )}
+
       <div className='fr-grid-row fr-mt-2w'>
-        {perimetres.map((perimetre, idx) => (
-          <div key={perimetre} className={updatingPerimetreIndex === idx ? 'fr-col-12' : ''}>
+        {perimetres.map((perimetre, index) => {
+          const [type, code] = perimetre.split(':')
+          return (
             <Perimetre
-              perimetre={perimetre}
-              perimetreAsObject={perimetreAsObject(perimetre)}
-              isFormOpen={isFormOpen}
-              handleUpdate={() => {
-                setIsEditing(true)
-                setUpdatingPerimetreIndex(idx)
-              }}
-              handleDelete={() => onDelete(idx)}
+              key={perimetre}
+              type={type}
+              code={code}
+              handleDelete={() => onDelete(index)}
             />
-
-            {updatingPerimetreIndex === idx && (
-              <div>
-                <PerimetreForm
-                  perimetreAsObject={perimetreAsObject}
-                  updatingPerimetreIdx={updatingPerimetreIndex}
-                  handleUpdatingPerimetreIdx={setUpdatingPerimetreIndex}
-                  handleAdding={setIsAdding}
-                  handleEditing={setIsEditing}
-                  perimetres={perimetres}
-                  handlePerimetres={handlePerimetres}
-                  isEditing={isEditing}
-                  onRequiredFormOpen={onRequiredFormOpen}
-                />
-
-                <hr className='edit-separator fr-my-3w' />
-              </div>
-            )}
-          </div>
-        )
-        )}
+          )
+        })}
       </div>
 
-      {isAdding && (
-        <PerimetreForm
-          perimetreAsObject={perimetreAsObject}
-          updatingPerimetreIdx={updatingPerimetreIndex}
-          handleUpdatingPerimetreIdx={setUpdatingPerimetreIndex}
-          handleAdding={setIsAdding}
-          handleEditing={setIsEditing}
-          perimetres={perimetres}
-          handlePerimetres={handlePerimetres}
-          isEditing={isEditing}
-          onRequiredFormOpen={onRequiredFormOpen}
-        />
-      )}
-
-      {!isAdding && !isEditing && (
-        <div className='fr-mt-3w'>
-          <Button
-            label='Ajouter un périmètre'
-            icon='add-circle-fill'
-            iconSide='left'
-            onClick={() => {
-              onRequiredFormOpen(true)
-              setIsAdding(true)
-            }}
-          >
-            Ajouter un périmètre
-          </Button>
-        </div>
-      )}
-
       <style jsx>{`
-        .editing-perimetre {
-          flex: 1;
-        }
-
         hr {
           border-top: 3px solid ${colors.grey850};
         }
-
         .edit-separator {
           border-top: 2px solid ${colors.blueFrance850};
         }

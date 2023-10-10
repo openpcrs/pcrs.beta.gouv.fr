@@ -1,8 +1,8 @@
-import {useState, useCallback, useEffect, useMemo, useRef} from 'react'
+import {useState, useCallback, useEffect, useRef} from 'react'
 import PropTypes from 'prop-types'
 import {debounce} from 'lodash-es'
 
-import {getPerimetersByName, getPerimetersByCode, getCommuneByCode} from '@/lib/decoupage-administratif-api.js'
+import {getPerimetersByName, getCommuneByCode} from '@/lib/decoupage-administratif-api.js'
 
 import {useInput} from '@/hooks/input.js'
 
@@ -12,107 +12,47 @@ import SelectInput from '@/components/select-input.js'
 import Button from '@/components/button.js'
 import AutocompleteInput from '@/components/autocomplete-input.js'
 
-const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObject, updatingPerimetreIdx, handleUpdatingPerimetreIdx, handleAdding, handleEditing, onRequiredFormOpen}) => {
-  const [isFormComplete, setIsFormComplete] = useState(true)
-  const [isLoading, setIsLoading] = useState(false)
-
-  const [type, setType, typeError] = useInput({isRequired: !isFormComplete})
-  const [code, setCode] = useState('')
-
-  const handleNomError = useCallback(() => {
-    if (!isFormComplete) {
-      return `Veuillez sélectionner un nom ${type === 'epci' ? 'd’' : 'de '}${type} valide`
-    }
-  }, [isFormComplete, type])
-
-  const [searchValue, setSearchValue, searchValueError] = useInput({checkValue: handleNomError, isRequired: !isFormComplete})
-
+const PerimetreForm = ({perimetres, handlePerimetres}) => {
+  const [type, setType, typeError] = useInput({initialValue: 'epci', isRequired: true})
+  const [code, setCode] = useState(null)
+  const searchValueInput = useInput({isRequired: true})
+  const [searchValue, setSearchValue, searchValueError] = searchValueInput
+  const resetSearchValueInput = searchValueInput[5]
   const [foundPerimetres, setFoundPerimetres] = useState([])
-  const [updatingPerimetreCode, setUpdatingPerimetreCode] = useState()
+
+  const [isLoading, setIsLoading] = useState(false)
+  const [isFormCompleted, setIsFormCompleted] = useState(false)
   const [errorMessage, setErrorMessage] = useState()
 
+  useEffect(() => {}, [type, code, foundPerimetres])
+
   const onReset = useCallback(() => {
-    handleUpdatingPerimetreIdx(null)
-    handleAdding(false)
-    handleEditing(false)
-    onRequiredFormOpen(false)
-    setIsFormComplete(true)
-    setUpdatingPerimetreCode(null)
     setErrorMessage(null)
 
     setSearchValue('')
-    setCode('')
-    setType('')
+    setCode(null)
+    setFoundPerimetres([])
+    resetSearchValueInput()
   }, [
     setSearchValue,
     setCode,
-    setType,
-    handleUpdatingPerimetreIdx,
-    handleAdding,
-    onRequiredFormOpen,
-    setIsFormComplete,
-    setUpdatingPerimetreCode,
     setErrorMessage,
-    handleEditing
+    resetSearchValueInput
   ])
 
   useEffect(() => {
     if (type && code) {
       setErrorMessage(null)
+      setIsFormCompleted(true)
+    } else {
+      setIsFormCompleted(false)
     }
   }, [type, code])
 
-  const isPerimetreExisting = useMemo(() => {
-    if (isEditing) {
-      return perimetres.includes(`${type}:${code}`) && updatingPerimetreCode !== code
-    }
-
-    return perimetres.includes(`${type}:${code}`)
-  }, [isEditing, updatingPerimetreCode, code, perimetres, type])
-
   const handleSubmit = () => {
-    if (type && code) {
-      if (isPerimetreExisting) {
-        setErrorMessage('Ce périmètre est déjà présent.')
-      } else {
-        if (isEditing) {
-          handlePerimetres(prevPerimetres => {
-            const perimetresCopy = [...prevPerimetres]
-            perimetresCopy[updatingPerimetreIdx] = `${type}:${code}`
-            return perimetresCopy
-          })
-        } else {
-          handlePerimetres([...perimetres, `${type}:${code}`])
-        }
-
-        onReset()
-      }
-    } else {
-      setErrorMessage('Veuillez compléter les champs requis manquants')
-      setIsFormComplete(false)
-    }
+    handlePerimetres([...perimetres, `${type}:${code}`])
+    onReset()
   }
-
-  useEffect(() => {
-    // Switch to perimetre update form
-    if (isEditing) {
-      const {perimetreCode, perimetreType} = perimetreAsObject(perimetres[updatingPerimetreIdx])
-      try {
-        const switchToUpdateForm = async () => {
-          const perimetre = await getPerimetersByCode(perimetreCode, perimetreType)
-          setSearchValue(perimetre.nom)
-          setCode(perimetre.code)
-          setType(perimetreType)
-          setUpdatingPerimetreCode(perimetre.code)
-          onRequiredFormOpen(true)
-        }
-
-        switchToUpdateForm()
-      } catch {
-        setErrorMessage('Impossible de retrouver le périmètre')
-      }
-    }
-  }, [perimetres, isEditing, perimetreAsObject, updatingPerimetreIdx, onRequiredFormOpen, setSearchValue, setType])
 
   const fetchPerimetres = useRef(debounce(async (nom, type, signal) => {
     setIsLoading(true)
@@ -153,21 +93,29 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
     }
   }, [searchValue, type, fetchPerimetres])
 
-  const handleChange = value => {
-    setType(value)
+  const handleChange = e => {
+    const {value} = e.target
 
-    if (value !== type) {
-      setSearchValue('')
-      setCode('')
-      setFoundPerimetres([])
-    }
+    setErrorMessage(null)
+
+    setType(prevType => {
+      if (value !== prevType) {
+        onReset()
+
+        return value
+      }
+    })
   }
 
   const handleSelect = ({code}) => {
     const foundPerimetreName = foundPerimetres.find(result => result.code === code).nom
 
-    setCode(code)
-    setSearchValue(foundPerimetreName)
+    if (perimetres.includes(`${type}:${code}`)) {
+      setErrorMessage('Ce périmètre est déjà présent.')
+    } else {
+      setCode(code)
+      setSearchValue(foundPerimetreName)
+    }
   }
 
   return (
@@ -182,11 +130,7 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
             ariaLabel='types de territoire'
             description='Types de territoire'
             errorMessage={typeError}
-            onValueChange={e => {
-              handleChange(e.target.value)
-              setIsFormComplete(true)
-              setErrorMessage()
-            }}
+            onValueChange={handleChange}
           />
         </div>
 
@@ -203,29 +147,19 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
               isLoading={isLoading}
               renderItem={({nom, code}) => `${nom} - ${code}`}
               onInputChange={e => setSearchValue(e.target.value)}
-              onSelectValue={item => {
-                handleSelect(item)
-              }}
+              onSelectValue={handleSelect}
             />
           </div>
         )}
-      </div>
 
-      <div className='fr-grid-row'>
-        <Button
-          label='Valider l’ajout du périmètre'
-          icon='checkbox-circle-fill'
-          onClick={handleSubmit}
-        >
-          Valider
-        </Button>
-        <div className='fr-pl-3w'>
+        <div className='fr-grid-row'>
           <Button
-            label='Annuler l’ajout du périmètre'
-            buttonStyle='tertiary'
-            onClick={onReset}
+            label='Valider l’ajout du périmètre'
+            icon='checkbox-circle-fill'
+            isDisabled={!isFormCompleted || errorMessage}
+            onClick={handleSubmit}
           >
-            Annuler
+            Ajouter
           </Button>
         </div>
       </div>
@@ -236,18 +170,7 @@ const PerimetreForm = ({perimetres, handlePerimetres, isEditing, perimetreAsObje
 
 PerimetreForm.propTypes = {
   perimetres: PropTypes.array.isRequired,
-  updatingPerimetreIdx: PropTypes.number,
-  isEditing: PropTypes.bool.isRequired,
-  handlePerimetres: PropTypes.func.isRequired,
-  handleUpdatingPerimetreIdx: PropTypes.func.isRequired,
-  handleAdding: PropTypes.func.isRequired,
-  handleEditing: PropTypes.func.isRequired,
-  onRequiredFormOpen: PropTypes.func.isRequired,
-  perimetreAsObject: PropTypes.func.isRequired
-}
-
-PerimetreForm.defaultProps = {
-  updatingPerimetreIdx: null
+  handlePerimetres: PropTypes.func.isRequired
 }
 
 export default PerimetreForm
