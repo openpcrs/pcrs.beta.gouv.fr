@@ -251,12 +251,16 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
   )
 }
 
+Map.defaultProps = {
+  isMobile: false
+}
+
 Map.propTypes = {
   isMobile: PropTypes.bool,
-  geometry: PropTypes.object,
   projetId: PropTypes.string,
-  handleSelectProjets: PropTypes.func,
-  handleNewProject: PropTypes.func
+  geometry: PropTypes.object.isRequired,
+  handleSelectProjets: PropTypes.func.isRequired,
+  handleNewProject: PropTypes.func.isRequired
 }
 
 export default Map

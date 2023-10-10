@@ -16,7 +16,8 @@ const Legend = ({isMobile, legend}) => {
         bottom: isMobile ? '' : '5px',
         backgroundColor: 'rgba(255, 255, 255, .8)',
         padding: '.5em',
-        borderRadius: '5px'
+        borderRadius: '5px',
+        zIndex: 1
       }}
     >
       {isOpen ? (
