@@ -7,7 +7,7 @@ const EventCard = ({title, date, start, end, isOnSite, isOnline, address, eventH
   <div className='eventcard-container fr-pb-1w'>
     <div className='event-header fr-px-2w'>
       {eventHref ? (
-        <h3 className='fr-text--lg fr-my-0'>
+        <h3 className='fr-text--md fr-my-0'>
           <a href={eventHref}>{title}</a>
         </h3>
       ) : (
