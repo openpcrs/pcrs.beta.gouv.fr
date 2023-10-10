@@ -32,6 +32,7 @@ const Tab = ({activeTab, tabs, icon, children, handleActiveTab}) => (
     <style jsx>{`
       .content-wrapper {
         border: 1px solid #dddddd;
+        border-top: none;
        }
     `}</style>
   </div>
