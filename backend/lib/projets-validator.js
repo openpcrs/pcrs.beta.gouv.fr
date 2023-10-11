@@ -174,7 +174,7 @@ const livrablesSchemaCreation = Joi.object().keys({
       url: Joi.string().required(),
       authorization: Joi.string()
     }).messages({
-      'object.unknown': 'Un clé est invalide en mode http'
+      'object.unknown': 'Une clé est invalide en mode http'
     }),
     otherwise: Joi.object({
       host: Joi.string().required(),
@@ -182,7 +182,7 @@ const livrablesSchemaCreation = Joi.object().keys({
       user: Joi.string(),
       password: Joi.string(),
       path: Joi.string(),
-      sercure: Joi.bool()
+      secure: Joi.bool()
     })
   })
 }).messages({
@@ -386,7 +386,7 @@ const livrablesSchemaUpdate = Joi.object().keys({
       user: Joi.string(),
       password: Joi.string(),
       path: Joi.string(),
-      sercure: Joi.bool()
+      secure: Joi.bool()
     })
   })
 }).messages({
