@@ -12,7 +12,7 @@ import SelectInput from '@/components/select-input.js'
 import Button from '@/components/button.js'
 import AutocompleteInput from '@/components/autocomplete-input.js'
 
-const PerimetreForm = ({perimetres, handlePerimetres}) => {
+const PerimetreForm = ({perimetres, onCancel, onSubmit}) => {
   const [type, setType, typeError] = useInput({initialValue: 'epci', isRequired: true})
   const [code, setCode] = useState(null)
   const searchValueInput = useInput({isRequired: true})
@@ -50,8 +50,7 @@ const PerimetreForm = ({perimetres, handlePerimetres}) => {
   }, [type, code])
 
   const handleSubmit = () => {
-    handlePerimetres([...perimetres, `${type}:${code}`])
-    onReset()
+    onSubmit({type, code})
   }
 
   const fetchPerimetres = useRef(debounce(async (nom, type, signal) => {
@@ -152,7 +151,7 @@ const PerimetreForm = ({perimetres, handlePerimetres}) => {
           </div>
         )}
 
-        <div className='fr-grid-row'>
+        <div className='fr-grid-row fr-mt-3w'>
           <Button
             label='Valider l’ajout du périmètre'
             icon='checkbox-circle-fill'
@@ -161,8 +160,21 @@ const PerimetreForm = ({perimetres, handlePerimetres}) => {
           >
             Ajouter
           </Button>
+
+          {onCancel && (
+            <div className='fr-pl-3w'>
+              <Button
+                label='Annuler l’ajout du livrable'
+                buttonStyle='tertiary'
+                onClick={onCancel}
+              >
+                Annuler
+              </Button>
+            </div>
+          )}
         </div>
       </div>
+
       {errorMessage && <p id='text-input-error-desc-error' className='fr-error-text'>{errorMessage}</p>}
     </div>
   )
@@ -170,7 +182,8 @@ const PerimetreForm = ({perimetres, handlePerimetres}) => {
 
 PerimetreForm.propTypes = {
   perimetres: PropTypes.array.isRequired,
-  handlePerimetres: PropTypes.func.isRequired
+  onCancel: PropTypes.func,
+  onSubmit: PropTypes.func.isRequired
 }
 
 export default PerimetreForm

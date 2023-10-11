@@ -1,11 +1,21 @@
 import PropTypes from 'prop-types'
 
+import {useState} from 'react'
 import colors from '@/styles/colors.js'
 
 import Perimetre from '@/components/suivi-form/perimetres/perimetre.js'
 import PerimetreForm from '@/components/suivi-form/perimetres/perimetre-form.js'
+import Button from '@/components/button.js'
 
 const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
+  const hasPerimetres = perimetres.length > 0
+  const [perimetre, setPerimetre] = useState(hasPerimetres ? null : {})
+
+  const handlePerimetre = ({type, code}) => {
+    handlePerimetres([...perimetres, `${type}:${code}`])
+    setPerimetre(null)
+  }
+
   const onDelete = index => {
     handlePerimetres(current => current.filter((_, i) => index !== i))
   }
@@ -15,23 +25,14 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
       <h3 className='fr-h5 fr-m-0'>Périmètres *</h3>
       <hr className='fr-my-3w' />
 
-      {(hasMissingData && perimetres.length === 0) && (
-        <div className='fr-error-text fr-mt-1w'>Au moins un périmètre doit être ajouté</div>
-      )}
-
       <div className='fr-notice fr-notice--info'>
         <div className='fr-mx-2w fr-notice__body'>
           <p>les référentiels INSEE les plus à jour qui ne tiennent pas compte des territoires fusionnés il y a plus d’un an </p>
         </div>
       </div>
 
-      <PerimetreForm
-        perimetres={perimetres}
-        handlePerimetres={handlePerimetres}
-      />
-
-      {perimetres.length > 0 && (
-        <hr className='edit-separator fr-my-3w' />
+      {(hasMissingData && perimetres.length === 0) && (
+        <div className='fr-error-text fr-mt-1w'>Au moins un périmètre doit être ajouté</div>
       )}
 
       <div className='fr-grid-row fr-mt-2w'>
@@ -47,6 +48,29 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
           )
         })}
       </div>
+
+      {hasPerimetres && (
+        <hr className='edit-separator fr-my-3w' />
+      )}
+
+      {perimetre ? (
+        <PerimetreForm
+          perimetres={perimetres}
+          onCancel={hasPerimetres ? () => setPerimetre(null) : null}
+          onSubmit={handlePerimetre}
+        />
+      ) : (
+        <div className='fr-mt-3w'>
+          <Button
+            label='Ajouter un périmètre'
+            icon='add-circle-fill'
+            iconSide='left'
+            onClick={() => setPerimetre({})}
+          >
+            Ajouter un périmètre
+          </Button>
+        </div>
+      )}
 
       <style jsx>{`
         hr {
