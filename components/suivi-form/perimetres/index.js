@@ -5,7 +5,7 @@ import colors from '@/styles/colors.js'
 import Perimetre from '@/components/suivi-form/perimetres/perimetre.js'
 import PerimetreForm from '@/components/suivi-form/perimetres/perimetre-form.js'
 
-const Perimetres = ({perimetres, hasMissingData, handlePerimetres, onRequiredFormOpen}) => {
+const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
   const onDelete = index => {
     handlePerimetres(current => current.filter((_, i) => index !== i))
   }
@@ -28,7 +28,6 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres, onRequiredFor
       <PerimetreForm
         perimetres={perimetres}
         handlePerimetres={handlePerimetres}
-        onRequiredFormOpen={onRequiredFormOpen}
       />
 
       {perimetres.length > 0 && (
@@ -64,8 +63,7 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres, onRequiredFor
 Perimetres.propTypes = {
   perimetres: PropTypes.array.isRequired,
   hasMissingData: PropTypes.bool,
-  handlePerimetres: PropTypes.func.isRequired,
-  onRequiredFormOpen: PropTypes.func.isRequired
+  handlePerimetres: PropTypes.func.isRequired
 }
 
 Perimetres.defaultProps = {
