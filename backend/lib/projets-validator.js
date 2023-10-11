@@ -159,7 +159,6 @@ const livrablesSchemaCreation = Joi.object().keys({
   ).allow(null).messages({
     'any.only': 'Ce type de publication n’est pas valide'
   }),
-  stockageId: Joi.string().allow(null),
   stockage: Joi.valid(
     'http',
     'ftp',
