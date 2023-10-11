@@ -1,5 +1,7 @@
-import {useState, useCallback, useEffect, useMemo} from 'react'
+import {useState} from 'react'
 import PropTypes from 'prop-types'
+
+import {stripNonNumericCharacters} from '@/lib/string.js'
 
 import {useInput} from '@/hooks/input.js'
 
@@ -11,107 +13,36 @@ import DateInput from '@/components/date-input.js'
 import Button from '@/components/button.js'
 import NumberInput from '@/components/number-input.js'
 
-const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventions, handleEditing, handleAdding, handleUpdatingSubvIdx}) => {
-  const [isFormComplete, setIsFormComplete] = useState(true)
+const SubventionForm = ({initialValues, isSubventionExisting, onSubmit, onCancel}) => {
   const [errorMessage, setErrorMessage] = useState()
-  const [updatingName, setUpdatingName] = useState()
 
-  const [nom, setNom, nomError] = useInput({isRequired: !isFormComplete})
-  const [nature, setNature, natureError] = useInput({isRequired: !isFormComplete})
-  const [montant, setMontant, montantError, handleMontantValidity, isMontantInputValid] = useInput({})
-  const [echeance, setEcheance] = useInput({})
+  const handleSubventionNameError = name => isSubventionExisting(name) ? 'Cette subvention existe déjà' : null
 
-  const isCompleteOnSubmit = Boolean(nom && nature)
+  const [nom, setNom, nomError] = useInput({initialValue: initialValues.nom, checkValue: handleSubventionNameError, isRequired: true})
+  const [nature, setNature, natureError] = useInput({initialValue: initialValues.nature, isRequired: true})
+  const [montant, setMontant, montantError, handleMontantValidity] = useInput({initialValue: initialValues?.montant?.toString()})
+  const [echeance, setEcheance] = useInput({initialValue: initialValues.echeance})
 
-  useEffect(() => {
-    if (isCompleteOnSubmit && isMontantInputValid) {
-      setErrorMessage(null)
-    }
-  }, [isCompleteOnSubmit, isMontantInputValid])
-
-  const isSubventionExisting = useMemo(() => {
-    if (isEditing) {
-      return subventions.some(subvention => subvention.nom === nom) && nom !== updatingName
-    }
-
-    return subventions.some(subvention => subvention.nom === nom)
-  }, [subventions, updatingName, nom, isEditing])
+  const isFormCompleted = Boolean(nom && nature)
 
   const handleSubmit = () => {
     setErrorMessage(null)
 
-    if (isCompleteOnSubmit) {
-      if (isMontantInputValid) {
-        if (!nom || !nature) {
-          setIsFormComplete(false)
-        } else if (isSubventionExisting) {
-          setErrorMessage('Cette subvention existe déjà')
-        } else {
-          const newSubvention = {
-            nom,
-            nature,
-            montant: Number(montant) || null,
-            echeance: echeance ? echeance : null
-          }
-          if (isEditing) {
-            handleSubventions(prevSubventions => {
-              const subventionsCopy = [...prevSubventions]
-              subventionsCopy[updatingSubvIdx] = newSubvention
-              return subventionsCopy
-            })
-          } else {
-            handleSubventions([...subventions, newSubvention])
-          }
-
-          onReset()
-        }
-      } else {
-        setErrorMessage('Veuillez modifier les champs invalides')
-      }
-    } else {
-      setIsFormComplete(false)
-      setErrorMessage('Veuillez compléter les champs requis manquants')
+    const newSubvention = {
+      nom,
+      nature,
+      montant: Number(montant) || null,
+      echeance: echeance ? echeance : null
     }
+
+    onSubmit(newSubvention)
   }
 
-  const onReset = useCallback(() => {
-    handleAdding(false)
-    handleEditing(false)
-    setIsFormComplete(true)
-    handleUpdatingSubvIdx(null)
-    setUpdatingName(null)
-    setErrorMessage(null)
-
-    setNom('')
-    setNature('')
-    setEcheance('')
-    setMontant('')
-  }, [
-    handleAdding,
-    handleEditing,
-    setIsFormComplete,
-    handleUpdatingSubvIdx,
-    setNom,
-    setNature,
-    setEcheance,
-    setMontant,
-    setUpdatingName,
-    setErrorMessage
-  ])
-
-  useEffect(() => {
-    // Switch to subvention update form
-    if (isEditing) {
-      const subvToUpdate = subventions[updatingSubvIdx]
-
-      setNom(subvToUpdate.nom)
-      setNature(subvToUpdate.nature)
-      setEcheance(subvToUpdate.echeance || '')
-      setMontant(subvToUpdate.montant.toString() || '')
-
-      setUpdatingName(subvToUpdate.nom)
-    }
-  }, [isEditing, subventions, updatingSubvIdx, setNature, setNom, setEcheance, setMontant])
+  const handleMontant = e => {
+    const {value} = e.target
+    const montant = stripNonNumericCharacters(value)
+    setMontant(montant)
+  }
 
   return (
     <div>
@@ -153,7 +84,7 @@ const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventi
               min={0}
               errorMessage={montantError}
               setIsValueValid={handleMontantValidity}
-              onValueChange={e => setMontant(e.target.value)}
+              onValueChange={handleMontant}
             />
           </div>
 
@@ -172,6 +103,7 @@ const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventi
         <Button
           label='Valider l’ajout de la subvention'
           icon='checkbox-circle-fill'
+          isDisabled={!isFormCompleted || errorMessage}
           onClick={handleSubmit}
         >
           Valider
@@ -180,7 +112,7 @@ const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventi
           <Button
             label='Annuler l’ajout de la subvention'
             buttonStyle='tertiary'
-            onClick={onReset}
+            onClick={onCancel}
           >
             Annuler
           </Button>
@@ -192,18 +124,15 @@ const SubventionForm = ({subventions, updatingSubvIdx, isEditing, handleSubventi
 }
 
 SubventionForm.propTypes = {
-  subventions: PropTypes.array,
-  updatingSubvIdx: PropTypes.number,
-  isEditing: PropTypes.bool.isRequired,
-  handleSubventions: PropTypes.func.isRequired,
-  handleEditing: PropTypes.func.isRequired,
-  handleAdding: PropTypes.func.isRequired,
-  handleUpdatingSubvIdx: PropTypes.func.isRequired
-}
-
-SubventionForm.defaultProps = {
-  updatingSubvIdx: null,
-  subventions: []
+  initialValues: PropTypes.shape({
+    nom: PropTypes.string,
+    nature: PropTypes.string,
+    montant: PropTypes.number,
+    echeance: PropTypes.string
+  }),
+  isSubventionExisting: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired
 }
 
 export default SubventionForm
