@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import {useRouter} from 'next/router'
 import {find} from 'lodash'
 
 import {formatDate} from '@/lib/date-utils.js'
@@ -11,8 +12,13 @@ import Timeline from '@/components/map-sidebar/timeline.js'
 import PcrsInfos from '@/components/map-sidebar/pcrs-infos.js'
 import Documents from '@/components/map-sidebar/documents.js'
 import Contact from '@/components/map-sidebar/contact.js'
+import Button from '@/components/button.js'
+
+const SHARE_URL = process.env.NEXT_PUBLIC_PROJECT_SHARE_URL || 'https://pcrs.beta.gouv.fr'
 
 const MapSidebar = ({projet, onClose, onProjetChange, projets}) => {
+  const router = useRouter()
+
   const {status} = PCRS_DATA_COLORS
   const {
     nom,
@@ -94,6 +100,16 @@ const MapSidebar = ({projet, onClose, onProjetChange, projets}) => {
           phone={contactAPLC?.telephone}
           mail={contactAPLC?.mail}
         />
+
+        <div className='fr-mt-5w'>
+          <Button
+            size='sm'
+            icon='arrow-right-line'
+            onClick={() => router.push(`${SHARE_URL}/projet?id=${_id}`)}
+          >
+            Consulter le projet
+          </Button>
+        </div>
       </div>
 
       <style jsx>{`
