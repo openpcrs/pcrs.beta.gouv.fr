@@ -181,7 +181,7 @@ const livrablesSchemaCreation = Joi.object().keys({
       user: Joi.string(),
       password: Joi.string(),
       path: Joi.string(),
-      secure: Joi.bool()
+      secure: Joi.bool().default(false)
     })
   })
 }).messages({
@@ -385,7 +385,7 @@ const livrablesSchemaUpdate = Joi.object().keys({
       user: Joi.string(),
       password: Joi.string(),
       path: Joi.string(),
-      secure: Joi.bool()
+      secure: Joi.bool().default(false)
     })
   })
 }).messages({
