@@ -100,8 +100,6 @@ NumberInput.defaultProps = {
   placeholder: null,
   errorMessage: null,
   description: null,
-  min: null,
-  max: null,
   isRequired: false,
   isDisabled: false,
   onFocus: null,
