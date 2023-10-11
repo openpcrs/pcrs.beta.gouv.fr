@@ -12,6 +12,7 @@ import SelectInput from '@/components/select-input.js'
 import TextInput from '@/components/text-input.js'
 import Button from '@/components/button.js'
 import DateInput from '@/components/date-input.js'
+import StockageForm from '@/components/suivi-form/livrables/stockage-form/index.js'
 
 const initState = ({initialValues, fieldsValidations}) => {
   const fields = {
@@ -66,6 +67,11 @@ const initState = ({initialValues, fieldsValidations}) => {
       value: initialValues.date_livraison || '',
       isRequired: false,
       isValid: Boolean(initialValues.date_livraison)
+    },
+    stockage: {
+      value: initialValues.stockage || '',
+      isRequired: false,
+      isValid: Boolean(initialValues.stockage)
     }
   }
   return {fields, isFormValid: checkFormValidity(fields)}
@@ -242,6 +248,10 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
             onValueChange={handleInputChange}
           />
         </div>
+        <StockageForm
+          values={null}
+          onValueChange={handleInputChange}
+        />
       </div>
 
       <div className='fr-grid-row fr-mt-3w'>
