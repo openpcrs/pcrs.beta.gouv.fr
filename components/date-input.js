@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-const DateInput = ({label, value, ariaLabel, errorMessage, description, isRequired, isDisabled, onValueChange}) => {
+const DateInput = ({label, value, ariaLabel, errorMessage, description, isRequired, isDisabled, onValueChange, ...props}) => {
   const inputState = errorMessage ? 'error' : ''
 
   return (
@@ -10,6 +10,7 @@ const DateInput = ({label, value, ariaLabel, errorMessage, description, isRequir
 
       <div>
         <input
+          {...props}
           className={`fr-input fr-input--${inputState}`}
           type='date'
           value={value}
