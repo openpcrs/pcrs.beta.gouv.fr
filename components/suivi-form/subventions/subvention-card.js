@@ -3,6 +3,8 @@ import {formatDate} from '@/lib/date-utils.js'
 
 import colors from '@/styles/colors.js'
 
+import {formatNumber} from '@/lib/string.js'
+
 import {getNatures} from '@/components/suivi-form/subventions/utils/select-options.js'
 
 const SubventionCard = ({nom, montant, echeance, nature, isDisabled, handleDelete, handleEdition}) => (
@@ -25,7 +27,7 @@ const SubventionCard = ({nom, montant, echeance, nature, isDisabled, handleDelet
       <div className='fr-grid-row fr-col-12 fr-col-xl-6'>
         <div className='fr-grid-row fr-col-12 fr-col-md-6 fr-p-1w'>
           <div className=' label fr-col-12 fr-text--lg fr-m-0'>Montant</div>
-          <div className='fr-m-0 fr-col-12 fr-text--sm'>{montant || 'N/A'}</div>
+          <div className='fr-m-0 fr-col-12 fr-text--sm'>{montant ? `${formatNumber(montant)} €` : 'N/A'}</div>
         </div>
 
         <div className='fr-grid-row col-12 fr-col-md-6 fr-p-1w'>
