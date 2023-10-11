@@ -97,6 +97,7 @@ const ProjetInfos = ({project}) => {
         .general-infos {
           background: ${colors.grey975};
           border-radius: 5px;
+          height: fit-content;
         }
       `}</style>
     </div>
