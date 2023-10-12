@@ -1,5 +1,5 @@
 import {formatDate} from '@/lib/date-utils.js'
-import {LICENCES_LABELS, NATURES_LABELS, PUBLICATIONS_LABELS, DIFFUSIONS_LABELS} from '@/components/suivi-form/utils/labels.js'
+import {LICENCES_LABELS, NATURES_LABELS, PUBLICATIONS_LABELS, DIFFUSIONS_LABELS, SUBVENTIONS_NATURES_LABELS} from '@/components/suivi-form/utils/labels.js'
 
 import colors from '@/styles/colors.js'
 import ListItem from '@/components/projet/list-item.js'
@@ -42,6 +42,34 @@ export const acteurRenderItem = acteur => (
       <div className='fr-mt-1w'>Téléphone : {acteur.mail || 'Non renseigné'}</div>
       <div className='fr-mt-1w'>Part de financement : {acteur.finance_part_perc || 'Non renseigné'}</div>
       <div className='fr-mt-1w'>Montant du financement : {acteur.finance_part_euro || 'Non renseigné'}</div>
+
+      <style jsx>{`
+      .content-wrapper {
+        background: ${colors.info425};
+        color: white;
+        border-radius: 5px;
+        text-align: left;
+        gap: 5px;
+      }
+
+      .content-wrapper div {
+        font-weight: bold
+      }
+
+      .content-wrapper span {
+        font-weight: normal;
+      }
+    `}</style>
+    </div>
+  </ListItem>
+)
+
+export const subventionRenderItem = subvention => (
+  <ListItem title={subvention.nom}>
+    <div className='content-wrapper fr-p-2w'>
+      <div>Nature : {SUBVENTIONS_NATURES_LABELS[subvention.nature]}</div>
+      <div className='fr-mt-1w'>Montant : <span>{`${subvention.montant ? `${subvention.montant}€` : 'Non renseigné'}`}</span></div>
+      <div className='fr-mt-1w'>Échance : {formatDate(subvention.echeance) || 'Non renseigné'}</div>
 
       <style jsx>{`
       .content-wrapper {
