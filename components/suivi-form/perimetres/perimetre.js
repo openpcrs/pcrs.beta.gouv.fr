@@ -6,18 +6,15 @@ import colors from '@/styles/colors.js'
 import {getPerimetersByCode} from '@/lib/decoupage-administratif-api.js'
 import Loader from '@/components/loader.js'
 
-const Perimetre = ({perimetre, perimetreAsObject, isFormOpen, handleUpdate, handleDelete}) => {
+const Perimetre = ({type, code, handleDelete}) => {
   const [isLoading, setIsLoading] = useState(true)
-  const [type, setType] = useState(null)
   const [nom, setNom] = useState(null)
-  const {perimetreType, perimetreCode} = perimetreAsObject
 
   useEffect(() => {
     const getPerimetreData = async () => {
       try {
-        const perimetreData = await getPerimetersByCode(perimetreCode, perimetreType)
+        const perimetreData = await getPerimetersByCode(code, type)
 
-        setType(perimetreType)
         setNom(perimetreData.nom)
       } catch (error) {
         throw new Error(error)
@@ -27,10 +24,10 @@ const Perimetre = ({perimetre, perimetreAsObject, isFormOpen, handleUpdate, hand
     }
 
     getPerimetreData()
-  }, [perimetre, perimetreType, perimetreCode])
+  }, [type, code])
 
   return (
-    <div className={`fr-grid-row fr-mr-1w fr-px-2w fr-py-1w fr-my-1w card-container ${isFormOpen ? 'card-disable' : ''}`}>
+    <div className='fr-grid-row fr-mr-1w fr-px-2w fr-py-1w fr-my-1w card-container'>
       {isLoading ? (
         <div className='fr-grid-row fr-grid-row--center'>
           <Loader size='small' />
@@ -44,15 +41,6 @@ const Perimetre = ({perimetre, perimetreAsObject, isFormOpen, handleUpdate, hand
           </div>
 
           <div className='fr-pl-6w'>
-            <button
-              type='button'
-              className='update-button fr-mr-1w fr-col-5'
-              aria-label='Modifier le périmètre'
-              onClick={handleUpdate}
-            >
-              <span className='fr-icon-edit-line' aria-hidden='true' />
-            </button>
-
             <button
               type='button'
               aria-label='Supprimer le périmètre'
@@ -71,26 +59,14 @@ const Perimetre = ({perimetre, perimetreAsObject, isFormOpen, handleUpdate, hand
           border-radius: 4px;
         }
 
-        .card-disable {
-          opacity: 30%;
-          pointer-events: none;
-        }
-
         .label {
           font-weight: bold;
           color: ${colors.blueFranceSun113};
         }
 
-        .update-button, .delete-button {
+        .delete-button {
           text-decoration: underline;
           width: fit-content;
-        }
-
-        .update-button {
-          color: ${colors.blueFranceSun113};
-        }
-
-        .delete-button {
           color: ${colors.error425};
         }
       `}</style>
@@ -99,10 +75,8 @@ const Perimetre = ({perimetre, perimetreAsObject, isFormOpen, handleUpdate, hand
 }
 
 Perimetre.propTypes = {
-  perimetre: PropTypes.string.isRequired,
-  perimetreAsObject: PropTypes.object.isRequired,
-  isFormOpen: PropTypes.bool.isRequired,
-  handleUpdate: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired,
+  code: PropTypes.string.isRequired,
   handleDelete: PropTypes.func.isRequired
 }
 

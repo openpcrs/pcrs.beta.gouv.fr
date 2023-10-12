@@ -28,7 +28,6 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
   const [validationMessage, setValidationMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [errors, setErrors] = useState([])
-  const [isRequiredFormOpen, setIsRequiredFormOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
   const [editedProjectId, setEditedProjectId] = useState(null)
@@ -50,10 +49,10 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
   const handleDeleteModalOpen = () => setIsDeleteModalOpen(!isDeleteModalOpen)
 
   useEffect(() => {
-    if (!hasMissingRequiredItems && !isRequiredFormOpen) {
+    if (!hasMissingRequiredItems) {
       setErrorMessage(null)
     }
-  }, [hasMissingRequiredItems, isRequiredFormOpen])
+  }, [hasMissingRequiredItems])
 
   const handleAuthentificationModal = () => router.push('/suivi-pcrs')
   const handleModal = () => router.push('/suivi-pcrs')
@@ -77,10 +76,6 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
     }
 
     try {
-      if (isRequiredFormOpen) {
-        return setErrorMessage('Veuiller valider ou annuler le livrable, l’acteur ou le périmètre en cours d’ajout.')
-      }
-
       if (hasMissingRequiredItems) {
         setHasMissingItemsOnValidation(true)
         handleScrollToError()
@@ -226,7 +221,6 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
               perimetres={projetPerimetres}
               handlePerimetres={setProjetPerimetres}
               hasMissingData={hasMissingItemsOnValidation}
-              onRequiredFormOpen={setIsRequiredFormOpen}
             />
           </div>
 
