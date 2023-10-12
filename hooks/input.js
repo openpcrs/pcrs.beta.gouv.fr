@@ -1,11 +1,19 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useRef, useCallback} from 'react'
 
 import PropTypes from 'prop-types'
 
 export const useInput = ({initialValue, checkValue, isRequired}) => {
   const [input, setInput] = useState(initialValue || '')
   const [error, setError] = useState(null)
-  const [isValueValid, setIsValueValid] = useState(true)
+  const [isValueValid, setIsValueValid] = useState()
+
+  const hasInputBeenUpdated = useRef(Boolean(initialValue))
+
+  useEffect(() => {
+    if (input !== '') {
+      hasInputBeenUpdated.current = true
+    }
+  }, [input])
 
   useEffect(() => {
     setError(null)
@@ -19,12 +27,19 @@ export const useInput = ({initialValue, checkValue, isRequired}) => {
     }
 
     // Handle errors messages if required input empty
-    if (!input && isRequired) {
+    if (!input && isRequired && hasInputBeenUpdated.current) {
       setError('Ce champs est requis')
     }
   }, [input, isRequired, checkValue])
 
-  return [input, setInput, error, setIsValueValid, isValueValid]
+  const resetInput = useCallback(() => {
+    setError(null)
+    setInput(initialValue || '')
+    setIsValueValid()
+    hasInputBeenUpdated.current = false
+  }, [initialValue])
+
+  return [input, setInput, error, setIsValueValid, isValueValid, resetInput]
 }
 
 useInput.propTypes = {
