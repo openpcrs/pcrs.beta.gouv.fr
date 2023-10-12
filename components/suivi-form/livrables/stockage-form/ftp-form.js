@@ -1,7 +1,5 @@
-import {useState, useEffect} from 'react'
+import {useState} from 'react'
 import PropTypes from 'prop-types'
-
-import {isURLValid} from '@/components/suivi-form/livrables/utils/url.js'
 
 import TextInput from '@/components/text-input.js'
 import NumberInput from '@/components/number-input.js'
@@ -9,7 +7,6 @@ import Button from '@/components/button.js'
 
 const FtpForm = ({initialValues, onSubmit, onCancel}) => {
   const [values, setValues] = useState(initialValues)
-  const [errorMessage, setErrorMessage] = useState({hostInput: null, submitError: null})
   const [checkedStatus, setCheckedStatus] = useState(false)
 
   function handleValuesChange(e) {
@@ -21,126 +18,108 @@ const FtpForm = ({initialValues, onSubmit, onCancel}) => {
     setCheckedStatus(isChecked)
   }
 
-  function handleSubmit() {
-    setErrorMessage({hostInput: null, submitError: null})
-
-    if (isURLValid(values.host)) {
-      if ((!values.user && values.secure) || (values.secure && !values.password)) {
-        setErrorMessage({...errorMessage, submitError: 'Un stockage sécurisé nécessite un nom d’utilisateur et un mot de passe'})
-      } else {
-        onSubmit(values)
-        setErrorMessage({hostInput: null, submitError: null})
-      }
-    } else {
-      setErrorMessage({...errorMessage, hostInput: 'Cette URL n’est pas valide'})
-    }
+  async function handleSubmit() {
+    onSubmit(values)
   }
-
-  useEffect(() => {
-    if (!values.host) {
-      setErrorMessage({hostInput: null, submitError: null})
-    }
-  }, [values.host])
 
   return (
     <div>
+      <div className='fr-notice fr-notice--info fr-mt-3w'>
+        <div className='fr-mx-2w fr-notice__body'>
+          <p>Les informations de connexion peuvent être rendues publiques</p>
+        </div>
+      </div>
+
       <div className='fr-mt-6w'>
         <TextInput
+          isRequired
           name='host'
-          label='URL du serveur'
-          placeholder='ftp://...'
-          description='Lien d’accès au(x) fichier(s)'
-          errorMessage={errorMessage.hostInput}
+          label='Nom d’hôte'
+          placeholder='ftp3.ign.fr'
+          description='Nom d’hôte du serveur ou adresse IP'
           value={values.host || ''}
           onValueChange={e => handleValuesChange(e)}
         />
       </div>
 
-      {values.host && (
-        <div>
-          <div className='fr-mt-6w'>
+      <div>
+        <div className='fr-mt-6w'>
+          <TextInput
+            name='startPath'
+            label='Chemin du répertoire'
+            placeholder='"/" par défaut'
+            description='Chemin du répertoire contenant les fichiers du livrable. Le processus d’analyse prendra en compte tous les fichiers et répertoires accessibles à partir de ce chemin.'
+            value={values.startPath || ''}
+            onValueChange={e => handleValuesChange(e)}
+          />
+        </div>
+
+        <div className='fr-mt-6w'>
+          <NumberInput
+            name='port'
+            label='Port'
+            placeholder=''
+            description='Port d’écoute du service FTP'
+            value={values.port || ''}
+            onValueChange={e => handleValuesChange(e)}
+          />
+        </div>
+
+        <div className='fr-grid-row fr-mt-6w'>
+          <div className='fr-col-12 fr-col-md-6'>
             <TextInput
-              name='path'
-              label='Chemin'
-              placeholder='"/" par défaut'
-              description='Chemin du dossier contenant le livrable'
-              value={values.path || ''}
+              name='username'
+              label='Nom d’utilisateur'
+              description=''
+              value={values.user || ''}
               onValueChange={e => handleValuesChange(e)}
             />
           </div>
 
-          <div className='fr-mt-6w'>
-            <NumberInput
-              name='port'
-              label='Port'
-              placeholder='Port 21 par défaut'
-              description='Port de connexion au service FTP'
-              value={values.port || ''}
+          <div className='fr-col-12 fr-mt-3w fr-mt-md-0 fr-col-md-6 fr-pl-md-3w'>
+            <TextInput
+              name='password'
+              label='Mot de passe'
+              type='password'
+              description=''
+              value={values.password || ''}
               onValueChange={e => handleValuesChange(e)}
             />
-          </div>
-
-          <div className='fr-mt-6w input-container'>
-            <input
-              type='checkbox'
-              name='secure'
-              checked={checkedStatus}
-              onChange={() =>
-                handleCheckedStatus(!checkedStatus)}
-            />
-            <label className='fr-label'>
-              Ce serveur est privé
-            </label>
-          </div>
-
-          {checkedStatus && (
-            <div>
-              <div className='fr-mt-6w'>
-                <TextInput
-                  isRequired
-                  name='user'
-                  label='Nom d’utilisateur'
-                  description='Identifiant permettant l’accès au serveur'
-                  value={values.user || ''}
-                  onValueChange={e => handleValuesChange(e)}
-                />
-              </div>
-
-              <div className='fr-mt-6w'>
-                <TextInput
-                  isRequired
-                  name='password'
-                  label='Mot de passe'
-                  type='password'
-                  description='Entrer le mot de passe permettant l’accès au(x) fichier(s)'
-                  value={values.password || ''}
-                  onValueChange={e => handleValuesChange(e)}
-                />
-              </div>
-            </div>
-          )}
-
-          <div className='fr-mt-3w'>
-            <Button
-              label='Ajouter le serveur'
-              isDisabled={!values.host}
-              onClick={() => handleSubmit(values)}
-            >
-              Ajouter le serveur FTP
-            </Button>
-            <Button
-              style={{marginLeft: '1em'}}
-              label='Annuler l’ajout du serveur'
-              buttonStyle='secondary'
-              onClick={onCancel}
-            >
-              Annuler
-            </Button>
           </div>
         </div>
-      )}
 
-      {errorMessage.submitError && <p id='text-input-error-desc-error' className='fr-error-text'>{errorMessage.submitError}</p>}
+        <div className='fr-mt-6w input-container'>
+          <input
+            type='checkbox'
+            name='secure'
+            checked={checkedStatus}
+            onChange={() =>
+              handleCheckedStatus(!checkedStatus)}
+          />
+          <label className='fr-label'>
+            Le serveur FTP est sécurisé (FTPS, TLS/SSL)
+          </label>
+        </div>
+
+        <div className='fr-mt-3w'>
+          <Button
+            label='Ajouter le serveur'
+            isDisabled={!values.host}
+            onClick={() => handleSubmit(values)}
+          >
+            Ajouter le serveur FTP
+          </Button>
+          <Button
+            style={{marginLeft: '1em'}}
+            label='Annuler l’ajout du serveur'
+            buttonStyle='secondary'
+            onClick={onCancel}
+          >
+            Annuler
+          </Button>
+        </div>
+      </div>
+
       <style jsx>{`
         .input-container {
           display: flex;
