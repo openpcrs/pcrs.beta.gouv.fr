@@ -1,10 +1,12 @@
-import {useEffect, useState} from 'react'
+import {useEffect, useState, useContext} from 'react'
 import {useRouter} from 'next/router'
 import Image from 'next/image'
 
 import {getProject} from '@/lib/suivi-pcrs.js'
 
 import colors from '@/styles/colors.js'
+
+import AuthentificationContext from '@/contexts/authentification-token.js'
 
 import Page from '@/layouts/main.js'
 
@@ -14,6 +16,8 @@ import ProjetInfos from '@/components/projet/index.js'
 
 const Projet = () => {
   const router = useRouter()
+  const {token} = useContext(AuthentificationContext)
+
   const [project, setProject] = useState()
   const [errorMessage, setErrorMessage] = useState()
   const [isLoading, setIsLoading] = useState(true)
@@ -24,7 +28,7 @@ const Projet = () => {
     async function getProjectData() {
       setIsLoading(true)
       try {
-        const project = await getProject(id)
+        const project = token ? await getProject(id, token) : await getProject(id)
 
         setProject(project)
       } catch (error) {
@@ -39,7 +43,7 @@ const Projet = () => {
     } else {
       setIsLoading(false)
     }
-  }, [id])
+  }, [id, token])
 
   if (errorMessage) {
     return (

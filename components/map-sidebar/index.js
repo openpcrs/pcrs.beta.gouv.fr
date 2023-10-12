@@ -29,7 +29,6 @@ const MapSidebar = ({projet, onClose, onProjetChange, projets}) => {
     subventions,
     documentation,
     contrat,
-    editorKey,
     nature,
     regime,
     livrables,
@@ -49,7 +48,6 @@ const MapSidebar = ({projet, onClose, onProjetChange, projets}) => {
       <Header
         projets={projets}
         projectId={_id}
-        codeEditor={editorKey}
         projectName={nom}
         territoires={territoires}
         onSidebarClose={onClose}
