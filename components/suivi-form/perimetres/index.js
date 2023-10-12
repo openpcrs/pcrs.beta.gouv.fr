@@ -53,7 +53,7 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
         <hr className='edit-separator fr-my-3w' />
       )}
 
-      {perimetre ? (
+      {perimetre || !hasPerimetres ? (
         <PerimetreForm
           perimetres={perimetres}
           onCancel={hasPerimetres ? () => setPerimetre(null) : null}
