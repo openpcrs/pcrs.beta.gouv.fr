@@ -68,7 +68,7 @@ const Subventions = ({subventions, handleSubventions}) => {
         </div>
       ))}
 
-      {editedSubvention && !editedSubvention.index && (
+      {editedSubvention && editedSubvention.index === undefined && (
         <SubventionForm
           initialValues={editedSubvention}
           isSubventionExisting={isSubventionExisting}
