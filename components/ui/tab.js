@@ -14,7 +14,7 @@ const Tab = ({activeTab, tabs, icon, children, handleActiveTab}) => (
                 type='button'
                 className={`fr-tabs__tab ${icon ? `fr-icon-${icon}` : ''} fr-tabs__tab--icon-left`}
                 role='tab'
-                aria-selected={defaultTab || (activeTab === tab.value ? 'true' : 'false')}
+                aria-selected={defaultTab || activeTab === tab.value}
                 onClick={() => handleActiveTab(tab.value)}
               >
                 {tab.label}
