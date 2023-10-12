@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import PropTypes from 'prop-types'
 
-import {isURLValid} from '@/components/suivi-form/livrable/utils/url.js'
+import {isURLValid} from '@/components/suivi-form/livrables/utils/url.js'
 
 import TextInput from '@/components/text-input.js'
 import Button from '@/components/button.js'
