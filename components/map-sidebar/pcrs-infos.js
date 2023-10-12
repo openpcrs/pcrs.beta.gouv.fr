@@ -1,64 +1,16 @@
-/* eslint-disable camelcase */
 import {useState} from 'react'
 import PropTypes from 'prop-types'
 
-import colors from '@/styles/colors.js'
-
+import {LICENCES_LABELS, ACTORS_LABELS, NATURES_LABELS, PUBLICATIONS_LABELS, DIFFUSIONS_LABELS, SUBVENTIONS_NATURES_LABELS} from '@/components/suivi-form/utils/labels.js'
 import {formatDate} from '@/lib/date-utils.js'
 
+import colors from '@/styles/colors.js'
 import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors.js'
 
 import Tooltip from '@/components/tooltip.js'
 import Badge from '@/components/badge.js'
 import HiddenInfos from '@/components/hidden-infos.js'
 import LabeledWrapper from '@/components/labeled-wrapper.js'
-
-const LICENCESLABELS = {
-  ouvert_lo: 'Ouverte',
-  ouvert_odbl: 'Ouverte sous licence ODbL',
-  ferme: 'Fermée'
-}
-
-const ACTORS_LABELS = {
-  financeur: 'Financeurs',
-  diffuseur: 'Diffuseurs',
-  presta_vol: 'Prestataires de vol',
-  presta_lidar: 'Prestataires Lidar',
-  controleur: 'Controleurs',
-  aplc: 'Autorité Publique Locale Compétente',
-  porteur: 'Porteur de projet non-APLC'
-}
-
-const NATURE_LABELS = {
-  geotiff: 'Livrable GeoTIFF',
-  jpeg2000: 'Livrable Jpeg 2000',
-  gml: 'Livrable GML vecteur'
-}
-
-const LICENCE_LABELS = {
-  ouvert_lo: 'Ouvert sous licence ouverte',
-  ouvert_odbl: 'Ouvert sous licence ODbL',
-  ferme: 'Fermé'
-}
-
-const PUBLICATIONS = {
-  ftp: 'Accès via FTP',
-  cloud: 'Accès via un service cloud (oneDrive...)',
-  http: 'Accès via service HTTP(S)',
-  inexistante: 'Aucun moyen d’accès en ligne'
-}
-
-const DIFFUSIONS = {
-  wms: 'Diffusion via un service WMS',
-  wmts: 'Diffusion via un service WMTS',
-  tms: 'Diffusion via un service TMS'
-}
-
-const SUBVENTIONS_NATURES = {
-  feder: 'Financement FEDER',
-  cepr: 'Contrat État-Région',
-  detr: 'Dotations de l’État aux Territoires Ruraux'
-}
 
 const PcrsInfos = ({nature, regime, livrables, licence, acteurs, subventions}) => {
   const [isActorsShow, setIsActorsShow] = useState(false)
@@ -81,10 +33,10 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs, subventions}) =
 
   const livrableTooltip = livrable => (
     <div className='tooltip-container'>
-      <div>Nature : <br /><span>{NATURE_LABELS[livrable.nature]}</span></div>
-      <div>Licence : <br /><span>{LICENCE_LABELS[livrable.licence]}</span></div>
-      <div>Diffusion : <br /><span>{DIFFUSIONS[livrable.diffusion]}</span></div>
-      <div>Type de publication : <br /><span>{livrable.publication ? PUBLICATIONS[livrable.publication] : 'N/A'}</span></div>
+      <div>Nature : <br /><span>{NATURES_LABELS[livrable.nature]}</span></div>
+      <div>Licence : <br /><span>{LICENCES_LABELS[livrable.licence]}</span></div>
+      <div>Diffusion : <br /><span>{DIFFUSIONS_LABELS[livrable.diffusion]}</span></div>
+      <div>Type de publication : <br /><span>{livrable.publication ? PUBLICATIONS_LABELS[livrable.publication] : 'N/A'}</span></div>
       <div>Livraison : <br /><span>{livrable.date_livraison ? `le ${formatDate(livrable.date_livraison)}` : 'N/A'}</span></div>
 
       <style jsx>{`
@@ -108,7 +60,7 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs, subventions}) =
 
   const subventionTooltip = subvention => (
     <div className='tooltip-container'>
-      <div>Nature : <br />{SUBVENTIONS_NATURES[subvention.nature]}</div>
+      <div>Nature : <br />{SUBVENTIONS_NATURES_LABELS[subvention.nature]}</div>
       <div>Montant : <br /><span>{`${subvention.montant ? `${subvention.montant}€` : 'N/A'}`}</span></div>
       <div>Échance : <br />{formatDate(subvention.echeance) || 'N/A'}</div>
 
@@ -171,7 +123,7 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs, subventions}) =
         {licence && (
           <LabeledWrapper label='Licence'>
             <Badge background={licencesColors[licence]} >
-              {LICENCESLABELS[licence]}
+              {LICENCES_LABELS[licence]}
             </Badge>
           </LabeledWrapper>
 
