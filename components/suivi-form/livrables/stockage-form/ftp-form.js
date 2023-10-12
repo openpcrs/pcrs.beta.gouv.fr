@@ -1,52 +1,62 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 
 import {isURLValid} from '@/components/suivi-form/livrable/utils/url.js'
 
 import TextInput from '@/components/text-input.js'
-// import RadioButton from '@/components/ui/radio-button.js'
 import NumberInput from '@/components/number-input.js'
 import Button from '@/components/button.js'
 
 const FtpForm = ({initialValues, onSubmit, onCancel}) => {
-  const [values, setValues] = useState(initialValues || {})
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [values, setValues] = useState(initialValues)
+  const [errorMessage, setErrorMessage] = useState({hostInput: null, submitError: null})
   const [checkedStatus, setCheckedStatus] = useState(false)
 
   function handleValuesChange(e) {
-    const newValues = {...values}
-    newValues.stockageParams[e.target.name] = e.target.value
-    setValues(newValues)
+    setValues({...values, [e.target.name]: e.target.value})
   }
 
   function handleCheckedStatus(isChecked) {
-    setValues({...values, stockageParams: {...values.stockageParams, secure: isChecked}})
+    setValues({...values, secure: isChecked})
     setCheckedStatus(isChecked)
   }
 
   function handleSubmit() {
-    if (isURLValid(values?.value)) {
-      setErrorMessage(null)
-      onSubmit(...values)
+    setErrorMessage({hostInput: null, submitError: null})
+
+    if (isURLValid(values.host)) {
+      if ((!values.user && values.secure) || (values.secure && !values.password)) {
+        setErrorMessage({...errorMessage, submitError: 'Un stockage sécurisé nécessite un nom d’utilisateur et un mot de passe'})
+      } else {
+        onSubmit(values)
+        setErrorMessage({hostInput: null, submitError: null})
+      }
     } else {
-      setErrorMessage('Cette URL n’est pas valide')
+      setErrorMessage({...errorMessage, hostInput: 'Cette URL n’est pas valide'})
     }
   }
 
+  useEffect(() => {
+    if (!values.host) {
+      setErrorMessage({hostInput: null, submitError: null})
+    }
+  }, [values.host])
+
   return (
     <div>
-      <div>
+      <div className='fr-mt-6w'>
         <TextInput
           name='host'
           label='URL du serveur'
           placeholder='ftp://...'
           description='Lien d’accès au(x) fichier(s)'
-          value={values?.stockageParams?.host}
+          errorMessage={errorMessage.hostInput}
+          value={values.host || ''}
           onValueChange={e => handleValuesChange(e)}
         />
       </div>
 
-      {(initialValues?.host || values?.stockageParams?.host) && (
+      {values.host && (
         <div>
           <div className='fr-mt-6w'>
             <TextInput
@@ -54,7 +64,7 @@ const FtpForm = ({initialValues, onSubmit, onCancel}) => {
               label='Chemin'
               placeholder='"/" par défaut'
               description='Chemin du dossier contenant le livrable'
-              value={values?.stockageParams?.path}
+              value={values.path || ''}
               onValueChange={e => handleValuesChange(e)}
             />
           </div>
@@ -65,7 +75,7 @@ const FtpForm = ({initialValues, onSubmit, onCancel}) => {
               label='Port'
               placeholder='Port 21 par défaut'
               description='Port de connexion au service FTP'
-              value={values?.stockageParams?.port}
+              value={values.port || ''}
               onValueChange={e => handleValuesChange(e)}
             />
           </div>
@@ -75,7 +85,8 @@ const FtpForm = ({initialValues, onSubmit, onCancel}) => {
               type='checkbox'
               name='secure'
               checked={checkedStatus}
-              onChange={() => handleCheckedStatus(!checkedStatus)}
+              onChange={() =>
+                handleCheckedStatus(!checkedStatus)}
             />
             <label className='fr-label'>
               Ce serveur est privé
@@ -90,7 +101,7 @@ const FtpForm = ({initialValues, onSubmit, onCancel}) => {
                   name='user'
                   label='Nom d’utilisateur'
                   description='Identifiant permettant l’accès au serveur'
-                  value={values?.stockageParams?.user}
+                  value={values.user || ''}
                   onValueChange={e => handleValuesChange(e)}
                 />
               </div>
@@ -102,29 +113,34 @@ const FtpForm = ({initialValues, onSubmit, onCancel}) => {
                   label='Mot de passe'
                   type='password'
                   description='Entrer le mot de passe permettant l’accès au(x) fichier(s)'
-                  value={values?.stockageParams?.password}
+                  value={values.password || ''}
                   onValueChange={e => handleValuesChange(e)}
                 />
               </div>
             </div>
           )}
 
-          <Button
-            label='Annuler l’ajout du serveur'
-            onClick={onCancel}
-          >
-            Annuler
-          </Button>
-          <Button
-            style={{marginLeft: '1em'}}
-            label='Ajouter le serveur'
-            isDisabled={!values?.stockageParams}
-            onClick={() => handleSubmit(values)}
-          >
-            Ajouter le serveur HTTP
-          </Button>
+          <div className='fr-mt-3w'>
+            <Button
+              label='Ajouter le serveur'
+              isDisabled={!values.host}
+              onClick={() => handleSubmit(values)}
+            >
+              Ajouter le serveur FTP
+            </Button>
+            <Button
+              style={{marginLeft: '1em'}}
+              label='Annuler l’ajout du serveur'
+              buttonStyle='secondary'
+              onClick={onCancel}
+            >
+              Annuler
+            </Button>
+          </div>
         </div>
       )}
+
+      {errorMessage.submitError && <p id='text-input-error-desc-error' className='fr-error-text'>{errorMessage.submitError}</p>}
       <style jsx>{`
         .input-container {
           display: flex;
@@ -140,8 +156,9 @@ const FtpForm = ({initialValues, onSubmit, onCancel}) => {
 }
 
 FtpForm.propTypes = {
-  values: PropTypes.object,
-  onValueChange: PropTypes.func.isRequired
+  initialValues: PropTypes.object,
+  onCancel: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired
 }
 
 export default FtpForm

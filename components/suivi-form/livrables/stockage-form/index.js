@@ -5,28 +5,15 @@ import HttpForm from '@/components/suivi-form/livrables/stockage-form/http-form.
 import FtpForm from '@/components/suivi-form/livrables/stockage-form/ftp-form.js'
 import SelectInput from '@/components/select-input.js'
 
-const httpSchema = {
-  stockage: 'http',
-  stockageParams: {
-    url: ''
-  }
-}
+const StockageForm = ({initialValues, handleLivrableStockage, onClose}) => {
+  const [stockageType, setStockageType] = useState(initialValues.stockage || undefined)
 
-const ftpSchema = {
-  stockage: 'ftp',
-  stockageParams: {
-    host: '',
-    port: '',
-    user: '',
-    password: '',
-    path: '',
-    secure: false
-  }
-}
+  const onSubmit = stockage => {
+    handleLivrableStockage({...initialValues, stockage: stockageType, stockageParams: stockage})
 
-const StockageForm = ({initialValues, onValueChange}) => {
-  const [stockageType, setStockageType] = useState(initialValues?.stockage)
-  const [stockageParams, setStockageParams] = useState(initialValues?.stockageParams)
+    setStockageType(undefined)
+    onClose()
+  }
 
   return (
     <div className='fr-col-12'>
@@ -48,17 +35,24 @@ const StockageForm = ({initialValues, onValueChange}) => {
       </div>
       {stockageType === 'ftp' && (
         <FtpForm
-          initialValues={ftpSchema}
-          onSubmit={onValueChange}
-          onCancel={() => setStockageType(null)}
+          initialValues={{
+            host: initialValues.stockageParams?.host,
+            port: initialValues.stockageParams?.port,
+            user: initialValues.stockageParams?.user,
+            password: initialValues.stockageParams?.password,
+            path: initialValues.stockageParams?.path,
+            secure: initialValues.stockageParams.secure
+          }}
+          onSubmit={onSubmit}
+          onCancel={onClose}
         />
       )}
 
       {stockageType === 'http' && (
         <HttpForm
-          initialValues={httpSchema}
-          onSubmit={onValueChange}
-          onCancel={() => setStockageType(null)}
+          initialValues={{url: initialValues.stockageParams?.url}}
+          onSubmit={onSubmit}
+          onCancel={onClose}
         />
       )}
     </div>
@@ -67,7 +61,12 @@ const StockageForm = ({initialValues, onValueChange}) => {
 
 StockageForm.propTypes = {
   initialValues: PropTypes.object,
-  onValueChange: PropTypes.func.isRequired
+  handleLivrableStockage: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired
+}
+
+StockageForm.defaultProps = {
+  initialValues: {}
 }
 
 export default StockageForm

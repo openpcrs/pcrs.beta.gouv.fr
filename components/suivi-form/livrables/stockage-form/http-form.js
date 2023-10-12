@@ -7,20 +7,13 @@ import TextInput from '@/components/text-input.js'
 import Button from '@/components/button.js'
 
 const HttpForm = ({initialValues, onSubmit, onCancel}) => {
-  const [values, setValues] = useState(initialValues || {})
+  const [url, setUrl] = useState(initialValues.url)
   const [errorMessage, setErrorMessage] = useState(null)
 
-  // Ajouter un bouton ajouter éditer supprimer
-
-  function isURLValid(url) {
-    const pattern = /(\b(https?|ftp|file):\/\/[-\w+&@#/%?=~|!:,.;]*[-\w+&@#/%=~|])/i
-    return pattern.test(url)
-  }
-
-  function handleSubmit() {
-    if (isURLValid(values?.value)) {
+  function handleHttpSubmit() {
+    if (isURLValid(url)) {
       setErrorMessage(null)
-      onSubmit(...values)
+      onSubmit({url})
     } else {
       setErrorMessage('Cette URL n’est pas valide')
     }
@@ -31,25 +24,29 @@ const HttpForm = ({initialValues, onSubmit, onCancel}) => {
       <TextInput
         label='URL du serveur'
         description='Lien d’accès au(x) fichier(s)'
-        value={values?.value}
+        value={url || ''}
         placeholder='http://...'
         errorMessage={errorMessage}
-        onValueChange={e => setValues({name: 'url', value: e.target.value})}
+        onValueChange={e => setUrl(e.target.value)}
       />
-      <Button
-        label='Annuler l’ajout du serveur'
-        onClick={onCancel}
-      >
-        Annuler
-      </Button>
-      <Button
-        style={{marginLeft: '1em'}}
-        label='Ajouter le serveur'
-        isDisabled={!values?.value}
-        onClick={() => handleSubmit(values)}
-      >
-        Ajouter le serveur HTTP
-      </Button>
+
+      <div className='fr-mt-3w'>
+        <Button
+          label='Ajouter le serveur'
+          isDisabled={!url}
+          onClick={() => handleHttpSubmit()}
+        >
+          Ajouter le serveur HTTP
+        </Button>
+        <Button
+          style={{marginLeft: '1em'}}
+          buttonStyle='secondary'
+          label='Annuler l’ajout du serveur'
+          onClick={onCancel}
+        >
+          Annuler
+        </Button>
+      </div>
     </div>
   )
 }

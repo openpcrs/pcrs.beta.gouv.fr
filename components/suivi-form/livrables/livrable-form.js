@@ -5,7 +5,9 @@ import {debounce} from 'lodash-es'
 
 import formReducer, {checkFormValidity} from 'reducers/form-reducer'
 import {handleRangeError, isInRange} from '../acteurs/utils/error-handlers.js'
+
 import {stripNonNumericCharacters} from '@/lib/string.js'
+import colors from '@/styles/colors.js'
 
 import {natureOptions, diffusionOptions, licenceOptions, publicationOptions, systRefSpatialOptions} from '@/components/suivi-form/livrables/utils/select-options.js'
 import SelectInput from '@/components/select-input.js'
@@ -78,12 +80,16 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
   const [errorMessage, setErrorMessage] = useState()
   const [isStockageFormOpen, setIsStockageFormOpen] = useState()
 
+  const [livrableStockage, setLivrableStockage] = useState({
+    stockage: initialValues.stockage || null,
+    stockageParams: initialValues.stockageParams || {}
+  })
+
   const debouncedValidation = useRef(debounce(name => {
     dispatch({type: 'VALIDATE_FIELD', fieldName: name})
   }, 800))
 
   const handleInputChange = event => {
-    console.log(event)
     const {name, value} = event.target
     dispatch({
       type: 'SET_FIELD_VALUE',
@@ -98,7 +104,7 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
 
   const handleSubmit = () => {
     setErrorMessage(null)
-    const {nom, nature, diffusion, licence, avancement, crs, compression, publication, dateLivraison, stockage, stockageParams} = form.fields
+    const {nom, nature, diffusion, licence, avancement, crs, compression, publication, dateLivraison} = form.fields
 
     onSubmit({
       nom: nom.value.trim(),
@@ -110,8 +116,8 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
       compression: compression.value || null,
       publication: publication.value || null,
       date_livraison: dateLivraison.value || null,
-      stockage: stockage.value || null,
-      stockageParams: stockageParams.value || null
+      stockage: livrableStockage.stockage || null,
+      stockageParams: livrableStockage.stockageParams || {}
     })
   }
 
@@ -247,18 +253,38 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
             onValueChange={handleInputChange}
           />
         </div>
-        {isStockageFormOpen ? (
-          <StockageForm
-            values={null}
-            onValueChange={handleInputChange}
-          />
-        ) : (
-          <Button
-            onClick={() => setIsStockageFormOpen(true)}
-          >
-            Ajouter un stockage
-          </Button>
-        )}
+
+        <div>
+
+          {livrableStockage.stockage && (
+            <div className='fr-grid-row stockage-card fr-p-1w fr-mb-2w'>
+              <div className='fr-mr-1w'>Stockage ajouté : {livrableStockage.stockageParams.host || livrableStockage.stockageParams.url}</div>
+              <button
+                type='button'
+                onClick={() => {
+                  setLivrableStockage({
+                    stockage: initialValues.stockage || null,
+                    stockageParams: initialValues.stockageParams || {}
+                  })
+                }}
+              >
+                <span className='fr-icon-delete-line' aria-hidden='true' />
+              </button>
+            </div>
+          )}
+
+          {isStockageFormOpen ? (
+            <StockageForm
+              initialValues={livrableStockage}
+              handleLivrableStockage={setLivrableStockage}
+              onClose={() => setIsStockageFormOpen(false)}
+            />
+          ) : (
+            <Button label='Ajouter un stockage' onClick={() => setIsStockageFormOpen(true)}>
+              Ajouter un stockage
+            </Button>
+          )}
+        </div>
       </div>
 
       <div className='fr-grid-row fr-mt-3w'>
@@ -283,7 +309,16 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
           </div>
         )}
       </div>
+
       {errorMessage && <p id='text-input-error-desc-error' className='fr-error-text'>{errorMessage}</p>}
+
+      <style jsx>{`
+        .stockage-card {
+          width: fit-content;
+          background: ${colors.grey975};
+          border-radius: 3px;
+        }
+      `}</style>
     </div>
   )
 }
@@ -298,11 +333,17 @@ LivrableForm.propTypes = {
     crs: PropTypes.string,
     compression: PropTypes.string,
     publication: PropTypes.string,
-    dateLivraison: PropTypes.string
+    dateLivraison: PropTypes.string,
+    stockage: PropTypes.string,
+    stockageParams: PropTypes.object
   }),
   isLivrableNameAvailable: PropTypes.func.isRequired,
   onCancel: PropTypes.func,
   onSubmit: PropTypes.func.isRequired
+}
+
+LivrableForm.defaultProps = {
+  initialValues: {stockage: null, stockageParams: {}}
 }
 
 export default LivrableForm
