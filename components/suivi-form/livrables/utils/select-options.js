@@ -1,3 +1,5 @@
+import {getLabelFromValue} from '@/lib/utils/select-options.js'
+
 export const natureOptions = [
   {label: 'Livrable GeoTIFF', value: 'geotiff'},
   {label: 'Livrable Jpeg 2000', value: 'jpeg2000'},
@@ -41,42 +43,18 @@ export const systRefSpatialOptions = [
   {label: 'EPSG:4471', value: 'EPSG:4471'}
 ]
 
-export function getNatures() {
-  const naturesObj = {}
-  natureOptions.map(nature => {
-    naturesObj[nature.value] = nature.label
-    return nature
-  })
-
-  return naturesObj
+export function getNatures(value) {
+  return getLabelFromValue(value, natureOptions)
 }
 
-export function getDiffusions() {
-  const diffusionObj = {}
-  diffusionOptions.map(diffusion => {
-    diffusionObj[diffusion.value] = diffusion.label
-    return diffusion
-  })
-
-  return diffusionObj
+export function getDiffusions(value) {
+  return getLabelFromValue(value, diffusionOptions)
 }
 
-export function getPublications() {
-  const publicationObj = {}
-  publicationOptions.map(publication => {
-    publicationObj[publication.value] = publication.label
-    return publication
-  })
-
-  return publicationObj
+export function getPublications(value) {
+  return getLabelFromValue(value, publicationOptions)
 }
 
-export function getLicences() {
-  const licencesObj = {}
-  licenceOptions.map(licence => {
-    licencesObj[licence.value] = licence.label
-    return licence
-  })
-
-  return licencesObj
+export function getLicences(value) {
+  return getLabelFromValue(value, licenceOptions)
 }

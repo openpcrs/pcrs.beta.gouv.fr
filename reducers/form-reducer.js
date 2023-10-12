@@ -17,7 +17,13 @@ export default function formReducer(state, action) {
     return null
   }
 
-  const validateField = (value, field) => field.validate ? field.validate(value) : true
+  const validateField = (value, field) => {
+    if (value === '' && field.isRequired) {
+      return false
+    }
+
+    return field.validate ? field.validate(value) : true
+  }
 
   switch (action.type) {
     case 'SET_FIELD_VALUE': {
