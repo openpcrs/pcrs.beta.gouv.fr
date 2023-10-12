@@ -13,7 +13,7 @@ const ListItem = ({title, children}) => {
   return (
     <div className='fr-my-1w fr-p-1w dropdown-item-container'>
       <div className='title-action-container'>
-        <div>{title}</div>
+        <div className='title fr-text--sm fr-m-0'>{title}</div>
         <div onClick={handleOpen}>
           <span className={`fr-icon-arrow-${isOpen ? 'down' : 'right'}-s-line`} aria-hidden='true' />
         </div>
@@ -34,6 +34,11 @@ const ListItem = ({title, children}) => {
           width: 100%;
           display: flex;
           justify-content: space-between;
+          align-items: center;
+        }
+
+        .title {
+          font-weight: bold;
         }
       `}</style>
     </div>
