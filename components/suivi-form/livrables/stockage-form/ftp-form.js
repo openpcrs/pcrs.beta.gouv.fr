@@ -1,6 +1,8 @@
 import {useState} from 'react'
 import PropTypes from 'prop-types'
 
+import {isURLValid} from '@/components/suivi-form/livrable/utils/url.js'
+
 import TextInput from '@/components/text-input.js'
 // import RadioButton from '@/components/ui/radio-button.js'
 import NumberInput from '@/components/number-input.js'
@@ -20,11 +22,6 @@ const FtpForm = ({initialValues, onSubmit, onCancel}) => {
   function handleCheckedStatus(isChecked) {
     setValues({...values, stockageParams: {...values.stockageParams, secure: isChecked}})
     setCheckedStatus(isChecked)
-  }
-
-  function isURLValid(url) {
-    const pattern = /(\b(https?|ftp|file):\/\/[-\w+&@#/%?=~|!:,.;]*[-\w+&@#/%=~|])/i
-    return pattern.test(url)
   }
 
   function handleSubmit() {
