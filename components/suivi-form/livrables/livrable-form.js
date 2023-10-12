@@ -78,12 +78,11 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
   const [form, dispatch] = useReducer(formReducer, initState({initialValues, fieldsValidations: {nom: isLivrableNameAvailable}}))
 
   const [errorMessage, setErrorMessage] = useState()
-  const [isStockageFormOpen, setIsStockageFormOpen] = useState()
 
-  const [livrableStockage, setLivrableStockage] = useState({
-    stockage: initialValues.stockage || null,
-    stockageParams: initialValues.stockageParams || {}
-  })
+  const [livrableStockage, setLivrableStockage] = useState(initialValues?.stockageId ? {
+    stockage: initialValues.stockage,
+    stockageParams: initialValues.stockageParams
+  } : null)
 
   const debouncedValidation = useRef(debounce(name => {
     dispatch({type: 'VALIDATE_FIELD', fieldName: name})
@@ -255,32 +254,32 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
         </div>
 
         <div className='fr-col-12'>
-          {livrableStockage.stockage && (
+          {(livrableStockage?.stockageParams.host || livrableStockage?.stockageParams.url) && (
             <div className='fr-grid-row stockage-card fr-p-1w fr-mb-2w'>
               <div className='fr-mr-1w'>Stockage ajouté : {livrableStockage.stockageParams.host || livrableStockage.stockageParams.url}</div>
               <button
                 className='delete-button'
                 type='button'
-                onClick={() => {
-                  setLivrableStockage({
-                    stockage: initialValues.stockage || null,
-                    stockageParams: initialValues.stockageParams || {}
-                  })
-                }}
+                onClick={() => setLivrableStockage(null)}
               >
                 <span className='fr-icon-delete-line' aria-hidden='true' />
               </button>
             </div>
           )}
 
-          {isStockageFormOpen ? (
+          {livrableStockage?.stockage === null && (
             <StockageForm
               initialValues={livrableStockage}
               handleLivrableStockage={setLivrableStockage}
-              onClose={() => setIsStockageFormOpen(false)}
+              onCancel={() => setLivrableStockage(null)}
             />
-          ) : (
-            <Button label='Ajouter un stockage' onClick={() => setIsStockageFormOpen(true)}>
+          )}
+
+          {!livrableStockage && (
+            <Button label='Ajouter un stockage' onClick={() => {
+              setLivrableStockage({stockage: null, stockageParams: {}})
+            }}
+            >
               Ajouter un stockage
             </Button>
           )}
@@ -338,6 +337,7 @@ LivrableForm.propTypes = {
     compression: PropTypes.string,
     publication: PropTypes.string,
     dateLivraison: PropTypes.string,
+    stockageId: PropTypes.string,
     stockage: PropTypes.string,
     stockageParams: PropTypes.object
   }),
