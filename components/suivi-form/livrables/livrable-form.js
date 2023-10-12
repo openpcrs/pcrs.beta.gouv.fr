@@ -255,11 +255,11 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
         </div>
 
         <div>
-
           {livrableStockage.stockage && (
             <div className='fr-grid-row stockage-card fr-p-1w fr-mb-2w'>
               <div className='fr-mr-1w'>Stockage ajouté : {livrableStockage.stockageParams.host || livrableStockage.stockageParams.url}</div>
               <button
+                className='delete-button'
                 type='button'
                 onClick={() => {
                   setLivrableStockage({
@@ -317,6 +317,10 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
           width: fit-content;
           background: ${colors.grey975};
           border-radius: 3px;
+        }
+
+        .delete-button {
+          color: ${colors.error425};
         }
       `}</style>
     </div>
