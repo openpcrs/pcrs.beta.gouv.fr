@@ -4,125 +4,140 @@ import PropTypes from 'prop-types'
 import TextInput from '@/components/text-input.js'
 // import RadioButton from '@/components/ui/radio-button.js'
 import NumberInput from '@/components/number-input.js'
+import Button from '@/components/button.js'
 
-const FtpForm = ({values, onValueChange}) => {
-  const {stockageParams} = values
-  const [checkedStatus, setCheckedStatus] = useState('public')
+const FtpForm = ({initialValues, onSubmit, onCancel}) => {
+  const [values, setValues] = useState(initialValues || {})
+  const [errorMessage, setErrorMessage] = useState(null)
+  const [checkedStatus, setCheckedStatus] = useState(false)
 
-  const onSecureChange = e => {
-    setCheckedStatus(e.target.value)
+  function handleValuesChange(e) {
+    const newValues = {...values}
+    newValues.stockageParams[e.target.name] = e.target.value
+    setValues(newValues)
+  }
 
-    onValueChange({...values,
-      stockageParams: {...stockageParams,
-        secure: checkedStatus !== 'private'}
-    })
+  function handleCheckedStatus(isChecked) {
+    setValues({...values, stockageParams: {...values.stockageParams, secure: isChecked}})
+    setCheckedStatus(isChecked)
+  }
+
+  function isURLValid(url) {
+    const pattern = /(\b(https?|ftp|file):\/\/[-\w+&@#/%?=~|!:,.;]*[-\w+&@#/%=~|])/i
+    return pattern.test(url)
+  }
+
+  function handleSubmit() {
+    if (isURLValid(values?.value)) {
+      setErrorMessage(null)
+      onSubmit(...values)
+    } else {
+      setErrorMessage('Cette URL n’est pas valide')
+    }
   }
 
   return (
     <div>
       <div>
         <TextInput
+          name='host'
           label='URL du serveur'
           placeholder='ftp://...'
           description='Lien d’accès au(x) fichier(s)'
-          value={stockageParams.host}
-          onValueChange={e =>
-            onValueChange({
-              ...values,
-              stockageParams: {...stockageParams, host: e.target.value}
-            })}
+          value={values?.stockageParams?.host}
+          onValueChange={e => handleValuesChange(e)}
         />
       </div>
 
-      {stockageParams.host && (
+      {(initialValues?.host || values?.stockageParams?.host) && (
         <div>
           <div className='fr-mt-6w'>
             <TextInput
+              name='path'
               label='Chemin'
               placeholder='"/" par défaut'
               description='Chemin du dossier contenant le livrable'
-              value={stockageParams.path}
-              onValueChange={e =>
-                onValueChange({
-                  ...values,
-                  stockageParams: {...stockageParams, path: e.target.value}
-                })}
+              value={values?.stockageParams?.path}
+              onValueChange={e => handleValuesChange(e)}
             />
           </div>
 
           <div className='fr-mt-6w'>
             <NumberInput
+              name='port'
               label='Port'
               placeholder='Port 21 par défaut'
               description='Port de connexion au service FTP'
-              value={stockageParams.port}
-              onValueChange={e =>
-                onValueChange({
-                  ...values,
-                  stockageParams: {...stockageParams, port: e.target.value}
-                })}
+              value={values?.stockageParams?.port}
+              onValueChange={e => handleValuesChange(e)}
             />
           </div>
 
-          <div className='fr-mt-6w'>
-            {/* <RadioButton */}
-            {/*   label='Public' */}
-            {/*   description='Par défaut, la source est considérée comme publique' */}
-            {/*   type='radio' */}
-            {/*   name='status' */}
-            {/*   value='public' */}
-            {/*   id='public' */}
-            {/*   isCheck={checkedStatus === 'public'} */}
-            {/*   size='sm' */}
-            {/*   onOptionChange={onSecureChange} */}
-            {/* /> */}
-            {/**/}
-            {/* <RadioButton */}
-            {/*   label='Privé' */}
-            {/*   type='radio' */}
-            {/*   name='status' */}
-            {/*   value='private' */}
-            {/*   id='private' */}
-            {/*   isCheck={checkedStatus === 'private'} */}
-            {/*   size='sm' */}
-            {/*   onOptionChange={onSecureChange} */}
-            {/* /> */}
+          <div className='fr-mt-6w input-container'>
+            <input
+              type='checkbox'
+              name='secure'
+              checked={checkedStatus}
+              onChange={() => handleCheckedStatus(!checkedStatus)}
+            />
+            <label className='fr-label'>
+              Ce serveur est privé
+            </label>
           </div>
 
-          {checkedStatus === 'private' && (
+          {checkedStatus && (
             <div>
               <div className='fr-mt-6w'>
                 <TextInput
                   isRequired
+                  name='user'
                   label='Nom d’utilisateur'
                   description='Identifiant permettant l’accès au serveur'
-                  value={stockageParams.username}
-                  onValueChange={e =>
-                    onValueChange({
-                      ...values,
-                      stockageParams: {...stockageParams, username: e.target.value}
-                    })}
+                  value={values?.stockageParams?.user}
+                  onValueChange={e => handleValuesChange(e)}
                 />
               </div>
 
               <div className='fr-mt-6w'>
                 <TextInput
                   isRequired
+                  name='password'
                   label='Mot de passe'
                   type='password'
                   description='Entrer le mot de passe permettant l’accès au(x) fichier(s)'
-                  value={stockageParams.password}
-                  onValueChange={e =>
-                    onValueChange({
-                      ...values,
-                      stockageParams: {...stockageParams, password: e.target.value}
-                    })}
+                  value={values?.stockageParams?.password}
+                  onValueChange={e => handleValuesChange(e)}
                 />
               </div>
             </div>
           )}
+
+          <Button
+            label='Annuler l’ajout du serveur'
+            onClick={onCancel}
+          >
+            Annuler
+          </Button>
+          <Button
+            style={{marginLeft: '1em'}}
+            label='Ajouter le serveur'
+            isDisabled={!values?.stockageParams}
+            onClick={() => handleSubmit(values)}
+          >
+            Ajouter le serveur HTTP
+          </Button>
         </div>
       )}
+      <style jsx>{`
+        .input-container {
+          display: flex;
+          width: 400px;
+        }
+
+        .input-container label {
+          padding-left: 1em;
+        }
+      `}</style>
     </div>
   )
 }

@@ -67,11 +67,6 @@ const initState = ({initialValues, fieldsValidations}) => {
       value: initialValues.date_livraison || '',
       isRequired: false,
       isValid: Boolean(initialValues.date_livraison)
-    },
-    stockage: {
-      value: initialValues.stockage || '',
-      isRequired: false,
-      isValid: Boolean(initialValues.stockage)
     }
   }
   return {fields, isFormValid: checkFormValidity(fields)}
@@ -81,12 +76,14 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
   const [form, dispatch] = useReducer(formReducer, initState({initialValues, fieldsValidations: {nom: isLivrableNameAvailable}}))
 
   const [errorMessage, setErrorMessage] = useState()
+  const [isStockageFormOpen, setIsStockageFormOpen] = useState()
 
   const debouncedValidation = useRef(debounce(name => {
     dispatch({type: 'VALIDATE_FIELD', fieldName: name})
   }, 800))
 
   const handleInputChange = event => {
+    console.log(event)
     const {name, value} = event.target
     dispatch({
       type: 'SET_FIELD_VALUE',
@@ -101,7 +98,7 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
 
   const handleSubmit = () => {
     setErrorMessage(null)
-    const {nom, nature, diffusion, licence, avancement, crs, compression, publication, dateLivraison} = form.fields
+    const {nom, nature, diffusion, licence, avancement, crs, compression, publication, dateLivraison, stockage, stockageParams} = form.fields
 
     onSubmit({
       nom: nom.value.trim(),
@@ -112,7 +109,9 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
       crs: crs.value || null,
       compression: compression.value || null,
       publication: publication.value || null,
-      date_livraison: dateLivraison.value || null
+      date_livraison: dateLivraison.value || null,
+      stockage: stockage.value || null,
+      stockageParams: stockageParams.value || null
     })
   }
 
@@ -248,10 +247,18 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
             onValueChange={handleInputChange}
           />
         </div>
-        <StockageForm
-          values={null}
-          onValueChange={handleInputChange}
-        />
+        {isStockageFormOpen ? (
+          <StockageForm
+            values={null}
+            onValueChange={handleInputChange}
+          />
+        ) : (
+          <Button
+            onClick={() => setIsStockageFormOpen(true)}
+          >
+            Ajouter un stockage
+          </Button>
+        )}
       </div>
 
       <div className='fr-grid-row fr-mt-3w'>
