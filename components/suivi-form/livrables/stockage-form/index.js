@@ -16,7 +16,7 @@ const StockageForm = ({initialValues, handleLivrableStockage, onClose}) => {
   }
 
   return (
-    <div className='fr-col-12'>
+    <div className='fr-col-12 fr-mt-3w'>
       <div className='fr-grid-row'>
         <span className='fr-icon-database-fill fr-mr-1w' aria-hidden='true' />
         <div className='fr-label'>Choix de la source de stockage</div>

@@ -254,7 +254,7 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
           />
         </div>
 
-        <div>
+        <div className='fr-col-12'>
           {livrableStockage.stockage && (
             <div className='fr-grid-row stockage-card fr-p-1w fr-mb-2w'>
               <div className='fr-mr-1w'>Stockage ajouté : {livrableStockage.stockageParams.host || livrableStockage.stockageParams.url}</div>
