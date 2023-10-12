@@ -20,8 +20,8 @@ function sizeFormat(size) {
 }
 
 // Folder component
-const Folder = ({name, children, size, iconSize}) => {
-  const [isOpen, setIsOpen] = useState(false)
+const Folder = ({name, size, iconSize, isOpenByDefault, children}) => {
+  const [isOpen, setIsOpen] = useState(isOpenByDefault)
 
   const folderIconSize = iconSize === 'large' ? 50 : 26
 
@@ -74,6 +74,7 @@ Folder.propTypes = {
     'medium',
     'large'
   ]),
+  isOpenByDefault: PropTypes.bool,
   size: PropTypes.string,
   children: PropTypes.node
 }
@@ -81,6 +82,7 @@ Folder.propTypes = {
 Folder.defaultProps = {
   name: null,
   iconSize: 'medium',
+  isOpenByDefault: false,
   size: null,
   children: null
 }
@@ -154,7 +156,7 @@ const FolderTree = ({data, onItemSelect}) => {
             <li>
               <Folder
                 name={item.name}
-                initialOpen={false}
+                isOpenByDefault={false}
                 size={sizeFormat(folderSize)}
               >
                 {item.children && renderTree(item.children, depth + 1)}
@@ -172,6 +174,7 @@ const FolderTree = ({data, onItemSelect}) => {
 
   return (
     <Folder
+      isOpenByDefault
       name='/'
       iconSize='large'
       size={sizeFormat(treeTotalSize)}

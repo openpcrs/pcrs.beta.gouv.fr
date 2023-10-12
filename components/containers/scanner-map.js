@@ -89,7 +89,8 @@ const ScannerMap = ({geojson}) => {
       })
 
       map.fitBounds(bounds, {
-        padding: 20
+        padding: 20,
+        duration: 0
       })
     })
 

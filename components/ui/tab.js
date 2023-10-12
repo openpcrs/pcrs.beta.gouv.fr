@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 
 const Tab = ({activeTab, tabs, icon, children, handleActiveTab}) => (
-  <div>
+  <div className='tab-container'>
     <div className='fr-tabs'>
       <ul className='fr-tabs__list' role='tablist'>
         {tabs.map((tab, index) => {
@@ -30,6 +30,10 @@ const Tab = ({activeTab, tabs, icon, children, handleActiveTab}) => (
     </div>
 
     <style jsx>{`
+      .tab-container {
+        width: 100%;
+      }
+
       .content-wrapper {
         border: 1px solid #dddddd;
         border-top: none;

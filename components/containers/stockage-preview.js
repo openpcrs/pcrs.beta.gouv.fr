@@ -3,13 +3,16 @@ import {useEffect, useState} from 'react'
 
 import {useRouter} from 'next/router'
 
+import StockageFilesTree from './stockage-files-tree.js'
 import {getStockageData, getStockageGeoJSON} from '@/lib/pcrs-scanner-api.js'
 
+import Tab from '@/components/ui/tab.js'
 import ScannerMap from '@/components/containers/scanner-map.js'
 import CenteredSpinnder from '@/components/centered-spinner.js'
 
 const StockagePreview = ({stockageId}) => {
   const [stockage, setStockage] = useState()
+  const [selectedTab, setSelectedTab] = useState('map')
   const [fetchError, setFetchError] = useState()
 
   const router = useRouter()
@@ -40,7 +43,25 @@ const StockagePreview = ({stockageId}) => {
   return (
     <div className='stockage-preview-container'>
       {stockage ? (
-        <ScannerMap geojson={stockage.geojson} />
+        <Tab
+          handleActiveTab={setSelectedTab}
+          activeTab={selectedTab}
+          tabs={[
+            {value: 'map', label: 'Carte'},
+            {value: 'files', label: 'Fichiers'}
+          ]}
+        >
+          <div className='tab-content'>
+            {selectedTab === 'map' && (
+              <div className='map-wrapper'>
+                <ScannerMap geojson={stockage.geojson} />
+              </div>
+            )}
+            {selectedTab === 'files' && (
+              <StockageFilesTree data={stockage.data} />
+            )}
+          </div>
+        </Tab>
       ) : (
         <CenteredSpinnder />
       )}
@@ -48,10 +69,20 @@ const StockagePreview = ({stockageId}) => {
       <style jsx>{`
         .stockage-preview-container {
             display: flex;
-            width: 400px;
-            height: 400px;
+            height: 500px;
+            overflow-y: auto;
         }
-        `}</style>
+
+        .tab-content {
+          min-height: 500px;
+          overflow-y: auto;
+        }
+
+        .map-wrapper {
+          width: 600px;
+          height: 500px;
+        }
+      `}</style>
     </div>
   )
 }
