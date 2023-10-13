@@ -19,7 +19,7 @@ for (const projet of projets) {
     if (etape.statut === 'produit') {
       return {
         ...etape,
-        statut: 'control_en_cours'
+        statut: 'controle_en_cours'
       }
     }
 
