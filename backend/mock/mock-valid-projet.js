@@ -13,7 +13,7 @@ const validProjet = {
       licence: 'ouvert_odbl',
       avancement: 100,
       crs: 'EPSG:2971',
-      compression: 'Nature untelle'
+      compression: 'none'
     }
   ],
   acteurs: [
