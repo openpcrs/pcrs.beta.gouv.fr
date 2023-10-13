@@ -162,7 +162,7 @@ const livrablesSchemaCreation = Joi.object().keys({
       port: Joi.number().integer(),
       user: Joi.string(),
       password: Joi.string(),
-      path: Joi.string(),
+      startPath: Joi.string(),
       secure: Joi.bool()
     })
   })
@@ -348,7 +348,7 @@ const livrablesSchemaUpdate = Joi.object().keys({
       port: Joi.number().integer(),
       user: Joi.string(),
       password: Joi.string(),
-      path: Joi.string(),
+      startPath: Joi.string(),
       secure: Joi.bool()
     })
   })
