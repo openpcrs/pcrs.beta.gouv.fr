@@ -140,30 +140,8 @@ const livrablesSchemaCreation = Joi.object().keys({
     'any.only': 'Ce type de diffusion n’est pas valide'
   }),
   date_livraison: Joi.custom(validateJoiDate).allow(null),
-  crs: Joi.string().allow(null).messages({
-    'string.base': 'Le crs doit être une chaine de caractères',
-    'string.empty': 'Le champs crs ne peut pas être vide'
-  }),
   avancement: Joi.number().allow(null).messages({
     'number.base': 'L’avancement doit être un nombre'
-  }),
-  compression: Joi.valid(
-    'none',
-    'jpeg2000_lossy',
-    'geotiff_lzw',
-    'geotiff_deflate',
-    'geotiff_lzma',
-    'geotiff_zstd'
-  ).allow(null).messages({
-    'any.only': 'Ce type de compression n’est pas valide'
-  }),
-  publication: Joi.valid(
-    'ftp',
-    'cloud',
-    'http',
-    'inexistante'
-  ).allow(null).messages({
-    'any.only': 'Ce type de publication n’est pas valide'
   }),
   stockage: Joi.valid(
     'http',
@@ -350,30 +328,8 @@ const livrablesSchemaUpdate = Joi.object().keys({
     'any.only': 'Ce type de diffusion n’est pas valide'
   }),
   date_livraison: Joi.custom(validateJoiDate).allow(null),
-  crs: Joi.string().allow(null).messages({
-    'string.base': 'Le crs doit être une chaine de caractères',
-    'string.empty': 'Le champs crs ne peut pas être vide'
-  }),
   avancement: Joi.number().allow(null).messages({
     'number.base': 'L’avancement doit être un nombre'
-  }),
-  compression: Joi.valid(
-    'none',
-    'jpeg2000_lossy',
-    'geotiff_lzw',
-    'geotiff_deflate',
-    'geotiff_lzma',
-    'geotiff_zstd'
-  ).allow(null).messages({
-    'any.only': 'Ce type de compression n’est pas valide'
-  }),
-  publication: Joi.valid(
-    'ftp',
-    'cloud',
-    'http',
-    'inexistante'
-  ).allow(null).messages({
-    'any.only': 'La publication n’est pas valide'
   }),
   stockage_id: Joi.string().allow(null),
   stockage: Joi.valid(
