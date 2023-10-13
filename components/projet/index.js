@@ -169,7 +169,7 @@ const ProjetInfos = ({project}) => {
         width: 100%;
         display: grid;
         grid-template-columns: 7fr 3fr; /* Deux colonnes, deux occupe 70% et trois 30% */
-        gap: 10px; /* Espace entre deux et trois */
+        gap: 4em;
       }
 
       .left-section {
@@ -196,7 +196,9 @@ const ProjetInfos = ({project}) => {
       @media (max-width: 991px) { /* match LG breakpoint on DSFR */
         .main {
           grid-template-columns: 1fr;
+          gap: 0;
         }
+
         .general-infos {
           grid-row: 1;
         }

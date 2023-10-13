@@ -24,7 +24,6 @@ const ListItem = ({title, children}) => {
 
       <style jsx>{`
         .dropdown-item-container {
-          max-width: 90%;
           background: ${colors.grey975};
         }
 
