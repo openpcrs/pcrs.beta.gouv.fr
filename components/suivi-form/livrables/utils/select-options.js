@@ -18,13 +18,6 @@ export const licenceOptions = [
   {label: 'Fermé', value: 'ferme'}
 ]
 
-export const publicationOptions = [
-  {label: 'Accès via FTP', value: 'ftp'},
-  {label: 'Accès via un service cloud (oneDrive...)', value: 'cloud'},
-  {label: 'Accès via service HTTP(S)', value: 'http'},
-  {label: 'Aucun moyen d’accès en ligne', value: 'inexistante'}
-]
-
 export const systRefSpatialOptions = [
   {label: 'EPSG:2154', value: 'EPSG:2154'},
   {label: 'EPSG:3942', value: 'EPSG:3942'},
@@ -49,10 +42,6 @@ export function getNatures(value) {
 
 export function getDiffusions(value) {
   return getLabelFromValue(value, diffusionOptions)
-}
-
-export function getPublications(value) {
-  return getLabelFromValue(value, publicationOptions)
 }
 
 export function getLicences(value) {
