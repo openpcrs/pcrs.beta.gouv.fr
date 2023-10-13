@@ -1,12 +1,10 @@
 import PropTypes from 'prop-types'
 
-import {formatBytes} from '@/lib/utils/file.js'
 import colors from '@/styles/colors.js'
-import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors.js'
 
 import Button from '@/components/button.js'
-import Badge from '@/components/badge.js'
 import FolderTree from '@/components/ui/folder-tree.js'
+import StockageFilePreview from '@/components/ui/stockage-file-preview.js'
 
 const Mobile = ({data, handleSelectedFile, selectedFile}) => (
   <div className='explorer-container'>
@@ -21,35 +19,9 @@ const Mobile = ({data, handleSelectedFile, selectedFile}) => (
             <span className='fr-icon-close-line' aria-hidden='true' />
           </Button>
         </div>
+
         <div className='fr-grid-row fr-grid-row--center'>
-          <div>
-            <h2>
-              <div>
-                {selectedFile.name}
-                <span style={{backgroundColor: PCRS_DATA_COLORS.livrablesNatures[selectedFile.dataFormat]}}>
-                  {selectedFile.dataFormat}
-                </span>
-              </div>
-              <div>
-                {formatBytes(selectedFile.size)}
-              </div>
-            </h2>
-            <p className='mb-2'>{selectedFile.parentDirectory}</p>
-            <p><b>Dimensions en pixel</b>: {selectedFile.computedMetadata.size.width} x {selectedFile.computedMetadata.size.height}</p>
-            <p><b>Projection</b>: {selectedFile.computedMetadata.projection.name}</p>
-            <div className='bands'>
-              <b>Bandes</b> :
-              <Badge background='#f00'>
-                {selectedFile.computedMetadata.bands[0].dataType}
-              </Badge>
-              <Badge background='#0f0'>
-                {selectedFile.computedMetadata.bands[1].dataType}
-              </Badge>
-              <Badge background='#00f' textColor='#fff'>
-                {selectedFile.computedMetadata.bands[2].dataType}
-              </Badge>
-            </div>
-          </div>
+          <StockageFilePreview {...selectedFile} />
         </div>
       </div>
     ) : (
