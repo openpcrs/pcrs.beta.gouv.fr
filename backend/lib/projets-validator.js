@@ -159,7 +159,7 @@ const livrablesSchemaCreation = Joi.object().keys({
     }),
     otherwise: Joi.object({
       host: Joi.string().required(),
-      port: Joi.number(),
+      port: Joi.integer(),
       user: Joi.string(),
       password: Joi.string(),
       path: Joi.string(),
@@ -345,7 +345,7 @@ const livrablesSchemaUpdate = Joi.object().keys({
     }),
     otherwise: Joi.object({
       host: Joi.string(),
-      port: Joi.number(),
+      port: Joi.integer(),
       user: Joi.string(),
       password: Joi.string(),
       path: Joi.string(),
