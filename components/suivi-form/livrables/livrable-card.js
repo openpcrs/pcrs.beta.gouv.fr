@@ -7,7 +7,7 @@ import {shortDate} from '@/lib/date-utils.js'
 import {getNatures, getLicences, getDiffusions} from '@/components/suivi-form/livrables/utils/select-options.js'
 
 const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete}) => {
-  const {nom, nature, licence, crs, avancement, diffusion, compression} = livrable
+  const {nom, nature, licence, crs, avancement, diffusion} = livrable
   const dateLivraison = livrable.date_livraison
 
   return (
@@ -46,11 +46,6 @@ const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete}) => {
           <div className='fr-grid-row fr-col-12 fr-col-md-3'>
             <div className='label fr-col-12'>Système de référence spatial</div>
             <div className='fr-col-12 fr-text--sm fr-m-0'>{crs || 'N/A'}</div>
-          </div>
-
-          <div className='fr-grid-row fr-col-12 fr-col-md-2'>
-            <div className='label fr-col-12'>Compression</div>
-            <div className='fr-col-12 fr-text--sm fr-m-0'>{compression || 'N/A'}</div>
           </div>
 
           <div className='fr-grid-row fr-col-12 fr-col-md-2'>
@@ -128,7 +123,6 @@ LivrableCard.propTypes = {
     diffusion: PropTypes.string,
     avancement: PropTypes.number,
     crs: PropTypes.string,
-    compression: PropTypes.string,
     date_livraison: PropTypes.string // eslint-disable-line camelcase
   }).isRequired,
   isDisabled: PropTypes.bool.isRequired,

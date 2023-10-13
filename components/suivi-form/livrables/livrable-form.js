@@ -52,11 +52,6 @@ const initState = ({initialValues, fieldsValidations}) => {
       isRequired: false,
       isValid: Boolean(initialValues.crs)
     },
-    compression: {
-      value: initialValues.compression || '',
-      isRequired: false,
-      isValid: Boolean(initialValues.compression)
-    },
     dateLivraison: {
       value: initialValues.date_livraison || '',
       isRequired: false,
@@ -90,7 +85,7 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
 
   const handleSubmit = () => {
     setErrorMessage(null)
-    const {nom, nature, diffusion, licence, avancement, crs, compression, dateLivraison} = form.fields
+    const {nom, nature, diffusion, licence, avancement, crs, dateLivraison} = form.fields
 
     onSubmit({
       nom: nom.value.trim(),
@@ -99,7 +94,6 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
       diffusion: diffusion.value || null,
       avancement: avancement.value ? Number(avancement.value) : null,
       crs: crs.value || null,
-      compression: compression.value || null,
       date_livraison: dateLivraison.value || null
     })
   }
@@ -209,19 +203,6 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
             onValueChange={handleInputChange}
           />
         </div>
-
-        {/* Nature de compression du livrable - text */}
-        <div className='fr-col-12 fr-col-lg-4 fr-mt-6w fr-pr-3w'>
-          <TextInput
-            name='compression'
-            label='Compression'
-            value={form.fields.compression.value}
-            ariaLabel='nature de compression du livrable'
-            description='Nature de compression du livrable'
-            errorMessage={form.fields.compression.validationMessage}
-            onValueChange={handleInputChange}
-          />
-        </div>
       </div>
 
       <div className='fr-grid-row fr-mt-3w'>
@@ -259,7 +240,6 @@ LivrableForm.propTypes = {
     licence: PropTypes.string,
     avancement: PropTypes.string,
     crs: PropTypes.string,
-    compression: PropTypes.string,
     dateLivraison: PropTypes.string
   }),
   isLivrableNameAvailable: PropTypes.func.isRequired,
