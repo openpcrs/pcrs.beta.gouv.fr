@@ -11,7 +11,7 @@ const ListItem = ({title, children}) => {
   }
 
   return (
-    <div className='fr-my-1w fr-p-1w dropdown-item-container'>
+    <div className='fr-p-1w dropdown-item-container'>
       <div className='title-action-container' onClick={handleOpen}>
         <div className='title fr-text--sm fr-m-0'>{title}</div>
         <span className={`fr-icon-arrow-${isOpen ? 'down' : 'right'}-s-line`} aria-hidden='true' />
