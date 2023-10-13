@@ -16,6 +16,12 @@ export function expandProjet(projet) {
   }
 }
 
+async function addStockageId(livrables) {
+  const livrablesWithStockageId = await updateLivrableStockage(livrables)
+
+  return livrablesWithStockageId
+}
+
 function computeEditorKey() {
   return nanoid()
 }
@@ -67,9 +73,7 @@ export async function createProjet(payload, options = {}) {
   projet.creator = creator || 'admin'
   projet.editorKey = computeEditorKey()
 
-  const livrablesWithStockageId = await updateLivrableStockage(projet.livrables)
-
-  projet.livrables = livrablesWithStockageId
+  projet.livrables = await addStockageId(projet.livrables)
 
   mongo.decorateCreation(projet)
 
@@ -102,9 +106,7 @@ export async function updateProjet(id, payload) {
   const projet = validateChanges(payload)
 
   if (projet.livrables) {
-    const livrablesWithStockageId = await updateLivrableStockage(projet.livrables)
-
-    projet.livrables = livrablesWithStockageId
+    projet.livrables = await addStockageId(projet.livrables)
   }
 
   mongo.decorateUpdate(projet)
