@@ -42,8 +42,9 @@ const Projet = () => {
       getProjectData()
     } else {
       setIsLoading(false)
+      router.push('/404')
     }
-  }, [id, token])
+  }, [id, token, router])
 
   if (errorMessage) {
     return (
