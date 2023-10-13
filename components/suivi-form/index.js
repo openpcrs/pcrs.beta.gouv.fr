@@ -130,17 +130,10 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
 
           setErrors(uniq(errorsMessages))
           setErrorMessage('Le projet n’a pas pu être pris en compte car il y a des erreurs :')
+        } else if (userRole === 'admin' || _id) {
+          router.push(`/projet/?id=${sendSuivi._id}`)
         } else {
-          const validation = _id ? 'Le projet a bien été modifié, vous allez maintenant être redirigé vers la carte de suivi' : 'Le projet a bien été créé, vous allez maintenant être redirigé vers la carte de suivi'
-          setValidationMessage(validation)
-
-          if (userRole === 'admin' || _id) {
-            setTimeout(() => {
-              router.push('/suivi-pcrs')
-            }, 3000)
-          } else {
-            setIsShareModalOpen(true)
-          }
+          setIsShareModalOpen(true)
         }
       }
     } catch {
