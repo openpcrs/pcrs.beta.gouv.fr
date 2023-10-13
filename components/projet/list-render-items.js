@@ -1,5 +1,5 @@
 import {formatDate} from '@/lib/date-utils.js'
-import {LICENCES_LABELS, NATURES_LABELS, PUBLICATIONS_LABELS, DIFFUSIONS_LABELS, SUBVENTIONS_NATURES_LABELS} from '@/components/suivi-form/utils/labels.js'
+import {SUBVENTIONS_NATURES_LABELS, LICENCES_LABELS, PUBLICATIONS_LABELS, DIFFUSIONS_LABELS, NATURES_LABELS} from '@/components/suivi-form/utils/labels.js'
 
 import colors from '@/styles/colors.js'
 import ListItem from '@/components/projet/list-item.js'
@@ -37,7 +37,7 @@ export const acteurRenderItem = acteur => (
   <ListItem title={acteur.nom}>
     <div className='content-wrapper fr-p-2w'>
       <div className='fr-grid-row'><div className='title fr-mr-1w'>SIREN :</div> {acteur.siren}</div>
-      <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'>mail :</div> {acteur.mail || 'Non renseigné'}</div>
+      <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'>Mail :</div> {acteur.mail || 'Non renseigné'}</div>
       <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'>Téléphone :</div> {acteur.mail || 'Non renseigné'}</div>
       <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'>Part de financement :</div> {acteur.finance_part_perc || 'Non renseigné'}</div>
       <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'>Montant du financement :</div> {acteur.finance_part_euro || 'Non renseigné'}</div>
