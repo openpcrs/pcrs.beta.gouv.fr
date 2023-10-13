@@ -176,8 +176,7 @@ const livrablesSchemaCreation = Joi.object().keys({
     is: 'http',
     // eslint-disable-next-line unicorn/no-thenable
     then: Joi.object({
-      url: Joi.string().required(),
-      authorization: Joi.string()
+      url: Joi.string().required()
     }).messages({
       'object.unknown': 'Une clé est invalide en mode http'
     }),
@@ -388,8 +387,7 @@ const livrablesSchemaUpdate = Joi.object().keys({
     is: 'http',
     // eslint-disable-next-line unicorn/no-thenable
     then: Joi.object({
-      url: Joi.string(),
-      authorization: Joi.string()
+      url: Joi.string()
     }),
     otherwise: Joi.object({
       host: Joi.string(),
