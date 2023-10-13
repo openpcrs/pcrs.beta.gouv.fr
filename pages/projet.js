@@ -8,7 +8,7 @@ const Projet = () => (
     description='Carte de déploiement des PCRS'
     hasFooter={false}
   >
-    <StockagePreview stockageId='6526c4e5e93c9b0d1b5f6b44' />
+    <StockagePreview stockageId='6529063a0c43f5c75284d6db' />
   </Page>
 )
 
