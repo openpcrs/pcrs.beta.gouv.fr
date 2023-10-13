@@ -376,7 +376,7 @@ const livrablesSchemaUpdate = Joi.object().keys({
   ).allow(null).messages({
     'any.only': 'La publication n’est pas valide'
   }),
-  stockageId: Joi.string().allow(null),
+  stockage_id: Joi.string().allow(null),
   stockage: Joi.valid(
     'http',
     'ftp',
