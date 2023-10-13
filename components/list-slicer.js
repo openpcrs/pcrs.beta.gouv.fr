@@ -2,26 +2,40 @@ import {useState} from 'react'
 import PropTypes from 'prop-types'
 import {uniqueId} from 'lodash-es'
 
-const ListSlicer = ({list, start, end, renderListItem}) => {
-  const [listSize, setListSize] = useState(end)
+const ListSlicer = ({list, max, renderListItem}) => {
+  const [listSize, setListSize] = useState(max)
   const [showFullList, setShowFullList] = useState(false)
 
   const toggleFullList = () => {
     setShowFullList(!showFullList)
-    setListSize(showFullList ? end : list.length)
+    setListSize(showFullList ? max : list.length)
   }
 
   const buttonText = showFullList ? '...Masquer la liste' : '...Afficher la liste complète'
 
+  if (list.length === 0) {
+    return (
+      <>
+        <div className='fr-text--sm empty'>Aucun élément disponible à afficher</div>
+
+        <style jsx>{`
+          .empty {
+            font-style: italic;
+          }
+        `}</style>
+      </>
+    )
+  }
+
   return (
     <div>
       <ul className='fr-pl-0'>
-        {list.slice(start, listSize).map(item => (
+        {list.slice(0, listSize).map(item => (
           <li key={uniqueId()}>{renderListItem ? renderListItem(item) : item}</li>
         ))}
       </ul>
       <div className='fr-text--sm show-hide-toggle' onClick={toggleFullList}>
-        {list.length > end && buttonText}
+        {list.length > max && buttonText}
       </div>
 
       <style jsx>{`
@@ -37,15 +51,13 @@ const ListSlicer = ({list, start, end, renderListItem}) => {
 
 ListSlicer.propTypes = {
   list: PropTypes.array,
-  start: PropTypes.number,
-  end: PropTypes.number,
+  max: PropTypes.number,
   renderListItem: PropTypes.func
 }
 
 ListSlicer.defaultProps = {
   list: [],
-  start: 0,
-  end: 0
+  max: 5
 }
 
 export default ListSlicer

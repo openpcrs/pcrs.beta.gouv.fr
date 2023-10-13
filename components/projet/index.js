@@ -83,11 +83,7 @@ const ProjetInfos = ({project}) => {
 
           <div className='fr-col-12 fr-mt-6w'>
             <h3 className='fr-text--lead fr-mt-5w fr-mb-3w'>Liste des territoires · {territoires.length}</h3>
-            <ListSlicer
-              list={territoires}
-              end={5}
-              renderListItem={item => <div className='territoires-list-item fr-text--sm fr-m-0'>{item.nom}</div>}
-            />
+            <ListSlicer list={territoires} renderListItem={item => <div className='territoires-list-item fr-text--sm fr-m-0'>{item.nom}</div>} />
           </div>
 
           <div className='fr-col-12 fr-mt-6w'>
@@ -96,12 +92,7 @@ const ProjetInfos = ({project}) => {
               {Object.keys(livrablesByNatures).map(nature => (
                 <div key={nature}>
                   <div><Badge background={livrablesNatures[nature]}>{NATURES_LABELS[nature]}</Badge></div>
-                  <ListSlicer
-                    list={livrablesByNatures[nature]}
-                    start={0}
-                    end={5}
-                    renderListItem={item => livrableRenderItem(item)}
-                  />
+                  <ListSlicer list={livrablesByNatures[nature]} renderListItem={item => livrableRenderItem(item)} />
                 </div>
               ))}
             </div>
@@ -113,12 +104,7 @@ const ProjetInfos = ({project}) => {
               {Object.keys(acteursByRoles).map(role => (
                 <div key={role}>
                   <div><Badge background={actors[role]}>{ACTORS_LABELS[role]}</Badge></div>
-                  <ListSlicer
-                    list={acteursByRoles[role]}
-                    start={0}
-                    end={5}
-                    renderListItem={item => acteurRenderItem(item)}
-                  />
+                  <ListSlicer list={acteursByRoles[role]} renderListItem={item => acteurRenderItem(item)} />
                 </div>
               ))}
             </div>
@@ -131,12 +117,7 @@ const ProjetInfos = ({project}) => {
                 Object.keys(subventionsByNatures).map(nature => (
                   <div key={nature}>
                     <div><Badge background={subventionsNatures[nature]}>{SUBVENTIONS_NATURES_LABELS[nature]}</Badge></div>
-                    <ListSlicer
-                      list={subventionsByNatures[nature]}
-                      start={0}
-                      end={5}
-                      renderListItem={item => subventionRenderItem(item)}
-                    />
+                    <ListSlicer list={subventionsByNatures[nature]} renderListItem={item => subventionRenderItem(item)} />
                   </div>
                 ))
               ) : (
