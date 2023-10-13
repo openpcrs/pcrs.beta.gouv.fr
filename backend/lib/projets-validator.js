@@ -344,7 +344,7 @@ const livrablesSchemaUpdate = Joi.object().keys({
       url: Joi.string()
     }),
     otherwise: Joi.object({
-      host: Joi.string(),
+      host: Joi.string().required(),
       port: Joi.integer(),
       user: Joi.string(),
       password: Joi.string(),
