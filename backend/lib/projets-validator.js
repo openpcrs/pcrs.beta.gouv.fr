@@ -334,7 +334,7 @@ const livrablesSchemaUpdate = Joi.object().keys({
   stockage: Joi.valid(
     'http',
     'ftp'
-  ).allow(null).messages({
+  ).messages({
     'any.only': 'Ce type de stockage n’est pas valide'
   }),
   stockage_params: Joi.object().when('stockage', {

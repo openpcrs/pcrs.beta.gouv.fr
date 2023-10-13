@@ -4,7 +4,7 @@ import got from 'got'
 const {SCANNER_URL} = process.env
 
 export async function updateLivrableStockage(livrables) {
-  if (!SCANNER_URL) {
+  if (!SCANNER_URL || !livrables.stockage) {
     return [...livrables]
   }
 
