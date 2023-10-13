@@ -7,7 +7,7 @@ import formReducer, {checkFormValidity} from 'reducers/form-reducer'
 import {handleRangeError, isInRange} from '../acteurs/utils/error-handlers.js'
 import {stripNonNumericCharacters} from '@/lib/string.js'
 
-import {natureOptions, diffusionOptions, licenceOptions, systRefSpatialOptions} from '@/components/suivi-form/livrables/utils/select-options.js'
+import {natureOptions, diffusionOptions, licenceOptions} from '@/components/suivi-form/livrables/utils/select-options.js'
 import SelectInput from '@/components/select-input.js'
 import TextInput from '@/components/text-input.js'
 import Button from '@/components/button.js'
@@ -47,11 +47,6 @@ const initState = ({initialValues, fieldsValidations}) => {
       validate: value => isInRange(value, 0, 100),
       getValidationMessage: value => handleRangeError(value, 0, 100)
     },
-    crs: {
-      value: initialValues.crs || '',
-      isRequired: false,
-      isValid: Boolean(initialValues.crs)
-    },
     dateLivraison: {
       value: initialValues.date_livraison || '',
       isRequired: false,
@@ -85,7 +80,7 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
 
   const handleSubmit = () => {
     setErrorMessage(null)
-    const {nom, nature, diffusion, licence, avancement, crs, dateLivraison} = form.fields
+    const {nom, nature, diffusion, licence, avancement, dateLivraison} = form.fields
 
     onSubmit({
       nom: nom.value.trim(),
@@ -93,7 +88,6 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
       licence: licence.value,
       diffusion: diffusion.value || null,
       avancement: avancement.value ? Number(avancement.value) : null,
-      crs: crs.value || null,
       date_livraison: dateLivraison.value || null
     })
   }
@@ -189,20 +183,6 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
             onValueChange={handleInputChange}
           />
         </div>
-
-        {/* Système de référence spatial du livrable - select */}
-        <div className='fr-col-12 fr-col-lg-4 fr-mt-6w fr-pr-3w'>
-          <SelectInput
-            name='crs'
-            label='Système de référence spatial'
-            options={systRefSpatialOptions}
-            value={form.fields.crs.value}
-            ariaLabel='système de référence spatial du livrable'
-            description='Identifiant EPSG du livrable'
-            errorMessage={form.fields.crs.validationMessage}
-            onValueChange={handleInputChange}
-          />
-        </div>
       </div>
 
       <div className='fr-grid-row fr-mt-3w'>
@@ -239,7 +219,6 @@ LivrableForm.propTypes = {
     diffusion: PropTypes.string,
     licence: PropTypes.string,
     avancement: PropTypes.string,
-    crs: PropTypes.string,
     dateLivraison: PropTypes.string
   }),
   isLivrableNameAvailable: PropTypes.func.isRequired,
