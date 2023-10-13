@@ -1,4 +1,3 @@
-import process from 'node:process'
 import createError from 'http-errors'
 import {omit} from 'lodash-es'
 import {nanoid} from 'nanoid'
@@ -6,8 +5,7 @@ import mongo from '../../util/mongo.js'
 import {findClosestEtape} from '../../../shared/find-closest-etape.js'
 import {buildGeometryFromTerritoires, getTerritoiresProperties} from '../territoires.js'
 import {validateCreation, validateChanges} from '../projets-validator.js'
-
-const {SCANNER_URL} = process.env
+import {updateLivrableStockage} from '../api-scanner.js'
 
 export function expandProjet(projet) {
   const territoires = projet?.perimetres?.map(p => getTerritoiresProperties(p)) || null
@@ -60,41 +58,6 @@ async function copyProjetVersion(projet) {
     _created: new Date(),
     content: projet
   })
-}
-
-async function updateLivrableStockage(livrables) {
-  if (SCANNER_URL) {
-    try {
-      const updatedLivrables = await Promise.all(livrables.map(async livrable => {
-        const type = livrable.stockage
-        const params = livrable.stockage_params
-
-        const response = await fetch(SCANNER_URL, {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({type, params})
-        })
-
-        const {_id} = await response.json()
-
-        return {
-          ...livrable,
-          stockageId: _id
-        }
-      }))
-
-      return updatedLivrables
-    } catch (error) {
-      console.error(error.message)
-    }
-  } else {
-    console.error('SCANNER_URL n’est pas défini, impossible de récupérer le stockage des livrables')
-  }
-
-  return livrables
 }
 
 export async function createProjet(payload, options = {}) {

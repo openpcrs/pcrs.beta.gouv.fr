@@ -1,0 +1,31 @@
+import process from 'node:process'
+import got from 'got'
+
+const {SCANNER_URL} = process.env
+
+export async function updateLivrableStockage(livrables) {
+  if (!SCANNER_URL) {
+    return [...livrables]
+  }
+
+  const updatedLivrables = await Promise.all(livrables.map(async livrable => {
+    const type = livrable.stockage
+    const params = livrable.stockage_params
+
+    const response = await got.post(SCANNER_URL, {
+      json: {type, params},
+      responseType: 'json'
+    })
+
+    const {_id} = response.body
+
+    return {
+      ...livrable,
+      // eslint-disable-next-line camelcase
+      stockage_id: _id
+    }
+  }))
+
+  return updatedLivrables
+}
+
