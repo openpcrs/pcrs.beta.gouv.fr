@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types'
 import {useEffect, useState} from 'react'
+import Image from 'next/image.js'
 
 import {useRouter} from 'next/router'
 
 import StockageFilesTree from './stockage-files-tree.js'
+import colors from '@/styles/colors.js'
 import {getStockageData, getStockageGeoJSON} from '@/lib/pcrs-scanner-api.js'
 
 import Tab from '@/components/ui/tab.js'
@@ -24,8 +26,8 @@ const StockagePreview = ({stockageId}) => {
         const geojson = await getStockageGeoJSON(stockageId)
 
         setStockage({data, geojson})
-      } catch (error) {
-        setFetchError(error)
+      } catch {
+        setFetchError('Les ressources sont indisponibles')
       }
     }
 
@@ -37,7 +39,32 @@ const StockagePreview = ({stockageId}) => {
   }, [stockageId])
 
   if (fetchError) {
-    return <p id='text-input-error-desc-error' className='fr-error-text'>{fetchError}</p>
+    return (
+      <div className='not-found-wrapper fr-p-5w'>
+        <Image
+          src='/images/illustrations/500.png'
+          height={456}
+          width={986}
+          alt=''
+          style={{
+            width: '100%',
+            maxWidth: '500px',
+            height: 'auto'
+          }}
+        />
+
+        <div className='not-found-explain fr-pt-8w'>
+          <p><b className='fr-mt-3w fr-text--xl'>{fetchError}</b></p>
+        </div>
+
+        <style jsx>{`
+          .not-found-wrapper, h1 {
+            text-align: center;
+            color: ${colors.darkgrey};
+          }
+        `}</style>
+      </div>
+    )
   }
 
   return (
