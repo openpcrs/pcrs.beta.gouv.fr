@@ -1,8 +1,11 @@
+import {useState} from 'react'
 import PropTypes from 'prop-types'
-import {groupBy} from 'lodash-es'
+import {groupBy, sortBy} from 'lodash-es'
 
 import {livrableRenderItem, subventionRenderItem, acteurRenderItem} from '@/components/projet/list-render-items.js'
 import {ACTORS_LABELS, NATURES_LABELS, SUBVENTIONS_NATURES_LABELS} from '@/components/suivi-form/utils/labels.js'
+import {findClosestEtape} from '@/shared/find-closest-etape.js'
+import {formatDate} from '@/lib/date-utils.js'
 
 import colors from '@/styles/colors.js'
 import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors.js'
@@ -12,10 +15,7 @@ import Badge from '@/components/badge.js'
 import GeneralInfos from '@/components/projet/general-infos.js'
 import Documents from '@/components/map-sidebar/documents.js'
 import EditorActions from '@/components/projet/editor-actions.js'
-
-import {findClosestEtape} from '@/shared/find-closest-etape.js'
-import {formatDate} from '@/lib/date-utils.js'
-
+import SelectInput from '@/components/select-input.js'
 import Timeline from '@/components/map-sidebar/timeline.js'
 
 const ProjetInfos = ({project}) => {
@@ -35,16 +35,26 @@ const ProjetInfos = ({project}) => {
     editorKey
   } = project
 
-  const livrablesByNatures = groupBy(livrables, 'nature')
+  const orderLivrablesByPublication = sortBy(livrables, livrable =>
+    livrable.date_livraison ? -new Date(livrable.date_livraison) : 0
+  )
+
+  const [selectedLivrableIdx, setSelectedLivrableIdx] = useState(0)
+
   const acteursByRoles = groupBy(acteurs, 'role')
   const subventionsByNatures = groupBy(subventions, 'nature')
 
-  const {livrablesNatures, actors, subventionsNatures} = PCRS_DATA_COLORS
+  const livrablesOptions = orderLivrablesByPublication.map((item, idx) => ({
+    label: `${item.nom} - ${NATURES_LABELS[item.nature]}`,
+    value: idx
+  }))
+
+  const {actors, subventionsNatures} = PCRS_DATA_COLORS
   const {statut} = etapes[etapes.length - 1]
   const isObsolete = statut === 'obsolete'
   const projectStartDate = formatDate(find(etapes, {statut: 'investigation'}).date_debut)
 
-  const {status} = PCRS_DATA_COLORS // Couleur du statut actuel
+  const {status} = PCRS_DATA_COLORS
   const closestPostStep = findClosestEtape(etapes)
 
   return (
@@ -89,12 +99,16 @@ const ProjetInfos = ({project}) => {
           <div className='fr-col-12 fr-mt-6w'>
             <h3 className='fr-text--lead fr-mt-5w fr-mb-3w'>Livrables · {livrables.length}</h3>
             <div>
-              {Object.keys(livrablesByNatures).map(nature => (
-                <div key={nature}>
-                  <div><Badge background={livrablesNatures[nature]}>{NATURES_LABELS[nature]}</Badge></div>
-                  <ListSlicer list={livrablesByNatures[nature]} renderListItem={item => livrableRenderItem(item)} />
-                </div>
-              ))}
+              <SelectInput
+                value={selectedLivrableIdx}
+                label='Sélectionner un livrable'
+                options={livrablesOptions}
+                onValueChange={e => setSelectedLivrableIdx(e.target.value)}
+              />
+
+              <div>
+                {livrableRenderItem(orderLivrablesByPublication[selectedLivrableIdx])}
+              </div>
             </div>
           </div>
 
