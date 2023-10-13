@@ -16,7 +16,7 @@ export async function updateLivrableStockage(livrables) {
       return livrable
     }
 
-    const response = await got.post(SCANNER_URL, {
+    const response = await got.post(`${SCANNER_URL}/storages`, {
       json: {type, params}
     }).json()
 
