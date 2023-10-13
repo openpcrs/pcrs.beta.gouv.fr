@@ -12,11 +12,9 @@ const ListItem = ({title, children}) => {
 
   return (
     <div className='fr-my-1w fr-p-1w dropdown-item-container'>
-      <div className='title-action-container'>
+      <div className='title-action-container' onClick={handleOpen}>
         <div className='title fr-text--sm fr-m-0'>{title}</div>
-        <div onClick={handleOpen}>
-          <span className={`fr-icon-arrow-${isOpen ? 'down' : 'right'}-s-line`} aria-hidden='true' />
-        </div>
+        <span className={`fr-icon-arrow-${isOpen ? 'down' : 'right'}-s-line`} aria-hidden='true' />
       </div>
       {isOpen && (
         <div className='fr-mt-4w'>
@@ -35,6 +33,7 @@ const ListItem = ({title, children}) => {
           display: flex;
           justify-content: space-between;
           align-items: center;
+          cursor: pointer;
         }
 
         .title {
