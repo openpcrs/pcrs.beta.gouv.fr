@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* eslint-disable no-await-in-loop */
 
-import mongo from '../server/util/mongo.js'
+import mongo from '../backend/util/mongo.js'
 
 await mongo.connect()
 
