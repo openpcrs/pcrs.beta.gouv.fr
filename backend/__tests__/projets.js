@@ -34,9 +34,7 @@ const validProjet = {
       nature: 'geotiff',
       diffusion: 'wmts',
       licence: 'ouvert_odbl',
-      avancement: 100,
-      crs: 'EPSG:2971',
-      compression: 'jpeg2000_lossy'
+      avancement: 100
     }
   ],
   acteurs: [

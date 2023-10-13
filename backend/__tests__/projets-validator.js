@@ -20,10 +20,7 @@ const validProjet = {
       stockage_params: {
         host: 'ftp://moi@serveur.fr'
       },
-      crs: 'ok',
-      compression: null,
-      date_livraison: '2020-11-28',
-      publication: 'cloud'
+      date_livraison: '2020-11-28'
     }
   ],
   acteurs: [
@@ -53,8 +50,7 @@ const invalidProjet = {
       nature: 'geotouff',
       diffusion: 'flox',
       licence: 'ouverte_lo',
-      avancement: '12',
-      publication: 'bonjour'
+      avancement: '12'
     }
   ],
   acteurs: [
@@ -124,7 +120,7 @@ test('Create invalid projet', t => {
     validateCreation(invalidProjet)
   }, {instanceOf: Error})
 
-  t.is(error.details.length, 15)
+  t.is(error.details.length, 14)
   t.is(error.details[0].message, 'La clé "nom" est obligatoire')
   t.is(error.details[1].message, 'Ce type de régime n’est pas valide')
   t.is(error.details[2].message, 'Cette nature n’est pas valide')
@@ -132,14 +128,13 @@ test('Create invalid projet', t => {
   t.is(error.details[4].message, 'Ce type de licence n’est pas valide')
   t.is(error.details[5].message, 'Ce type de diffusion n’est pas valide')
   t.is(error.details[6].message, 'L’avancement doit être un nombre')
-  t.is(error.details[7].message, 'Ce type de publication n’est pas valide')
-  t.is(error.details[8].message, 'Le numéro de téléphone est invalide')
+  t.is(error.details[7].message, 'Le numéro de téléphone est invalide')
+  t.is(error.details[8].message, 'Ce rôle n’existe pas')
   t.is(error.details[9].message, 'Ce rôle n’existe pas')
-  t.is(error.details[10].message, 'Ce rôle n’existe pas')
-  t.is(error.details[11].message, 'Le territoire n’est pas valide')
-  t.is(error.details[12].message, 'Date invalide')
-  t.is(error.details[13].message, 'La nature est obligatoire')
-  t.is(error.details[14].message, 'Une clé de l’objet est invalide')
+  t.is(error.details[10].message, 'Le territoire n’est pas valide')
+  t.is(error.details[11].message, 'Date invalide')
+  t.is(error.details[12].message, 'La nature est obligatoire')
+  t.is(error.details[13].message, 'Une clé de l’objet est invalide')
 })
 
 // Test validateChanges
@@ -153,20 +148,19 @@ test('Update invalid projet', t => {
     validateChanges(invalidProjet)
   }, {instanceOf: Error})
 
-  t.is(error.details.length, 13)
+  t.is(error.details.length, 12)
   t.is(error.details[0].message, 'Ce régime n’est pas valide')
   t.is(error.details[1].message, 'Cette nature n’est pas valide')
   t.is(error.details[2].message, 'Cette nature n’est pas valide')
   t.is(error.details[3].message, 'Ce type de licence n’est pas valide')
   t.is(error.details[4].message, 'Ce type de diffusion n’est pas valide')
   t.is(error.details[5].message, 'L’avancement doit être un nombre')
-  t.is(error.details[6].message, 'La publication n’est pas valide')
-  t.is(error.details[7].message, 'Le numéro de téléphone est invalide')
+  t.is(error.details[6].message, 'Le numéro de téléphone est invalide')
+  t.is(error.details[7].message, 'Le rôle n’est pas valide')
   t.is(error.details[8].message, 'Le rôle n’est pas valide')
-  t.is(error.details[9].message, 'Le rôle n’est pas valide')
-  t.is(error.details[10].message, 'Le territoire n’est pas valide')
-  t.is(error.details[11].message, 'Date invalide')
-  t.is(error.details[12].message, 'Une clé de l’objet est invalide')
+  t.is(error.details[9].message, 'Le territoire n’est pas valide')
+  t.is(error.details[10].message, 'Date invalide')
+  t.is(error.details[11].message, 'Une clé de l’objet est invalide')
 })
 
 // Test validateJoiDate
