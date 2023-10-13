@@ -149,23 +149,7 @@ const livrablesSchemaCreation = Joi.object().keys({
   ).allow(null).messages({
     'any.only': 'Ce type de stockage n’est pas valide'
   }),
-  stockage_params: Joi.object().when('stockage', {
-    is: 'http',
-    // eslint-disable-next-line unicorn/no-thenable
-    then: Joi.object({
-      url: Joi.string().required()
-    }).messages({
-      'object.unknown': 'Une clé est invalide en mode http'
-    }),
-    otherwise: Joi.object({
-      host: Joi.string().required(),
-      port: Joi.number().integer(),
-      user: Joi.string(),
-      password: Joi.string(),
-      startPath: Joi.string(),
-      secure: Joi.bool()
-    })
-  })
+  stockage_params: Joi.object()
 }).messages({
   'object.unknown': 'Une clé de l’objet est invalide'
 })
@@ -337,21 +321,7 @@ const livrablesSchemaUpdate = Joi.object().keys({
   ).messages({
     'any.only': 'Ce type de stockage n’est pas valide'
   }),
-  stockage_params: Joi.object().when('stockage', {
-    is: 'http',
-    // eslint-disable-next-line unicorn/no-thenable
-    then: Joi.object({
-      url: Joi.string()
-    }),
-    otherwise: Joi.object({
-      host: Joi.string().required(),
-      port: Joi.number().integer(),
-      user: Joi.string(),
-      password: Joi.string(),
-      startPath: Joi.string(),
-      secure: Joi.bool()
-    })
-  })
+  stockage_params: Joi.object()
 }).messages({
   'object.unknown': 'Une clé de l’objet est invalide'
 })
