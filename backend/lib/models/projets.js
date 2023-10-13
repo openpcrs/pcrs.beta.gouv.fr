@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import createError from 'http-errors'
 import {omit} from 'lodash-es'
 import {nanoid} from 'nanoid'
@@ -25,12 +26,22 @@ async function addStockageId(livrables) {
       return livrable
     }
 
-    const {_id} = await attachStorage({type, params})
+    try {
+      const {_id} = await attachStorage({type, params})
 
-    return {
-      ...livrable,
-      // eslint-disable-next-line camelcase
-      stockage_id: _id
+      return {
+        ...livrable,
+        stockage_id: _id,
+        stockage_erreur: null
+      }
+    } catch (error) {
+      console.log(error)
+
+      return {
+        ...livrable,
+        stockage_id: null,
+        stockage_erreur: 'Impossible de créer le stockage associé'
+      }
     }
   }))
 
