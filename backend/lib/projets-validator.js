@@ -145,8 +145,7 @@ const livrablesSchemaCreation = Joi.object().keys({
   }),
   stockage: Joi.valid(
     'http',
-    'ftp',
-    'ftps'
+    'ftp'
   ).allow(null).messages({
     'any.only': 'Ce type de stockage n’est pas valide'
   }),
@@ -334,8 +333,7 @@ const livrablesSchemaUpdate = Joi.object().keys({
   stockage_id: Joi.string().allow(null),
   stockage: Joi.valid(
     'http',
-    'ftp',
-    'sftp'
+    'ftp'
   ).allow(null).messages({
     'any.only': 'Ce type de stockage n’est pas valide'
   }),
