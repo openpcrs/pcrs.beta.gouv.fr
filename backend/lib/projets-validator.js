@@ -147,9 +147,15 @@ const livrablesSchemaCreation = Joi.object().keys({
   avancement: Joi.number().allow(null).messages({
     'number.base': 'L’avancement doit être un nombre'
   }),
-  compression: Joi.string().allow(null).messages({
-    'string.base': 'La compression doit être une chaine de caractères',
-    'string.empty': 'Le champs compression ne peut pas être vide'
+  compression: Joi.valid(
+    'none',
+    'jpeg2000_lossy',
+    'geotiff_lzw',
+    'geotiff_deflate',
+    'geotiff_lzma',
+    'geotiff_zstd'
+  ).allow(null).messages({
+    'any.only': 'Ce type de compression n’est pas valide'
   }),
   publication: Joi.valid(
     'ftp',
@@ -352,9 +358,15 @@ const livrablesSchemaUpdate = Joi.object().keys({
   avancement: Joi.number().allow(null).messages({
     'number.base': 'L’avancement doit être un nombre'
   }),
-  compression: Joi.string().allow(null).messages({
-    'string.base': 'La compression doit être une chaine de caractères',
-    'string.empty': 'Le champs compression ne peut pas être vide'
+  compression: Joi.valid(
+    'none',
+    'jpeg2000_lossy',
+    'geotiff_lzw',
+    'geotiff_deflate',
+    'geotiff_lzma',
+    'geotiff_zstd'
+  ).allow(null).messages({
+    'any.only': 'Ce type de compression n’est pas valide'
   }),
   publication: Joi.valid(
     'ftp',
