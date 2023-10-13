@@ -17,11 +17,10 @@ export async function updateLivrableStockage(livrables) {
     }
 
     const response = await got.post(SCANNER_URL, {
-      json: {type, params},
-      responseType: 'json'
-    })
+      json: {type, params}
+    }).json()
 
-    const {_id} = response.body
+    const {_id} = response
 
     return {
       ...livrable,
