@@ -18,7 +18,7 @@ const validProjet = {
       avancement: 18,
       stockage: 'ftp',
       stockage_params: {
-        host: 'ftp://moi@serveur.fr'
+        host: 'ftp://moi-serveur.fr'
       },
       date_livraison: '2020-11-28'
     }
