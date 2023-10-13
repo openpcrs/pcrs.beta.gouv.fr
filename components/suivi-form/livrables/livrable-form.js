@@ -168,9 +168,7 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
             onValueChange={handleInputChange}
           />
         </div>
-      </div>
 
-      <div className='fr-grid-row'>
         {/* Avancement du livrable - number */}
         <div className='fr-input-group fr-col-12 fr-col-lg-4 fr-pr-3w fr-mt-6w'>
           <TextInput

@@ -25,25 +25,25 @@ const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete}) => {
             <div className='fr-col-12 fr-text--sm fr-m-0'>{getNatures(nature)}</div>
           </div>
 
-          <div className='fr-grid-row fr-col-12 fr-col-md-2'>
+          <div className='fr-grid-row fr-col-12 fr-col-md-3'>
             <div className='label fr-col-12'>Diffusion</div>
             <div className='fr-col-12 fr-text--sm fr-m-0'>{getDiffusions(diffusion) || 'N/A'}</div>
-          </div>
-
-          <div className='fr-grid-row fr-col-12 fr-col-md-2'>
-            <div className='label fr-col-12'>Licence</div>
-            <div className='fr-col-12 fr-text--sm fr-m-0'>{getLicences(licence)}</div>
-          </div>
-
-          <div className='fr-grid-row fr-col-12 fr-col-md-2'>
-            <div className='label fr-col-12'>Avancement</div>
-            <div className='fr-col-12 fr-text--sm fr-m-0'>{avancement || 'N/A'}</div>
           </div>
         </div>
 
         {/* ---------------------- Bottom ---------------------- */}
         <div className='fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-col-12 infos-row'>
-          <div className='fr-grid-row fr-col-12 fr-col-md-2'>
+          <div className='fr-grid-row fr-col-12 fr-col-md-3'>
+            <div className='label fr-col-12'>Licence</div>
+            <div className='fr-col-12 fr-text--sm fr-m-0'>{getLicences(licence)}</div>
+          </div>
+
+          <div className='fr-grid-row fr-col-12 fr-col-md-3'>
+            <div className='label fr-col-12'>Avancement</div>
+            <div className='fr-col-12 fr-text--sm fr-m-0'>{avancement || 'N/A'}</div>
+          </div>
+
+          <div className='fr-grid-row fr-col-12 fr-col-md-3'>
             <div className='label fr-col-12'>Date de livraison</div>
             <div className='fr-col-12 fr-text--sm fr-m-0'>{dateLivraison ? shortDate(dateLivraison) : 'N/A'}</div>
           </div>
