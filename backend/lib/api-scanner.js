@@ -3,32 +3,10 @@ import got from 'got'
 
 const {SCANNER_URL} = process.env
 
-export async function updateLivrableStockage(livrables) {
-  if (!SCANNER_URL) {
-    return [...livrables]
-  }
+export async function attachStorage({type, params}) {
+  const {_id} = await got.post(`${SCANNER_URL}/storages`, {
+    json: {type, params}
+  }).json()
 
-  const updatedLivrables = await Promise.all(livrables.map(async livrable => {
-    const type = livrable.stockage
-    const params = livrable.stockage_params
-
-    if (!type) {
-      return livrable
-    }
-
-    const response = await got.post(`${SCANNER_URL}/storages`, {
-      json: {type, params}
-    }).json()
-
-    const {_id} = response
-
-    return {
-      ...livrable,
-      // eslint-disable-next-line camelcase
-      stockage_id: _id
-    }
-  }))
-
-  return updatedLivrables
+  return {_id}
 }
-

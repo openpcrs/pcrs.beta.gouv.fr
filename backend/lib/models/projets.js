@@ -5,7 +5,7 @@ import mongo from '../../util/mongo.js'
 import {findClosestEtape} from '../../../shared/find-closest-etape.js'
 import {buildGeometryFromTerritoires, getTerritoiresProperties} from '../territoires.js'
 import {validateCreation, validateChanges} from '../projets-validator.js'
-import {updateLivrableStockage} from '../api-scanner.js'
+import {attachStorage} from '../api-scanner.js'
 
 export function expandProjet(projet) {
   const territoires = projet?.perimetres?.map(p => getTerritoiresProperties(p)) || null
@@ -17,9 +17,24 @@ export function expandProjet(projet) {
 }
 
 async function addStockageId(livrables) {
-  const livrablesWithStockageId = await updateLivrableStockage(livrables)
+  const updatedLivrables = await Promise.all(livrables.map(async livrable => {
+    const type = livrable.stockage
+    const params = livrable.stockage_params
 
-  return livrablesWithStockageId
+    if (!type) {
+      return livrable
+    }
+
+    const {_id} = await attachStorage({type, params})
+
+    return {
+      ...livrable,
+      // eslint-disable-next-line camelcase
+      stockage_id: _id
+    }
+  }))
+
+  return updatedLivrables
 }
 
 function computeEditorKey() {
