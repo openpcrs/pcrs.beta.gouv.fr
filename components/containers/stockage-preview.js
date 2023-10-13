@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
 import {useEffect, useState} from 'react'
 import Image from 'next/image.js'
-
 import {useRouter} from 'next/router'
 
 import StockageFilesTree from './stockage-files-tree.js'
+
 import colors from '@/styles/colors.js'
 import {getStockageData, getStockageGeoJSON} from '@/lib/pcrs-scanner-api.js'
 
@@ -90,14 +90,21 @@ const StockagePreview = ({stockageId}) => {
           </div>
         </Tab>
       ) : (
-        <CenteredSpinnder />
+        <div className='spinner-container fr-grid-row fr-grid-row--center fr-grid-row--middle'>
+          <div className='fr-col-12'>
+            <CenteredSpinnder />
+          </div>
+        </div>
       )}
 
       <style jsx>{`
         .stockage-preview-container {
-            display: flex;
-            height: 500px;
-            overflow-y: auto;
+          display: flex;
+          height: 500px;
+        }
+
+        .spinner-container {
+          width: 100%;
         }
 
         .tab-content {
