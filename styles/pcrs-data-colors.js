@@ -20,9 +20,11 @@ export const PCRS_DATA_COLORS = {
   },
   status: {
     investigation: '#ffe386',
-    production: '#a7f192',
-    produit: '#87c1ea',
-    livre: '#175c8b',
+    convention_signee: '#d8ed75',
+    marche_public_en_cours: '#b9e45a',
+    prod_en_cours: '#a7f192',
+    controle_en_cours: '#87c1ea',
+    disponible: '#175c8b',
     obsolete: '#7c7c7c'
   },
   actors: {

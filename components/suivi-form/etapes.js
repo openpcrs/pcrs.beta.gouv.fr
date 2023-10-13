@@ -3,20 +3,13 @@ import PropTypes from 'prop-types'
 import {findIndex} from 'lodash-es'
 
 import colors from '@/styles/colors.js'
+import {STATUS} from '@/lib/utils/projet.js'
 
 import {useInput} from '@/hooks/input.js'
 
 import DateInput from '@/components/date-input.js'
 import TextInput from '@/components/text-input.js'
 import Button from '@/components/button.js'
-
-const STATUS = [
-  {label: 'Investigation', value: 'investigation'},
-  {label: 'Production', value: 'production'},
-  {label: 'Produit', value: 'produit'},
-  {label: 'Livré', value: 'livre'},
-  {label: 'Obsolète', value: 'obsolete'}
-]
 
 const Etapes = ({initialValue, etapes, handleEtapes}) => {
   const {statut, date_debut} = initialValue
