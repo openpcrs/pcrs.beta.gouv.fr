@@ -1,81 +1,88 @@
-import {useState} from 'react'
+import {useCallback, useState} from 'react'
 import PropTypes from 'prop-types'
 import {uniqueId} from 'lodash-es'
 
 import colors from '@/styles/colors.js'
+
+import {normalizeSring} from '@/lib/string.js'
 
 import SubventionCard from '@/components/suivi-form/subventions/subvention-card.js'
 import SubventionForm from '@/components/suivi-form/subventions/subvention-form.js'
 import Button from '@/components/button.js'
 
 const Subventions = ({subventions, handleSubventions}) => {
-  const [isAdding, setIsAdding] = useState(false)
-  const [isEditing, setIsEditing] = useState(false)
-  const [updatingSubvIndex, setUpdatingSubvIndex] = useState(null)
-
-  const isFormOpen = isAdding || isEditing
+  const [editedSubvention, setEditedSubvention] = useState(null)
 
   const onDelete = index => {
     handleSubventions(current => current.filter((_, i) => index !== i))
-    setIsAdding(false)
-    setIsEditing(false)
+    setEditedSubvention(null)
   }
+
+  const handleSubvention = useCallback(subvention => {
+    if (editedSubvention && editedSubvention.index >= 0) {
+      handleSubventions(prevSubventions => {
+        const subventionsCopy = [...prevSubventions]
+        subventionsCopy[editedSubvention.index] = subvention
+        return subventionsCopy
+      })
+    } else {
+      handleSubventions([...subventions, subvention])
+    }
+
+    setEditedSubvention(null)
+  }, [editedSubvention, subventions, handleSubventions])
+
+  const isSubventionExisting = useCallback(nom => {
+    const _subventions = (typeof editedSubvention?.index === 'undefined')
+      ? subventions
+      : subventions.filter((a, idx) => idx !== editedSubvention.index) // Filter subvention being edited
+    return _subventions.some(subvention => normalizeSring(nom) === normalizeSring(subvention.nom))
+  }, [editedSubvention, subventions])
 
   return (
     <div className='fr-mt-8w'>
       <h3 className='fr-h5'>Subventions</h3>
       <hr className='fr-my-3w' />
 
-      {subventions.map((subvention, idx) => (
+      {subventions.map((subvention, index) => (
         <div key={uniqueId()}>
-          <SubventionCard
-            {...subvention}
-            isFormOpen={isFormOpen}
-            handleSubventions={handleSubventions}
-            handleEdition={() => {
-              setUpdatingSubvIndex(idx)
-              setIsEditing(true)
-            }}
-            handleDelete={() => onDelete(idx)}
-          />
-
-          {updatingSubvIndex === idx && (
+          {editedSubvention && editedSubvention.index === index ? (
             <div>
               <SubventionForm
-                subventions={subventions}
-                handleSubventions={handleSubventions}
-                updatingSubvIdx={updatingSubvIndex}
-                isEditing={isEditing}
-                isAdding={isAdding}
-                handleEditing={setIsEditing}
-                handleAdding={setIsAdding}
-                handleUpdatingSubvIdx={setUpdatingSubvIndex}
+                initialValues={editedSubvention.subvention}
+                isSubventionExisting={isSubventionExisting}
+                onCancel={() => setEditedSubvention(null)}
+                onSubmit={handleSubvention}
               />
               <hr className='edit-separator fr-my-3w' />
             </div>
+          ) : (
+            <SubventionCard
+              {...subvention}
+              isDisabled={Boolean(editedSubvention)}
+              handleSubventions={handleSubventions}
+              handleEdition={() => setEditedSubvention({subvention, index})}
+              handleDelete={() => onDelete(index)}
+            />
           )}
         </div>
       ))}
 
-      {isAdding && (
+      {editedSubvention && editedSubvention.index === undefined && (
         <SubventionForm
-          subventions={subventions}
-          handleSubventions={handleSubventions}
-          updatingSubvIdx={updatingSubvIndex}
-          isEditing={isEditing}
-          isAdding={isAdding}
-          handleEditing={setIsEditing}
-          handleAdding={setIsAdding}
-          handleUpdatingSubvIdx={setUpdatingSubvIndex}
+          initialValues={editedSubvention}
+          isSubventionExisting={isSubventionExisting}
+          onCancel={() => setEditedSubvention(null)}
+          onSubmit={handleSubvention}
         />
       )}
 
-      {!isAdding && !isEditing && (
+      {!editedSubvention && (
         <Button
           label='Ajouter une subvention'
           icon='add-circle-fill'
           iconSide='left'
-          onClick={() => setIsAdding(true)}
+          onClick={() => setEditedSubvention({})}
         >
           Ajouter une subvention
         </Button>
