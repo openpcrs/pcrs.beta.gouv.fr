@@ -43,7 +43,7 @@ const EditorActions = ({nom, projectId, editorCode}) => {
             </Button>
           </div>
 
-          <div>
+          <div className='fr-col-12'>
             <div>
               <b className='fr-text fr-m-0 fr-mb-2w' onClick={handleEditCodeShow}>
                 Afficher le lien d’édition <span className={`fr-icon-arrow-${isEditCodeShow ? 'down' : 'right'}-s-line`} aria-hidden='true' />
@@ -54,7 +54,7 @@ const EditorActions = ({nom, projectId, editorCode}) => {
                   <div style={{cursor: 'pointer'}} onClick={() => navigator.clipboard.writeText(shareCodeUrl)}>
                     <span className='fr-icon-clipboard-line' aria-hidden='true' /> Copier
                   </div>
-                  <i className='fr-mt-1w'><a className='fr-text--xs' href={shareCodeUrl}>{shareCodeUrl}</a></i>
+                  <i className='fr-mt-1w'><a className='fr-text--xs link' href={shareCodeUrl}>{shareCodeUrl}</a></i>
                 </div>
               )}
             </div>
@@ -62,7 +62,7 @@ const EditorActions = ({nom, projectId, editorCode}) => {
         </div>
       )}
 
-      <div className={`${userRole === 'admin' ? 'fr-col-12 fr-col-md-6' : 'fr-col-12'} fr-grid-row fr-grid-row--top`}>
+      <div className={`${userRole === 'admin' ? 'fr-col-12 fr-col-md-6' : 'fr-col-12'} fr-grid-row fr-grid-row--top edit-actions`}>
         <div className='fr-grid-row fr-grid-row--right fr-col-12 fr-mt-3w'>
           <Button
             label='Éditer le projet'
@@ -112,10 +112,18 @@ const EditorActions = ({nom, projectId, editorCode}) => {
           height: fit-content;
         }
 
+        .edit-actions {
+          height: fit-content;
+        }
+
         .delete-button {
           color: ${colors.redMarianne425};
           font-weight: bold;
           border: 1px solid ${colors.redMarianne425};
+        }
+
+        .link {
+          word-wrap: break-word;
         }
       `}</style>
     </div>
