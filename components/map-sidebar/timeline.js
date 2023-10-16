@@ -11,7 +11,7 @@ const Timeline = ({currentStatus, steps}) => (
       {TIMELINE.map((step, index) => (
         <TimelineStep
           key={step.value}
-          step={steps[index]}
+          stepDateDebut={steps[index]?.date_debut}
           status={step}
           isCurrentStep={currentStatus === step.value}
           isLastStep={step.value === 'disponible'}

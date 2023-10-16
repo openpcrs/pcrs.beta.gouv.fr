@@ -4,14 +4,14 @@ import Loader from '@/components/loader.js'
 import Tooltip from '@/components/tooltip.js'
 import colors from '@/styles/colors.js'
 
-const TimelineStep = ({step, status, isCurrentStep, isLastStep}) => {
+const TimelineStep = ({stepDateDebut, status, isCurrentStep, isLastStep}) => {
   const tooltipContent = () => (
     <>
-      <div className={`tooltip-label ${step ? '' : 'futur-label'}`}>
+      <div className={`tooltip-label ${stepDateDebut ? '' : 'futur-label'}`}>
         {status.label}
       </div>
 
-      {step?.date_debut && <div className='start-date fr-text--sm fr-mb-0'>Depuis le {step.date_debut}</div>}
+      {stepDateDebut && <div className='start-date fr-text--sm fr-mb-0'>Depuis le {stepDateDebut}</div>}
 
       <style jsx>{`
         .futur-label {
@@ -37,11 +37,11 @@ const TimelineStep = ({step, status, isCurrentStep, isLastStep}) => {
           <div
             className='circle'
             style={{
-              backgroundColor: step ? status.color : colors.grey900,
-              color: step ? status.textColor : colors.grey200
+              backgroundColor: stepDateDebut ? status.color : colors.grey900,
+              color: stepDateDebut ? status.textColor : colors.grey200
             }}
           >
-            {(step || isLastStep) && (
+            {(stepDateDebut || isLastStep) && (
               <span className={isLastStep ? 'fr-icon-flag-fill' : 'fr-icon-check-line'} aria-hidden='true' />
             )}
           </div>
@@ -81,16 +81,13 @@ const TimelineStep = ({step, status, isCurrentStep, isLastStep}) => {
 }
 
 TimelineStep.propTypes = {
-  step: Proptypes.shape({
-    date_debut: Proptypes.string
-  }),
+  stepDateDebut: Proptypes.string,
   status: Proptypes.shape({
     label: Proptypes.string.isRequired,
     color: Proptypes.string.isRequired,
     textColor: Proptypes.string.isRequired
   }).isRequired,
   isCurrentStep: Proptypes.bool.isRequired,
-  isFuturStep: Proptypes.bool.isRequired,
   isLastStep: Proptypes.bool.isRequired
 }
 
