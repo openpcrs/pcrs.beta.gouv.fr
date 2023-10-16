@@ -1,11 +1,9 @@
 import PropTypes from 'prop-types'
 import {useEffect, useState} from 'react'
-import Image from 'next/image.js'
 import {useRouter} from 'next/router'
 
 import StockageFilesTree from './stockage-files-tree.js'
 
-import colors from '@/styles/colors.js'
 import {getStockageData, getStockageGeoJSON} from '@/lib/pcrs-scanner-api.js'
 
 import Tab from '@/components/ui/tab.js'
