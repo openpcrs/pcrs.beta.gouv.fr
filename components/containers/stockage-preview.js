@@ -15,7 +15,7 @@ import CenteredSpinnder from '@/components/centered-spinner.js'
 const StockagePreview = ({stockageId}) => {
   const [stockage, setStockage] = useState()
   const [selectedTab, setSelectedTab] = useState('map')
-  const [fetchError, setFetchError] = useState()
+  const [fetchError, setFetchError] = useState(null)
 
   const router = useRouter()
 
@@ -27,7 +27,7 @@ const StockagePreview = ({stockageId}) => {
 
         setStockage({data, geojson})
       } catch {
-        setFetchError('Les ressources sont indisponibles')
+        setFetchError('Les ressources du livrable sont indisponibles')
       }
     }
 
@@ -40,29 +40,8 @@ const StockagePreview = ({stockageId}) => {
 
   if (fetchError) {
     return (
-      <div className='not-found-wrapper fr-p-5w'>
-        <Image
-          src='/images/illustrations/500.png'
-          height={456}
-          width={986}
-          alt=''
-          style={{
-            width: '100%',
-            maxWidth: '500px',
-            height: 'auto'
-          }}
-        />
-
-        <div className='not-found-explain fr-pt-8w'>
-          <p><b className='fr-mt-3w fr-text--xl'>{fetchError}</b></p>
-        </div>
-
-        <style jsx>{`
-          .not-found-wrapper, h1 {
-            text-align: center;
-            color: ${colors.darkgrey};
-          }
-        `}</style>
+      <div>
+        { fetchError && <p id='text-input-error-desc-error' className='fr-error-text'> {fetchError}</p>}
       </div>
     )
   }
@@ -113,7 +92,7 @@ const StockagePreview = ({stockageId}) => {
         }
 
         .map-wrapper {
-          width: 600px;
+          width: 100%;
           height: 500px;
         }
       `}</style>
