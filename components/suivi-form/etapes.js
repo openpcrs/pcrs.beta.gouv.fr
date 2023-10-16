@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
 import PropTypes from 'prop-types'
-import {findIndex} from 'lodash-es'
 
 import colors from '@/styles/colors.js'
 import {STATUS} from '@/lib/utils/projet.js'
@@ -31,14 +30,15 @@ const Etapes = ({initialValue, etapes, handleEtapes}) => {
 
   const addStep = () => {
     if (startDate) {
-      const currentStepIndex = findIndex(STATUS, o => o.value === statutInput)
-      const nextStepIndex = findIndex(STATUS, o => o.value === statutInput) + 1
+      const statusKeys = Object.keys(STATUS)
+      const currentStepIndex = statusKeys.indexOf(statutInput)
+      const nextStepIndex = statusKeys.indexOf(statutInput) + 1
 
       etapes[currentStepIndex].date_debut = startDate
 
       handleEtapes([...etapes, {statut: STATUS[nextStepIndex].value, date_debut: ''}])
 
-      setStatutInput(STATUS[nextStepIndex].value)
+      setStatutInput(STATUS[statusKeys[nextStepIndex]])
       setStartDate('')
     }
   }
@@ -55,7 +55,7 @@ const Etapes = ({initialValue, etapes, handleEtapes}) => {
       <hr className='separator fr-my-3w' />
 
       {etapes.map((etape, index) => {
-        const findLabel = STATUS.find(status => etape.statut === status.value).label
+        const findLabel = STATUS[etape.statut].label
 
         return (
           <div key={etape.statut} className='fr-grid-row fr-my-5w'>

@@ -10,7 +10,7 @@ import {formatDate} from '@/lib/date-utils.js'
 const Popup = ({projet, numberOfProjets}) => {
   const {aplc, dateStatut, nom, nature, statut} = projet
   const {natures} = PCRS_DATA_COLORS
-  const status = STATUS.find(({value}) => value === statut)
+  const status = STATUS[statut]
 
   return (
     <div

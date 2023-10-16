@@ -3,18 +3,18 @@ import PropTypes from 'prop-types'
 import TimelineStep from '@/components/ui/timeline-step.js'
 import {STATUS} from '@/lib/utils/projet.js'
 
-const TIMELINE = STATUS.slice(0, -1)
+const TIMELINE = STATUS
 
 const Timeline = ({currentStatus, steps}) => (
   <div className='fr-mb-3w'>
     <div className='timeline fr-mt-3w'>
-      {TIMELINE.map((step, index) => (
+      {Object.keys(STATUS).slice(0, -1).map((stepValue, index) => (
         <TimelineStep
-          key={step.value}
-          stepDateDebut={steps[index]?.date_debut}
-          status={step}
-          isCurrentStep={currentStatus === step.value}
-          isLastStep={step.value === 'disponible'}
+          key={stepValue}
+          step={steps[index]}
+          status={STATUS[stepValue]}
+          isCurrentStep={currentStatus === stepValue}
+          isLastStep={stepValue === 'disponible'}
         />
       ))}
     </div>

@@ -36,7 +36,7 @@ const MapSidebar = ({projet, onClose, onProjetChange, projets}) => {
   const isObsolete = statut === 'obsolete'
 
   const closestPostStep = findClosestEtape(etapes)
-  const closestPostStepStatus = STATUS.find(({value}) => value === closestPostStep.statut)
+  const closestPostStepStatus = STATUS[closestPostStep.statut]
 
   return (
     <>

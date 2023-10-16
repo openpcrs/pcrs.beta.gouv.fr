@@ -28,7 +28,7 @@ const Legend = ({isMobile, legend}) => {
           <span><u>Légende :</u></span>
           {(legend === 'projets-fills' || !legend) && (
             <>
-              {STATUS.map(({label, color, textColor}) => (
+              {Object.values(STATUS).map(({label, color, textColor}) => (
                 <Badge
                   key={label}
                   className='fr-pb-1v'
