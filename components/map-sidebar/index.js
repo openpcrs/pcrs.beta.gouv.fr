@@ -3,7 +3,7 @@ import {find} from 'lodash'
 
 import {formatDate} from '@/lib/date-utils.js'
 import {findClosestEtape} from '@/shared/find-closest-etape.js'
-import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors.js'
+import {STATUS} from '@/lib/utils/projet.js'
 
 import Header from '@/components/map-sidebar/project-header.js'
 import Badge from '@/components/badge.js'
@@ -13,7 +13,6 @@ import Documents from '@/components/map-sidebar/documents.js'
 import Contact from '@/components/map-sidebar/contact.js'
 
 const MapSidebar = ({projet, onClose, onProjetChange, projets}) => {
-  const {status} = PCRS_DATA_COLORS
   const {
     nom,
     territoires,
@@ -37,6 +36,7 @@ const MapSidebar = ({projet, onClose, onProjetChange, projets}) => {
   const isObsolete = statut === 'obsolete'
 
   const closestPostStep = findClosestEtape(etapes)
+  const closestPostStepStatus = STATUS.find(({value}) => value === closestPostStep.statut)
 
   return (
     <>
@@ -53,10 +53,10 @@ const MapSidebar = ({projet, onClose, onProjetChange, projets}) => {
         <h2 className='fr-text--lead fr-mb-1w'>État d’avancement</h2>
         <div className='actual-status fr-mb-3w'>
           <Badge
-            background={status[closestPostStep.statut]}
-            textColor={closestPostStep.statut === 'livre' || closestPostStep.statut === 'obsolete' ? 'white' : 'black'}
+            background={closestPostStepStatus.color}
+            textColor={closestPostStepStatus.textColor}
           >
-            {closestPostStep.statut === 'livre' ? 'livré' : closestPostStep.statut}
+            {closestPostStepStatus.label}
           </Badge>
 
           {projectStartDate && (
