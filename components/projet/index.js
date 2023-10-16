@@ -50,7 +50,10 @@ const ProjetInfos = ({project}) => {
   }))
 
   const {actors, subventionsNatures} = PCRS_DATA_COLORS
-  const {statut} = etapes[etapes.length - 1]
+
+  const statutIndex = etapes.length > 0 ? etapes.length - 1 : 0
+  const {statut} = etapes[statutIndex]
+
   const isObsolete = statut === 'obsolete'
   const projectStartDate = formatDate(find(etapes, {statut: 'investigation'}).date_debut)
 
