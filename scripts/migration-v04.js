@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable camelcase */
 /* eslint-disable no-await-in-loop */
 
 import mongo from '../backend/util/mongo.js'
@@ -6,6 +7,24 @@ import mongo from '../backend/util/mongo.js'
 await mongo.connect()
 
 const projets = await mongo.db.collection('projets').find({}).toArray()
+
+function updateEtapes(etapes) {
+  if (etapes.some(e => e.statut === 'prod_en_cours')) {
+    if (!etapes.some(e => e.statut === 'convention_signee')) {
+      etapes.splice(1, 0, {
+        statut: 'convention_signee',
+        date_debut: null
+      })
+    }
+
+    if (!etapes.some(e => e.statut === 'marche_public_en_cours')) {
+      etapes.splice(2, 0, {
+        statut: 'marche_public_en_cours',
+        date_debut: null
+      })
+    }
+  }
+}
 
 for (const projet of projets) {
   const updatedEtapes = projet.etapes.map(etape => {
@@ -32,6 +51,8 @@ for (const projet of projets) {
 
     return etape
   })
+
+  updateEtapes(updatedEtapes)
 
   await mongo.db.collection('projets').updateOne(
     {_id: projet._id},
