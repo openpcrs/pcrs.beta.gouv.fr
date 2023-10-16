@@ -2,17 +2,13 @@ import PropTypes from 'prop-types'
 import {useEffect, useState} from 'react'
 import {useRouter} from 'next/router'
 
-import StockageFilesTree from './stockage-files-tree.js'
-
 import {getStockageData, getStockageGeoJSON} from '@/lib/pcrs-scanner-api.js'
 
-import Tab from '@/components/ui/tab.js'
 import ScannerMap from '@/components/containers/scanner-map.js'
 import CenteredSpinnder from '@/components/centered-spinner.js'
 
 const StockagePreview = ({stockageId}) => {
   const [stockage, setStockage] = useState()
-  const [selectedTab, setSelectedTab] = useState('map')
   const [fetchError, setFetchError] = useState(null)
 
   const router = useRouter()
@@ -47,25 +43,9 @@ const StockagePreview = ({stockageId}) => {
   return (
     <div className='stockage-preview-container'>
       {stockage ? (
-        <Tab
-          handleActiveTab={setSelectedTab}
-          activeTab={selectedTab}
-          tabs={[
-            {value: 'map', label: 'Carte'},
-            {value: 'files', label: 'Fichiers'}
-          ]}
-        >
-          <div className='tab-content'>
-            {selectedTab === 'map' && (
-              <div className='map-wrapper'>
-                <ScannerMap geojson={stockage.geojson} />
-              </div>
-            )}
-            {selectedTab === 'files' && (
-              <StockageFilesTree data={stockage.data} />
-            )}
-          </div>
-        </Tab>
+        <div className='map-wrapper'>
+          <ScannerMap geojson={stockage.geojson} />
+        </div>
       ) : (
         <div className='spinner-container fr-grid-row fr-grid-row--center fr-grid-row--middle'>
           <div className='fr-col-12'>
