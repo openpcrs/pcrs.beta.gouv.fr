@@ -99,7 +99,7 @@ const Etapes = ({initialValue, etapes, handleEtapes}) => {
       }
       )}
 
-      {Boolean(startDate || (startDate && statutInput !== 'obsolete')) && (
+      {(startDate && etapes.length < STATUS.length) && (
         <Button
           label='Ajouter une étape'
           icon='add-circle-fill'
