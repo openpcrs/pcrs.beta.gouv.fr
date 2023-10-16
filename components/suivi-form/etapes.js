@@ -18,14 +18,16 @@ const Etapes = ({initialValue, etapes, handleEtapes}) => {
 
   const statusKeys = Object.keys(STATUS)
 
-  const handleDateChange = (value, statut) => {
-    if (statut === statutInput) {
+  const handleDateChange = event => {
+    const {value, name} = event.target
+
+    if (name === statutInput) {
       setStartDate(value)
     }
 
     handleEtapes(prevEtapes => {
       const etapesCopy = [...prevEtapes]
-      etapesCopy[etapesCopy.findIndex(e => e.statut === statut)] = {statut, date_debut: value}
+      etapesCopy[etapesCopy.findIndex(e => e.statut === name)] = {statut: name, date_debut: value}
       return etapesCopy
     })
   }
@@ -37,9 +39,9 @@ const Etapes = ({initialValue, etapes, handleEtapes}) => {
 
       etapes[currentStepIndex].date_debut = startDate
 
-      handleEtapes([...etapes, {statut: STATUS[nextStepIndex].value, date_debut: ''}])
+      handleEtapes([...etapes, {statut: statusKeys[nextStepIndex], date_debut: ''}])
 
-      setStatutInput(STATUS[statusKeys[nextStepIndex]])
+      setStatutInput(statusKeys[nextStepIndex])
       setStartDate('')
     }
   }
@@ -73,11 +75,12 @@ const Etapes = ({initialValue, etapes, handleEtapes}) => {
             <div className='fr-col-12 fr-mt-3w fr-mt-md-0 fr-col-md-6 fr-pl-md-3w'>
               <DateInput
                 isRequired
+                name={etape.statut}
                 label='Date de début'
                 ariaLabel='date de commencement du statut'
                 description='Date de début du statut'
                 value={etape.statut === statutInput ? startDate : etape.date_debut || ''}
-                onValueChange={e => handleDateChange(e.target.value, etape.statut)}
+                onValueChange={handleDateChange}
               />
             </div>
           </div>
