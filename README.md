@@ -57,7 +57,7 @@ Puis compléter les champs suivants :
 - `GHOST_KEY` -> Jeton permettant l’accès aux articles du Blog Ghost (optionnel)
 >*Pour utiliser l’API, vous devez compléter ce champ.*   
 >*En local, utilisez ce jeton pour authentifier les appels à l’API*
-- `API_ENTREPRISES_URL` -> URL de l’API "recherch-entreprises"
+- `API_ENTREPRISES_URL` -> URL de l’API "recherche-entreprises"
 - `MONGODB_URL` -> URL de la base de données MongoDB
 - `MONGODB_DBNAME` -> Nom de la collection MongoDB
 - `ADMIN_TOKEN` -> Jeton d’authentification des appels à l’API.
@@ -65,6 +65,8 @@ Puis compléter les champs suivants :
 >__Lorsqu’un ou plusieurs accès administrateurs ont été créé, il est préférable de ne plus utiliser le jeton du `.env` et de prioriser les comptes créés__   
 >   
 >__Il est obligatoire de le conserver dans le fichier `.env` afin de lancer l’application__   
+
+- `SCANNER_URL` -> URL de l’API permettant de scanner les stockages de livrables
 
 >*Les champs suivants sont optionnels, ils permettent d’envoyer le code de vérification par mail.*
 - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_SECURE`, `SMTP_FROM`, `SMTP_BCC` -> Paramètres du serveur de mail
