@@ -100,7 +100,7 @@ const ProjetInfos = ({project}) => {
             <h3 className='fr-text--lead fr-mt-5w fr-mb-3w'>Livrables · {livrables.length}</h3>
             <div>
               <SelectInput
-                value={selectedLivrableIdx}
+                value={selectedLivrableIdx.toString()}
                 label='Sélectionner un livrable'
                 options={livrablesOptions}
                 onValueChange={e => setSelectedLivrableIdx(e.target.value)}
