@@ -27,6 +27,14 @@ function updateEtapes(etapes) {
 }
 
 for (const projet of projets) {
+  const updatedLivrables = projet.livrables.map(livrable => {
+    delete livrable.compression
+    delete livrable.crs
+    delete livrable.publication
+
+    return livrable
+  })
+
   const updatedEtapes = projet.etapes.map(etape => {
     if (etape.statut === 'production') {
       return {
@@ -56,7 +64,12 @@ for (const projet of projets) {
 
   await mongo.db.collection('projets').updateOne(
     {_id: projet._id},
-    {$set: {etapes: updatedEtapes}}
+    {$set:
+      {
+        etapes: updatedEtapes,
+        livrables: updatedLivrables
+      }
+    }
   )
 }
 
