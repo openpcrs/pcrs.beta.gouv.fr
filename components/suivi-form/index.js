@@ -131,7 +131,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
           setErrors(uniq(errorsMessages))
           setErrorMessage('Le projet n’a pas pu être pris en compte car il y a des erreurs :')
         } else if (userRole === 'admin' || _id) {
-          router.push(`/projet/?id=${sendSuivi._id}`)
+          router.push(`/projet/${sendSuivi._id}`)
         } else {
           setIsShareModalOpen(true)
         }

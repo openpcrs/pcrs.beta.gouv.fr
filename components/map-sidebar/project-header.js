@@ -24,7 +24,7 @@ const Header = ({projectId, projectName, territoires, projets, onProjetChange}) 
             isWhite
             icon='arrow-right-line'
             buttonStyle='secondary'
-            onClick={() => router.push(`${SHARE_URL}/projet?id=${projectId}`)}
+            onClick={() => router.push(`${SHARE_URL}/projet/${projectId}`)}
           >
             Consulter le projet
           </Button>

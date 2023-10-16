@@ -1,4 +1,5 @@
 import {useEffect, useState, useContext} from 'react'
+import PropTypes from 'prop-types'
 import {useRouter} from 'next/router'
 import Image from 'next/image'
 
@@ -14,15 +15,13 @@ import Button from '@/components/button.js'
 import CenteredSpinner from '@/components/centered-spinner.js'
 import ProjetInfos from '@/components/projet/index.js'
 
-const Projet = () => {
+const Projet = ({id}) => {
   const router = useRouter()
   const {token} = useContext(AuthentificationContext)
 
   const [project, setProject] = useState()
   const [errorMessage, setErrorMessage] = useState()
   const [isLoading, setIsLoading] = useState(true)
-
-  const {id} = router.query
 
   useEffect(() => {
     async function getProjectData() {
@@ -108,4 +107,24 @@ const Projet = () => {
   )
 }
 
+export async function getServerSideProps(context) {
+  // Check id before page is render
+  const {id} = context.params
+
+  return {
+    props: {
+      id
+    }
+  }
+}
+
+Projet.propTypes = {
+  id: PropTypes.string
+}
+
+Projet.defaultProps = {
+  id: null
+}
+
 export default Projet
+

@@ -103,7 +103,7 @@ const MapSidebar = ({projet, onClose, onProjetChange, projets}) => {
           <Button
             size='sm'
             icon='arrow-right-line'
-            onClick={() => router.push(`${SHARE_URL}/projet?id=${_id}`)}
+            onClick={() => router.push(`${SHARE_URL}/projet/${_id}`)}
           >
             Consulter le projet
           </Button>
