@@ -3,12 +3,14 @@ import Badge from '@/components/badge.js'
 
 import colors from '@/styles/colors.js'
 import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors.js'
+import {STATUS} from '@/lib/utils/projet.js'
 
 import {formatDate} from '@/lib/date-utils.js'
 
 const Popup = ({projet, numberOfProjets}) => {
   const {aplc, dateStatut, nom, nature, statut} = projet
-  const {status, natures} = PCRS_DATA_COLORS
+  const {natures} = PCRS_DATA_COLORS
+  const status = STATUS.find(({value}) => value === statut)
 
   return (
     <div
@@ -24,17 +26,14 @@ const Popup = ({projet, numberOfProjets}) => {
         </div>
       )}
       <div className='fr-text fr-text--sm fr-grid-row--center fr-pt-3v'>
-        {statut !== 'livre' && (
-          <span>En</span>
-        )}
         <p
           style={{
-            backgroundColor: status[statut],
-            color: statut === 'livre' || statut === 'obsolete' ? 'white' : 'black'
+            backgroundColor: status.color,
+            color: status.textColor
           }}
           className='fr-badge fr-badge--sm fr-mx-1w'
         >
-          {statut === 'livre' ? 'livré' : statut}
+          {status.label}
         </p>
         {dateStatut && (
           <>
