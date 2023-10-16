@@ -16,6 +16,8 @@ const Etapes = ({initialValue, etapes, handleEtapes}) => {
   const [statutInput, setStatutInput] = useInput({initialValue: statut})
   const [startDate, setStartDate] = useInput({initialValue: date_debut})
 
+  const statusKeys = Object.keys(STATUS)
+
   const handleDateChange = (value, statut) => {
     if (statut === statutInput) {
       setStartDate(value)
@@ -30,7 +32,6 @@ const Etapes = ({initialValue, etapes, handleEtapes}) => {
 
   const addStep = () => {
     if (startDate) {
-      const statusKeys = Object.keys(STATUS)
       const currentStepIndex = statusKeys.indexOf(statutInput)
       const nextStepIndex = statusKeys.indexOf(statutInput) + 1
 
@@ -54,52 +55,48 @@ const Etapes = ({initialValue, etapes, handleEtapes}) => {
       <h3 className='fr-h5'>Étapes</h3>
       <hr className='separator fr-my-3w' />
 
-      {etapes.map((etape, index) => {
-        const findLabel = STATUS[etape.statut].label
-
-        return (
-          <div key={etape.statut} className='fr-grid-row fr-my-5w'>
-            <div className='fr-grid-row fr-col-11'>
-              <div className='fr-col-12 fr-col-md-6'>
-                <TextInput
-                  isRequired
-                  isDisabled
-                  id={etape.statut}
-                  label='Statut'
-                  ariaLabel='statut du projet'
-                  description='Statut du projet'
-                  value={findLabel}
-                />
-              </div>
-
-              <div className='fr-col-12 fr-mt-3w fr-mt-md-0 fr-col-md-6 fr-pl-md-3w'>
-                <DateInput
-                  isRequired
-                  label='Date de début'
-                  ariaLabel='date de commencement du statut'
-                  description='Date de début du statut'
-                  value={etape.statut === statutInput ? startDate : etape.date_debut}
-                  onValueChange={e => handleDateChange(e.target.value, etape.statut)}
-                />
-              </div>
+      {etapes.map((etape, index) => (
+        <div key={etape.statut} className='fr-grid-row fr-my-5w'>
+          <div className='fr-grid-row fr-col-11'>
+            <div className='fr-col-12 fr-col-md-6'>
+              <TextInput
+                isRequired
+                isDisabled
+                id={etape.statut}
+                label='Statut'
+                ariaLabel='statut du projet'
+                description='Statut du projet'
+                value={STATUS[etape.statut].label}
+              />
             </div>
-            <div className='fr-grid-row fr-grid-row--bottom fr-pl-2w fr-col-1 fr-pb-1w'>
-              <button
-                type='button'
-                aria-label='Supprimer l’étape'
-                className='delete-button fr-p-0'
-                disabled={etape.statut !== statutInput || etape.statut === 'investigation'}
-                onClick={() => onDelete(etape, index)}
-              >
-                <span className='fr-icon-delete-line' aria-hidden='true' />
-              </button>
+
+            <div className='fr-col-12 fr-mt-3w fr-mt-md-0 fr-col-md-6 fr-pl-md-3w'>
+              <DateInput
+                isRequired
+                label='Date de début'
+                ariaLabel='date de commencement du statut'
+                description='Date de début du statut'
+                value={etape.statut === statutInput ? startDate : etape.date_debut || ''}
+                onValueChange={e => handleDateChange(e.target.value, etape.statut)}
+              />
             </div>
           </div>
-        )
-      }
+          <div className='fr-grid-row fr-grid-row--bottom fr-pl-2w fr-col-1 fr-pb-1w'>
+            <button
+              type='button'
+              aria-label='Supprimer l’étape'
+              className='delete-button fr-p-0'
+              disabled={etape.statut !== statutInput || etape.statut === 'investigation'}
+              onClick={() => onDelete(etape, index)}
+            >
+              <span className='fr-icon-delete-line' aria-hidden='true' />
+            </button>
+          </div>
+        </div>
+      )
       )}
 
-      {(startDate && etapes.length < STATUS.length) && (
+      {(startDate && etapes.length < statusKeys.length) && (
         <Button
           label='Ajouter une étape'
           icon='add-circle-fill'
