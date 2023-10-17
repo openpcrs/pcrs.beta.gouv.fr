@@ -1,5 +1,5 @@
 import {formatDate} from '@/lib/date-utils.js'
-import {SUBVENTIONS_NATURES_LABELS, LICENCES_LABELS, PUBLICATIONS_LABELS, DIFFUSIONS_LABELS, NATURES_LABELS} from '@/components/suivi-form/utils/labels.js'
+import {SUBVENTIONS_NATURES_LABELS, LICENCES_LABELS, DIFFUSIONS_LABELS, NATURES_LABELS} from '@/components/suivi-form/utils/labels.js'
 
 import colors from '@/styles/colors.js'
 import ListItem from '@/components/projet/list-item.js'
@@ -9,7 +9,6 @@ export const livrableRenderItem = livrable => (
     <div className='fr-grid-row'><div className='title fr-mr-1w'>Nature : </div> <span>{NATURES_LABELS[livrable.nature] || 'Non renseignée'}</span></div>
     <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'>Licence :</div><span>{LICENCES_LABELS[livrable.licence] || 'Non renseignée'}</span></div>
     <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'>Diffusion :</div> <span>{DIFFUSIONS_LABELS[livrable.diffusion] || 'Non renseignée'}</span></div>
-    <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'>Type de publication :</div><span>{PUBLICATIONS_LABELS[livrable.publication] || 'Non renseigné'}</span></div>
     <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'> Livraison :</div> <span>{livrable.date_livraison ? `le ${formatDate(livrable.date_livraison)}` : 'Non renseignée'}</span></div>
 
     <style jsx>{`

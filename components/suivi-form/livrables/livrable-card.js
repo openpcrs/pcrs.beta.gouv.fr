@@ -4,10 +4,10 @@ import colors from '@/styles/colors.js'
 
 import {shortDate} from '@/lib/date-utils.js'
 
-import {getNatures, getLicences, getDiffusions, getPublications} from '@/components/suivi-form/livrables/utils/select-options.js'
+import {getNatures, getLicences, getDiffusions} from '@/components/suivi-form/livrables/utils/select-options.js'
 
 const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete}) => {
-  const {nom, nature, licence, crs, avancement, diffusion, publication, compression} = livrable
+  const {nom, nature, licence, avancement, diffusion} = livrable
   const dateLivraison = livrable.date_livraison
 
   return (
@@ -25,40 +25,25 @@ const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete}) => {
             <div className='fr-col-12 fr-text--sm fr-m-0'>{getNatures(nature)}</div>
           </div>
 
-          <div className='fr-grid-row fr-col-12 fr-col-md-2'>
+          <div className='fr-grid-row fr-col-12 fr-col-md-3'>
             <div className='label fr-col-12'>Diffusion</div>
             <div className='fr-col-12 fr-text--sm fr-m-0'>{getDiffusions(diffusion) || 'N/A'}</div>
-          </div>
-
-          <div className='fr-grid-row fr-col-12 fr-col-md-2'>
-            <div className='label fr-col-12'>Licence</div>
-            <div className='fr-col-12 fr-text--sm fr-m-0'>{getLicences(licence)}</div>
-          </div>
-
-          <div className='fr-grid-row fr-col-12 fr-col-md-2'>
-            <div className='label fr-col-12'>Avancement</div>
-            <div className='fr-col-12 fr-text--sm fr-m-0'>{avancement || 'N/A'}</div>
           </div>
         </div>
 
         {/* ---------------------- Bottom ---------------------- */}
         <div className='fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-col-12 infos-row'>
           <div className='fr-grid-row fr-col-12 fr-col-md-3'>
-            <div className='label fr-col-12'>Publication</div>
-            <div className='fr-col-12 fr-text--sm fr-m-0'>{getPublications(publication) || 'N/A'}</div>
+            <div className='label fr-col-12'>Licence</div>
+            <div className='fr-col-12 fr-text--sm fr-m-0'>{getLicences(licence)}</div>
           </div>
 
           <div className='fr-grid-row fr-col-12 fr-col-md-3'>
-            <div className='label fr-col-12'>Système de référence spatial</div>
-            <div className='fr-col-12 fr-text--sm fr-m-0'>{crs || 'N/A'}</div>
+            <div className='label fr-col-12'>Avancement</div>
+            <div className='fr-col-12 fr-text--sm fr-m-0'>{avancement || 'N/A'}</div>
           </div>
 
-          <div className='fr-grid-row fr-col-12 fr-col-md-2'>
-            <div className='label fr-col-12'>Compression</div>
-            <div className='fr-col-12 fr-text--sm fr-m-0'>{compression || 'N/A'}</div>
-          </div>
-
-          <div className='fr-grid-row fr-col-12 fr-col-md-2'>
+          <div className='fr-grid-row fr-col-12 fr-col-md-3'>
             <div className='label fr-col-12'>Date de livraison</div>
             <div className='fr-col-12 fr-text--sm fr-m-0'>{dateLivraison ? shortDate(dateLivraison) : 'N/A'}</div>
           </div>
@@ -132,10 +117,7 @@ LivrableCard.propTypes = {
     licence: PropTypes.string.isRequired,
     diffusion: PropTypes.string,
     avancement: PropTypes.number,
-    crs: PropTypes.string,
-    compression: PropTypes.string,
-    date_livraison: PropTypes.string, // eslint-disable-line camelcase
-    publication: PropTypes.string
+    date_livraison: PropTypes.string // eslint-disable-line camelcase
   }).isRequired,
   isDisabled: PropTypes.bool.isRequired,
   handleDelete: PropTypes.func.isRequired,

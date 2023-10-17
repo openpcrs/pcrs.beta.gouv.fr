@@ -28,8 +28,8 @@ const invalidProjet = {
   perimetres: ['departement:00'],
   etapes: [
     {statut: 'investigation', date_debut: null},
-    {statut: 'production', date_debut: '1999-02-11'},
-    {statut: 'livre', date_debut: '2010-13-12'}
+    {statut: 'prod_en_cours', date_debut: '1999-02-11'},
+    {statut: 'disponible', date_debut: '2010-13-12'}
   ],
   subventions: [{nom: 'Participation feder', ntr: 'feder'}]
 }

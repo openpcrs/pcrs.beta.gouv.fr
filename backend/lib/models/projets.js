@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import createError from 'http-errors'
 import {omit} from 'lodash-es'
 import {nanoid} from 'nanoid'
@@ -5,6 +6,7 @@ import mongo from '../../util/mongo.js'
 import {findClosestEtape} from '../../../shared/find-closest-etape.js'
 import {buildGeometryFromTerritoires, getTerritoiresProperties} from '../territoires.js'
 import {validateCreation, validateChanges} from '../projets-validator.js'
+import {attachStorage} from '../api-scanner.js'
 
 export function expandProjet(projet) {
   const territoires = projet?.perimetres?.map(p => getTerritoiresProperties(p)) || null
@@ -13,6 +15,37 @@ export function expandProjet(projet) {
     ...projet,
     territoires
   }
+}
+
+async function addStockageId(livrables) {
+  const updatedLivrables = await Promise.all(livrables.map(async livrable => {
+    const type = livrable.stockage
+    const params = livrable.stockage_params
+
+    if (!type) {
+      return livrable
+    }
+
+    try {
+      const {_id} = await attachStorage({type, params})
+
+      return {
+        ...livrable,
+        stockage_id: _id,
+        stockage_erreur: null
+      }
+    } catch (error) {
+      console.log(error)
+
+      return {
+        ...livrable,
+        stockage_id: null,
+        stockage_erreur: 'Impossible de créer le stockage associé'
+      }
+    }
+  }))
+
+  return updatedLivrables
 }
 
 function computeEditorKey() {
@@ -66,6 +99,8 @@ export async function createProjet(payload, options = {}) {
   projet.creator = creator || 'admin'
   projet.editorKey = computeEditorKey()
 
+  projet.livrables = await addStockageId(projet.livrables)
+
   mongo.decorateCreation(projet)
 
   try {
@@ -95,6 +130,10 @@ export async function deleteProjet(projetId) {
 
 export async function updateProjet(id, payload) {
   const projet = validateChanges(payload)
+
+  if (projet.livrables) {
+    projet.livrables = await addStockageId(projet.livrables)
+  }
 
   mongo.decorateUpdate(projet)
 

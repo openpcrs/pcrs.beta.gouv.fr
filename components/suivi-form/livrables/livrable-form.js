@@ -7,7 +7,7 @@ import formReducer, {checkFormValidity} from 'reducers/form-reducer'
 import {handleRangeError, isInRange} from '../acteurs/utils/error-handlers.js'
 import {stripNonNumericCharacters} from '@/lib/string.js'
 
-import {natureOptions, diffusionOptions, licenceOptions, publicationOptions, systRefSpatialOptions} from '@/components/suivi-form/livrables/utils/select-options.js'
+import {natureOptions, diffusionOptions, licenceOptions} from '@/components/suivi-form/livrables/utils/select-options.js'
 import SelectInput from '@/components/select-input.js'
 import TextInput from '@/components/text-input.js'
 import Button from '@/components/button.js'
@@ -47,21 +47,6 @@ const initState = ({initialValues, fieldsValidations}) => {
       validate: value => isInRange(value, 0, 100),
       getValidationMessage: value => handleRangeError(value, 0, 100)
     },
-    crs: {
-      value: initialValues.crs || '',
-      isRequired: false,
-      isValid: Boolean(initialValues.crs)
-    },
-    compression: {
-      value: initialValues.compression || '',
-      isRequired: false,
-      isValid: Boolean(initialValues.compression)
-    },
-    publication: {
-      value: initialValues.publication || '',
-      isRequired: false,
-      isValid: Boolean(initialValues.publication)
-    },
     dateLivraison: {
       value: initialValues.date_livraison || '',
       isRequired: false,
@@ -95,7 +80,7 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
 
   const handleSubmit = () => {
     setErrorMessage(null)
-    const {nom, nature, diffusion, licence, avancement, crs, compression, publication, dateLivraison} = form.fields
+    const {nom, nature, diffusion, licence, avancement, dateLivraison} = form.fields
 
     onSubmit({
       nom: nom.value.trim(),
@@ -103,9 +88,6 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
       licence: licence.value,
       diffusion: diffusion.value || null,
       avancement: avancement.value ? Number(avancement.value) : null,
-      crs: crs.value || null,
-      compression: compression.value || null,
-      publication: publication.value || null,
       date_livraison: dateLivraison.value || null
     })
   }
@@ -174,20 +156,6 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
           />
         </div>
 
-        {/* Type de publication du livrable - text */}
-        <div className='fr-col-12 fr-col-lg-4 fr-mt-6w fr-pr-3w'>
-          <SelectInput
-            name='publication'
-            label='Publication'
-            options={publicationOptions}
-            value={form.fields.publication.value}
-            errorMessage={form.fields.publication.validationMessage}
-            ariaLabel='publication du livrable'
-            description='Publication du livrable'
-            onValueChange={handleInputChange}
-          />
-        </div>
-
         {/* Date de livraison du projet - date */}
         <div className='fr-select-group fr-col-12 fr-col-lg-4 fr-mt-6w fr-pr-3w'>
           <DateInput
@@ -200,9 +168,7 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
             onValueChange={handleInputChange}
           />
         </div>
-      </div>
 
-      <div className='fr-grid-row'>
         {/* Avancement du livrable - number */}
         <div className='fr-input-group fr-col-12 fr-col-lg-4 fr-pr-3w fr-mt-6w'>
           <TextInput
@@ -212,33 +178,6 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
             ariaLabel='pourcentage de progression du livrable en pourcentage'
             description='Pourcentage de progression'
             errorMessage={form.fields.avancement.validationMessage}
-            onValueChange={handleInputChange}
-          />
-        </div>
-
-        {/* Système de référence spatial du livrable - select */}
-        <div className='fr-col-12 fr-col-lg-4 fr-mt-6w fr-pr-3w'>
-          <SelectInput
-            name='crs'
-            label='Système de référence spatial'
-            options={systRefSpatialOptions}
-            value={form.fields.crs.value}
-            ariaLabel='système de référence spatial du livrable'
-            description='Identifiant EPSG du livrable'
-            errorMessage={form.fields.crs.validationMessage}
-            onValueChange={handleInputChange}
-          />
-        </div>
-
-        {/* Nature de compression du livrable - text */}
-        <div className='fr-col-12 fr-col-lg-4 fr-mt-6w fr-pr-3w'>
-          <TextInput
-            name='compression'
-            label='Compression'
-            value={form.fields.compression.value}
-            ariaLabel='nature de compression du livrable'
-            description='Nature de compression du livrable'
-            errorMessage={form.fields.compression.validationMessage}
             onValueChange={handleInputChange}
           />
         </div>
@@ -278,9 +217,6 @@ LivrableForm.propTypes = {
     diffusion: PropTypes.string,
     licence: PropTypes.string,
     avancement: PropTypes.string,
-    crs: PropTypes.string,
-    compression: PropTypes.string,
-    publication: PropTypes.string,
     dateLivraison: PropTypes.string
   }),
   isLivrableNameAvailable: PropTypes.func.isRequired,

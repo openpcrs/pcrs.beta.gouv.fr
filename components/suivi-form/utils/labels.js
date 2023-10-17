@@ -21,13 +21,6 @@ export const NATURES_LABELS = {
   gml: 'Livrable GML vecteur'
 }
 
-export const PUBLICATIONS_LABELS = {
-  ftp: 'Accès via FTP',
-  cloud: 'Accès via un service cloud (oneDrive...)',
-  http: 'Accès via service HTTP(S)',
-  inexistante: 'Aucun moyen d’accès en ligne'
-}
-
 export const DIFFUSIONS_LABELS = {
   wms: 'Diffusion via un service WMS',
   wmts: 'Diffusion via un service WMTS',
