@@ -41,13 +41,6 @@ const LICENCE_LABELS = {
   ferme: 'Fermé'
 }
 
-const PUBLICATIONS = {
-  ftp: 'Accès via FTP',
-  cloud: 'Accès via un service cloud (oneDrive...)',
-  http: 'Accès via service HTTP(S)',
-  inexistante: 'Aucun moyen d’accès en ligne'
-}
-
 const DIFFUSIONS = {
   wms: 'Diffusion via un service WMS',
   wmts: 'Diffusion via un service WMTS',
@@ -84,7 +77,6 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs, subventions}) =
       <div>Nature : <br /><span>{NATURE_LABELS[livrable.nature]}</span></div>
       <div>Licence : <br /><span>{LICENCE_LABELS[livrable.licence]}</span></div>
       <div>Diffusion : <br /><span>{DIFFUSIONS[livrable.diffusion]}</span></div>
-      <div>Type de publication : <br /><span>{livrable.publication ? PUBLICATIONS[livrable.publication] : 'N/A'}</span></div>
       <div>Livraison : <br /><span>{livrable.date_livraison ? `le ${formatDate(livrable.date_livraison)}` : 'N/A'}</span></div>
 
       <style jsx>{`
