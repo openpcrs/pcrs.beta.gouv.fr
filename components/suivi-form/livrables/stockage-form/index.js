@@ -8,10 +8,10 @@ import SelectInput from '@/components/select-input.js'
 const StockageForm = ({initialValues, handleLivrableStockage, onCancel}) => {
   const [stockageType, setStockageType] = useState(initialValues.stockage || undefined)
 
-  const onSubmit = stockageParams => {
+  const onSubmit = params => {
     handleLivrableStockage({
       stockage: stockageType,
-      stockageParams
+      stockage_params: params // eslint-disable-line camelcase
     })
   }
 
@@ -36,7 +36,7 @@ const StockageForm = ({initialValues, handleLivrableStockage, onCancel}) => {
 
       {stockageType === 'ftp' && (
         <FtpForm
-          initialValues={{...initialValues.stockageParams}}
+          initialValues={{...initialValues.stockage_params}}
           onSubmit={onSubmit}
           onCancel={onCancel}
         />
@@ -44,7 +44,7 @@ const StockageForm = ({initialValues, handleLivrableStockage, onCancel}) => {
 
       {stockageType === 'http' && (
         <HttpForm
-          initialValues={{url: initialValues.stockageParams?.url}}
+          initialValues={{url: initialValues.stockage_params?.url}}
           onSubmit={onSubmit}
           onCancel={onCancel}
         />

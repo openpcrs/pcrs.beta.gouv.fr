@@ -66,7 +66,7 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
 
   const [livrableStockage, setLivrableStockage] = useState(initialValues?.stockage ? {
     stockage: initialValues.stockage,
-    stockageParams: initialValues.stockageParams
+    stockage_params: initialValues.stockage_params
   } : null)
 
   const debouncedValidation = useRef(debounce(name => {
@@ -97,8 +97,8 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
       diffusion: diffusion.value || null,
       avancement: avancement.value ? Number(avancement.value) : null,
       date_livraison: dateLivraison.value || null,
-      stockage: livrableStockage.stockage || null,
-      stockageParams: livrableStockage.stockageParams || {}
+      stockage: livrableStockage?.stockage || null,
+      stockage_params: livrableStockage?.stockage_params || {}
     })
   }
 
@@ -193,9 +193,9 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
         </div>
 
         <div className='fr-col-12'>
-          {(livrableStockage?.stockageParams.host || livrableStockage?.stockageParams.url) && (
+          {(livrableStockage?.stockage_params.host || livrableStockage?.stockage_params.url) && (
             <div className='fr-grid-row stockage-card fr-p-1w fr-mb-2w'>
-              <div className='fr-mr-1w'>Stockage ajouté : {livrableStockage.stockageParams.host || livrableStockage.stockageParams.url}</div>
+              <div className='fr-mr-1w'>Stockage ajouté : {livrableStockage.stockage_params.host || livrableStockage.stockage_params.url}</div>
               <button
                 className='delete-button'
                 type='button'
@@ -216,7 +216,7 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
 
           {!livrableStockage && (
             <Button label='Ajouter un stockage' onClick={() => {
-              setLivrableStockage({stockage: null, stockageParams: {}})
+              setLivrableStockage({stockage: null, stockage_params: {}})
             }}
             >
               Ajouter un stockage
@@ -275,7 +275,7 @@ LivrableForm.propTypes = {
     dateLivraison: PropTypes.string,
     stockageId: PropTypes.string,
     stockage: PropTypes.string,
-    stockageParams: PropTypes.object
+    stockage_params: PropTypes.object
   }),
   isLivrableNameAvailable: PropTypes.func.isRequired,
   onCancel: PropTypes.func,
@@ -283,7 +283,7 @@ LivrableForm.propTypes = {
 }
 
 LivrableForm.defaultProps = {
-  initialValues: {stockage: null, stockageParams: {}}
+  initialValues: {stockage: null, stockage_params: {}}
 }
 
 export default LivrableForm
