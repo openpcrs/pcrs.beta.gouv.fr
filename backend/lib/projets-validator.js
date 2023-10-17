@@ -321,7 +321,8 @@ const livrablesSchemaUpdate = Joi.object().keys({
   ).messages({
     'any.only': 'Ce type de stockage n’est pas valide'
   }),
-  stockage_params: Joi.object()
+  stockage_params: Joi.object(),
+  stockage_erreur: Joi.string()
 }).messages({
   'object.unknown': 'Une clé de l’objet est invalide'
 })
