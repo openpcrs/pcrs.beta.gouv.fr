@@ -1,17 +1,17 @@
-import {useState} from 'react'
+import {useState, useMemo} from 'react'
 import PropTypes from 'prop-types'
-import {uniqueId} from 'lodash-es'
 
-const ListSlicer = ({list, max, renderListItem}) => {
+const ListSlicer = ({list, max, itemId, renderListItem}) => {
   const [listSize, setListSize] = useState(max)
-  const [showFullList, setShowFullList] = useState(false)
+
+  const truncatedList = useMemo(() => list.slice(0, listSize), [list, listSize])
 
   const toggleFullList = () => {
-    setShowFullList(!showFullList)
-    setListSize(showFullList ? max : list.length)
+    setListSize(prevSize => (prevSize === max ? list.length : max))
   }
 
-  const buttonText = showFullList ? '...Masquer la liste' : '...Afficher la liste complète'
+  const buttonText
+    = listSize === max ? '...Afficher la liste complète' : '...Masquer la liste'
 
   if (list.length === 0) {
     return (
@@ -30,8 +30,8 @@ const ListSlicer = ({list, max, renderListItem}) => {
   return (
     <div>
       <ul className='fr-pl-0'>
-        {list.slice(0, listSize).map(item => (
-          <li key={uniqueId()}>{renderListItem ? renderListItem(item) : item}</li>
+        {truncatedList.map(item => (
+          <li key={item[itemId]}>{renderListItem ? renderListItem(item) : item}</li>
         ))}
       </ul>
       <div className='fr-text--sm show-hide-toggle' onClick={toggleFullList}>
@@ -44,7 +44,7 @@ const ListSlicer = ({list, max, renderListItem}) => {
           text-decoration: underline;
           cursor: pointer;
         }
-     `}</style>
+      `}</style>
     </div>
   )
 }
@@ -52,6 +52,7 @@ const ListSlicer = ({list, max, renderListItem}) => {
 ListSlicer.propTypes = {
   list: PropTypes.array,
   max: PropTypes.number,
+  itemId: PropTypes.string.isRequired,
   renderListItem: PropTypes.func
 }
 
