@@ -49,7 +49,7 @@ const FtpForm = ({initialValues, onSubmit, onCancel}) => {
             label='Chemin du répertoire'
             placeholder='"/" par défaut'
             description='Chemin du répertoire contenant les fichiers du livrable. Le processus d’analyse prendra en compte tous les fichiers et répertoires accessibles à partir de ce chemin.'
-            value={values.path || ''}
+            value={values.startPath || ''}
             onValueChange={e => handleValuesChange(e)}
           />
         </div>
