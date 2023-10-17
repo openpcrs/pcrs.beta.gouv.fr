@@ -168,9 +168,9 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
               icon='arrow-left-line'
               type='button'
               size='sm'
-              onClick={() => router.push('/suivi-pcrs')}
+              onClick={() => router.push(_id ? `/projet/${_id}` : '/suivi-pcrs')}
             >
-              Retourner à la carte de suivi
+              {`Retourner à la ${_id ? 'page du projet' : 'carte de suivi'}`}
             </Button>
           </div>
 
@@ -242,9 +242,9 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
                     icon='arrow-left-line'
                     type='button'
                     size='sm'
-                    onClick={() => router.push('/suivi-pcrs')}
+                    onClick={() => router.push(_id ? `/projet/${_id}` : '/suivi-pcrs')}
                   >
-                    Retourner à la carte de suivi
+                    {`Retourner à la ${_id ? 'page du projet' : 'carte de suivi'}`}
                   </Button>
                 </div>
 
