@@ -64,7 +64,7 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
 
   const [errorMessage, setErrorMessage] = useState()
 
-  const [livrableStockage, setLivrableStockage] = useState(initialValues?.stockageId ? {
+  const [livrableStockage, setLivrableStockage] = useState(initialValues?.stockage ? {
     stockage: initialValues.stockage,
     stockageParams: initialValues.stockageParams
   } : null)
