@@ -22,6 +22,7 @@ const Header = ({projectId, projectName, territoires, projets, onProjetChange}) 
         <div className='fr-mb-3w'>
           <Button
             isWhite
+            label='Consulter le projet'
             icon='arrow-right-line'
             buttonStyle='secondary'
             onClick={() => router.push(`${SHARE_URL}/projet/${projectId}`)}
