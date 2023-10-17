@@ -86,6 +86,13 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
     }
   }
 
+  const handleLivrableStockage = e => {
+    const element = document.querySelector('#top-div')
+
+    setLivrableStockage(e)
+    element.scrollIntoView()
+  }
+
   const handleSubmit = () => {
     setErrorMessage(null)
     const {nom, nature, diffusion, licence, avancement, dateLivraison} = form.fields
@@ -103,7 +110,7 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
   }
 
   return (
-    <div className='fr-mt-4w'>
+    <div className='fr-mt-4w' id='top-div'>
       <div className='fr-grid-row fr-grid-row--gutters'>
         {/* Nom du livrable */}
         <div className='fr-col-12 fr-col-lg-4'>
@@ -209,7 +216,7 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
           {livrableStockage?.stockage === null && (
             <StockageForm
               initialValues={livrableStockage}
-              handleLivrableStockage={setLivrableStockage}
+              handleLivrableStockage={handleLivrableStockage}
               onCancel={() => setLivrableStockage(null)}
             />
           )}
