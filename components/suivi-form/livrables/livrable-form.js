@@ -271,7 +271,7 @@ LivrableForm.propTypes = {
     nature: PropTypes.string,
     diffusion: PropTypes.string,
     licence: PropTypes.string,
-    avancement: PropTypes.string,
+    avancement: PropTypes.number,
     dateLivraison: PropTypes.string,
     stockageId: PropTypes.string,
     stockage: PropTypes.string,
