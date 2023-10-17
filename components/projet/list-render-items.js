@@ -6,11 +6,11 @@ import ListItem from '@/components/projet/list-item.js'
 
 export const livrableRenderItem = livrable => (
   <div className='content-wrapper fr-p-2w'>
-    <div className='fr-grid-row'><div className='title fr-mr-1w'>Nature : </div> <span>{NATURES_LABELS[livrable.nature] || 'Non renseigné'}</span></div>
-    <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'>Licence :</div><span>{LICENCES_LABELS[livrable.licence] || 'Non renseigné'}</span></div>
-    <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'>Diffusion :</div> <span>{DIFFUSIONS_LABELS[livrable.diffusion] || 'Non renseigné'}</span></div>
+    <div className='fr-grid-row'><div className='title fr-mr-1w'>Nature : </div> <span>{NATURES_LABELS[livrable.nature] || 'Non renseignée'}</span></div>
+    <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'>Licence :</div><span>{LICENCES_LABELS[livrable.licence] || 'Non renseignée'}</span></div>
+    <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'>Diffusion :</div> <span>{DIFFUSIONS_LABELS[livrable.diffusion] || 'Non renseignée'}</span></div>
     <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'>Type de publication :</div><span>{PUBLICATIONS_LABELS[livrable.publication] || 'Non renseigné'}</span></div>
-    <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'> Livraison :</div> <span>{livrable.date_livraison ? `le ${formatDate(livrable.date_livraison)}` : 'Non renseigné'}</span></div>
+    <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'> Livraison :</div> <span>{livrable.date_livraison ? `le ${formatDate(livrable.date_livraison)}` : 'Non renseignée'}</span></div>
 
     <style jsx>{`
         .content-wrapper {
@@ -37,7 +37,7 @@ export const acteurRenderItem = acteur => (
       <div className='fr-grid-row'><div className='title fr-mr-1w'>SIREN :</div> {acteur.siren || 'Non renseigné'}</div>
       <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'>Mail :</div> {acteur.mail || 'Non renseigné'}</div>
       <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'>Téléphone :</div> {acteur.mail || 'Non renseigné'}</div>
-      <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'>Part de financement :</div> {acteur.finance_part_perc || 'Non renseigné'}</div>
+      <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'>Part de financement :</div> {acteur.finance_part_perc || 'Non renseignée'}</div>
       <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'>Montant du financement :</div> {acteur.finance_part_euro || 'Non renseigné'}</div>
 
       <style jsx>{`
@@ -63,9 +63,9 @@ export const acteurRenderItem = acteur => (
 export const subventionRenderItem = subvention => (
   <ListItem title={subvention.nom}>
     <div className='content-wrapper fr-p-2w'>
-      <div className='fr-grid-row'><div className='title fr-mr-1w'>Nature :</div> {SUBVENTIONS_NATURES_LABELS[subvention.nature] || 'Non renseigné'}</div>
+      <div className='fr-grid-row'><div className='title fr-mr-1w'>Nature :</div> {SUBVENTIONS_NATURES_LABELS[subvention.nature] || 'Non renseignée'}</div>
       <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'>Montant :</div> <span>{`${subvention.montant ? `${subvention.montant}€` : 'Non renseigné'}`}</span></div>
-      <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'>Échance :</div> {formatDate(subvention.echeance) || 'Non renseigné'}</div>
+      <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'>Échance :</div> {formatDate(subvention.echeance) || 'Non renseignée'}</div>
 
       <style jsx>{`
         .content-wrapper {
