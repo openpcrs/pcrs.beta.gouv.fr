@@ -31,7 +31,7 @@ const TimelineStep = ({step, status, isCurrentStep, isLastStep}) => {
     <div className='step'>
       <Tooltip
         tooltipContent={() => tooltipContent()}
-        position='left'
+        position={isLastStep ? 'left' : 'rigth'}
       >
         {(!isCurrentStep || isLastStep) ? (
           <div
@@ -48,7 +48,6 @@ const TimelineStep = ({step, status, isCurrentStep, isLastStep}) => {
         ) : (
           <Loader type='pulse' size='small' />
         )}
-
       </Tooltip>
 
       {!isLastStep && <div className='separator' />}
