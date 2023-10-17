@@ -32,7 +32,7 @@ const Header = ({projectId, projectName, territoires, projets, onProjetChange}) 
         </div>
       </div>
 
-      <div className='fr-text--lg fr-my-0'>Liste des territoires</div>
+      <div className='fr-text--lg fr-my-0 list-title'>Liste des territoires</div>
       {hasToMuchTerritoires ? (
       // More than 5 territoires
         <div>
@@ -93,7 +93,7 @@ const Header = ({projectId, projectName, territoires, projets, onProjetChange}) 
           color: white;
         }
 
-        .fr-text--lg {
+        .list-title {
           font-weight: bold;
         }
 
@@ -105,16 +105,6 @@ const Header = ({projectId, projectName, territoires, projets, onProjetChange}) 
 
         .fr-btn--tertiary-no-outline:hover {
           color: ${colors.grey50};
-        }
-
-        .modal-content {
-          color: ${colors.darkgrey};
-        }
-
-        .irreversible {
-          text-decoration: underline;
-          text-align: center;
-          width: 100%;
         }
       `}</style>
     </div>
