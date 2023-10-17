@@ -52,11 +52,13 @@ export async function exportLivrablesAsCSV() {
         nature: livrable.nature || '',
         date_livraison: livrable.date_livraison || '',
         licence: livrable.licence || '',
-        publication: livrable.publication || '',
         diffusion: livrable.diffusion || '',
+        stockage: livrable.stockage || '',
+        stockage_public: livrable.stockage_public || '',
         avancement: livrable.avancement || '',
-        crs: livrable.crs || '',
-        compression: livrable.compression || ''
+        publication: '',
+        crs: '',
+        compression: ''
       })
     }
   }
