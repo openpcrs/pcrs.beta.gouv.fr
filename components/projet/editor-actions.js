@@ -45,7 +45,7 @@ const EditorActions = ({nom, projectId, editorCode}) => {
 
           <div className='fr-col-12'>
             <div>
-              <b className='fr-text fr-m-0 fr-mb-2w' onClick={handleEditCodeShow}>
+              <b className='fr-text fr-m-0 fr-mb-2w display-toggle' onClick={handleEditCodeShow}>
                 Afficher le lien d’édition <span className={`fr-icon-arrow-${isEditCodeShow ? 'down' : 'right'}-s-line`} aria-hidden='true' />
               </b>
 
@@ -124,6 +124,10 @@ const EditorActions = ({nom, projectId, editorCode}) => {
 
         .link {
           word-wrap: break-word;
+        }
+
+        .display-toggle {
+          cursor: pointer;
         }
       `}</style>
     </div>
