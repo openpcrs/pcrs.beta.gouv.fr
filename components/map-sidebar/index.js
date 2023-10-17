@@ -15,11 +15,11 @@ import Contact from '@/components/map-sidebar/contact.js'
 import Button from '@/components/button.js'
 
 const SHARE_URL = process.env.NEXT_PUBLIC_PROJECT_SHARE_URL || 'https://pcrs.beta.gouv.fr'
+const {status} = PCRS_DATA_COLORS
 
 const MapSidebar = ({projet, onClose, onProjetChange, projets}) => {
   const router = useRouter()
 
-  const {status} = PCRS_DATA_COLORS
   const {
     nom,
     territoires,

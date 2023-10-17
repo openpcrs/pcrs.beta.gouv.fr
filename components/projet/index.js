@@ -18,6 +18,8 @@ import EditorActions from '@/components/projet/editor-actions.js'
 import SelectInput from '@/components/select-input.js'
 import Timeline from '@/components/map-sidebar/timeline.js'
 
+const {actors, subventionsNatures, status} = PCRS_DATA_COLORS
+
 const ProjetInfos = ({project}) => {
   const {
     nom,
@@ -49,15 +51,12 @@ const ProjetInfos = ({project}) => {
     value: idx
   }))
 
-  const {actors, subventionsNatures} = PCRS_DATA_COLORS
-
   const statutIndex = etapes.length > 0 ? etapes.length - 1 : 0
   const {statut} = etapes[statutIndex]
 
   const isObsolete = statut === 'obsolete'
   const projectStartDate = formatDate(find(etapes, {statut: 'investigation'}).date_debut)
 
-  const {status} = PCRS_DATA_COLORS
   const closestPostStep = findClosestEtape(etapes)
 
   return (
