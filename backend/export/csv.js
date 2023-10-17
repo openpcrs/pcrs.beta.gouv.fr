@@ -21,9 +21,11 @@ export async function exportProjetsAsCSV(includesWkt) {
       nature: projet.nature,
       statut: projet.etapes.length > 0 ? projet.etapes[projet.etapes.length - 1].statut : '',
       investigation_date: projet.etapes.find(e => e.statut === 'investigation')?.date_debut || '',
-      production_date: projet.etapes.find(e => e.statut === 'production')?.date_debut || '',
-      produit_date: projet.etapes.find(e => e.statut === 'produit')?.date_debut || '',
-      livre_date: projet.etapes.find(e => e.statut === 'livre')?.date_debut || '',
+      convention_signee_date: projet.etapes.find(e => e.statut === 'convention_signee')?.date_debut || '',
+      marche_public_en_cours_date: projet.etapes.find(e => e.statut === 'marche_public_en_cours')?.date_debut || '',
+      prod_en_cours_date: projet.etapes.find(e => e.statut === 'prod_en_cours')?.date_debut || '',
+      controle_en_cours_date: projet.etapes.find(e => e.statut === 'controle_en_cours')?.date_debut || '',
+      disponible_date: projet.etapes.find(e => e.statut === 'disponible')?.date_debut || '',
       obsolete_date: projet.etapes.find(e => e.statut === 'obsolete')?.date_debut || ''
     })
 
