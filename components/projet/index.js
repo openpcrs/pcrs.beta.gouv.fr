@@ -82,7 +82,7 @@ const ProjetInfos = ({project}) => {
         .main {
           width: 100%;
           display: grid;
-          grid-template-columns: 7fr 3fr; /* Deux colonnes, deux occupe 70% et trois 30% */
+          grid-template-columns: 2fr 1fr;
           gap: 4em;
         }
 
