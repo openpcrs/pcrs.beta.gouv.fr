@@ -10,7 +10,7 @@ import DeleteModal from '@/components/suivi-form/delete-modal.js'
 
 import AuthentificationContext from '@/contexts/authentification-token.js'
 
-const SHARE_URL = process.env.NEXT_PUBLIC_PROJECT_SHARE_URL || 'https://pcrs.beta.gouv.fr'
+const API_URL = process.env.NEXT_PUBLIC_URL || 'https://pcrs.beta.gouv.fr'
 
 const EditorActions = ({nom, projectId, editorCode}) => {
   const router = useRouter()
@@ -20,8 +20,8 @@ const EditorActions = ({nom, projectId, editorCode}) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isEditCodeShow, setIsEditCodeShow] = useState(false)
 
-  const shareCodeUrl = `${SHARE_URL}/formulaire-suivi?id=${projectId}&editcode=${editorCode}`
-  const editCodeUrl = `${SHARE_URL}/formulaire-suivi?id=${projectId}&editcode=${editorCode}`
+  const shareCodeUrl = `${API_URL}/formulaire-suivi?id=${projectId}&editcode=${editorCode}`
+  const editCodeUrl = `${API_URL}/formulaire-suivi?id=${projectId}&editcode=${editorCode}`
   const editorFormUrl = `/formulaire-suivi?id=${projectId}&editcode=${editorCode}`
 
   const handleResetModal = () => setIsResetModalOpen(!isResetModalOpen)

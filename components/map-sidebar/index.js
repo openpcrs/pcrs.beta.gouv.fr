@@ -8,7 +8,7 @@ import Documents from '@/components/map-sidebar/documents.js'
 import Contact from '@/components/map-sidebar/contact.js'
 import Button from '@/components/button.js'
 
-const SHARE_URL = process.env.NEXT_PUBLIC_PROJECT_SHARE_URL || 'https://pcrs.beta.gouv.fr'
+const API_URL = process.env.NEXT_PUBLIC_URL || 'https://pcrs.beta.gouv.fr'
 
 const MapSidebar = ({projet, onClose, onProjetChange, projets}) => {
   const router = useRouter()
@@ -74,7 +74,7 @@ const MapSidebar = ({projet, onClose, onProjetChange, projets}) => {
             label='Consulter le projet'
             size='sm'
             icon='arrow-right-line'
-            onClick={() => router.push(`${SHARE_URL}/projet/${_id}`)}
+            onClick={() => router.push(`${API_URL}/projet/${_id}`)}
           >
             Consulter le projet
           </Button>

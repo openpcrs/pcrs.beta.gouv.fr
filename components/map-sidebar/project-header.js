@@ -7,7 +7,7 @@ import colors from '@/styles/colors.js'
 import HiddenInfos from '@/components/hidden-infos.js'
 import Button from '@/components/button.js'
 
-const SHARE_URL = process.env.NEXT_PUBLIC_PROJECT_SHARE_URL || 'https://pcrs.beta.gouv.fr'
+const API_URL = process.env.NEXT_PUBLIC_URL || 'https://pcrs.beta.gouv.fr'
 
 const Header = ({projectId, projectName, territoires, projets, onProjetChange}) => {
   const router = useRouter()
@@ -25,7 +25,7 @@ const Header = ({projectId, projectName, territoires, projets, onProjetChange}) 
             label='Consulter le projet'
             icon='arrow-right-line'
             buttonStyle='secondary'
-            onClick={() => router.push(`${SHARE_URL}/projet/${projectId}`)}
+            onClick={() => router.push(`${API_URL}/projet/${projectId}`)}
           >
             Consulter le projet
           </Button>
