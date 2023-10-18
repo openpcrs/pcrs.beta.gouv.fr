@@ -1,5 +1,5 @@
 import {formatDate} from '@/lib/date-utils.js'
-import {SUBVENTIONS_NATURES_LABELS, LICENCES_LABELS, DIFFUSIONS_LABELS, NATURES_LABELS} from '@/components/suivi-form/utils/labels.js'
+import {SUBVENTIONS_NATURES_LABELS, LICENCES_LABELS, DIFFUSIONS_LABELS, NATURES_LABELS} from '@/lib/utils/projet.js'
 
 import colors from '@/styles/colors.js'
 import ListItem from '@/components/projet/list-item.js'

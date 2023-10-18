@@ -2,7 +2,7 @@ import {useState} from 'react'
 import PropTypes from 'prop-types'
 import {sortBy} from 'lodash-es'
 
-import {NATURES_LABELS} from '@/components/suivi-form/utils/labels.js'
+import {NATURES_LABELS} from '@/lib/utils/projet.js'
 
 import {livrableRenderItem} from '@/components/projet/list-render-items.js'
 import SelectInput from '@/components/select-input.js'

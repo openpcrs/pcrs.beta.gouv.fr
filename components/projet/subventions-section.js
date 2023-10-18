@@ -5,7 +5,7 @@ import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors.js'
 
 import {subventionRenderItem} from '@/components/projet/list-render-items.js'
 
-import {SUBVENTIONS_NATURES_LABELS} from '@/components/suivi-form/utils/labels.js'
+import {SUBVENTIONS_NATURES_LABELS} from '@/lib/utils/projet.js'
 
 import Badge from '@/components/badge.js'
 import ListSlicer from '@/components/list-slicer.js'

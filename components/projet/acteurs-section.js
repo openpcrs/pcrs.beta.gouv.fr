@@ -3,7 +3,7 @@ import {groupBy} from 'lodash-es'
 
 import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors.js'
 
-import {ACTORS_LABELS} from '@/components/suivi-form/utils/labels.js'
+import {ACTORS_LABELS} from '@/lib/utils/projet.js'
 
 import {acteurRenderItem} from '@/components/projet/list-render-items.js'
 import ListSlicer from '@/components/list-slicer.js'

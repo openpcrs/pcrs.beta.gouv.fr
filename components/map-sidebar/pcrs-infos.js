@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import PropTypes from 'prop-types'
 
-import {LICENCES_LABELS, ACTORS_LABELS, NATURES_LABELS, DIFFUSIONS_LABELS, SUBVENTIONS_NATURES_LABELS} from '@/components/suivi-form/utils/labels.js'
+import {LICENCES_LABELS, ACTORS_LABELS, NATURES_LABELS, DIFFUSIONS_LABELS, SUBVENTIONS_NATURES_LABELS} from '@/lib/utils/projet.js'
 import {formatDate} from '@/lib/date-utils.js'
 
 import colors from '@/styles/colors.js'
