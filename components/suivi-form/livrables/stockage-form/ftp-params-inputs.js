@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import TextInput from '@/components/text-input.js'
 import NumberInput from '@/components/number-input.js'
 
-const FtpForm = ({stockageParams, handleParams}) => {
+const FtpParamsInputs = ({stockageParams, handleParams}) => {
   const [values, setValues] = useState(stockageParams)
   const [checkedStatus, setCheckedStatus] = useState(false)
 
@@ -106,9 +106,9 @@ const FtpForm = ({stockageParams, handleParams}) => {
   )
 }
 
-FtpForm.propTypes = {
+FtpParamsInputs.propTypes = {
   stockageParams: PropTypes.object,
   handleParams: PropTypes.func
 }
 
-export default FtpForm
+export default FtpParamsInputs

@@ -5,7 +5,7 @@ import {isURLValid} from '@/components/suivi-form/livrables/utils/url.js'
 
 import TextInput from '@/components/text-input.js'
 
-const HttpForm = ({stockageParams, handleParams}) => {
+const HttpParamsInputs = ({stockageParams, handleParams}) => {
   const [url, setUrl] = useState(stockageParams.url)
   const [errorMessage, setErrorMessage] = useState(null)
 
@@ -33,9 +33,9 @@ const HttpForm = ({stockageParams, handleParams}) => {
   )
 }
 
-HttpForm.propTypes = {
+HttpParamsInputs.propTypes = {
   stockageParams: PropTypes.object,
   handleParams: PropTypes.func.isRequired
 }
 
-export default HttpForm
+export default HttpParamsInputs
