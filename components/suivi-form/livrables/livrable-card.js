@@ -121,7 +121,7 @@ LivrableCard.propTypes = {
     licence: PropTypes.string.isRequired,
     diffusion: PropTypes.string,
     avancement: PropTypes.number,
-    stockage: PropTypes.string,
+    stockage: PropTypes.oneOf(['http', 'ftp', 'sftp']),
     date_livraison: PropTypes.string // eslint-disable-line camelcase
   }).isRequired,
   isDisabled: PropTypes.bool.isRequired,
