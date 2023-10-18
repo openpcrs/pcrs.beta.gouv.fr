@@ -3,14 +3,14 @@ import PropTypes from 'prop-types'
 
 import TextInput from '@/components/text-input.js'
 import NumberInput from '@/components/number-input.js'
-import Button from '@/components/button.js'
 
-const FtpForm = ({initialValues, onSubmit, onCancel}) => {
-  const [values, setValues] = useState(initialValues)
+const FtpForm = ({stockageParams, handleParams}) => {
+  const [values, setValues] = useState(stockageParams)
   const [checkedStatus, setCheckedStatus] = useState(false)
 
   function handleValuesChange(e) {
     setValues({...values, [e.target.name]: e.target.value})
+    handleParams(values)
   }
 
   function handleCheckedStatus(isChecked) {
@@ -18,18 +18,8 @@ const FtpForm = ({initialValues, onSubmit, onCancel}) => {
     setCheckedStatus(isChecked)
   }
 
-  async function handleSubmit() {
-    onSubmit(values)
-  }
-
   return (
     <div>
-      <div className='fr-notice fr-notice--info fr-mt-3w'>
-        <div className='fr-mx-2w fr-notice__body'>
-          <p>Les informations de connexion peuvent être rendues publiques</p>
-        </div>
-      </div>
-
       <div className='fr-mt-6w'>
         <TextInput
           isRequired
@@ -44,23 +34,23 @@ const FtpForm = ({initialValues, onSubmit, onCancel}) => {
 
       <div>
         <div className='fr-mt-6w'>
-          <TextInput
-            name='startPath'
-            label='Chemin du répertoire'
-            placeholder='"/" par défaut'
-            description='Chemin du répertoire contenant les fichiers du livrable. Le processus d’analyse prendra en compte tous les fichiers et répertoires accessibles à partir de ce chemin.'
-            value={values.startPath || ''}
-            onValueChange={e => handleValuesChange(e)}
-          />
-        </div>
-
-        <div className='fr-mt-6w'>
           <NumberInput
             name='port'
             label='Port'
             placeholder=''
             description='Port d’écoute du service FTP'
             value={values.port || ''}
+            onValueChange={e => handleValuesChange(e)}
+          />
+        </div>
+
+        <div className='fr-mt-6w'>
+          <TextInput
+            name='startPath'
+            label='Chemin du répertoire'
+            placeholder='"/" par défaut'
+            description='Chemin du répertoire contenant les fichiers du livrable. Le processus d’analyse prendra en compte tous les fichiers et répertoires accessibles à partir de ce chemin.'
+            value={values.startPath || ''}
             onValueChange={e => handleValuesChange(e)}
           />
         </div>
@@ -100,24 +90,6 @@ const FtpForm = ({initialValues, onSubmit, onCancel}) => {
             Le serveur FTP est sécurisé (FTPS, TLS/SSL)
           </label>
         </div>
-
-        <div className='fr-mt-3w'>
-          <Button
-            label='Ajouter le serveur'
-            isDisabled={!values.host}
-            onClick={() => handleSubmit(values)}
-          >
-            Ajouter le serveur FTP
-          </Button>
-          <Button
-            style={{marginLeft: '1em'}}
-            label='Annuler l’ajout du serveur'
-            buttonStyle='secondary'
-            onClick={onCancel}
-          >
-            Annuler
-          </Button>
-        </div>
       </div>
 
       <style jsx>{`
@@ -135,9 +107,8 @@ const FtpForm = ({initialValues, onSubmit, onCancel}) => {
 }
 
 FtpForm.propTypes = {
-  initialValues: PropTypes.object,
-  onCancel: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired
+  stockageParams: PropTypes.object,
+  handleParams: PropTypes.func
 }
 
 export default FtpForm
