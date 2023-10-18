@@ -30,9 +30,9 @@ const ACTORS_LABELS = {
 }
 
 const NATURE_LABELS = {
-  geotiff: 'Livrable GeoTIFF',
-  jpeg2000: 'Livrable Jpeg 2000',
-  gml: 'Livrable GML vecteur'
+  geotiff: 'GeoTIFF',
+  jpeg2000: 'Jpeg 2000',
+  gml: 'GML vecteur'
 }
 
 const LICENCE_LABELS = {
