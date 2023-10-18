@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import colors from '@/styles/colors.js'
 
 const Contact = ({name, phone, mail}) => (
-  <div className='contact fr-container'>
+  <div className='contact fr-container fr-pl-0 fr-ml-0'>
     <div className='contact-info fr-grid-row'>
       <span aria-disabled className='fr-icon-user-fill fr-col-1 fr-mr-1w' aria-hidden='true' />
       <div className='fr-col-10 contact-data fr-pl-2w fr-ml-1w'>

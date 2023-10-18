@@ -4,6 +4,8 @@ import Image from 'next/image'
 import {useRouter} from 'next/router'
 import {uniq} from 'lodash'
 
+import colors from '@/styles/colors.js'
+
 import {postSuivi, editProject} from '@/lib/suivi-pcrs.js'
 
 import {useInput} from '@/hooks/input.js'
@@ -18,7 +20,7 @@ import Subventions from '@/components/suivi-form/subventions/index.js'
 import ShareModal from '@/components/suivi-form/share-modal.js'
 import DeleteModal from '@/components/suivi-form/delete-modal.js'
 import Button from '@/components/button.js'
-import colors from '@/styles/colors.js'
+import BackToProjectButton from '@/components/ui/back-to-project-button.js'
 
 const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subventions, etapes, _id, token, userRole, projectEditCode, isTokenRecovering}) => {
   const router = useRouter()
@@ -115,20 +117,12 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
 
         if (error) {
           handleSubmitError(error)
+        } else if (userRole === 'admin' || _id) {
+          router.push(`/projet/${data._id}`)
         } else {
           setEditedProjectId(data._id)
           setEditCode(data.editorKey)
-
-          const validation = _id ? 'Le projet a bien été modifié, vous allez maintenant être redirigé vers la carte de suivi' : 'Le projet a bien été créé, vous allez maintenant être redirigé vers la carte de suivi'
-          setValidationMessage(validation)
-
-          if (userRole === 'admin' || _id) {
-            setTimeout(() => {
-              router.push('/suivi-pcrs')
-            }, 3000)
-          } else {
-            setIsShareModalOpen(true)
-          }
+          setIsShareModalOpen(true)
         }
       }
     } catch {
@@ -155,17 +149,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
 
         <div className='fr-grid-row fr-col-12'>
           <div className='fr-grid-row fr-grid-row--left fr-col-12 fr-col-md-10'>
-            <Button
-              label='Retourner à la carte de suivi'
-              iconSide='left'
-              buttonStyle='secondary'
-              icon='arrow-left-line'
-              type='button'
-              size='sm'
-              onClick={() => router.push('/suivi-pcrs')}
-            >
-              Retourner à la carte de suivi
-            </Button>
+            <BackToProjectButton projetId={_id} />
           </div>
 
           {_id && (
@@ -228,17 +212,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
             <div className='fr-grid-row fr-mt-12w fr-col-12'>
               <div className='fr-grid-row fr-col-12'>
                 <div className='fr-grid-row fr-grid-row--left fr-col-12 fr-col-md-10'>
-                  <Button
-                    label='Retourner à la carte de suivi'
-                    iconSide='left'
-                    buttonStyle='secondary'
-                    icon='arrow-left-line'
-                    type='button'
-                    size='sm'
-                    onClick={() => router.push('/suivi-pcrs')}
-                  >
-                    Retourner à la carte de suivi
-                  </Button>
+                  <BackToProjectButton projetId={_id} />
                 </div>
 
                 {_id && (
