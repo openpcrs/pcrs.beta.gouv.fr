@@ -63,6 +63,8 @@ const initState = ({initialValues, fieldsValidations}) => {
 const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmit}) => {
   const [form, dispatch] = useReducer(formReducer, initState({initialValues, fieldsValidations: {nom: isLivrableNameAvailable}}))
 
+  const livrableFormRef = useRef()
+
   const [errorMessage, setErrorMessage] = useState()
 
   const [livrableStockage, setLivrableStockage] = useState(initialValues?.stockage ? {
@@ -90,10 +92,8 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
   }
 
   const handleLivrableStockage = e => {
-    const element = document.querySelector('#top-div')
-
     setLivrableStockage(e)
-    element.scrollIntoView()
+    livrableFormRef.current.scrollIntoView()
   }
 
   const handleSubmit = () => {
@@ -115,7 +115,7 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
   }
 
   return (
-    <div className='fr-mt-4w' id='top-div'>
+    <div ref={livrableFormRef} className='fr-mt-4w'>
       <div className='fr-grid-row fr-grid-row--gutters'>
         {/* Nom du livrable */}
         <div className='fr-col-12 fr-col-lg-4'>
