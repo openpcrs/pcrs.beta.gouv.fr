@@ -1,87 +1,71 @@
 import {formatDate} from '@/lib/date-utils.js'
 import {SUBVENTIONS_NATURES, LICENCES, LIVRABLE_NATURES} from '@/lib/utils/projet.js'
-
 import colors from '@/styles/colors.js'
 import ListItem from '@/components/projet/list-item.js'
 
-export const livrableRenderItem = livrable => (
-  <div className='content-wrapper fr-p-2w'>
-    <div className='fr-grid-row'><div className='title fr-mr-1w'>Nature : </div> <span>{LIVRABLE_NATURES[livrable.nature].label || 'Non renseignée'}</span></div>
-    <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'>Licence :</div><span>{LICENCES[livrable.licence].label || 'Non renseignée'}</span></div>
-    <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'>Stockage :</div> <span>{livrable.stockage || 'Non renseigné'}</span></div>
-    <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'> Livraison :</div> <span>{livrable.date_livraison ? `le ${formatDate(livrable.date_livraison)}` : 'Non renseignée'}</span></div>
+const renderRowItem = (title, value, defaultText = 'Non renseigné') => (
+  <div key={title} className='fr-grid-row'>
+    <div className='title fr-mr-1w'>{title} :</div>
+    <span>{value || defaultText}</span>
+  </div>
+)
 
+const renderItem = rows => (
+  <div className='content-wrapper fr-p-2w'>
+    {rows.map(row => renderRowItem(row.title, row.value))}
     <style jsx>{`
-        .content-wrapper {
+      .content-wrapper {
           background: white;
           text-align: left;
           gap: 5px;
-        }
+      }
 
-        .title {
+      .title {
           color: ${colors.info425};
           font-weight: bold;
-        }
+      }
 
-        .content-wrapper span {
+      .content-wrapper span {
           font-weight: normal;
-        }
+      }
     `}</style>
   </div>
 )
 
-export const acteurRenderItem = acteur => (
-  <ListItem title={acteur.nom}>
-    <div className='content-wrapper fr-p-2w'>
-      <div className='fr-grid-row'><div className='title fr-mr-1w'>SIREN :</div> {acteur.siren || 'Non renseigné'}</div>
-      <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'>Mail :</div> {acteur.mail || 'Non renseigné'}</div>
-      <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'>Téléphone :</div> {acteur.mail || 'Non renseigné'}</div>
-      <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'>Part de financement :</div> {acteur.finance_part_perc || 'Non renseignée'}</div>
-      <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'>Montant du financement :</div> {acteur.finance_part_euro || 'Non renseigné'}</div>
+export const livrableRenderItem = livrable => {
+  const rows = [
+    {title: 'Nature', value: LIVRABLE_NATURES[livrable.nature].label, defaultText: 'Non renseignée'},
+    {title: 'Licence', value: LICENCES[livrable.licence].label, defaultText: 'Non renseignée'},
+    {title: 'Stockage', value: livrable.stockage},
+    {title: 'Livraison', value: livrable.date_livraison ? `le ${formatDate(livrable.date_livraison)}` : null, defaultText: 'Non renseignée'}
+  ]
+  return renderItem(rows)
+}
 
-      <style jsx>{`
-        .content-wrapper {
-          background: white;
-          text-align: left;
-          gap: 5px;
-        }
+export const acteurRenderItem = acteur => {
+  const rows = [
+    {title: 'SIREN', value: acteur.siren},
+    {title: 'Mail', value: acteur.mail, defaultText: 'Non renseignée'},
+    {title: 'Téléphone', value: acteur.telephone},
+    {title: 'Part de financement', value: acteur.finance_part_perc, defaultText: 'Non renseignée'},
+    {title: 'Montant du financement', value: acteur.finance_part_euro}
+  ]
+  return (
+    <ListItem title={acteur.nom}>
+      {renderItem(rows)}
+    </ListItem>
+  )
+}
 
-        .title {
-          color: ${colors.info425};
-          font-weight: bold;
-        }
-
-        .content-wrapper span {
-          font-weight: normal;
-        }
-      `}</style>
-    </div>
-  </ListItem>
-)
-
-export const subventionRenderItem = subvention => (
-  <ListItem title={subvention.nom}>
-    <div className='content-wrapper fr-p-2w'>
-      <div className='fr-grid-row'><div className='title fr-mr-1w'>Nature :</div> {SUBVENTIONS_NATURES[subvention.nature].label || 'Non renseignée'}</div>
-      <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'>Montant :</div> <span>{`${subvention.montant ? `${subvention.montant}€` : 'Non renseigné'}`}</span></div>
-      <div className='fr-mt-1w fr-grid-row'><div className='title fr-mr-1w'>Échance :</div> {formatDate(subvention.echeance) || 'Non renseignée'}</div>
-
-      <style jsx>{`
-        .content-wrapper {
-          background: white;
-          text-align: left;
-          gap: 5px;
-        }
-
-        .title {
-          color: ${colors.info425};
-          font-weight: bold;
-        }
-
-        .content-wrapper span {
-          font-weight: normal;
-        }
-      `}</style>
-    </div>
-  </ListItem>
-)
+export const subventionRenderItem = subvention => {
+  const rows = [
+    {title: 'Nature', value: SUBVENTIONS_NATURES[subvention.nature], defaultText: 'Non renseignée'},
+    {title: 'Montant', value: subvention.montant ? `${subvention.montant}€` : null},
+    {title: 'Échance', value: formatDate(subvention.echeance), defaultText: 'Non renseignée'}
+  ]
+  return (
+    <ListItem title={subvention.nom}>
+      {renderItem(rows)}
+    </ListItem>
+  )
+}
