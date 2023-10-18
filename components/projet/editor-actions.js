@@ -63,7 +63,7 @@ const EditorActions = ({nom, projectId, editorCode}) => {
       )}
 
       <div className={`${userRole === 'admin' ? 'fr-col-12 fr-col-md-6' : 'fr-col-12'} fr-grid-row fr-grid-row--top edit-actions`}>
-        <div className='fr-grid-row fr-grid-row--right fr-col-12 fr-mt-3w'>
+        <div className='fr-grid-row fr-grid-row--right fr-col-12'>
           <Button
             label='Éditer le projet'
             icon='edit-line'
