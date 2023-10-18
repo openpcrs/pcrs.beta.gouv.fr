@@ -70,7 +70,10 @@ const FtpParamsInputs = ({stockageParams, handleParams}) => {
           </div>
         </div>
 
-        <div className='fr-mt-6w input-container'>
+        <div
+          className='fr-checkbox-group fr-mt-3w'
+          onClick={() => handleParams({...stockageParams, secure: !stockageParams.secure})}
+        >
           <input
             type='checkbox'
             name='secure'
