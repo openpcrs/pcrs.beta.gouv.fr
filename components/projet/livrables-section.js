@@ -27,6 +27,7 @@ const LivrablesSection = ({livrables}) => {
           value={selectedLivrableIdx.toString()}
           label='Sélectionner un livrable'
           options={livrablesOptions}
+          isDisabled={livrables.length === 1}
           onValueChange={e => setSelectedLivrableIdx(e.target.value)}
         />
 
