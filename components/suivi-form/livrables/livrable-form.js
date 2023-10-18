@@ -66,6 +66,8 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
 
   const [livrableStockage, setLivrableStockage] = useState(initialValues?.stockage ? {
     stockage: initialValues.stockage,
+    stockage_public: initialValues.stockage_public,
+    stockage_download: initialValues.stockage_download,
     stockage_params: initialValues.stockage_params
   } : null)
 
@@ -105,6 +107,8 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
       avancement: avancement.value ? Number(avancement.value) : null,
       date_livraison: dateLivraison.value || null,
       stockage: livrableStockage?.stockage || null,
+      stockage_public: livrableStockage?.stockage_public || null,
+      stockage_download: livrableStockage?.stockage_download || null,
       stockage_params: livrableStockage?.stockage_params || {}
     })
   }
