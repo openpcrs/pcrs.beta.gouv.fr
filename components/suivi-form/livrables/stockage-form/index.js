@@ -2,6 +2,7 @@
 import {useState} from 'react'
 import PropTypes from 'prop-types'
 
+import GeneralSettingsInputs from './general-settings-inputs.js'
 import HttpParamsInputs from '@/components/suivi-form/livrables/stockage-form/http-params-inputs.js'
 import FtpParamsInputs from '@/components/suivi-form/livrables/stockage-form/ftp-params-inputs.js'
 import SftpParamsInputs from '@/components/suivi-form/livrables/stockage-form/sftp-params-inputs.js'
@@ -11,14 +12,16 @@ import Button from '@/components/button.js'
 const StockageForm = ({initialValues, handleLivrableStockage, onCancel}) => {
   const [stockageType, setStockageType] = useState(initialValues.stockage || undefined)
   const [stockageParams, setStockageParams] = useState(initialValues.params || {})
-  const [isPublic, setIsPublic] = useState(initialValues?.stockage_public || false)
-  const [isDownloadable, setIsDownloadable] = useState(initialValues?.stockage_download || false)
+  const [generalSettings, setGeneralSettings] = useState({
+    isPublic: initialValues.isPublic || false,
+    isDownloadable: initialValues.isDownloadable || false
+  })
 
   const onSubmit = () => {
     handleLivrableStockage({
       stockage: stockageType,
-      stockage_public: isPublic,
-      stockage_download: isDownloadable,
+      stockage_public: generalSettings.isPublic,
+      stockage_download: generalSettings.isDownloadable,
       stockage_params: stockageParams
     })
   }
@@ -65,36 +68,10 @@ const StockageForm = ({initialValues, handleLivrableStockage, onCancel}) => {
       )}
 
       {stockageType && (
-        <>
-          <div className='fr-mt-6w input-container'>
-            <input
-              type='checkbox'
-              name='public'
-              checked={isPublic}
-              onChange={() => setIsPublic(!isPublic)}
-            />
-            <label className='fr-label'>
-              Rendre publiques les informations de connexion à l’espace de stockage
-            </label>
-          </div>
-
-          <div className='fr-mt-3w input-container'>
-            <input
-              type='checkbox'
-              name='download'
-              checked={isDownloadable}
-              onChange={() => setIsDownloadable(!isDownloadable)}
-            />
-            <label className='fr-label'>
-              Autoriser le téléchargement via pcrs.beta.gouv.fr
-            </label>
-          </div>
-          <div className='fr-notice fr-notice--info fr-mt-3w'>
-            <div className='fr-mx-2w fr-notice__body'>
-              <p>En autorisant la fonction de téléchargement, j’ai conscience que je suis responsable de la disponibilité du service de stockage. Si le service est de type FTP ou SFTP, les données transiteront obligatoirement par la plateforme pcrs.beta.gouv.fr</p>
-            </div>
-          </div>
-        </>
+        <GeneralSettingsInputs
+          generalSettings={generalSettings}
+          handleGeneralSettings={setGeneralSettings}
+        />
       )}
 
       <div className='fr-mt-3w'>
