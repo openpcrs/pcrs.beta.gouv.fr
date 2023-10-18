@@ -1,13 +1,11 @@
 import {useState} from 'react'
 import PropTypes from 'prop-types'
 
-import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors.js'
-import {STATUS} from '@/lib/utils/projet.js'
+import {STATUS, NATURES} from '@/lib/utils/projet.js'
 
 import Badge from '@/components/badge.js'
 
 const Legend = ({isMobile, legend}) => {
-  const {natures} = PCRS_DATA_COLORS
   const [isOpen, setIsOpen] = useState(!isMobile)
 
   return (
@@ -43,9 +41,9 @@ const Legend = ({isMobile, legend}) => {
           )}
           {legend === 'projets-fills-nature' && (
             <>
-              <Badge className='fr-pb-1v fr-pt-1v' size='small' background={natures.vecteur}>Vecteur</Badge>
-              <Badge className='fr-pb-1v' size='small' background={natures.raster}>Raster</Badge>
-              <Badge className='fr-pb-2v' size='small' background={natures.mixte}>Mixte</Badge>
+              <Badge className='fr-pb-1v fr-pt-1v' size='small' background={NATURES.vecteur.color}>Vecteur</Badge>
+              <Badge className='fr-pb-1v' size='small' background={NATURES.raster.color}>Raster</Badge>
+              <Badge className='fr-pb-2v' size='small' background={NATURES.mixte.color}>Mixte</Badge>
             </>
           )}
           <hr className='fr-p-1v' />

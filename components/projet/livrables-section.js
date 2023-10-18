@@ -2,7 +2,7 @@ import {useState} from 'react'
 import PropTypes from 'prop-types'
 import {sortBy} from 'lodash-es'
 
-import {NATURES_LABELS} from '@/lib/utils/projet.js'
+import {LIVRABLE_NATURES} from '@/lib/utils/projet.js'
 
 import {livrableRenderItem} from '@/components/projet/list-render-items.js'
 import SelectInput from '@/components/select-input.js'
@@ -15,7 +15,7 @@ const LivrablesSection = ({livrables}) => {
   )
 
   const livrablesOptions = orderLivrablesByPublication.map((item, idx) => ({
-    label: `${item.nom} - ${NATURES_LABELS[item.nature]}`,
+    label: `${item.nom} - ${LIVRABLE_NATURES[item.nature].label}`,
     value: idx
   }))
 
