@@ -7,8 +7,8 @@ import {debounce} from 'lodash-es'
 import formReducer, {checkFormValidity} from 'reducers/form-reducer'
 import {handleRangeError, isInRange} from '../acteurs/utils/error-handlers.js'
 
+import StockageCard from './stockage-card.js'
 import {stripNonNumericCharacters} from '@/lib/string.js'
-import colors from '@/styles/colors.js'
 
 import {natureOptions, diffusionOptions, licenceOptions} from '@/components/suivi-form/livrables/utils/select-options.js'
 import SelectInput from '@/components/select-input.js'
@@ -108,8 +108,8 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
       avancement: avancement.value ? Number(avancement.value) : null,
       date_livraison: dateLivraison.value || null,
       stockage: livrableStockage?.stockage || null,
-      stockage_public: livrableStockage?.stockage_public || null,
-      stockage_download: livrableStockage?.stockage_download || null,
+      stockage_public: livrableStockage?.stockage_public || false,
+      stockage_download: livrableStockage?.stockage_download || false,
       stockage_params: livrableStockage?.stockage_params || {}
     })
   }
@@ -204,18 +204,19 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
           />
         </div>
 
+        <div className='fr-grid-row fr-mb-2w'>
+          <span className='fr-icon-database-fill fr-mr-1w' aria-hidden='true' />
+          <div className='fr-label'>Stockage du livrable</div>
+        </div>
+
         <div className='fr-col-12'>
           {(livrableStockage?.stockage_params.host || livrableStockage?.stockage_params.url) && (
-            <div className='fr-grid-row stockage-card fr-p-1w fr-mb-2w'>
-              <div className='fr-mr-1w'>Stockage ajouté : {livrableStockage.stockage_params.host || livrableStockage.stockage_params.url}</div>
-              <button
-                className='delete-button'
-                type='button'
-                onClick={() => setLivrableStockage(null)}
-              >
-                <span className='fr-icon-delete-line' aria-hidden='true' />
-              </button>
-            </div>
+            <StockageCard
+              type={livrableStockage.stockage}
+              params={livrableStockage.stockage_params}
+              generalSettings={{isPublic: livrableStockage.stockage_public, isDownloadable: livrableStockage.stockage_download}}
+              handleDelete={() => setLivrableStockage(null)}
+            />
           )}
 
           {livrableStockage?.stockage === null && (
@@ -261,18 +262,6 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
       </div>
 
       {errorMessage && <p id='text-input-error-desc-error' className='fr-error-text'>{errorMessage}</p>}
-
-      <style jsx>{`
-        .stockage-card {
-          width: fit-content;
-          background: ${colors.grey975};
-          border-radius: 3px;
-        }
-
-        .delete-button {
-          color: ${colors.error425};
-        }
-      `}</style>
     </div>
   )
 }
