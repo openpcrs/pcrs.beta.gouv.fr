@@ -5,17 +5,11 @@ import TextInput from '@/components/text-input.js'
 import NumberInput from '@/components/number-input.js'
 
 const FtpParamsInputs = ({stockageParams, handleParams}) => {
-  const [values, setValues] = useState(stockageParams)
-  const [checkedStatus, setCheckedStatus] = useState(false)
+  const [values, setValues] = useState({...stockageParams, secure: stockageParams.secure || false})
 
   function handleValuesChange(e) {
     setValues({...values, [e.target.name]: e.target.value})
     handleParams(values)
-  }
-
-  function handleCheckedStatus(isChecked) {
-    setValues({...values, secure: isChecked})
-    setCheckedStatus(isChecked)
   }
 
   return (
@@ -82,9 +76,8 @@ const FtpParamsInputs = ({stockageParams, handleParams}) => {
           <input
             type='checkbox'
             name='secure'
-            checked={checkedStatus}
-            onChange={() =>
-              handleCheckedStatus(!checkedStatus)}
+            checked={values.secure}
+            onChange={e => handleValuesChange(e)}
           />
           <label className='fr-label'>
             Le serveur FTP est sécurisé (FTPS, TLS/SSL)
