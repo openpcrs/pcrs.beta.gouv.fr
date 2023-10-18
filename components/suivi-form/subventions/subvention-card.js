@@ -3,10 +3,12 @@ import {formatDate} from '@/lib/date-utils.js'
 
 import colors from '@/styles/colors.js'
 
+import {formatNumber} from '@/lib/string.js'
+
 import {getNatures} from '@/components/suivi-form/subventions/utils/select-options.js'
 
-const SubventionCard = ({nom, montant, echeance, nature, isFormOpen, handleDelete, handleEdition}) => (
-  <div className={`fr-grid-row fr-p-2w fr-my-3w card-container ${isFormOpen ? 'card-disable' : ''}`}>
+const SubventionCard = ({nom, montant, echeance, nature, isDisabled, handleDelete, handleEdition}) => (
+  <div className={`fr-grid-row fr-p-2w fr-my-3w card-container ${isDisabled ? 'card-disable' : ''}`}>
     <div className='fr-grid-row fr-col-10'>
       <div className='fr-grid-row fr-col-12 fr-col-xl-6'>
         <div className='fr-grid-row fr-grid-row--middle fr-col-12 fr-col-md-6 fr-p-1w'>
@@ -25,7 +27,7 @@ const SubventionCard = ({nom, montant, echeance, nature, isFormOpen, handleDelet
       <div className='fr-grid-row fr-col-12 fr-col-xl-6'>
         <div className='fr-grid-row fr-col-12 fr-col-md-6 fr-p-1w'>
           <div className=' label fr-col-12 fr-text--lg fr-m-0'>Montant</div>
-          <div className='fr-m-0 fr-col-12 fr-text--sm'>{montant || 'N/A'}</div>
+          <div className='fr-m-0 fr-col-12 fr-text--sm'>{montant ? `${formatNumber(montant)} €` : 'N/A'}</div>
         </div>
 
         <div className='fr-grid-row col-12 fr-col-md-6 fr-p-1w'>
@@ -35,25 +37,27 @@ const SubventionCard = ({nom, montant, echeance, nature, isFormOpen, handleDelet
       </div>
     </div>
 
-    <div className='fr-grid-row fr-col-12 fr-col-md-2 fr-mt-3w fr-mt-md-0 fr-pl-md-1w fr-grid-row--middle '>
-      <button
-        type='button'
-        className='fr-grid-row fr-col-md-12 fr-col-lg-6 update-button'
-        onClick={handleEdition}
-      >
-        <span className='fr-icon-edit-line fr-col-12' aria-hidden='true' />
-        <div className='fr-col-12'>Modifier</div>
-      </button>
+    {!isDisabled && (
+      <div className='fr-grid-row fr-col-12 fr-col-md-2 fr-mt-3w fr-mt-md-0 fr-pl-md-1w fr-grid-row--middle '>
+        <button
+          type='button'
+          className='fr-grid-row fr-col-md-12 fr-col-lg-6 update-button'
+          onClick={handleEdition}
+        >
+          <span className='fr-icon-edit-line fr-col-12' aria-hidden='true' />
+          <div className='fr-col-12'>Modifier</div>
+        </button>
 
-      <button
-        type='button'
-        className='fr-grid-row fr-col-md-12 fr-col-lg-6 fr-pl-1w delete-button'
-        onClick={handleDelete}
-      >
-        <span className='fr-icon-delete-line fr-col-12' aria-hidden='true' />
-        <div className='fr-col-12'>Supprimer</div>
-      </button>
-    </div>
+        <button
+          type='button'
+          className='fr-grid-row fr-col-md-12 fr-col-lg-6 fr-pl-1w delete-button'
+          onClick={handleDelete}
+        >
+          <span className='fr-icon-delete-line fr-col-12' aria-hidden='true' />
+          <div className='fr-col-12'>Supprimer</div>
+        </button>
+      </div>
+    )}
 
     <style jsx>{`
       .card-container {
@@ -96,7 +100,7 @@ SubventionCard.propTypes = {
   montant: PropTypes.number,
   echeance: PropTypes.string,
   nature: PropTypes.string.isRequired,
-  isFormOpen: PropTypes.bool.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
   handleEdition: PropTypes.func.isRequired,
   handleDelete: PropTypes.func.isRequired
 }

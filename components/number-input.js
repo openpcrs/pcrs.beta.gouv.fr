@@ -5,7 +5,6 @@ import {handleRangeError} from './suivi-form/acteurs/utils/error-handlers.js'
 const NumberInput = ({
   label,
   value,
-  type,
   min,
   max,
   ariaLabel,
@@ -30,12 +29,8 @@ const NumberInput = ({
   }, [value, min, max, errorMessage])
 
   useEffect(() => {
-    if (inputError) {
-      setIsValueValid(false)
-    } else {
-      setIsValueValid(true)
-    }
-  }, [value, inputError, setIsValueValid])
+    setIsValueValid(!inputError)
+  }, [inputError, setIsValueValid])
 
   return (
     <div className={`fr-input-group fr-input-group--${inputState}`}>
@@ -46,7 +41,7 @@ const NumberInput = ({
 
       <input
         {...props}
-        type={type}
+        type='number'
         required={isRequired}
         className={`fr-input fr-input--${inputState}`}
         value={value}
@@ -95,7 +90,6 @@ NumberInput.propTypes = {
 NumberInput.defaultProps = {
   label: '',
   value: '',
-  type: 'text',
   ariaLabel: '',
   placeholder: null,
   errorMessage: null,

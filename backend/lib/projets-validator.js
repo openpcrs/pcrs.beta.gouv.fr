@@ -93,9 +93,11 @@ const acteursSchemaCreation = Joi.object().keys({
 const etapesSchemaCreation = Joi.object().keys({
   statut: Joi.valid(
     'investigation',
-    'production',
-    'produit',
-    'livre',
+    'convention_signee',
+    'marche_public_en_cours',
+    'prod_en_cours',
+    'controle_en_cours',
+    'disponible',
     'obsolete'
   ).required().messages({
     'any.only': 'Cette étape n’existe pas',
@@ -138,25 +140,17 @@ const livrablesSchemaCreation = Joi.object().keys({
     'any.only': 'Ce type de diffusion n’est pas valide'
   }),
   date_livraison: Joi.custom(validateJoiDate).allow(null),
-  crs: Joi.string().allow(null).messages({
-    'string.base': 'Le crs doit être une chaine de caractères',
-    'string.empty': 'Le champs crs ne peut pas être vide'
-  }),
   avancement: Joi.number().allow(null).messages({
     'number.base': 'L’avancement doit être un nombre'
   }),
-  compression: Joi.string().allow(null).messages({
-    'string.base': 'La compression doit être une chaine de caractères',
-    'string.empty': 'Le champs compression ne peut pas être vide'
-  }),
-  publication: Joi.valid(
-    'ftp',
-    'cloud',
+  stockage: Joi.valid(
     'http',
-    'inexistante'
+    'ftp',
+    'sftp'
   ).allow(null).messages({
-    'any.only': 'Ce type de publication n’est pas valide'
-  })
+    'any.only': 'Ce type de stockage n’est pas valide'
+  }),
+  stockage_params: Joi.object()
 }).messages({
   'object.unknown': 'Une clé de l’objet est invalide'
 })
@@ -275,9 +269,11 @@ const acteursSchemaUpdate = Joi.object().keys({
 const etapesSchemaUpdate = Joi.object().keys({
   statut: Joi.valid(
     'investigation',
-    'production',
-    'produit',
-    'livre',
+    'convention_signee',
+    'marche_public_en_cours',
+    'prod_en_cours',
+    'controle_en_cours',
+    'disponible',
     'obsolete'
   ).messages({
     'any.only': 'Ce statut n’est pas valide'
@@ -316,25 +312,18 @@ const livrablesSchemaUpdate = Joi.object().keys({
     'any.only': 'Ce type de diffusion n’est pas valide'
   }),
   date_livraison: Joi.custom(validateJoiDate).allow(null),
-  crs: Joi.string().allow(null).messages({
-    'string.base': 'Le crs doit être une chaine de caractères',
-    'string.empty': 'Le champs crs ne peut pas être vide'
-  }),
   avancement: Joi.number().allow(null).messages({
     'number.base': 'L’avancement doit être un nombre'
   }),
-  compression: Joi.string().allow(null).messages({
-    'string.base': 'La compression doit être une chaine de caractères',
-    'string.empty': 'Le champs compression ne peut pas être vide'
-  }),
-  publication: Joi.valid(
-    'ftp',
-    'cloud',
+  stockage_id: Joi.string().allow(null),
+  stockage: Joi.valid(
     'http',
-    'inexistante'
-  ).allow(null).messages({
-    'any.only': 'La publication n’est pas valide'
-  })
+    'ftp',
+    'sftp'
+  ).messages({
+    'any.only': 'Ce type de stockage n’est pas valide'
+  }),
+  stockage_params: Joi.object()
 }).messages({
   'object.unknown': 'Une clé de l’objet est invalide'
 })

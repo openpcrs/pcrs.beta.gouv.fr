@@ -11,9 +11,7 @@ const validProjet = {
       nature: 'geotiff',
       diffusion: 'wmts',
       licence: 'ouvert_odbl',
-      avancement: 100,
-      crs: 'EPSG:2971',
-      compression: 'Nature untelle'
+      avancement: 100
     }
   ],
   acteurs: [
@@ -35,7 +33,7 @@ const validProjet = {
       date_debut: '2023-02-06'
     },
     {
-      statut: 'production',
+      statut: 'prod_en_cours',
       date_debut: '2024-02-08'
     }
   ],
