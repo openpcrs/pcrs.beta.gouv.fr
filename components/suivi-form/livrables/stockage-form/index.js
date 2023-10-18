@@ -2,9 +2,9 @@
 import {useState} from 'react'
 import PropTypes from 'prop-types'
 
-import HttpParamsInputs from '@/components/suivi-form/livrables/stockage-form/http-params.inputs.js'
-import FtpParamsInputs from '@/components/suivi-form/livrables/stockage-form/ftp-params.inputs.js'
-import SftpParamsInputs from '@/components/suivi-form/livrables/stockage-form/sftp-sftp-params-inputs.js'
+import HttpParamsInputs from '@/components/suivi-form/livrables/stockage-form/http-params-inputs.js'
+import FtpParamsInputs from '@/components/suivi-form/livrables/stockage-form/ftp-params-inputs.js'
+import SftpParamsInputs from '@/components/suivi-form/livrables/stockage-form/sftp-params-inputs.js'
 import SelectInput from '@/components/select-input.js'
 import Button from '@/components/button.js'
 
