@@ -6,7 +6,7 @@ import ListSlicer from '@/components/list-slicer.js'
 import GeneralInfos from '@/components/projet/general-infos.js'
 import Documents from '@/components/map-sidebar/documents.js'
 import EditorActions from '@/components/projet/editor-actions.js'
-import Progression from '@/components/projet/progression-section.js'
+import Progression from '@/components/map-sidebar/progression.js'
 import Livrables from '@/components/projet/livrables-section.js'
 import Acteurs from '@/components/projet/acteurs-section.js'
 import Subventions from '@/components/projet/subventions-section.js'
@@ -38,6 +38,7 @@ const ProjetInfos = ({project}) => {
       <div className='main'>
         <div className='left-section'>
           <div className='fr-col-12 fr-col-lg-6'>
+            <h3 className='fr-text--lead fr-mt-5w fr-mb-3w'>État d’avancement</h3>
             <Progression etapes={etapes} />
           </div>
 
