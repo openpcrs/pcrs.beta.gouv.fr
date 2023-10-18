@@ -1,15 +1,11 @@
-import {useState} from 'react'
 import PropTypes from 'prop-types'
 
 import TextInput from '@/components/text-input.js'
 import NumberInput from '@/components/number-input.js'
 
 const FtpParamsInputs = ({stockageParams, handleParams}) => {
-  const [values, setValues] = useState({...stockageParams, secure: stockageParams.secure || false})
-
   function handleValuesChange(e) {
-    setValues({...values, [e.target.name]: e.target.value})
-    handleParams(values)
+    handleParams({...stockageParams, [e.target.name]: e.target.value})
   }
 
   return (
@@ -21,7 +17,7 @@ const FtpParamsInputs = ({stockageParams, handleParams}) => {
           label='Nom d’hôte'
           placeholder='ftp3.ign.fr'
           description='Nom d’hôte du serveur ou adresse IP'
-          value={values.host || ''}
+          value={stockageParams.host || ''}
           onValueChange={e => handleValuesChange(e)}
         />
       </div>
@@ -33,7 +29,7 @@ const FtpParamsInputs = ({stockageParams, handleParams}) => {
             label='Port'
             placeholder=''
             description='Port d’écoute du service FTP'
-            value={values.port || ''}
+            value={stockageParams.port || ''}
             onValueChange={e => handleValuesChange(e)}
           />
         </div>
@@ -44,7 +40,7 @@ const FtpParamsInputs = ({stockageParams, handleParams}) => {
             label='Chemin du répertoire'
             placeholder='"/" par défaut'
             description='Chemin du répertoire contenant les fichiers du livrable. Le processus d’analyse prendra en compte tous les fichiers et répertoires accessibles à partir de ce chemin.'
-            value={values.startPath || ''}
+            value={stockageParams.startPath || ''}
             onValueChange={e => handleValuesChange(e)}
           />
         </div>
@@ -55,7 +51,7 @@ const FtpParamsInputs = ({stockageParams, handleParams}) => {
               name='username'
               label='Nom d’utilisateur'
               description=''
-              value={values.username || ''}
+              value={stockageParams.username || ''}
               onValueChange={e => handleValuesChange(e)}
             />
           </div>
@@ -66,7 +62,7 @@ const FtpParamsInputs = ({stockageParams, handleParams}) => {
               label='Mot de passe'
               type='password'
               description=''
-              value={values.password || ''}
+              value={stockageParams.password || ''}
               onValueChange={e => handleValuesChange(e)}
             />
           </div>
@@ -76,7 +72,7 @@ const FtpParamsInputs = ({stockageParams, handleParams}) => {
           <input
             type='checkbox'
             name='secure'
-            checked={values.secure}
+            checked={stockageParams.secure || false}
             onChange={e => handleValuesChange(e)}
           />
           <label className='fr-label'>
@@ -100,7 +96,14 @@ const FtpParamsInputs = ({stockageParams, handleParams}) => {
 }
 
 FtpParamsInputs.propTypes = {
-  stockageParams: PropTypes.object,
+  stockageParams: PropTypes.shape({
+    host: PropTypes.string,
+    port: PropTypes.string,
+    startPath: PropTypes.string,
+    username: PropTypes.string,
+    password: PropTypes.string,
+    secure: PropTypes.bool // eslint-disable-line react/boolean-prop-naming
+  }),
   handleParams: PropTypes.func
 }
 

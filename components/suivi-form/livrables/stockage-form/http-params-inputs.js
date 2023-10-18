@@ -6,7 +6,7 @@ import {isURLValid} from '@/components/suivi-form/livrables/utils/url.js'
 import TextInput from '@/components/text-input.js'
 
 const HttpParamsInputs = ({stockageParams, handleParams}) => {
-  const [url, setUrl] = useState(stockageParams.url)
+  const [url, setUrl] = useState(stockageParams?.url || '')
   const [errorMessage, setErrorMessage] = useState(null)
 
   function handleHttpChange(url) {
@@ -24,7 +24,7 @@ const HttpParamsInputs = ({stockageParams, handleParams}) => {
       <TextInput
         label='URL du serveur'
         description='Lien d’accès au(x) fichier(s)'
-        value={url || ''}
+        value={url}
         placeholder='http://...'
         errorMessage={errorMessage}
         onValueChange={e => handleHttpChange(e.target.value)}
@@ -34,7 +34,9 @@ const HttpParamsInputs = ({stockageParams, handleParams}) => {
 }
 
 HttpParamsInputs.propTypes = {
-  stockageParams: PropTypes.object,
+  stockageParams: PropTypes.shape({
+    url: PropTypes.string
+  }),
   handleParams: PropTypes.func.isRequired
 }
 

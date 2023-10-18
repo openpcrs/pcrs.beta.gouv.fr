@@ -1,15 +1,11 @@
-import {useState} from 'react'
 import PropTypes from 'prop-types'
 
 import TextInput from '@/components/text-input.js'
 import NumberInput from '@/components/number-input.js'
 
 const SftpParamsInputs = ({stockageParams, handleParams}) => {
-  const [values, setValues] = useState(stockageParams)
-
   function handleValuesChange(e) {
-    setValues({...values, [e.target.name]: e.target.value})
-    handleParams(values)
+    handleParams({...stockageParams, [e.target.name]: e.target.value})
   }
 
   return (
@@ -21,7 +17,7 @@ const SftpParamsInputs = ({stockageParams, handleParams}) => {
           label='Nom d’hôte'
           placeholder='sftp3.ign.fr'
           description='Nom d’hôte du serveur ou adresse IP'
-          value={values.host || ''}
+          value={stockageParams.host || ''}
           onValueChange={e => handleValuesChange(e)}
         />
       </div>
@@ -33,7 +29,7 @@ const SftpParamsInputs = ({stockageParams, handleParams}) => {
             label='Port'
             placeholder=''
             description='Port d’écoute du service SFTP'
-            value={values.port || ''}
+            value={stockageParams.port || ''}
             onValueChange={e => handleValuesChange(e)}
           />
         </div>
@@ -44,7 +40,7 @@ const SftpParamsInputs = ({stockageParams, handleParams}) => {
             label='Chemin du répertoire'
             placeholder='"/" par défaut'
             description='Chemin du répertoire contenant les fichiers du livrable. Le processus d’analyse prendra en compte tous les fichiers et répertoires accessibles à partir de ce chemin.'
-            value={values.startPath || ''}
+            value={stockageParams.startPath || ''}
             onValueChange={e => handleValuesChange(e)}
           />
         </div>
@@ -56,7 +52,7 @@ const SftpParamsInputs = ({stockageParams, handleParams}) => {
               name='username'
               label='Nom d’utilisateur'
               description=''
-              value={values.username || ''}
+              value={stockageParams.username || ''}
               onValueChange={e => handleValuesChange(e)}
             />
           </div>
@@ -68,7 +64,7 @@ const SftpParamsInputs = ({stockageParams, handleParams}) => {
               label='Mot de passe'
               type='password'
               description=''
-              value={values.password || ''}
+              value={stockageParams.password || ''}
               onValueChange={e => handleValuesChange(e)}
             />
           </div>
@@ -90,7 +86,13 @@ const SftpParamsInputs = ({stockageParams, handleParams}) => {
 }
 
 SftpParamsInputs.propTypes = {
-  stockageParams: PropTypes.object,
+  stockageParams: PropTypes.shape({
+    host: PropTypes.string,
+    port: PropTypes.string,
+    startPath: PropTypes.string,
+    username: PropTypes.string,
+    password: PropTypes.string
+  }),
   handleParams: PropTypes.func.isRequired
 }
 

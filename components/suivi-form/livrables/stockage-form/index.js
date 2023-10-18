@@ -45,21 +45,21 @@ const StockageForm = ({initialValues, handleLivrableStockage, onCancel}) => {
 
       {stockageType === 'sftp' && (
         <SftpParamsInputs
-          stockageParams={{...initialValues.stockage_params}}
+          stockageParams={stockageParams}
           handleParams={setStockageParams}
         />
       )}
 
       {stockageType === 'ftp' && (
         <FtpParamsInputs
-          stockageParams={{...initialValues.stockage_params}}
+          stockageParams={stockageParams}
           handleParams={setStockageParams}
         />
       )}
 
       {stockageType === 'http' && (
         <HttpParamsInputs
-          stockageParams={{url: initialValues.stockage_params?.url}}
+          stockageParams={stockageParams}
           handleParams={setStockageParams}
         />
       )}
