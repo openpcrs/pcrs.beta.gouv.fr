@@ -53,6 +53,7 @@ const SftpParamsInputs = ({stockageParams, handleParams}) => {
               label='Nom d’utilisateur'
               description=''
               value={stockageParams.username || ''}
+              autoComplete='off'
               onValueChange={handleValuesChange}
             />
           </div>
@@ -65,6 +66,7 @@ const SftpParamsInputs = ({stockageParams, handleParams}) => {
               type='password'
               description=''
               value={stockageParams.password || ''}
+              autoComplete='off'
               onValueChange={handleValuesChange}
             />
           </div>

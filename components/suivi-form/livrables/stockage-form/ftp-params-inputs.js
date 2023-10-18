@@ -52,6 +52,7 @@ const FtpParamsInputs = ({stockageParams, handleParams}) => {
               label='Nom d’utilisateur'
               description=''
               value={stockageParams.username || ''}
+              autoComplete='off'
               onValueChange={handleValuesChange}
             />
           </div>
@@ -63,7 +64,7 @@ const FtpParamsInputs = ({stockageParams, handleParams}) => {
               type='password'
               description=''
               value={stockageParams.password || ''}
-              onValueChange={e => handleValuesChange(e)}
+              autoComplete='off'
               onValueChange={handleValuesChange}
             />
           </div>
