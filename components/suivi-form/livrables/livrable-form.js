@@ -1,3 +1,4 @@
+/* eslint-disable react/boolean-prop-naming */
 /* eslint-disable camelcase */
 import {useState, useReducer, useRef} from 'react'
 import PropTypes from 'prop-types'
@@ -286,6 +287,8 @@ LivrableForm.propTypes = {
     dateLivraison: PropTypes.string,
     stockageId: PropTypes.string,
     stockage: PropTypes.string,
+    stockage_public: PropTypes.bool,
+    stockage_download: PropTypes.bool,
     stockage_params: PropTypes.object
   }),
   isLivrableNameAvailable: PropTypes.func.isRequired,
