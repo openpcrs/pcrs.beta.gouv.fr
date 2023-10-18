@@ -59,6 +59,21 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
   const handleAuthentificationModal = () => router.push('/suivi-pcrs')
   const handleModal = () => router.push('/suivi-pcrs')
 
+  const handleSubmitError = error => {
+    if (error.code === 400) {
+      const errorsMessages = error.validationErrors.map(error => {
+        const {message} = error
+        const section = error.path[0]
+
+        return `${section} - ${message}`
+      })
+      setErrors(uniq(errorsMessages))
+      setErrorMessage('Le projet n’a pas pu être pris en compte car il y a des erreurs :')
+    } else {
+      setErrorMessage(error.message)
+    }
+  }
+
   const handleSubmit = async event => {
     event.preventDefault()
 
@@ -98,38 +113,15 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
         }
 
         const authorizationCode = editCode || token
-        const sendSuivi = _id ? await editProject(suivi, _id, authorizationCode) : await postSuivi(suivi, token)
+        const {data, error} = _id ? await editProject(suivi, _id, authorizationCode) : await postSuivi(suivi, token)
 
-        setEditedProjectId(sendSuivi._id)
-        setEditCode(sendSuivi.editorKey)
-
-        if (sendSuivi.message) {
-          const errorsMessages = sendSuivi.validationErrors.map(error => {
-            const {message, path, type, context} = error
-            const section = error.path[0]
-
-            const handleErrorPath = () => {
-              // Handle key error
-              if (type === 'object.unknown') {
-                return `(clé invalide : ${context.key})`
-              }
-
-              // Handle value error
-              if (path.length > 1 && type !== 'string.empty') {
-                return `(valeur invalide : ${suivi[section][path[1]][path[2]]})`
-              }
-
-              return ''
-            }
-
-            return `${section} - ${message} ${handleErrorPath()}`
-          })
-
-          setErrors(uniq(errorsMessages))
-          setErrorMessage('Le projet n’a pas pu être pris en compte car il y a des erreurs :')
+        if (error) {
+          handleSubmitError(error)
         } else if (userRole === 'admin' || _id) {
-          router.push(`/projet/${sendSuivi._id}`)
+          router.push(`/projet/${data._id}`)
         } else {
+          setEditedProjectId(data._id)
+          setEditCode(data.editorKey)
           setIsShareModalOpen(true)
         }
       }
@@ -137,7 +129,6 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
       const errorMessage = _id ? 'Une erreur a eu lieu lors de la modification du suivi' : 'Une erreur a eu lieu lors de la création du suivi'
 
       setErrorMessage(errorMessage)
-      throw new Error(errorMessage)
     }
   }
 
