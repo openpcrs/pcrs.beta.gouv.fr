@@ -4,7 +4,7 @@ import TextInput from '@/components/text-input.js'
 import NumberInput from '@/components/number-input.js'
 
 const FtpParamsInputs = ({stockageParams, handleParams}) => {
-  function handleValuesChange(e) {
+  const handleValuesChange = e => {
     handleParams({...stockageParams, [e.target.name]: e.target.value})
   }
 
@@ -18,7 +18,7 @@ const FtpParamsInputs = ({stockageParams, handleParams}) => {
           placeholder='ftp3.ign.fr'
           description='Nom d’hôte du serveur ou adresse IP'
           value={stockageParams.host || ''}
-          onValueChange={e => handleValuesChange(e)}
+          onValueChange={handleValuesChange}
         />
       </div>
 
@@ -30,7 +30,7 @@ const FtpParamsInputs = ({stockageParams, handleParams}) => {
             placeholder=''
             description='Port d’écoute du service FTP'
             value={stockageParams.port || ''}
-            onValueChange={e => handleValuesChange(e)}
+            onValueChange={handleValuesChange}
           />
         </div>
 
@@ -41,7 +41,7 @@ const FtpParamsInputs = ({stockageParams, handleParams}) => {
             placeholder='"/" par défaut'
             description='Chemin du répertoire contenant les fichiers du livrable. Le processus d’analyse prendra en compte tous les fichiers et répertoires accessibles à partir de ce chemin.'
             value={stockageParams.startPath || ''}
-            onValueChange={e => handleValuesChange(e)}
+            onValueChange={handleValuesChange}
           />
         </div>
 
@@ -52,7 +52,7 @@ const FtpParamsInputs = ({stockageParams, handleParams}) => {
               label='Nom d’utilisateur'
               description=''
               value={stockageParams.username || ''}
-              onValueChange={e => handleValuesChange(e)}
+              onValueChange={handleValuesChange}
             />
           </div>
 
@@ -64,6 +64,7 @@ const FtpParamsInputs = ({stockageParams, handleParams}) => {
               description=''
               value={stockageParams.password || ''}
               onValueChange={e => handleValuesChange(e)}
+              onValueChange={handleValuesChange}
             />
           </div>
         </div>
@@ -73,7 +74,7 @@ const FtpParamsInputs = ({stockageParams, handleParams}) => {
             type='checkbox'
             name='secure'
             checked={stockageParams.secure || false}
-            onChange={e => handleValuesChange(e)}
+            onChange={handleValuesChange}
           />
           <label className='fr-label'>
             Le serveur FTP est sécurisé (FTPS, TLS/SSL)

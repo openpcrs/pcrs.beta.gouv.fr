@@ -4,7 +4,7 @@ import TextInput from '@/components/text-input.js'
 import NumberInput from '@/components/number-input.js'
 
 const SftpParamsInputs = ({stockageParams, handleParams}) => {
-  function handleValuesChange(e) {
+  const handleValuesChange = e => {
     handleParams({...stockageParams, [e.target.name]: e.target.value})
   }
 
@@ -18,7 +18,7 @@ const SftpParamsInputs = ({stockageParams, handleParams}) => {
           placeholder='sftp3.ign.fr'
           description='Nom d’hôte du serveur ou adresse IP'
           value={stockageParams.host || ''}
-          onValueChange={e => handleValuesChange(e)}
+          onValueChange={handleValuesChange}
         />
       </div>
 
@@ -30,7 +30,7 @@ const SftpParamsInputs = ({stockageParams, handleParams}) => {
             placeholder=''
             description='Port d’écoute du service SFTP'
             value={stockageParams.port || ''}
-            onValueChange={e => handleValuesChange(e)}
+            onValueChange={handleValuesChange}
           />
         </div>
 
@@ -41,7 +41,7 @@ const SftpParamsInputs = ({stockageParams, handleParams}) => {
             placeholder='"/" par défaut'
             description='Chemin du répertoire contenant les fichiers du livrable. Le processus d’analyse prendra en compte tous les fichiers et répertoires accessibles à partir de ce chemin.'
             value={stockageParams.startPath || ''}
-            onValueChange={e => handleValuesChange(e)}
+            onValueChange={handleValuesChange}
           />
         </div>
 
@@ -53,7 +53,7 @@ const SftpParamsInputs = ({stockageParams, handleParams}) => {
               label='Nom d’utilisateur'
               description=''
               value={stockageParams.username || ''}
-              onValueChange={e => handleValuesChange(e)}
+              onValueChange={handleValuesChange}
             />
           </div>
 
@@ -65,7 +65,7 @@ const SftpParamsInputs = ({stockageParams, handleParams}) => {
               type='password'
               description=''
               value={stockageParams.password || ''}
-              onValueChange={e => handleValuesChange(e)}
+              onValueChange={handleValuesChange}
             />
           </div>
         </div>
