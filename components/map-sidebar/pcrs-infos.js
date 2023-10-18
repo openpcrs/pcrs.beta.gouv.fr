@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import PropTypes from 'prop-types'
 
-import {LICENCES, ACTORS, REGIMES, LIVRABLE_NATURES, DIFFUSIONS, SUBVENTIONS_NATURES, NATURES} from '@/lib/utils/projet.js'
+import {LICENCES, ACTORS, REGIMES, LIVRABLE_NATURES, SUBVENTIONS_NATURES, NATURES} from '@/lib/utils/projet.js'
 
 import {formatDate} from '@/lib/date-utils.js'
 
@@ -25,9 +25,9 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs, subventions}) =
 
   const livrableTooltip = livrable => (
     <div className='tooltip-container'>
-      <div>Nature : <br /><span>{ LIVRABLE_NATURES[livrable.nature].label}</span></div>
+      <div>Nature : <br /><span>{LIVRABLE_NATURES[livrable.nature].label}</span></div>
       <div>Licence : <br /><span>{LICENCES[livrable.licence].label}</span></div>
-      <div>Diffusion : <br /><span>{DIFFUSIONS[livrable.diffusion].label}</span></div>
+      <div>Stockage : <br /><span>{livrable.stockage || 'N/A'}</span></div>
       <div>Livraison : <br /><span>{livrable.date_livraison ? `le ${formatDate(livrable.date_livraison)}` : 'N/A'}</span></div>
 
       <style jsx>{`
