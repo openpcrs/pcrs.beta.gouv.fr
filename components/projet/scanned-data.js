@@ -13,10 +13,10 @@ const ScannedData = ({data, geojson}) => {
   const sanitizedScanTime = dateWithTime(result.lastSuccessfulScan)
 
   return (
-    <div className='fr-mt-3w'>
+    <div className='fr-mt-6w'>
       <div className='fr-grid-row fr-grid-row--middle'>
         <span className='fr-icon-database-line fr-mr-1w' aria-hidden='true' />
-        <h3 className='section-title fr-text--lead fr-m-0'>Scan</h3>
+        <h3 className='section-title fr-text--md fr-m-0'>Scan</h3>
       </div>
       <div>
         <div>{lastError ? (
@@ -47,15 +47,6 @@ const ScannedData = ({data, geojson}) => {
         .map-wrapper {
           width: 100%;
           height: 500px;
-        }
-
-        .section-title {
-         border-bottom: 4px solid ${colors.info425};
-       }
-
-        .data-title {
-          color: ${colors.info425};
-          font-weight: bold;
         }
 
         .files-total, .error-total{

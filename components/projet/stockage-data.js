@@ -13,10 +13,10 @@ const StockageData = ({isPrivate, type, params}) => {
     <div className='fr-mt-3w'>
       <div className='fr-grid-row fr-grid-row--middle'>
         <span className='fr-icon-database-line fr-mr-1w' aria-hidden='true' />
-        <h3 className='section-title fr-text--lead fr-m-0'>Stockage</h3>
+        <h3 className='section-title fr-text--md fr-m-0'>Stockage</h3>
       </div>
 
-      <div className='fr-mt-3w'>
+      <div className='fr-mt-1w'>
         <div className='fr-mt-1w fr-grid-row'><div className='data-title fr-mr-1w'>Type de stockage :</div><span>{type.toUpperCase()}</span></div>
         <div className='fr-mt-1w fr-grid-row'>
           <div className='data-title fr-mr-1w'>Statut du stockage:</div>
@@ -26,7 +26,7 @@ const StockageData = ({isPrivate, type, params}) => {
         {(!isPrivate && params?.host) && (
           <div className='fr-grid-row' onClick={handleParamsShow}>
             <div className='fr-grid-row fr-col-12'>
-              <div className='data-title fr-mr-1w fr-grid-row'>Afficher les paramètres du stockage</div><span className={`fr-icon-arrow-${isParamsShow ? 'down' : 'right'}-s-line`} />
+              <div className='data-title dropdown fr-mr-1w fr-grid-row'>Afficher les paramètres du stockage</div><span className={`fr-icon-arrow-${isParamsShow ? 'down' : 'right'}-s-line`} />
             </div>
 
             {isParamsShow && (
@@ -43,13 +43,13 @@ const StockageData = ({isPrivate, type, params}) => {
       </div>
 
       <style jsx>{`
-       .section-title {
-         border-bottom: 4px solid ${colors.info425};
-       }
-
        .data-title {
          color: ${colors.info425};
          font-weight: bold;
+       }
+
+       .dropdown {
+        cursor: pointer;
        }
 
        .content-wrapper span {

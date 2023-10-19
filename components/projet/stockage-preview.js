@@ -3,6 +3,8 @@ import {useEffect, useState} from 'react'
 
 import {getStockage, getStockageGeoJSON} from '@/lib/pcrs-scanner-api.js'
 
+import colors from '@/styles/colors.js'
+
 import CenteredSpinnder from '@/components/centered-spinner.js'
 import StockageData from '@/components/projet/stockage-data.js'
 import ScannedData from '@/components/projet/scanned-data.js'
@@ -47,7 +49,7 @@ const StockagePreview = ({stockageId}) => {
           </div>
         </div>
       ) : (
-        <div className='stockage-preview-data-container fr-col-12'>
+        <div className='stockage-preview-data-container fr-mt-2w fr-pl-3w fr-col-12'>
           <StockageData isPrivate={stockage.data?.stockagePublic === false} params={stockage.data.params} type={stockage.data.type} />
           {stockage.data.result ? (
             <ScannedData {...stockage} />
@@ -58,6 +60,10 @@ const StockagePreview = ({stockageId}) => {
       )}
 
       <style jsx>{`
+        .stockage-preview-data-container {
+          border-top: solid 3px ${colors.blueFrance925};
+        }
+
         .map-wrapper {
           width: 100%;
           height: 500px;
