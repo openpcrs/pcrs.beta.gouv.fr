@@ -2,12 +2,11 @@ import {useState} from 'react'
 import PropTypes from 'prop-types'
 import {sortBy} from 'lodash-es'
 
-import StockagePreview from './stockage-preview.js'
+import StockagePreview from '@/components/containers/stockage-preview.js'
 import {LIVRABLE_NATURES} from '@/lib/utils/projet.js'
 
 import {livrableRenderItem} from '@/components/projet/list-render-items.js'
 import SelectInput from '@/components/select-input.js'
-import StockagePreview from '@/components/containers/stockage-preview.js'
 
 const LivrablesSection = ({livrables}) => {
   const [selectedLivrableIdx, setSelectedLivrableIdx] = useState(0)
