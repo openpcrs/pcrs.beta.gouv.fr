@@ -63,7 +63,7 @@ const Projet = ({id}) => {
 
           <div className='not-found-explain fr-pt-8w'>
             <p><b className='fr-mt-3w fr-text--xl'>{errorMessage}</b></p>
-            <Button label='Retour à la page d’accueil' href='/suivi-form'><span className='fr-icon-home-4-line' aria-hidden='true' />&nbsp;Retour au début de la rue</Button>
+            <Button label='Retour à la page d’accueil' href='/suivi-pcrs'><span className='fr-icon-home-4-line' aria-hidden='true' />&nbsp;Retour au début de la rue</Button>
           </div>
         </div>
 
