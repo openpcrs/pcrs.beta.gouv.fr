@@ -34,12 +34,14 @@ const StockageCard = ({type, params, generalSettings, handleDelete}) => {
 
         {/* ---------------------- Bottom ---------------------- */}
         <div className='fr-grid-row fr-grid-row--gutters fr-col-12 fr-mt-0 infos-row'>
-          <div className='fr-grid-row fr-col-12 fr-col-md-3'>
-            <div className='label fr-col-12'>Serveur sécurisé</div>
-            <div className='fr-col-12 fr-text--sm fr-m-0'>
-              <span className={`fr-icon-${params.secure ? 'checkbox-circle-fill' : 'close-circle-fill'} fr-pr-1w fr-col-lg-12`} aria-hidden='true' />
+          {type !== 'sftp' && (
+            <div className='fr-grid-row fr-col-12 fr-col-md-3'>
+              <div className='label fr-col-12'>Serveur sécurisé</div>
+              <div className='fr-col-12 fr-text--sm fr-m-0'>
+                <span className={`fr-icon-${params.secure ? 'checkbox-circle-fill' : 'close-circle-fill'} fr-pr-1w fr-col-lg-12`} aria-hidden='true' />
+              </div>
             </div>
-          </div>
+          )}
 
           <div className='fr-grid-row fr-col-12 fr-col-md-3'>
             <div className='label fr-col-12'>Information de connexion publique</div>
