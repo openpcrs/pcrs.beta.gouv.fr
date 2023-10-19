@@ -21,7 +21,7 @@ const StockageForm = ({initialValues, handleLivrableStockage, onCancel}) => {
     handleLivrableStockage({
       stockage: stockageType,
       stockage_public: generalSettings.isPublic,
-      stockage_download: generalSettings.isDownloadable,
+      stockage_telechargement: generalSettings.isDownloadable,
       stockage_params: stockageParams
     })
   }

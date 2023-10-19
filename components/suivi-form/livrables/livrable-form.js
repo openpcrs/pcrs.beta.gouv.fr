@@ -70,7 +70,7 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
   const [livrableStockage, setLivrableStockage] = useState(initialValues?.stockage ? {
     stockage: initialValues.stockage,
     stockage_public: initialValues.stockage_public,
-    stockage_download: initialValues.stockage_download,
+    stockage_telechargement: initialValues.stockage_telechargement,
     stockage_params: initialValues.stockage_params
   } : null)
 
@@ -109,7 +109,7 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
       date_livraison: dateLivraison.value || null,
       stockage: livrableStockage?.stockage || null,
       stockage_public: livrableStockage?.stockage_public || false,
-      stockage_download: livrableStockage?.stockage_download || false,
+      stockage_telechargement: livrableStockage?.stockage_telechargement || false,
       stockage_params: livrableStockage?.stockage_params || {}
     })
   }
@@ -214,7 +214,7 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
             <StockageCard
               type={livrableStockage.stockage}
               params={livrableStockage.stockage_params}
-              generalSettings={{isPublic: livrableStockage.stockage_public, isDownloadable: livrableStockage.stockage_download}}
+              generalSettings={{isPublic: livrableStockage.stockage_public, isDownloadable: livrableStockage.stockage_telechargement}}
               handleDelete={() => setLivrableStockage(null)}
             />
           )}
@@ -277,7 +277,7 @@ LivrableForm.propTypes = {
     stockageId: PropTypes.string,
     stockage: PropTypes.string,
     stockage_public: PropTypes.bool,
-    stockage_download: PropTypes.bool,
+    stockage_telechargement: PropTypes.bool,
     stockage_params: PropTypes.object
   }),
   isLivrableNameAvailable: PropTypes.func.isRequired,
