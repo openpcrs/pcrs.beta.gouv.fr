@@ -99,8 +99,8 @@ export const scanRenderItem = result => {
     {title: 'Nature', value: <Badge size='small' background='#fc916f'>PCRS raster</Badge>},
     {title: 'Format', value: result?.format && LIVRABLE_NATURES[result.format].label, defaultText: 'Non renseigné'},
     {title: 'Nombre de dalles', value: result?.numRasterFiles, defaultText: 'Non renseigné'},
-    {title: 'Projection', value: result?.projection, defaultText: 'Non renseigné'},
-    {title: 'Poids', value: result?.sizeRasterFiles && formatBytes(result?.sizeRasterFiles), defaultText: 'Non renseigné'},
+    {title: 'Projection', value: result?.projection, defaultText: 'Non renseignée'},
+    {title: 'Poids', value: result?.sizeRasterFiles && formatBytes(result?.sizeRasterFiles), defaultText: 'Non renseignées'},
     {
       title: 'Bandes',
       value: result?.bands?.length > 0 && result.bands.map(band => (
