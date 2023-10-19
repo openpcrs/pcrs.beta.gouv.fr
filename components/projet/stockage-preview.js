@@ -35,7 +35,7 @@ const StockagePreview = ({stockageId}) => {
     } else {
       router.push('/404')
     }
-  }, [stockageId])
+  }, [stockageId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (fetchError) {
     return (
