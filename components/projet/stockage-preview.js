@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import {useEffect, useState} from 'react'
-import {useRouter} from 'next/router'
 
 import {getStockage, getStockageGeoJSON} from '@/lib/pcrs-scanner-api.js'
 
@@ -12,8 +11,6 @@ const StockagePreview = ({stockageId}) => {
   const [stockage, setStockage] = useState()
   const [fetchError, setFetchError] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
-
-  const router = useRouter()
 
   useEffect(() => {
     setIsLoading(true)
@@ -30,12 +27,8 @@ const StockagePreview = ({stockageId}) => {
       setIsLoading(false)
     }
 
-    if (stockageId) {
-      fetchStockage()
-    } else {
-      router.push('/404')
-    }
-  }, [stockageId]) // eslint-disable-line react-hooks/exhaustive-deps
+    fetchStockage()
+  }, [stockageId])
 
   if (fetchError) {
     return (
