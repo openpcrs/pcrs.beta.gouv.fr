@@ -56,7 +56,11 @@ const StockagePreview = ({stockageId}) => {
       ) : (
         <div className='stockage-preview-data-container fr-col-12'>
           <StockageData isPrivate={stockage.data?.stockagePublic === false} params={stockage.data.params} type={stockage.data.type} />
-          <ScannedData {...stockage} />
+          {stockage.data.result ? (
+            <ScannedData {...stockage} />
+          ) : (
+            <p id='text-input-error-desc-error' className='fr-error-text'>Les données relatives à ce stockage de sont pas encore disponibles</p>
+          )}
         </div>
       )}
 
