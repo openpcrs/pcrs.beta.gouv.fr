@@ -7,7 +7,6 @@ import Badge from '@/components/badge.js'
 
 const StockageData = ({isPrivate, type, params}) => {
   const [isParamsShow, setIsParamsShow] = useState(false)
-
   const handleParamsShow = () => setIsParamsShow(!isParamsShow)
 
   return (
@@ -24,7 +23,7 @@ const StockageData = ({isPrivate, type, params}) => {
           <Badge background={isPrivate ? colors.warningMain525 : colors.success425} textColor='white'> {isPrivate ? 'Privé' : 'Public'} </Badge>
         </div>
 
-        {!isPrivate && (
+        {(!isPrivate && params?.host) && (
           <div className='fr-grid-row' onClick={handleParamsShow}>
             <div className='fr-grid-row fr-col-12'>
               <div className='data-title fr-mr-1w fr-grid-row'>Afficher les paramètres du stockage</div><span className={`fr-icon-arrow-${isParamsShow ? 'down' : 'right'}-s-line`} />
