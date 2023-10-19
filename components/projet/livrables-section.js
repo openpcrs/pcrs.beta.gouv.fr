@@ -43,10 +43,6 @@ const LivrablesSection = ({livrables}) => {
             </div>
           )}
         </div>
-
-        {livrables[selectedLivrableIdx].stockage_id && (
-          <StockagePreview stockageId={livrables[selectedLivrableIdx].stockage_id} />
-        )}
       </div>
 
       <style jsx>{`
