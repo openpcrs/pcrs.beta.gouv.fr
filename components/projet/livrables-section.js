@@ -2,6 +2,7 @@ import {useState} from 'react'
 import PropTypes from 'prop-types'
 import {sortBy} from 'lodash-es'
 
+import StockagePreview from '@/components/project/stockage-preview.js'
 import {LIVRABLE_NATURES} from '@/lib/utils/projet.js'
 
 import {livrableRenderItem} from '@/components/projet/list-render-items.js'
@@ -14,13 +15,15 @@ const LivrablesSection = ({livrables}) => {
     livrable.date_livraison ? -new Date(livrable.date_livraison) : 0
   )
 
+  const stockageId = orderLivrablesByPublication[selectedLivrableIdx]?.stockage_id
+
   const livrablesOptions = orderLivrablesByPublication.map((item, idx) => ({
     label: `${item.nom} - ${LIVRABLE_NATURES[item.nature].label}`,
     value: idx
   }))
 
   return (
-    <>
+    <div>
       <h3 className='fr-text--lead fr-mt-5w fr-mb-3w'>Livrables · {livrables.length}</h3>
       <div>
         <SelectInput
@@ -33,9 +36,26 @@ const LivrablesSection = ({livrables}) => {
 
         <div>
           {livrableRenderItem(orderLivrablesByPublication[selectedLivrableIdx])}
+
+          {stockageId && (
+            <div className='stockage-preview'>
+              <StockagePreview stockageId={stockageId} />
+            </div>
+          )}
         </div>
+
+        {livrables[selectedLivrableIdx].stockage_id && (
+          <StockagePreview stockageId={livrables[selectedLivrableIdx].stockage_id} />
+        )}
       </div>
-    </>
+
+      <style jsx>{`
+        .stockage-preview {
+          width: 100%;
+          height: 100%;
+        }
+      `}</style>
+    </div>
   )
 }
 
