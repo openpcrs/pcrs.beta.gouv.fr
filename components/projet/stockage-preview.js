@@ -5,8 +5,8 @@ import {useRouter} from 'next/router'
 import {getStockage, getStockageGeoJSON} from '@/lib/pcrs-scanner-api.js'
 
 import CenteredSpinnder from '@/components/centered-spinner.js'
-import StockageData from './stockage-data.js'
-import ScannedData from './scanned-data.js'
+import StockageData from '@/components/projet/stockage-data.js'
+import ScannedData from '@/components/projet/scanned-data.js'
 
 const StockagePreview = ({stockageId}) => {
   const [stockage, setStockage] = useState()

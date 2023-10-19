@@ -6,7 +6,7 @@ import {LIVRABLE_NATURES} from '@/lib/utils/projet.js'
 
 import colors from '@/styles/colors.js'
 
-import ScannerMap from '@/components/containers/scanner-map.js'
+import ScannerMap from '@/components/projet/scanner-map.js'
 import Badge from '@/components/badge.js'
 
 const BANDES_COLORS = {
