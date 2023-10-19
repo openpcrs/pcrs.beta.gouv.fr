@@ -2,7 +2,7 @@ import {useState} from 'react'
 import PropTypes from 'prop-types'
 import {sortBy} from 'lodash-es'
 
-import StockagePreview from '@/components/project/stockage-preview.js'
+import StockagePreview from './stockage-preview.js'
 import {LIVRABLE_NATURES} from '@/lib/utils/projet.js'
 
 import {livrableRenderItem} from '@/components/projet/list-render-items.js'
@@ -43,10 +43,6 @@ const LivrablesSection = ({livrables}) => {
             </div>
           )}
         </div>
-
-        {livrables[selectedLivrableIdx].stockage_id && (
-          <StockagePreview stockageId={livrables[selectedLivrableIdx].stockage_id} />
-        )}
       </div>
 
       <style jsx>{`

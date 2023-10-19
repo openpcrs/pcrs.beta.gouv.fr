@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types'
 
+import {scanRenderItem} from './list-render-items.js'
 import {dateWithTime} from '@/lib/date-utils.js'
 
 import colors from '@/styles/colors.js'
 
 import ScannerMap from '@/components/projet/scanner-map.js'
-import {scanRenderItem} from '@/components/project/list-render-items.js'
 
 const ScannedData = ({data, geojson}) => {
   const {lastError, result} = data
