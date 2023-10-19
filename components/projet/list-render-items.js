@@ -59,7 +59,7 @@ export const acteurRenderItem = acteur => {
 
 export const subventionRenderItem = subvention => {
   const rows = [
-    {title: 'Nature', value: SUBVENTIONS_NATURES[subvention.nature], defaultText: 'Non renseignée'},
+    {title: 'Nature', value: SUBVENTIONS_NATURES[subvention.nature].label, defaultText: 'Non renseignée'},
     {title: 'Montant', value: subvention.montant ? `${subvention.montant}€` : null},
     {title: 'Échance', value: formatDate(subvention.echeance), defaultText: 'Non renseignée'}
   ]
