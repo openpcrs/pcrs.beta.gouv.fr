@@ -2,27 +2,32 @@ import PropTypes from 'prop-types'
 import {useEffect, useState} from 'react'
 import {useRouter} from 'next/router'
 
-import {getStockageData, getStockageGeoJSON} from '@/lib/pcrs-scanner-api.js'
+import {getStockage, getStockageGeoJSON} from '@/lib/pcrs-scanner-api.js'
 
-import ScannerMap from '@/components/containers/scanner-map.js'
 import CenteredSpinnder from '@/components/centered-spinner.js'
+import StockageData from './stockage-data.js'
+import ScannedData from './scanned-data.js'
 
 const StockagePreview = ({stockageId}) => {
   const [stockage, setStockage] = useState()
   const [fetchError, setFetchError] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
 
   const router = useRouter()
 
   useEffect(() => {
+    setIsLoading(true)
     async function fetchStockage() {
       try {
-        const data = await getStockageData(stockageId)
+        const data = await getStockage(stockageId)
         const geojson = await getStockageGeoJSON(stockageId)
 
         setStockage({data, geojson})
       } catch {
         setFetchError('Les ressources du livrable sont indisponibles')
       }
+
+      setIsLoading(false)
     }
 
     if (stockageId) {
@@ -35,40 +40,27 @@ const StockagePreview = ({stockageId}) => {
   if (fetchError) {
     return (
       <div>
-        { fetchError && <p id='text-input-error-desc-error' className='fr-error-text'> {fetchError}</p>}
+        {fetchError && <p id='text-input-error-desc-error' className='fr-error-text'> {fetchError}</p>}
       </div>
     )
   }
 
   return (
-    <div className='stockage-preview-container'>
-      {stockage ? (
-        <div className='map-wrapper'>
-          <ScannerMap geojson={stockage.geojson} />
-        </div>
-      ) : (
-        <div className='spinner-container fr-grid-row fr-grid-row--center fr-grid-row--middle'>
+    <div className='fr-grid-row'>
+      {isLoading ? (
+        <div className='spinner-container fr-col-12 fr-grid-row fr-grid-row--center fr-grid-row--middle'>
           <div className='fr-col-12'>
             <CenteredSpinnder />
           </div>
         </div>
+      ) : (
+        <div className='stockage-preview-data-container fr-col-12'>
+          <StockageData isPrivate={stockage.data?.stockagePublic === false} params={stockage.data.params} type={stockage.data.type} />
+          <ScannedData {...stockage} />
+        </div>
       )}
 
       <style jsx>{`
-        .stockage-preview-container {
-          display: flex;
-          height: 500px;
-        }
-
-        .spinner-container {
-          width: 100%;
-        }
-
-        .tab-content {
-          min-height: 500px;
-          overflow-y: auto;
-        }
-
         .map-wrapper {
           width: 100%;
           height: 500px;
