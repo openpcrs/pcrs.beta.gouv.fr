@@ -103,7 +103,7 @@ export const scanRenderItem = result => {
     {title: 'Poids', value: result?.sizeRasterFiles && formatBytes(result?.sizeRasterFiles), defaultText: 'Non renseigné'},
     {
       title: 'Bandes',
-      value: result?.bands.length > 0 && result.bands.map(band => (
+      value: result?.bands?.length > 0 && result.bands.map(band => (
         <Badge
           key={band.id}
           size='small'
