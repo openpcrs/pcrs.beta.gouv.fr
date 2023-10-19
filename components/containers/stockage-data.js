@@ -5,26 +5,26 @@ import colors from '@/styles/colors.js'
 
 import Badge from '@/components/badge.js'
 
-const StockageData = ({isPublic, type, params}) => {
+const StockageData = ({isPrivate, type, params}) => {
   const [isParamsShow, setIsParamsShow] = useState(false)
 
   const handleParamsShow = () => setIsParamsShow(!isParamsShow)
 
   return (
-    <div>
+    <div className='fr-mt-3w'>
       <div className='fr-grid-row fr-grid-row--middle'>
         <span className='fr-icon-database-line fr-mr-1w' aria-hidden='true' />
         <h3 className='section-title fr-text--lead fr-m-0'>Stockage</h3>
       </div>
 
       <div className='fr-mt-3w'>
-        <div className='fr-mt-1w fr-grid-row'><div className='data-title fr-mr-1w'>Type de stockage :</div><span>{type}</span></div>
+        <div className='fr-mt-1w fr-grid-row'><div className='data-title fr-mr-1w'>Type de stockage :</div><span>{type.toUpperCase()}</span></div>
         <div className='fr-mt-1w fr-grid-row'>
           <div className='data-title fr-mr-1w'>Statut du stockage:</div>
-          <Badge background={isPublic ? colors.success425 : colors.warningMain525} textColor='white'> {isPublic ? 'Public' : 'Privé'} </Badge>
+          <Badge background={isPrivate ? colors.warningMain525 : colors.success425} textColor='white'> {isPrivate ? 'Privé' : 'Public'} </Badge>
         </div>
 
-        {isPublic && (
+        {!isPrivate && (
           <div className='fr-grid-row' onClick={handleParamsShow}>
             <div className='fr-grid-row fr-col-12'>
               <div className='data-title fr-mr-1w fr-grid-row'>Afficher les paramètres du stockage</div><span className={`fr-icon-arrow-${isParamsShow ? 'down' : 'right'}-s-line`} />
@@ -73,11 +73,11 @@ const StockageData = ({isPublic, type, params}) => {
 StockageData.propTypes = {
   type: PropTypes.string.isRequired,
   params: PropTypes.object.isRequired,
-  isPublic: PropTypes.bool
+  isPrivate: PropTypes.bool
 }
 
 StockageData.defaultProps = {
-  isPublic: false
+  isPrivate: false
 }
 
 export default StockageData
