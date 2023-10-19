@@ -110,7 +110,7 @@ export const scanRenderItem = result => {
           background={BANDES_COLORS[band.colorInterpretation].color}
           textColor={BANDES_COLORS[band.colorInterpretation].textColor}
         >
-          {band.dataType}
+          {band.colorInterpretation}
         </Badge>
       )),
       defaultText: 'Non renseigné'
