@@ -54,11 +54,11 @@ const ScannerMap = ({geojson}) => {
 
       popup.setLngLat(e.lngLat)
         .setHTML(`
-         <div>
-         <div style="font-size: 1.1em; font-weight: bold;">${feature.properties.name}</div>
+         <div style="font-size: 1.2em; font-weight: bold;">
+         <div>${feature.properties.name}</div>
            <p>
-             <div>Format : <b>${feature.properties.format}</b></div>
-             <div>Poids : <b>${formatBytes(feature.properties.size)}</b></div>
+             <div style="font-weight: bold; color: #0063cb;">Format : <b style="font-weight: normal; color: #304B5B;">${feature.properties.format}</b></div>
+             <div style="margin-top: 5px; font-weight: bold; color: #0063cb;">Poids : <b style="font-weight: normal; color: #304B5B;">${formatBytes(feature.properties.size)}</b></div>
            </p>
          </div>
       `)
