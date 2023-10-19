@@ -1,110 +1,38 @@
-import {useState, useContext} from 'react'
+import {useState} from 'react'
 import PropTypes from 'prop-types'
 import {useRouter} from 'next/router'
 
 import colors from '@/styles/colors.js'
 
-import AuthentificationContext from '@/contexts/authentification-token.js'
-
-import ResetModal from '@/components/map-sidebar/reset-modal.js'
-import DeleteModal from '@/components/suivi-form/delete-modal.js'
-import Tooltip from '@/components/tooltip.js'
 import HiddenInfos from '@/components/hidden-infos.js'
+import Button from '@/components/button.js'
 
-const SHARE_URL = process.env.NEXT_PUBLIC_PROJECT_SHARE_URL || 'https://pcrs.beta.gouv.fr'
+const API_URL = process.env.NEXT_PUBLIC_URL || 'https://pcrs.beta.gouv.fr'
 
-const Header = ({projectId, codeEditor, projectName, territoires, projets, onProjetChange}) => {
+const Header = ({projectId, projectName, territoires, projets, onProjetChange}) => {
   const router = useRouter()
-  const {userRole, token} = useContext(AuthentificationContext)
-
   const [isTerritoiresShow, setIsTerritoiresShow] = useState(false)
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
-  const [isResetModalOpen, setIsResetModalOpen] = useState(false)
-
-  const handleResetModal = () => setIsResetModalOpen(!isResetModalOpen)
 
   const hasToMuchTerritoires = territoires.length >= 4
-  const isAdmin = userRole === 'admin'
-  const editorFormUrl = `/formulaire-suivi?id=${projectId}&editcode=${codeEditor}`
-
-  const handleDeleteModalOpen = () => setIsDeleteModalOpen(!isDeleteModalOpen)
-
-  const url = `${SHARE_URL}/formulaire-suivi?id=${projectId}&editcode=${codeEditor}`
 
   return (
     <div className='header'>
-      <div className='fr-grid-row fr-my-2w fr-grid--middle'>
-        <h1 className='fr-h4 fr-m-0 fr-col-7'>{projectName}</h1>
-        {isAdmin && (
-          <div className='fr-grid-row fr-grid-row--right fr-grid-row--middle fr-grid-row--gutters fr-col-5'>
-            <Tooltip
-              tooltipContent={() => <p className='fr-m-0'>Réinitialiser le lien de partage</p>}
-              position='center'
-              tooltipStyle='secondary'
-            >
-              <button
-                type='button'
-                className='fr-btn--tertiary-no-outline fr-m-0'
-                aria-label='Réinitialiser le lien de partage'
-                onClick={handleResetModal}
-              >
-                <span className='fr-icon-refresh-line' aria-hidden='true' />
-              </button>
-            </Tooltip>
-
-            {isResetModalOpen && (
-              <ResetModal
-                projectId={projectId}
-                token={token}
-                currentEditUrl={`${SHARE_URL}${editorFormUrl}`}
-                onClose={handleResetModal}
-              />
-            )}
-
-            <Tooltip
-              tooltipContent={() => <p className='fr-m-0'>Éditer le projet</p>}
-              position='left'
-              tooltipStyle='secondary'
-            >
-              <button
-                type='button'
-                className='fr-btn--tertiary-no-outline fr-mx-1w'
-                aria-label='Éditer le projet'
-                onClick={() => router.push(editorFormUrl)}
-              >
-                <span className='fr-icon-edit-line' aria-hidden='true' />
-              </button>
-            </Tooltip>
-
-            <Tooltip
-              tooltipContent={() => <p className='fr-m-0'>Supprimer le projet</p>}
-              position='left'
-              tooltipStyle='secondary'
-            >
-              <button
-                type='button'
-                className='fr-btn--tertiary-no-outline fr-m-0'
-                aria-label='Supprimer le projet'
-                onClick={handleDeleteModalOpen}
-              >
-                <span className='fr-icon-delete-line' aria-hidden='true' />
-              </button>
-            </Tooltip>
-
-            {isDeleteModalOpen && (
-              <DeleteModal
-                isSidebar
-                nom={projectName}
-                id={projectId}
-                authorizationCode={token}
-                handleDeleteModalOpen={handleDeleteModalOpen}
-              />
-            )}
-          </div>
-        )}
+      <div>
+        <h1 className='fr-h4 fr-my-2w'>{projectName}</h1>
+        <div className='fr-mb-3w'>
+          <Button
+            isWhite
+            label='Consulter le projet'
+            icon='arrow-right-line'
+            buttonStyle='secondary'
+            onClick={() => router.push(`${API_URL}/projet/${projectId}`)}
+          >
+            Consulter le projet
+          </Button>
+        </div>
       </div>
 
-      <div className='fr-text--lg fr-my-0'>Liste des territoires</div>
+      <div className='fr-text--lg fr-my-0 list-title'>Liste des territoires</div>
       {hasToMuchTerritoires ? (
       // More than 5 territoires
         <div>
@@ -155,21 +83,6 @@ const Header = ({projectId, codeEditor, projectName, territoires, projets, onPro
           </select>
         </div>
       )}
-      {userRole === 'admin' && (
-        <div className='fr-pt-2w'>
-          <hr />
-          <div>
-            <b>Lien d’édition :</b>
-            <span
-              className='fr-icon-clipboard-line fr-pl-1w'
-              aria-hidden='true'
-              style={{cursor: 'pointer'}}
-              onClick={() => navigator.clipboard.writeText(url)}
-            />
-          </div>
-          <i><a className='fr-text--sm' href={url}>{url}</a></i>
-        </div>
-      )}
       <style jsx>{`
         .header {
           padding: 1em;
@@ -180,7 +93,7 @@ const Header = ({projectId, codeEditor, projectName, territoires, projets, onPro
           color: white;
         }
 
-        .fr-text--lg {
+        .list-title {
           font-weight: bold;
         }
 
@@ -193,23 +106,12 @@ const Header = ({projectId, codeEditor, projectName, territoires, projets, onPro
         .fr-btn--tertiary-no-outline:hover {
           color: ${colors.grey50};
         }
-
-        .modal-content {
-          color: ${colors.darkgrey};
-        }
-
-        .irreversible {
-          text-decoration: underline;
-          text-align: center;
-          width: 100%;
-        }
       `}</style>
     </div>
   )
 }
 
 Header.defaultProps = {
-  codeEditor: null,
   territoires: [],
   projets: null,
   onProjetChange: null
@@ -218,7 +120,6 @@ Header.defaultProps = {
 Header.propTypes = {
   projectId: PropTypes.string.isRequired,
   projectName: PropTypes.string.isRequired,
-  codeEditor: PropTypes.string,
   territoires: PropTypes.array,
   projets: PropTypes.array,
   onProjetChange: PropTypes.func

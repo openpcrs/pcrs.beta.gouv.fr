@@ -2,14 +2,12 @@ import PropTypes from 'prop-types'
 import Badge from '@/components/badge.js'
 
 import colors from '@/styles/colors.js'
-import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors.js'
-import {STATUS} from '@/lib/utils/projet.js'
+import {STATUS, NATURES} from '@/lib/utils/projet.js'
 
 import {formatDate} from '@/lib/date-utils.js'
 
 const Popup = ({projet, numberOfProjets}) => {
   const {aplc, dateStatut, nom, nature, statut} = projet
-  const {natures} = PCRS_DATA_COLORS
   const status = STATUS[statut]
 
   return (
@@ -46,9 +44,9 @@ const Popup = ({projet, numberOfProjets}) => {
         <div className='block'>
           <div className='block-title fr-pb-1v'>Nature</div>
           <Badge size='small'
-            background={natures[nature]}
+            background={NATURES[nature].color}
           >
-            {nature}
+            {NATURES[nature].label}
           </Badge>
         </div>
         <div className='block'>

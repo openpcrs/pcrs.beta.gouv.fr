@@ -31,7 +31,7 @@ const TimelineStep = ({step, status, isCurrentStep, isLastStep}) => {
     <div className='step'>
       <Tooltip
         tooltipContent={() => tooltipContent()}
-        position={isLastStep ? 'left' : 'rigth'}
+        position={isLastStep ? 'left' : 'right'}
       >
         {(!isCurrentStep || isLastStep) ? (
           <div

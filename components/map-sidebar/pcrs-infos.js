@@ -1,70 +1,21 @@
-/* eslint-disable camelcase */
 import {useState} from 'react'
 import PropTypes from 'prop-types'
 
-import colors from '@/styles/colors.js'
+import {LICENCES, ACTORS, REGIMES, LIVRABLE_NATURES, SUBVENTIONS_NATURES, NATURES} from '@/lib/utils/projet.js'
 
 import {formatDate} from '@/lib/date-utils.js'
 
-import {PCRS_DATA_COLORS} from '@/styles/pcrs-data-colors.js'
+import colors from '@/styles/colors.js'
 
 import Tooltip from '@/components/tooltip.js'
 import Badge from '@/components/badge.js'
 import HiddenInfos from '@/components/hidden-infos.js'
 import LabeledWrapper from '@/components/labeled-wrapper.js'
 
-const LICENCESLABELS = {
-  ouvert_lo: 'Ouverte',
-  ouvert_odbl: 'Ouverte sous licence ODbL',
-  ferme: 'Fermée'
-}
-
-const ACTORS_LABELS = {
-  financeur: 'Financeurs',
-  diffuseur: 'Diffuseurs',
-  presta_vol: 'Prestataires de vol',
-  presta_lidar: 'Prestataires Lidar',
-  controleur: 'Controleurs',
-  aplc: 'Autorité Publique Locale Compétente',
-  porteur: 'Porteur de projet non-APLC'
-}
-
-const NATURE_LABELS = {
-  geotiff: 'GeoTIFF',
-  jpeg2000: 'Jpeg 2000',
-  gml: 'GML vecteur'
-}
-
-const LICENCE_LABELS = {
-  ouvert_lo: 'Ouvert sous licence ouverte',
-  ouvert_odbl: 'Ouvert sous licence ODbL',
-  ferme: 'Fermé'
-}
-
-const DIFFUSIONS = {
-  wms: 'Diffusion via un service WMS',
-  wmts: 'Diffusion via un service WMTS',
-  tms: 'Diffusion via un service TMS'
-}
-
-const SUBVENTIONS_NATURES = {
-  feder: 'Financement FEDER',
-  cepr: 'Contrat État-Région',
-  detr: 'Dotations de l’État aux Territoires Ruraux'
-}
-
 const PcrsInfos = ({nature, regime, livrables, licence, acteurs, subventions}) => {
   const [isActorsShow, setIsActorsShow] = useState(false)
 
   const nomAPLC = acteurs.find(acteur => acteur.role === 'aplc')?.nom
-  const {
-    natures: naturesColors,
-    regimes: regimesColors,
-    licences: licencesColors,
-    actors: actorsColors,
-    livrablesNatures,
-    subventionsNatures
-  } = PCRS_DATA_COLORS
 
   function uniq(items) {
     return [...new Set(items)]
@@ -74,9 +25,9 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs, subventions}) =
 
   const livrableTooltip = livrable => (
     <div className='tooltip-container'>
-      <div>Nature : <br /><span>{NATURE_LABELS[livrable.nature]}</span></div>
-      <div>Licence : <br /><span>{LICENCE_LABELS[livrable.licence]}</span></div>
-      <div>Diffusion : <br /><span>{DIFFUSIONS[livrable.diffusion]}</span></div>
+      <div>Nature : <br /><span>{LIVRABLE_NATURES[livrable.nature].label}</span></div>
+      <div>Licence : <br /><span>{LICENCES[livrable.licence].label}</span></div>
+      <div>Stockage : <br /><span>{livrable.stockage || 'N/A'}</span></div>
       <div>Livraison : <br /><span>{livrable.date_livraison ? `le ${formatDate(livrable.date_livraison)}` : 'N/A'}</span></div>
 
       <style jsx>{`
@@ -100,7 +51,7 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs, subventions}) =
 
   const subventionTooltip = subvention => (
     <div className='tooltip-container'>
-      <div>Nature : <br />{SUBVENTIONS_NATURES[subvention.nature]}</div>
+      <div>Nature : <br />{SUBVENTIONS_NATURES[subvention.nature].label}</div>
       <div>Montant : <br /><span>{`${subvention.montant ? `${subvention.montant}€` : 'N/A'}`}</span></div>
       <div>Échance : <br />{formatDate(subvention.echeance) || 'N/A'}</div>
 
@@ -130,7 +81,7 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs, subventions}) =
           {nature && (
             <div className='fr-col-6'>
               <LabeledWrapper label='Format'>
-                <Badge background={naturesColors[nature]}>
+                <Badge background={NATURES[nature].color}>
                   {nature}
                 </Badge>
               </LabeledWrapper>
@@ -140,7 +91,7 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs, subventions}) =
           {regime && (
             <div className='fr-col-6'>
               <LabeledWrapper label='Régime'>
-                <Badge background={regimesColors[regime]}>
+                <Badge background={REGIMES[regime].color}>
                   {regime}
                 </Badge>
               </LabeledWrapper>
@@ -153,7 +104,7 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs, subventions}) =
             <div className='livrables-badges'>
               {livrables.map(livrable => (
                 <Tooltip key={livrable.nom} tooltipContent={() => livrableTooltip(livrable)}>
-                  <Badge size='small' background={livrablesNatures[livrable.nature]}>{livrable.nom}</Badge>
+                  <Badge size='small' background={LIVRABLE_NATURES[livrable.nature].color}>{livrable.nom}</Badge>
                 </Tooltip>
               ))}
             </div>
@@ -162,8 +113,8 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs, subventions}) =
 
         {licence && (
           <LabeledWrapper label='Licence'>
-            <Badge background={licencesColors[licence]} >
-              {LICENCESLABELS[licence]}
+            <Badge background={LICENCES[licence].color} >
+              {LICENCES[licence].label}
             </Badge>
           </LabeledWrapper>
 
@@ -171,7 +122,7 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs, subventions}) =
 
         {nomAPLC && (
           <LabeledWrapper label='Porteur de projet'>
-            <Badge background={actorsColors.aplc}>
+            <Badge background={ACTORS.aplc.color}>
               {nomAPLC}
             </Badge>
           </LabeledWrapper>
@@ -183,10 +134,10 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs, subventions}) =
               {rolesActeurs.map(role => (
                 <Badge
                   key={role}
-                  background={actorsColors[role]}
+                  background={ACTORS[role].color}
                   size='small'
                 >
-                  {ACTORS_LABELS[role]}
+                  {ACTORS[role].label}
                 </Badge>
               ))}
               <button
@@ -221,7 +172,7 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs, subventions}) =
               <div className='fr-grid-row'>
                 {subventions.map(subvention => (
                   <Tooltip key={subvention.nom} tooltipContent={() => subventionTooltip(subvention)}>
-                    <Badge size='small' background={subventionsNatures[subvention.nature]}>{subvention.nom}</Badge>
+                    <Badge size='small' background={SUBVENTIONS_NATURES[subvention.nature].color}>{subvention.nom}</Badge>
                   </Tooltip>
                 ))}
               </div>
