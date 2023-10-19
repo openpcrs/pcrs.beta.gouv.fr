@@ -7,6 +7,7 @@ import {LIVRABLE_NATURES} from '@/lib/utils/projet.js'
 
 import {livrableRenderItem} from '@/components/projet/list-render-items.js'
 import SelectInput from '@/components/select-input.js'
+import StockagePreview from '@/components/containers/stockage-preview.js'
 
 const LivrablesSection = ({livrables}) => {
   const [selectedLivrableIdx, setSelectedLivrableIdx] = useState(0)
@@ -43,6 +44,10 @@ const LivrablesSection = ({livrables}) => {
             </div>
           )}
         </div>
+
+        {livrables[selectedLivrableIdx].stockage_id && (
+          <StockagePreview stockageId={livrables[selectedLivrableIdx].stockage_id} />
+        )}
       </div>
 
       <style jsx>{`
