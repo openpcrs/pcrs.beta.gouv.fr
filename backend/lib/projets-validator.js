@@ -151,7 +151,7 @@ const livrablesSchemaCreation = Joi.object().keys({
     'any.only': 'Ce type de stockage n’est pas valide'
   }),
   stockage_public: Joi.bool().allow(null),
-  stockage_download: Joi.bool().allow(null),
+  stockage_telechargement: Joi.bool().allow(null),
   stockage_params: Joi.object()
 }).messages({
   'object.unknown': 'Une clé de l’objet est invalide'
@@ -322,11 +322,11 @@ const livrablesSchemaUpdate = Joi.object().keys({
     'http',
     'ftp',
     'sftp'
-  ).messages({
+  ).allow(null).messages({
     'any.only': 'Ce type de stockage n’est pas valide'
   }),
   stockage_public: Joi.bool().allow(null),
-  stockage_download: Joi.bool().allow(null),
+  stockage_telechargement: Joi.bool().allow(null),
   stockage_params: Joi.object().allow(null),
   stockage_erreur: Joi.string().allow(null)
 }).messages({
