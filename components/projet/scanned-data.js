@@ -37,7 +37,7 @@ const ScannedData = ({data, geojson, stockageId, handleStorage, handleErrorMessa
   return (
     <div className='fr-mt-6w'>
       <div className='fr-grid-row fr-grid-row--middle'>
-        <span className='fr-icon-database-line fr-mr-1w' aria-hidden='true' />
+        <span className='fr-icon-settings-5-fill fr-mr-1w' aria-hidden='true' />
         <h3 className='section-title fr-text--md fr-m-0'>Scan</h3>
       </div>
       <div>
