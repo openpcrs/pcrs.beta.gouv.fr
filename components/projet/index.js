@@ -37,7 +37,7 @@ const ProjetInfos = ({project}) => {
       )}
       <div className='main'>
         <div className='left-section'>
-          <div className='fr-col-12 fr-col-lg-6'>
+          <div className='fr-col-12'>
             <h3 className='fr-text--lead fr-mt-5w fr-mb-3w'>État d’avancement</h3>
             <Progression etapes={etapes} />
           </div>
