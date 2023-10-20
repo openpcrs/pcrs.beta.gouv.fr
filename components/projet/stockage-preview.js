@@ -20,8 +20,6 @@ const StockagePreview = ({stockageId}) => {
 
     async function fetchStockage() {
       try {
-        setFetchError(null)
-
         const data = await getStockage(stockageId)
         setStockage(prevStockage => ({...prevStockage, data}))
       } catch {
