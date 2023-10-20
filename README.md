@@ -55,18 +55,19 @@ Puis compléter les champs suivants :
 >*Les champs suivants sont optionnels, mais vous ne pourrez pas accéder à la page `/blog` du site.*
 - `NEXT_PUBLIC_GHOST_URL` -> URL complète du blog Ghost (optionnel)
 - `GHOST_KEY` -> Jeton permettant l’accès aux articles du Blog Ghost (optionnel)
->*Pour utiliser l’API, vous devez compléter ce champ.*   
+>*Pour utiliser l’API, vous devez compléter ce champ.*
 >*En local, utilisez ce jeton pour authentifier les appels à l’API*
 - `API_ENTREPRISES_URL` -> URL de l’API "recherche-entreprises"
 - `MONGODB_URL` -> URL de la base de données MongoDB
 - `MONGODB_DBNAME` -> Nom de la collection MongoDB
 - `ADMIN_TOKEN` -> Jeton d’authentification des appels à l’API.
->__Le jeton d’administration `ADMIN_TOKEN` est nécessaire afin d’initialiser le premier administrateur__   
->__Lorsqu’un ou plusieurs accès administrateurs ont été créé, il est préférable de ne plus utiliser le jeton du `.env` et de prioriser les comptes créés__   
->   
->__Il est obligatoire de le conserver dans le fichier `.env` afin de lancer l’application__   
+>__Le jeton d’administration `ADMIN_TOKEN` est nécessaire afin d’initialiser le premier administrateur__
+>__Lorsqu’un ou plusieurs accès administrateurs ont été créé, il est préférable de ne plus utiliser le jeton du `.env` et de prioriser les comptes créés__
+>
+>__Il est obligatoire de le conserver dans le fichier `.env` afin de lancer l’application__
 
 - `SCANNER_URL` -> URL de l’API permettant de scanner les stockages de livrables
+- `SCANNER_ADMIN_TOKEN` -> Jeton d’accès de l’API
 
 >*Les champs suivants sont optionnels, ils permettent d’envoyer le code de vérification par mail.*
 - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_SECURE`, `SMTP_FROM`, `SMTP_BCC` -> Paramètres du serveur de mail
