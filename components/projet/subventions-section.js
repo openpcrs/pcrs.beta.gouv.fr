@@ -12,7 +12,7 @@ const SubventionsSection = ({subventions}) => {
   const subventionsByNatures = groupBy(subventions, 'nature')
   return (
     <>
-      <h3 className='fr-text--lead fr-mt-5w fr-mb-3w'>Subventions {subventions ? `· ${subventions.length}` : ''}</h3>
+      <h3 className='fr-text--lead fr-mt-5w fr-mb-3w'>Subventions : {subventions?.length}</h3>
       <div>
         {subventions ? (
           Object.keys(subventionsByNatures).map(nature => (

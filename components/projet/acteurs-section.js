@@ -11,7 +11,7 @@ const ActeursSection = ({acteurs}) => {
   const acteursByRoles = groupBy(acteurs, 'role')
   return (
     <>
-      <h3 className='fr-text--lead fr-mt-5w fr-mb-3w'>Acteurs · {acteurs.length}</h3>
+      <h3 className='fr-text--lead fr-mt-5w fr-mb-3w'>Acteurs : {acteurs.length}</h3>
       <div>
         {Object.keys(acteursByRoles).map(role => (
           <div key={role}>

@@ -25,7 +25,7 @@ const LivrablesSection = ({livrables}) => {
 
   return (
     <div>
-      <h3 className='fr-text--lead fr-mt-5w fr-mb-3w'>Livrables · {livrables.length}</h3>
+      <h3 className='fr-text--lead fr-mt-5w fr-mb-3w'>Livrables : {livrables.length}</h3>
       <div>
         <SelectInput
           value={selectedLivrableIdx.toString()}
