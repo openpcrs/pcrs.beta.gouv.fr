@@ -43,7 +43,7 @@ const ProjetInfos = ({project}) => {
           </div>
 
           <div className='fr-col-12 fr-mt-6w'>
-            <h3 className='fr-text--lead fr-mt-5w fr-mb-3w'>Liste des territoires : {territoires.length}</h3>
+            <h3 className='fr-text--lead fr-mt-5w fr-mb-3w'>Territoires : {territoires.length}</h3>
             <ListSlicer list={territoires} itemId='code' renderListItem={item => <div className='territoires-list-item fr-text--sm fr-m-0'>{item.nom}</div>} />
           </div>
 
