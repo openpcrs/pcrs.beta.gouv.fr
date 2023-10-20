@@ -18,6 +18,8 @@ const StockagePreview = ({stockageId}) => {
     setIsLoading(true)
     async function fetchStockage() {
       try {
+        setFetchError(null)
+
         const data = await getStockage(stockageId)
         const geojson = await getStockageGeoJSON(stockageId)
 
