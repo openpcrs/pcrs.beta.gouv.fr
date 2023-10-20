@@ -60,8 +60,8 @@ export const livrableRenderItem = livrable => {
   const rows = [
     {title: 'Nature', value: LIVRABLE_NATURES[livrable.nature].label, defaultText: 'Non renseignée'},
     {title: 'Licence', value: LICENCES[livrable.licence].label, defaultText: 'Non renseignée'},
-    {title: 'Stockage', value: livrable.stockage.toUpperCase()},
-    {title: 'Livraison', value: livrable.date_livraison ? `le ${formatDate(livrable.date_livraison)}` : null, defaultText: 'Non renseignée'}
+    {title: 'Stockage', value: livrable?.stockage?.toUpperCase(), defaultText: 'Non renseigné'},
+    {title: 'Livraison', value: livrable?.date_livraison ? `le ${formatDate(livrable.date_livraison)}` : null, defaultText: 'Non renseignée'}
   ]
   return renderItem(rows)
 }
