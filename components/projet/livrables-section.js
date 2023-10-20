@@ -16,6 +16,7 @@ const LivrablesSection = ({livrables}) => {
   )
 
   const stockageId = orderedLivrablesByPublication[selectedLivrableIdx]?.stockage_id
+  const isSelectedLivrablePublic = orderedLivrablesByPublication[selectedLivrableIdx]?.stockage_public
 
   const livrablesOptions = orderedLivrablesByPublication.map((item, idx) => ({
     label: `${item.nom} - ${LIVRABLE_NATURES[item.nature].label}`,
@@ -39,7 +40,7 @@ const LivrablesSection = ({livrables}) => {
 
           {stockageId && (
             <div className='stockage-preview'>
-              <StockagePreview stockageId={stockageId} />
+              <StockagePreview stockageId={stockageId} isStockagePublic={isSelectedLivrablePublic} />
             </div>
           )}
         </div>

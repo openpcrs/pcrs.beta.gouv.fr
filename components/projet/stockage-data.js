@@ -5,7 +5,7 @@ import colors from '@/styles/colors.js'
 
 import Badge from '@/components/badge.js'
 
-const StockageData = ({isPrivate, type, params}) => {
+const StockageData = ({isPublic, type, params}) => {
   const [isParamsShow, setIsParamsShow] = useState(false)
   const handleParamsShow = () => setIsParamsShow(!isParamsShow)
 
@@ -20,10 +20,10 @@ const StockageData = ({isPrivate, type, params}) => {
         <div className='fr-mt-1w fr-grid-row'><div className='data-title fr-mr-1w'>Type de stockage :</div><span>{type.toUpperCase()}</span></div>
         <div className='fr-mt-1w fr-grid-row'>
           <div className='data-title fr-mr-1w'>Statut du stockage:</div>
-          <Badge background={isPrivate ? colors.warningMain525 : colors.success425} textColor='white'> {isPrivate ? 'Privé' : 'Public'} </Badge>
+          <Badge background={isPublic ? colors.success425 : colors.warningMain525} textColor='white'> {isPublic ? 'Public' : 'Privé'} </Badge>
         </div>
 
-        {(!isPrivate && params?.host) && (
+        {(isPublic && params?.host) && (
           <div className='fr-grid-row' onClick={handleParamsShow}>
             <div className='fr-grid-row fr-col-12'>
               <div className='data-title dropdown fr-mr-1w fr-grid-row'>Afficher les paramètres du stockage</div><span className={`fr-icon-arrow-${isParamsShow ? 'down' : 'right'}-s-line`} />
@@ -72,11 +72,11 @@ const StockageData = ({isPrivate, type, params}) => {
 StockageData.propTypes = {
   type: PropTypes.string.isRequired,
   params: PropTypes.object.isRequired,
-  isPrivate: PropTypes.bool
+  isPublic: PropTypes.bool
 }
 
 StockageData.defaultProps = {
-  isPrivate: false
+  isPublic: false
 }
 
 export default StockageData

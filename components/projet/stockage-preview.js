@@ -9,7 +9,7 @@ import CenteredSpinnder from '@/components/centered-spinner.js'
 import StockageData from '@/components/projet/stockage-data.js'
 import ScannedData from '@/components/projet/scanned-data.js'
 
-const StockagePreview = ({stockageId}) => {
+const StockagePreview = ({stockageId, isStockagePublic}) => {
   const [stockage, setStockage] = useState()
   const [errorMessages, setErrorMessages] = useState({geojsonFetchError: null, dataFetchError: null})
   const [isLoading, setIsLoading] = useState(true)
@@ -45,7 +45,7 @@ const StockagePreview = ({stockageId}) => {
           {errorMessages.dataFetchError ? (
             <p className='fr-error-text'> {errorMessages.dataFetchError}</p>
           ) : (
-            <StockageData isPrivate={stockage.data?.stockagePublic === false} params={stockage.data.params} type={stockage.data.type} />
+            <StockageData isPublic={isStockagePublic} params={stockage.data.params} type={stockage.data.type} />
           )}
 
           {stockage.data.result ? (
@@ -77,7 +77,12 @@ const StockagePreview = ({stockageId}) => {
 }
 
 StockagePreview.propTypes = {
-  stockageId: PropTypes.string.isRequired
+  stockageId: PropTypes.string.isRequired,
+  isStockagePublic: PropTypes.bool
+}
+
+StockagePreview.defaultProps = {
+  isStockagePublic: true
 }
 
 export default StockagePreview

@@ -25,7 +25,6 @@ const ScannedData = ({data, geojson, stockageId, handleStorage, handleErrorMessa
 
         handleStorage(prevStockage => ({...prevStockage, geojson}))
       } catch {
-        console.log(1)
         handleErrorMessages(prevErrors => ({...prevErrors, geojsonFetchError: 'Les ressources du livrable sont indisponibles'}))
       }
 
