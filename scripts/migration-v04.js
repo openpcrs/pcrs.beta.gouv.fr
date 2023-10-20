@@ -1,7 +1,8 @@
 #!/usr/bin/env node
+/* eslint-disable import/no-unassigned-import */
 /* eslint-disable camelcase */
 /* eslint-disable no-await-in-loop */
-
+import 'dotenv/config.js'
 import mongo from '../backend/util/mongo.js'
 
 await mongo.connect()
