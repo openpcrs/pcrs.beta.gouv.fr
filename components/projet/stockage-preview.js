@@ -16,6 +16,8 @@ const StockagePreview = ({stockageId}) => {
 
   useEffect(() => {
     setIsLoading(true)
+    setFetchError(null)
+
     async function fetchStockage() {
       try {
         const data = await getStorage(stockageId)
