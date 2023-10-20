@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import {useEffect, useState} from 'react'
 
-import {getStockage, getStockageGeoJSON} from '@/lib/pcrs-scanner-api.js'
+import {getStorage, getStorageGeoJSON} from '@/lib/pcrs-scanner-api.js'
 
 import colors from '@/styles/colors.js'
 
@@ -18,8 +18,8 @@ const StockagePreview = ({stockageId}) => {
     setIsLoading(true)
     async function fetchStockage() {
       try {
-        const data = await getStockage(stockageId)
-        const geojson = await getStockageGeoJSON(stockageId)
+        const data = await getStorage(stockageId)
+        const geojson = await getStorageGeoJSON(stockageId)
 
         setStockage({data, geojson})
       } catch {
@@ -54,7 +54,7 @@ const StockagePreview = ({stockageId}) => {
           {stockage.data.result ? (
             <ScannedData {...stockage} />
           ) : (
-            <p id='text-input-error-desc-error' className='fr-error-text'>Les données relatives à ce stockage de sont pas encore disponibles</p>
+            <p id='text-input-error-desc-error' className='fr-error-text'>Les données relatives à ce stockage ne sont pas encore disponibles</p>
           )}
         </div>
       )}

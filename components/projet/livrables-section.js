@@ -11,13 +11,13 @@ import SelectInput from '@/components/select-input.js'
 const LivrablesSection = ({livrables}) => {
   const [selectedLivrableIdx, setSelectedLivrableIdx] = useState(0)
 
-  const orderLivrablesByPublication = sortBy(livrables, livrable =>
-    livrable.date_livraison ? -new Date(livrable.date_livraison) : 0
+  const orderedLivrablesByPublication = sortBy(livrables, livrable =>
+    livrable.date_livraison ? new Date(livrable.date_livraison) : 0
   )
 
-  const stockageId = orderLivrablesByPublication[selectedLivrableIdx]?.stockage_id
+  const stockageId = orderedLivrablesByPublication[selectedLivrableIdx]?.stockage_id
 
-  const livrablesOptions = orderLivrablesByPublication.map((item, idx) => ({
+  const livrablesOptions = orderedLivrablesByPublication.map((item, idx) => ({
     label: `${item.nom} - ${LIVRABLE_NATURES[item.nature].label}`,
     value: idx
   }))
@@ -35,7 +35,7 @@ const LivrablesSection = ({livrables}) => {
         />
 
         <div>
-          {livrableRenderItem(orderLivrablesByPublication[selectedLivrableIdx])}
+          {livrableRenderItem(orderedLivrablesByPublication[selectedLivrableIdx])}
 
           {stockageId && (
             <div className='stockage-preview'>
