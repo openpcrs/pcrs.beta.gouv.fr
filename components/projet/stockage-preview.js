@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import {useEffect, useState} from 'react'
 
-import {getStorage, getStorageGeoJSON} from '@/lib/pcrs-scanner-api.js'
+import {getStockage} from '@/lib/pcrs-scanner-api.js'
 
 import colors from '@/styles/colors.js'
 
@@ -11,21 +11,19 @@ import ScannedData from '@/components/projet/scanned-data.js'
 
 const StockagePreview = ({stockageId}) => {
   const [stockage, setStockage] = useState()
-  const [fetchError, setFetchError] = useState(null)
+  const [errorMessages, setErrorMessages] = useState({geojsonFetchError: null, dataFetchError: null})
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     setIsLoading(true)
-    setFetchError(null)
+    setErrorMessages(prevErrors => ({...prevErrors, dataFetchError: null}))
 
     async function fetchStockage() {
       try {
-        const data = await getStorage(stockageId)
-        const geojson = await getStorageGeoJSON(stockageId)
-
-        setStockage({data, geojson})
+        const data = await getStockage(stockageId)
+        setStockage(prevStockage => ({...prevStockage, data}))
       } catch {
-        setFetchError('Les ressources du livrable sont indisponibles')
+        setErrorMessages(prevErrors => ({...prevErrors, dataFetchError: 'Les données du livrable sont indisponibles'}))
       }
 
       setIsLoading(false)
@@ -33,14 +31,6 @@ const StockagePreview = ({stockageId}) => {
 
     fetchStockage()
   }, [stockageId])
-
-  if (fetchError) {
-    return (
-      <div>
-        {fetchError && <p id='text-input-error-desc-error' className='fr-error-text'> {fetchError}</p>}
-      </div>
-    )
-  }
 
   return (
     <div className='fr-grid-row'>
@@ -52,11 +42,22 @@ const StockagePreview = ({stockageId}) => {
         </div>
       ) : (
         <div className='stockage-preview-data-container fr-mt-2w fr-pl-3w fr-col-12'>
-          <StockageData isPrivate={stockage.data?.stockagePublic === false} params={stockage.data.params} type={stockage.data.type} />
-          {stockage.data.result ? (
-            <ScannedData {...stockage} />
+          {errorMessages.dataFetchError ? (
+            <p className='fr-error-text'> {errorMessages.dataFetchError}</p>
           ) : (
-            <p id='text-input-error-desc-error' className='fr-error-text'>Les données relatives à ce stockage ne sont pas encore disponibles</p>
+            <StockageData isPrivate={stockage.data?.stockagePublic === false} params={stockage.data.params} type={stockage.data.type} />
+          )}
+
+          {stockage.data.result ? (
+            <ScannedData
+              errorMessages={errorMessages}
+              {...stockage}
+              stockageId={stockageId}
+              handleStorage={setStockage}
+              handleErrorMessages={setErrorMessages}
+            />
+          ) : (
+            <p className='fr-error-text'>Les données relatives à ce stockage ne sont pas encore disponibles</p>
           )}
         </div>
       )}
