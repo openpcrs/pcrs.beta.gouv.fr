@@ -12,7 +12,7 @@ const StockageData = ({isPublic, type, params}) => {
   return (
     <div className='fr-mt-3w'>
       <div className='fr-grid-row fr-grid-row--middle'>
-        <span className='fr-icon-server-line fr-mr-1w' aria-hidden='true' />
+        <span className='fr-icon-server-fill fr-mr-1w' aria-hidden='true' />
         <h3 className='section-title fr-text--md fr-m-0'>Stockage</h3>
       </div>
 
