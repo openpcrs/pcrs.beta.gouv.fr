@@ -105,12 +105,17 @@ const ScannedData = ({data, geojson, stockageId, handleStorage, handleErrorMessa
 }
 
 ScannedData.propTypes = {
-  data: PropTypes.object.isRequired,
-  geojson: PropTypes.object.isRequired,
+  data: PropTypes.object,
+  geojson: PropTypes.object,
   errorMessages: PropTypes.object.isRequired,
   stockageId: PropTypes.string.isRequired,
   handleStorage: PropTypes.func.isRequired,
   handleErrorMessages: PropTypes.func.isRequired
+}
+
+ScannedData.defaultProps = {
+  data: null,
+  geojson: null
 }
 
 export default ScannedData
