@@ -4,7 +4,7 @@ import got from 'got'
 const {SCANNER_URL, SCANNER_ADMIN_TOKEN} = process.env
 
 if (!SCANNER_ADMIN_TOKEN) {
-  throw new Error('SCANNER_ADMIN_TOKEN must be define')
+  throw new Error('SCANNER_ADMIN_TOKEN must be defined')
 }
 
 export async function attachStorage({type, params}) {
