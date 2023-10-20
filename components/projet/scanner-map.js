@@ -36,6 +36,7 @@ const ScannerMap = ({geojson}) => {
     map.addControl(new maplibreGl.AttributionControl({compact: true}), 'bottom-right')
 
     const popup = new maplibreGl.Popup({
+      offset: 15,
       closeButton: false,
       closeOnClick: false
     })
