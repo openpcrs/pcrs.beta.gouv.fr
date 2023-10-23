@@ -23,7 +23,7 @@ const StockageData = ({isPublic, type, params}) => {
           <Badge background={isPublic ? colors.success425 : colors.warningMain525} textColor='white'> {isPublic ? 'Public' : 'Privé'} </Badge>
         </div>
 
-        {(isPublic && params?.host) && (
+        {(isPublic && ['ftp', 'sftp'].includes(type)) && (
           <div className='fr-grid-row' onClick={handleParamsShow}>
             <div className='fr-grid-row fr-col-12'>
               <div className='data-title dropdown fr-mr-1w fr-grid-row'>Afficher les paramètres du stockage</div><span className={`fr-icon-arrow-${isParamsShow ? 'down' : 'right'}-s-line`} />
