@@ -48,13 +48,7 @@ const StockageData = ({isPublic, type, params}) => (
 
 StockageData.propTypes = {
   type: PropTypes.string.isRequired,
-  params: PropTypes.shape({
-    host: PropTypes.string,
-    username: PropTypes.string,
-    password: PropTypes.string,
-    startPath: PropTypes.string,
-    port: PropTypes.string
-  }),
+  params: PropTypes.object,
   isPublic: PropTypes.bool
 }
 
