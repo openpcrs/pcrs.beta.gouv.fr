@@ -7,7 +7,7 @@ import {getStockageGeoJSON} from '@/lib/pcrs-scanner-api.js'
 import CenteredSpinner from '@/components/centered-spinner.js'
 import ScannerMap from '@/components/projet/scanner-map.js'
 
-const ScannedData = ({data, stockageId}) => {
+const ScannedData = ({data, downloadToken, stockageId}) => {
   const [geojson, setGeojson] = useState()
   const [error, setError] = useState()
   const [isLoading, setIsLoading] = useState(true)
@@ -53,7 +53,7 @@ const ScannedData = ({data, stockageId}) => {
               <div id='text-input-error-desc-error' className='fr-error-text'>{error}</div>
             ) : (
               <div className='map-wrapper'>
-                <ScannerMap geojson={geojson} />
+                <ScannerMap geojson={geojson} downloadToken={downloadToken} />
               </div>
             )}
 
@@ -73,7 +73,8 @@ const ScannedData = ({data, stockageId}) => {
 
 ScannedData.propTypes = {
   data: PropTypes.object,
-  stockageId: PropTypes.string.isRequired
+  stockageId: PropTypes.string.isRequired,
+  downloadToken: PropTypes.string
 }
 
 ScannedData.defaultProps = {

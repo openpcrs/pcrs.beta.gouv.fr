@@ -4,6 +4,7 @@ import w from '../util/w.js'
 
 import {ensureCreator, ensureAdmin, ensureProjectEditor} from '../auth/middleware.js'
 import {getProjets, expandProjet, filterSensitiveFields, createProjet, getProjet, getProjetsGeojson, renewEditorKey, deleteProjet, updateProjet} from '../lib/models/projets.js'
+import {askDownloadToken} from '../lib/api-scanner.js'
 
 const projetsRoutes = new express.Router()
 
@@ -28,6 +29,22 @@ projetsRoutes.get('/:projetId/renew-editor-key', w(ensureAdmin), w(async (req, r
   const updatedProjet = await renewEditorKey(req.projet)
 
   res.status(200).send(updatedProjet)
+}))
+
+projetsRoutes.post('/:projetId/stockages/:stockageId/generate-download-token', w(async (req, res) => {
+  const {projet} = req
+  const {stockageId} = req.params
+  const isDownloadable = projet.livrables.find(l => (
+    l.stockage_id === stockageId && l.stockage_telechargement
+  ))
+
+  if (!isDownloadable) {
+    throw createError(403, 'Impossible d’utiliser le téléchargement sur ce stockage')
+  }
+
+  const token = await askDownloadToken({stockageId})
+
+  res.send({token})
 }))
 
 projetsRoutes.route('/:projetId')

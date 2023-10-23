@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import {useEffect, useState} from 'react'
 
 import {getStockage} from '@/lib/pcrs-scanner-api.js'
+import {getStorageDownloadToken} from '@/lib/suivi-pcrs.js'
 
 import colors from '@/styles/colors.js'
 
@@ -9,8 +10,9 @@ import CenteredSpinner from '@/components/centered-spinner.js'
 import StockageData from '@/components/projet/stockage-data.js'
 import ScannedData from '@/components/projet/scanned-data.js'
 
-const StockagePreview = ({stockageId, params, isStockagePublic}) => {
+const StockagePreview = ({projectId, stockageId, isStockagePublic, isDownloadable}) => {
   const [stockage, setStockage] = useState()
+  const [downloadToken, setDownloadToken] = useState()
   const [error, setError] = useState()
   const [isLoading, setIsLoading] = useState(true)
 
@@ -31,6 +33,21 @@ const StockagePreview = ({stockageId, params, isStockagePublic}) => {
 
     fetchStockage()
   }, [stockageId])
+
+  useEffect(() => {
+    async function getDownloadToken() {
+      try {
+        const {token} = await getStorageDownloadToken(projectId, stockage.data._id)
+        setDownloadToken(token)
+      } catch (error) {
+        console.error(`Fail to get download token : ${error}`)
+      }
+    }
+
+    if (stockage && isDownloadable) {
+      getDownloadToken()
+    }
+  }, [projectId, stockage, isDownloadable])
 
   return (
     <div className='fr-grid-row'>
@@ -59,7 +76,11 @@ const StockagePreview = ({stockageId, params, isStockagePublic}) => {
               )}
 
               {stockage.data && (
-                <ScannedData {...stockage} stockageId={stockageId} />
+                <ScannedData
+                  {...stockage}
+                  stockageId={stockageId}
+                  downloadToken={downloadToken}
+                />
               )}
             </>
           )}
@@ -81,8 +102,10 @@ const StockagePreview = ({stockageId, params, isStockagePublic}) => {
 }
 
 StockagePreview.propTypes = {
+  projectId: PropTypes.string.isRequired,
   stockageId: PropTypes.string.isRequired,
   params: PropTypes.object.isRequired,
+  isDownloadable: PropTypes.bool.isRequired,
   isStockagePublic: PropTypes.bool
 }
 

@@ -8,26 +8,26 @@ import {LIVRABLE_NATURES} from '@/lib/utils/projet.js'
 import {livrableRenderItem} from '@/components/projet/list-render-items.js'
 import SelectInput from '@/components/select-input.js'
 
-const LivrablesSection = ({livrables}) => {
+const LivrablesSection = ({projectId, livrables}) => {
   const [selectedLivrableIdx, setSelectedLivrableIdx] = useState(0)
 
   const orderedLivrablesByPublication = sortBy(livrables, livrable =>
     livrable.date_livraison ? new Date(livrable.date_livraison) : 0
   )
 
-  const livrable = orderedLivrablesByPublication[selectedLivrableIdx]
-
   const livrablesOptions = orderedLivrablesByPublication.map((item, idx) => ({
     label: `${item.nom} - ${LIVRABLE_NATURES[item.nature].label}`,
     value: idx
   }))
+
+  const livrable = orderedLivrablesByPublication[selectedLivrableIdx]
 
   return (
     <div>
       <h3 className='fr-text--lead fr-mt-5w fr-mb-3w'>Livrables : {livrables.length}</h3>
       <div>
         <SelectInput
-          value={selectedLivrableIdx.toString()}
+          value={livrable.stockage_id}
           label='Sélectionner un livrable'
           options={livrablesOptions}
           isDisabled={livrables.length === 1}
@@ -37,11 +37,13 @@ const LivrablesSection = ({livrables}) => {
         <div>
           {livrableRenderItem(orderedLivrablesByPublication[selectedLivrableIdx])}
 
-          {livrable.stockage_id && (
+          {livrable && (
             <div className='stockage-preview'>
               <StockagePreview
+                projectId={projectId}
                 stockageId={livrable.stockage_id}
                 isStockagePublic={livrable.stockage_public}
+                isDownloadable={livrable.stockage_telechargement}
                 params={livrable.stockage_params}
               />
             </div>
@@ -60,6 +62,7 @@ const LivrablesSection = ({livrables}) => {
 }
 
 LivrablesSection.propTypes = {
+  projectId: PropTypes.string,
   livrables: PropTypes.array.isRequired
 }
 
