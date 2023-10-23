@@ -42,7 +42,7 @@ projetsRoutes.post('/:projetId/stockages/:stockageId/generate-download-token', w
     throw createError(403, 'Impossible d’utiliser le téléchargement sur ce stockage')
   }
 
-  const {token} = await askDownloadToken({stockageId})
+  const token = await askDownloadToken({stockageId})
 
   res.send({token})
 }))

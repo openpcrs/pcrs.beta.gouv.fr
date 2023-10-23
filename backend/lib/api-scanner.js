@@ -21,6 +21,6 @@ export async function askDownloadToken({stockageId}) {
     headers: {authorization: `Token ${SCANNER_ADMIN_TOKEN}`}
   }).json()
 
-  return {token}
+  return token
 }
 
