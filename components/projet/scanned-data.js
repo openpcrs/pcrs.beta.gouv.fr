@@ -7,7 +7,7 @@ import {getStockageGeoJSON} from '@/lib/pcrs-scanner-api.js'
 
 import colors from '@/styles/colors.js'
 
-import CenteredSpinnder from '@/components/centered-spinner.js'
+import CenteredSpinner from '@/components/centered-spinner.js'
 import ScannerMap from '@/components/projet/scanner-map.js'
 
 const ScannedData = ({data, geojson, stockageId, handleStorage, handleErrorMessages, errorMessages}) => {
@@ -69,7 +69,7 @@ const ScannedData = ({data, geojson, stockageId, handleStorage, handleErrorMessa
         {isLoading ? (
           <div className='spinner-container fr-col-12 fr-grid-row fr-grid-row--center fr-grid-row--middle'>
             <div className='fr-col-12'>
-              <CenteredSpinnder />
+              <CenteredSpinner />
             </div>
           </div>
         ) : (

@@ -5,7 +5,7 @@ import {getStockage} from '@/lib/pcrs-scanner-api.js'
 
 import colors from '@/styles/colors.js'
 
-import CenteredSpinnder from '@/components/centered-spinner.js'
+import CenteredSpinner from '@/components/centered-spinner.js'
 import StockageData from '@/components/projet/stockage-data.js'
 import ScannedData from '@/components/projet/scanned-data.js'
 
@@ -37,7 +37,7 @@ const StockagePreview = ({stockageId, isStockagePublic}) => {
       {isLoading ? (
         <div className='spinner-container fr-col-12 fr-grid-row fr-grid-row--center fr-grid-row--middle'>
           <div className='fr-col-12'>
-            <CenteredSpinnder />
+            <CenteredSpinner />
           </div>
         </div>
       ) : (

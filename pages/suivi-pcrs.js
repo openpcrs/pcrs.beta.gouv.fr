@@ -7,7 +7,7 @@ import SuiviPCRSMapLayout from '@/layouts/suivi-pcrs-map-layout/index.js'
 
 import AuthentificationContext from '@/contexts/authentification-token.js'
 import AuthentificationModal from '@/components/suivi-form/authentification/authentification-modal.js'
-import CenteredSpinnder from '@/components/centered-spinner.js'
+import CenteredSpinner from '@/components/centered-spinner.js'
 
 const PcrsMap = () => {
   const router = useRouter()
@@ -79,7 +79,7 @@ const PcrsMap = () => {
           onProjetChange={handleProjet}
         />
       ) : (
-        <CenteredSpinnder />
+        <CenteredSpinner />
       )}
 
       {isAuthentificationModalOpen && userRole !== 'admin' && (
