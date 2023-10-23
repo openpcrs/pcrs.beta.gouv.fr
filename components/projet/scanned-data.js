@@ -10,7 +10,7 @@ import colors from '@/styles/colors.js'
 import CenteredSpinnder from '@/components/centered-spinner.js'
 import ScannerMap from '@/components/projet/scanner-map.js'
 
-const ScannedData = ({data, geojson, stockageId, handleStorage, handleErrorMessages, errorMessages}) => {
+const ScannedData = ({data, downloadToken, geojson, stockageId, handleStorage, handleErrorMessages, errorMessages}) => {
   const {lastError, result} = data
   const [isLoading, setIsLoading] = useState(true)
 
@@ -78,7 +78,7 @@ const ScannedData = ({data, geojson, stockageId, handleStorage, handleErrorMessa
               <p id='text-input-error-desc-error' className='fr-error-text'>{errorMessages.geojsonFetchError}</p>
             ) : (
               <div className='map-wrapper'>
-                <ScannerMap geojson={geojson} />
+                <ScannerMap geojson={geojson} downloadToken={downloadToken} />
               </div>
             )}
 
@@ -107,6 +107,7 @@ const ScannedData = ({data, geojson, stockageId, handleStorage, handleErrorMessa
 ScannedData.propTypes = {
   data: PropTypes.object,
   geojson: PropTypes.object,
+  downloadToken: PropTypes.string,
   errorMessages: PropTypes.object.isRequired,
   stockageId: PropTypes.string.isRequired,
   handleStorage: PropTypes.func.isRequired,

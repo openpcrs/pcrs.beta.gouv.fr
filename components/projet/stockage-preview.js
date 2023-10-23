@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import {useEffect, useState} from 'react'
 
 import {getStockage} from '@/lib/pcrs-scanner-api.js'
+import {getStorageDownloadToken} from '@/lib/suivi-pcrs.js'
 
 import colors from '@/styles/colors.js'
 
@@ -9,9 +10,10 @@ import CenteredSpinnder from '@/components/centered-spinner.js'
 import StockageData from '@/components/projet/stockage-data.js'
 import ScannedData from '@/components/projet/scanned-data.js'
 
-const StockagePreview = ({stockageId, isStockagePublic}) => {
+const StockagePreview = ({projectId, stockageId, isStockagePublic, isDownloadable}) => {
   const [stockage, setStockage] = useState()
   const [errorMessages, setErrorMessages] = useState({geojsonFetchError: null, dataFetchError: null})
+  const [downloadToken, setDownloadToken] = useState()
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -31,6 +33,21 @@ const StockagePreview = ({stockageId, isStockagePublic}) => {
 
     fetchStockage()
   }, [stockageId])
+
+  useEffect(() => {
+    async function getDownloadToken() {
+      try {
+        const {token} = await getStorageDownloadToken(projectId, stockage.data._id)
+        setDownloadToken(token)
+      } catch (error) {
+        console.error(`Fail to get download token : ${error}`)
+      }
+    }
+
+    if (stockage && isDownloadable) {
+      getDownloadToken()
+    }
+  }, [projectId, stockage, isDownloadable])
 
   return (
     <div className='fr-grid-row'>
@@ -53,6 +70,7 @@ const StockagePreview = ({stockageId, isStockagePublic}) => {
               errorMessages={errorMessages}
               {...stockage}
               stockageId={stockageId}
+              downloadToken={downloadToken}
               handleStorage={setStockage}
               handleErrorMessages={setErrorMessages}
             />
@@ -77,8 +95,10 @@ const StockagePreview = ({stockageId, isStockagePublic}) => {
 }
 
 StockagePreview.propTypes = {
+  projectId: PropTypes.string.isRequired,
   stockageId: PropTypes.string.isRequired,
-  isStockagePublic: PropTypes.bool
+  isStockagePublic: PropTypes.bool,
+  isDownloadable: PropTypes.bool.isRequired
 }
 
 StockagePreview.defaultProps = {

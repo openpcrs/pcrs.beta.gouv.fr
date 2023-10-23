@@ -9,7 +9,7 @@ import vector from '../map/styles/vector.json'
 import DeviceContext from '@/contexts/device.js'
 import {formatBytes} from '@/lib/utils/file.js'
 
-const ScannerMap = ({geojson}) => {
+const ScannerMap = ({geojson, downloadToken}) => {
   const {isMobile} = useContext(DeviceContext)
 
   const mapNode = useRef()
@@ -56,15 +56,33 @@ const ScannerMap = ({geojson}) => {
       popup.setLngLat(e.lngLat)
         .setHTML(`
          <div>
-         <div style="font-size: 1.1em; font-weight: bold;">${feature.properties.name}</div>
-           <p>
+           <div style="font-size: 1.1em; font-weight: bold;">${feature.properties.name}</div>
+           <div>
              <div>Format : <b>${feature.properties.format}</b></div>
              <div>Poids : <b>${formatBytes(feature.properties.size)}</b></div>
-           </p>
+             ${downloadToken ? '<div class="fr-alert fr-alert--info fr-alert--sm fr-mt-1w"><p>Cliquer pour télécharger les données</p></div>' : ''}
+           </div>
          </div>
       `)
         .addTo(map)
     })
+
+    if (downloadToken) {
+      map.on('click', 'stockage-layer', e => {
+        const features = map.queryRenderedFeatures(e.point, {
+          layers: ['stockage-layer']
+        })
+
+        if (features.length > 0) {
+          const [feature] = features
+          const {downloadUrl} = feature.properties
+
+          if (downloadUrl) {
+            window.open(`${downloadUrl}?token=${downloadToken}`, '_blank')
+          }
+        }
+      })
+    }
 
     map.on('load', () => {
       map.addSource('stockage', {
@@ -111,7 +129,8 @@ const ScannerMap = ({geojson}) => {
 ScannerMap.propTypes = {
   geojson: PropTypes.shape({
     features: PropTypes.array.isRequired
-  }).isRequired
+  }).isRequired,
+  downloadToken: PropTypes.string
 }
 
 export default ScannerMap
