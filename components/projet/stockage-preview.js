@@ -11,19 +11,19 @@ import ScannedData from '@/components/projet/scanned-data.js'
 
 const StockagePreview = ({stockageId, isStockagePublic}) => {
   const [stockage, setStockage] = useState()
-  const [errorMessages, setErrorMessages] = useState({geojsonFetchError: null, dataFetchError: null})
+  const [error, setError] = useState()
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     setIsLoading(true)
-    setErrorMessages(prevErrors => ({...prevErrors, dataFetchError: null}))
+    setError(null)
 
     async function fetchStockage() {
       try {
         const data = await getStockage(stockageId)
         setStockage(prevStockage => ({...prevStockage, data}))
       } catch {
-        setErrorMessages(prevErrors => ({...prevErrors, dataFetchError: 'Les données du livrable sont indisponibles'}))
+        setError('Impossible de récupérer les données du livrable')
       }
 
       setIsLoading(false)
@@ -42,22 +42,21 @@ const StockagePreview = ({stockageId, isStockagePublic}) => {
         </div>
       ) : (
         <div className='stockage-preview-data-container fr-mt-2w fr-pl-3w fr-col-12'>
-          {errorMessages.dataFetchError ? (
-            <p className='fr-error-text'> {errorMessages.dataFetchError}</p>
+          {error ? (
+            <p className='fr-error-text'>{error}</p>
           ) : (
-            <StockageData isPublic={isStockagePublic} params={stockage.data.params} type={stockage.data.type} />
-          )}
+            <>
+              <StockageData isPublic={isStockagePublic} params={stockage.data.params} type={stockage.data.type} />
+              {!stockage.data && ['pending', 'processing'].includes(stockage.scan) && (
+                <div className='fr-alert fr-alert--info fr-alert--sm'>
+                  <p>Scan du livrable en cours…</p>
+                </div>
+              )}
 
-          {stockage.data.result ? (
-            <ScannedData
-              errorMessages={errorMessages}
-              {...stockage}
-              stockageId={stockageId}
-              handleStorage={setStockage}
-              handleErrorMessages={setErrorMessages}
-            />
-          ) : (
-            <p className='fr-error-text'>Les données relatives à ce stockage ne sont pas encore disponibles</p>
+              {stockage.data && (
+                <ScannedData {...stockage} stockageId={stockageId} />
+              )}
+            </>
           )}
         </div>
       )}
