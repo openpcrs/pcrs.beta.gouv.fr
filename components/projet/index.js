@@ -48,7 +48,7 @@ const ProjetInfos = ({project}) => {
           </div>
 
           <div className='fr-col-12 fr-mt-6w'>
-            <Livrables livrables={livrables} />
+            <Livrables projectId={_id} livrables={livrables} />
           </div>
 
           <div className='fr-col-12 fr-mt-6w'>
