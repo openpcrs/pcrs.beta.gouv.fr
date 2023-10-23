@@ -9,7 +9,7 @@ import CenteredSpinner from '@/components/centered-spinner.js'
 import StockageData from '@/components/projet/stockage-data.js'
 import ScannedData from '@/components/projet/scanned-data.js'
 
-const StockagePreview = ({stockageId, isStockagePublic}) => {
+const StockagePreview = ({stockageId, params, isStockagePublic}) => {
   const [stockage, setStockage] = useState()
   const [error, setError] = useState()
   const [isLoading, setIsLoading] = useState(true)
@@ -46,7 +46,12 @@ const StockagePreview = ({stockageId, isStockagePublic}) => {
             <p className='fr-error-text'>{error}</p>
           ) : (
             <>
-              <StockageData isPublic={isStockagePublic} params={stockage.data.params} type={stockage.data.type} />
+              <StockageData
+                isPublic={isStockagePublic}
+                params={params}
+                type={stockage.data.type}
+              />
+
               {!stockage.data && ['pending', 'processing'].includes(stockage.scan) && (
                 <div className='fr-alert fr-alert--info fr-alert--sm'>
                   <p>Scan du livrable en cours…</p>
@@ -77,6 +82,7 @@ const StockagePreview = ({stockageId, isStockagePublic}) => {
 
 StockagePreview.propTypes = {
   stockageId: PropTypes.string.isRequired,
+  params: PropTypes.object.isRequired,
   isStockagePublic: PropTypes.bool
 }
 
