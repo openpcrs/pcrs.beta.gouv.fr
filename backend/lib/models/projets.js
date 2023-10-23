@@ -65,7 +65,11 @@ export async function renewEditorKey(projet) {
 }
 
 export function filterSensitiveFields(projet) {
-  return omit(projet, 'editorKey')
+  return {
+    ...projet,
+    editorKey: undefined,
+    livrables: projet.livrables.map(livrable => omit(livrable, ['stockage_params']))
+  }
 }
 
 export async function getProjets() {
