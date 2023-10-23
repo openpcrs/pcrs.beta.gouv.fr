@@ -10,7 +10,7 @@ import CenteredSpinner from '@/components/centered-spinner.js'
 import StockageData from '@/components/projet/stockage-data.js'
 import ScannedData from '@/components/projet/scanned-data.js'
 
-const StockagePreview = ({projectId, stockageId, isStockagePublic, isDownloadable}) => {
+const StockagePreview = ({projectId, stockageId, params, isStockagePublic, isDownloadable}) => {
   const [stockage, setStockage] = useState()
   const [downloadToken, setDownloadToken] = useState()
   const [error, setError] = useState()
