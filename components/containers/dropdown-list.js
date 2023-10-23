@@ -55,10 +55,10 @@ DropdownList.propTypes = {
 
 DropdownList.propTypes = {
   title: PropTypes.string.isRequired,
-  list: PropTypes.arrayOf({
+  list: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired
-  }).isRequired,
+  })).isRequired,
   isDefaultOpen: PropTypes.bool
 }
 
