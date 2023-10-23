@@ -22,8 +22,8 @@ const StockagePreview = ({projectId, stockageId, params, isStockagePublic, isDow
 
     async function fetchStockage() {
       try {
-        const data = await getStockage(stockageId)
-        setStockage(prevStockage => ({...prevStockage, data}))
+        const stockage = await getStockage(stockageId)
+        setStockage(stockage)
       } catch {
         setError('Impossible de récupérer les données du livrable')
       }
@@ -37,7 +37,7 @@ const StockagePreview = ({projectId, stockageId, params, isStockagePublic, isDow
   useEffect(() => {
     async function getDownloadToken() {
       try {
-        const {token} = await getStorageDownloadToken(projectId, stockage.data._id)
+        const {token} = await getStorageDownloadToken(projectId, stockage._id)
         setDownloadToken(token)
       } catch (error) {
         console.error(`Fail to get download token : ${error}`)
@@ -62,27 +62,23 @@ const StockagePreview = ({projectId, stockageId, params, isStockagePublic, isDow
           {error ? (
             <p className='fr-error-text'>{error}</p>
           ) : (
-            <>
-              <StockageData
-                isPublic={isStockagePublic}
-                params={params}
-                type={stockage.data.type}
-              />
-
-              {!stockage.data && ['pending', 'processing'].includes(stockage.scan) && (
-                <div className='fr-alert fr-alert--info fr-alert--sm'>
-                  <p>Scan du livrable en cours…</p>
-                </div>
-              )}
-
-              {stockage.data && (
+            stockage ? (
+              <>
+                <StockageData
+                  isPublic={isStockagePublic}
+                  params={params}
+                  type={stockage.type}
+                />
                 <ScannedData
-                  {...stockage}
-                  stockageId={stockageId}
+                  stockage={stockage}
                   downloadToken={downloadToken}
                 />
-              )}
-            </>
+              </>
+            ) : (
+              <div className='fr-alert fr-alert--info fr-alert--sm'>
+                <p>Les données relatives à cet espace de stockage ne sont pas encore disponibles.</p>
+              </div>
+            )
           )}
         </div>
       )}

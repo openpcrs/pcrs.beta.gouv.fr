@@ -7,7 +7,7 @@ import {getStockageGeoJSON} from '@/lib/pcrs-scanner-api.js'
 import CenteredSpinner from '@/components/centered-spinner.js'
 import ScannerMap from '@/components/projet/scanner-map.js'
 
-const ScannedData = ({data, downloadToken, stockageId}) => {
+const ScannedData = ({stockage, downloadToken}) => {
   const [geojson, setGeojson] = useState()
   const [error, setError] = useState()
   const [isLoading, setIsLoading] = useState(true)
@@ -17,7 +17,7 @@ const ScannedData = ({data, downloadToken, stockageId}) => {
 
     async function fetchGeojson() {
       try {
-        const geojson = await getStockageGeoJSON(stockageId)
+        const geojson = await getStockageGeoJSON(stockage._id)
 
         setGeojson(geojson)
       } catch {
@@ -28,7 +28,7 @@ const ScannedData = ({data, downloadToken, stockageId}) => {
     }
 
     fetchGeojson()
-  }, [stockageId])
+  }, [stockage])
 
   return (
     <div className='fr-mt-6w'>
@@ -38,8 +38,7 @@ const ScannedData = ({data, downloadToken, stockageId}) => {
       </div>
       <div>
         {/* scan livrable data */}
-        {data.result && <ScanResult {...data.result} lastError={data.lastError} />}
-        {!data.result && data.lastError}
+        {stockage.result && <ScanResult {...stockage.result} lastError={stockage.lastError} />}
 
         {isLoading ? (
           <div className='spinner-container fr-col-12 fr-grid-row fr-grid-row--center fr-grid-row--middle'>
@@ -72,13 +71,12 @@ const ScannedData = ({data, downloadToken, stockageId}) => {
 }
 
 ScannedData.propTypes = {
-  data: PropTypes.object,
-  stockageId: PropTypes.string.isRequired,
+  stockage: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    result: PropTypes.object,
+    lastError: PropTypes.string
+  }),
   downloadToken: PropTypes.string
-}
-
-ScannedData.defaultProps = {
-  data: null
 }
 
 export default ScannedData
