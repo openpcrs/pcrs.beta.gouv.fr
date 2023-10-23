@@ -15,3 +15,12 @@ export async function attachStorage({type, params}) {
 
   return {_id}
 }
+
+export async function askDownloadToken({stockageId}) {
+  const {token} = await got.post(`${SCANNER_URL}/storages/${stockageId}/generate-download-token`, {
+    headers: {authorization: `Token ${SCANNER_ADMIN_TOKEN}`}
+  }).json()
+
+  return token
+}
+
