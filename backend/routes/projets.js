@@ -31,7 +31,7 @@ projetsRoutes.get('/:projetId/renew-editor-key', w(ensureAdmin), w(async (req, r
   res.status(200).send(updatedProjet)
 }))
 
-projetsRoutes.post('/:projetId/stockages/:stockageId/generate-download-token', w(ensureAdmin), w(async (req, res) => {
+projetsRoutes.post('/:projetId/stockages/:stockageId/generate-download-token', w(async (req, res) => {
   const {projet} = req
   const {stockageId} = req.params
   const isDownloadable = projet.livrables.find(l => (
