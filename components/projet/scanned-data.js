@@ -51,9 +51,11 @@ const ScannedData = ({stockage, downloadToken}) => {
             {error ? (
               <div id='text-input-error-desc-error' className='fr-error-text'>{error}</div>
             ) : (
-              <div className='map-wrapper'>
-                <ScannerMap geojson={geojson} downloadToken={downloadToken} />
-              </div>
+              geojson && (
+                <div className='map-wrapper'>
+                  <ScannerMap geojson={geojson} downloadToken={downloadToken} />
+                </div>
+              )
             )}
 
           </div>
