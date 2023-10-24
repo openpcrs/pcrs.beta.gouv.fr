@@ -21,11 +21,11 @@ const StockageData = ({isPublic, type, params}) => (
         <Badge background={isPublic ? colors.success425 : colors.warningMain525} textColor='white'> {isPublic ? 'Public' : 'Privé'} </Badge>
       </div>
 
-      {(isPublic && ['ftp', 'sftp'].includes(type)) && (
+      {isPublic && Object.keys(params).length > 0 && (
         <DropdownList
           title='Afficher les paramètres du stockage'
           list={Object.keys(params).map(key => {
-            const {label, defaultValue} = STOCKAGE_PARAMS[key]
+            const {label, defaultValue} = STOCKAGE_PARAMS[key] || {label: key, defaultValue: 'N/A'}
 
             return {
               label,
