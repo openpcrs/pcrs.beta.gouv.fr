@@ -6,38 +6,40 @@ import {getStorageDownloadToken} from '@/lib/suivi-pcrs.js'
 
 import colors from '@/styles/colors.js'
 
-import CenteredSpinnder from '@/components/centered-spinner.js'
+import CenteredSpinner from '@/components/centered-spinner.js'
 import StockageData from '@/components/projet/stockage-data.js'
 import ScannedData from '@/components/projet/scanned-data.js'
 
-const StockagePreview = ({projectId, stockageId, isStockagePublic, isDownloadable}) => {
+const StockagePreview = ({projectId, stockageId, params, isStockagePublic, isDownloadable}) => {
   const [stockage, setStockage] = useState()
-  const [errorMessages, setErrorMessages] = useState({geojsonFetchError: null, dataFetchError: null})
   const [downloadToken, setDownloadToken] = useState()
-  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState()
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    setIsLoading(true)
-    setErrorMessages(prevErrors => ({...prevErrors, dataFetchError: null}))
+    setError(null)
 
     async function fetchStockage() {
+      setIsLoading(true)
       try {
-        const data = await getStockage(stockageId)
-        setStockage(prevStockage => ({...prevStockage, data}))
+        const stockage = await getStockage(stockageId)
+        setStockage(stockage)
       } catch {
-        setErrorMessages(prevErrors => ({...prevErrors, dataFetchError: 'Les données du livrable sont indisponibles'}))
+        setError('Impossible de récupérer les données du livrable')
       }
 
       setIsLoading(false)
     }
 
-    fetchStockage()
+    if (stockageId) {
+      fetchStockage()
+    }
   }, [stockageId])
 
   useEffect(() => {
     async function getDownloadToken() {
       try {
-        const {token} = await getStorageDownloadToken(projectId, stockage.data._id)
+        const {token} = await getStorageDownloadToken(projectId, stockage._id)
         setDownloadToken(token)
       } catch (error) {
         console.error(`Fail to get download token : ${error}`)
@@ -54,28 +56,31 @@ const StockagePreview = ({projectId, stockageId, isStockagePublic, isDownloadabl
       {isLoading ? (
         <div className='spinner-container fr-col-12 fr-grid-row fr-grid-row--center fr-grid-row--middle'>
           <div className='fr-col-12'>
-            <CenteredSpinnder />
+            <CenteredSpinner />
           </div>
         </div>
       ) : (
-        <div className='stockage-preview-data-container fr-mt-2w fr-pl-3w fr-col-12'>
-          {errorMessages.dataFetchError ? (
-            <p className='fr-error-text'> {errorMessages.dataFetchError}</p>
+        <div className='stockage-preview-data-container fr-col-12'>
+          {error ? (
+            <p className='fr-error-text'>{error}</p>
           ) : (
-            <StockageData isPublic={isStockagePublic} params={stockage.data.params} type={stockage.data.type} />
-          )}
-
-          {stockage.data.result ? (
-            <ScannedData
-              errorMessages={errorMessages}
-              {...stockage}
-              stockageId={stockageId}
-              downloadToken={downloadToken}
-              handleStorage={setStockage}
-              handleErrorMessages={setErrorMessages}
-            />
-          ) : (
-            <p className='fr-error-text'>Les données relatives à ce stockage ne sont pas encore disponibles</p>
+            stockage ? (
+              <div className='fr-pl-3w'>
+                <StockageData
+                  isPublic={isStockagePublic}
+                  params={params}
+                  type={stockage.type}
+                />
+                <ScannedData
+                  stockage={stockage}
+                  downloadToken={downloadToken}
+                />
+              </div>
+            ) : (
+              <div className='fr-alert fr-alert--info fr-alert--sm fr-mt-2w'>
+                <p>Les données relatives à cet espace de stockage ne sont pas encore disponibles.</p>
+              </div>
+            )
           )}
         </div>
       )}
@@ -96,12 +101,15 @@ const StockagePreview = ({projectId, stockageId, isStockagePublic, isDownloadabl
 
 StockagePreview.propTypes = {
   projectId: PropTypes.string.isRequired,
-  stockageId: PropTypes.string.isRequired,
-  isStockagePublic: PropTypes.bool,
-  isDownloadable: PropTypes.bool.isRequired
+  stockageId: PropTypes.string,
+  params: PropTypes.object,
+  isDownloadable: PropTypes.bool,
+  isStockagePublic: PropTypes.bool
 }
 
 StockagePreview.defaultProps = {
+  stockageId: null,
+  isDownloadable: false,
   isStockagePublic: true
 }
 
