@@ -102,7 +102,7 @@ const StockagePreview = ({projectId, stockageId, params, isStockagePublic, isDow
 StockagePreview.propTypes = {
   projectId: PropTypes.string.isRequired,
   stockageId: PropTypes.string,
-  params: PropTypes.object.isRequired,
+  params: PropTypes.object,
   isDownloadable: PropTypes.bool,
   isStockagePublic: PropTypes.bool
 }
