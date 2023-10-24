@@ -27,8 +27,8 @@ const LivrablesSection = ({projectId, livrables}) => {
       <h3 className='fr-text--lead fr-mt-5w fr-mb-3w'>Livrables : {livrables.length}</h3>
       <div>
         <SelectInput
-          value={livrable.stockage_id}
-          label='Sélectionner un livrable'
+          value={selectedLivrableIdx}
+          label={livrable.nom}
           options={livrablesOptions}
           isDisabled={livrables.length === 1}
           onValueChange={e => setSelectedLivrableIdx(e.target.value)}
@@ -37,7 +37,7 @@ const LivrablesSection = ({projectId, livrables}) => {
         <div>
           {livrableRenderItem(orderedLivrablesByPublication[selectedLivrableIdx])}
 
-          {livrable && (
+          {livrable.stockage_id && (
             <div className='stockage-preview'>
               <StockagePreview
                 projectId={projectId}
