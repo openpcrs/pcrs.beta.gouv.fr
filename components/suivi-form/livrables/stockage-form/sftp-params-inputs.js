@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types'
 
+import {STOCKAGE_PARAMS} from '@/lib/utils/projet.js'
+
 import TextInput from '@/components/text-input.js'
 import NumberInput from '@/components/number-input.js'
 
@@ -26,7 +28,7 @@ const SftpParamsInputs = ({stockageParams, handleParams}) => {
         <div className='fr-mt-6w'>
           <NumberInput
             name='port'
-            label='Port'
+            label={STOCKAGE_PARAMS.port.label}
             placeholder=''
             description='Port d’écoute du service SFTP'
             value={stockageParams.port || ''}
@@ -37,7 +39,7 @@ const SftpParamsInputs = ({stockageParams, handleParams}) => {
         <div className='fr-mt-6w'>
           <TextInput
             name='startPath'
-            label='Chemin du répertoire'
+            label={STOCKAGE_PARAMS.startPath.label}
             placeholder='"/" par défaut'
             description='Chemin du répertoire contenant les fichiers du livrable. Le processus d’analyse prendra en compte tous les fichiers et répertoires accessibles à partir de ce chemin.'
             value={stockageParams.startPath || ''}
@@ -50,7 +52,7 @@ const SftpParamsInputs = ({stockageParams, handleParams}) => {
             <TextInput
               isRequired
               name='username'
-              label='Nom d’utilisateur'
+              label={STOCKAGE_PARAMS.username.label}
               description=''
               value={stockageParams.username || ''}
               autoComplete='off'
@@ -62,7 +64,7 @@ const SftpParamsInputs = ({stockageParams, handleParams}) => {
             <TextInput
               isRequired
               name='password'
-              label='Mot de passe'
+              label={STOCKAGE_PARAMS.password.label}
               type='password'
               description=''
               value={stockageParams.password || ''}
