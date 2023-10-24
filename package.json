@@ -35,7 +35,7 @@
     "mongodb": "^5.1.0",
     "morgan": "^1.10.0",
     "nanoid": "^4.0.2",
-    "next": "13.3",
+    "next": "13.4.7",
     "nodemailer": "^6.9.1",
     "papaparse": "^5.4.1",
     "prop-types": "^15.8.1",
