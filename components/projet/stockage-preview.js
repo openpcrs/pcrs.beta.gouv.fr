@@ -101,11 +101,12 @@ StockagePreview.propTypes = {
   projectId: PropTypes.string.isRequired,
   stockageId: PropTypes.string.isRequired,
   params: PropTypes.object.isRequired,
-  isDownloadable: PropTypes.bool.isRequired,
+  isDownloadable: PropTypes.bool,
   isStockagePublic: PropTypes.bool
 }
 
 StockagePreview.defaultProps = {
+  isDownloadable: false,
   isStockagePublic: true
 }
 
