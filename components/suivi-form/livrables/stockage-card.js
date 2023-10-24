@@ -18,7 +18,7 @@ const StockageCard = ({type, params, generalSettings, handleDelete}) => {
           </div>
 
           <div className='fr-grid-row fr-col-12 fr-col-md-3'>
-            <div className='label fr-col-12'>{STOCKAGE_PARAMS.url.label}</div>
+            <div className='label fr-col-12'>URL</div>
             <div className='fr-col-12 fr-text--sm fr-m-0'>{url}</div>
           </div>
 
