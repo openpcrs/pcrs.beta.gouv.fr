@@ -26,10 +26,17 @@ const StockageData = ({isPublic, type, params}) => (
           title='Afficher les paramètres du stockage'
           list={Object.keys(params).map(key => {
             const {label, defaultValue} = STOCKAGE_PARAMS[key] || {label: key, defaultValue: 'N/A'}
+            let value = params[key] || defaultValue
+
+            // Display icon for boolean values
+            const isBoolean = typeof value === 'boolean'
+            if (isBoolean) {
+              value = <span className={`fr-icon-${value ? 'checkbox-circle-fill' : 'close-circle-fill'} fr-pr-1w fr-col-lg-12`} aria-hidden='true' />
+            }
 
             return {
               label,
-              value: params[key] || defaultValue
+              value
             }
           })}
           isDefaultOpen={false}
