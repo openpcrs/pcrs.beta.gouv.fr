@@ -47,7 +47,7 @@ const Projet = ({id}) => {
 
   if (errorMessage) {
     return (
-      <Page title={`Projet ${project.nom}`} description='Page contenant les informations relatives à un projets'>
+      <Page title='Erreur sur la page' description={errorMessage}>
         <div className='not-found-wrapper fr-p-5w'>
           <Image
             src='/images/illustrations/403.png'
@@ -78,7 +78,7 @@ const Projet = ({id}) => {
   }
 
   return (
-    <Page>
+    <Page title={project?.nom ? `Projet ${project.nom}` : null} description='Page contenant les informations relatives à un projets'>
       {isLoading ? (
         <CenteredSpinner />
       ) : (
