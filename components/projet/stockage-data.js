@@ -38,11 +38,11 @@ const StockageData = ({isPublic, type, params}) => (
     </div>
 
     <style jsx>{`
-       .data-title {
-         color: ${colors.info425};
-         font-weight: bold;
-       }
-     `}</style>
+      .data-title {
+        color: ${colors.info425};
+        font-weight: bold;
+      }
+    `}</style>
   </div>
 )
 

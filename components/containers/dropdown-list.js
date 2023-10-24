@@ -28,22 +28,22 @@ const DropdownList = ({title, list, isDefaultOpen}) => {
 
       <style jsx>{`
         .data-title {
-            color: ${colors.info425};
-            font-weight: bold;
+          color: ${colors.info425};
+          font-weight: bold;
         }
 
         .dropdown {
-            cursor: pointer;
+          cursor: pointer;
         }
 
         wrapper-container {
-            background: ${colors.grey975};
+          background: ${colors.grey975};
         }
         
         .dropdown-data-title {
-           color: ${colors.grey50};
-           font-weight: bold;
-         }
+          color: ${colors.grey50};
+          font-weight: bold;
+        }
       `}</style>
     </div>
   )

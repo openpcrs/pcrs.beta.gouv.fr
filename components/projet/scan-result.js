@@ -29,13 +29,13 @@ const ScanResult = ({raster, lastSuccessfulScan, dataFiles, brokenDataFiles, las
       </div>
 
       <style jsx>{`
-      .files-total, .error-total {
-        font-weight: bold;
-      }
+        .files-total, .error-total {
+          font-weight: bold;
+        }
 
-      .error-total {
-        color: ${colors.error425};
-      }    
+        .error-total {
+          color: ${colors.error425};
+        }
     `}</style>
     </div>
   )
