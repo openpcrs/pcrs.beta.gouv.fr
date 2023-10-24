@@ -2,6 +2,7 @@ import {useState} from 'react'
 import PropTypes from 'prop-types'
 
 import {isURLValid} from '@/components/suivi-form/livrables/utils/url.js'
+import {STOCKAGE_PARAMS} from '@/lib/utils/projet.js'
 
 import TextInput from '@/components/text-input.js'
 
@@ -22,7 +23,8 @@ const HttpParamsInputs = ({stockageParams, handleParams}) => {
   return (
     <div className='fr-mt-6v'>
       <TextInput
-        label='URL du serveur'
+        name='url'
+        label={STOCKAGE_PARAMS.url.label}
         description='Lien d’accès au(x) fichier(s)'
         value={url}
         placeholder='http://...'

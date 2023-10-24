@@ -149,7 +149,9 @@ test.serial('Filter sensitive fields', async t => {
     {$set: {editorKey}}
   )
 
-  const filteredProjet = filterSensitiveFields(insertedProjet)
+  const projet = await mongo.db.collection('projets').findOne({_id: insertedProjet.insertedId})
+
+  const filteredProjet = filterSensitiveFields(projet)
 
   t.is(filteredProjet.editorKey, undefined)
   t.is(filteredProjet.createdAt, undefined)

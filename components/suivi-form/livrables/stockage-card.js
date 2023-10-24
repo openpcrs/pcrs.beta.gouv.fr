@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 
 import colors from '@/styles/colors.js'
+import {STOCKAGE_PARAMS} from '@/lib/utils/projet.js'
 
 const StockageCard = ({type, params, generalSettings, handleDelete}) => {
   const url = type === 'http' ? params.url : `${params.host}${params.port ? `:${params.port}` : ''}${params.startPath || ''}`
@@ -22,12 +23,12 @@ const StockageCard = ({type, params, generalSettings, handleDelete}) => {
           </div>
 
           <div className='fr-grid-row fr-col-12 fr-col-md-3'>
-            <div className='label fr-col-12'>Nom d’utilisateur</div>
+            <div className='label fr-col-12'>{STOCKAGE_PARAMS.username.label}</div>
             <div className='fr-col-12 fr-text--sm fr-m-0'>{params.username || 'N/A'}</div>
           </div>
 
           <div className='fr-grid-row fr-col-12 fr-col-md-3'>
-            <div className='label fr-col-12'>Mot de passe</div>
+            <div className='label fr-col-12'>{STOCKAGE_PARAMS.password.label}</div>
             <div className='fr-col-12 fr-text--sm fr-m-0'>{params.password ? params.password.replace(/./g, '*') : 'N/A'}</div>
           </div>
         </div>
