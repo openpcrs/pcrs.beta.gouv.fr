@@ -103,7 +103,8 @@
   "ava": {
     "workerThreads": false,
     "environmentVariables": {
-      "ADMIN_TOKEN": "toto"
+      "ADMIN_TOKEN": "toto",
+      "SCANNER_ADMIN_TOKEN": "tata"
     }
   },
   "engines": {
