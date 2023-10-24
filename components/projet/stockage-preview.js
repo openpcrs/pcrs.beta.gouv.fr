@@ -14,13 +14,13 @@ const StockagePreview = ({projectId, stockageId, params, isStockagePublic, isDow
   const [stockage, setStockage] = useState()
   const [downloadToken, setDownloadToken] = useState()
   const [error, setError] = useState()
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    setIsLoading(true)
     setError(null)
 
     async function fetchStockage() {
+      setIsLoading(true)
       try {
         const stockage = await getStockage(stockageId)
         setStockage(stockage)
@@ -31,7 +31,9 @@ const StockagePreview = ({projectId, stockageId, params, isStockagePublic, isDow
       setIsLoading(false)
     }
 
-    fetchStockage()
+    if (stockageId) {
+      fetchStockage()
+    }
   }, [stockageId])
 
   useEffect(() => {
@@ -58,12 +60,12 @@ const StockagePreview = ({projectId, stockageId, params, isStockagePublic, isDow
           </div>
         </div>
       ) : (
-        <div className='stockage-preview-data-container fr-mt-2w fr-pl-3w fr-col-12'>
+        <div className='stockage-preview-data-container fr-col-12'>
           {error ? (
             <p className='fr-error-text'>{error}</p>
           ) : (
             stockage ? (
-              <>
+              <div className='fr-pl-3w'>
                 <StockageData
                   isPublic={isStockagePublic}
                   params={params}
@@ -73,9 +75,9 @@ const StockagePreview = ({projectId, stockageId, params, isStockagePublic, isDow
                   stockage={stockage}
                   downloadToken={downloadToken}
                 />
-              </>
+              </div>
             ) : (
-              <div className='fr-alert fr-alert--info fr-alert--sm'>
+              <div className='fr-alert fr-alert--info fr-alert--sm fr-mt-2w'>
                 <p>Les données relatives à cet espace de stockage ne sont pas encore disponibles.</p>
               </div>
             )
@@ -99,13 +101,14 @@ const StockagePreview = ({projectId, stockageId, params, isStockagePublic, isDow
 
 StockagePreview.propTypes = {
   projectId: PropTypes.string.isRequired,
-  stockageId: PropTypes.string.isRequired,
+  stockageId: PropTypes.string,
   params: PropTypes.object.isRequired,
   isDownloadable: PropTypes.bool,
   isStockagePublic: PropTypes.bool
 }
 
 StockagePreview.defaultProps = {
+  stockageId: null,
   isDownloadable: false,
   isStockagePublic: true
 }
