@@ -1,4 +1,3 @@
-import process from 'node:process'
 import bundleAnalyzer from '@next/bundle-analyzer'
 
 const withBundleAnalyzer = bundleAnalyzer({
