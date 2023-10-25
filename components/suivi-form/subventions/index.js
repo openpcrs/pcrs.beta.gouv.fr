@@ -33,7 +33,7 @@ const Subventions = ({subventions, handleSubventions}) => {
   }, [editedSubvention, subventions, handleSubventions])
 
   const isSubventionExisting = useCallback(nom => {
-    const _subventions = (typeof editedSubvention?.index === 'undefined')
+    const _subventions = (editedSubvention?.index === undefined)
       ? subventions
       : subventions.filter((a, idx) => idx !== editedSubvention.index) // Filter subvention being edited
     return _subventions.some(subvention => normalizeSring(nom) === normalizeSring(subvention.nom))
