@@ -12,7 +12,8 @@ const DropdownList = ({title, list, isDefaultOpen}) => {
   return (
     <div className='fr-grid-row' onClick={toggleOpen}>
       <div className='fr-grid-row fr-col-12'>
-        <div className='data-title dropdown fr-mr-1w fr-grid-row'>{title}</div><span className={`fr-icon-arrow-${isOpen ? 'down' : 'right'}-s-line`} />
+        <div className='data-title dropdown fr-mr-1w fr-grid-row'>{title}</div>
+        <span className={`fr-icon-arrow-${isOpen ? 'down' : 'right'}-s-line`} />
       </div>
 
       {isOpen && (
@@ -39,7 +40,7 @@ const DropdownList = ({title, list, isDefaultOpen}) => {
         wrapper-container {
           background: ${colors.grey975};
         }
-        
+
         .dropdown-data-title {
           color: ${colors.grey50};
           font-weight: bold;
