@@ -203,7 +203,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
           <Etapes
             etapes={projetEtapes}
             handleEtapes={setProjetEtapes}
-            initialValue={projetEtapes[projetEtapes.length - 1]}
+            initialValue={projetEtapes.at(-1)}
           />
 
           <Subventions subventions={projetSubventions} handleSubventions={setProjetSubventions} />

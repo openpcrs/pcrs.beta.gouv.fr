@@ -19,7 +19,7 @@ export async function exportProjetsAsCSV(includes_wkt) {
       nom: projet.nom,
       regime: projet.regime,
       nature: projet.nature,
-      statut: projet.etapes.length > 0 ? projet.etapes[projet.etapes.length - 1].statut : '',
+      statut: projet.etapes.length > 0 ? projet.etapes.at(-1).statut : '',
       investigation_date: projet.etapes.find(e => e.statut === 'investigation')?.date_debut || '',
       convention_signee_date: projet.etapes.find(e => e.statut === 'convention_signee')?.date_debut || '',
       marche_public_en_cours_date: projet.etapes.find(e => e.statut === 'marche_public_en_cours')?.date_debut || '',

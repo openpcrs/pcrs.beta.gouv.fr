@@ -81,8 +81,9 @@ export default function formReducer(state, action) {
       }
     }
 
-    default:
+    default: {
       return state
+    }
   }
 }
 

@@ -15,7 +15,7 @@
     "scalingo-postbuild": "yarn download-contours && next build"
   },
   "dependencies": {
-    "@etalab/decoupage-administratif": "^2.3.1",
+    "@etalab/decoupage-administratif": "^3.1.1",
     "@gouvfr/dsfr": "^1.9.2",
     "@keyv/sqlite": "^3.6.5",
     "@next/bundle-analyzer": "^13.0.7",
@@ -24,35 +24,35 @@
     "date-fns": "^2.29.3",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "got": "^12.5.3",
+    "got": "^13.0.0",
     "hash-obj": "^4.0.0",
     "http-errors": "^2.0.0",
     "joi": "^17.7.0",
     "keyv": "^4.5.2",
     "lodash-es": "^4.17.21",
-    "lru-cache": "^8.0.4",
-    "maplibre-gl": "^2.4.0",
+    "lru-cache": "^10.0.1",
+    "maplibre-gl": "^3.5.1",
     "mongodb": "^5.1.0",
     "morgan": "^1.10.0",
-    "nanoid": "^4.0.2",
-    "next": "^13.0.3",
+    "nanoid": "^5.0.2",
+    "next": "13.4.7",
     "nodemailer": "^6.9.1",
     "papaparse": "^5.4.1",
     "prop-types": "^15.8.1",
     "random-number-csprng": "^1.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sharp": "^0.31.2",
+    "sharp": "^0.32.6",
     "underscore.string": "^3.3.6",
     "wellknown": "^0.5.0"
   },
   "devDependencies": {
     "ava": "^5.2.0",
-    "eslint-config-xo": "^0.42.0",
-    "eslint-config-xo-nextjs": "^4.2.2",
+    "eslint-config-xo": "^0.43.1",
+    "eslint-config-xo-nextjs": "^5.2.0",
     "mongodb-memory-server": "^8.12.0",
     "supertest": "^6.3.3",
-    "xo": "^0.52.4"
+    "xo": "^0.56.0"
   },
   "xo": {
     "extends": "xo-nextjs",
@@ -83,6 +83,12 @@
             "jsx"
           ]
         }
+      ],
+      "import/order": [
+        "error",
+        {
+          "newlines-between": "ignore"
+        }
       ]
     },
     "overrides": [
@@ -108,6 +114,6 @@
     }
   },
   "engines": {
-    "node": ">= 18"
+    "node": "^18.12 || ^20"
   }
 }
