@@ -34,7 +34,7 @@ const Acteurs = ({acteurs, handleActors}) => {
   }, [editedActor, acteurs, handleActors])
 
   const isSirenAlreadyUsed = useCallback(siren => {
-    const actors = (editedActor?.index === undefined) // Check if index is defined
+    const actors = (editedActor?.index === undefined)
       ? acteurs
       : acteurs.filter((a, idx) => idx !== editedActor.index) // Filter actor being edited
     return actors.some(acteur => siren === acteur.siren.toString())

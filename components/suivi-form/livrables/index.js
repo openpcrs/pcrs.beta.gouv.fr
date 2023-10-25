@@ -31,7 +31,7 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
   }, [editedLivrable, livrables, handleLivrables])
 
   const isLivrableNameAvailable = useCallback(nom => {
-    const _livrables = (editedLivrable?.index === undefined) // Check if index is defined
+    const _livrables = (editedLivrable?.index === undefined)
       ? livrables
       : livrables.filter((a, idx) => idx !== editedLivrable.index) // Filter livrable being edited
     return _livrables.some(livrable => nom === livrable.nom)
