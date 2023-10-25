@@ -83,6 +83,12 @@
             "jsx"
           ]
         }
+      ],
+      "import/order": [
+        "error",
+        {
+          "newlines-between": "ignore"
+        }
       ]
     },
     "overrides": [
