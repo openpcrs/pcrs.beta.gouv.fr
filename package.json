@@ -42,7 +42,7 @@
     "random-number-csprng": "^1.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sharp": "^0.31.2",
+    "sharp": "^0.32.6",
     "underscore.string": "^3.3.6",
     "wellknown": "^0.5.0"
   },
