@@ -19,7 +19,7 @@ export async function exportProjetsAsCSV(includesWkt) {
       nom: projet.nom,
       regime: projet.regime,
       nature: projet.nature,
-      statut: projet.etapes.length > 0 ? projet.etapes[projet.etapes.length - 1].statut : '',
+      statut: projet.etapes.length > 0 ? projet.etapes.at(-1).statut : '',
       investigation_date: projet.etapes.find(e => e.statut === 'investigation')?.date_debut || '',
       production_date: projet.etapes.find(e => e.statut === 'production')?.date_debut || '',
       produit_date: projet.etapes.find(e => e.statut === 'produit')?.date_debut || '',

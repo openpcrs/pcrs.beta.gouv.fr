@@ -13,6 +13,6 @@ export function findClosestEtape(etapes) {
   }
 
   // When "Etapes" has no date, use last one
-  return etapes[etapes.length - 1]
+  return etapes.at(-1)
 }
 
