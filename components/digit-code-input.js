@@ -11,7 +11,7 @@ const DigitCodeInput = ({codeValue, handleCodeValue, codeLength, isRequired}) =>
     const {value} = event.target
 
     // Supprimer tous caractères spéciaux dans l'input
-    const input = value.replaceAll('_', '').replace(/[^a-zA-Z\d]/g, '')
+    const input = value.replaceAll('_', '').replaceAll(/[^a-zA-Z\d]/g, '')
 
     if (input.length < codeLength + 1) {
       // Si on efface, supprimer la dernière valeur de l'input
