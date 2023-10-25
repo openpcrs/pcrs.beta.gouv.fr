@@ -32,7 +32,7 @@ const SubventionForm = ({initialValues, isSubventionExisting, onSubmit, onCancel
       nom,
       nature,
       montant: Number(montant) || null,
-      echeance: echeance ? echeance : null
+      echeance: echeance || null
     }
 
     onSubmit(newSubvention)

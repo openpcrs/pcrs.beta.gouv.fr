@@ -32,7 +32,7 @@ const MapSidebar = ({projet, onClose, onProjetChange, projets}) => {
   } = projet
 
   const contactAPLC = acteurs.find(acteur => acteur.role === 'aplc' || 'porteur')
-  const {statut} = projet.etapes[projet.etapes.length - 1]
+  const {statut} = projet.etapes.at(-1)
   const projectStartDate = formatDate(find(projet.etapes, {statut: 'investigation'}).date_debut)
   const isObsolete = statut === 'obsolete'
 
