@@ -77,7 +77,7 @@ const StockageForm = ({initialValues, handleLivrableStockage, onCancel}) => {
           isDisabled={stockageType === 'http' ? (!stockageParams.url || !isURLValid(stockageParams.url)) : !stockageParams.host}
           onClick={onSubmit}
         >
-          Valider le stockage
+          {(!initialValues || initialValues.stockage === null) ? 'Ajouter le serveur' : 'Modifier le serveur'}
         </Button>
         <Button
           style={{marginLeft: '1em'}}
