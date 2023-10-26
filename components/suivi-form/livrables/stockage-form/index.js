@@ -71,11 +71,11 @@ const StockageForm = ({initialValues, handleLivrableStockage, onCancel}) => {
 
       <div className='fr-mt-3w'>
         <Button
-          label='Ajouter le serveur'
           isDisabled={stockageType === 'http' ? !stockageParams.url : !stockageParams.host}
+          label='Valider le stockage'
           onClick={onSubmit}
         >
-          {(!initialValues || initialValues.stockage === null) ? 'Ajouter le serveur' : 'Modifier le serveur'}
+          Valider le stockage
         </Button>
         <Button
           style={{marginLeft: '1em'}}
