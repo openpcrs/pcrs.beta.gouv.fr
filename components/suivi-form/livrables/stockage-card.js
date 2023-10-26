@@ -29,7 +29,7 @@ const StockageCard = ({type, params, generalSettings, handleDelete}) => {
 
           <div className='fr-grid-row fr-col-12 fr-col-md-3'>
             <div className='label fr-col-12'>{STOCKAGE_PARAMS.password.label}</div>
-            <div className='fr-col-12 fr-text--sm fr-m-0'>{params.password ? params.password.replace(/./g, '*') : 'N/A'}</div>
+            <div className='fr-col-12 fr-text--sm fr-m-0'>{params.password ? params.password.replaceAll(/./g, '*') : 'N/A'}</div>
           </div>
         </div>
 

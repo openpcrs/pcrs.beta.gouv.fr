@@ -9,7 +9,7 @@ import Badge from '@/components/badge.js'
 import Timeline from '@/components/map-sidebar/timeline.js'
 
 const Progression = ({etapes}) => {
-  const {statut} = etapes[etapes.length - 1]
+  const {statut} = etapes.at(-1)
   const projectStartDate = formatDate(find(etapes, {statut: 'investigation'}).date_debut)
   const isObsolete = statut === 'obsolete'
   const closestPostStep = findClosestEtape(etapes)
