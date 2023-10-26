@@ -64,7 +64,7 @@ const Footer = () => {
         </div>
         <div className='fr-footer__bottom'>
           <ul className='fr-footer__bottom-list'>
-            {userRole === 'admin' ? (
+            {userRole === 'admin' && (
               <li className='fr-footer__bottom-item'>
                 <button
                   className='fr-footer__bottom-link'
@@ -75,18 +75,17 @@ const Footer = () => {
                   Déconnexion
                 </button>
               </li>
-            ) : (
-              <li className='fr-footer__bottom-item'>
-                <Link
-                  href='/gestion-suivi'
-                  className='fr-footer__bottom-link'
-                  type='button'
-                  label='Accéder à au panneau d’authentification'
-                >
-                  Accès administrateur
-                </Link>
-              </li>
             )}
+            <li className='fr-footer__bottom-item'>
+              <Link
+                href='/gestion-suivi'
+                className='fr-footer__bottom-link'
+                type='button'
+                label='Accéder à au panneau d’authentification'
+              >
+                Accès administrateur
+              </Link>
+            </li>
             <li className='fr-footer__bottom-item'>
               <Link
                 href='/declaration-accessibilite'
