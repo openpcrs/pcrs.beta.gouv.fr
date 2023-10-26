@@ -63,6 +63,8 @@ const initState = ({initialValues, fieldsValidations}) => {
 const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmit}) => {
   const [form, dispatch] = useReducer(formReducer, initState({initialValues, fieldsValidations: {nom: isLivrableNameAvailable}}))
 
+  const [isStockageFormOpen, setIsStockageFormOpen] = useState(false)
+
   const livrableFormRef = useRef()
 
   const [errorMessage, setErrorMessage] = useState()
@@ -92,7 +94,13 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
   }
 
   const handleLivrableStockage = e => {
+    setIsStockageFormOpen(false)
     setLivrableStockage(e)
+    livrableFormRef.current.scrollIntoView()
+  }
+
+  const handleStockageCancel = () => {
+    setIsStockageFormOpen(false)
     livrableFormRef.current.scrollIntoView()
   }
 
@@ -210,27 +218,28 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
         </div>
 
         <div className='fr-col-12'>
-          {(livrableStockage?.stockage_params.host || livrableStockage?.stockage_params.url) && (
+          {(livrableStockage?.stockage_params.host || livrableStockage?.stockage_params.url) && !isStockageFormOpen && (
             <StockageCard
               type={livrableStockage.stockage}
               params={livrableStockage.stockage_params}
               generalSettings={{isPublic: livrableStockage.stockage_public, isDownloadable: livrableStockage.stockage_telechargement}}
+              handleEdition={() => setIsStockageFormOpen(true)}
               handleDelete={() => setLivrableStockage(null)}
             />
           )}
 
-          {livrableStockage?.stockage === null && (
+          {(isStockageFormOpen) && (
             <StockageForm
               initialValues={livrableStockage}
               handleLivrableStockage={handleLivrableStockage}
-              onCancel={() => setLivrableStockage(null)}
+              onCancel={handleStockageCancel}
             />
           )}
 
-          {!livrableStockage && (
-            <Button label='Ajouter un stockage' onClick={() => {
-              setLivrableStockage({stockage: null, stockage_params: {}})
-            }}
+          {!livrableStockage && !isStockageFormOpen && (
+            <Button
+              label='Ajouter un stockage'
+              onClick={() => setIsStockageFormOpen(true)}
             >
               Ajouter un stockage
             </Button>

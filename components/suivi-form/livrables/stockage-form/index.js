@@ -10,11 +10,11 @@ import SelectInput from '@/components/select-input.js'
 import Button from '@/components/button.js'
 
 const StockageForm = ({initialValues, handleLivrableStockage, onCancel}) => {
-  const [stockageType, setStockageType] = useState(initialValues.stockage || undefined)
-  const [stockageParams, setStockageParams] = useState(initialValues.params || {})
+  const [stockageType, setStockageType] = useState(initialValues?.stockage || undefined)
+  const [stockageParams, setStockageParams] = useState(initialValues?.stockage_params || {})
   const [generalSettings, setGeneralSettings] = useState({
-    isPublic: initialValues.isPublic || false,
-    isDownloadable: initialValues.isDownloadable || false
+    isPublic: initialValues?.stockage_public || false,
+    isDownloadable: initialValues?.stockage_telechargement || false
   })
 
   const onSubmit = () => {
@@ -75,7 +75,7 @@ const StockageForm = ({initialValues, handleLivrableStockage, onCancel}) => {
           isDisabled={stockageType === 'http' ? !stockageParams.url : !stockageParams.host}
           onClick={onSubmit}
         >
-          Ajouter le serveur
+          {(!initialValues || initialValues.stockage === null) ? 'Ajouter le serveur' : 'Modifier le serveur'}
         </Button>
         <Button
           style={{marginLeft: '1em'}}
