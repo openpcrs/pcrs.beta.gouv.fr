@@ -12,12 +12,14 @@ const HttpParamsInputs = ({stockageParams, handleParams}) => {
 
   function handleHttpChange(url) {
     setUrl(url)
+
     if (isURLValid(url)) {
       setErrorMessage(null)
-      handleParams({url})
     } else {
       setErrorMessage('Cette URL n’est pas valide')
     }
+
+    handleParams({url})
   }
 
   return (

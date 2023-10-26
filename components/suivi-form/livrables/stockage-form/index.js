@@ -9,6 +9,8 @@ import SftpParamsInputs from '@/components/suivi-form/livrables/stockage-form/sf
 import SelectInput from '@/components/select-input.js'
 import Button from '@/components/button.js'
 
+import {isURLValid} from '@/components/suivi-form/livrables/utils/url.js'
+
 const StockageForm = ({initialValues, handleLivrableStockage, onCancel}) => {
   const [stockageType, setStockageType] = useState(initialValues?.stockage || undefined)
   const [stockageParams, setStockageParams] = useState(initialValues?.stockage_params || {})
@@ -71,8 +73,8 @@ const StockageForm = ({initialValues, handleLivrableStockage, onCancel}) => {
 
       <div className='fr-mt-3w'>
         <Button
-          isDisabled={stockageType === 'http' ? !stockageParams.url : !stockageParams.host}
           label='Valider le stockage'
+          isDisabled={stockageType === 'http' ? (!stockageParams.url || !isURLValid(stockageParams.url)) : !stockageParams.host}
           onClick={onSubmit}
         >
           Valider le stockage
