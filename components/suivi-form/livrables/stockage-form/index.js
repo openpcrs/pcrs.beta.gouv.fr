@@ -12,6 +12,7 @@ import Button from '@/components/button.js'
 import {isURLValid} from '@/components/suivi-form/livrables/utils/url.js'
 
 const StockageForm = ({initialValues, handleLivrableStockage, onCancel}) => {
+  const [errorMessage, setErrorMessage] = useState(null)
   const [stockageType, setStockageType] = useState(initialValues?.stockage || undefined)
   const [stockageParams, setStockageParams] = useState(initialValues?.stockage_params || {})
   const [generalSettings, setGeneralSettings] = useState({
@@ -28,10 +29,21 @@ const StockageForm = ({initialValues, handleLivrableStockage, onCancel}) => {
     })
   }
 
+  const handleUrl = url => {
+    setStockageParams(prev => ({...prev, url}))
+
+    if (isURLValid(url)) {
+      setErrorMessage(null)
+    } else {
+      setErrorMessage('Cette URL n’est pas valide')
+    }
+  }
+
   return (
     <div className='fr-col-12'>
       <div className='fr-col-12'>
         <SelectInput
+          isDisabled={Boolean(stockageType)}
           label='Type de stockage'
           value={stockageType}
           options={[
@@ -59,8 +71,9 @@ const StockageForm = ({initialValues, handleLivrableStockage, onCancel}) => {
 
       {stockageType === 'http' && (
         <HttpParamsInputs
-          stockageParams={stockageParams}
-          handleParams={setStockageParams}
+          url={stockageParams?.url}
+          handleUrl={handleUrl}
+          errorMessage={errorMessage}
         />
       )}
 
