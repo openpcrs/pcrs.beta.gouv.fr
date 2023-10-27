@@ -11,8 +11,8 @@ const SftpParamsInputs = ({stockageParams, handleParams}) => {
   }
 
   return (
-    <div>
-      <div className='fr-grid-row fr-mt-6w'>
+    <div className='fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-mt-6v'>
+      <div className='fr-grid-row fr-col-12'>
         <div className='fr-col-12 fr-col-md-6'>
           <TextInput
             isRequired
@@ -24,7 +24,7 @@ const SftpParamsInputs = ({stockageParams, handleParams}) => {
             onValueChange={handleValuesChange}
           />
         </div>
-        <div className='fr-col-12 fr-mt-3w fr-mt-md-0 fr-col-md-6 fr-pl-md-3w'>
+        <div className='fr-col-12 fr-col-md-6 fr-pl-md-3w'>
           <NumberInput
             name='port'
             label={STOCKAGE_PARAMS.port.label}
@@ -36,7 +36,7 @@ const SftpParamsInputs = ({stockageParams, handleParams}) => {
         </div>
       </div>
 
-      <div className='fr-mt-6w'>
+      <div className='fr-col-12'>
         <TextInput
           name='startPath'
           label={STOCKAGE_PARAMS.startPath.label}
@@ -47,7 +47,7 @@ const SftpParamsInputs = ({stockageParams, handleParams}) => {
         />
       </div>
 
-      <div className='fr-grid-row fr-mt-6w'>
+      <div className='fr-grid-row fr-col-12'>
         <div className='fr-col-12 fr-col-md-6'>
           <TextInput
             isRequired
@@ -60,7 +60,7 @@ const SftpParamsInputs = ({stockageParams, handleParams}) => {
           />
         </div>
 
-        <div className='fr-col-12 fr-mt-3w fr-mt-md-0 fr-col-md-6 fr-pl-md-3w'>
+        <div className='fr-col-12 fr-col-md-6 fr-pl-md-3w'>
           <TextInput
             isRequired
             name='password'
@@ -73,17 +73,6 @@ const SftpParamsInputs = ({stockageParams, handleParams}) => {
           />
         </div>
       </div>
-
-      <style jsx>{`
-        .input-container {
-          display: flex;
-          width: 400px;
-        }
-
-        .input-container label {
-          padding-left: 1em;
-        }
-      `}</style>
     </div>
   )
 }
