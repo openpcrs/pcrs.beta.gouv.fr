@@ -23,7 +23,7 @@ const ScanResult = ({raster, lastSuccessfulScan, dataFiles, brokenDataFiles, las
         <p className='fr-mb-1w'>
           <span className='files-total'>{dataFiles}</span> fichier{dataFiles > 1 && 's'}  de données scannées
           {brokenDataFiles > 1 && (
-            <span>dont <span className='error-total'> {brokenDataFiles} fichier{brokenDataFiles > 1 && 's'} en erreur</span></span>
+            <span> dont <span className='error-total'> {brokenDataFiles} fichier{brokenDataFiles > 1 && 's'} en erreur</span></span>
           )}.
         </p>
       </div>
