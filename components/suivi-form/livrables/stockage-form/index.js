@@ -9,12 +9,15 @@ import SftpParamsInputs from '@/components/suivi-form/livrables/stockage-form/sf
 import SelectInput from '@/components/select-input.js'
 import Button from '@/components/button.js'
 
+import {isURLValid} from '@/components/suivi-form/livrables/utils/url.js'
+
 const StockageForm = ({initialValues, handleLivrableStockage, onCancel}) => {
-  const [stockageType, setStockageType] = useState(initialValues.stockage || undefined)
-  const [stockageParams, setStockageParams] = useState(initialValues.params || {})
+  const [validationMessage, setValidationMessage] = useState(null)
+  const [stockageType, setStockageType] = useState(initialValues?.stockage || undefined)
+  const [stockageParams, setStockageParams] = useState(initialValues?.stockage_params || {})
   const [generalSettings, setGeneralSettings] = useState({
-    isPublic: initialValues.isPublic || false,
-    isDownloadable: initialValues.isDownloadable || false
+    isPublic: initialValues?.stockage_public || false,
+    isDownloadable: initialValues?.stockage_telechargement || false
   })
 
   const onSubmit = () => {
@@ -26,10 +29,21 @@ const StockageForm = ({initialValues, handleLivrableStockage, onCancel}) => {
     })
   }
 
+  const handleUrl = url => {
+    setStockageParams(prev => ({...prev, url}))
+
+    if (isURLValid(url)) {
+      setValidationMessage(null)
+    } else {
+      setValidationMessage({httpParams: {url: 'Cette URL n’est pas valide'}})
+    }
+  }
+
   return (
     <div className='fr-col-12'>
       <div className='fr-col-12'>
         <SelectInput
+          isDisabled={Boolean(stockageType)}
           label='Type de stockage'
           value={stockageType}
           options={[
@@ -57,8 +71,9 @@ const StockageForm = ({initialValues, handleLivrableStockage, onCancel}) => {
 
       {stockageType === 'http' && (
         <HttpParamsInputs
-          stockageParams={stockageParams}
-          handleParams={setStockageParams}
+          url={stockageParams?.url}
+          handleUrl={handleUrl}
+          validationMessage={validationMessage?.httpParams.url}
         />
       )}
 
@@ -71,11 +86,11 @@ const StockageForm = ({initialValues, handleLivrableStockage, onCancel}) => {
 
       <div className='fr-mt-3w'>
         <Button
-          label='Ajouter le serveur'
-          isDisabled={stockageType === 'http' ? !stockageParams.url : !stockageParams.host}
+          label='Valider le stockage'
+          isDisabled={stockageType === 'http' ? (!stockageParams.url || !isURLValid(stockageParams.url)) : !stockageParams.host}
           onClick={onSubmit}
         >
-          Ajouter le serveur
+          {(!initialValues || initialValues.stockage === null) ? 'Ajouter le serveur' : 'Modifier le serveur'}
         </Button>
         <Button
           style={{marginLeft: '1em'}}

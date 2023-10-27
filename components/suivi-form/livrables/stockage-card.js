@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import colors from '@/styles/colors.js'
 import {STOCKAGE_PARAMS} from '@/lib/utils/projet.js'
 
-const StockageCard = ({type, params, generalSettings, handleDelete}) => {
+const StockageCard = ({type, params, generalSettings, handleDelete, handleEdition}) => {
   const url = type === 'http' ? params.url : `${params.host}${params.port ? `:${params.port}` : ''}${params.startPath || ''}`
 
   return (
@@ -60,7 +60,16 @@ const StockageCard = ({type, params, generalSettings, handleDelete}) => {
         </div>
       </div>
 
-      <div className='fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-col-12 fr-col-lg-1 fr-p-0 fr-mt-1w fr-mt-md-0 buttons-container'>
+      <div className='fr-grid-row fr-grid-row--gutters fr-col-12 fr-col-lg-1 fr-p-0 buttons-container'>
+        <button
+          type='button'
+          className='fr-grid-row fr-col-lg-12 fr-grid-row--center fr-grid-row--middle fr-mr-2w update-button'
+          onClick={handleEdition}
+        >
+          <span className='fr-icon-edit-line fr-pr-1w fr-col-lg-12' aria-hidden='true' />
+          <div>Modifier</div>
+        </button>
+
         <button
           type='button'
           className='fr-grid-row fr-col-lg-12 fr-grid-row--center fr-grid-row--middle delete-button'
@@ -86,10 +95,17 @@ const StockageCard = ({type, params, generalSettings, handleDelete}) => {
           color: ${colors.blueFranceSun113};
         }
 
-        .delete-button {
+        .update-button, .delete-button {
           text-decoration: underline;
-          color: ${colors.error425};
           width: fit-content;
+        }
+
+        .update-button {
+          color: ${colors.blueFranceSun113};
+        }
+
+        .delete-button {
+          color: ${colors.error425};
         }
       `}</style>
     </div>
@@ -111,7 +127,8 @@ StockageCard.propTypes = {
     isPublic: PropTypes.bool,
     isDownloadable: PropTypes.bool
   }),
-  handleDelete: PropTypes.func.isRequired
+  handleDelete: PropTypes.func.isRequired,
+  handleEdition: PropTypes.func.isRequired
 }
 
 export default StockageCard
