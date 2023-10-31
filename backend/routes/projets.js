@@ -4,7 +4,7 @@ import w from '../util/w.js'
 
 import {ensureCreator, ensureAdmin, ensureProjectEditor} from '../auth/middleware.js'
 import {getProjets, expandProjet, filterSensitiveFields, createProjet, getProjet, getProjetsGeojson, renewEditorKey, deleteProjet, updateProjet} from '../lib/models/projets.js'
-import {askDownloadToken} from '../lib/api-scanner.js'
+import {askDownloadToken, refreshScan} from '../lib/api-scanner.js'
 
 const projetsRoutes = new express.Router()
 
@@ -45,6 +45,19 @@ projetsRoutes.post('/:projetId/stockages/:stockageId/generate-download-token', w
   const token = await askDownloadToken({stockageId})
 
   res.send({token})
+}))
+
+projetsRoutes.post('/:projetId/stockages/:stockageId/refresh-scan', w(ensureProjectEditor), w(async (req, res) => {
+  const {stockageId} = req.params
+  const {projet} = req
+
+  if (!projet.livrables.some(l => l.stockage_id === stockageId)) {
+    throw createError(404, 'L’identifiant de ce stockage est introuvable')
+  }
+
+  await refreshScan({stockageId})
+
+  res.status(202).send()
 }))
 
 projetsRoutes.route('/:projetId')
