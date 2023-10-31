@@ -180,6 +180,8 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
           <div id='livrables'>
             <Livrables
               livrables={projetLivrables}
+              projetId={_id}
+              editCode={editCode}
               handleLivrables={setProjetLivrables}
               hasMissingData={hasMissingItemsOnValidation}
             />

@@ -8,7 +8,7 @@ import Button from '@/components/button.js'
 import LivrableCard from '@/components/suivi-form/livrables/livrable-card.js'
 import LivrableForm from '@/components/suivi-form/livrables/livrable-form.js'
 
-const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
+const Livrables = ({livrables, hasMissingData, handleLivrables, projetId, editCode}) => {
   const [editedLivrable, setEditedLivrable] = useState(livrables?.length > 0 ? null : {})
 
   const onDelete = index => {
@@ -62,6 +62,8 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
             ) : (
               <LivrableCard
                 livrable={livrable}
+                projetId={projetId}
+                editCode={editCode}
                 isDisabled={Boolean(editedLivrable)}
                 handleEdition={() => setEditedLivrable({livrable, index})}
                 handleDelete={() => onDelete(index)}
