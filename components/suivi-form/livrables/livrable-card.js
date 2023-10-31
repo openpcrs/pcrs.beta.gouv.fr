@@ -11,6 +11,7 @@ import {getNatures, getLicences, getDiffusions} from '@/components/suivi-form/li
 
 const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete, projetId, editCode}) => {
   const [refreshedScan, setRefreshedScan] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(false)
   const {nom, nature, licence, avancement, diffusion, stockage, stockage_id} = livrable
   const dateLivraison = livrable.date_livraison
 
@@ -21,7 +22,7 @@ const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete, projet
         setRefreshedScan(true)
       }
     } catch (error) {
-      console.log(error)
+      setErrorMessage('Un problème est survenu :' + error)
     }
   }
 
@@ -81,6 +82,9 @@ const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete, projet
               </button>
             )}
           </div>
+          {errorMessage && (
+            <span className='error-message'>{errorMessage}</span>
+          )}
         </div>
       </div>
 
@@ -136,6 +140,10 @@ const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete, projet
         }
 
         .delete-button {
+          color: ${colors.error425};
+        }
+
+        .error-message {
           color: ${colors.error425};
         }
       `}</style>
