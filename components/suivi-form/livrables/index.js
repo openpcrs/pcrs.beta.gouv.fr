@@ -111,7 +111,9 @@ const Livrables = ({livrables, hasMissingData, handleLivrables, projetId, editCo
 Livrables.propTypes = {
   livrables: PropTypes.array.isRequired,
   hasMissingData: PropTypes.bool,
-  handleLivrables: PropTypes.func.isRequired
+  handleLivrables: PropTypes.func.isRequired,
+  projetId: PropTypes.string,
+  editCode: PropTypes.string
 }
 
 Livrables.defaultProps = {
