@@ -5,25 +5,17 @@ import PropTypes from 'prop-types'
 import colors from '@/styles/colors.js'
 
 import {shortDate} from '@/lib/date-utils.js'
-import {refreshScan} from '@/lib/suivi-pcrs.js'
 
 import {getNatures, getLicences, getDiffusions} from '@/components/suivi-form/livrables/utils/select-options.js'
 
-const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete, projetId, editCode}) => {
-  const [refreshedScan, setRefreshedScan] = useState(false)
-  const [errorMessage, setErrorMessage] = useState(false)
+const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete, handleRefreshScan}) => {
+  const [refreshedScan, setRefreshedScan] = useState()
   const {nom, nature, licence, avancement, diffusion, stockage, stockage_id} = livrable
   const dateLivraison = livrable.date_livraison
 
-  async function handleRefreshScan() {
-    try {
-      const response = await refreshScan(projetId, stockage_id, editCode)
-      if (response) {
-        setRefreshedScan(true)
-      }
-    } catch (error) {
-      setErrorMessage('Un problème est survenu :' + error)
-    }
+  async function handleRefresh() {
+    await handleRefreshScan(stockage_id)
+    setRefreshedScan(true)
   }
 
   return (
@@ -76,15 +68,12 @@ const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete, projet
                 type='button'
                 disabled={refreshedScan}
                 className='fr-btn fr-btn--sm fr-btn--secondary fr-btn--icon-left fr-icon-refresh-line'
-                onClick={() => handleRefreshScan()}
+                onClick={() => handleRefresh()}
               >
                 {refreshedScan ? 'Scan en cours…' : 'Relancer le scan'}
               </button>
             )}
           </div>
-          {errorMessage && (
-            <span className='error-message'>{errorMessage}</span>
-          )}
         </div>
       </div>
 
@@ -142,10 +131,6 @@ const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete, projet
         .delete-button {
           color: ${colors.error425};
         }
-
-        .error-message {
-          color: ${colors.error425};
-        }
       `}</style>
     </div>
   )
@@ -162,11 +147,10 @@ LivrableCard.propTypes = {
     stockage_id: PropTypes.string,
     date_livraison: PropTypes.string
   }).isRequired,
-  projetId: PropTypes.string,
-  editCode: PropTypes.string,
   isDisabled: PropTypes.bool.isRequired,
   handleDelete: PropTypes.func.isRequired,
-  handleEdition: PropTypes.func.isRequired
+  handleEdition: PropTypes.func.isRequired,
+  handleRefreshScan: PropTypes.func
 }
 
 export default LivrableCard

@@ -6,7 +6,7 @@ import {uniq} from 'lodash'
 
 import colors from '@/styles/colors.js'
 
-import {postSuivi, editProject} from '@/lib/suivi-pcrs.js'
+import {postSuivi, editProject, refreshScan} from '@/lib/suivi-pcrs.js'
 
 import {useInput} from '@/hooks/input.js'
 
@@ -132,6 +132,14 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
     }
   }
 
+  const handleRefreshScan = async stockageId => {
+    try {
+      await refreshScan(_id, stockageId, editCode)
+    } catch (error) {
+      setErrorMessage('La scan n’a pas pu être relancé : ' + error.message)
+    }
+  }
+
   return (
     <>
       <div className='form-header fr-my-5w'>
@@ -180,10 +188,9 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
           <div id='livrables'>
             <Livrables
               livrables={projetLivrables}
-              projetId={_id}
-              editCode={editCode}
               handleLivrables={setProjetLivrables}
               hasMissingData={hasMissingItemsOnValidation}
+              handleRefreshScan={handleRefreshScan}
             />
           </div>
 
