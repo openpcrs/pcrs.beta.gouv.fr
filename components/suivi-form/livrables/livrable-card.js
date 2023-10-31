@@ -78,7 +78,7 @@ const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete, projet
                 className='fr-btn fr-btn--sm fr-btn--secondary fr-btn--icon-left fr-icon-refresh-line'
                 onClick={() => handleRefreshScan()}
               >
-                {refreshedScan ? 'Scan relancé' : 'Relancer le scan'}
+                {refreshedScan ? 'Scan en cours…' : 'Relancer le scan'}
               </button>
             )}
           </div>
