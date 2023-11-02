@@ -24,7 +24,7 @@ const StockageRefresh = ({handleRefreshScan, stockageId}) => {
         className='fr-btn fr-btn--sm fr-btn--secondary fr-btn--icon-left fr-icon-refresh-line'
         onClick={handleClick}
       >
-        {isScanRefreshing ? 'Scan en cours…' : 'Relancer le scan'}
+        {isScanRefreshing ? 'Scan demandé' : 'Relancer le scan'}
       </button>
       <span className='fr-col-12 error-message'>
         <small><i>{errorMessage}</i></small>
