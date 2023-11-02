@@ -35,7 +35,7 @@ const Meta = ({title, description, type, image}) => {
 }
 
 Meta.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   description: PropTypes.string.isRequired,
   type: PropTypes.oneOf([
     'website',
@@ -45,6 +45,7 @@ Meta.propTypes = {
 }
 
 Meta.defaultProps = {
+  title: null,
   type: 'website',
   image: null
 }

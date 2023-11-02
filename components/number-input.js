@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {handleRangeError} from './suivi-form/acteurs/utils/error-handlers.js'
+import {stripNonNumericCharacters} from '@/lib/string.js'
 
 const NumberInput = ({
   label,
@@ -32,6 +33,12 @@ const NumberInput = ({
     setIsValueValid(!inputError)
   }, [inputError, setIsValueValid])
 
+  const handleChange = e => {
+    const strippedValue = stripNonNumericCharacters(e.target.value)
+    e.target.value = strippedValue
+    onValueChange(e)
+  }
+
   return (
     <div className={`fr-input-group fr-input-group--${inputState}`}>
       <label className='fr-label'>
@@ -41,14 +48,13 @@ const NumberInput = ({
 
       <input
         {...props}
-        type='number'
         required={isRequired}
         className={`fr-input fr-input--${inputState}`}
         value={value}
         aria-label={ariaLabel}
         placeholder={placeholder}
         disabled={isDisabled}
-        onChange={onValueChange}
+        onChange={handleChange}
         onFocus={onFocus}
         onBlur={onBlur}
       />

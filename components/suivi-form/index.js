@@ -4,7 +4,9 @@ import Image from 'next/image'
 import {useRouter} from 'next/router'
 import {uniq} from 'lodash'
 
-import {postSuivi, editProject} from '@/lib/suivi-pcrs.js'
+import colors from '@/styles/colors.js'
+
+import {postSuivi, editProject, refreshScan} from '@/lib/suivi-pcrs.js'
 
 import {useInput} from '@/hooks/input.js'
 
@@ -18,7 +20,7 @@ import Subventions from '@/components/suivi-form/subventions/index.js'
 import ShareModal from '@/components/suivi-form/share-modal.js'
 import DeleteModal from '@/components/suivi-form/delete-modal.js'
 import Button from '@/components/button.js'
-import colors from '@/styles/colors.js'
+import BackToProjectButton from '@/components/ui/back-to-project-button.js'
 
 const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subventions, etapes, _id, token, userRole, projectEditCode, isTokenRecovering}) => {
   const router = useRouter()
@@ -57,6 +59,21 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
   const handleAuthentificationModal = () => router.push('/suivi-pcrs')
   const handleModal = () => router.push('/suivi-pcrs')
 
+  const handleSubmitError = error => {
+    if (error.code === 400) {
+      const errorsMessages = error.validationErrors.map(error => {
+        const {message} = error
+        const section = error.path[0]
+
+        return `${section} - ${message}`
+      })
+      setErrors(uniq(errorsMessages))
+      setErrorMessage('Le projet n’a pas pu être pris en compte car il y a des erreurs :')
+    } else {
+      setErrorMessage(error.message)
+    }
+  }
+
   const handleSubmit = async event => {
     event.preventDefault()
 
@@ -82,7 +99,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
         setErrorMessage('Des données nécessaires à la validation du formulaires sont manquantes. Au moins un livrable, un acteur et un périmètre doivent être ajoutés.')
       } else if (isPorteurMissing) {
         setHasMissingItemsOnValidation(true)
-        setErrorMessage('Au moins un acteurs doit être ajouté et avoir le rôle de porteur de projet.')
+        setErrorMessage('Au moins un acteur doit être ajouté et avoir le rôle de porteur de projet.')
       } else {
         const suivi = {
           nom: suiviNom,
@@ -96,53 +113,30 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
         }
 
         const authorizationCode = editCode || token
-        const sendSuivi = _id ? await editProject(suivi, _id, authorizationCode) : await postSuivi(suivi, token)
+        const {data, error} = _id ? await editProject(suivi, _id, authorizationCode) : await postSuivi(suivi, token)
 
-        setEditedProjectId(sendSuivi._id)
-        setEditCode(sendSuivi.editorKey)
-
-        if (sendSuivi.message) {
-          const errorsMessages = sendSuivi.validationErrors.map(error => {
-            const {message, path, type, context} = error
-            const section = error.path[0]
-
-            const handleErrorPath = () => {
-              // Handle key error
-              if (type === 'object.unknown') {
-                return `(clé invalide : ${context.key})`
-              }
-
-              // Handle value error
-              if (path.length > 1 && type !== 'string.empty') {
-                return `(valeur invalide : ${suivi[section][path[1]][path[2]]})`
-              }
-
-              return ''
-            }
-
-            return `${section} - ${message} ${handleErrorPath()}`
-          })
-
-          setErrors(uniq(errorsMessages))
-          setErrorMessage('Le projet n’a pas pu être pris en compte car il y a des erreurs :')
+        if (error) {
+          handleSubmitError(error)
+        } else if (userRole === 'admin' || _id) {
+          router.push(`/projet/${data._id}`)
         } else {
-          const validation = _id ? 'Le projet a bien été modifié, vous allez maintenant être redirigé vers la carte de suivi' : 'Le projet a bien été créé, vous allez maintenant être redirigé vers la carte de suivi'
-          setValidationMessage(validation)
-
-          if (userRole === 'admin' || _id) {
-            setTimeout(() => {
-              router.push('/suivi-pcrs')
-            }, 3000)
-          } else {
-            setIsShareModalOpen(true)
-          }
+          setEditedProjectId(data._id)
+          setEditCode(data.editorKey)
+          setIsShareModalOpen(true)
         }
       }
     } catch {
       const errorMessage = _id ? 'Une erreur a eu lieu lors de la modification du suivi' : 'Une erreur a eu lieu lors de la création du suivi'
 
       setErrorMessage(errorMessage)
-      throw new Error(errorMessage)
+    }
+  }
+
+  const handleRefreshScan = async stockageId => {
+    try {
+      await refreshScan(_id, stockageId, editCode)
+    } catch (error) {
+      throw new Error('La scan n’a pas pu être relancé : ' + error.message)
     }
   }
 
@@ -163,17 +157,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
 
         <div className='fr-grid-row fr-col-12'>
           <div className='fr-grid-row fr-grid-row--left fr-col-12 fr-col-md-10'>
-            <Button
-              label='Retourner à la carte de suivi'
-              iconSide='left'
-              buttonStyle='secondary'
-              icon='arrow-left-line'
-              type='button'
-              size='sm'
-              onClick={() => router.push('/suivi-pcrs')}
-            >
-              Retourner à la carte de suivi
-            </Button>
+            <BackToProjectButton projetId={_id} />
           </div>
 
           {_id && (
@@ -206,6 +190,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
               livrables={projetLivrables}
               handleLivrables={setProjetLivrables}
               hasMissingData={hasMissingItemsOnValidation}
+              handleRefreshScan={handleRefreshScan}
             />
           </div>
 
@@ -236,17 +221,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
             <div className='fr-grid-row fr-mt-12w fr-col-12'>
               <div className='fr-grid-row fr-col-12'>
                 <div className='fr-grid-row fr-grid-row--left fr-col-12 fr-col-md-10'>
-                  <Button
-                    label='Retourner à la carte de suivi'
-                    iconSide='left'
-                    buttonStyle='secondary'
-                    icon='arrow-left-line'
-                    type='button'
-                    size='sm'
-                    onClick={() => router.push('/suivi-pcrs')}
-                  >
-                    Retourner à la carte de suivi
-                  </Button>
+                  <BackToProjectButton projetId={_id} />
                 </div>
 
                 {_id && (

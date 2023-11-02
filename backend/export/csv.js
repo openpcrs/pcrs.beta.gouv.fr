@@ -10,24 +10,26 @@ async function computeWtk(perimetres) {
   return Wellknown.stringify(perimetresGeojson)
 }
 
-export async function exportProjetsAsCSV(includesWkt) {
+export async function exportProjetsAsCSV(includes_wkt) {
   const projets = await getProjets()
 
   const rows = await Promise.all(projets.map(async projet => {
     const resultRows = ({
-      idProjet: projet._id,
+      id_projet: projet._id,
       nom: projet.nom,
       regime: projet.regime,
       nature: projet.nature,
       statut: projet.etapes.length > 0 ? projet.etapes.at(-1).statut : '',
       investigation_date: projet.etapes.find(e => e.statut === 'investigation')?.date_debut || '',
-      production_date: projet.etapes.find(e => e.statut === 'production')?.date_debut || '',
-      produit_date: projet.etapes.find(e => e.statut === 'produit')?.date_debut || '',
-      livre_date: projet.etapes.find(e => e.statut === 'livre')?.date_debut || '',
+      convention_signee_date: projet.etapes.find(e => e.statut === 'convention_signee')?.date_debut || '',
+      marche_public_en_cours_date: projet.etapes.find(e => e.statut === 'marche_public_en_cours')?.date_debut || '',
+      prod_en_cours_date: projet.etapes.find(e => e.statut === 'prod_en_cours')?.date_debut || '',
+      controle_en_cours_date: projet.etapes.find(e => e.statut === 'controle_en_cours')?.date_debut || '',
+      disponible_date: projet.etapes.find(e => e.statut === 'disponible')?.date_debut || '',
       obsolete_date: projet.etapes.find(e => e.statut === 'obsolete')?.date_debut || ''
     })
 
-    if (includesWkt) {
+    if (includes_wkt) {
       resultRows.geometrie = await computeWtk(projet.perimetres)
     }
 
@@ -44,17 +46,19 @@ export async function exportLivrablesAsCSV() {
   for (const projet of projets) {
     for (const livrable of projet.livrables) {
       rows.push({
-        refProjet: projet._id,
-        nomProjet: projet.nom,
+        ref_projet: projet._id,
+        nom_projet: projet.nom,
         nom: livrable.nom || '',
         nature: livrable.nature || '',
         date_livraison: livrable.date_livraison || '',
         licence: livrable.licence || '',
-        publication: livrable.publication || '',
         diffusion: livrable.diffusion || '',
+        stockage: livrable.stockage || '',
+        stockage_public: livrable.stockage_public || '',
         avancement: livrable.avancement || '',
-        crs: livrable.crs || '',
-        compression: livrable.compression || ''
+        publication: '',
+        crs: '',
+        compression: ''
       })
     }
   }
@@ -69,10 +73,10 @@ export async function exportToursDeTableAsCSV() {
   for (const projet of projets) {
     for (const acteur of projet.acteurs) {
       rows.push({
-        refProjet: projet._id,
-        nomProjet: projet.nom,
-        nomActeur: acteur.nom,
-        sirenActeur: acteur.siren,
+        ref_projet: projet._id,
+        nom_projet: projet.nom,
+        nom_acteur: acteur.nom,
+        siren_acteur: acteur.siren,
         interlocuteur: acteur.interlocuteur || '',
         mail: acteur.mail || '',
         telephone: acteur.telephone || '',
@@ -94,8 +98,8 @@ export async function exportSubventionsAsCSV() {
     if (projet?.subventions) {
       for (const subvention of projet.subventions) {
         rows.push({
-          refProjet: projet._id,
-          nomProjet: projet.nom,
+          ref_projet: projet._id,
+          nom_projet: projet.nom,
           nom: subvention.nom,
           nature: subvention.nature,
           montant: subvention.montant || '',
@@ -111,9 +115,9 @@ export async function exportSubventionsAsCSV() {
 export async function exportEditorKeys() {
   const projets = await getProjets()
   const rows = projets.map(projet => ({
-    nomProjet: projet.nom,
-    refProjet: projet._id,
-    editorKey: projet.editorKey
+    nom_projet: projet.nom,
+    ref_projet: projet._id,
+    editor_key: projet.editorKey
   }))
 
   return Papa.unparse(rows)

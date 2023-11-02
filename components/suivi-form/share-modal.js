@@ -7,12 +7,12 @@ import colors from '@/styles/colors.js'
 import Modal from '@/components/modal.js'
 import Button from '@/components/button.js'
 
-const SHARE_URL = process.env.NEXT_PUBLIC_PROJECT_SHARE_URL || 'https://pcrs.beta.gouv.fr'
+const API_URL = process.env.NEXT_PUBLIC_URL || 'https://pcrs.beta.gouv.fr'
 
 const ShareModal = ({projectId, editCode, handleModal, validationMessage}) => {
   const [messageOnCopy, setMessageOnCopy] = useState('')
 
-  const url = `${SHARE_URL}/formulaire-suivi?id=${projectId}&editcode=${editCode}`
+  const url = `${API_URL}/formulaire-suivi?id=${projectId}&editcode=${editCode}`
 
   const copyToClipboard = async () => {
     try {

@@ -1,3 +1,4 @@
+/* eslint-disable react/boolean-prop-naming */
 /* eslint-disable camelcase */
 import {useState, useReducer, useRef} from 'react'
 import PropTypes from 'prop-types'
@@ -5,13 +6,16 @@ import {debounce} from 'lodash-es'
 
 import formReducer, {checkFormValidity} from 'reducers/form-reducer'
 import {handleRangeError, isInRange} from '../acteurs/utils/error-handlers.js'
+
+import StockageCard from './stockage-card.js'
 import {stripNonNumericCharacters} from '@/lib/string.js'
 
-import {natureOptions, diffusionOptions, licenceOptions, publicationOptions, systRefSpatialOptions} from '@/components/suivi-form/livrables/utils/select-options.js'
+import {natureOptions, diffusionOptions, licenceOptions} from '@/components/suivi-form/livrables/utils/select-options.js'
 import SelectInput from '@/components/select-input.js'
 import TextInput from '@/components/text-input.js'
 import Button from '@/components/button.js'
 import DateInput from '@/components/date-input.js'
+import StockageForm from '@/components/suivi-form/livrables/stockage-form/index.js'
 
 const initState = ({initialValues, fieldsValidations}) => {
   const fields = {
@@ -47,21 +51,6 @@ const initState = ({initialValues, fieldsValidations}) => {
       validate: value => isInRange(value, 0, 100),
       getValidationMessage: value => handleRangeError(value, 0, 100)
     },
-    crs: {
-      value: initialValues.crs || '',
-      isRequired: false,
-      isValid: Boolean(initialValues.crs)
-    },
-    compression: {
-      value: initialValues.compression || '',
-      isRequired: false,
-      isValid: Boolean(initialValues.compression)
-    },
-    publication: {
-      value: initialValues.publication || '',
-      isRequired: false,
-      isValid: Boolean(initialValues.publication)
-    },
     dateLivraison: {
       value: initialValues.date_livraison || '',
       isRequired: false,
@@ -74,7 +63,18 @@ const initState = ({initialValues, fieldsValidations}) => {
 const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmit}) => {
   const [form, dispatch] = useReducer(formReducer, initState({initialValues, fieldsValidations: {nom: isLivrableNameAvailable}}))
 
+  const [isStockageFormOpen, setIsStockageFormOpen] = useState(false)
+
+  const livrableFormRef = useRef()
+
   const [errorMessage, setErrorMessage] = useState()
+
+  const [livrableStockage, setLivrableStockage] = useState(initialValues?.stockage ? {
+    stockage: initialValues.stockage,
+    stockage_public: initialValues.stockage_public,
+    stockage_telechargement: initialValues.stockage_telechargement,
+    stockage_params: initialValues.stockage_params
+  } : null)
 
   const debouncedValidation = useRef(debounce(name => {
     dispatch({type: 'VALIDATE_FIELD', fieldName: name})
@@ -93,9 +93,20 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
     }
   }
 
+  const handleLivrableStockage = e => {
+    setIsStockageFormOpen(false)
+    setLivrableStockage(e)
+    livrableFormRef.current.scrollIntoView()
+  }
+
+  const handleStockageCancel = () => {
+    setIsStockageFormOpen(false)
+    livrableFormRef.current.scrollIntoView()
+  }
+
   const handleSubmit = () => {
     setErrorMessage(null)
-    const {nom, nature, diffusion, licence, avancement, crs, compression, publication, dateLivraison} = form.fields
+    const {nom, nature, diffusion, licence, avancement, dateLivraison} = form.fields
 
     onSubmit({
       nom: nom.value.trim(),
@@ -103,18 +114,19 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
       licence: licence.value,
       diffusion: diffusion.value || null,
       avancement: avancement.value ? Number(avancement.value) : null,
-      crs: crs.value || null,
-      compression: compression.value || null,
-      publication: publication.value || null,
-      date_livraison: dateLivraison.value || null
+      date_livraison: dateLivraison.value || null,
+      stockage: livrableStockage?.stockage || null,
+      stockage_public: livrableStockage?.stockage_public || false,
+      stockage_telechargement: livrableStockage?.stockage_telechargement || false,
+      stockage_params: livrableStockage?.stockage_params || {}
     })
   }
 
   return (
-    <div className='fr-mt-4w'>
-      <div className='fr-grid-row'>
+    <div ref={livrableFormRef} className='fr-mt-4w'>
+      <div className='fr-grid-row fr-grid-row--gutters'>
         {/* Nom du livrable */}
-        <div className='fr-col-12 fr-col-lg-4 fr-mt-6w fr-mb-0 fr-pr-3w'>
+        <div className='fr-col-12 fr-col-lg-4'>
           <TextInput
             isRequired
             name='nom'
@@ -129,7 +141,7 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
         </div>
 
         {/* Nature du livrable - selecteur */}
-        <div className='fr-col-12 fr-mt-6w fr-col-lg-4 fr-pr-3w'>
+        <div className='fr-col-12 fr-col-lg-4'>
           <SelectInput
             isRequired
             name='nature'
@@ -144,7 +156,7 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
         </div>
 
         {/* Mode de diffusion du livrable - selecteur */}
-        <div className='fr-col-12 fr-mt-6w fr-col-lg-4 fr-pr-3w'>
+        <div className='fr-col-12 fr-col-lg-4'>
           <SelectInput
             name='diffusion'
             label='Diffusion'
@@ -158,9 +170,9 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
         </div>
       </div>
 
-      <div className='fr-grid-row'>
+      <div className='fr-grid-row fr-grid-row--gutters'>
         {/* Licence du livrable - select */}
-        <div className='fr-select-group fr-col-12 fr-col-lg-4 fr-mt-6w fr-mb-0 fr-pr-3w'>
+        <div className='fr-select-group fr-col-12 fr-col-lg-4'>
           <SelectInput
             isRequired
             name='licence'
@@ -174,22 +186,8 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
           />
         </div>
 
-        {/* Type de publication du livrable - text */}
-        <div className='fr-col-12 fr-col-lg-4 fr-mt-6w fr-pr-3w'>
-          <SelectInput
-            name='publication'
-            label='Publication'
-            options={publicationOptions}
-            value={form.fields.publication.value}
-            errorMessage={form.fields.publication.validationMessage}
-            ariaLabel='publication du livrable'
-            description='Publication du livrable'
-            onValueChange={handleInputChange}
-          />
-        </div>
-
         {/* Date de livraison du projet - date */}
-        <div className='fr-select-group fr-col-12 fr-col-lg-4 fr-mt-6w fr-pr-3w'>
+        <div className='fr-select-group fr-col-12 fr-col-lg-4'>
           <DateInput
             name='dateLivraison'
             label='Date de livraison'
@@ -200,11 +198,9 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
             onValueChange={handleInputChange}
           />
         </div>
-      </div>
 
-      <div className='fr-grid-row'>
         {/* Avancement du livrable - number */}
-        <div className='fr-input-group fr-col-12 fr-col-lg-4 fr-pr-3w fr-mt-6w'>
+        <div className='fr-input-group fr-col-12 fr-col-lg-4'>
           <TextInput
             name='avancement'
             label='Avancement'
@@ -216,31 +212,38 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
           />
         </div>
 
-        {/* Système de référence spatial du livrable - select */}
-        <div className='fr-col-12 fr-col-lg-4 fr-mt-6w fr-pr-3w'>
-          <SelectInput
-            name='crs'
-            label='Système de référence spatial'
-            options={systRefSpatialOptions}
-            value={form.fields.crs.value}
-            ariaLabel='système de référence spatial du livrable'
-            description='Identifiant EPSG du livrable'
-            errorMessage={form.fields.crs.validationMessage}
-            onValueChange={handleInputChange}
-          />
+        <div className='fr-grid-row fr-mb-2w'>
+          <span className='fr-icon-database-fill fr-mr-1w' aria-hidden='true' />
+          <div className='fr-label'>Stockage du livrable</div>
         </div>
 
-        {/* Nature de compression du livrable - text */}
-        <div className='fr-col-12 fr-col-lg-4 fr-mt-6w fr-pr-3w'>
-          <TextInput
-            name='compression'
-            label='Compression'
-            value={form.fields.compression.value}
-            ariaLabel='nature de compression du livrable'
-            description='Nature de compression du livrable'
-            errorMessage={form.fields.compression.validationMessage}
-            onValueChange={handleInputChange}
-          />
+        <div className='fr-col-12'>
+          {(livrableStockage?.stockage_params.host || livrableStockage?.stockage_params.url) && !isStockageFormOpen && (
+            <StockageCard
+              type={livrableStockage.stockage}
+              params={livrableStockage.stockage_params}
+              generalSettings={{isPublic: livrableStockage.stockage_public, isDownloadable: livrableStockage.stockage_telechargement}}
+              handleEdition={() => setIsStockageFormOpen(true)}
+              handleDelete={() => setLivrableStockage(null)}
+            />
+          )}
+
+          {(isStockageFormOpen) && (
+            <StockageForm
+              initialValues={livrableStockage}
+              handleLivrableStockage={handleLivrableStockage}
+              onCancel={handleStockageCancel}
+            />
+          )}
+
+          {!livrableStockage && !isStockageFormOpen && (
+            <Button
+              label='Ajouter un stockage'
+              onClick={() => setIsStockageFormOpen(true)}
+            >
+              Ajouter un stockage
+            </Button>
+          )}
         </div>
       </div>
 
@@ -266,6 +269,7 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
           </div>
         )}
       </div>
+
       {errorMessage && <p id='text-input-error-desc-error' className='fr-error-text'>{errorMessage}</p>}
     </div>
   )
@@ -277,15 +281,21 @@ LivrableForm.propTypes = {
     nature: PropTypes.string,
     diffusion: PropTypes.string,
     licence: PropTypes.string,
-    avancement: PropTypes.string,
-    crs: PropTypes.string,
-    compression: PropTypes.string,
-    publication: PropTypes.string,
-    dateLivraison: PropTypes.string
+    avancement: PropTypes.number,
+    dateLivraison: PropTypes.string,
+    stockageId: PropTypes.string,
+    stockage: PropTypes.string,
+    stockage_public: PropTypes.bool,
+    stockage_telechargement: PropTypes.bool,
+    stockage_params: PropTypes.object
   }),
   isLivrableNameAvailable: PropTypes.func.isRequired,
   onCancel: PropTypes.func,
   onSubmit: PropTypes.func.isRequired
+}
+
+LivrableForm.defaultProps = {
+  initialValues: {stockage: null, stockage_params: {}}
 }
 
 export default LivrableForm
