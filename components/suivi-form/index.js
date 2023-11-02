@@ -175,6 +175,13 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
           )}
         </div>
 
+        <div className='fr-alert fr-alert--info fr-my-3w'>
+          <h3 className='fr-alert__title'>Modification des étapes</h3>
+          <p>
+            Suite à des évolutions récentes, il est désormais <b>obligatoire</b> de saisir des dates complémentaires dans les projets.<br />Retrouvez le détail dans notre <a href='https://docs.pcrs.beta.gouv.fr/suivi-des-projets/modele-de-donnees#statut-des-projets'>documentation</a>.
+          </p>
+        </div>
+
         <p className='required-disclaimer fr-mt-3w'>Les champs indiqués par une * sont obligatoires</p>
 
         <form className='fr-mt-5w' onSubmit={handleSubmit}>
