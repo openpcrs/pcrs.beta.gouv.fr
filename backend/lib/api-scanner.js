@@ -24,3 +24,11 @@ export async function askDownloadToken({stockageId}) {
   return token
 }
 
+export async function refreshScan({stockageId}) {
+  const stockage = await got.post(`${SCANNER_URL}/storages/${stockageId}/scan`, {
+    headers: {authorization: `Token ${SCANNER_ADMIN_TOKEN}`}
+  }).json()
+
+  return stockage
+}
+

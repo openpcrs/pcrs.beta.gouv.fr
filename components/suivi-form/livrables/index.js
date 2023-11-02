@@ -8,7 +8,7 @@ import Button from '@/components/button.js'
 import LivrableCard from '@/components/suivi-form/livrables/livrable-card.js'
 import LivrableForm from '@/components/suivi-form/livrables/livrable-form.js'
 
-const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
+const Livrables = ({livrables, hasMissingData, handleLivrables, handleRefreshScan}) => {
   const [editedLivrable, setEditedLivrable] = useState(livrables?.length > 0 ? null : {})
 
   const onDelete = index => {
@@ -65,6 +65,7 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
                 isDisabled={Boolean(editedLivrable)}
                 handleEdition={() => setEditedLivrable({livrable, index})}
                 handleDelete={() => onDelete(index)}
+                handleRefreshScan={handleRefreshScan}
               />
             )}
           </div>
@@ -109,7 +110,8 @@ const Livrables = ({livrables, hasMissingData, handleLivrables}) => {
 Livrables.propTypes = {
   livrables: PropTypes.array.isRequired,
   hasMissingData: PropTypes.bool,
-  handleLivrables: PropTypes.func.isRequired
+  handleLivrables: PropTypes.func.isRequired,
+  handleRefreshScan: PropTypes.func
 }
 
 Livrables.defaultProps = {
