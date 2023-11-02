@@ -22,7 +22,7 @@ const StockageRefresh = ({handleRefreshScan, stockageId}) => {
         type='button'
         disabled={isScanRefreshing}
         className='fr-btn fr-btn--sm fr-btn--secondary fr-btn--icon-left fr-icon-refresh-line'
-        onClick={() => handleClick()}
+        onClick={handleClick}
       >
         {isScanRefreshing ? 'Scan en cours…' : 'Relancer le scan'}
       </button>
