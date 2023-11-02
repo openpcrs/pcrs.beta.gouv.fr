@@ -136,7 +136,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
     try {
       await refreshScan(_id, stockageId, editCode)
     } catch (error) {
-      setErrorMessage('La scan n’a pas pu être relancé : ' + error.message)
+      throw new Error('La scan n’a pas pu être relancé : ' + error.message)
     }
   }
 

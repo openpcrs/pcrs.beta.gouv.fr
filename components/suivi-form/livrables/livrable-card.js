@@ -1,22 +1,17 @@
 /* eslint-disable camelcase */
-import {useState} from 'react'
 import PropTypes from 'prop-types'
 
 import colors from '@/styles/colors.js'
 
 import {shortDate} from '@/lib/date-utils.js'
 
+import StockageRefresh from '@/components/suivi-form/livrables/stockage-refresh.js'
+
 import {getNatures, getLicences, getDiffusions} from '@/components/suivi-form/livrables/utils/select-options.js'
 
 const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete, handleRefreshScan}) => {
-  const [refreshedScan, setRefreshedScan] = useState()
   const {nom, nature, licence, avancement, diffusion, stockage, stockage_id} = livrable
   const dateLivraison = livrable.date_livraison
-
-  async function handleRefresh() {
-    await handleRefreshScan(stockage_id)
-    setRefreshedScan(true)
-  }
 
   return (
     <div className={`fr-grid-row card-container fr-grid-row--middle fr-grid-row--gutters ${isDisabled ? 'card-disable' : ''} fr-p-2w fr-col-12`}>
@@ -64,14 +59,10 @@ const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete, handle
 
           <div className='fr-grid-row fr-col-12 fr-col-md-3'>
             {stockage && (
-              <button
-                type='button'
-                disabled={refreshedScan}
-                className='fr-btn fr-btn--sm fr-btn--secondary fr-btn--icon-left fr-icon-refresh-line'
-                onClick={() => handleRefresh()}
-              >
-                {refreshedScan ? 'Scan en cours…' : 'Relancer le scan'}
-              </button>
+              <StockageRefresh
+                handleRefreshScan={handleRefreshScan}
+                stockageId={stockage_id}
+              />
             )}
           </div>
         </div>
