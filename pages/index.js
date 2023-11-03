@@ -235,7 +235,6 @@ const Home = ({testimonies}) => (
                   href='https://twitter.com/pcrsbeta'
                   label='Nous suivre sur Twitter'
                   size='sm'
-                  icon='twitter-fill'
                   iconSide='left'
                 >
                   <span className='fr-icon-twitter-fill' aria-hidden='true' />&nbsp;Nous suivre sur Twitter
@@ -247,7 +246,6 @@ const Home = ({testimonies}) => (
                   href='https://www.linkedin.com/company/pcrs-beta-gouv-fr/about/'
                   label='Nous suivre sur Linkedin'
                   size='sm'
-                  icon='linkedin-box-line'
                 >
                   <span className='fr-icon-linkedin-box-fill' aria-hidden='true' />&nbsp;Nous suivre sur Linkedin
                 </Button>
