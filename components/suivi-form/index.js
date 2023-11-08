@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import Image from 'next/image'
 import {useRouter} from 'next/router'
-import {uniq} from 'lodash'
+import {uniq} from 'lodash-es'
 
 import colors from '@/styles/colors.js'
 

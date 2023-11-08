@@ -1,5 +1,5 @@
 import {useState, useEffect, useCallback, useContext} from 'react'
-import {orderBy} from 'lodash'
+import {orderBy} from 'lodash-es'
 
 import {getAdministrators, addAdministator} from '@/lib/suivi-pcrs.js'
 import {normalizeSort} from '@/lib/string.js'

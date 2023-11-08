@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import {find} from 'lodash'
+import {find} from 'lodash-es'
 
 import {formatDate} from '@/lib/date-utils.js'
 import {findClosestEtape} from '@/shared/find-closest-etape.js'

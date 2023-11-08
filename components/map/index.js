@@ -1,7 +1,7 @@
 import {createRoot} from 'react-dom/client' // eslint-disable-line n/file-extension-in-import
 import {useEffect, useRef, useState, useCallback} from 'react'
 import PropTypes from 'prop-types'
-import {filter, some, debounce, flatMap, uniq, deburr} from 'lodash'
+import {filter, some, debounce, flatMap, uniq, deburr} from 'lodash-es'
 
 import maplibreGl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
