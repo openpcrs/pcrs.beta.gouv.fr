@@ -5,7 +5,7 @@ import Wellknown from 'wellknown'
 import {getProjets} from '../lib/models/projets.js'
 import {buildGeometryFromTerritoires} from '../lib/territoires.js'
 
-async function computeWtk(perimetres) {
+async function computeWkt(perimetres) {
   const perimetresGeojson = await buildGeometryFromTerritoires(perimetres)
   return Wellknown.stringify(perimetresGeojson)
 }
@@ -30,7 +30,7 @@ export async function exportProjetsAsCSV(includes_wkt) {
     })
 
     if (includes_wkt) {
-      resultRows.geometrie = await computeWtk(projet.perimetres)
+      resultRows.geometrie = await computeWkt(projet.perimetres)
     }
 
     return resultRows
