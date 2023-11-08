@@ -9,8 +9,9 @@ Il utilise [Next.js](https://nextjs.org) et [le Système de Design de l’État]
 
 ### Pré-requis :
 
-* Node.js version 18 ou supérieure
+* Node.js LTS 20.9+
 * yarn (ou npm)
+* MongoDB 4+
 
 ### Installation des dépendances
 
