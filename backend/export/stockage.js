@@ -40,7 +40,7 @@ export async function computeLivrablesGeoJSON() {
           calendrier: null,
           format: getFormat(stockageMeta.result.raster.format),
           compression: stockageMeta.result.raster.compression,
-          epsg: stockageMeta.result.raster.projection,
+          epsg: stockageMeta.result.raster.projection.code,
           taille: stockageMeta.result.raster.sizeRasterFiles,
           recouvrement: null
         }
@@ -78,7 +78,7 @@ export async function computeDallesGeoJSON() {
             descriptionElementsQualite: null,
             idPCRS: projet,
             nomImage: dalle.name,
-            précisionplanimétriqueCorpsdeRue: null,
+            precisionplanimetriqueCorpsdeRue: null,
             precisionplanimetriqueZonesNaturelles: null,
             resolution: getResolution(dalle.computedMetadata.pixelSize?.height),
             typeImage: getFormat(dalle.dataFormat),
