@@ -82,5 +82,17 @@
     "eventHref": "https://webinaire.numerique.gouv.fr//meeting/signin/18748/creator/9716/hash/6f480261c7bc30703ead4447395de598ad6aa0ae",
     "description": "La publication puis la diffusion des livrables PCRS sont des pré-requis important pour favoriser son utilisation la plus large. Nous vous proposons un passage en revue des solutions offertes pour y parvenir.",
     "type": "Webinaire"
+  },
+  {
+    "title": "Présentation du bilan d'activité 2023",
+    "date": "2024-01-25",
+    "start": "15:00",
+    "end": "17:00",
+    "isOnSite": false,
+    "isOnline": true,
+    "address": "",
+    "eventHref": "https://webinaire.numerique.gouv.fr//meeting/signin/26697/creator/9716/hash/b77d6a707322c6159237ed262c51ddc89712e56e",
+    "description": "Après plus d'un 1 d'activité auprès de l'écosystème du PCRS, nous vous convions début janvier 2024 pour la présentation de notre bilan accompagnés de plusieurs intervenants. La session sera introduite par Bertrand Monthubert.",
+    "type": "Webinaire"
   }
 ]
