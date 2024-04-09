@@ -209,7 +209,7 @@ const Calculatrice = () => {
                   <div className='fr-notice fr-notice--info fr-my-3w'>
                     <div className='fr-container'>
                       <div className='fr-notice__body'>
-                        <p className='fr-notice__title'>Constituez une liste de territoires afin de déterminer les frais d’hébergement des données sur l'ensemble</p>
+                        <p className='fr-notice__title'>Constituez une liste de territoires afin de déterminer les frais d’hébergement des données sur l’ensemble</p>
                       </div>
                     </div>
                   </div>
