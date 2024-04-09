@@ -209,7 +209,7 @@ const Calculatrice = () => {
                   <div className='fr-notice fr-notice--info fr-my-3w'>
                     <div className='fr-container'>
                       <div className='fr-notice__body'>
-                        <p className='fr-notice__title'>Constituer une liste de territoires afin de déterminer les frais d’hébergement des données</p>
+                        <p className='fr-notice__title'>Constituez une liste de territoires afin de déterminer les frais d’hébergement des données sur l'ensemble</p>
                       </div>
                     </div>
                   </div>
@@ -260,7 +260,7 @@ const Calculatrice = () => {
                 />
                 {fileSize && (
                   <p>
-                    L’hébergement de ce volume de fichier chez un hébergeur moyen (0,01€/Go/mois) revient à <b>{(fileSize * 0.01) > 1 ? `${fileSize * 0.01} € HT / mois` : 'moins d’un euro HT par mois'}</b>.
+                    L’hébergement seul, sans service associé, de ce volume de fichier chez un hébergeur moyen (0,01€/Go/mois) revient à <b>{(fileSize * 0.01) > 1 ? `${fileSize * 0.01} € HT / mois` : 'moins d’un euro HT par mois'}</b>.
                   </p>
                 )}
               </div>
@@ -372,7 +372,7 @@ const Calculatrice = () => {
                     </select>
                     <span>, on obtient des fichiers d’un poids total de <b>{formatSize(sizeInGigas.sizeCompressed)}</b>.</span>
                   </p>
-                  <p>L’hébergement de ce volume de fichier chez un hébergeur moyen (0,01€/Go/mois) revient à <b>{formatNumber(sizeInGigas.sizeCompressed * 0.01) > 1 ? `${formatNumber(sizeInGigas.sizeCompressed * 0.01)} € HT / mois` : 'moins d’un euro HT par mois'}</b>.</p>
+                  <p>L’hébergement seul, sans service associé, de ce volume de fichier chez un hébergeur moyen (0,01€/Go/mois) revient à <b>{formatNumber(sizeInGigas.sizeCompressed * 0.01) > 1 ? `${formatNumber(sizeInGigas.sizeCompressed * 0.01)} € HT / mois` : 'moins d’un euro HT par mois'}</b>.</p>
                   <div>
                     <small><b><a href='https://it.nc.gov/documents/files/understanding-compression-geospatial-raster-imagery/download?attachment' target='_blank' rel='noreferrer'>Source des taux de compression</a></b></small>
                   </div>
