@@ -7,7 +7,7 @@
     "isOnSite": false,
     "isOnline": true,
     "address": "",
-    "eventHref": "",
+    "eventHref": "https://docs.pcrs.beta.gouv.fr/ateliers-et-webinaires/porteurs-de-projets-19-janvier-2023",
     "description": "La startup d’État souhaite rencontrer les porteurs de projets et présenter notre initiative. Ce sera l’occasion de faire le point sur les douleurs et besoins et d’adapter notre feuille de route en conséquence.",
     "type": "Atelier"
   },
@@ -19,7 +19,7 @@
     "isOnSite": false,
     "isOnline": true,
     "address": "",
-    "eventHref": "",
+    "eventHref": "https://docs.pcrs.beta.gouv.fr/ateliers-et-webinaires/animateurs-regionaux-2-fevrier-2023",
     "description": "Nous souhaitons finaliser notre cycle de rencontre avec les animateurs régionaux et le réseau des CRIGE par cet atelier afin de présenter notre initiative. Ce sera l’occasion de faire le point sur nos feuilles de route respectives et de croiser nos besoins.",
     "type": "Atelier"
   },
@@ -43,7 +43,7 @@
     "isOnSite": false,
     "isOnline": true,
     "address": "",
-    "eventHref": "",
+    "eventHref": "https://docs.pcrs.beta.gouv.fr/ateliers-et-webinaires/controle-qualite-12-mai-2023",
     "description": "Qu'il s'agisse de production ou de mise à jour, la certification des livrables produits suppose des dispositifs de contrôle qualité. Nous vous invitons à cette session pour des présentations de solutions et pour partager vos expériences locales pour réaliser ces contrôles.",
     "type": "Atelier"
   },
@@ -55,7 +55,7 @@
     "isOnSite": false,
     "isOnline": true,
     "address": "",
-    "eventHref": "https://webinaire.numerique.gouv.fr//meeting/signin/18748/creator/9716/hash/6f480261c7bc30703ead4447395de598ad6aa0ae",
+    "eventHref": "https://docs.pcrs.beta.gouv.fr/ateliers-et-webinaires/scenarii-de-financement-25-mai-2023",
     "description": "Notre équipe mène actuellement une investigation sur de potentielles solutions de financement national pour les projets PCRS de production comme de mise à jour. Vous pourrez prendre connaissance de l'avancée de nos travaux au cours de cette présentation en ligne.",
     "type": "Webinaire"
   },
@@ -67,7 +67,7 @@
     "isOnSite": false,
     "isOnline": true,
     "address": "",
-    "eventHref": "https://webinaire.numerique.gouv.fr//meeting/signin/18748/creator/9716/hash/6f480261c7bc30703ead4447395de598ad6aa0ae",
+    "eventHref": "https://docs.pcrs.beta.gouv.fr/ateliers-et-webinaires/usages-30-juin-2023",
     "description": "Bien que le PCRS reste dédié au dispositif anti-endommagement des réseaux, de nombreux usages opportunistes apparaissent du fait de sa disponiilité. Nous tenterons d'en présenter le panorama le plus large basé sur des exemples et aussi des perspectives à venir.",
     "type": "Webinaire"
   },
@@ -79,7 +79,7 @@
     "isOnSite": false,
     "isOnline": true,
     "address": "",
-    "eventHref": "https://webinaire.numerique.gouv.fr//meeting/signin/18748/creator/9716/hash/6f480261c7bc30703ead4447395de598ad6aa0ae",
+    "eventHref": "https://docs.pcrs.beta.gouv.fr/ateliers-et-webinaires/publication-et-diffusion-12-octobre-2023",
     "description": "La publication puis la diffusion des livrables PCRS sont des pré-requis important pour favoriser son utilisation la plus large. Nous vous proposons un passage en revue des solutions offertes pour y parvenir.",
     "type": "Webinaire"
   },
@@ -91,7 +91,7 @@
     "isOnSite": false,
     "isOnline": true,
     "address": "",
-    "eventHref": "https://webinaire.numerique.gouv.fr//meeting/signin/26697/creator/9716/hash/b77d6a707322c6159237ed262c51ddc89712e56e",
+    "eventHref": "https://docs.pcrs.beta.gouv.fr/ateliers-et-webinaires/bilan-2023-25-janvier-2024",
     "description": "Après plus d'un 1 d'activité auprès de l'écosystème du PCRS, nous vous convions fin janvier 2024 pour la présentation de notre bilan accompagnés de plusieurs intervenants. La session sera introduite par Bertrand Monthubert.",
     "type": "Webinaire"
   },
@@ -103,7 +103,7 @@
     "isOnSite": false,
     "isOnline": true,
     "address": "",
-    "eventHref": "https://webinaire.numerique.gouv.fr//meeting/signin/18748/creator/9716/hash/6f480261c7bc30703ead4447395de598ad6aa0ae",
+    "eventHref": "https://docs.pcrs.beta.gouv.fr/ateliers-et-webinaires/suivi-des-projets-02-avril-2024",
     "description": "Le suivi des projets PCRS a de l'importance pour différents utilisateurs qui réutilisent les données produites. Deux d'entre eux viendront témoigner en expliquant leur démarche. Ce sera aussi l'occasion d'aider les porteurs de projets qui le souhaitent à compléter le suivi de leurs projets.",
     "type": "Webinaire"
   }
