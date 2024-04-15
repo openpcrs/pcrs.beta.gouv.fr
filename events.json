@@ -106,5 +106,17 @@
     "eventHref": "https://docs.pcrs.beta.gouv.fr/ateliers-et-webinaires/suivi-des-projets-02-avril-2024",
     "description": "Le suivi des projets PCRS a de l'importance pour différents utilisateurs qui réutilisent les données produites. Deux d'entre eux viendront témoigner en expliquant leur démarche. Ce sera aussi l'occasion d'aider les porteurs de projets qui le souhaitent à compléter le suivi de leurs projets.",
     "type": "Webinaire"
+  },
+  {
+    "title": "Atelier thématique : outils de publication des livrables PCRS",
+    "date": "2024-05-14",
+    "start": "14:00",
+    "end": "15:30",
+    "isOnSite": false,
+    "isOnline": true,
+    "address": "",
+    "eventHref": "https://docs.pcrs.beta.gouv.fr/ateliers-et-webinaires/suivi-des-projets-02-avril-2024",
+    "description": "La publication des livrables produits marque l'ultime étape des projets PCRS achevés. Nous souhaitons encourager à l'usage de notre portail de valorisation en présentant les succès des porteurs qui y ont déjà eu recours. Venez découvrir comment nous pouvons valoriser ensemble ces productions pour un PCRS accessible en ligne.",
+    "type": "Webinaire"
   }
 ]
