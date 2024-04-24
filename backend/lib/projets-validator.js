@@ -119,7 +119,8 @@ const livrablesSchemaCreation = Joi.object().keys({
   nature: Joi.valid(
     'geotiff',
     'jpeg2000',
-    'gml'
+    'gml',
+    'dxf'
   ).required().messages({
     'any.only': 'Cette nature n’est pas valide',
     'any.required': 'La nature est obligatoire'
@@ -135,6 +136,7 @@ const livrablesSchemaCreation = Joi.object().keys({
   diffusion: Joi.valid(
     'wms',
     'wmts',
+    'wfs',
     'tms'
   ).allow(null).messages({
     'any.only': 'Ce type de diffusion n’est pas valide'
@@ -309,6 +311,7 @@ const livrablesSchemaUpdate = Joi.object().keys({
   diffusion: Joi.valid(
     'wms',
     'wmts',
+    'wfs',
     'tms'
   ).allow(null).messages({
     'any.only': 'Ce type de diffusion n’est pas valide'
