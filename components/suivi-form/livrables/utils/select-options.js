@@ -3,12 +3,14 @@ import {getLabelFromValue} from '@/lib/utils/select-options.js'
 export const natureOptions = [
   {label: 'Livrable GeoTIFF', value: 'geotiff'},
   {label: 'Livrable Jpeg 2000', value: 'jpeg2000'},
-  {label: 'Livrable GML vecteur', value: 'gml'}
+  {label: 'Livrable GML vecteur', value: 'gml'},
+  {label: 'Livrable DXF vecteur', value: 'dxf'}
 ]
 
 export const diffusionOptions = [
   {label: 'Diffusion via un service WMS', value: 'wms'},
   {label: 'Diffusion via un service WMTS', value: 'wmts'},
+  {label: 'Diffusion via un service WFS', value: 'wfs'},
   {label: 'Diffusion via un service TMS', value: 'tms'}
 ]
 
