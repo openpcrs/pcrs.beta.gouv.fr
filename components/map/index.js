@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import {createRoot} from 'react-dom/client' // eslint-disable-line n/file-extension-in-import
 import {useEffect, useRef, useState, useCallback} from 'react'
 import PropTypes from 'prop-types'
@@ -13,11 +14,24 @@ import Legend from '@/components/map/legend.js'
 import MapToolBox from '@/components/map/map-tool-box.js'
 import AutocompleteInput from '@/components/autocomplete-input.js'
 
+const layerColors = {
+  investigation: '#ffe386',
+  convention_signee: '#d8ed75',
+  marche_public_en_cours: '#b9e45a',
+  prod_en_cours: '#a7f192',
+  controle_en_cours: '#87c1ea',
+  disponible: '#175c8b',
+  raster: '#fc916f',
+  vecteur: '#86b6d8',
+  mixte: '#cf7bb9'
+}
+
 const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjets}) => {
   const [layout, setLayout] = useState('projets-fills')
   const [acteurSearchInput, setActeurSearchInput] = useState('')
   const [foundActeurs, setFoundActeurs] = useState([])
   const [matchingIds, setMatchingIds] = useState([])
+  const [isNatureLayout, setIsNatureLayout] = useState(false)
 
   const normalize = string => deburr(string?.toLowerCase())
 
@@ -117,11 +131,13 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
       if (layout === 'projets-fills-nature') {
         mapRef.current.setLayoutProperty('projets-fills-nature', 'visibility', 'visible')
         mapRef.current.setLayoutProperty('projets-fills', 'visibility', 'none')
+        setIsNatureLayout(true)
       }
 
       if (layout === 'projets-fills') {
         mapRef.current.setLayoutProperty('projets-fills', 'visibility', 'visible')
         mapRef.current.setLayoutProperty('projets-fills-nature', 'visibility', 'none')
+        setIsNatureLayout(false)
       }
 
       // Filter by actors when actor is selected
