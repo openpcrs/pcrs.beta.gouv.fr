@@ -9,7 +9,7 @@ import Button from '@/components/button.js'
 
 const API_URL = process.env.NEXT_PUBLIC_URL || 'https://pcrs.beta.gouv.fr'
 
-const Header = ({projectId, projectName, territoires, projets, onProjetChange}) => {
+const Header = ({projectId, projectName, resetProjet, territoires, projets, onProjetChange}) => {
   const router = useRouter()
   const [isTerritoiresShow, setIsTerritoiresShow] = useState(false)
 
@@ -18,7 +18,16 @@ const Header = ({projectId, projectName, territoires, projets, onProjetChange}) 
   return (
     <div className='header'>
       <div>
-        <h1 className='fr-h4 fr-my-2w'>{projectName}</h1>
+        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+          <h1 className='fr-h4 fr-my-2w'>{projectName}</h1>
+          <div>
+            <button
+              type='button'
+              className='fr-btn fr-icon-close-circle-line fr-btn--tertiary-no-outline'
+              onClick={resetProjet}
+            />
+          </div>
+        </div>
         <div className='fr-mb-3w'>
           <Button
             isWhite
@@ -122,6 +131,7 @@ Header.propTypes = {
   projectName: PropTypes.string.isRequired,
   territoires: PropTypes.array,
   projets: PropTypes.array,
+  resetProjet: PropTypes.func.isRequired,
   onProjetChange: PropTypes.func
 }
 

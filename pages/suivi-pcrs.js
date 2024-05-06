@@ -24,6 +24,10 @@ const PcrsMap = () => {
   const handleModal = () => setIsAuthentificationModalOpen(!isAuthentificationModalOpen)
   const handleNewProject = () => token ? router.push('/formulaire-suivi') : handleModal()
 
+  function resetProjet() {
+    setProjet(null)
+  }
+
   const selectProjets = useCallback(async projetsIds => {
     try {
       const promises = projetsIds.map(id => getProject(id, token))
@@ -76,6 +80,7 @@ const PcrsMap = () => {
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           handleNewProject={handleNewProject}
+          resetProjet={() => resetProjet()}
           onProjetChange={handleProjet}
         />
       ) : (

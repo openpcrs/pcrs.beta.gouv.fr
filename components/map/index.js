@@ -186,6 +186,10 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
       })
 
       selectedId.current = projetId
+    } else if (selectedId.current && mapRef.current.getLayer(`selected-${selectedId.current}`)) {
+      mapRef.current.removeLayer(`selected-${selectedId.current}`)
+      mapRef.current.removeSource(`selected-${selectedId.current}`)
+      selectedId.current = null
     }
   }, [projetId, geometry, isNatureLayout])
 
