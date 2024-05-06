@@ -111,13 +111,6 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
 
     maplibreMap.on('load', () => {
       maplibreMap.getSource('projetsData').setData(geometry)
-
-      if (projetId) {
-        maplibreMap.setFeatureState(
-          {source: 'projetsData', id: projetId},
-          {hover: true}
-        )
-      }
     })
 
     return () => {
@@ -169,21 +162,32 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
 
   useEffect(() => {
     if (mapRef?.current.isStyleLoaded() && projetId) {
-      if (selectedId.current && selectedId.current !== projetId) {
-        mapRef.current.setFeatureState(
-          {source: 'projetsData', id: selectedId.current},
-          {hover: false}
-        )
+      const projectGeometry = geometry.features.find(feature => feature.properties._id === projetId)
+      const propertyName = isNatureLayout ? 'nature' : 'statut'
+      const fillColor = layerColors[projectGeometry.properties[propertyName]]
+
+      if (selectedId.current && selectedId.current !== projetId && mapRef.current.getLayer(`selected-${selectedId.current}`)) {
+        mapRef.current.removeLayer(`selected-${selectedId.current}`)
+        mapRef.current.removeSource(`selected-${selectedId.current}`)
       }
 
-      selectedId.current = projetId
+      mapRef.current.addLayer({
+        id: `selected-${projetId}`,
+        type: 'fill',
+        source: {
+          type: 'geojson',
+          data: projectGeometry
+        },
+        paint: {
+          'fill-color': fillColor,
+          'fill-opacity': 0.8,
+          'fill-outline-color': 'black'
+        }
+      })
 
-      mapRef.current.setFeatureState(
-        {source: 'projetsData', id: projetId},
-        {hover: true}
-      )
+      selectedId.current = projetId
     }
-  }, [projetId])
+  }, [projetId, geometry, isNatureLayout])
 
   return (
     <div style={{position: 'relative', height: '100%', width: '100%'}}>
