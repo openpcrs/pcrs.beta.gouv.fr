@@ -2805,6 +2805,15 @@
       }
     },
     {
+      "id": "projets-contours",
+      "type": "line",
+      "source": "projetsData",
+      "paint": {
+        "line-color": "black",
+        "line-width": 0.8
+      }
+    },
+    {
       "id": "projets-fills",
       "type": "fill",
       "source": "projetsData",
@@ -2820,12 +2829,7 @@
           "disponible", "#175c8b",
           "#0063cb"
         ],
-        "fill-opacity": [
-          "case",
-          ["boolean", ["feature-state", "hover"], false],
-          1,
-          0.5
-        ],
+        "fill-opacity": 0.5,
         "fill-outline-color": "grey"
       }
     },
@@ -2845,22 +2849,8 @@
           "mixte", "#cf7bb9",
           "white"
         ],
-        "fill-opacity": [
-          "case",
-          ["boolean", ["feature-state", "hover"], false],
-          1,
-          0.5
-        ],
+        "fill-opacity": 0.5,
         "fill-outline-color": "grey"
-      }
-    },
-    {
-      "id": "projets-contours",
-      "type": "line",
-      "source": "projetsData",
-      "paint": {
-        "line-color": "black",
-        "line-width": 0.8
       }
     },
     {
