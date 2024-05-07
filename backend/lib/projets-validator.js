@@ -297,7 +297,8 @@ const livrablesSchemaUpdate = Joi.object().keys({
   nature: Joi.valid(
     'geotiff',
     'jpeg2000',
-    'gml'
+    'gml',
+    'dxf'
   ).messages({
     'any.only': 'Cette nature n’est pas valide'
   }),
