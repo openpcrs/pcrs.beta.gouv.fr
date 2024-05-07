@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import {createRoot} from 'react-dom/client' // eslint-disable-line n/file-extension-in-import
 import {useEffect, useRef, useState, useCallback} from 'react'
 import PropTypes from 'prop-types'
@@ -13,11 +14,24 @@ import Legend from '@/components/map/legend.js'
 import MapToolBox from '@/components/map/map-tool-box.js'
 import AutocompleteInput from '@/components/autocomplete-input.js'
 
+const layerColors = {
+  investigation: '#ffe386',
+  convention_signee: '#d8ed75',
+  marche_public_en_cours: '#b9e45a',
+  prod_en_cours: '#a7f192',
+  controle_en_cours: '#87c1ea',
+  disponible: '#175c8b',
+  raster: '#fc916f',
+  vecteur: '#86b6d8',
+  mixte: '#cf7bb9'
+}
+
 const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjets}) => {
   const [layout, setLayout] = useState('projets-fills')
   const [acteurSearchInput, setActeurSearchInput] = useState('')
   const [foundActeurs, setFoundActeurs] = useState([])
   const [matchingIds, setMatchingIds] = useState([])
+  const [isNatureLayout, setIsNatureLayout] = useState(false) // Which layout is selected (nature or statut)
 
   const normalize = string => deburr(string?.toLowerCase())
 
@@ -97,13 +111,6 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
 
     maplibreMap.on('load', () => {
       maplibreMap.getSource('projetsData').setData(geometry)
-
-      if (projetId) {
-        maplibreMap.setFeatureState(
-          {source: 'projetsData', id: projetId},
-          {hover: true}
-        )
-      }
     })
 
     return () => {
@@ -117,11 +124,13 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
       if (layout === 'projets-fills-nature') {
         mapRef.current.setLayoutProperty('projets-fills-nature', 'visibility', 'visible')
         mapRef.current.setLayoutProperty('projets-fills', 'visibility', 'none')
+        setIsNatureLayout(true)
       }
 
       if (layout === 'projets-fills') {
         mapRef.current.setLayoutProperty('projets-fills', 'visibility', 'visible')
         mapRef.current.setLayoutProperty('projets-fills-nature', 'visibility', 'none')
+        setIsNatureLayout(false)
       }
 
       // Filter by actors when actor is selected
@@ -153,21 +162,36 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
 
   useEffect(() => {
     if (mapRef?.current.isStyleLoaded() && projetId) {
-      if (selectedId.current && selectedId.current !== projetId) {
-        mapRef.current.setFeatureState(
-          {source: 'projetsData', id: selectedId.current},
-          {hover: false}
-        )
+      const projectGeometry = geometry.features.find(feature => feature.properties._id === projetId)
+      const propertyName = isNatureLayout ? 'nature' : 'statut'
+      const fillColor = layerColors[projectGeometry.properties[propertyName]]
+
+      if (selectedId.current && selectedId.current !== projetId && mapRef.current.getLayer(`selected-${selectedId.current}`)) {
+        mapRef.current.removeLayer(`selected-${selectedId.current}`)
+        mapRef.current.removeSource(`selected-${selectedId.current}`)
       }
 
-      selectedId.current = projetId
+      mapRef.current.addLayer({
+        id: `selected-${projetId}`,
+        type: 'fill',
+        source: {
+          type: 'geojson',
+          data: projectGeometry
+        },
+        paint: {
+          'fill-color': fillColor,
+          'fill-opacity': 0.8,
+          'fill-outline-color': 'black'
+        }
+      })
 
-      mapRef.current.setFeatureState(
-        {source: 'projetsData', id: projetId},
-        {hover: true}
-      )
+      selectedId.current = projetId
+    } else if (selectedId.current && mapRef.current.getLayer(`selected-${selectedId.current}`)) {
+      mapRef.current.removeLayer(`selected-${selectedId.current}`)
+      mapRef.current.removeSource(`selected-${selectedId.current}`)
+      selectedId.current = null
     }
-  }, [projetId])
+  }, [projetId, geometry, isNatureLayout])
 
   return (
     <div style={{position: 'relative', height: '100%', width: '100%'}}>
