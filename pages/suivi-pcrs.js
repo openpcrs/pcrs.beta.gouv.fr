@@ -24,7 +24,7 @@ const PcrsMap = () => {
   const handleModal = () => setIsAuthentificationModalOpen(!isAuthentificationModalOpen)
   const handleNewProject = () => token ? router.push('/formulaire-suivi') : handleModal()
 
-  function resetProjet() {
+  const resetProjet = () => {
     setProjet(null)
   }
 
@@ -80,7 +80,7 @@ const PcrsMap = () => {
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           handleNewProject={handleNewProject}
-          resetProjet={() => resetProjet()}
+          resetProjet={resetProjet}
           onProjetChange={handleProjet}
         />
       ) : (
