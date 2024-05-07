@@ -31,7 +31,7 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
   const [acteurSearchInput, setActeurSearchInput] = useState('')
   const [foundActeurs, setFoundActeurs] = useState([])
   const [matchingIds, setMatchingIds] = useState([])
-  const [isNatureLayout, setIsNatureLayout] = useState(false)
+  const [isNatureLayout, setIsNatureLayout] = useState(false) // Which layout is selected (nature or statut)
 
   const normalize = string => deburr(string?.toLowerCase())
 
