@@ -20,6 +20,7 @@ const layerColors = {
   marche_public_en_cours: '#b9e45a',
   prod_en_cours: '#a7f192',
   controle_en_cours: '#87c1ea',
+  realise: '#7037c7',
   disponible: '#175c8b',
   raster: '#fc916f',
   vecteur: '#86b6d8',
