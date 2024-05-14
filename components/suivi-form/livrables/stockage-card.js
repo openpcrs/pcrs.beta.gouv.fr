@@ -19,7 +19,7 @@ const StockageCard = ({type, params, generalSettings, handleDelete, handleEditio
 
           <div className='fr-grid-row fr-col-12 fr-col-md-3'>
             <div className='label fr-col-12'>URL</div>
-            <div className='fr-col-12 fr-text--sm fr-m-0'>{url}</div>
+            <div className='fr-col-12 fr-text--sm fr-m-0'>{url || 'N/A'}</div>
           </div>
 
           <div className='fr-grid-row fr-col-12 fr-col-md-3'>
@@ -35,6 +35,11 @@ const StockageCard = ({type, params, generalSettings, handleDelete, handleEditio
 
         {/* ---------------------- Bottom ---------------------- */}
         <div className='fr-grid-row fr-grid-row--gutters fr-col-12 fr-mt-0 infos-row'>
+          <div className='fr-grid-row fr-col-12 fr-col-md-3'>
+            <div className='label fr-col-12'>URL externe</div>
+            <div className='fr-col-12 fr-text--sm fr-m-0'>{params.url_externe}</div>
+          </div>
+
           {type !== 'sftp' && (
             <div className='fr-grid-row fr-col-12 fr-col-md-3'>
               <div className='label fr-col-12'>Serveur sécurisé</div>
@@ -116,6 +121,8 @@ StockageCard.propTypes = {
   type: PropTypes.string.isRequired,
   params: PropTypes.shape({
     url: PropTypes.string,
+    // eslint-disable-next-line camelcase
+    url_externe: PropTypes.string,
     host: PropTypes.string,
     port: PropTypes.string,
     startPath: PropTypes.string,
