@@ -22,6 +22,7 @@ const layerColors = {
   controle_en_cours: '#87c1ea',
   realise: '#7037c7',
   disponible: '#175c8b',
+  obsolete: '#7c7c7c',
   raster: '#fc916f',
   vecteur: '#86b6d8',
   mixte: '#cf7bb9'

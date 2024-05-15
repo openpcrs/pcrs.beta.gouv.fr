@@ -2828,6 +2828,7 @@
           "controle_en_cours", "#87c1ea",
           "realise", "#7037c7",
           "disponible", "#175c8b",
+          "obsolete", "#7c7c7c",
           "#0063cb"
         ],
         "fill-opacity": 0.5,
