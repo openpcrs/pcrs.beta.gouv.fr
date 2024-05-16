@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import {createRoot} from 'react-dom/client' // eslint-disable-line n/file-extension-in-import
 import {useEffect, useRef, useState, useCallback} from 'react'
 import PropTypes from 'prop-types'
@@ -9,24 +8,12 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 
 import vector from './styles/vector.json'
 
+import {STATUS, NATURES} from '@/lib/utils/projet.js'
+
 import Popup from '@/components/map/popup.js'
 import Legend from '@/components/map/legend.js'
 import MapToolBox from '@/components/map/map-tool-box.js'
 import AutocompleteInput from '@/components/autocomplete-input.js'
-
-const layerColors = {
-  investigation: '#ffe386',
-  convention_signee: '#d8ed75',
-  marche_public_en_cours: '#b9e45a',
-  prod_en_cours: '#a7f192',
-  controle_en_cours: '#87c1ea',
-  realise: '#175c8b',
-  disponible: '#5114af',
-  obsolete: '#7c7c7c',
-  raster: '#fc916f',
-  vecteur: '#86b6d8',
-  mixte: '#cf7bb9'
-}
 
 const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjets}) => {
   const [layout, setLayout] = useState('projets-fills')
@@ -166,7 +153,7 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
     if (mapRef?.current.isStyleLoaded() && projetId) {
       const projectGeometry = geometry.features.find(feature => feature.properties._id === projetId)
       const propertyName = isNatureLayout ? 'nature' : 'statut'
-      const fillColor = layerColors[projectGeometry.properties[propertyName]]
+      const fillColor = (isNatureLayout ? NATURES : STATUS)[projectGeometry.properties[propertyName]].color
 
       if (selectedId.current && selectedId.current !== projetId && mapRef.current.getLayer(`selected-${selectedId.current}`)) {
         mapRef.current.removeLayer(`selected-${selectedId.current}`)
