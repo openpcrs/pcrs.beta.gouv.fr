@@ -15,7 +15,7 @@ const StockagePreview = ({projectId, stockageId, params, isStockagePublic, isDow
   const [downloadToken, setDownloadToken] = useState()
   const [error, setError] = useState()
   const [isLoading, setIsLoading] = useState(false)
-  const isExternal = Boolean(params.url_externe)
+  const isExternal = Boolean(params?.url_externe)
 
   useEffect(() => {
     setError(null)
