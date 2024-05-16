@@ -133,6 +133,8 @@ const Etapes = ({initialValue, etapes, handleEtapes, canBeDisponible}) => {
 Etapes.propTypes = {
   etapes: PropTypes.array.isRequired,
   handleEtapes: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/boolean-prop-naming
+  canBeDisponible: PropTypes.bool,
   initialValue: PropTypes.shape({
     statut: PropTypes.string.isRequired,
     date_debut: PropTypes.string
