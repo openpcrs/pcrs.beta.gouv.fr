@@ -36,7 +36,7 @@ const SubventionsSection = ({subventions}) => {
 }
 
 SubventionsSection.propTypes = {
-  subventions: PropTypes.array.isRequired
+  subventions: PropTypes.array
 }
 
 export default SubventionsSection

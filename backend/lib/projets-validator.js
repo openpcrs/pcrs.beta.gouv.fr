@@ -97,6 +97,7 @@ const etapesSchemaCreation = Joi.object().keys({
     'marche_public_en_cours',
     'prod_en_cours',
     'controle_en_cours',
+    'realise',
     'disponible',
     'obsolete'
   ).required().messages({
@@ -277,6 +278,7 @@ const etapesSchemaUpdate = Joi.object().keys({
     'marche_public_en_cours',
     'prod_en_cours',
     'controle_en_cours',
+    'realise',
     'disponible',
     'obsolete'
   ).messages({

@@ -10,7 +10,7 @@ import DateInput from '@/components/date-input.js'
 import TextInput from '@/components/text-input.js'
 import Button from '@/components/button.js'
 
-const Etapes = ({initialValue, etapes, handleEtapes}) => {
+const Etapes = ({initialValue, etapes, handleEtapes, canBeDisponible}) => {
   const {statut, date_debut} = initialValue
 
   const [statutInput, setStatutInput] = useInput({initialValue: statut})
@@ -104,6 +104,7 @@ const Etapes = ({initialValue, etapes, handleEtapes}) => {
           label='Ajouter une étape'
           icon='add-circle-fill'
           iconSide='left'
+          disabled={!canBeDisponible && etapes.at(-1).statut === 'realise'}
           onClick={addStep}
         >
           Ajouter l’étape suivante
@@ -132,6 +133,8 @@ const Etapes = ({initialValue, etapes, handleEtapes}) => {
 Etapes.propTypes = {
   etapes: PropTypes.array.isRequired,
   handleEtapes: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/boolean-prop-naming
+  canBeDisponible: PropTypes.bool,
   initialValue: PropTypes.shape({
     statut: PropTypes.string.isRequired,
     date_debut: PropTypes.string

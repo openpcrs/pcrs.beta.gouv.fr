@@ -47,6 +47,8 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
 
   const hasMissingRequiredItems = projetLivrables.length === 0 || projetPerimetres.length === 0
   const isPorteurMissing = Boolean(!projetActeurs.some(acteur => acteur.role === 'aplc' || acteur.role === 'porteur'))
+  // L'étape "disponible" ne peut être ajoutée que lorsque qu'un stockage est téléchargeable
+  const canBeDisponible = Boolean(projetLivrables.some(l => (l.stockage_params?.url_externe || projetLivrables.some(l => l.stockage_telechargement))))
 
   const handleDeleteModalOpen = () => setIsDeleteModalOpen(!isDeleteModalOpen)
 
@@ -220,6 +222,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
             etapes={projetEtapes}
             handleEtapes={setProjetEtapes}
             initialValue={projetEtapes.at(-1)}
+            canBeDisponible={canBeDisponible}
           />
 
           <Subventions subventions={projetSubventions} handleSubventions={setProjetSubventions} />

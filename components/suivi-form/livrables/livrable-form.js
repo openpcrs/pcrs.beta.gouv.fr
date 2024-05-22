@@ -218,7 +218,7 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
         </div>
 
         <div className='fr-col-12'>
-          {(livrableStockage?.stockage_params.host || livrableStockage?.stockage_params.url) && !isStockageFormOpen && (
+          {(livrableStockage?.stockage_params.host || livrableStockage?.stockage_params.url || livrableStockage?.stockage_params.url_externe) && !isStockageFormOpen && (
             <StockageCard
               type={livrableStockage.stockage}
               params={livrableStockage.stockage_params}
