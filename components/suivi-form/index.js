@@ -17,12 +17,28 @@ import Acteurs from '@/components/suivi-form/acteurs/index.js'
 import Perimetres from '@/components/suivi-form/perimetres/index.js'
 import Etapes from '@/components/suivi-form/etapes.js'
 import Subventions from '@/components/suivi-form/subventions/index.js'
+import Reutilisations from '@/components/suivi-form/reutilisations/index.js'
 import ShareModal from '@/components/suivi-form/share-modal.js'
 import DeleteModal from '@/components/suivi-form/delete-modal.js'
 import Button from '@/components/button.js'
 import BackToProjectButton from '@/components/ui/back-to-project-button.js'
 
-const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subventions, etapes, _id, token, userRole, projectEditCode, isTokenRecovering}) => {
+const SuiviForm = ({
+  nom,
+  nature,
+  regime,
+  livrables,
+  acteurs,
+  perimetres,
+  etapes,
+  subventions,
+  reutilisations,
+  _id,
+  token,
+  userRole,
+  projectEditCode,
+  isTokenRecovering
+}) => {
   const router = useRouter()
 
   const [isShareModalOpen, setIsShareModalOpen] = useState(false)
@@ -44,6 +60,7 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
   const [projetPerimetres, setProjetPerimetres] = useState(perimetres)
   const [projetEtapes, setProjetEtapes] = useState(etapes)
   const [projetSubventions, setProjetSubventions] = useState(subventions || [])
+  const [projetReutilisations, setProjetReutilisations] = useState(reutilisations || [])
 
   const hasMissingRequiredItems = projetLivrables.length === 0 || projetPerimetres.length === 0
   const isPorteurMissing = Boolean(!projetActeurs.some(acteur => acteur.role === 'aplc' || acteur.role === 'porteur'))
@@ -109,7 +126,8 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
           acteurs: projetActeurs,
           perimetres: projetPerimetres,
           etapes: projetEtapes,
-          subventions: projetSubventions
+          subventions: projetSubventions,
+          reutilisations: projetReutilisations
         }
 
         const authorizationCode = editCode || token
@@ -222,7 +240,15 @@ const SuiviForm = ({nom, nature, regime, livrables, acteurs, perimetres, subvent
             initialValue={projetEtapes.at(-1)}
           />
 
-          <Subventions subventions={projetSubventions} handleSubventions={setProjetSubventions} />
+          <Subventions
+            subventions={projetSubventions}
+            handleSubventions={setProjetSubventions}
+          />
+
+          <Reutilisations
+            reutilisations={projetReutilisations}
+            handleReutilisations={setProjetReutilisations}
+          />
 
           <div className='fr-grid-row fr-grid-row--center  fr-grid-row--gutters fr-mt-2w'>
             <div className='fr-grid-row fr-mt-12w fr-col-12'>
@@ -332,6 +358,7 @@ SuiviForm.propTypes = {
   perimetres: PropTypes.array,
   etapes: PropTypes.array,
   subventions: PropTypes.array,
+  reutilisations: PropTypes.array,
   _id: PropTypes.string,
   token: PropTypes.string,
   projectEditCode: PropTypes.string,
