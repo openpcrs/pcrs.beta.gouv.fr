@@ -10,6 +10,7 @@ import Progression from '@/components/map-sidebar/progression.js'
 import Livrables from '@/components/projet/livrables-section.js'
 import Acteurs from '@/components/projet/acteurs-section.js'
 import Subventions from '@/components/projet/subventions-section.js'
+import Reutilisations from '@/components/projet/reutilisations-section.js'
 
 const ProjetInfos = ({project}) => {
   const {
@@ -24,6 +25,7 @@ const ProjetInfos = ({project}) => {
     regime,
     livrables,
     subventions,
+    reutilisations,
     acteurs,
     editorKey
   } = project
@@ -57,6 +59,10 @@ const ProjetInfos = ({project}) => {
 
           <div className='fr-col-12 fr-mt-6w'>
             <Subventions subventions={subventions} />
+          </div>
+
+          <div className='fr-col-12 fr-mt-6w'>
+            <Reutilisations reutilisations={reutilisations} />
           </div>
 
           <div className='fr-col-12 fr-col-md-6 fr-mt-6w'>
