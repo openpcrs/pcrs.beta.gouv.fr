@@ -20,6 +20,7 @@ const MapSidebar = ({projet, onClose, onProjetChange, projets, resetProjet}) => 
     etapes,
     source,
     subventions,
+    reutilisations,
     documentation,
     contrat,
     nature,
@@ -54,6 +55,7 @@ const MapSidebar = ({projet, onClose, onProjetChange, projets, resetProjet}) => 
           licence={licence}
           acteurs={acteurs}
           subventions={subventions || []}
+          reutilisations={reutilisations || []}
         />
 
         <h2 className='fr-text--lead fr-mt-3w'>Sources et documentations</h2>
