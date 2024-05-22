@@ -31,7 +31,7 @@ const TimelineStep = ({step, status, isCurrentStep, isLastStep}) => {
     <div className='step'>
       <Tooltip
         tooltipContent={() => tooltipContent()}
-        position={isLastStep ? 'left' : 'right'}
+        position={(isLastStep || step?.statut === 'realise') ? 'left' : 'right'}
       >
         {(!isCurrentStep || isLastStep) ? (
           <div
@@ -81,6 +81,7 @@ const TimelineStep = ({step, status, isCurrentStep, isLastStep}) => {
 
 TimelineStep.propTypes = {
   step: Proptypes.shape({
+    statut: Proptypes.string,
     date_debut: Proptypes.string // eslint-disable-line camelcase
   }),
   status: Proptypes.shape({

@@ -13,6 +13,7 @@ import {isURLValid} from '@/components/suivi-form/livrables/utils/url.js'
 
 const StockageForm = ({initialValues, handleLivrableStockage, onCancel}) => {
   const [validationMessage, setValidationMessage] = useState(null)
+  const [isSubmitable, setIsSubmitable] = useState(false)
   const [stockageType, setStockageType] = useState(initialValues?.stockage || undefined)
   const [stockageParams, setStockageParams] = useState(initialValues?.stockage_params || {})
   const [generalSettings, setGeneralSettings] = useState({
@@ -33,9 +34,24 @@ const StockageForm = ({initialValues, handleLivrableStockage, onCancel}) => {
     setStockageParams(prev => ({...prev, url}))
 
     if (isURLValid(url)) {
+      setIsSubmitable(true)
       setValidationMessage(null)
     } else {
+      setIsSubmitable(false)
       setValidationMessage({httpParams: {url: 'Cette URL n’est pas valide'}})
+    }
+  }
+
+  const handleExternalUrl = externalUrl => {
+    setStockageParams(prev => ({...prev, url_externe: externalUrl}))
+
+    if (isURLValid(externalUrl)) {
+      setIsSubmitable(true)
+      setGeneralSettings(prev => ({...prev, isPublic: true}))
+      setValidationMessage(null)
+    } else {
+      setIsSubmitable(false)
+      setValidationMessage({httpParams: {url_externe: 'Cette URL n’est pas valide'}})
     }
   }
 
@@ -72,8 +88,10 @@ const StockageForm = ({initialValues, handleLivrableStockage, onCancel}) => {
       {stockageType === 'http' && (
         <HttpParamsInputs
           url={stockageParams?.url}
+          externalUrl={stockageParams?.url_externe}
           handleUrl={handleUrl}
-          validationMessage={validationMessage?.httpParams.url}
+          handleExternalUrl={handleExternalUrl}
+          validationMessage={validationMessage?.httpParams}
         />
       )}
 
@@ -87,7 +105,7 @@ const StockageForm = ({initialValues, handleLivrableStockage, onCancel}) => {
       <div className='fr-mt-3w'>
         <Button
           label='Valider le stockage'
-          isDisabled={stockageType === 'http' ? (!stockageParams.url || !isURLValid(stockageParams.url)) : !stockageParams.host}
+          isDisabled={stockageType === 'http' ? !isSubmitable : !stockageParams.host}
           onClick={onSubmit}
         >
           {(!initialValues || initialValues.stockage === null) ? 'Ajouter le serveur' : 'Modifier le serveur'}

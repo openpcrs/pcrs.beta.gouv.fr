@@ -15,6 +15,7 @@ const StockagePreview = ({projectId, stockageId, params, isStockagePublic, isDow
   const [downloadToken, setDownloadToken] = useState()
   const [error, setError] = useState()
   const [isLoading, setIsLoading] = useState(false)
+  const isExternal = Boolean(params?.url_externe)
 
   useEffect(() => {
     setError(null)
@@ -71,10 +72,12 @@ const StockagePreview = ({projectId, stockageId, params, isStockagePublic, isDow
                   params={params}
                   type={stockage.type}
                 />
-                <ScannedData
-                  stockage={stockage}
-                  downloadToken={downloadToken}
-                />
+                {!isExternal && (
+                  <ScannedData
+                    stockage={stockage}
+                    downloadToken={downloadToken}
+                  />
+                )}
               </div>
             ) : (
               <div className='fr-alert fr-alert--info fr-alert--sm fr-mt-2w'>
@@ -82,6 +85,11 @@ const StockagePreview = ({projectId, stockageId, params, isStockagePublic, isDow
               </div>
             )
           )}
+        </div>
+      )}
+      {isExternal && (
+        <div className='fr-alert fr-alert--info fr-alert--sm fr-mt-2w'>
+          <p>Ce stockage est externe et ne peut pas être scanné</p>
         </div>
       )}
 

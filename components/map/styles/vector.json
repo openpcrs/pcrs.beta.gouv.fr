@@ -2826,10 +2826,12 @@
           "marche_public_en_cours", "#b9e45a",
           "prod_en_cours", "#a7f192",
           "controle_en_cours", "#87c1ea",
-          "disponible", "#175c8b",
+          "realise", "#175c8b",
+          "disponible", "#5114af",
+          "obsolete", "#7c7c7c",
           "#0063cb"
         ],
-        "fill-opacity": 0.5,
+        "fill-opacity": 0.6,
         "fill-outline-color": "grey"
       }
     },

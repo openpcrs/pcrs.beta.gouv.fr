@@ -58,7 +58,7 @@ const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete, handle
           </div>
 
           <div className='fr-grid-row fr-col-12 fr-col-md-3'>
-            {stockage && (
+            {stockage && !livrable?.stockage_params?.url_externe && (
               <StockageRefresh
                 handleRefreshScan={handleRefreshScan}
                 stockageId={stockage_id}
@@ -135,6 +135,7 @@ LivrableCard.propTypes = {
     diffusion: PropTypes.string,
     avancement: PropTypes.number,
     stockage: PropTypes.oneOf(['http', 'ftp', 'sftp']),
+    stockage_params: PropTypes.object,
     stockage_id: PropTypes.string,
     date_livraison: PropTypes.string
   }).isRequired,

@@ -34,6 +34,10 @@ const StockageData = ({isPublic, type, params}) => (
               value = <span className={`fr-icon-${value ? 'checkbox-circle-fill' : 'close-circle-fill'} fr-pr-1w fr-col-lg-12`} aria-hidden='true' />
             }
 
+            if (key === 'url_externe') {
+              value = <a href={value} target='_blank' rel='noreferrer'>{value}</a>
+            }
+
             return {
               label,
               value
