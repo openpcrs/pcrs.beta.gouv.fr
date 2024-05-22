@@ -19,19 +19,34 @@ const TextInput = ({label, value, type, ariaLabel, placeholder, errorMessage, de
         {description && <span className='fr-hint-text fr-mb-2w fr-mt-0'>{description}</span>}
       </label>
 
-      <input
-        {...props}
-        type={type}
-        required={isRequired}
-        className={`fr-input fr-input--${inputState}`}
-        value={value}
-        aria-label={ariaLabel}
-        placeholder={placeholder}
-        disabled={isDisabled}
-        onChange={onValueChange}
-        onFocus={onFocus}
-        onBlur={onBlur}
-      />
+      {type === 'textarea' ? (
+        <textarea
+          {...props}
+          required={isRequired}
+          className={`fr-input fr-input--${inputState}`}
+          value={value}
+          aria-label={ariaLabel}
+          placeholder={placeholder}
+          disabled={isDisabled}
+          onChange={onValueChange}
+          onFocus={onFocus}
+          onBlur={onBlur}
+        />
+      ) : (
+        <input
+          {...props}
+          type={type}
+          required={isRequired}
+          className={`fr-input fr-input--${inputState}`}
+          value={value}
+          aria-label={ariaLabel}
+          placeholder={placeholder}
+          disabled={isDisabled}
+          onChange={onValueChange}
+          onFocus={onFocus}
+          onBlur={onBlur}
+        />
+      )}
 
       {(errorMessage) && (
         <p id='text-input-error-desc-error' className='fr-error-text'>
@@ -58,7 +73,8 @@ TextInput.propTypes = {
   type: PropTypes.oneOf([
     'text',
     'password',
-    'email'
+    'email',
+    'textarea'
   ]),
   ariaLabel: PropTypes.string,
   placeholder: PropTypes.string,
