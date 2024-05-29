@@ -137,7 +137,7 @@ export async function deleteProjet(projetId) {
     _deleted: {$exists: false}
   })
 
-  if (projetToDelete?.reutilisations.some(reutilisation => reutilisation.imageKey)) {
+  if (projetToDelete?.reutilisations?.some(reutilisation => reutilisation.imageKey)) {
     const deletePromises = projetToDelete.reutilisations
       .filter(reutilisation => reutilisation.imageKey)
       .map(reutilisation => deleteImage(reutilisation.imageKey))
