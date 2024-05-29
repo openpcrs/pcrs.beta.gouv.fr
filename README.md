@@ -74,6 +74,7 @@ Puis compléter les champs suivants :
 - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_SECURE`, `SMTP_FROM`, `SMTP_BCC` -> Paramètres du serveur de mail
 - `SHOW_EMAILS` (YES / NO) -> Permet d’afficher le mail envoyé dans la console.
 - `S3_ACCESS_KEY`, `S3_SECRET_KEY`, `S3_ENDPOINT`, `S3_BUCKET`, `S3_REGION`, `S3_PREFIX` -> Paramètres de connexion au stockage objet
+- `NEXT_PUBLIC_IMAGES_DOMAIN` -> Domaine du stockage des images, pour l’optimisation avec next/image
 
 ---
 
