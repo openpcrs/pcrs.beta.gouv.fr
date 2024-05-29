@@ -184,7 +184,7 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs, subventions, re
       </div>
 
       <div>
-        <LabeledWrapper label='Réusilisations'>
+        <LabeledWrapper label='Réutilisations'>
           {reutilisations.length > 0 ? (
             <div className='reutilisations fr-text--sm'>
               {reutilisations.map(reutilisation => (
