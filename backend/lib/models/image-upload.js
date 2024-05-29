@@ -51,8 +51,7 @@ export async function uploadImage(file) {
       Bucket: S3_BUCKET,
       Key: `${S3_PREFIX}/originals/${fileName}`,
       Body: imageBuffer,
-      ContentType: file.mimetype,
-      ACL: 'public-read'
+      ContentType: file.mimetype
     }
   })
 
