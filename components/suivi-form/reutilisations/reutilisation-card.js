@@ -1,20 +1,36 @@
 import PropTypes from 'prop-types'
+import Image from 'next/image'
 
 import colors from '@/styles/colors.js'
 
-const ReutilisationCard = ({titre, lien, description, isDisabled, handleDelete, handleEdition}) => (
+const ReutilisationCard = ({titre, lien, description, imageURL, isDisabled, handleDelete, handleEdition}) => (
   <div className={`fr-grid-row fr-p-2w fr-my-3w card-container ${isDisabled ? 'card-disable' : ''}`}>
     <div className='fr-grid-row fr-col-10'>
 
-      <div className='fr-grid-row fr-col-12 fr-col-xl-6'>
-        <div className='fr-grid-row fr-col-12 fr-col-md-6 fr-p-1w'>
+      <div className='fr-grid-row fr-col-12'>
+        <div className='fr-grid-row fr-col-12 fr-col-md-4 fr-p-1w'>
           <div className='label fr-col-12 fr-text--lg fr-m-0'>Titre</div>
           <div className='fr-m-0 fr-col-12 fr-text--sm'>{titre}</div>
         </div>
 
-        <div className='fr-grid-row fr-col-12 fr-col-md-6 fr-p-1w'>
+        <div className='fr-grid-row fr-col-12 fr-col-md-4 fr-p-1w'>
           <div className='label fr-col-12 fr-text--lg fr-m-0'>Lien</div>
           <div className='fr-m-0 fr-col-12 fr-text--sm'>{lien}</div>
+        </div>
+
+        <div className='fr-grid-row fr-col-12 fr-col-md-3 fr-p-1w'>
+          <div className='label fr-col-12 fr-text--lg fr-m-0'>Illustration</div>
+          {imageURL ? (
+            <Image
+              className='fr-responsive-img'
+              src={imageURL ?? '/images/illustrations/blog_fallback.svg'}
+              alt={'Illustration de ' + titre}
+              height={250}
+              width={500}
+            />
+          ) : (
+            <div>N/A</div>
+          )}
         </div>
       </div>
       <div className='fr-grid-row fr-col-12 fr-col-md-10 fr-p-1w'>
@@ -92,6 +108,7 @@ ReutilisationCard.propTypes = {
   titre: PropTypes.string.isRequired,
   lien: PropTypes.string.isRequired,
   description: PropTypes.string,
+  imageURL: PropTypes.string,
   isDisabled: PropTypes.bool,
   handleDelete: PropTypes.func,
   handleEdition: PropTypes.func
