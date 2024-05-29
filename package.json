@@ -15,6 +15,8 @@
     "scalingo-postbuild": "yarn download-contours && node scripts/migration-v05.js && next build"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.577.0",
+    "@aws-sdk/lib-storage": "^3.578.0",
     "@etalab/decoupage-administratif": "^3.1.1",
     "@gouvfr/dsfr": "^1.9.2",
     "@keyv/sqlite": "^3.6.5",
