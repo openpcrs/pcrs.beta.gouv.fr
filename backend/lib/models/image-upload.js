@@ -31,14 +31,6 @@ export async function uploadImage(file) {
     throw createError(400, 'Aucun fichier envoyé')
   }
 
-  if (!['webp', 'png', 'jpg', 'jpeg'].includes(metadata.format)) {
-    throw createError(400, 'Format d’image non supporté')
-  }
-
-  if (metadata.size > 3_000_000) {
-    throw createError(400, 'L’image doit faire moins de 3 Mo')
-  }
-
   if (metadata.width < 500 || metadata.height < 250) {
     throw createError(400, 'L’image doit faire au moins 500x250 pixels')
   }

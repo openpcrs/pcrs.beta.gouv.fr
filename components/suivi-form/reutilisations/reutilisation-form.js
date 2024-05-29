@@ -42,6 +42,19 @@ const ReutilisationForm = ({initialValues, isReutilisationExists, editCode, onSu
   const handleUpload = async () => {
     setMessage(null)
     setIsUploading(true)
+
+    if (file.size > 3_000_000) {
+      setMessage('L’image doit faire moins de 3 Mo')
+      setIsUploading(false)
+      return
+    }
+
+    if (!['image/webp', 'image/png', 'image/jpg', 'image/jpeg'].includes(file.type)) {
+      setMessage('Format d’image non supporté')
+      setIsUploading(false)
+      return
+    }
+
     const formData = new FormData()
 
     formData.append('image', file)
