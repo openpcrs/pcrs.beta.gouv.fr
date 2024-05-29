@@ -5,7 +5,12 @@ import w from '../util/w.js'
 import {uploadImage, deleteImage} from '../lib/models/image-upload.js'
 
 const storage = multer.memoryStorage()
-const upload = multer({storage})
+const upload = multer({
+  storage,
+  limits: {
+    fileSize: 3_000_000
+  }
+})
 const imageUploadRoutes = new express.Router()
 
 export function checkAuthorization(req) {
