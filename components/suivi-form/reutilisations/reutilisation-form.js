@@ -90,6 +90,7 @@ const ReutilisationForm = ({initialValues, isReutilisationExists, editCode, onSu
 
   const handleDelete = async () => {
     setMessage(null)
+    setIsUploading(true)
     const response = await fetch('/image-upload/' + imageKey, {
       method: 'DELETE',
       headers: {
@@ -101,6 +102,8 @@ const ReutilisationForm = ({initialValues, isReutilisationExists, editCode, onSu
       setImageURL(null)
       setImageKey(null)
     }
+
+    setIsUploading(false)
   }
 
   return (
@@ -150,7 +153,7 @@ const ReutilisationForm = ({initialValues, isReutilisationExists, editCode, onSu
               ) : (
                 <span>Ajouter une illustration</span>
               )}
-              <span className='fr-hint-text'>Taille max : 5Mo, Resolution min : 500x250</span>
+              <span className='fr-hint-text'>Taille max : 3Mo, Resolution min : 500x250</span>
             </label>
             <input
               className='fr-upload'
