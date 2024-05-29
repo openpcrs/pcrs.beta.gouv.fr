@@ -20,12 +20,6 @@ function computeImageSize(imageBuffer) {
   return sharp(imageBuffer).resize({height: 250, width: 500}).toBuffer()
 }
 
-export function checkAuthorization(req) {
-  if (!['admin', 'editor', 'creator'].includes(req.role)) {
-    throw createError(403, 'Non autorisé')
-  }
-}
-
 export async function uploadImage(file) {
   const imageBuffer = sharp(file.buffer)
   const metadata = await imageBuffer.metadata()

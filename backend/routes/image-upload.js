@@ -1,11 +1,18 @@
 import express from 'express'
 import multer from 'multer'
+import createError from 'http-errors'
 import w from '../util/w.js'
-import {uploadImage, deleteImage, checkAuthorization} from '../lib/models/image-upload.js'
+import {uploadImage, deleteImage} from '../lib/models/image-upload.js'
 
 const storage = multer.memoryStorage()
 const upload = multer({storage})
 const imageUploadRoutes = new express.Router()
+
+export function checkAuthorization(req) {
+  if (!['admin', 'editor', 'creator'].includes(req.role)) {
+    throw createError(403, 'Non autorisé')
+  }
+}
 
 imageUploadRoutes.delete('/:imageKey', w(async (req, res) => {
   checkAuthorization(req)
