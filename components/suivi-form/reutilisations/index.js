@@ -31,7 +31,21 @@ const Reutilisations = ({reutilisations, handleReutilisations, editCode}) => {
     return _reutilisations.some(reutilisation => lien.toLowerCase() === reutilisation.lien.toLowerCase())
   }, [editedReutilisation, reutilisations])
 
-  const onDelete = index => {
+  const onDelete = async index => {
+    // Check if the reutilisation has an image and delete it
+    if (reutilisations[index].imageKey) {
+      try {
+        await fetch('/image-upload/' + reutilisations[index].imageKey, {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Token ${editCode}`
+          }
+        })
+      } catch (error) {
+        throw new Error(error.message)
+      }
+    }
+
     handleReutilisations(current => current.filter((_, i) => index !== i))
     setEditedReutilisation(null)
   }
