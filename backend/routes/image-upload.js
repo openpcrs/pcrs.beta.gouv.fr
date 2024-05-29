@@ -17,6 +17,10 @@ export function checkAuthorization(req) {
   if (!['admin', 'editor', 'creator'].includes(req.role)) {
     throw createError(403, 'Non autorisé')
   }
+
+  if (req.role === 'editor' && req.canEditProjetId.toString() !== req.query.projectId) {
+    throw createError(403, 'Non autorisé')
+  }
 }
 
 imageUploadRoutes.delete('/:imageKey', w(async (req, res) => {

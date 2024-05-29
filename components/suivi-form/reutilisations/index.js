@@ -6,7 +6,7 @@ import Button from '@/components/button.js'
 
 import colors from '@/styles/colors.js'
 
-const Reutilisations = ({reutilisations, handleReutilisations, editCode}) => {
+const Reutilisations = ({reutilisations, handleReutilisations, editCode, projectId}) => {
   const [editedReutilisation, setEditedReutilisation] = useState(null)
 
   const handleReutilisation = useCallback(reutilisation => {
@@ -35,7 +35,7 @@ const Reutilisations = ({reutilisations, handleReutilisations, editCode}) => {
     // Check if the reutilisation has an image and delete it
     if (reutilisations[index].imageKey) {
       try {
-        await fetch('/image-upload/' + reutilisations[index].imageKey, {
+        await fetch(`/image-upload/${reutilisations[index].imageKey}?projectId=${projectId}`, {
           method: 'DELETE',
           headers: {
             Authorization: `Token ${editCode}`
@@ -59,6 +59,7 @@ const Reutilisations = ({reutilisations, handleReutilisations, editCode}) => {
           <div key={reutilisation.lien}>
             {editedReutilisation && editedReutilisation.index === index ? (
               <ReutilisationForm
+                projectId={projectId}
                 editCode={editCode}
                 initialValues={reutilisation}
                 isReutilisationExists={isReutilisationExists}
@@ -78,6 +79,7 @@ const Reutilisations = ({reutilisations, handleReutilisations, editCode}) => {
 
         {editedReutilisation && editedReutilisation.index === undefined && (
           <ReutilisationForm
+            projectId={projectId}
             editCode={editCode}
             initialValues={editedReutilisation.reutilisation}
             isReutilisationExists={isReutilisationExists}
@@ -108,7 +110,8 @@ const Reutilisations = ({reutilisations, handleReutilisations, editCode}) => {
 Reutilisations.propTypes = {
   reutilisations: PropTypes.array,
   handleReutilisations: PropTypes.func,
-  editCode: PropTypes.string
+  editCode: PropTypes.string,
+  projectId: PropTypes.string
 }
 
 export default Reutilisations

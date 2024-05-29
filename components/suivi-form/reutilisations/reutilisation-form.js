@@ -8,7 +8,7 @@ import colors from '@/styles/colors.js'
 import TextInput from '@/components/text-input.js'
 import Button from '@/components/button.js'
 
-const ReutilisationForm = ({initialValues, isReutilisationExists, editCode, onSubmit, onCancel}) => {
+const ReutilisationForm = ({initialValues, isReutilisationExists, editCode, projectId, onSubmit, onCancel}) => {
   const [file, setFile] = useState(null)
   const [imageURL, setImageURL] = useState(initialValues?.imageURL || null)
   const [imageKey, setImageKey] = useState(initialValues?.imageKey || null)
@@ -59,7 +59,7 @@ const ReutilisationForm = ({initialValues, isReutilisationExists, editCode, onSu
 
     formData.append('image', file)
 
-    const response = await fetch('/image-upload', {
+    const response = await fetch(`/image-upload?projectId=${projectId}`, {
       method: 'POST',
       headers: {
         Authorization: `Token ${editCode}`
@@ -91,7 +91,7 @@ const ReutilisationForm = ({initialValues, isReutilisationExists, editCode, onSu
   const handleDelete = async () => {
     setMessage(null)
     setIsUploading(true)
-    const response = await fetch('/image-upload/' + imageKey, {
+    const response = await fetch(`/image-upload/${imageKey}?projectId=${projectId}`, {
       method: 'DELETE',
       headers: {
         Authorization: `Token ${editCode}`
@@ -248,6 +248,7 @@ ReutilisationForm.propTypes = {
   initialValues: PropTypes.object,
   isReutilisationExists: PropTypes.func,
   editCode: PropTypes.string,
+  projectId: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired
 }
