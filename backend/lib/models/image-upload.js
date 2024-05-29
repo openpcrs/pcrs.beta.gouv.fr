@@ -25,7 +25,7 @@ export async function uploadImage(file) {
   const metadata = await imageBuffer.metadata()
   const nanoid = customAlphabet('1234567890abcdef', 10)
   const token = nanoid()
-  const fileName = `${token}_${file.originalname.replaceAll(' ', '_')}`
+  const fileName = encodeURIComponent(`${token}_${file.originalname.replaceAll(' ', '_')}`)
 
   if (!file) {
     throw createError(400, 'Aucun fichier envoyé')
