@@ -249,6 +249,7 @@ const SuiviForm = ({
           />
 
           <Reutilisations
+            editCode={editCode || token}
             reutilisations={projetReutilisations}
             handleReutilisations={setProjetReutilisations}
           />

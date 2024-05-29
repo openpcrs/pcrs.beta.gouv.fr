@@ -6,7 +6,7 @@ import Button from '@/components/button.js'
 
 import colors from '@/styles/colors.js'
 
-const Reutilisations = ({reutilisations, handleReutilisations}) => {
+const Reutilisations = ({reutilisations, handleReutilisations, editCode}) => {
   const [editedReutilisation, setEditedReutilisation] = useState(null)
 
   const handleReutilisation = useCallback(reutilisation => {
@@ -45,6 +45,7 @@ const Reutilisations = ({reutilisations, handleReutilisations}) => {
           <div key={reutilisation.lien}>
             {editedReutilisation && editedReutilisation.index === index ? (
               <ReutilisationForm
+                editCode={editCode}
                 initialValues={reutilisation}
                 isReutilisationExists={isReutilisationExists}
                 onSubmit={handleReutilisation}
@@ -63,6 +64,7 @@ const Reutilisations = ({reutilisations, handleReutilisations}) => {
 
         {editedReutilisation && editedReutilisation.index === undefined && (
           <ReutilisationForm
+            editCode={editCode}
             initialValues={editedReutilisation.reutilisation}
             isReutilisationExists={isReutilisationExists}
             onSubmit={handleReutilisation}
@@ -91,7 +93,8 @@ const Reutilisations = ({reutilisations, handleReutilisations}) => {
 
 Reutilisations.propTypes = {
   reutilisations: PropTypes.array,
-  handleReutilisations: PropTypes.func
+  handleReutilisations: PropTypes.func,
+  editCode: PropTypes.string
 }
 
 export default Reutilisations
