@@ -2,23 +2,9 @@ import process from 'node:process'
 import {customAlphabet} from 'nanoid'
 import createError from 'http-errors'
 import sharp from 'sharp'
-import {DeleteObjectsCommand, S3} from '@aws-sdk/client-s3'
-import {Upload} from '@aws-sdk/lib-storage'
+import {deleteObjects, uploadObject} from '../../util/s3.js'
 
-const {S3_ACCESS_KEY, S3_SECRET_KEY, S3_BUCKET, S3_REGION, S3_ENDPOINT, S3_PREFIX} = process.env
-
-if (!S3_ACCESS_KEY || !S3_SECRET_KEY || !S3_BUCKET || !S3_REGION || !S3_ENDPOINT) {
-  throw new Error('S3 configuration is not complete')
-}
-
-const client = new S3({
-  region: S3_REGION,
-  endpoint: S3_ENDPOINT,
-  credentials: {
-    accessKeyId: S3_ACCESS_KEY,
-    secretAccessKey: S3_SECRET_KEY
-  }
-})
+const {S3_PREFIX} = process.env
 
 function resizeImageToThumbnail(imageBuffer) {
   return sharp(imageBuffer).resize({height: 250, width: 500}).toBuffer()
@@ -41,29 +27,22 @@ export async function uploadImage(file) {
 
   const resizedImageBuffer = await resizeImageToThumbnail(file.buffer)
 
-  const originalImage = new Upload({
-    client,
-    params: {
-      Bucket: S3_BUCKET,
-      Key: `${S3_PREFIX}/originals/${fileName}`,
-      Body: imageBuffer,
+  await uploadObject({
+    objectKey: `${S3_PREFIX}/originals/${fileName}`,
+    buffer: file.buffer,
+    options: {
       ContentType: file.mimetype
     }
   })
 
-  const resizedImage = new Upload({
-    client,
-    params: {
-      Bucket: S3_BUCKET,
-      Key: `${S3_PREFIX}/resized/${fileName}`,
-      Body: resizedImageBuffer,
+  const {Location} = await uploadObject({
+    objectKey: `${S3_PREFIX}/resized/${fileName}`,
+    buffer: resizedImageBuffer,
+    options: {
       ContentType: file.mimetype,
       ACL: 'public-read'
     }
   })
-
-  await originalImage.done() // Upload image with original size
-  const {Location} = await resizedImage.done()
 
   return {
     imageURL: Location,
@@ -72,15 +51,8 @@ export async function uploadImage(file) {
 }
 
 export async function deleteImage(imageKey) {
-  const deletedImages = new DeleteObjectsCommand({
-    Bucket: S3_BUCKET,
-    Delete: {
-      Objects: [
-        {Key: S3_PREFIX + '/resized/' + imageKey},
-        {Key: S3_PREFIX + '/originals/' + imageKey}
-      ]
-    }
-  })
-
-  await client.send(deletedImages)
+  await deleteObjects([
+    {Key: S3_PREFIX + '/resized/' + imageKey},
+    {Key: S3_PREFIX + '/originals/' + imageKey}
+  ])
 }
