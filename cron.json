@@ -1,7 +1,7 @@
 {
   "jobs": [
     {
-      "command": "0 0 * * 6 node scripts/delete-unused-images.js"
+      "command": "0 0 * * 0 node scripts/delete-unused-images.js"
     }
   ]
 }
