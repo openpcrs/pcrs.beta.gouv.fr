@@ -7,6 +7,10 @@ import {Upload} from '@aws-sdk/lib-storage'
 
 const {S3_ACCESS_KEY, S3_SECRET_KEY, S3_BUCKET, S3_REGION, S3_ENDPOINT, S3_PREFIX} = process.env
 
+if (!S3_ACCESS_KEY || !S3_SECRET_KEY || !S3_BUCKET || !S3_REGION || !S3_ENDPOINT) {
+  throw new Error('S3 configuration is not complete')
+}
+
 const client = new S3({
   region: S3_REGION,
   endpoint: S3_ENDPOINT,
