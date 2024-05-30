@@ -114,7 +114,13 @@
     "workerThreads": false,
     "environmentVariables": {
       "ADMIN_TOKEN": "toto",
-      "SCANNER_ADMIN_TOKEN": "tata"
+      "SCANNER_ADMIN_TOKEN": "tata",
+      "S3_ACCESS_KEY": "qwertyuiop",
+      "S3_SECRET_KEY": "azertyuiop",
+      "S3_ENDPOINT": "http://localhost:9000",
+      "S3_BUCKET": "pcrs-data",
+      "S3_REGION": "local",
+      "S3_PREFIX": "reuses/images"
     }
   },
   "engines": {
