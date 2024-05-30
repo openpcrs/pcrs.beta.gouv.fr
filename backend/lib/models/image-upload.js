@@ -16,7 +16,7 @@ const client = new S3({
   }
 })
 
-function computeImageSize(imageBuffer) {
+function resizeImageToThumbnail(imageBuffer) {
   return sharp(imageBuffer).resize({height: 250, width: 500}).toBuffer()
 }
 
@@ -35,7 +35,7 @@ export async function uploadImage(file) {
     throw createError(400, 'L’image doit faire au moins 500x250 pixels')
   }
 
-  const resizedImageBuffer = await computeImageSize(file.buffer)
+  const resizedImageBuffer = await resizeImageToThumbnail(file.buffer)
 
   const originalImage = new Upload({
     client,
