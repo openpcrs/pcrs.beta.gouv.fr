@@ -1,5 +1,6 @@
 import {useEffect, useCallback, useState} from 'react'
 import PropTypes from 'prop-types'
+import Link from 'next/link'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import {fr} from 'date-fns/locale'
 
@@ -81,7 +82,10 @@ const Changes = ({token}) => {
 
                   return (
                     <tr key={change.nom}>
-                      <td className='fr-p-2w'><b>{change?.nom}</b></td>
+                      <td className='fr-p-2w'><b>
+                        <Link href={`/projet/${change._id}`}>
+                          {change?.nom}
+                        </Link></b></td>
                       <td className='fr-p-2w'>{lastChange}</td>
                       <td className='fr-p-2w'><i>{`(Il y a ${formatDistanceToNow(modificationTime, {locale: fr})})`}</i></td>
                     </tr>
