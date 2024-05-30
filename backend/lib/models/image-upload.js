@@ -2,6 +2,7 @@ import process from 'node:process'
 import {customAlphabet} from 'nanoid'
 import createError from 'http-errors'
 import sharp from 'sharp'
+import {deburr} from 'lodash-es'
 import {deleteObjects, uploadObject} from '../../util/s3.js'
 
 const {S3_PREFIX} = process.env
@@ -10,12 +11,17 @@ function resizeImageToThumbnail(imageBuffer) {
   return sharp(imageBuffer).resize({height: 250, width: 500}).toBuffer()
 }
 
+function sanitizeFileName(fileName) {
+  const specialCharsRegex = /[^\w.-]/g
+  return deburr(fileName).replaceAll(specialCharsRegex, '-')
+}
+
 export async function uploadImage(file) {
   const imageBuffer = sharp(file.buffer)
   const metadata = await imageBuffer.metadata()
   const nanoid = customAlphabet('1234567890abcdef', 10)
   const token = nanoid()
-  const fileName = encodeURIComponent(`${token}_${file.originalname.replaceAll(' ', '_')}`)
+  const fileName = sanitizeFileName(`${token}_${file.originalname}`)
 
   if (!file) {
     throw createError(400, 'Aucun fichier envoyé')
