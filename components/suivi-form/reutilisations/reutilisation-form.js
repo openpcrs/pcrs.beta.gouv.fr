@@ -124,6 +124,7 @@ const ReutilisationForm = ({initialValues, isReutilisationExists, editCode, proj
             isRequired
             label='Lien'
             value={lien}
+            placeholder='https://'
             ariaLabel='Lien vers la réutilisation'
             description='Lien vers la réutilisation'
             onValueChange={e => setLien(e.target.value)}
