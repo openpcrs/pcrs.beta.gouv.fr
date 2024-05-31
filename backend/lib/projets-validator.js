@@ -182,6 +182,29 @@ const subventionsSchemaCreation = Joi.object().keys({
   'object.unknown': 'Une clé de l’objet est invalide'
 })
 
+const reutilisationsSchemaCreation = Joi.object({
+  titre: Joi.string().required().messages({
+    'string.base': 'Le titre doit être une chaine de caractères',
+    'any.required': 'Le titre est obligatoire',
+    'string.empty': 'Le titre ne peut pas être vide'
+  }),
+  lien: Joi.string().uri().required().messages({
+    'string.base': 'Le lien doit être une chaine de caractères',
+    'string.uri': 'Le lien n’est pas valide',
+    'any.required': 'Le lien est obligatoire'
+  }),
+  description: Joi.string().allow('', null).messages({
+    'string.base': 'La description doit être une chaine de caractères'
+  }),
+  imageKey: Joi.string().allow(null).messages({
+    'string.base': 'La clé de l’image doit être une chaine de caractères'
+  }),
+  imageURL: Joi.string().uri().allow(null).messages({
+    'string.base': 'L’URL de l’image doit être une chaine de caractères',
+    'string.uri': 'L’URL de l’image n’est pas valide'
+  })
+})
+
 const schemaCreation = Joi.object({
   nom: Joi.string()
     .min(3)
@@ -225,6 +248,9 @@ const schemaCreation = Joi.object({
   subventions: Joi.array().items(subventionsSchemaCreation).required().allow(null).messages({
     'array.base': 'Les subventions doivent être dans un tableau',
     'any.required': 'La clé "subventions" est obligatoire'
+  }),
+  reutilisations: Joi.array().items(reutilisationsSchemaCreation).allow(null).messages({
+    'array.base': 'Les réutilisations doivent être dans un tableau'
   })
 }).messages({
   'object.unknown': 'Une clé de l’objet est invalide'
@@ -359,6 +385,29 @@ const subventionsSchemaUpdate = Joi.object().keys({
   'object.unknown': 'Une clé de l’objet est invalide'
 })
 
+const reutilisationsSchemaUpdate = Joi.object().keys({
+  titre: Joi.string().messages({
+    'string.base': 'Le titre doit être une chaine de caractères',
+    'string.empty': 'Le titre ne peut pas être vide'
+  }),
+  lien: Joi.string().uri().messages({
+    'string.base': 'Le lien doit être une chaine de caractères',
+    'string.uri': 'Le lien n’est pas valide'
+  }),
+  description: Joi.string().allow('', null).messages({
+    'string.base': 'La description doit être une chaine de caractères'
+  }),
+  imageKey: Joi.string().allow(null).messages({
+    'string.base': 'La clé de l’image doit être une chaine de caractères'
+  }),
+  imageURL: Joi.string().uri().allow(null).messages({
+    'string.base': 'L’URL de l’image doit être une chaine de caractères',
+    'string.uri': 'L’URL de l’image n’est pas valide'
+  })
+}).messages({
+  'object.unknown': 'Une clé de l’objet est invalide'
+})
+
 const schemaUpdate = Joi.object({
   nom: Joi.string()
     .min(3).messages({
@@ -394,6 +443,9 @@ const schemaUpdate = Joi.object({
   }),
   subventions: Joi.array().items(subventionsSchemaUpdate).allow(null).messages({
     'array.base': 'Les subventions doivent être dans un tableau'
+  }),
+  reutilisations: Joi.array().items(reutilisationsSchemaUpdate).messages({
+    'array.base': 'Les réutilisations doivent être dans un tableau'
   })
 }).messages({
   'object.unknown': 'Une clé de l’objet est invalide'
@@ -408,4 +460,3 @@ function validateChanges(changes) {
 }
 
 export {validateCreation, validateChanges, validatePerimetre}
-

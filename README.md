@@ -73,6 +73,8 @@ Puis compléter les champs suivants :
 >*Les champs suivants sont optionnels, ils permettent d’envoyer le code de vérification par mail.*
 - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_SECURE`, `SMTP_FROM`, `SMTP_BCC` -> Paramètres du serveur de mail
 - `SHOW_EMAILS` (YES / NO) -> Permet d’afficher le mail envoyé dans la console.
+- `S3_ACCESS_KEY`, `S3_SECRET_KEY`, `S3_ENDPOINT`, `S3_BUCKET`, `S3_REGION`, `S3_PREFIX` -> Paramètres de connexion au stockage objet
+- `NEXT_PUBLIC_IMAGES_DOMAIN` -> Domaine du stockage des images, pour l’optimisation avec next/image
 
 ---
 
@@ -102,6 +104,8 @@ Puis compléter les champs suivants :
 | `/administrators/:id` | **GET** | *Retourne les informations d’un administrateur (Cette route est réservée aux administrateurs)* |
 | `/administrators/:id` | **DELETE** | *Supprime un administrateur (Cette route est réservée aux administrateurs)* |
 | `/administrators/:id` | **PUT** | *Permet de modifier le mail ou le nom d’un administrateur (Cette route est réservée aux administrateurs)* |
+| `/image-upload` | **POST** | *Permet de téléverser une image pour illustrer les réutilisations* |
+| `/image-upload/:imageKey` | **DELETE** | *Supprime une image à partir de son nom* |
 
 Vous pouvez accéder au modèle de données à [cette adresse](https://docs.pcrs.beta.gouv.fr/suivi-des-projets/modele-de-donnees).
 

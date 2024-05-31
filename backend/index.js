@@ -22,6 +22,7 @@ import creatorsEmailsRoutes from './routes/creators-emails.js'
 import administratorsRoutes from './routes/administrators.js'
 import reportRoutes from './routes/report.js'
 import calculatorRoutes from './routes/calculator.js'
+import imageUploadRoutes from './routes/image-upload.js'
 
 const port = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -50,6 +51,7 @@ server.use('/creators-emails', creatorsEmailsRoutes)
 server.use('/administrators', administratorsRoutes)
 server.use('/report', reportRoutes)
 server.use('/calculator', calculatorRoutes)
+server.use('/image-upload', imageUploadRoutes)
 
 server.use(errorHandler)
 

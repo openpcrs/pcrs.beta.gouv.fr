@@ -38,7 +38,8 @@ const validProjet = {
     {statut: 'prod_en_cours', date_debut: '1999-02-11'},
     {statut: 'disponible', date_debut: '2010-10-12'}
   ],
-  subventions: [{nom: 'Participation feder', nature: 'feder'}]
+  subventions: [{nom: 'Participation feder', nature: 'feder'}],
+  reutilisations: [{titre: 'Reutilisation', lien: 'https://reutilisation.fr', description: ''}]
 }
 
 const invalidProjet = {
@@ -68,7 +69,8 @@ const invalidProjet = {
     {statut: 'prod_en_cours', date_debut: '1999-02-11'},
     {statut: 'disponible', date_debut: '2010-13-12'}
   ],
-  subventions: [{nom: 'Participation feder', ntr: 'feder'}]
+  subventions: [{nom: 'Participation feder', ntr: 'feder'}],
+  reutilisations: [{titre: 'Reutilisation', lien: 'reutilisation.fr', description: ''}]
 }
 
 // Test validatePerimetre
@@ -120,7 +122,7 @@ test('Create invalid projet', t => {
     validateCreation(invalidProjet)
   }, {instanceOf: Error})
 
-  t.is(error.details.length, 14)
+  t.is(error.details.length, 15)
   t.is(error.details[0].message, 'La clé "nom" est obligatoire')
   t.is(error.details[1].message, 'Ce type de régime n’est pas valide')
   t.is(error.details[2].message, 'Cette nature n’est pas valide')
@@ -148,7 +150,7 @@ test('Update invalid projet', t => {
     validateChanges(invalidProjet)
   }, {instanceOf: Error})
 
-  t.is(error.details.length, 12)
+  t.is(error.details.length, 13)
   t.is(error.details[0].message, 'Ce régime n’est pas valide')
   t.is(error.details[1].message, 'Cette nature n’est pas valide')
   t.is(error.details[2].message, 'Cette nature n’est pas valide')

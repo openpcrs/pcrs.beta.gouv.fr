@@ -12,7 +12,7 @@ import Badge from '@/components/badge.js'
 import HiddenInfos from '@/components/hidden-infos.js'
 import LabeledWrapper from '@/components/labeled-wrapper.js'
 
-const PcrsInfos = ({nature, regime, livrables, licence, acteurs, subventions}) => {
+const PcrsInfos = ({nature, regime, livrables, licence, acteurs, subventions, reutilisations}) => {
   const [isActorsShow, setIsActorsShow] = useState(false)
 
   const nomAPLC = acteurs.find(acteur => acteur.role === 'aplc')?.nom
@@ -166,7 +166,7 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs, subventions}) =
           )}
         </div>
 
-        <div className='subventions-container'>
+        <div>
           <LabeledWrapper label='Subventions'>
             {subventions.length > 0 ? (
               <div className='fr-grid-row'>
@@ -183,6 +183,24 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs, subventions}) =
         </div>
       </div>
 
+      <div>
+        <LabeledWrapper label='Réutilisations'>
+          {reutilisations.length > 0 ? (
+            <div className='reutilisations fr-text--sm'>
+              {reutilisations.map(reutilisation => (
+                <div key={reutilisation.lien} className='fr-p-1v'>
+                  <a href={reutilisation.lien} target='_blank' rel='noreferrer'>
+                    {reutilisation.titre}
+                  </a>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <i className='fr-text--sm'>Aucune réutilisation des données renseignée</i>
+          )}
+        </LabeledWrapper>
+      </div>
+
       <style jsx>{`
         .infos-block {
           display: flex;
@@ -193,6 +211,11 @@ const PcrsInfos = ({nature, regime, livrables, licence, acteurs, subventions}) =
 
         .livrable-container, .format-regime-container {
           width: 100%;
+        }
+
+        .reutilisations {
+          padding-top: 1em;
+          color: ${colors.blueFranceSun113};
         }
 
         .fr-btn--tertiary-no-outline {
@@ -211,7 +234,8 @@ PcrsInfos.propTypes = {
   livrables: PropTypes.array.isRequired,
   licence: PropTypes.string,
   acteurs: PropTypes.array.isRequired,
-  subventions: PropTypes.array.isRequired
+  subventions: PropTypes.array.isRequired,
+  reutilisations: PropTypes.array.isRequired
 }
 
 export default PcrsInfos

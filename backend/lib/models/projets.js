@@ -7,6 +7,7 @@ import {findClosestEtape} from '../../../shared/find-closest-etape.js'
 import {buildGeometryFromTerritoires, getTerritoiresProperties} from '../territoires.js'
 import {validateCreation, validateChanges} from '../projets-validator.js'
 import {attachStorage} from '../api-scanner.js'
+import {deleteImage} from './image-upload.js'
 
 export function expandProjet(projet) {
   const territoires = projet?.perimetres?.map(p => getTerritoiresProperties(p)) || null
@@ -131,6 +132,19 @@ export async function createProjet(payload, options = {}) {
 }
 
 export async function deleteProjet(projetId) {
+  const projetToDelete = await mongo.db.collection('projets').findOne({
+    _id: mongo.parseObjectId(projetId),
+    _deleted: {$exists: false}
+  })
+
+  if (projetToDelete?.reutilisations?.some(reutilisation => reutilisation.imageKey)) {
+    const deletePromises = projetToDelete.reutilisations
+      .filter(reutilisation => reutilisation.imageKey)
+      .map(reutilisation => deleteImage(reutilisation.imageKey))
+
+    await Promise.all(deletePromises)
+  }
+
   await mongo.db.collection('projets').findOneAndUpdate(
     {_id: mongo.parseObjectId(projetId), _deleted: {$exists: false}},
     {$set: {
