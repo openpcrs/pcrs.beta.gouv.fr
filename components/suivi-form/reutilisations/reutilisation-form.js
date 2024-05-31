@@ -213,7 +213,7 @@ const ReutilisationForm = ({initialValues, isReutilisationExists, editCode, proj
         <Button
           label='Valider l’ajout de la subvention'
           icon='checkbox-circle-fill'
-          isDisabled={!isFormComplete}
+          isDisabled={!isFormComplete || isUploading}
           onClick={handleSubmit}
         >
           Valider
