@@ -10,7 +10,7 @@ import StockageRefresh from '@/components/suivi-form/livrables/stockage-refresh.
 import {getNatures, getLicences, getDiffusions} from '@/components/suivi-form/livrables/utils/select-options.js'
 
 const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete, handleRefreshScan}) => {
-  const {nom, nature, licence, avancement, diffusion, stockage, stockage_id} = livrable
+  const {nom, nature, licence, avancement, diffusion, stockage, stockage_id, stockage_erreur} = livrable
   const dateLivraison = livrable.date_livraison
 
   return (
@@ -58,11 +58,14 @@ const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete, handle
           </div>
 
           <div className='fr-grid-row fr-col-12 fr-col-md-3'>
-            {stockage && !livrable?.stockage_params?.url_externe && (
+            {stockage_id && (
               <StockageRefresh
                 handleRefreshScan={handleRefreshScan}
                 stockageId={stockage_id}
               />
+            )}
+            {stockage_erreur && (
+              <span>Erreur : {stockage_erreur}</span>
             )}
           </div>
         </div>

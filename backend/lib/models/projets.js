@@ -41,7 +41,7 @@ async function addStockageId(livrables) {
       return {
         ...livrable,
         stockage_id: null,
-        stockage_erreur: 'Impossible de créer le stockage associé'
+        stockage_erreur: error.message
       }
     }
   }))
