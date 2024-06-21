@@ -28,11 +28,11 @@ async function addStockageId(livrables) {
     }
 
     try {
-      const {_id} = await attachStorage({type, params})
+      const storageId = await attachStorage({type, params})
 
       return {
         ...livrable,
-        stockage_id: _id,
+        stockage_id: storageId,
         stockage_erreur: null
       }
     } catch (error) {
