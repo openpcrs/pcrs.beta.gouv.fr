@@ -6,16 +6,6 @@ const MentionsLegales = () => (
     <Section
       title='Mentions légales'
     >
-      <h4>Données personnelles</h4>
-      <p>
-        Les données recueillies ou traitées sont hébergées en France ou en Union Européenne.
-      </p>
-      <p>
-        En application de la loi n°78-17 du 6 janvier 1978 relative à l’informatique, aux fichiers et aux libertés, les utilisateurs de la plateforme pcrs.beta.gouv.fr disposent notamment d’un droit d’accès et de rectification auprès de l’éditeur de la plateforme.
-      </p>
-      <p>
-        Ce droit s’exerce auprès de l’Agence Nationale de la Cohésion des Territoires, 20 avenue de Ségur, 75007 Paris. <br />dpo [à] anct.gouv.fr
-      </p>
       <h4>Nous contacter</h4>
       <p>
         <a href='mailto:contact&#64;pcrs.beta.gouv.fr'>contact&#64;pcrs.beta.gouv.fr</a>
@@ -28,7 +18,7 @@ const MentionsLegales = () => (
         <a href='mailto:info&#64;anct.gouv.fr'>info&#64;anct.gouv.fr</a>
       </p>
       <p>
-        Directeur de publication : Yves Le Breton, ANCT
+        Directeur de publication : Stanislas Bourron, ANCT
       </p>
       <h5>Hébergeur</h5>
       <p>
