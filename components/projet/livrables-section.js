@@ -41,7 +41,7 @@ const LivrablesSection = ({projectId, livrables}) => {
         <div>
           {livrableRenderItem(selectedLivrable)}
 
-          {selectedLivrable.stockage && (
+          {selectedLivrable.stockage && selectedLivrable.stockage_id && (
             <div className='stockage-preview'>
               <StockagePreview
                 projectId={projectId}

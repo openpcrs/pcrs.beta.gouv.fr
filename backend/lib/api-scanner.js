@@ -8,12 +8,18 @@ if (!SCANNER_ADMIN_TOKEN) {
 }
 
 export async function attachStorage({type, params}) {
-  const {_id} = await got.post(`${SCANNER_URL}/storages`, {
+  const response = await got.post(`${SCANNER_URL}/storages`, {
     json: {type, params},
-    headers: {authorization: `Token ${SCANNER_ADMIN_TOKEN}`}
-  }).json()
+    headers: {authorization: `Token ${SCANNER_ADMIN_TOKEN}`},
+    responseType: 'json',
+    throwHttpErrors: false
+  })
 
-  return {_id}
+  if (!response.ok) {
+    throw new Error(response.body.message)
+  }
+
+  return response.body._id
 }
 
 export async function askDownloadToken({stockageId}) {
