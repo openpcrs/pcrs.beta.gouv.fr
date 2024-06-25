@@ -115,12 +115,12 @@
     "isOnSite": false,
     "isOnline": true,
     "address": "",
-    "eventHref": "https://webinaire.numerique.gouv.fr//meeting/signin/18748/creator/9716/hash/6f480261c7bc30703ead4447395de598ad6aa0ae",
+    "eventHref": "https://docs.pcrs.beta.gouv.fr/ateliers-et-webinaires/publication-des-livrables-14-mai-2024",
     "description": "La publication des livrables produits marque l'ultime étape des projets PCRS achevés. Nous souhaitons encourager à l'usage de notre portail de valorisation en présentant les succès des porteurs qui y ont déjà eu recours. Venez découvrir comment nous pouvons valoriser ensemble ces productions pour un PCRS accessible en ligne.",
     "type": "Webinaire"
   },
   {
-    "title": "Quels rôles et quels enjeux pour les acteurs régionaux ?",
+    "title": "PCRS : Quels rôles et quels enjeux pour les acteurs régionaux ?",
     "date": "2024-09-12",
     "start": "14:00",
     "end": "16:00",
@@ -128,7 +128,7 @@
     "isOnline": true,
     "address": "",
     "eventHref": "https://webinaire.numerique.gouv.fr//meeting/signin/36760/creator/9716/hash/ad43d19848c24c9a5962ec92957d6ad037170427",
-    "description": "Le déploiement du PCRS implique des acteurs régionaux de différentes natures à plusieurs étapes. Ce sont par exemple les CRIGE ou bien les services d'instruction des subventions FEDER qui animent ou financent une partie de ces activités. Nous leur donnons la parole afin d'expliquer l'intérêt de les impliquer dans les projets restant à lancer.",
+    "description": "Le déploiement du PCRS implique des acteurs régionaux de différentes natures à plusieurs étapes. Ce sont par exemple les CRIGE ou bien les services d'instruction des subventions FEDER qui animent ou financent une partie de ces activités. L'ANCT en partenariat avec l'Afigeo souhaitent leur donner la parole afin d'expliquer l'intérêt de les impliquer dans les projets restant à lancer et les mises à jour.",
     "type": "Webinaire"
   }
 ]
