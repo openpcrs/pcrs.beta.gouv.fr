@@ -140,6 +140,7 @@ LivrableCard.propTypes = {
     stockage: PropTypes.oneOf(['http', 'ftp', 'sftp']),
     stockage_params: PropTypes.object,
     stockage_id: PropTypes.string,
+    stockage_erreur: PropTypes.string,
     date_livraison: PropTypes.string
   }).isRequired,
   isDisabled: PropTypes.bool.isRequired,
