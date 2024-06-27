@@ -11,6 +11,15 @@ import Button from '@/components/button.js'
 
 import {isURLValid} from '@/components/suivi-form/livrables/utils/url.js'
 
+const trimObjectValues = obj => {
+  const result = {}
+  for (const [key, value] of Object.entries(obj)) {
+    result[key] = typeof value === 'string' ? value.trim() : value
+  }
+
+  return result
+}
+
 const StockageForm = ({initialValues, handleLivrableStockage, onCancel}) => {
   const [validationMessage, setValidationMessage] = useState(null)
   const [isSubmitable, setIsSubmitable] = useState(false)
@@ -22,11 +31,13 @@ const StockageForm = ({initialValues, handleLivrableStockage, onCancel}) => {
   })
 
   const onSubmit = () => {
+    const trimmedParams = trimObjectValues(stockageParams)
+
     handleLivrableStockage({
       stockage: stockageType,
       stockage_public: generalSettings.isPublic,
       stockage_telechargement: generalSettings.isDownloadable,
-      stockage_params: stockageParams
+      stockage_params: trimmedParams
     })
   }
 
