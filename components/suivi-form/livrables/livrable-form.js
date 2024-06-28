@@ -16,7 +16,6 @@ import TextInput from '@/components/text-input.js'
 import Button from '@/components/button.js'
 import DateInput from '@/components/date-input.js'
 import StockageForm from '@/components/suivi-form/livrables/stockage-form/index.js'
-import NumberInput from '@/components/number-input.js'
 
 const initState = ({initialValues, fieldsValidations}) => {
   const fields = {
