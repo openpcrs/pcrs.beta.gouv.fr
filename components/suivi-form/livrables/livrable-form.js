@@ -16,6 +16,7 @@ import TextInput from '@/components/text-input.js'
 import Button from '@/components/button.js'
 import DateInput from '@/components/date-input.js'
 import StockageForm from '@/components/suivi-form/livrables/stockage-form/index.js'
+import NumberInput from '@/components/number-input.js'
 
 const initState = ({initialValues, fieldsValidations}) => {
   const fields = {
@@ -55,8 +56,29 @@ const initState = ({initialValues, fieldsValidations}) => {
       value: initialValues.date_livraison || '',
       isRequired: false,
       isValid: Boolean(initialValues.date_livraison)
+    },
+    recouvrement: {
+      value: initialValues.recouvrement || '',
+      isRequired: false,
+      isValid: Boolean(initialValues.recouvrement)
+    },
+    focale: {
+      value: initialValues.focale || '',
+      isRequired: false,
+      isValid: Boolean(initialValues.focale)
+    },
+    cout: {
+      value: initialValues.cout || '',
+      isRequired: false,
+      isValid: Boolean(initialValues.cout)
+    },
+    diffusion_url: {
+      value: initialValues.diffusion_url || '',
+      isRequired: false,
+      isValid: Boolean(initialValues.diffusion_url)
     }
   }
+
   return {fields, isFormValid: checkFormValidity(fields)}
 }
 
@@ -106,15 +128,19 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
 
   const handleSubmit = () => {
     setErrorMessage(null)
-    const {nom, nature, diffusion, licence, avancement, dateLivraison} = form.fields
+    const {nom, nature, diffusion, licence, avancement, dateLivraison, recouvrement, focale, cout, diffusion_url} = form.fields
 
     onSubmit({
       nom: nom.value.trim(),
       nature: nature.value,
-      licence: licence.value,
       diffusion: diffusion.value || null,
-      avancement: avancement.value ? Number(avancement.value) : null,
+      licence: licence.value,
       date_livraison: dateLivraison.value || null,
+      avancement: avancement.value ? Number(avancement.value) : null,
+      recouvrement: recouvrement.value ? Number(recouvrement.value) : null,
+      focale: focale.value ? Number(focale.value) : null,
+      cout: cout.value ? Number(cout.value) : null,
+      diffusion_url: diffusion_url.value || null,
       stockage: livrableStockage?.stockage || null,
       stockage_public: livrableStockage?.stockage_public || false,
       stockage_telechargement: livrableStockage?.stockage_telechargement || false,
@@ -123,7 +149,7 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
   }
 
   return (
-    <div ref={livrableFormRef} className='fr-mt-4w'>
+    <div ref={livrableFormRef} className='fr-mt-4w' style={{width: '100%'}}>
       <div className='fr-grid-row fr-grid-row--gutters'>
         {/* Nom du livrable */}
         <div className='fr-col-12 fr-col-lg-4'>
@@ -172,7 +198,7 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
 
       <div className='fr-grid-row fr-grid-row--gutters'>
         {/* Licence du livrable - select */}
-        <div className='fr-select-group fr-col-12 fr-col-lg-4'>
+        <div className='fr-col-12 fr-col-lg-4'>
           <SelectInput
             isRequired
             name='licence'
@@ -187,7 +213,7 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
         </div>
 
         {/* Date de livraison du projet - date */}
-        <div className='fr-select-group fr-col-12 fr-col-lg-4'>
+        <div className='fr-col-12 fr-col-lg-4'>
           <DateInput
             name='dateLivraison'
             label='Date de livraison'
@@ -200,7 +226,7 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
         </div>
 
         {/* Avancement du livrable - number */}
-        <div className='fr-input-group fr-col-12 fr-col-lg-4'>
+        <div className='fr-col-12 fr-col-lg-4'>
           <TextInput
             name='avancement'
             label='Avancement'
@@ -211,8 +237,60 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
             onValueChange={handleInputChange}
           />
         </div>
+      </div>
 
-        <div className='fr-grid-row fr-mb-2w'>
+      <div className='fr-grid-row fr-grid-row--gutters'>
+        <div className='fr-col-12 fr-col-lg-4'>
+          <TextInput
+            name='recouvrement'
+            label='Recouvrement'
+            value={form.fields.recouvrement.value}
+            ariaLabel='Pourcentage de recouvrement du livrable'
+            description='Pourcentage de recouvrement du livrable'
+            errorMessage={form.fields.recouvrement.validationMessage}
+            onValueChange={handleInputChange}
+          />
+        </div>
+        <div className='fr-col-12 fr-col-lg-4'>
+          <TextInput
+            name='focale'
+            label='Focale'
+            value={form.fields.focale.value}
+            ariaLabel='Distance focale en millimètres'
+            description='Distance focale en millimètres'
+            errorMessage={form.fields.focale.validationMessage}
+            onValueChange={handleInputChange}
+          />
+        </div>
+        <div className='fr-col-12 fr-col-lg-4'>
+          <TextInput
+            name='cout'
+            label='Cout'
+            value={form.fields.cout.value}
+            ariaLabel='Cout total en euros'
+            description='Cout total en euros'
+            errorMessage={form.fields.cout.validationMessage}
+            onValueChange={handleInputChange}
+          />
+        </div>
+      </div>
+
+      <div className='fr-grid-row fr-grid-row--gutters'>
+        <div className='fr-col-12 fr-col-lg-8'>
+          <TextInput
+            name='diffusion_url'
+            label='URL de diffusion'
+            value={form.fields.diffusion_url.value}
+            ariaLabel='URL de diffusion du livrable : GetCapabilities ou page web'
+            description='URL de diffusion du livrable : GetCapabilities ou page web'
+            errorMessage={form.fields.diffusion_url.validationMessage}
+            onValueChange={handleInputChange}
+          />
+        </div>
+      </div>
+
+      <div className='fr-mt-4w'>
+        <div className='fr-grid-row fr-mb-3w'>
           <span className='fr-icon-database-fill fr-mr-1w' aria-hidden='true' />
           <div className='fr-label'>Stockage du livrable</div>
         </div>
