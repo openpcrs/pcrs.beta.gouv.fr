@@ -27,6 +27,7 @@ const SuiviForm = ({
   nom,
   nature,
   regime,
+  budget,
   livrables,
   acteurs,
   perimetres,
@@ -54,6 +55,7 @@ const SuiviForm = ({
   const [suiviNom, setSuiviNom] = useInput({initialValue: nom})
   const [suiviNature, setSuiviNature] = useInput({initialValue: nature})
   const [suiviRegime, setSuiviRegime] = useInput({initialValue: regime})
+  const [suiviBudget, setSuiviBudget] = useInput({initialValue: budget})
 
   const [projetLivrables, setProjetLivrables] = useState(livrables)
   const [projetActeurs, setProjetActeurs] = useState(acteurs)
@@ -206,10 +208,16 @@ const SuiviForm = ({
 
         <form className='fr-mt-5w' onSubmit={handleSubmit}>
           <GeneralInfos
-            inputValues={{nom: suiviNom, nature: suiviNature, regime: suiviRegime}}
+            inputValues={{
+              nom: suiviNom,
+              nature: suiviNature,
+              regime: suiviRegime,
+              budget: suiviBudget
+            }}
             handleNom={setSuiviNom}
             handleRegime={setSuiviRegime}
             handleNature={setSuiviNature}
+            handleBudget={setSuiviBudget}
           />
 
           <div id='livrables'>
@@ -357,6 +365,7 @@ SuiviForm.propTypes = {
   userRole: PropTypes.string,
   nom: PropTypes.string,
   nature: PropTypes.string,
+  budget: PropTypes.number,
   regime: PropTypes.string,
   livrables: PropTypes.array,
   acteurs: PropTypes.array,
@@ -375,6 +384,7 @@ SuiviForm.defaultProps = {
   nom: '',
   nature: '',
   regime: '',
+  budget: null,
   livrables: [],
   acteurs: [],
   perimetres: [],

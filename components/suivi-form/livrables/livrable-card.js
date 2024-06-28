@@ -10,7 +10,7 @@ import StockageRefresh from '@/components/suivi-form/livrables/stockage-refresh.
 import {getNatures, getLicences, getDiffusions} from '@/components/suivi-form/livrables/utils/select-options.js'
 
 const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete, handleRefreshScan}) => {
-  const {nom, nature, licence, avancement, diffusion, stockage, stockage_id, stockage_erreur} = livrable
+  const {nom, nature, licence, avancement, diffusion, recouvrement, focale, cout, diffusion_url, stockage, stockage_id, stockage_erreur} = livrable
   const dateLivraison = livrable.date_livraison
 
   return (
@@ -39,7 +39,7 @@ const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete, handle
           </div>
         </div>
 
-        {/* ---------------------- Bottom ---------------------- */}
+        {/* ---------------------- Middle ---------------------- */}
         <div className='fr-grid-row fr-grid-row--gutters fr-grid-row--center fr-grid-row--middle fr-col-12 infos-row'>
           <div className='fr-grid-row fr-col-12 fr-col-md-3'>
             <div className='label fr-col-12'>Licence</div>
@@ -57,6 +57,29 @@ const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete, handle
 
           </div>
 
+          <div className='fr-grid-row fr-col-12 fr-col-md-3'>
+            <div className='label fr-col-12'>Recouvrement</div>
+            <div className='fr-col-12 fr-text--sm fr-m-0'>{recouvrement || 'N/A'}</div>
+          </div>
+        </div>
+
+        {/* ---------------------- Bottom ---------------------- */}
+        <div className='fr-grid-row fr-grid-row--gutters fr-grid-row--center fr-grid-row--middle fr-col-12 infos-row'>
+
+          <div className='fr-grid-row fr-col-12 fr-col-md-3'>
+            <div className='label fr-col-12'>Focale</div>
+            <div className='fr-col-12 fr-text--sm fr-m-0'>{focale || 'N/A'}</div>
+          </div>
+
+          <div className='fr-grid-row fr-col-12 fr-col-md-3'>
+            <div className='label fr-col-12'>Coût</div>
+            <div className='fr-col-12 fr-text--sm fr-m-0'>{cout || 'N/A'}</div>
+          </div>
+
+          <div className='fr-grid-row fr-col-12 fr-col-md-3'>
+            <div className='label fr-col-12'>URL de diffusion</div>
+            <div className='fr-col-12 fr-text--sm fr-m-0'>{diffusion_url || 'N/A'}</div>
+          </div>
           <div className='fr-grid-row fr-col-12 fr-col-md-3'>
             {stockage_id && (
               <StockageRefresh
@@ -137,6 +160,10 @@ LivrableCard.propTypes = {
     licence: PropTypes.string.isRequired,
     diffusion: PropTypes.string,
     avancement: PropTypes.number,
+    recouvrement: PropTypes.number,
+    focale: PropTypes.number,
+    cout: PropTypes.number,
+    diffusion_url: PropTypes.string,
     stockage: PropTypes.oneOf(['http', 'ftp', 'sftp']),
     stockage_params: PropTypes.object,
     stockage_id: PropTypes.string,
