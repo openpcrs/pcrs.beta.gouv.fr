@@ -265,10 +265,10 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
         <div className='fr-col-12 fr-col-lg-4'>
           <TextInput
             name='cout'
-            label='Cout'
+            label='Coût'
             value={form.fields.cout.value}
-            ariaLabel='Cout total en euros'
-            description='Cout total en euros'
+            ariaLabel='Coût total en euros'
+            description='Coût total en euros'
             errorMessage={form.fields.cout.validationMessage}
             onValueChange={handleInputChange}
           />
