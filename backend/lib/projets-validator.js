@@ -140,7 +140,7 @@ const livrablesSchemaCreation = Joi.object().keys({
     'wmts',
     'wfs',
     'tms',
-    'no'
+    'none'
   ).allow(null).messages({
     'any.only': 'Ce type de diffusion n’est pas valide'
   }),
@@ -345,7 +345,7 @@ const livrablesSchemaUpdate = Joi.object().keys({
     'wmts',
     'wfs',
     'tms',
-    'no'
+    'none'
   ).allow(null).messages({
     'any.only': 'Ce type de diffusion n’est pas valide'
   }),
