@@ -4,10 +4,12 @@ export const natureOptions = [
   {label: 'Livrable GeoTIFF', value: 'geotiff'},
   {label: 'Livrable Jpeg 2000', value: 'jpeg2000'},
   {label: 'Livrable GML vecteur', value: 'gml'},
-  {label: 'Livrable DXF vecteur', value: 'dxf'}
+  {label: 'Livrable DXF vecteur', value: 'dxf'},
+  {label: 'Livrable DWG vecteur', value: 'dwg'}
 ]
 
 export const diffusionOptions = [
+  {label: 'Aucune diffusion', value: 'no'},
   {label: 'Diffusion via un service WMS', value: 'wms'},
   {label: 'Diffusion via un service WMTS', value: 'wmts'},
   {label: 'Diffusion via un service WFS', value: 'wfs'},
