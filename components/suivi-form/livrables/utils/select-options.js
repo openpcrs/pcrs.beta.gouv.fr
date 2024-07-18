@@ -9,7 +9,7 @@ export const natureOptions = [
 ]
 
 export const diffusionOptions = [
-  {label: 'Aucune diffusion', value: 'no'},
+  {label: 'Aucune diffusion', value: 'none'},
   {label: 'Diffusion via un service WMS', value: 'wms'},
   {label: 'Diffusion via un service WMTS', value: 'wmts'},
   {label: 'Diffusion via un service WFS', value: 'wfs'},
