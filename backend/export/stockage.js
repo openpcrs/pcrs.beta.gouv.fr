@@ -1,4 +1,5 @@
 /* eslint-disable no-await-in-loop */
+/* eslint-disable camelcase */
 import {keyBy} from 'lodash-es'
 import mongo from '../util/mongo.js'
 import {getStockage, getStockageGeoJSON, getStockageData} from '../../lib/pcrs-scanner-api.js'
@@ -26,6 +27,7 @@ async function computeStockagesList() {
 export async function computeLivrablesGeoJSON() {
   const stockages = await computeStockagesList()
   const features = []
+
   const pcrsCalendrier = {
     investigation: '03',
     convention_signee: '03',
