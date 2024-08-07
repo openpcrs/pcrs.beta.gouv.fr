@@ -19,6 +19,7 @@ export async function exportProjetsAsCSV(includes_wkt) {
       nom: projet.nom,
       regime: projet.regime,
       nature: projet.nature,
+      budget: projet.budget,
       statut: projet.etapes.length > 0 ? projet.etapes.at(-1).statut : '',
       investigation_date: projet.etapes.find(e => e.statut === 'investigation')?.date_debut || '',
       convention_signee_date: projet.etapes.find(e => e.statut === 'convention_signee')?.date_debut || '',
@@ -56,6 +57,10 @@ export async function exportLivrablesAsCSV() {
         stockage: livrable.stockage || '',
         stockage_public: livrable.stockage_public || '',
         avancement: livrable.avancement || '',
+        revouvrement: livrable.revouvrement || '',
+        focale: livrable.focale || '',
+        cout: livrable.cout || '',
+        diffusion_url: livrable.diffusion_url || '',
         publication: '',
         crs: '',
         compression: ''
