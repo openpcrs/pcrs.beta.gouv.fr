@@ -52,7 +52,7 @@ const GeneralInfos = ({inputValues, handleNom, handleRegime, handleNature, handl
           <NumberInput
             label='Budget'
             value={budget}
-            description='Budget du projet'
+            description='Budget du projet en €TTC'
             ariaLabel='budget du projet pcrs'
             onValueChange={e => handleBudget(e.target.value)}
           />
