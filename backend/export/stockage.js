@@ -51,16 +51,15 @@ export async function computeLivrablesGeoJSON() {
           initiative: refProjet,
           dateActualite: null,
           calendrier: null,
-          refLivrable: livrable._id,
           format: getFormat(stockageMeta.result.raster.format),
           compression: stockageMeta.result.raster.compression,
           epsg: stockageMeta.result.raster.projection.code,
           taille: stockageMeta.result.raster.sizeRasterFiles,
           recouvrement: null,
-          focale: livrable.focale,
+          focale: livrable.focale || null,
           subventions: [...new Set(projetSubventions)],
           acteurs: [...new Set(projetActeurs)],
-          diffusionUrl: livrable.diffusion_url
+          diffusionUrl: livrable.diffusion_url || null
         }
       })
     } catch {}
@@ -95,7 +94,6 @@ export async function computeDallesGeoJSON() {
             dateRecette: null,
             descriptionElementsQualite: null,
             idPCRS: refProjet,
-            refLivrable: livrable._id,
             nomImage: dalle.name,
             precisionplanimetriqueCorpsdeRue: null,
             precisionplanimetriqueZonesNaturelles: null,
