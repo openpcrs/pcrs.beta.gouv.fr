@@ -9,13 +9,14 @@ async function computeStockagesList() {
   const projets = mongo.db.collection('projets').find({'livrables.stockage_id': {$ne: null}})
   const stockages = []
 
-  for await (const prj of projets) {
-    for (const liv of prj.livrables) {
+  for await (const projet of projets) {
+    for (const liv of projet.livrables) {
       stockages.push({
-        projet: prj,
+        refProjet: projet._id,
         livrable: liv,
-        subventions: prj.subventions,
-        acteurs: prj.acteurs,
+        etapes: projet.etapes,
+        subventions: projet.subventions,
+        acteurs: projet.acteurs,
         refStockage: liv.stockage_id
       })
     }
@@ -39,7 +40,7 @@ export async function computeLivrablesGeoJSON() {
     obsolete: '01'
   }
 
-  for (const {projet, livrable, subventions, acteurs, refStockage} of stockages) {
+  for (const {refProjet, livrable, etapes, subventions, acteurs, refStockage} of stockages) {
     try {
       const stockageMeta = await getStockage(refStockage)
 
@@ -48,9 +49,9 @@ export async function computeLivrablesGeoJSON() {
       }
 
       // Calendrier du projet
-      const projetStatut = findClosestEtape(projet.etapes)
-      const projetCalendrier = pcrsCalendrier[projetStatut]
-      const projetDateActualite = projet.etapes.find(e => e.statut === projetStatut)?.date_debut
+      const projetStatut = findClosestEtape(etapes)
+      const projetCalendrier = pcrsCalendrier[projetStatut.statut]
+      const projetDateActualite = projetStatut.date_debut
 
       // Subventions / acteurs
       const projetSubventions = []
@@ -67,9 +68,9 @@ export async function computeLivrablesGeoJSON() {
         type: 'Feature',
         geometry: stockageMeta.result.raster.envelope,
         properties: {
-          initiative: projet._id,
-          dateActualite: projetDateActualite,
-          calendrier: projetCalendrier,
+          initiative: refProjet,
+          dateActualite: projetDateActualite || null,
+          calendrier: projetCalendrier || null,
           format: getFormat(stockageMeta.result.raster.format),
           compression: stockageMeta.result.raster.compression,
           epsg: stockageMeta.result.raster.projection.code,
@@ -91,7 +92,7 @@ export async function computeDallesGeoJSON() {
   const stockages = await computeStockagesList()
   const features = []
 
-  for (const {projet, livrable, refStockage} of stockages) {
+  for (const {refProjet, livrable, refStockage} of stockages) {
     try {
       const dallesMeta = await getStockageData(refStockage)
       const indexedDalles = keyBy(dallesMeta, 'name')
@@ -112,7 +113,7 @@ export async function computeDallesGeoJSON() {
             dateAcquisition: null,
             dateRecette: null,
             descriptionElementsQualite: null,
-            idPCRS: projet._id,
+            idPCRS: refProjet,
             nomImage: dalle.name,
             precisionplanimetriqueCorpsdeRue: null,
             precisionplanimetriqueZonesNaturelles: null,
