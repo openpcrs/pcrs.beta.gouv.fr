@@ -1,17 +1,23 @@
 /* eslint-disable no-await-in-loop */
+/* eslint-disable camelcase */
 import {keyBy} from 'lodash-es'
 import mongo from '../util/mongo.js'
 import {getStockage, getStockageGeoJSON, getStockageData} from '../../lib/pcrs-scanner-api.js'
+import {findClosestEtape} from '../../shared/find-closest-etape.js'
 
 async function computeStockagesList() {
   const projets = mongo.db.collection('projets').find({'livrables.stockage_id': {$ne: null}})
   const stockages = []
 
   for await (const projet of projets) {
-    for (const livrable of projet.livrables) {
+    for (const liv of projet.livrables) {
       stockages.push({
-        projet: projet._id,
-        stockage: livrable.stockage_id
+        refProjet: projet._id,
+        livrable: liv,
+        etapes: projet.etapes,
+        subventions: projet.subventions,
+        acteurs: projet.acteurs,
+        refStockage: liv.stockage_id
       })
     }
   }
@@ -23,26 +29,57 @@ export async function computeLivrablesGeoJSON() {
   const stockages = await computeStockagesList()
   const features = []
 
-  for (const {projet, stockage} of stockages) {
+  const pcrsCalendrier = {
+    investigation: '03',
+    convention_signee: '03',
+    marche_public_en_cours: '03',
+    prod_en_cours: '02',
+    controle_en_cours: '02',
+    realise: '01',
+    disponible: '01',
+    obsolete: '01'
+  }
+
+  for (const {refProjet, livrable, etapes, subventions, acteurs, refStockage} of stockages) {
     try {
-      const stockageMeta = await getStockage(stockage)
+      const stockageMeta = await getStockage(refStockage)
 
       if (!stockageMeta?.result?.raster?.envelope) {
         continue
+      }
+
+      // Calendrier du projet
+      const projetStatut = findClosestEtape(etapes)
+      const projetCalendrier = pcrsCalendrier[projetStatut.statut]
+      const projetDateActualite = projetStatut.date_debut
+
+      // Subventions / acteurs
+      const projetSubventions = []
+      for (const subvention of subventions) {
+        projetSubventions.push(subvention.nature)
+      }
+
+      const projetActeurs = []
+      for (const acteur of acteurs) {
+        projetActeurs.push(acteur.nom)
       }
 
       features.push({
         type: 'Feature',
         geometry: stockageMeta.result.raster.envelope,
         properties: {
-          initiative: projet,
-          dateActualite: null,
-          calendrier: null,
+          initiative: refProjet,
+          dateActualite: projetDateActualite || null,
+          calendrier: projetCalendrier || null,
           format: getFormat(stockageMeta.result.raster.format),
           compression: stockageMeta.result.raster.compression,
           epsg: stockageMeta.result.raster.projection.code,
           taille: stockageMeta.result.raster.sizeRasterFiles,
-          recouvrement: null
+          recouvrement: livrable.recouvrement,
+          focale: livrable.focale || null,
+          subventions: [...new Set(projetSubventions)],
+          acteurs: [...new Set(projetActeurs)],
+          diffusionUrl: livrable.diffusion_url || null
         }
       })
     } catch {}
@@ -55,11 +92,11 @@ export async function computeDallesGeoJSON() {
   const stockages = await computeStockagesList()
   const features = []
 
-  for (const {projet, stockage} of stockages) {
+  for (const {refProjet, livrable, refStockage} of stockages) {
     try {
-      const dallesMeta = await getStockageData(stockage)
+      const dallesMeta = await getStockageData(refStockage)
       const indexedDalles = keyBy(dallesMeta, 'name')
-      const {features: dallesFeatures} = await getStockageGeoJSON(stockage)
+      const {features: dallesFeatures} = await getStockageGeoJSON(refStockage)
 
       for (const feature of dallesFeatures) {
         const {geometry} = feature
@@ -76,7 +113,7 @@ export async function computeDallesGeoJSON() {
             dateAcquisition: null,
             dateRecette: null,
             descriptionElementsQualite: null,
-            idPCRS: projet,
+            idPCRS: refProjet,
             nomImage: dalle.name,
             precisionplanimetriqueCorpsdeRue: null,
             precisionplanimetriqueZonesNaturelles: null,
@@ -88,7 +125,8 @@ export async function computeDallesGeoJSON() {
             compression: dalle.computedMetadata.compression,
             epsg: dalle.computedMetadata.projection.code,
             bandes: getBandes(dalle.computedMetadata.bands),
-            open: true
+            open: true,
+            focale: livrable.focale || null
           }
         })
       }
