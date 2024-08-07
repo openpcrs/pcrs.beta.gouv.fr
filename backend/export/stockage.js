@@ -8,13 +8,13 @@ async function computeStockagesList() {
   const projets = mongo.db.collection('projets').find({'livrables.stockage_id': {$ne: null}})
   const stockages = []
 
-  for await (const projet of projets) {
-    for (const liv of projet.livrables) {
+  for await (const prj of projets) {
+    for (const liv of prj.livrables) {
       stockages.push({
-        projet: projet,
+        projet: prj,
         livrable: liv,
-        subventions: projet.subventions,
-        acteurs: projet.acteurs,
+        subventions: prj.subventions,
+        acteurs: prj.acteurs,
         refStockage: liv.stockage_id
       })
     }
@@ -27,16 +27,16 @@ export async function computeLivrablesGeoJSON() {
   const stockages = await computeStockagesList()
   const features = []
   const pcrsCalendrier = {
-    "investigation": "03",
-    "convention_signee": "03",
-    "marche_public_en_cours":"03",
-    "prod_en_cours": "02",
-    "controle_en_cours": "02",
-    "realise": "01",
-    "disponible": "01",
-    "obsolete": "01"
+    investigation: '03',
+    convention_signee: '03',
+    marche_public_en_cours: '03',
+    prod_en_cours: '02',
+    controle_en_cours: '02',
+    realise: '01',
+    disponible: '01',
+    obsolete: '01'
   }
-  
+
   for (const {projet, livrable, subventions, acteurs, refStockage} of stockages) {
     try {
       const stockageMeta = await getStockage(refStockage)
@@ -47,8 +47,8 @@ export async function computeLivrablesGeoJSON() {
 
       // Calendrier du projet
       const projetStatut = findClosestEtape(projet.etapes)
-      const projetCalendrier = pcrsCalendrier[projetStatut];
-      const projetDateActualite = projet.etapes.find(e => e.statut === projetStatut)?.date_debut;
+      const projetCalendrier = pcrsCalendrier[projetStatut]
+      const projetDateActualite = projet.etapes.find(e => e.statut === projetStatut)?.date_debut
 
       // Subventions / acteurs
       const projetSubventions = []
