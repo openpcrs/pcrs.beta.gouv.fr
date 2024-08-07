@@ -8,13 +8,13 @@ async function computeStockagesList() {
   const stockages = []
 
   for await (const projet of projets) {
-    for (const livrable of projet.livrables) {
+    for (const liv of projet.livrables) {
       stockages.push({
         refProjet: projet._id,
-        livrable: livrable,
+        livrable: liv,
         subventions: projet.subventions,
         acteurs: projet.acteurs,
-        refStockage: livrable.stockage_id
+        refStockage: liv.stockage_id
       })
     }
   }
@@ -34,14 +34,14 @@ export async function computeLivrablesGeoJSON() {
         continue
       }
 
-      let projetSubventions = [];
+      const projetSubventions = []
       for (const subvention of subventions) {
-        projetSubventions.push(subvention.nature);
+        projetSubventions.push(subvention.nature)
       }
 
-      let projetActeurs = [];
-      for (const acteur of projet.acteurs) {
-        projetActeurs.push(acteur.nom);
+      const projetActeurs = []
+      for (const acteur of acteurs) {
+        projetActeurs.push(acteur.nom)
       }
 
       features.push({
@@ -58,9 +58,9 @@ export async function computeLivrablesGeoJSON() {
           taille: stockageMeta.result.raster.sizeRasterFiles,
           recouvrement: null,
           focale: livrable.focale,
-          subventions: [... new Set(projetSubventions)],
-          acteurs: [... new Set(projetActeurs)],
-          diffusion_url: livrable.diffusion_url
+          subventions: [...new Set(projetSubventions)],
+          acteurs: [...new Set(projetActeurs)],
+          diffusionUrl: livrable.diffusion_url
         }
       })
     } catch {}
