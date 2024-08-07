@@ -144,9 +144,22 @@ const livrablesSchemaCreation = Joi.object().keys({
   ).allow(null).messages({
     'any.only': 'Ce type de diffusion n’est pas valide'
   }),
+  diffusion_url: Joi.string().uri().allow(null).messages({
+    'string.base': 'L’URL de diffusion doit être une chaine de caractères',
+    'string.uri': 'L’URL de diffusion n’est pas valide'
+  }),
   date_livraison: Joi.custom(validateJoiDate).allow(null),
+  cout: Joi.number().integer().allow(null).messages({
+    'number.base': 'Le coût doit être un nombre entier'
+  }),
   avancement: Joi.number().allow(null).messages({
     'number.base': 'L’avancement doit être un nombre'
+  }),
+  recouvrement: Joi.number().allow(null).messages({
+    'number.base': 'Le recouvrement doit être un nombre'
+  }),
+  focale: Joi.number().integer().allow(null).messages({
+    'number.base': 'La focale doit être un nombre entier'
   }),
   stockage: Joi.valid(
     'http',
@@ -229,6 +242,9 @@ const schemaCreation = Joi.object({
   ).required().messages({
     'any.only': 'Cette nature n’est pas valide',
     'any.required': 'La clé "nature" est obligatoire'
+  }),
+  budget: Joi.number().integer().allow(null).messages({
+    'number.base': 'Le budget doit être un nombre'
   }),
   livrables: Joi.array().items(livrablesSchemaCreation).required().messages({
     'array.base': 'Les livrables doivent être dans un tableau',
@@ -349,9 +365,22 @@ const livrablesSchemaUpdate = Joi.object().keys({
   ).allow(null).messages({
     'any.only': 'Ce type de diffusion n’est pas valide'
   }),
+  diffusion_url: Joi.string().uri().allow(null).messages({
+    'string.base': 'L’URL de diffusion doit être une chaine de caractères',
+    'string.uri': 'L’URL de diffusion n’est pas valide'
+  }),
   date_livraison: Joi.custom(validateJoiDate).allow(null),
+  cout: Joi.number().integer().allow(null).messages({
+    'number.base': 'Le coût doit être un nombre entier'
+  }),
   avancement: Joi.number().allow(null).messages({
     'number.base': 'L’avancement doit être un nombre'
+  }),
+  recouvrement: Joi.number().allow(null).messages({
+    'number.base': 'Le recouvrement doit être un nombre'
+  }),
+  focale: Joi.number().integer().allow(null).messages({
+    'number.base': 'La focale doit être un nombre entier'
   }),
   stockage_id: Joi.string().allow(null),
   stockage: Joi.valid(
@@ -431,6 +460,9 @@ const schemaUpdate = Joi.object({
     'mixte'
   ).messages({
     'any.only': 'Cette nature n’est pas valide'
+  }),
+  budget: Joi.number().integer().allow(null).messages({
+    'number.base': 'Le budget doit être un nombre'
   }),
   livrables: Joi.array().items(livrablesSchemaUpdate).messages({
     'array.base': 'Les livrables doivent être dans un tableau'
