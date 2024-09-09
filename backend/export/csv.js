@@ -27,6 +27,7 @@ export async function exportProjetsAsCSV(includes_wkt) {
       marche_public_en_cours_date: projet.etapes.find(e => e.statut === 'marche_public_en_cours')?.date_debut || '',
       prod_en_cours_date: projet.etapes.find(e => e.statut === 'prod_en_cours')?.date_debut || '',
       controle_en_cours_date: projet.etapes.find(e => e.statut === 'controle_en_cours')?.date_debut || '',
+      realise_date: projet.etapes.find(e => e.statut === 'realise')?.date_debut || '',
       disponible_date: projet.etapes.find(e => e.statut === 'disponible')?.date_debut || '',
       obsolete_date: projet.etapes.find(e => e.statut === 'obsolete')?.date_debut || ''
     })
@@ -59,7 +60,7 @@ export async function exportLivrablesAsCSV() {
         stockage: livrable.stockage || '',
         stockage_public: livrable.stockage_public || '',
         avancement: livrable.avancement || '',
-        revouvrement: livrable.revouvrement || '',
+        recouvrement: livrable.recouvrement || '',
         focale: livrable.focale || '',
         cout: livrable.cout || '',
         publication: '',
