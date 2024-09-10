@@ -77,6 +77,7 @@ export async function computeLivrablesGeoJSON() {
           taille: stockageMeta.result.raster.sizeRasterFiles,
           recouvrement: livrable.recouvrement,
           focale: livrable.focale || null,
+          licence: livrable.licence || null,
           subventions: [...new Set(projetSubventions)],
           acteurs: [...new Set(projetActeurs)],
           diffusionUrl: livrable.diffusion_url || null
@@ -120,6 +121,7 @@ export async function computeDallesGeoJSON() {
             resolution: getResolution(dalle.computedMetadata.pixelSize?.height),
             typeImage: getFormat(dalle.dataFormat),
             producteur: null,
+            licence: livrable.licence || null,
             tailleFichier: dalle.size,
             tailleImage: getTaille(dalle.computedMetadata.size),
             compression: dalle.computedMetadata.compression,
