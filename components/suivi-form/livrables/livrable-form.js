@@ -280,8 +280,8 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
             name='diffusion_url'
             label='URL de diffusion'
             value={form.fields.diffusion_url.value}
-            ariaLabel='URL de diffusion du livrable : GetCapabilities ou page web'
-            description='URL de diffusion du livrable : GetCapabilities ou page web'
+            ariaLabel='URL de la couche de diffusion du livrable : une URL vers un service (WMS, WMTS...) et non GetCapabilities'
+            description='URL de la couche de diffusion du livrable : une URL vers un service (WMS, WMTS...) et non GetCapabilities'
             errorMessage={form.fields.diffusion_url.validationMessage}
             onValueChange={handleInputChange}
           />
