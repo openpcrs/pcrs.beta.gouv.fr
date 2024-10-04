@@ -57,9 +57,12 @@ const renderItem = (rows, style) => (
 )
 
 export const livrableRenderItem = livrable => {
-  let diffLink = LIVRABLE_DIFFUSION[livrable.diffusion].label
-  if (livrable.diffusion !== null && livrable.diffusion_url !== null) {
-    diffLink = `${diffLink} (<a href="${livrable.diffusion_url}" target="_blank">En ligne</a>)`
+  let diffLink = null
+  if (livrable.diffusion !== null) {
+    diffLink = LIVRABLE_DIFFUSION[livrable.diffusion].label
+    if (livrable.diffusion !== null && livrable.diffusion_url !== null) {
+      diffLink = `${diffLink} (<a href="${livrable.diffusion_url}" target="_blank">En ligne</a>)`
+    }
   }
 
   const rows = [
