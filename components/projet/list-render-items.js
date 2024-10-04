@@ -1,6 +1,6 @@
 import {formatDate} from '@/lib/date-utils.js'
 import {formatBytes} from '@/lib/utils/file.js'
-import {SUBVENTIONS_NATURES, LICENCES, LIVRABLE_NATURES} from '@/lib/utils/projet.js'
+import {SUBVENTIONS_NATURES, LICENCES, LIVRABLE_NATURES, LIVRABLE_DIFFUSION} from '@/lib/utils/projet.js'
 
 import colors from '@/styles/colors.js'
 
@@ -57,11 +57,17 @@ const renderItem = (rows, style) => (
 )
 
 export const livrableRenderItem = livrable => {
+  let diffLink = LIVRABLE_DIFFUSION[livrable.diffusion].label;
+  if (livrable.diffusion != null && livrable.diffusion_url != null){
+    diffLink = `${diffService} (<a href="${livrable.diffusion_url}" target="_blank">En ligne</a>)`;
+  }
+
   const rows = [
     {title: 'Nature', value: LIVRABLE_NATURES[livrable.nature].label, defaultText: 'Non renseignée'},
     {title: 'Licence', value: LICENCES[livrable.licence].label, defaultText: 'Non renseignée'},
     {title: 'Stockage', value: livrable?.stockage?.toUpperCase(), defaultText: 'Non renseigné'},
-    {title: 'Livraison', value: livrable?.date_livraison ? `le ${formatDate(livrable.date_livraison)}` : null, defaultText: 'Non renseignée'}
+    {title: 'Date livraison', value: livrable?.date_livraison ? `le ${formatDate(livrable.date_livraison)}` : null, defaultText: 'Non renseignée'},
+    {title: 'Diffusion', value: diffLink, defaultText: 'Non renseignée'}
   ]
   return renderItem(rows)
 }
