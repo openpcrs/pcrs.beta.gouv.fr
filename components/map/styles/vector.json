@@ -2856,6 +2856,26 @@
       }
     },
     {
+      "id": "projets-fills-regime",
+      "type": "fill",
+      "source": "projetsData",
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "fill-color": [
+          "match",
+          ["get", "regime"],
+          "production", "#e4b555",
+          "maj", "#fa856d",
+          "anticipation", "#518dff",
+          "white"
+        ],
+        "fill-opacity": 0.5,
+        "fill-outline-color": "grey"
+      }
+    },
+    {
       "id": "contours",
       "type": "line",
       "source": "departements",

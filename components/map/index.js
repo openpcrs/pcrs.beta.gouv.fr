@@ -20,7 +20,7 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
   const [acteurSearchInput, setActeurSearchInput] = useState('')
   const [foundActeurs, setFoundActeurs] = useState([])
   const [matchingIds, setMatchingIds] = useState([])
-  const [isNatureLayout, setIsNatureLayout] = useState(false) // Which layout is selected (nature or statut)
+  const [isNatureLayout, setIsNatureLayout] = useState(false) // Which layout is selected (nature, regime or statut)
 
   const normalize = string => deburr(string?.toLowerCase())
 
@@ -89,14 +89,17 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
 
     maplibreMap.on('click', 'projets-fills', e => onClick(e))
     maplibreMap.on('click', 'projets-fills-nature', e => onClick(e))
+    maplibreMap.on('click', 'projets-fills-regime', e => onClick(e))
 
     if (!isMobile) {
       maplibreMap.on('mousemove', 'projets-fills', e => handleMouseMove(e))
       maplibreMap.on('mousemove', 'projets-fills-nature', e => handleMouseMove(e))
+      maplibreMap.on('mousemove', 'projets-fills-regime', e => handleMouseMove(e))
     }
 
     maplibreMap.on('mouseleave', 'projets-fills', () => handleMouseLeave())
     maplibreMap.on('mouseleave', 'projets-fills-nature', () => handleMouseLeave())
+    maplibreMap.on('mouseleave', 'projets-fills-regime', () => handleMouseLeave())
 
     maplibreMap.on('load', () => {
       maplibreMap.getSource('projetsData').setData(geometry)
@@ -112,13 +115,22 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
     if (mapRef?.current?.isStyleLoaded()) {
       if (layout === 'projets-fills-nature') {
         mapRef.current.setLayoutProperty('projets-fills-nature', 'visibility', 'visible')
+        mapRef.current.setLayoutProperty('projets-fills-regime', 'visibility', 'none')
         mapRef.current.setLayoutProperty('projets-fills', 'visibility', 'none')
         setIsNatureLayout(true)
+      }
+
+      if (layout === 'projets-fills-regime') {
+        mapRef.current.setLayoutProperty('projets-fills-regime', 'visibility', 'visible')
+        mapRef.current.setLayoutProperty('projets-fills-nature', 'visibility', 'none')
+        mapRef.current.setLayoutProperty('projets-fills', 'visibility', 'none')
+        setIsRegimeLayout(true)
       }
 
       if (layout === 'projets-fills') {
         mapRef.current.setLayoutProperty('projets-fills', 'visibility', 'visible')
         mapRef.current.setLayoutProperty('projets-fills-nature', 'visibility', 'none')
+        mapRef.current.setLayoutProperty('projets-fills-regime', 'visibility', 'none')
         setIsNatureLayout(false)
       }
 
@@ -233,7 +245,15 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
                 disabled={layout === 'projets-fills-nature'}
                 onClick={() => setLayout('projets-fills-nature')}
               >
-                nature
+                Nature
+              </button>
+              <button
+                type='button'
+                className='fr-btn fr-btn--sm fr-m-1w'
+                disabled={layout === 'projets-fills-regime'}
+                onClick={() => setLayout('projets-fills-regime')}
+              >
+                Régime
               </button>
               <button
                 type='button'
@@ -241,7 +261,7 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
                 disabled={layout === 'projets-fills'}
                 onClick={() => setLayout('projets-fills')}
               >
-                statut
+                Statut
               </button>
             </div>
           </div>
