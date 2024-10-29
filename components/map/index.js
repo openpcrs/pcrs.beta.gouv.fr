@@ -166,12 +166,13 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
   useEffect(() => {
     if (mapRef?.current.isStyleLoaded() && projetId) {
       const projectGeometry = geometry.features.find(feature => feature.properties._id === projetId)
-      if (isNatureLayout){
-        const fillColor = NATURES[projectGeometry.nature].color
-      }else if (isRegimeLayout){
-        const fillColor = REGIMES[projectGeometry.regime].color
-      }else{
-        const fillColor = STATUS[projectGeometry.statut].color
+      let fillColor
+      if (isNatureLayout) {
+        fillColor = NATURES[projectGeometry.nature].color
+      } else if (isRegimeLayout) {
+        fillColor = REGIMES[projectGeometry.regime].color
+      } else {
+        fillColor = STATUS[projectGeometry.statut].color
       }
 
       if (selectedId.current && selectedId.current !== projetId && mapRef.current.getLayer(`selected-${selectedId.current}`)) {
