@@ -8,7 +8,7 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 
 import vector from './styles/vector.json'
 
-import {STATUS, NATURES} from '@/lib/utils/projet.js'
+import {STATUS, NATURES, REGIMES} from '@/lib/utils/projet.js'
 
 import Popup from '@/components/map/popup.js'
 import Legend from '@/components/map/legend.js'
@@ -21,6 +21,7 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
   const [foundActeurs, setFoundActeurs] = useState([])
   const [matchingIds, setMatchingIds] = useState([])
   const [isNatureLayout, setIsNatureLayout] = useState(false) // Which layout is selected (nature, regime or statut)
+  const [isRegimeLayout, setIsRegimeLayout] = useState(false) // Which layout is selected (nature, regime or statut)
 
   const normalize = string => deburr(string?.toLowerCase())
 
@@ -132,6 +133,7 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
         mapRef.current.setLayoutProperty('projets-fills-nature', 'visibility', 'none')
         mapRef.current.setLayoutProperty('projets-fills-regime', 'visibility', 'none')
         setIsNatureLayout(false)
+        setIsRegimeLayout(false)
       }
 
       // Filter by actors when actor is selected
@@ -164,8 +166,13 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
   useEffect(() => {
     if (mapRef?.current.isStyleLoaded() && projetId) {
       const projectGeometry = geometry.features.find(feature => feature.properties._id === projetId)
-      const propertyName = isNatureLayout ? 'nature' : 'statut'
-      const fillColor = (isNatureLayout ? NATURES : STATUS)[projectGeometry.properties[propertyName]].color
+      if (isNatureLayout){
+        const fillColor = NATURES[projectGeometry.nature].color
+      }else if (isRegimeLayout){
+        const fillColor = REGIMES[projectGeometry.regime].color
+      }else{
+        const fillColor = STATUS[projectGeometry.statut].color
+      }
 
       if (selectedId.current && selectedId.current !== projetId && mapRef.current.getLayer(`selected-${selectedId.current}`)) {
         mapRef.current.removeLayer(`selected-${selectedId.current}`)
@@ -192,7 +199,7 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
       mapRef.current.removeSource(`selected-${selectedId.current}`)
       selectedId.current = null
     }
-  }, [projetId, geometry, isNatureLayout])
+  }, [projetId, geometry, isNatureLayout, isRegimeLayout])
 
   return (
     <div style={{position: 'relative', height: '100%', width: '100%'}}>

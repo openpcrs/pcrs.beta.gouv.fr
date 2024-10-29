@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import PropTypes from 'prop-types'
 
-import {STATUS, NATURES, REGIME} from '@/lib/utils/projet.js'
+import {STATUS, NATURES, REGIMES} from '@/lib/utils/projet.js'
 
 import Badge from '@/components/badge.js'
 
