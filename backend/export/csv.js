@@ -57,7 +57,6 @@ export async function exportLivrablesAsCSV() {
         licence: livrable.licence || '',
         diffusion: livrable.diffusion || '',
         diffusion_url: livrable.diffusion_url || '',
-        diffusion_layer: livrable.diffusion_layer || '',
         stockage: livrable.stockage || '',
         stockage_public: livrable.stockage_public || '',
         avancement: livrable.avancement || '',
