@@ -80,7 +80,8 @@ export async function computeLivrablesGeoJSON() {
           licence: livrable.licence || null,
           subventions: [...new Set(projetSubventions)],
           acteurs: [...new Set(projetActeurs)],
-          diffusionUrl: livrable.diffusion_url || null
+          diffusionUrl: livrable.diffusion_url || null,
+          diffusionLayer: livrable.diffusion_layer || null
         }
       })
     } catch {}

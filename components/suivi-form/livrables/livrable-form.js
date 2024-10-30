@@ -32,11 +32,6 @@ const initState = ({initialValues, fieldsValidations}) => {
       isRequired: true,
       isValid: Boolean(initialValues.nature)
     },
-    diffusion: {
-      value: initialValues.diffusion || '',
-      isRequired: false,
-      isValid: Boolean(initialValues.diffusion)
-    },
     licence: {
       value: initialValues.licence || '',
       isRequired: true,
@@ -71,10 +66,20 @@ const initState = ({initialValues, fieldsValidations}) => {
       isRequired: false,
       isValid: Boolean(initialValues.cout)
     },
+    diffusion: {
+      value: initialValues.diffusion || '',
+      isRequired: false,
+      isValid: Boolean(initialValues.diffusion)
+    },
     diffusion_url: {
       value: initialValues.diffusion_url || '',
       isRequired: false,
       isValid: Boolean(initialValues.diffusion_url)
+    },
+    diffusion_layer: {
+      value: initialValues.diffusion_layer || '',
+      isRequired: false,
+      isValid: Boolean(initialValues.diffusion_layer)
     }
   }
 
@@ -103,6 +108,21 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
 
   const handleInputChange = event => {
     const {name, value} = event.target
+
+    // Check if the diffusion layer or diffusion url are required
+    if (name === 'diffusion_url' && form.fields.diffusion_layer.value === '' && value !== '') {
+      form.fields.diffusion_layer.isRequired = true
+      form.fields.diffusion_layer.validationMessage = 'Ce champ est obligatoire lorsque que l’URL de diffusion est renseignée.'
+    } else if (name === 'diffusion_layer' && form.fields.diffusion_url.value === '' && value !== '') {
+      form.fields.diffusion_url.isRequired = true
+      form.fields.diffusion_url.validationMessage = 'Ce champ est obligatoire lorsque que le nom de couche de diffusion est renseignée.'
+    } else {
+      form.fields.diffusion_layer.isRequired = false
+      form.fields.diffusion_layer.validationMessage = null
+      form.fields.diffusion_url.isRequired = false
+      form.fields.diffusion_url.validationMessage = null
+    }
+
     dispatch({
       type: 'SET_FIELD_VALUE',
       payload: {fieldName: name, value}
@@ -127,19 +147,20 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
 
   const handleSubmit = () => {
     setErrorMessage(null)
-    const {nom, nature, diffusion, licence, avancement, dateLivraison, recouvrement, focale, cout, diffusion_url} = form.fields
+    const {nom, nature, licence, avancement, dateLivraison, recouvrement, focale, cout, diffusion, diffusion_url, diffusion_layer} = form.fields
 
     onSubmit({
       nom: nom.value.trim(),
       nature: nature.value,
-      diffusion: diffusion.value || null,
       licence: licence.value,
       date_livraison: dateLivraison.value || null,
       avancement: avancement.value ? Number(avancement.value) : null,
       recouvrement: recouvrement.value ? Number(recouvrement.value) : null,
       focale: focale.value ? Number(focale.value) : null,
       cout: cout.value ? Number(cout.value) : null,
+      diffusion: diffusion.value || null,
       diffusion_url: diffusion_url.value || null,
+      diffusion_layer: diffusion_layer.value || null,
       stockage: livrableStockage?.stockage || null,
       stockage_public: livrableStockage?.stockage_public || false,
       stockage_telechargement: livrableStockage?.stockage_telechargement || false,
@@ -151,7 +172,7 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
     <div ref={livrableFormRef} className='fr-mt-4w' style={{width: '100%'}}>
       <div className='fr-grid-row fr-grid-row--gutters'>
         {/* Nom du livrable */}
-        <div className='fr-col-12 fr-col-lg-4'>
+        <div className='fr-col-12 fr-col-lg-8'>
           <TextInput
             isRequired
             name='nom'
@@ -176,20 +197,6 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
             description='Nature du livrable'
             errorMessage={form.fields.nature.validationMessage}
             options={natureOptions}
-            onValueChange={handleInputChange}
-          />
-        </div>
-
-        {/* Mode de diffusion du livrable - selecteur */}
-        <div className='fr-col-12 fr-col-lg-4'>
-          <SelectInput
-            name='diffusion'
-            label='Diffusion'
-            options={diffusionOptions}
-            value={form.fields.diffusion.value}
-            ariaLabel='mode de diffusion du livrable'
-            description='Mode de diffusion'
-            errorMessage={form.fields.diffusion.validationMessage}
             onValueChange={handleInputChange}
           />
         </div>
@@ -274,8 +281,35 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
         </div>
       </div>
 
+      <div className='fr-grid-row fr-grid-row--gutters fr-mt-4w fr-pt-2w' style={{borderTop: '1px solid lightgrey'}}>
+        {/* Mode de diffusion du livrable - selecteur */}
+        <div className='fr-col-12 fr-col-lg-6'>
+          <SelectInput
+            name='diffusion'
+            label='Diffusion'
+            options={diffusionOptions}
+            value={form.fields.diffusion.value}
+            ariaLabel='mode de diffusion du livrable'
+            description='Mode de diffusion'
+            errorMessage={form.fields.diffusion.validationMessage}
+            onValueChange={handleInputChange}
+          />
+        </div>
+        <div className='fr-col-12 fr-col-lg-6'>
+          <TextInput
+            name='diffusion_layer'
+            label='Nom de la couche de diffusion'
+            value={form.fields.diffusion_layer.value}
+            ariaLabel='Nom de la couche dans le service de diffusion'
+            description='Nom de la couche dans le service de diffusion'
+            errorMessage={form.fields.diffusion_layer.validationMessage}
+            onValueChange={handleInputChange}
+          />
+        </div>
+      </div>
+
       <div className='fr-grid-row fr-grid-row--gutters'>
-        <div className='fr-col-12 fr-col-lg-8'>
+        <div className='fr-col-12 fr-col-lg-12'>
           <TextInput
             name='diffusion_url'
             label='URL de diffusion'
