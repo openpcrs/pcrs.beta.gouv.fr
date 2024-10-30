@@ -148,15 +148,6 @@ const livrablesSchemaCreation = Joi.object().keys({
     'string.base': 'L’URL de diffusion doit être une chaine de caractères',
     'string.uri': 'L’URL de diffusion n’est pas valide'
   }),
-  diffusion_layer: Joi.string().when('diffusion_url', {
-    is: Joi.exist(),
-    // eslint-disable-next-line unicorn/no-thenable
-    then: Joi.required(),
-    otherwise: Joi.allow(null)
-  }).messages({
-    'string.base': 'La nature de la couche doit être une chaine de caractères',
-    'any.required': 'La nature de la couche est obligatoire lorsque l’URL de diffusion est renseignée'
-  }),
   date_livraison: Joi.custom(validateJoiDate).allow(null),
   cout: Joi.number().integer().allow(null).messages({
     'number.base': 'Le coût doit être un nombre entier'
@@ -377,15 +368,6 @@ const livrablesSchemaUpdate = Joi.object().keys({
   diffusion_url: Joi.string().uri().allow(null).messages({
     'string.base': 'L’URL de diffusion doit être une chaine de caractères',
     'string.uri': 'L’URL de diffusion n’est pas valide'
-  }),
-  diffusion_layer: Joi.string().when('diffusion_url', {
-    is: Joi.exist(),
-    // eslint-disable-next-line unicorn/no-thenable
-    then: Joi.required(),
-    otherwise: Joi.allow(null)
-  }).messages({
-    'string.base': 'La nature de la couche doit être une chaine de caractères',
-    'any.required': 'La nature de la couche est obligatoire lorsque l’URL de diffusion est renseignée'
   }),
   date_livraison: Joi.custom(validateJoiDate).allow(null),
   cout: Joi.number().integer().allow(null).messages({
