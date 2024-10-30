@@ -108,6 +108,15 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
 
   const handleInputChange = event => {
     const {name, value} = event.target
+
+    if (name === 'diffusion_url' && value !== '') {
+      form.fields.diffusion_layer.isRequired = true
+      form.fields.diffusion_layer.validationMessage = 'Ce champ est obligatoire lorsque que l’URL de diffusion est renseignée.'
+    } else {
+      form.fields.diffusion_layer.isRequired = false
+      form.fields.diffusion_layer.validationMessage = null
+    }
+
     dispatch({
       type: 'SET_FIELD_VALUE',
       payload: {fieldName: name, value}
