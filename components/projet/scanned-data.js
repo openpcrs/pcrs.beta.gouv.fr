@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react'
 import PropTypes from 'prop-types'
 
 import ScanResult from './scan-result.js'
-import {getStockageGeoJSON} from '@/lib/pcrs-scanner-api.js'
+import {getStockage, getStockageGeoJSON} from '@/lib/pcrs-scanner-api.js'
 
 import CenteredSpinner from '@/components/centered-spinner.js'
 import ScannerMap from '@/components/projet/scanner-map.js'
@@ -21,7 +21,9 @@ const ScannedData = ({stockage, downloadToken}) => {
 
         setGeojson(geojson)
       } catch {
-        setError('Impossible de récupérer les ressources cartographique du livrable')
+        const scanInfos = await getStockage(stockage._id)
+
+        setError(scanInfos.scan.lastError)
       }
 
       setIsLoading(false)
@@ -49,7 +51,12 @@ const ScannedData = ({stockage, downloadToken}) => {
         ) : (
           <div>
             {error ? (
-              <div id='text-input-error-desc-error' className='fr-error-text'>{error}</div>
+              <div className='fr-alert fr-alert--error fr-alert--sm fr-mt-3w'>
+                Une erreur a été rencontrée lors du scan du stockage :
+                <p style={{color: '#CE0500'}}>
+                  {error}
+                </p>
+              </div>
             ) : (
               geojson && (
                 <div className='map-wrapper'>
