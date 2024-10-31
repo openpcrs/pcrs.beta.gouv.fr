@@ -20,14 +20,19 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
   const [acteurSearchInput, setActeurSearchInput] = useState('')
   const [foundActeurs, setFoundActeurs] = useState([])
   const [matchingIds, setMatchingIds] = useState([])
-  const [isNatureLayout, setIsNatureLayout] = useState(false) // Which layout is selected (nature, regime or statut)
-  const [isRegimeLayout, setIsRegimeLayout] = useState(false) // Which layout is selected (nature, regime or statut)
+  const [selectedLayout, setSelectedLayout] = useState('statut') // Which layout is selected
 
   const normalize = string => deburr(string?.toLowerCase())
 
   const mapNode = useRef()
   const mapRef = useRef()
   const selectedId = useRef(projetId)
+
+  const layoutDicts = useRef({
+    statut: STATUS,
+    nature: NATURES,
+    regime: REGIMES
+  })
 
   const popupRef = useRef(new maplibreGl.Popup({
     offset: 50,
@@ -118,22 +123,21 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
         mapRef.current.setLayoutProperty('projets-fills-nature', 'visibility', 'visible')
         mapRef.current.setLayoutProperty('projets-fills-regime', 'visibility', 'none')
         mapRef.current.setLayoutProperty('projets-fills', 'visibility', 'none')
-        setIsNatureLayout(true)
+        setSelectedLayout('nature')
       }
 
       if (layout === 'projets-fills-regime') {
         mapRef.current.setLayoutProperty('projets-fills-regime', 'visibility', 'visible')
         mapRef.current.setLayoutProperty('projets-fills-nature', 'visibility', 'none')
         mapRef.current.setLayoutProperty('projets-fills', 'visibility', 'none')
-        setIsRegimeLayout(true)
+        setSelectedLayout('regime')
       }
 
       if (layout === 'projets-fills') {
         mapRef.current.setLayoutProperty('projets-fills', 'visibility', 'visible')
         mapRef.current.setLayoutProperty('projets-fills-nature', 'visibility', 'none')
         mapRef.current.setLayoutProperty('projets-fills-regime', 'visibility', 'none')
-        setIsNatureLayout(false)
-        setIsRegimeLayout(false)
+        setSelectedLayout('statut')
       }
 
       // Filter by actors when actor is selected
@@ -166,14 +170,7 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
   useEffect(() => {
     if (mapRef?.current.isStyleLoaded() && projetId) {
       const projectGeometry = geometry.features.find(feature => feature.properties._id === projetId)
-      let fillColor
-      if (isNatureLayout) {
-        fillColor = NATURES[projectGeometry.nature].color
-      } else if (isRegimeLayout) {
-        fillColor = REGIMES[projectGeometry.regime].color
-      } else {
-        fillColor = STATUS[projectGeometry.statut].color
-      }
+      const fillColor = layoutDicts[selectedLayout][projectGeometry.properties[selectedLayout]].color
 
       if (selectedId.current && selectedId.current !== projetId && mapRef.current.getLayer(`selected-${selectedId.current}`)) {
         mapRef.current.removeLayer(`selected-${selectedId.current}`)
@@ -200,7 +197,7 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
       mapRef.current.removeSource(`selected-${selectedId.current}`)
       selectedId.current = null
     }
-  }, [projetId, geometry, isNatureLayout, isRegimeLayout])
+  }, [projetId, geometry, layoutDicts, selectedLayout])
 
   return (
     <div style={{position: 'relative', height: '100%', width: '100%'}}>
