@@ -2868,7 +2868,7 @@
           ["get", "regime"],
           "production", "#e4b555",
           "maj", "#fa856d",
-          "anticipation", "#518dff",
+          "anticipation", "#6d9df8",
           "white"
         ],
         "fill-opacity": 0.5,

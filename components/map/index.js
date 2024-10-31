@@ -170,7 +170,7 @@ const Map = ({isMobile, geometry, projetId, handleNewProject, handleSelectProjet
   useEffect(() => {
     if (mapRef?.current.isStyleLoaded() && projetId) {
       const projectGeometry = geometry.features.find(feature => feature.properties._id === projetId)
-      const fillColor = layoutDicts[selectedLayout][projectGeometry.properties[selectedLayout]].color
+      const fillColor = layoutDicts.current[selectedLayout][projectGeometry.properties[selectedLayout]].color
 
       if (selectedId.current && selectedId.current !== projetId && mapRef.current.getLayer(`selected-${selectedId.current}`)) {
         mapRef.current.removeLayer(`selected-${selectedId.current}`)
