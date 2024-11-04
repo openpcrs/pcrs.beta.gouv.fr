@@ -21,6 +21,7 @@ const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete, handle
     async function getScannerInfos() {
       if (stockage_id) {
         const result = await getStockage(stockage_id)
+
         if (result.scan.status === 'processing') {
           setMessage('Scan en cours...')
         }
@@ -36,8 +37,7 @@ const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete, handle
     }
 
     getScannerInfos()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [stockage_id])
 
   return (
     <div className={`fr-grid-row card-container fr-grid-row--middle fr-grid-row--gutters ${isDisabled ? 'card-disable' : ''} fr-p-2w fr-col-12`}>
