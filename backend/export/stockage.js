@@ -75,12 +75,14 @@ export async function computeLivrablesGeoJSON() {
           compression: stockageMeta.result.raster.compression,
           epsg: stockageMeta.result.raster.projection.code,
           taille: stockageMeta.result.raster.sizeRasterFiles,
-          recouvrement: livrable.recouvrement,
+          recouvrLat: livrable.recouvr_lat,
+          recouvrLon: livrable.recouvr_lon,
           focale: livrable.focale || null,
           licence: livrable.licence || null,
           subventions: [...new Set(projetSubventions)],
           acteurs: [...new Set(projetActeurs)],
-          diffusionUrl: livrable.diffusion_url || null
+          diffusionUrl: livrable.diffusion_url || null,
+          diffusionLayer: livrable.diffusion_layer || null
         }
       })
     } catch {}

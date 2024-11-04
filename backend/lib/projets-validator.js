@@ -148,6 +148,9 @@ const livrablesSchemaCreation = Joi.object().keys({
     'string.base': 'L’URL de diffusion doit être une chaine de caractères',
     'string.uri': 'L’URL de diffusion n’est pas valide'
   }),
+  diffusion_layer: Joi.string().allow(null).messages({
+    'string.base': 'La nom de la couche doit être une chaine de caractères'
+  }),
   date_livraison: Joi.custom(validateJoiDate).allow(null),
   cout: Joi.number().integer().allow(null).messages({
     'number.base': 'Le coût doit être un nombre entier'
@@ -155,7 +158,10 @@ const livrablesSchemaCreation = Joi.object().keys({
   avancement: Joi.number().allow(null).messages({
     'number.base': 'L’avancement doit être un nombre'
   }),
-  recouvrement: Joi.number().allow(null).messages({
+  recouvr_lat: Joi.number().allow(null).messages({
+    'number.base': 'Le recouvrement doit être un nombre'
+  }),
+  recouvr_lon: Joi.number().allow(null).messages({
     'number.base': 'Le recouvrement doit être un nombre'
   }),
   focale: Joi.number().integer().allow(null).messages({
@@ -171,9 +177,21 @@ const livrablesSchemaCreation = Joi.object().keys({
   stockage_public: Joi.bool().allow(null),
   stockage_telechargement: Joi.bool().allow(null),
   stockage_params: Joi.object()
-}).messages({
-  'object.unknown': 'Une clé de l’objet est invalide'
-})
+}).custom((value, helpers) => {
+  const {diffusion_url, diffusion_layer} = value
+
+  if ((diffusion_url && !diffusion_layer) || (!diffusion_url && diffusion_layer)) {
+    return helpers.error('both.diffusionRequired', {field: 'diffusion_layer ou diffusion_url'})
+  }
+
+  return value
+}, 'Validation de diffusion')
+  .prefs({
+    messages: {
+      'both.diffusionRequired': 'Les champs diffusion_url et diffusion_layer doivent être renseignés ensemble ou laissés vides',
+      'object.unknown': 'Une clé de l’objet est invalide'
+    }
+  })
 
 const subventionsSchemaCreation = Joi.object().keys({
   nom: Joi.string().required().messages({
@@ -230,7 +248,8 @@ const schemaCreation = Joi.object({
     }),
   regime: Joi.valid(
     'production',
-    'maj'
+    'maj',
+    'anticipation'
   ).required().messages({
     'any.only': 'Ce type de régime n’est pas valide',
     'any.required': 'La clé "regime" est obligatoire'
@@ -369,6 +388,9 @@ const livrablesSchemaUpdate = Joi.object().keys({
     'string.base': 'L’URL de diffusion doit être une chaine de caractères',
     'string.uri': 'L’URL de diffusion n’est pas valide'
   }),
+  diffusion_layer: Joi.string().allow(null).messages({
+    'string.base': 'La nom de la couche doit être une chaine de caractères'
+  }),
   date_livraison: Joi.custom(validateJoiDate).allow(null),
   cout: Joi.number().integer().allow(null).messages({
     'number.base': 'Le coût doit être un nombre entier'
@@ -376,7 +398,10 @@ const livrablesSchemaUpdate = Joi.object().keys({
   avancement: Joi.number().allow(null).messages({
     'number.base': 'L’avancement doit être un nombre'
   }),
-  recouvrement: Joi.number().allow(null).messages({
+  recouvr_lat: Joi.number().allow(null).messages({
+    'number.base': 'Le recouvrement doit être un nombre'
+  }),
+  recouvr_lon: Joi.number().allow(null).messages({
     'number.base': 'Le recouvrement doit être un nombre'
   }),
   focale: Joi.number().integer().allow(null).messages({
@@ -394,9 +419,21 @@ const livrablesSchemaUpdate = Joi.object().keys({
   stockage_telechargement: Joi.bool().allow(null),
   stockage_params: Joi.object().allow(null),
   stockage_erreur: Joi.string().allow(null)
-}).messages({
-  'object.unknown': 'Une clé de l’objet est invalide'
-})
+}).custom((value, helpers) => {
+  const {diffusion_url, diffusion_layer} = value
+
+  if ((diffusion_url && !diffusion_layer) || (!diffusion_url && diffusion_layer)) {
+    return helpers.error('both.diffusionRequired', {field: 'diffusion_layer ou diffusion_url'})
+  }
+
+  return value
+}, 'Validation de diffusion')
+  .prefs({
+    messages: {
+      'both.diffusionRequired': 'Les champs diffusion_url et diffusion_layer doivent être renseignés ensemble ou laissés vides',
+      'object.unknown': 'Une clé de l’objet est invalide'
+    }
+  })
 
 const subventionsSchemaUpdate = Joi.object().keys({
   nom: Joi.string().messages({
@@ -450,7 +487,8 @@ const schemaUpdate = Joi.object({
     }),
   regime: Joi.valid(
     'production',
-    'maj'
+    'maj',
+    'anticipation'
   ).messages({
     'any.only': 'Ce régime n’est pas valide'
   }),

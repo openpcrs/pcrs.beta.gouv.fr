@@ -14,7 +14,7 @@ import {getStockage} from '@/lib/pcrs-scanner-api.js'
 const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete, handleRefreshScan}) => {
   const [error, setError] = useState()
   const [message, setMessage] = useState()
-  const {nom, nature, licence, avancement, diffusion, recouvrement, focale, cout, diffusion_url, stockage, stockage_id, stockage_erreur} = livrable
+  const {nom, nature, licence, avancement, recouvr_lat, recouvr_lon, focale, cout, diffusion, diffusion_url, diffusion_layer, stockage, stockage_id, stockage_erreur} = livrable
   const dateLivraison = livrable.date_livraison
 
   useEffect(() => {
@@ -78,14 +78,13 @@ const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete, handle
           </div>
 
           <div className='fr-grid-row fr-col-12 fr-col-md-3'>
-            <div className='label fr-col-12'>Date de livraison</div>
-            <div className='fr-col-12 fr-text--sm fr-m-0'>{dateLivraison ? shortDate(dateLivraison) : 'N/A'}</div>
-
+            <div className='label fr-col-12'>Couche de diffusion</div>
+            <div className='fr-col-12 fr-text--sm fr-m-0'>{diffusion_layer || 'N/A'}</div>
           </div>
 
           <div className='fr-grid-row fr-col-12 fr-col-md-3'>
             <div className='label fr-col-12'>Recouvrement</div>
-            <div className='fr-col-12 fr-text--sm fr-m-0'>{recouvrement || 'N/A'}</div>
+            <div className='fr-col-12 fr-text--sm fr-m-0'><b>LAT</b> : {recouvr_lat || 'N/A'} / <b>LON</b> : {recouvr_lon || 'N/A'}</div>
           </div>
         </div>
 
@@ -107,21 +106,8 @@ const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete, handle
             <div className='fr-col-12 fr-text--sm fr-m-0'>{diffusion_url || 'N/A'}</div>
           </div>
           <div className='fr-grid-row fr-col-12 fr-col-md-3'>
-            {stockage_id && (
-              <StockageRefresh
-                handleRefreshScan={handleRefreshScan}
-                stockageId={stockage_id}
-              />
-            )}
-            {stockage_erreur && (
-              <span className='fr-error-text'>Erreur : {stockage_erreur}</span>
-            )}
-            {error && (
-              <span className='fr-error-text'>Erreur : {error}</span>
-            )}
-            {message && (
-              <span className='fr-text--sm'>{message}</span>
-            )}
+            <div className='label fr-col-12'>Date de livraison</div>
+            <div className='fr-col-12 fr-text--sm fr-m-0'>{dateLivraison ? shortDate(dateLivraison) : 'N/A'}</div>
           </div>
         </div>
       </div>
@@ -145,6 +131,23 @@ const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete, handle
             <span className='fr-icon-delete-line fr-pr-1w fr-col-lg-12' aria-hidden='true' />
             <div>Supprimer</div>
           </button>
+          <div className='fr-grid-row fr-col-lg-12 fr-grid-row--center fr-grid-row--middle'>
+            {stockage_id && (
+              <StockageRefresh
+                handleRefreshScan={handleRefreshScan}
+                stockageId={stockage_id}
+              />
+            )}
+            {stockage_erreur && (
+              <span>Erreur : {stockage_erreur}</span>
+            )}
+            {error && (
+              <span className='fr-error-text'>Erreur : {error}</span>
+            )}
+            {message && (
+              <span className='fr-text--sm'>{message}</span>
+            )}
+          </div>
         </div>
       )}
 
@@ -192,10 +195,12 @@ LivrableCard.propTypes = {
     licence: PropTypes.string.isRequired,
     diffusion: PropTypes.string,
     avancement: PropTypes.number,
-    recouvrement: PropTypes.number,
+    recouvr_lat: PropTypes.number,
+    recouvr_lon: PropTypes.number,
     focale: PropTypes.number,
     cout: PropTypes.number,
     diffusion_url: PropTypes.string,
+    diffusion_layer: PropTypes.string,
     stockage: PropTypes.oneOf(['http', 'ftp', 'sftp']),
     stockage_params: PropTypes.object,
     stockage_id: PropTypes.string,
