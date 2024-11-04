@@ -10,7 +10,7 @@ import StockageRefresh from '@/components/suivi-form/livrables/stockage-refresh.
 import {getNatures, getLicences, getDiffusions} from '@/components/suivi-form/livrables/utils/select-options.js'
 
 const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete, handleRefreshScan}) => {
-  const {nom, nature, licence, avancement, recouvrement, focale, cout, diffusion, diffusion_url, diffusion_layer, stockage, stockage_id, stockage_erreur} = livrable
+  const {nom, nature, licence, avancement, recouvr_lat, recouvr_lon, focale, cout, diffusion, diffusion_url, diffusion_layer, stockage, stockage_id, stockage_erreur} = livrable
   const dateLivraison = livrable.date_livraison
 
   return (
@@ -58,7 +58,7 @@ const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete, handle
 
           <div className='fr-grid-row fr-col-12 fr-col-md-3'>
             <div className='label fr-col-12'>Recouvrement</div>
-            <div className='fr-col-12 fr-text--sm fr-m-0'>{recouvrement || 'N/A'}</div>
+            <div className='fr-col-12 fr-text--sm fr-m-0'><b>LAT</b> : {recouvr_lat || 'N/A'} / <b>LON</b> : {recouvr_lon || 'N/A'}</div>
           </div>
         </div>
 
@@ -79,12 +79,10 @@ const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete, handle
             <div className='label fr-col-12'>URL de diffusion</div>
             <div className='fr-col-12 fr-text--sm fr-m-0'>{diffusion_url || 'N/A'}</div>
           </div>
-
           <div className='fr-grid-row fr-col-12 fr-col-md-3'>
             <div className='label fr-col-12'>Date de livraison</div>
             <div className='fr-col-12 fr-text--sm fr-m-0'>{dateLivraison ? shortDate(dateLivraison) : 'N/A'}</div>
           </div>
-
         </div>
       </div>
 
@@ -107,7 +105,6 @@ const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete, handle
             <span className='fr-icon-delete-line fr-pr-1w fr-col-lg-12' aria-hidden='true' />
             <div>Supprimer</div>
           </button>
-
           <div className='fr-grid-row fr-col-lg-12 fr-grid-row--center fr-grid-row--middle'>
             {stockage_id && (
               <StockageRefresh
@@ -166,7 +163,8 @@ LivrableCard.propTypes = {
     licence: PropTypes.string.isRequired,
     diffusion: PropTypes.string,
     avancement: PropTypes.number,
-    recouvrement: PropTypes.number,
+    recouvr_lat: PropTypes.number,
+    recouvr_lon: PropTypes.number,
     focale: PropTypes.number,
     cout: PropTypes.number,
     diffusion_url: PropTypes.string,
