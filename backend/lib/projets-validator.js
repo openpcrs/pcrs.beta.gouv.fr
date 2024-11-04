@@ -245,7 +245,8 @@ const schemaCreation = Joi.object({
     }),
   regime: Joi.valid(
     'production',
-    'maj'
+    'maj',
+    'anticipation'
   ).required().messages({
     'any.only': 'Ce type de régime n’est pas valide',
     'any.required': 'La clé "regime" est obligatoire'
@@ -480,7 +481,8 @@ const schemaUpdate = Joi.object({
     }),
   regime: Joi.valid(
     'production',
-    'maj'
+    'maj',
+    'anticipation'
   ).messages({
     'any.only': 'Ce régime n’est pas valide'
   }),
