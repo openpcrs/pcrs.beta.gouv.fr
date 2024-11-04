@@ -7,12 +7,19 @@ import {fr} from 'date-fns/locale'
 import Loader from '@/components/loader.js'
 import {getAllChanges} from '@/lib/suivi-pcrs.js'
 import colors from '@/styles/colors.js'
+import {getUpdateStatus} from '@/lib/utils/projet.js'
 
 const Changes = ({token}) => {
   const [changes, setChanges] = useState()
   const [search, setSearch] = useState()
   const [error, setError] = useState()
   const [filteredChanges, setFilteredChanges] = useState()
+
+  const changesDict = {
+    deleted: 'Suppression',
+    updated: 'Mise à jour',
+    created: 'Création'
+  }
 
   const getChanges = useCallback(async () => {
     const response = await getAllChanges(token)
@@ -23,18 +30,6 @@ const Changes = ({token}) => {
       setChanges(response)
     }
   }, [token])
-
-  function returnLastChange(change) {
-    if (change._deleted) {
-      return 'Suppression'
-    }
-
-    if (change._updated !== change._created) {
-      return 'Mise à jour'
-    }
-
-    return 'Création'
-  }
 
   useEffect(() => {
     if (changes?.length > 0 && search) {
@@ -77,7 +72,7 @@ const Changes = ({token}) => {
               </thead>
               <tbody>
                 {filteredChanges.map(change => {
-                  const lastChange = returnLastChange(change)
+                  const lastChange = changesDict[getUpdateStatus(change)]
                   const modificationTime = new Date(change._updated)
 
                   return (

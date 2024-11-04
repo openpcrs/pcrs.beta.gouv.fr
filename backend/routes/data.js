@@ -2,7 +2,7 @@ import express from 'express'
 import {ensureAdmin} from '../auth/middleware.js'
 import w from '../util/w.js'
 
-import {exportProjetsAsCSV, exportLivrablesAsCSV, exportToursDeTableAsCSV, exportSubventionsAsCSV, exportEditorKeys} from '../export/csv.js'
+import {exportProjetsAsCSV, exportLivrablesAsCSV, exportToursDeTableAsCSV, exportSubventionsAsCSV, exportProjectsChangeLog, exportEditorKeys} from '../export/csv.js'
 import {computeDallesGeoJSON, computeLivrablesGeoJSON} from '../export/stockage.js'
 
 const dataRoutes = new express.Router()
@@ -41,6 +41,12 @@ dataRoutes.get('/stockages/dalles.geojson', w(async (req, res) => {
   const dallesGeoJSON = await computeDallesGeoJSON()
 
   res.attachment('dalles.geojson').send(dallesGeoJSON)
+}))
+
+dataRoutes.get('/changes.csv', w(async (req, res) => {
+  const projectChanges = await exportProjectsChangeLog(new Date(req.query.since))
+
+  res.attachment('changes.csv').type('csv').send(projectChanges)
 }))
 
 dataRoutes.get('/editor-keys.csv', w(ensureAdmin), w(async (req, res) => {
