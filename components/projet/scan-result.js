@@ -42,7 +42,7 @@ const ScanResult = ({raster, lastSuccessfulScan, dataFiles, brokenDataFiles, las
 }
 
 ScanResult.propTypes = {
-  raster: PropTypes.object.isRequired,
+  raster: PropTypes.object,
   lastSuccessfulScan: PropTypes.string,
   dataFiles: PropTypes.number.isRequired,
   brokenDataFiles: PropTypes.number.isRequired,
