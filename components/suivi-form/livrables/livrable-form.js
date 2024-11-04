@@ -51,10 +51,15 @@ const initState = ({initialValues, fieldsValidations}) => {
       isRequired: false,
       isValid: Boolean(initialValues.date_livraison)
     },
-    recouvrement: {
-      value: initialValues.recouvrement || '',
+    recouvr_lat: {
+      value: initialValues.recouvr_lat || '',
       isRequired: false,
-      isValid: Boolean(initialValues.recouvrement)
+      isValid: Boolean(initialValues.recouvr_lat)
+    },
+    recouvr_lon: {
+      value: initialValues.recouvr_lon || '',
+      isRequired: false,
+      isValid: Boolean(initialValues.recouvr_lon)
     },
     focale: {
       value: initialValues.focale || '',
@@ -147,7 +152,7 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
 
   const handleSubmit = () => {
     setErrorMessage(null)
-    const {nom, nature, licence, avancement, dateLivraison, recouvrement, focale, cout, diffusion, diffusion_url, diffusion_layer} = form.fields
+    const {nom, nature, licence, avancement, dateLivraison, recouvr_lon, recouvr_lat, focale, cout, diffusion, diffusion_url, diffusion_layer} = form.fields
 
     onSubmit({
       nom: nom.value.trim(),
@@ -155,7 +160,8 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
       licence: licence.value,
       date_livraison: dateLivraison.value || null,
       avancement: avancement.value ? Number(avancement.value) : null,
-      recouvrement: recouvrement.value ? Number(recouvrement.value) : null,
+      recouvr_lat: recouvr_lat.value ? Number(recouvr_lat.value) : null,
+      recouvr_lon: recouvr_lon.value ? Number(recouvr_lon.value) : null,
       focale: focale.value ? Number(focale.value) : null,
       cout: cout.value ? Number(cout.value) : null,
       diffusion: diffusion.value || null,
@@ -246,18 +252,29 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
       </div>
 
       <div className='fr-grid-row fr-grid-row--gutters'>
-        <div className='fr-col-12 fr-col-lg-4'>
+        <div className='fr-col-12 fr-col-lg-3'>
           <TextInput
-            name='recouvrement'
-            label='Recouvrement'
-            value={form.fields.recouvrement.value}
-            ariaLabel='Pourcentage de recouvrement du livrable'
-            description='Pourcentage de recouvrement du livrable'
-            errorMessage={form.fields.recouvrement.validationMessage}
+            name='recouvr_lat'
+            label='Recouvrement latéral'
+            value={form.fields.recouvr_lat.value}
+            ariaLabel='Pourcentage de recouvrement latéral du livrable'
+            description='Pourcentage de recouvrement latéral'
+            errorMessage={form.fields.recouvr_lat.validationMessage}
             onValueChange={handleInputChange}
           />
         </div>
-        <div className='fr-col-12 fr-col-lg-4'>
+        <div className='fr-col-12 fr-col-lg-3'>
+          <TextInput
+            name='recouvr_lon'
+            label='Recouvrement longitudinal'
+            value={form.fields.recouvr_lon.value}
+            ariaLabel='Pourcentage de recouvrement longitudinal du livrable'
+            description='Pourcentage de recouvrement longitudinal'
+            errorMessage={form.fields.recouvr_lon.validationMessage}
+            onValueChange={handleInputChange}
+          />
+        </div>
+        <div className='fr-col-12 fr-col-lg-3'>
           <TextInput
             name='focale'
             label='Focale'
@@ -268,7 +285,7 @@ const LivrableForm = ({initialValues, isLivrableNameAvailable, onCancel, onSubmi
             onValueChange={handleInputChange}
           />
         </div>
-        <div className='fr-col-12 fr-col-lg-4'>
+        <div className='fr-col-12 fr-col-lg-3'>
           <TextInput
             name='cout'
             label='Coût'

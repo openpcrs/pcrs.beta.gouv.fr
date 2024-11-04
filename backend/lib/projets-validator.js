@@ -158,7 +158,10 @@ const livrablesSchemaCreation = Joi.object().keys({
   avancement: Joi.number().allow(null).messages({
     'number.base': 'L’avancement doit être un nombre'
   }),
-  recouvrement: Joi.number().allow(null).messages({
+  recouvr_lat: Joi.number().allow(null).messages({
+    'number.base': 'Le recouvrement doit être un nombre'
+  }),
+  recouvr_lon: Joi.number().allow(null).messages({
     'number.base': 'Le recouvrement doit être un nombre'
   }),
   focale: Joi.number().integer().allow(null).messages({
@@ -395,7 +398,10 @@ const livrablesSchemaUpdate = Joi.object().keys({
   avancement: Joi.number().allow(null).messages({
     'number.base': 'L’avancement doit être un nombre'
   }),
-  recouvrement: Joi.number().allow(null).messages({
+  recouvr_lat: Joi.number().allow(null).messages({
+    'number.base': 'Le recouvrement doit être un nombre'
+  }),
+  recouvr_lon: Joi.number().allow(null).messages({
     'number.base': 'Le recouvrement doit être un nombre'
   }),
   focale: Joi.number().integer().allow(null).messages({
