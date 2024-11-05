@@ -12,7 +12,7 @@
     "start": "NODE_ENV=production node backend/index.js",
     "lint": "xo",
     "test": "ava",
-    "scalingo-postbuild": "yarn download-contours && node scripts/migration-recouvrement.js && next build"
+    "scalingo-postbuild": "yarn download-contours && next build"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.577.0",
