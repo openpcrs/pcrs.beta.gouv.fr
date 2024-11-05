@@ -4,7 +4,7 @@ import {scanRenderItem} from './list-render-items.js'
 import colors from '@/styles/colors.js'
 import {dateWithTime} from '@/lib/date-utils.js'
 
-const ScanResult = ({raster, lastSuccessfulScan, dataFiles, brokenDataFiles, lastError}) => {
+const ScanResult = ({raster, lastSuccessfulScan, dataFiles, brokenDataFiles, brokenDataSampleError, lastError}) => {
   const sanitizedScanTime = dateWithTime(lastSuccessfulScan)
 
   return (
@@ -23,8 +23,14 @@ const ScanResult = ({raster, lastSuccessfulScan, dataFiles, brokenDataFiles, las
         <p className='fr-mb-1w'>
           <span className='files-total'>{dataFiles}</span> fichier{dataFiles > 1 && 's'}  de données scannées
           {brokenDataFiles > 1 && (
-            <span> dont <span className='error-total'> {brokenDataFiles} fichier{brokenDataFiles > 1 && 's'} en erreur</span></span>
-          )}.
+            <>
+              <span> dont <span className='error-total'> {brokenDataFiles} fichier{brokenDataFiles > 1 && 's'} en erreur</span>.</span>
+              <div className='fr-alert fr-alert--error fr-alert--sm fr-mt-2v'>
+                <div>Extrait d’erreur de fichier :</div>
+                <span className='error-sample'>{brokenDataSampleError}</span>
+              </div>
+            </>
+          )}
         </p>
       </div>
 
@@ -36,6 +42,11 @@ const ScanResult = ({raster, lastSuccessfulScan, dataFiles, brokenDataFiles, las
         .error-total {
           color: ${colors.error425};
         }
+
+        .error-sample {
+          color: ${colors.error425};
+          font-size: 0.9em;
+        }
     `}</style>
     </div>
   )
@@ -44,6 +55,7 @@ const ScanResult = ({raster, lastSuccessfulScan, dataFiles, brokenDataFiles, las
 ScanResult.propTypes = {
   raster: PropTypes.object,
   lastSuccessfulScan: PropTypes.string,
+  brokenDataSampleError: PropTypes.string,
   dataFiles: PropTypes.number.isRequired,
   brokenDataFiles: PropTypes.number.isRequired,
   lastError: PropTypes.string
