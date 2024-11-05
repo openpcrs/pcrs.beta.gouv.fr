@@ -7,7 +7,7 @@ import {buildGeometryFromTerritoires} from '../lib/territoires.js'
 import {findClosestEtape} from '../../shared/find-closest-etape.js'
 import {getUpdatedProjets} from '../admin/reports.js'
 
-import {getUpdateStatus} from '../lib/utils/projet.js'
+import {getUpdateStatus} from '../../lib/utils/projet.js'
 
 async function computeWkt(perimetres) {
   const perimetresGeojson = await buildGeometryFromTerritoires(perimetres)
