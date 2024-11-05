@@ -5,6 +5,9 @@ import Wellknown from 'wellknown'
 import {getProjets} from '../lib/models/projets.js'
 import {buildGeometryFromTerritoires} from '../lib/territoires.js'
 import {findClosestEtape} from '../../shared/find-closest-etape.js'
+import {getUpdatedProjets} from '../admin/reports.js'
+
+import {getUpdateStatus} from '../../lib/utils/projet.js'
 
 async function computeWkt(perimetres) {
   const perimetresGeojson = await buildGeometryFromTerritoires(perimetres)
@@ -117,6 +120,19 @@ export async function exportSubventionsAsCSV() {
       }
     }
   }
+
+  return Papa.unparse(rows)
+}
+
+export async function exportProjectsChangeLog(since) {
+  const changes = await getUpdatedProjets(Number.isNaN(since.valueOf()) ? new Date('2010-01-01') : since)
+
+  const rows = changes.map(change => ({
+    ref_projet: change._id,
+    nom_projet: change.nom,
+    action: getUpdateStatus(change),
+    update_date: change._updated
+  }))
 
   return Papa.unparse(rows)
 }
