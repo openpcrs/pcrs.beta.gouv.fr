@@ -138,16 +138,16 @@ const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete, handle
                 stockageId={stockage_id}
               />
             )}
-            {stockage_erreur && (
-              <span>Erreur : {stockage_erreur}</span>
-            )}
-            {error && (
-              <span className='fr-error-text'>Erreur : {error}</span>
-            )}
-            {message && (
-              <span className='fr-text--sm'>{message}</span>
-            )}
           </div>
+          {stockage_erreur && (
+            <span>Erreur : {stockage_erreur}</span>
+          )}
+          {error && (
+            <span className='fr-error-text fr-col-lg-12 fr-grid-row fr-grid-row--center'>Erreur : {error}</span>
+          )}
+          {message && (
+            <span className='fr-col-lg-12 fr-grid-row fr-grid-row--center'>{message}</span>
+          )}
         </div>
       )}
 
