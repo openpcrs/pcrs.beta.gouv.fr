@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import PropTypes from 'prop-types'
+import {useState, useEffect} from 'react'
 
 import colors from '@/styles/colors.js'
 
@@ -8,10 +9,35 @@ import {shortDate} from '@/lib/date-utils.js'
 import StockageRefresh from '@/components/suivi-form/livrables/stockage-refresh.js'
 
 import {getNatures, getLicences, getDiffusions} from '@/components/suivi-form/livrables/utils/select-options.js'
+import {getStockage} from '@/lib/pcrs-scanner-api.js'
 
 const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete, handleRefreshScan}) => {
+  const [error, setError] = useState()
+  const [message, setMessage] = useState()
   const {nom, nature, licence, avancement, recouvr_lat, recouvr_lon, focale, cout, diffusion, diffusion_url, diffusion_layer, stockage, stockage_id, stockage_erreur} = livrable
   const dateLivraison = livrable.date_livraison
+
+  useEffect(() => {
+    async function getScannerInfos() {
+      if (stockage_id) {
+        const result = await getStockage(stockage_id)
+
+        if (result.scan.status === 'processing') {
+          setMessage('Scan en cours...')
+        }
+
+        if (result.scan.status === 'pending') {
+          setMessage('Scan en attente...')
+        }
+
+        if (result.scan.lastError && result.scan.status === 'idle') {
+          setError(result.scan.lastError)
+        }
+      }
+    }
+
+    getScannerInfos()
+  }, [stockage_id])
 
   return (
     <div className={`fr-grid-row card-container fr-grid-row--middle fr-grid-row--gutters ${isDisabled ? 'card-disable' : ''} fr-p-2w fr-col-12`}>
@@ -114,6 +140,12 @@ const LivrableCard = ({livrable, isDisabled, handleEdition, handleDelete, handle
             )}
             {stockage_erreur && (
               <span>Erreur : {stockage_erreur}</span>
+            )}
+            {error && (
+              <span className='fr-error-text'>Erreur : {error}</span>
+            )}
+            {message && (
+              <span className='fr-text--sm'>{message}</span>
             )}
           </div>
         </div>

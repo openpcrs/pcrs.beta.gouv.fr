@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react'
 import PropTypes from 'prop-types'
 
 import ScanResult from './scan-result.js'
-import {getStockageGeoJSON} from '@/lib/pcrs-scanner-api.js'
+import {getStockage, getStockageGeoJSON} from '@/lib/pcrs-scanner-api.js'
 
 import CenteredSpinner from '@/components/centered-spinner.js'
 import ScannerMap from '@/components/projet/scanner-map.js'
@@ -19,9 +19,17 @@ const ScannedData = ({stockage, downloadToken}) => {
       try {
         const geojson = await getStockageGeoJSON(stockage._id)
 
-        setGeojson(geojson)
+        if (geojson.features.length > 0) {
+          setGeojson(geojson)
+        } else {
+          const scanInfos = await getStockage(stockage._id)
+
+          setError(scanInfos.scan.lastError)
+        }
       } catch {
-        setError('Impossible de récupérer les ressources cartographique du livrable')
+        const scanInfos = await getStockage(stockage._id)
+
+        setError(scanInfos.scan.lastError)
       }
 
       setIsLoading(false)
@@ -38,7 +46,9 @@ const ScannedData = ({stockage, downloadToken}) => {
       </div>
       <div>
         {/* scan livrable data */}
-        {stockage.result && <ScanResult {...stockage.result} lastError={stockage.lastError} />}
+        {stockage.result && (
+          <ScanResult {...stockage.result} lastError={stockage.lastError} />
+        )}
 
         {isLoading ? (
           <div className='spinner-container fr-col-12 fr-grid-row fr-grid-row--center fr-grid-row--middle'>
@@ -48,16 +58,19 @@ const ScannedData = ({stockage, downloadToken}) => {
           </div>
         ) : (
           <div>
-            {error ? (
-              <div id='text-input-error-desc-error' className='fr-error-text'>{error}</div>
-            ) : (
-              geojson && (
-                <div className='map-wrapper'>
-                  <ScannerMap geojson={geojson} downloadToken={downloadToken} />
-                </div>
-              )
+            {error && (
+              <div className='fr-alert fr-alert--error fr-alert--sm fr-mt-3w'>
+                Une erreur a été rencontrée lors du dernier scan du stockage :
+                <p style={{color: '#CE0500'}}>
+                  {error}
+                </p>
+              </div>
             )}
-
+            {geojson && (
+              <div className='map-wrapper'>
+                <ScannerMap geojson={geojson} downloadToken={downloadToken} />
+              </div>
+            )}
           </div>
         )}
 
