@@ -148,7 +148,7 @@ export async function exportEditorKeys() {
   return Papa.unparse(rows)
 }
 
-export async function exportPerimetres() {
+export async function exportTerritoires() {
   const projets = await getProjets()
   const rows = []
 

@@ -2,7 +2,7 @@ import express from 'express'
 import {ensureAdmin} from '../auth/middleware.js'
 import w from '../util/w.js'
 
-import {exportProjetsAsCSV, exportLivrablesAsCSV, exportToursDeTableAsCSV, exportSubventionsAsCSV, exportProjectsChangeLog, exportEditorKeys, exportPerimetres} from '../export/csv.js'
+import {exportProjetsAsCSV, exportLivrablesAsCSV, exportToursDeTableAsCSV, exportSubventionsAsCSV, exportProjectsChangeLog, exportEditorKeys, exportTerritoires} from '../export/csv.js'
 import {computeDallesGeoJSON, computeLivrablesGeoJSON} from '../export/stockage.js'
 
 const dataRoutes = new express.Router()
@@ -55,10 +55,10 @@ dataRoutes.get('/editor-keys.csv', w(ensureAdmin), w(async (req, res) => {
   res.attachment('editor-keys.csv').type('csv').send(editorKeysCSVFile)
 }))
 
-dataRoutes.get('/perimetres.csv', w(async (req, res) => {
-  const perimetresCSVFile = await exportPerimetres()
+dataRoutes.get('/territoires.csv', w(async (req, res) => {
+  const perimetresCSVFile = await exportTerritoires()
 
-  res.attachment('perimetres.csv').type('csv').send(perimetresCSVFile)
+  res.attachment('territoires.csv').type('csv').send(perimetresCSVFile)
 }))
 
 export default dataRoutes
