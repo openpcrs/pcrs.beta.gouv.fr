@@ -147,3 +147,22 @@ export async function exportEditorKeys() {
 
   return Papa.unparse(rows)
 }
+
+export async function exportPerimetres() {
+  const projets = await getProjets()
+  const rows = []
+
+  for (const projet of projets) {
+    for (const perimetre of projet.perimetres) {
+      const natureAndRef = perimetre.split(':')
+
+      rows.push({
+        ref_projet: projet._id,
+        nature_territoire: natureAndRef[0],
+        reference: natureAndRef[1]
+      })
+    }
+  }
+
+  return Papa.unparse(rows)
+}
