@@ -12,12 +12,13 @@ import area from '@turf/area'
 
 const gunzip = promisify(zlib.gunzip)
 
-const MILLESIME = '2022'
+// This env variable is used in backend and frontend to avoid desynchronisation
+const MILLESIME = process.env.NEXT_PUBLIC_MILLESIME || '2022'
 const RESOLUTION = '100m'
 
 await mkdir('./.db', {recursive: true})
 
-if (process.env.GEODATA_CACHE_URL) {
+if (process.env.GEODATA_CACHE_URL && MILLESIME === '2022') {
   console.log(' * Téléchargement des contours à partir de l’adresse indiquée')
 
   await writeFile(
