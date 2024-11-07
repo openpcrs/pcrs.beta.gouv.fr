@@ -7,17 +7,24 @@ import Perimetre from '@/components/suivi-form/perimetres/perimetre.js'
 import PerimetreForm from '@/components/suivi-form/perimetres/perimetre-form.js'
 import Button from '@/components/button.js'
 
-const Perimetres = ({perimetres, hasMissingData, handlePerimetres}) => {
+const Perimetres = ({perimetres, hasMissingData, handlePerimetres, projetPerimetreMillesime, setMillesime}) => {
   const hasPerimetres = perimetres.length > 0
   const [perimetre, setPerimetre] = useState(hasPerimetres ? null : {})
+  const MILLESIME = process.env.NEXT_PUBLIC_MILLESIME
 
   const handlePerimetre = ({type, code}) => {
     handlePerimetres([...perimetres, `${type}:${code}`])
     setPerimetre(null)
+    if (MILLESIME && projetPerimetreMillesime !== MILLESIME) {
+      setMillesime(MILLESIME)
+    }
   }
 
   const onDelete = index => {
     handlePerimetres(current => current.filter((_, i) => index !== i))
+    if (MILLESIME && projetPerimetreMillesime !== MILLESIME) {
+      setMillesime(MILLESIME)
+    }
   }
 
   return (
