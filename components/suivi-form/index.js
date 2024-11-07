@@ -402,6 +402,7 @@ SuiviForm.propTypes = {
   _id: PropTypes.string,
   token: PropTypes.string,
   projectEditCode: PropTypes.string,
+  metaPerimetreMillesime: PropTypes.string,
   isTokenRecovering: PropTypes.bool.isRequired
 }
 
@@ -418,6 +419,7 @@ SuiviForm.defaultProps = {
   subventions: [],
   _id: null,
   projectEditCode: null,
+  metaPerimetreMillesime: null,
   token: null
 }
 

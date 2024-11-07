@@ -94,10 +94,14 @@ const Perimetres = ({perimetres, hasMissingData, handlePerimetres, projetPerimet
 Perimetres.propTypes = {
   perimetres: PropTypes.array.isRequired,
   hasMissingData: PropTypes.bool,
-  handlePerimetres: PropTypes.func.isRequired
+  handlePerimetres: PropTypes.func.isRequired,
+  projetPerimetreMillesime: PropTypes.string,
+  setMillesime: PropTypes.func
 }
 
 Perimetres.defaultProps = {
-  hasMissingData: false
+  hasMissingData: false,
+  projetPerimetreMillesime: null,
+  setMillesime() {}
 }
 export default Perimetres

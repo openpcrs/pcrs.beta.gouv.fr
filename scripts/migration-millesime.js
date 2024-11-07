@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 /* eslint-disable no-await-in-loop */
-/* eslint-disable camelcase */
 /* eslint-disable import/no-unassigned-import */
 import 'dotenv/config.js'
 import mongo from '../backend/util/mongo.js'
