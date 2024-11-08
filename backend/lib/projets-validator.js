@@ -288,6 +288,9 @@ const schemaCreation = Joi.object({
   }),
   reutilisations: Joi.array().items(reutilisationsSchemaCreation).allow(null).messages({
     'array.base': 'Les réutilisations doivent être dans un tableau'
+  }),
+  metaPerimetreMillesime: Joi.string().allow(null).messages({
+    'string.base': 'Le millésime doit être une chaine de caractères'
   })
 }).messages({
   'object.unknown': 'Une clé de l’objet est invalide'
@@ -520,6 +523,9 @@ const schemaUpdate = Joi.object({
   }),
   reutilisations: Joi.array().items(reutilisationsSchemaUpdate).messages({
     'array.base': 'Les réutilisations doivent être dans un tableau'
+  }),
+  metaPerimetreMillesime: Joi.string().allow(null).messages({
+    'string.base': 'Le millésime doit être une chaine de caractères'
   })
 }).messages({
   'object.unknown': 'Une clé de l’objet est invalide'

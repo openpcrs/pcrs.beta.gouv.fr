@@ -12,26 +12,32 @@ import area from '@turf/area'
 
 const gunzip = promisify(zlib.gunzip)
 
-const MILLESIME = '2022'
+// This env variable is used in backend and frontend to avoid desynchronisation
+const MILLESIME = process.env.NEXT_PUBLIC_MILLESIME || '2022'
 const RESOLUTION = '100m'
 
 await mkdir('./.db', {recursive: true})
 
 if (process.env.GEODATA_CACHE_URL) {
-  console.log(' * Téléchargement des contours à partir de l’adresse indiquée')
+  const millesimeCached = await got(`${process.env.GEODATA_CACHE_URL}/millesime.json`).json()
 
-  await writeFile(
-    './.db/contours.sqlite',
-    await got(`${process.env.GEODATA_CACHE_URL}/contours.sqlite`).buffer()
-  )
+  if (millesimeCached.millesime === MILLESIME) {
+    console.log(' * Téléchargement des contours à partir de l’adresse indiquée')
+    console.log(' * Millésime en cache :', millesimeCached.millesime)
 
-  await writeFile(
-    './.db/superficies.json',
-    await got(`${process.env.GEODATA_CACHE_URL}/superficies.json`).buffer()
-  )
+    await writeFile(
+      './.db/contours.sqlite',
+      await got(`${process.env.GEODATA_CACHE_URL}/contours.sqlite`).buffer()
+    )
 
-  console.log(' * Terminé !')
-  process.exit(0)
+    await writeFile(
+      './.db/superficies.json',
+      await got(`${process.env.GEODATA_CACHE_URL}/superficies.json`).buffer()
+    )
+
+    console.log(' * Terminé !')
+    process.exit(0)
+  }
 }
 
 const keyv = new Keyv('sqlite://.db/contours.sqlite')

@@ -34,6 +34,7 @@ const SuiviForm = ({
   etapes,
   subventions,
   reutilisations,
+  metaPerimetreMillesime,
   _id,
   token,
   userRole,
@@ -63,11 +64,14 @@ const SuiviForm = ({
   const [projetEtapes, setProjetEtapes] = useState(etapes)
   const [projetSubventions, setProjetSubventions] = useState(subventions || [])
   const [projetReutilisations, setProjetReutilisations] = useState(reutilisations || [])
+  const [projetPerimetreMillesime, setProjetPerimetreMillesime] = useState(metaPerimetreMillesime)
 
   const hasMissingRequiredItems = projetLivrables.length === 0 || projetPerimetres.length === 0
   const isPorteurMissing = Boolean(!projetActeurs.some(acteur => acteur.role === 'aplc' || acteur.role === 'porteur'))
   // L'étape "disponible" ne peut être ajoutée que lorsque qu'un stockage est téléchargeable
   const canBeDisponible = Boolean(projetLivrables.some(l => (l.stockage_params?.url_externe || projetLivrables.some(l => l.stockage_telechargement))))
+
+  const MILLESIME = process.env.NEXT_PUBLIC_MILLESIME
 
   const handleDeleteModalOpen = () => setIsDeleteModalOpen(!isDeleteModalOpen)
 
@@ -131,7 +135,8 @@ const SuiviForm = ({
           perimetres: projetPerimetres,
           etapes: projetEtapes,
           subventions: projetSubventions,
-          reutilisations: projetReutilisations
+          reutilisations: projetReutilisations,
+          metaPerimetreMillesime: projetPerimetreMillesime
         }
 
         const authorizationCode = editCode || token
@@ -197,12 +202,24 @@ const SuiviForm = ({
           )}
         </div>
 
-        <div className='fr-alert fr-alert--info fr-my-3w'>
-          <h3 className='fr-alert__title'>Modification des étapes</h3>
-          <p>
-            Suite à des évolutions récentes, il est désormais <b>obligatoire</b> de saisir des dates complémentaires dans les projets.<br />Retrouvez le détail dans notre <a href='https://docs.pcrs.beta.gouv.fr/suivi-des-projets/modele-de-donnees#statut-des-projets'>documentation</a>.
-          </p>
-        </div>
+        {MILLESIME && projetPerimetreMillesime !== MILLESIME && (
+          <div className='fr-alert fr-alert--warning fr-my-3w'>
+            <h3 className='fr-alert__title'>Vérification nécessaire des périmètres administratifs</h3>
+            <p>Le périmètre du projet est actuellement défini avec les contours administratifs <b>{metaPerimetreMillesime}</b>.</p>
+            <p>Nous utilisons désormais le millésime <b>{MILLESIME}</b>, nous vous invitons à vérifier les territoires utilisés pour éviter toute incohérence.</p>
+            <div className='fr-grid-row fr-grid-row--right fr-mt-3w'>
+              <button
+                type='button'
+                icon='checkbox-circle'
+                className='warning-button'
+                onClick={() => setProjetPerimetreMillesime(MILLESIME)}
+              >
+                <span>J’ai vérifié les territoires, fermer ce message</span>
+                <span className='fr-icon-checkbox-circle-fill fr-icon--sm fr-ml-1w' aria-hidden='true' />
+              </button>
+            </div>
+          </div>
+        )}
 
         <p className='required-disclaimer fr-mt-3w'>Les champs indiqués par une * sont obligatoires</p>
 
@@ -241,6 +258,8 @@ const SuiviForm = ({
               perimetres={projetPerimetres}
               handlePerimetres={setProjetPerimetres}
               hasMissingData={hasMissingItemsOnValidation}
+              projetPerimetreMillesime={projetPerimetreMillesime}
+              setMillesime={setProjetPerimetreMillesime}
             />
           </div>
 
@@ -352,6 +371,13 @@ const SuiviForm = ({
           border: 1px solid ${colors.redMarianne425};
         }
 
+        .warning-button {
+          color: ${colors.warningMain525};
+          font-weight: bold;
+          padding: 5px 10px;
+          border: 1px solid ${colors.warningMain525};
+        }
+
         .error-list {
           color: ${colors.error425};
           list-style-type: disc;
@@ -376,6 +402,7 @@ SuiviForm.propTypes = {
   _id: PropTypes.string,
   token: PropTypes.string,
   projectEditCode: PropTypes.string,
+  metaPerimetreMillesime: PropTypes.string,
   isTokenRecovering: PropTypes.bool.isRequired
 }
 
@@ -392,6 +419,7 @@ SuiviForm.defaultProps = {
   subventions: [],
   _id: null,
   projectEditCode: null,
+  metaPerimetreMillesime: null,
   token: null
 }
 

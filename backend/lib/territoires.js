@@ -29,14 +29,21 @@ export async function buildGeometryFromTerritoires(territories) {
     const territoryFeature = await keyv.get(territory)
 
     if (!territoryFeature) {
-      throw new Error('Territory not found: ' + territory)
+      console.error('Territory not found: ' + territory)
+      return
     }
 
     return territoryFeature
   }))
 
   // eslint-disable-next-line unicorn/no-array-reduce
-  const resultGeometry = territoriesFeatures.reduce((acc, feature) => acc ? union(acc, feature) : feature).geometry
+  const resultGeometry = territoriesFeatures.reduce((acc, feature) => {
+    if (!feature?.geometry) {
+      return acc
+    }
+
+    return acc ? union(acc, feature) : feature
+  })?.geometry
 
   // We store the value for further re-use
   cache.set(hashKey, resultGeometry)

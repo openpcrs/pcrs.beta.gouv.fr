@@ -17,6 +17,7 @@ const Perimetre = ({type, code, handleDelete}) => {
 
         setNom(perimetreData.nom)
       } catch (error) {
+        setIsLoading(false)
         throw new Error(error)
       }
 
@@ -28,30 +29,24 @@ const Perimetre = ({type, code, handleDelete}) => {
 
   return (
     <div className='fr-grid-row fr-mr-1w fr-px-2w fr-py-1w fr-my-1w card-container'>
-      {isLoading ? (
-        <div className='fr-grid-row fr-grid-row--center'>
+      <div className='fr-grid-row'>
+        {isLoading && (
           <Loader size='small' />
-        </div>
-      ) : (
-        <>
+        )}
+        <div className='label'>{type} :</div>
+        <div className='fr-pl-1w'>{nom || code}</div>
+      </div>
 
-          <div className='fr-grid-row'>
-            <div className='label'>{type} :</div>
-            <div className='fr-pl-1w'>{nom}</div>
-          </div>
-
-          <div className='fr-pl-6w'>
-            <button
-              type='button'
-              aria-label='Supprimer le périmètre'
-              className='delete-button fr-col-5'
-              onClick={handleDelete}
-            >
-              <span className='fr-icon-delete-line' aria-hidden='true' />
-            </button>
-          </div>
-        </>
-      )}
+      <div className='fr-pl-6w'>
+        <button
+          type='button'
+          aria-label='Supprimer le périmètre'
+          className='delete-button fr-col-5'
+          onClick={handleDelete}
+        >
+          <span className='fr-icon-delete-line' aria-hidden='true' />
+        </button>
+      </div>
 
       <style jsx>{`
         .card-container {
