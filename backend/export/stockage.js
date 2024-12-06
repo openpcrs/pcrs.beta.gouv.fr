@@ -71,6 +71,7 @@ export async function computeLivrablesGeoJSON() {
           initiative: refProjet,
           dateActualite: projetDateActualite || null,
           calendrier: projetCalendrier || null,
+          nom: livrable.nom || null,
           format: getFormat(stockageMeta.result.raster.format),
           compression: stockageMeta.result.raster.compression,
           epsg: stockageMeta.result.raster.projection.code,
@@ -81,6 +82,7 @@ export async function computeLivrablesGeoJSON() {
           licence: livrable.licence || null,
           subventions: [...new Set(projetSubventions)],
           acteurs: [...new Set(projetActeurs)],
+          diffusion: livrable.diffusion || null,
           diffusionUrl: livrable.diffusion_url || null,
           diffusionLayer: livrable.diffusion_layer || null
         }
