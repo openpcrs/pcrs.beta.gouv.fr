@@ -5,7 +5,8 @@ export const natureOptions = [
   {label: 'Livrable Jpeg 2000', value: 'jpeg2000'},
   {label: 'Livrable GML vecteur', value: 'gml'},
   {label: 'Livrable DXF vecteur', value: 'dxf'},
-  {label: 'Livrable DWG vecteur', value: 'dwg'}
+  {label: 'Livrable DWG vecteur', value: 'dwg'},
+  {label: 'Livrable Géopackage vecteur', value: 'gpkg'}
 ]
 
 export const diffusionOptions = [
