@@ -122,7 +122,8 @@ const livrablesSchemaCreation = Joi.object().keys({
     'jpeg2000',
     'gml',
     'dxf',
-    'dwg'
+    'dwg',
+    'gpkg'
   ).required().messages({
     'any.only': 'Cette nature n’est pas valide',
     'any.required': 'La nature est obligatoire'
@@ -367,7 +368,8 @@ const livrablesSchemaUpdate = Joi.object().keys({
     'jpeg2000',
     'gml',
     'dxf',
-    'dwg'
+    'dwg',
+    'gpkg'
   ).messages({
     'any.only': 'Cette nature n’est pas valide'
   }),
