@@ -31,7 +31,7 @@
     "isOnSite": false,
     "isOnline": true,
     "address": "",
-    "eventHref": "",
+    "eventHref": "https://docs.pcrs.beta.gouv.fr/ateliers-et-webinaires/mise-a-jour-16-mars-2023",
     "description": "Les territoires PCRS les plus avancés entrent désormais dans une phase de mise à jour. Différentes méthodes et inducteurs existent et les porteurs de projets sont invités à partager leur expérience pour créer une communauté de pratiques. Ce sera également l'occasion de faire le point sur l'actualité de la startup d'Etat.",
     "type": "Atelier"
   },
@@ -127,8 +127,20 @@
     "isOnSite": false,
     "isOnline": true,
     "address": "",
-    "eventHref": "https://webinaire.numerique.gouv.fr//meeting/signin/36760/creator/9716/hash/ad43d19848c24c9a5962ec92957d6ad037170427",
+    "eventHref": "https://docs.pcrs.beta.gouv.fr/ateliers-et-webinaires/acteurs-regionaux-12-septembre-2024",
     "description": "Le déploiement du PCRS implique des acteurs régionaux de différentes natures à plusieurs étapes. Ce sont par exemple les CRIGE ou bien les services d'instruction des subventions FEDER qui animent ou financent une partie de ces activités. L'ANCT en partenariat avec l'Afigeo souhaitent leur donner la parole afin d'expliquer l'intérêt de les impliquer dans les projets restant à lancer et les mises à jour.",
+    "type": "Webinaire"
+  },
+  {
+    "title": "PCRS : les défis de la mise à jour des projets raster et vecteur",
+    "date": "2025-02-06",
+    "start": "10:00",
+    "end": "12:00",
+    "isOnSite": false,
+    "isOnline": true,
+    "address": "",
+    "eventHref": "https://webinaire.numerique.gouv.fr//meeting/signin/36760/creator/9716/hash/ad43d19848c24c9a5962ec92957d6ad037170427",
+    "description": "La production des projets PCRS est désormais avancée et se posent désormais plusieurs défis pour tenir à jour les plans réalisés. Comment détecter les changements ? Quels coûts et financements associés ? Quelles technologies et méthodes ? Nous souhaitons dresser un panorama des méthodes et des approcches innovantes dores et déjà éprouvées par plusieurs intervenants qui viendront en témoigner.",
     "type": "Webinaire"
   }
 ]
