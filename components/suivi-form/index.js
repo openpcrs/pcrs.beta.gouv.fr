@@ -130,6 +130,7 @@ const SuiviForm = ({
           nom: suiviNom,
           regime: suiviRegime,
           nature: suiviNature,
+          budget: suiviBudget,
           livrables: projetLivrables,
           acteurs: projetActeurs,
           perimetres: projetPerimetres,
