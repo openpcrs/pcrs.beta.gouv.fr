@@ -203,7 +203,7 @@ const SuiviForm = ({
           )}
         </div>
 
-        {MILLESIME && projetPerimetreMillesime !== MILLESIME && (
+        {MILLESIME && projetPerimetreMillesime && projetPerimetreMillesime !== MILLESIME && (
           <div className='fr-alert fr-alert--warning fr-my-3w'>
             <h3 className='fr-alert__title'>Vérification nécessaire des périmètres administratifs</h3>
             <p>Le périmètre du projet est actuellement défini avec les contours administratifs <b>{metaPerimetreMillesime}</b>.</p>
