@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import Image from 'next/image'
 
-import {getPosts, getTags} from '@/lib/blog.js'
+import {getPosts, getTags} from '@/lib/blog-static.js'
 
 import colors from '@/styles/colors.js'
 

@@ -5,7 +5,7 @@ import Page from '@/layouts/main.js'
 
 import colors from '@/styles/colors.js'
 
-import {getPosts} from '@/lib/blog.js'
+import {getPosts} from '@/lib/blog-static.js'
 
 import Hero from '@/components/hero.js'
 import SectionImage from '@/components/section-image.js'

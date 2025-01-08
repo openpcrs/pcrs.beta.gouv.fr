@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 import colors from '@/styles/colors.js'
 
-import {getPosts} from '@/lib/blog.js'
+import {getPosts} from '@/lib/blog-static.js'
 
 import Page from '@/layouts/main.js'
 

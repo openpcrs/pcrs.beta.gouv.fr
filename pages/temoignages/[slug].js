@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 
-import {getSinglePost} from '@/lib/blog.js'
+import {getSinglePost} from '@/lib/blog-static.js'
 import {dateWithDay} from '@/lib/date-utils.js'
 
 import Page from '@/layouts/main.js'
