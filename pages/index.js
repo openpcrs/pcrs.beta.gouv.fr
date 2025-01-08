@@ -5,8 +5,6 @@ import Page from '@/layouts/main.js'
 
 import colors from '@/styles/colors.js'
 
-import {getPosts} from '@/lib/blog-static.js'
-
 import Hero from '@/components/hero.js'
 import SectionImage from '@/components/section-image.js'
 import Section from '@/components/section.js'
@@ -264,16 +262,17 @@ const Home = ({testimonies}) => (
   </Page>
 )
 
-export async function getServerSideProps({query}) {
-  const data = await getPosts({...query, tags: 'temoignage'})
-  const lastThreeTestimonies = data?.posts.slice(0, 3)
-
-  return {
-    props: {
-      testimonies: lastThreeTestimonies || []
-    }
-  }
-}
+// Au revoir témoignages statiques
+// export async function getServerSideProps({query}) {
+//   const data = await getPosts({...query, tags: 'temoignage'})
+//   const lastThreeTestimonies = data?.posts.slice(0, 3)
+//
+//   return {
+//     props: {
+//       testimonies: lastThreeTestimonies || []
+//     }
+//   }
+// }
 
 Home.propTypes = {
   testimonies: PropTypes.array

@@ -1,14 +1,10 @@
-/* eslint-disable camelcase */
 import {useEffect} from 'react'
 import PropTypes from 'prop-types'
-import Image from 'next/image'
 import Link from 'next/link'
-
-import {shortDate} from '@/lib/date-utils.js'
 
 import colors from '@/styles/colors.js'
 
-const Post = ({baseUrl, authors, published_at, reading_time, title, html}) => {
+const Post = ({baseUrl, title, html}) => {
   useEffect(() => {
     const audioPlayers = [...document.querySelectorAll('audio')]
     const videoPlayers = [...document.querySelectorAll('video')]
@@ -38,30 +34,31 @@ const Post = ({baseUrl, authors, published_at, reading_time, title, html}) => {
         </Link>
 
         <h2 className='fr-my-5w'>{title}</h2>
-        <div className='authors-container'>
-          {authors.length === 1 && (
-            <Image
-              src={authors[0].profile_image || '/images/illustrations/user-fallback.svg'}
-              height={50}
-              width={50}
-              style={{
-                width: '50px',
-                height: '50px',
-                objectFit: 'contain',
-                borderRadius: '50%',
-                border: 'solid .5px grey'
-              }}
-              alt=''
-              aria-hidden='true'
-            />
-          )}
-          <div>
-            <div className='names'>
-              {authors.map(author => <span key={author.id}>{author.name} </span>)}
-            </div>
-            <div className='date'>Publié le {shortDate(published_at)} - {reading_time} min de lecture</div>
-          </div>
-        </div>
+        {/* Pas d'auteurs dans le fichier JSON */}
+        {/* <div className='authors-container'> */}
+        {/*   {authors.length === 1 && ( */}
+        {/*     <Image */}
+        {/*       src={authors[0].profile_image || '/images/illustrations/user-fallback.svg'} */}
+        {/*       height={50} */}
+        {/*       width={50} */}
+        {/*       style={{ */}
+        {/*         width: '50px', */}
+        {/*         height: '50px', */}
+        {/*         objectFit: 'contain', */}
+        {/*         borderRadius: '50%', */}
+        {/*         border: 'solid .5px grey' */}
+        {/*       }} */}
+        {/*       alt='' */}
+        {/*       aria-hidden='true' */}
+        {/*     /> */}
+        {/*   )} */}
+        {/*   <div> */}
+        {/*     <div className='names'> */}
+        {/*       {authors.map(author => <span key={author.id}>{author.name} </span>)} */}
+        {/*     </div> */}
+        {/*     <div className='date'>Publié le {shortDate(published_at)} - {reading_time} min de lecture</div> */}
+        {/*   </div> */}
+        {/* </div> */}
       </div>
 
       <div dangerouslySetInnerHTML={{__html: html}} /* eslint-disable-line react/no-danger */ />
@@ -521,9 +518,6 @@ const Post = ({baseUrl, authors, published_at, reading_time, title, html}) => {
 
 Post.propTypes = {
   baseUrl: PropTypes.string.isRequired,
-  authors: PropTypes.array.isRequired,
-  published_at: PropTypes.string.isRequired,
-  reading_time: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   html: PropTypes.node.isRequired
 }
