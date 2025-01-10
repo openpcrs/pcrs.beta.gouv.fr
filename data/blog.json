@@ -245,7 +245,29 @@
                     "url": "/"
                 }
             ],
-            "tags": [],
+            "tags": [
+                {
+                    "id": "63b446ee8b91f65464586b849f",
+                    "name": "Témoignage",
+                    "slug": "temoignage",
+                    "description": null,
+                    "feature_image": null,
+                    "visibility": "public",
+                    "og_image": null,
+                    "og_title": null,
+                    "og_description": null,
+                    "twitter_image": null,
+                    "twitter_title": null,
+                    "twitter_description": null,
+                    "meta_title": null,
+                    "meta_description": null,
+                    "codeinjection_head": null,
+                    "codeinjection_foot": null,
+                    "canonical_url": null,
+                    "accent_color": null,
+                    "url": "/blog?tags=temoignage"
+                }
+            ],
             "primary_author": {
                 "id": "63d12abe8b91f914686b8502",
                 "name": "François Lacombe",
