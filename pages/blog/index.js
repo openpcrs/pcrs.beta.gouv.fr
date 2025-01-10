@@ -16,7 +16,7 @@ const Blog = () => {
   const {query} = router
   const tagsList = getTags()
   const tags = query.tags?.split(',') || []
-  const posts = getStaticPosts().filter(post => tags.length === 0 || post.tags.some(tag => tags.includes(tag.name.toLowerCase())))
+  const posts = getStaticPosts().filter(post => tags.length === 0 || post.tags.some(tag => tags.includes(tag.name.toLowerCase().replace('é', 'e'))))
 
   return (
     <Page title='Blog du PCRS' description='La liste complète des billets du blog autour du PCRS'>
