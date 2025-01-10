@@ -1,10 +1,11 @@
 import {useEffect} from 'react'
 import PropTypes from 'prop-types'
 import Link from 'next/link'
+import Image from 'next/image'
 
 import colors from '@/styles/colors.js'
 
-const Post = ({baseUrl, title, html}) => {
+const Post = ({baseUrl, title, html, authors}) => {
   useEffect(() => {
     const audioPlayers = [...document.querySelectorAll('audio')]
     const videoPlayers = [...document.querySelectorAll('video')]
@@ -34,31 +35,29 @@ const Post = ({baseUrl, title, html}) => {
         </Link>
 
         <h2 className='fr-my-5w'>{title}</h2>
-        {/* Pas d'auteurs dans le fichier JSON */}
-        {/* <div className='authors-container'> */}
-        {/*   {authors.length === 1 && ( */}
-        {/*     <Image */}
-        {/*       src={authors[0].profile_image || '/images/illustrations/user-fallback.svg'} */}
-        {/*       height={50} */}
-        {/*       width={50} */}
-        {/*       style={{ */}
-        {/*         width: '50px', */}
-        {/*         height: '50px', */}
-        {/*         objectFit: 'contain', */}
-        {/*         borderRadius: '50%', */}
-        {/*         border: 'solid .5px grey' */}
-        {/*       }} */}
-        {/*       alt='' */}
-        {/*       aria-hidden='true' */}
-        {/*     /> */}
-        {/*   )} */}
-        {/*   <div> */}
-        {/*     <div className='names'> */}
-        {/*       {authors.map(author => <span key={author.id}>{author.name} </span>)} */}
-        {/*     </div> */}
-        {/*     <div className='date'>Publié le {shortDate(published_at)} - {reading_time} min de lecture</div> */}
-        {/*   </div> */}
-        {/* </div> */}
+        <div className='authors-container'>
+          {authors.length === 1 && (
+            <Image
+              src={authors[0].profile_image || '/images/illustrations/user-fallback.svg'}
+              height={50}
+              width={50}
+              style={{
+                width: '50px',
+                height: '50px',
+                objectFit: 'contain',
+                borderRadius: '50%',
+                border: 'solid .5px grey'
+              }}
+              alt=''
+              aria-hidden='true'
+            />
+          )}
+          <div>
+            <div className='names'>
+              {authors.map(author => <span key={author.id}>{author.name} </span>)}
+            </div>
+          </div>
+        </div>
       </div>
 
       <div dangerouslySetInnerHTML={{__html: html}} /* eslint-disable-line react/no-danger */ />
@@ -519,7 +518,8 @@ const Post = ({baseUrl, title, html}) => {
 Post.propTypes = {
   baseUrl: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  html: PropTypes.node.isRequired
+  html: PropTypes.node.isRequired,
+  authors: PropTypes.array.isRequired
 }
 
 export default Post
