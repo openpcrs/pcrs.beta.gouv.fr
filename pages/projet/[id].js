@@ -78,7 +78,7 @@ const Projet = ({id}) => {
   }
 
   return (
-    <Page title={project?.nom ? `Projet ${project.nom}` : null} description='Page contenant les informations relatives à un projets'>
+    <Page title={project?.nom ? `Projet ${project.nom}` : null} description='Page contenant les informations relatives à un projet'>
       {isLoading ? (
         <CenteredSpinner />
       ) : (
