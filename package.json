@@ -39,7 +39,7 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "nanoid": "^5.0.9",
-    "next": "13.5.8",
+    "next": "13.4.7",
     "nodemailer": "^6.9.16",
     "papaparse": "^5.4.1",
     "prop-types": "^15.8.1",
