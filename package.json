@@ -12,7 +12,7 @@
     "start": "NODE_ENV=production node backend/index.js",
     "lint": "xo",
     "test": "ava",
-    "scalingo-postbuild": "yarn download-contours && next build && yarn install --mode=update-lockfile --prod"
+    "scalingo-postbuild": "yarn download-contours && next build && yarn workspaces focus --all --production"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.577.0",
