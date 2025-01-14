@@ -21,23 +21,28 @@ await mkdir('./.db', {recursive: true})
 if (process.env.GEODATA_CACHE_URL) {
   const millesimeCached = await got(`${process.env.GEODATA_CACHE_URL}/millesime.json`).json()
 
-  if (millesimeCached.millesime === MILLESIME) {
-    console.log(' * Téléchargement des contours à partir de l’adresse indiquée')
-    console.log(' * Millésime en cache :', millesimeCached.millesime)
-
-    await writeFile(
-      './.db/contours.sqlite',
-      await got(`${process.env.GEODATA_CACHE_URL}/contours.sqlite`).buffer()
-    )
-
-    await writeFile(
-      './.db/superficies.json',
-      await got(`${process.env.GEODATA_CACHE_URL}/superficies.json`).buffer()
-    )
-
-    console.log(' * Terminé !')
-    process.exit(0)
+  if (millesimeCached.millesime !== MILLESIME) {
+    console.error(' * Le millésime des données géographiques en cache ne correspondant pas à celui demandé')
+    console.error(' * Millésime en cache :', millesimeCached.millesime)
+    console.error(' * Millésime demandé :', MILLESIME)
+    process.exit(1)
   }
+
+  console.log(' * Téléchargement des contours à partir de l’adresse indiquée')
+  console.log(' * Millésime en cache :', millesimeCached.millesime)
+
+  await writeFile(
+    './.db/contours.sqlite',
+    await got(`${process.env.GEODATA_CACHE_URL}/contours.sqlite`).buffer()
+  )
+
+  await writeFile(
+    './.db/superficies.json',
+    await got(`${process.env.GEODATA_CACHE_URL}/superficies.json`).buffer()
+  )
+
+  console.log(' * Terminé !')
+  process.exit(0)
 }
 
 const keyv = new Keyv('sqlite://.db/contours.sqlite')
