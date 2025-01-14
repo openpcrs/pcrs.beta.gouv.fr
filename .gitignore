@@ -42,3 +42,6 @@ reports
 /.db
 
 /authorized-emails.csv
+
+.yarn
+.yarnrc.yml
