@@ -9,7 +9,7 @@ Il utilise [Next.js](https://nextjs.org) et [le Système de Design de l’État]
 
 ### Pré-requis :
 
-* Node.js LTS 20.9+
+* Node.js LTS 22.11+
 * corepack (`corepack enable`)
 * MongoDB 4+
 
