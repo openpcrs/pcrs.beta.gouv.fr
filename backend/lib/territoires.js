@@ -2,7 +2,7 @@ import {createRequire} from 'node:module'
 import {readFile} from 'node:fs/promises'
 import Keyv from 'keyv'
 import {LRUCache} from 'lru-cache'
-import hashObject from 'hash-obj'
+import hashObject from 'hash-object'
 import union from '@turf/union'
 import {keyBy} from 'lodash-es'
 
