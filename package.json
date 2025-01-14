@@ -93,7 +93,8 @@
         {
           "newlines-between": "ignore"
         }
-      ]
+      ],
+      "object-curly-newline": "off"
     },
     "overrides": [
       {

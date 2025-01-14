@@ -157,9 +157,7 @@ export async function deleteProjet(projetId) {
 export async function updateProjet(id, payload) {
   const projet = validateChanges(payload)
 
-  if (projet.livrables) {
-    projet.livrables = await addStockageId(projet.livrables)
-  }
+  projet.livrables &&= await addStockageId(projet.livrables)
 
   mongo.decorateUpdate(projet)
 

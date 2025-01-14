@@ -1,3 +1,4 @@
+/* eslint-disable promise/prefer-await-to-then */
 import process from 'node:process'
 
 import randomNumber from 'random-number-csprng'
