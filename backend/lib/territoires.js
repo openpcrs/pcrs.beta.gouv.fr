@@ -1,6 +1,7 @@
 import {createRequire} from 'node:module'
 import {readFile} from 'node:fs/promises'
 import Keyv from 'keyv'
+import KeyvSqlite from '@keyv/sqlite'
 import {LRUCache} from 'lru-cache'
 import hashObject from 'hash-object'
 import union from '@turf/union'
@@ -12,7 +13,9 @@ async function getSuperficies() {
   return JSON.parse(data)
 }
 
-const keyv = new Keyv('sqlite://.db/contours.sqlite')
+const keyvStore = new KeyvSqlite('sqlite://.db/contours.sqlite')
+const keyv = new Keyv({store: keyvStore})
+
 const cache = new LRUCache({max: 500})
 
 export async function buildGeometryFromTerritoires(territories) {

@@ -7,6 +7,7 @@ import {promisify} from 'node:util'
 import {mkdir, writeFile} from 'node:fs/promises'
 import zlib from 'node:zlib'
 import Keyv from 'keyv'
+import KeyvSqlite from '@keyv/sqlite'
 import got from 'got'
 import area from '@turf/area'
 
@@ -45,7 +46,8 @@ if (process.env.GEODATA_CACHE_URL) {
   process.exit(0)
 }
 
-const keyv = new Keyv('sqlite://.db/contours.sqlite')
+const keyvStore = new KeyvSqlite('sqlite://.db/contours.sqlite')
+const keyv = new Keyv({store: keyvStore})
 
 await keyv.clear()
 
