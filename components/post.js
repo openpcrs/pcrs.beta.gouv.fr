@@ -1,11 +1,14 @@
+/* eslint-disable camelcase */
 import {useEffect} from 'react'
 import PropTypes from 'prop-types'
-import Link from 'next/link'
 import Image from 'next/image'
+import Link from 'next/link'
+
+import {shortDate} from '@/lib/date-utils.js'
 
 import colors from '@/styles/colors.js'
 
-const Post = ({baseUrl, title, html, authors}) => {
+const Post = ({baseUrl, authors, published_at, reading_time, title, html}) => {
   useEffect(() => {
     const audioPlayers = [...document.querySelectorAll('audio')]
     const videoPlayers = [...document.querySelectorAll('video')]
@@ -56,6 +59,7 @@ const Post = ({baseUrl, title, html, authors}) => {
             <div className='names'>
               {authors.map(author => <span key={author.id}>{author.name} </span>)}
             </div>
+            <div className='date'>Publié le {shortDate(published_at)} - {reading_time} min de lecture</div>
           </div>
         </div>
       </div>
@@ -517,9 +521,11 @@ const Post = ({baseUrl, title, html, authors}) => {
 
 Post.propTypes = {
   baseUrl: PropTypes.string.isRequired,
+  authors: PropTypes.array.isRequired,
+  published_at: PropTypes.string.isRequired,
+  reading_time: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
-  html: PropTypes.node.isRequired,
-  authors: PropTypes.array.isRequired
+  html: PropTypes.node.isRequired
 }
 
 export default Post
