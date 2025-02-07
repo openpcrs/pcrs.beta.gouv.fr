@@ -214,7 +214,7 @@ text-align: start;
             </div>
 
             <div className='fr-col-12 fr-py-7w'>
-              <h3 className='fr-text--lg fr-mb-1w'>Rejoignez notre forum ou suivez-nous sur les réseaux sociaux</h3>
+              <h3 className='fr-text--lg fr-mb-1w'>Rejoignez le forums des Géocommuns ou suivez-nous sur les réseaux sociaux</h3>
               <p className='fr-text--sm'>Des lieux d’échange entre <b>porteurs de projets</b>, <b>animateurs</b> et <b>utilisateurs des livrables</b> du PCRS. Venez nous rencontrer pour présenter <b>vos problématiques</b> et vous inspirer d’autres solutions dans les échanges existants.</p>
               <div className='fr-grid-row fr-grid-row--center fr-grid-row--middle fr-grid-row--gutters fr-mt-3w'>
                 <div className='fr-grid-row fr-grid-row--center fr-col-12 fr-col-lg-5'>
