@@ -67,13 +67,27 @@ text-align: center;
             </li>
           </ul>
 
-          <Button
-            isExternal
-            href='https://docs.pcrs.beta.gouv.fr/'
-            label='Accéder à la documentation'
-          >
-            Voir la documentation
-          </Button>
+          <div className='fr-grid-row fr-grid-row--center fr-grid-row--middle fr-grid-row--gutters fr-mt-3w'>
+            <div className='fr-grid-row fr-grid-row--center fr-col-12 fr-col-lg-5'>
+              <Button
+                isExternal
+                href='https://docs.pcrs.beta.gouv.fr/'
+                label='Accéder à la documentation'
+              >
+                <span className='fr-icon-book-2-fill' aria-hidden='true' />&nbsp;Voir la documentation
+              </Button>
+            </div>
+            <div className='fr-grid-row fr-grid-row--center fr-col-12 fr-col-lg-5'>
+              <Button
+                isExternal
+                href='https://tube.numerique.gouv.fr/c/pcrs/videos'
+                label='Découvrir la chaîne vidéo'
+                size='sm'
+              >
+                <span className='fr-icon-film-line' aria-hidden='true' />&nbsp;Découvrir la chaîne vidéo
+              </Button>
+            </div>
+          </div>
         </div>
 
         <style jsx>{`
@@ -95,39 +109,6 @@ text-align: center;
             gap: 10px;
           }
         `}</style>
-      </SectionImage>
-
-      <SectionImage
-        title='Feuille de route'
-        subtitle='Les étapes suivantes marqueront le développement de ce portail'
-        imageLink='/images/illustrations/progress_illustration.svg'
-        id='feuille-de-route'
-        background='secondary'
-        imageSide='right'
-      >
-        <ul className='fr-text--sm dev-list'>
-          <li>
-            <span className='fr-icon-git-branch-fill' /> Mise en ligne d’une cartographie des projets et d’un annuaire des APLC complétés de manière collaborative.
-          </li>
-          <li>
-            <span className='fr-icon-git-branch-fill' /> Consolidation de la documentation en continu
-          </li>
-          <li>
-            <span className='fr-icon-git-branch-fill' /> Construction d’un cadre de financement commun
-          </li>
-          <li>
-            <span className='fr-icon-git-branch-fill' /> Mise en valeur des PCRS d’ores et déjà disponibles sous licence ouverte.
-          </li>
-        </ul>
-
-        <style jsx>{`
-        .dev-list {
-          text-align: left;
-          display: grid;
-          justify-content: center;
-          gap: 10px;
-        }
-      `}</style>
       </SectionImage>
 
       <SectionImage
@@ -214,39 +195,23 @@ text-align: start;
             </div>
 
             <div className='fr-col-12 fr-py-7w'>
-              <h3 className='fr-text--lg fr-mb-1w'>Rejoignez notre forum</h3>
-              <p className='fr-text--sm'>Un lieu d’échange entre <b>porteurs de projets</b>, <b>animateurs</b> et <b>utilisateurs des livrables</b> du PCRS. Venez nous rencontrer pour présenter <b>vos problématiques</b> et vous inspirer d’autres solutions dans les échanges existants</p>
-              <div className='fr-grid-row fr-grid-row--center'>
-                <Button
-                  isExternal
-                  href='https://forum.pcrs.beta.gouv.fr/'
-                  label='Rejoindre le forum'
-                  size='sm'
-                >
-                  <span className='fr-icon-question-answer-line' aria-hidden='true' />&nbsp;Rejoindre le forum
-                </Button>
-              </div>
-            </div>
-
-            <div className='fr-col-12 fr-p-0'>
-              <h3 className='fr-text--lg'>Suivez-nous sur les réseaux sociaux</h3>
-
+              <h3 className='fr-text--lg fr-mb-1w'>Rejoignez le forums des Géocommuns ou suivez-nous sur les réseaux sociaux</h3>
+              <p className='fr-text--sm'>Des lieux d’échange entre <b>porteurs de projets</b>, <b>animateurs</b> et <b>utilisateurs des livrables</b> du PCRS. Venez nous rencontrer pour présenter <b>vos problématiques</b> et vous inspirer d’autres solutions dans les échanges existants.</p>
               <div className='fr-grid-row fr-grid-row--center fr-grid-row--middle fr-grid-row--gutters fr-mt-3w'>
                 <div className='fr-grid-row fr-grid-row--center fr-col-12 fr-col-lg-5'>
                   <Button
                     isExternal
-                    href='https://twitter.com/pcrsbeta'
-                    label='Nous suivre sur Twitter'
+                    href='https://forum.geocommuns.fr/'
+                    label='Rejoindre le forum'
                     size='sm'
-                    iconSide='left'
                   >
-                    <span className='fr-icon-twitter-fill' aria-hidden='true' />&nbsp;Nous suivre sur Twitter
+                    <span className='fr-icon-question-answer-line' aria-hidden='true' />&nbsp;Rejoindre le forum
                   </Button>
                 </div>
                 <div className='fr-grid-row fr-grid-row--center fr-col-12 fr-col-lg-5'>
                   <Button
                     isExternal
-                    href='https://www.linkedin.com/company/pcrs-beta-gouv-fr/about/'
+                    href='https://www.linkedin.com/company/pcrs-beta-gouv-fr/'
                     label='Nous suivre sur Linkedin'
                     size='sm'
                   >

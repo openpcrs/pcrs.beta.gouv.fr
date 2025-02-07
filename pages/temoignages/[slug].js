@@ -13,10 +13,10 @@ const Post = dynamic(() => import('@/components/post.js'), {
 })
 
 const Temoignage = ({testimony}) => {
-  const {title, published_at, feature_image, feature_image_alt, feature_image_caption} = testimony
+  const {title, feature_image, feature_image_alt, feature_image_caption} = testimony
 
   return (
-    <Page title={title} description={`Témoignage ${title} du ${dateWithDay(published_at)}`}>
+    <Page title={title} description={`Témoignage ${testimony.title} du ${dateWithDay(testimony.published_at)}`}>
       <div className='blog-feature-image-container'>
         <Image
           src={feature_image || '/images/illustrations/blog_fallback.svg'}
