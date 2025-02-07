@@ -67,13 +67,27 @@ text-align: center;
             </li>
           </ul>
 
-          <Button
-            isExternal
-            href='https://docs.pcrs.beta.gouv.fr/'
-            label='Accéder à la documentation'
-          >
-            Voir la documentation
-          </Button>
+          <div className='fr-grid-row fr-grid-row--center fr-grid-row--middle fr-grid-row--gutters fr-mt-3w'>
+            <div className='fr-grid-row fr-grid-row--center fr-col-12 fr-col-lg-5'>
+              <Button
+                isExternal
+                href='https://docs.pcrs.beta.gouv.fr/'
+                label='Accéder à la documentation'
+              >
+                <span className='fr-icon-book-2-fill' aria-hidden='true' />&nbsp;Voir la documentation
+              </Button>
+            </div>
+            <div className='fr-grid-row fr-grid-row--center fr-col-12 fr-col-lg-5'>
+              <Button
+                isExternal
+                href='https://tube.numerique.gouv.fr/c/pcrs/videos'
+                label='Découvrir la chaîne vidéo'
+                size='sm'
+              >
+                <span className='fr-icon-film-line' aria-hidden='true' />&nbsp;Découvrir la chaîne vidéo
+              </Button>
+            </div>
+          </div>
         </div>
 
         <style jsx>{`
