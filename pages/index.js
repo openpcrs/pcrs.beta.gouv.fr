@@ -98,39 +98,6 @@ text-align: center;
       </SectionImage>
 
       <SectionImage
-        title='Feuille de route'
-        subtitle='Les étapes suivantes marqueront le développement de ce portail'
-        imageLink='/images/illustrations/progress_illustration.svg'
-        id='feuille-de-route'
-        background='secondary'
-        imageSide='right'
-      >
-        <ul className='fr-text--sm dev-list'>
-          <li>
-            <span className='fr-icon-git-branch-fill' /> Mise en ligne d’une cartographie des projets et d’un annuaire des APLC complétés de manière collaborative.
-          </li>
-          <li>
-            <span className='fr-icon-git-branch-fill' /> Consolidation de la documentation en continu
-          </li>
-          <li>
-            <span className='fr-icon-git-branch-fill' /> Construction d’un cadre de financement commun
-          </li>
-          <li>
-            <span className='fr-icon-git-branch-fill' /> Mise en valeur des PCRS d’ores et déjà disponibles sous licence ouverte.
-          </li>
-        </ul>
-
-        <style jsx>{`
-        .dev-list {
-          text-align: left;
-          display: grid;
-          justify-content: center;
-          gap: 10px;
-        }
-      `}</style>
-      </SectionImage>
-
-      <SectionImage
         title='Événements autour du PCRS'
         background='blue'
         imageLink='/images/illustrations/calendar_illustration.svg'
