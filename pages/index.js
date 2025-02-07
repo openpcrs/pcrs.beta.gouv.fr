@@ -82,7 +82,6 @@ text-align: center;
                 isExternal
                 href='https://tube.numerique.gouv.fr/c/pcrs/videos'
                 label='Découvrir la chaîne vidéo'
-                size='sm'
               >
                 <span className='fr-icon-film-line' aria-hidden='true' />&nbsp;Découvrir la chaîne vidéo
               </Button>
