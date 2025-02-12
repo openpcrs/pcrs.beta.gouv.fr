@@ -15,16 +15,16 @@ const Hero = () => (
         <Link
           passHref
           legacyBehavior
-          href='/#feuille-de-route'
+          href='/#documentation'
         >
-          <a aria-label='Accéder à la section feuille de route' className='fr-link illustrated-link fr-text--sm'>
+          <a aria-label='Accéder à la section documentation' className='fr-link illustrated-link fr-text--sm'>
             <Image
               height={70}
               width={70}
-              src='/images/illustrations/progress_illustration.svg'
+              src='/images/illustrations/doc_illustration.svg'
               alt=''
             />
-            <span className='fr-pt-2w'>Feuille de route</span>
+            <span className='fr-pt-2w'>Documentation</span>
           </a>
         </Link>
       </div>
